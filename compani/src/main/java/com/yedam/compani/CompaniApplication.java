@@ -11,8 +11,5 @@ public class CompaniApplication {
 		SpringApplication.run(CompaniApplication.class, args);
 	}
 
-	@GetMapping("/")
-	public String index() {
-		return "index";
-	}
+	
 }
