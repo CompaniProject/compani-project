@@ -1,0 +1,516 @@
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo",
+		sans-serif;
+	line-height: 1;
+}
+
+body {
+	background-color: #F5F6F8;
+	overflow: hidden;
+}
+
+.workModalTab {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 55px;
+	height: 535px;
+	border-right: solid 1px #eaeaea;
+	box-sizing: border-box;
+}
+
+.workModalTab ul {
+	text-align: center;
+	color: white;
+	padding: 0;
+}
+
+.workModalTab ul li {
+	padding: 28px 0;
+	cursor: pointer;
+	transition: all ease-out 120ms;
+}
+
+.workModalTab ul li i {
+	display: block;
+	font-size: 24px;
+	transition: all ease 450ms;
+}
+
+.workModalTab ul li .tooltip {
+	display: inline-block;
+	position: absolute;
+	background-color: #313443;
+	padding: 5px 12px;
+	border-radius: 3px;
+	margin-top: -40px;
+	left: 70px;
+	opacity: 0;
+	visibility: hidden;
+	font-size: 12px;
+	letter-spacing: 0.5px;
+}
+
+.workModalTab ul li .tooltip:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: -4px;
+	top: 10px;
+	transform: rotate(45deg);
+	width: 10px;
+	height: 10px;
+	background-color: inherit;
+}
+
+.workModalTab ul li:hover {
+	cursor: pointer;
+	/* background-color: #f5f5f5; */
+}
+
+.workModalTab ul li:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
+.workModalTab ul li.active {
+	background-color: #22252E;
+}
+
+.workModalTab ul li.active i {
+	color: #98D7EC;
+}
+
+.ModalTab {
+	position: relative;
+	width: 30px;
+	height: 30px;
+	margin: 13px;
+	border-radius: 6px;
+	background-size: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.ModalTab.tab_basic {
+	background-image: url('/images/tab_basic.png');
+}
+
+.ModalTab.tab_file {
+	background-image: url('/images/tab_file.png');
+}
+
+.ModalTab.tab_issue {
+	background-image: url('/images/tab_issue.png');
+}
+
+.ModalTab.tab_log {
+	background-image: url('/images/tab_log.png');
+}
+
+.modal-content-container {
+	display: flex;
+}
+
+.modal-body {
+	flex: 1;
+	padding: 20px;
+}
+
+.ContentTitleBox {
+	gap: 4px;
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+.ContentImg {
+	width: 30px;
+	height: 30px;
+	background-size: 30px;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin-bottom: 10px;
+}
+
+.ContentText {
+	font-size: 16px;
+	font-weight: 600;
+	color: #a8a8a8;
+}
+
+.workModalContentBack {
+	position: relative;
+	width: 100%;
+	height: calc(100% - 102px);
+	overflow: hidden;
+}
+
+.workModalContentSlider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	width: 200%;
+	height: 100%;
+	overflow: hidden;
+	transition: all 0.4s ease;
+}
+
+.workModalContent.issueContent {
+	width: calc(50% - 26px);
+	margin-left: 20px;
+}
+
+.ModalSubContent {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	height: 100%;
+	padding: 0 6px 0 30px;
+	box-sizing: border-box;
+}
+
+.workModalContent {
+	display: flex;
+	flex-direction: column;
+	width: calc(50% - 36px);
+	height: 100%;
+	margin: 0 6px 0 30px;
+}
+
+.ModalBussTitle {
+	margin-left: 10px;
+	margin-top: 17px;
+}
+
+.ModalTitle {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 8px;
+	width: 100%;
+	padding-right: 20px;
+	box-sizing: border-box;
+}
+
+.ModalProjectNameBox {
+	flex-shrink: 0;
+	width: calc(100% - 10px);
+	height: 5px;
+	margin-left: 7px;
+}
+
+.ModalProjectNameBox>div {
+	display: flex;
+	gap: 2px;
+	width: fit-content;
+	max-width: 100%;
+	padding: 3px 5px;
+	font-size: 12px;
+	color: #a8a8a8;
+	border-radius: 2px;
+	background-color: #f5f5f5;
+	cursor: pointer;
+}
+
+.ModalProjectNameBox>div>span {
+	flex-shrink: 0;
+	width: 14px;
+	height: 14px;
+	background-size: 14px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(/images/project_tag.png);
+}
+
+.ModalProjectNameBox>#ProjectLink>p {
+	font-size: 12px;
+	color: #a8a8a8;
+	width: calc(100% - 14px - 11px);
+}
+
+.ModalBussNameBox {
+	width: 100%;
+	max-height: 82px;
+}
+
+.ModalBussNameBack {
+	width: 100%;
+	min-height: 48px;
+	height: fit-content;
+	max-height: 82px;
+	padding: 6px 6px 5px 6px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	border: solid 1px transparent;
+	transition: all 0.2s ease;
+}
+
+.ModalBussNameBack>textarea:first-child {
+	width: 100%;
+	/* min-height: 40px; */
+	max-height: 68px;
+	line-height: 1.7;
+	padding: 0;
+	border: none;
+	border-radius: 6px;
+	/* box-sizing: border-box; */
+	font-size: 20px;
+	font-weight: bold;
+	color: #222;
+	background-color: #ffffff;
+	resize: none;
+	overflow: auto;
+	outline: none;
+	transition: all 0.4s ease;
+}
+
+.textareaSize {
+	position: absolute;
+	bottom: -2000px;
+	width: 580px;
+	height: 1px;
+	line-height: 2;
+	padding: 0 4px 0 4px;
+	border: none;
+	border-radius: 6px;
+	box-sizing: border-box;
+	font-size: 20px;
+	font-weight: bold;
+	color: #222;
+	resize: none;
+	overflow: hidden;
+	outline: none;
+	transition: all 0.4s ease;
+}
+
+.ModalInfo {
+	padding-right: 20px;
+	box-sizing: border-box;
+	transition: opacity 0.2s ease;
+}
+
+.ModalTopBar {
+	flex-shrink: 0;
+	background-color: #ffffff;
+}
+
+.FixOnTop {
+	position: sticky;
+	top: 0px;
+	width: 100%;
+	height: 48px;
+	z-index: 5000;
+}
+
+.IssueTopBar {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.TobBarIssueControlArea {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.SortArea {
+	position: relative;
+	width: 32px;
+	height: 32px;
+}
+
+.SortIconBox {
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+	background-color: #ffffff;
+	background-size: 19px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(/images/sort.png);
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.SortOptionBox {
+	position: absolute;
+	top: 40px;
+	right: -23px;
+	z-index: 10000;
+	display: none;
+	flex-direction: column;
+	width: 78px;
+	border: solid 1px #0098fe;
+	border-radius: 4px;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.SortOption.Selected {
+	color: #0098fe;
+}
+
+.SortOption:last-child {
+	border-radius: 0 0 4px 4px;
+}
+
+.SortOption {
+	flex-shrink: 0;
+	width: 100%;
+	height: 32px;
+	padding: 8px 10px;
+	box-sizing: border-box;
+	font-size: 14px;
+	background-color: #FFFFFF;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.SearchBox {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+input[type="checkbox" i] {
+	background-color: initial;
+	cursor: default;
+	appearance: auto;
+	box-sizing: border-box;
+	margin: 3px 3px 3px 4px;
+	padding: initial;
+	border: initial;
+}
+
+.SearchBox>label {
+	width: 32px;
+	height: 32px;
+	margin-top: 5px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 16px;
+	background-image: url(/images/modal_search.png);
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.SearchBox>.SearchInputBox {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	width: 0px;
+	height: 24px;
+	border-bottom: solid 1px #eaeaea;
+	overflow: hidden;
+	transition: width 0.2s ease;
+}
+
+.SearchInputBox>input {
+	width: 135px;
+	height: 100%;
+	padding: 5px 0;
+	font-size: 14px;
+	color: #575757;
+	box-sizing: border-box;
+	border: none;
+	outline: none;
+}
+
+.issue-selectBox {
+	display: inline-block;
+	width: 60px;
+	background: url(../images/arrow.png) no-repeat 97% 50%;
+	background-size: 16px 16px;
+}
+
+.issue-selected {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 5px;
+	cursor: pointer;
+}
+
+.issue-select-ul {
+	list-style-type: none;
+	padding-left: 0px;
+	width: 100px;
+	border-radius: 4px;
+	border: 1px solid #0098fe;
+	position: absolute;
+	background: #fff;
+	margin: 1px 0 0 -1px;
+	z-index: 300;
+	display: none;
+	cursor: pointer;
+}
+
+.SearchBox .DeleteSearchWord {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	padding: 1px 1px 0 0;
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 5px;
+	background-image: url(/images/delete_taskMember.png);
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.PostWritingBox {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: center;
+	gap: 4px;
+	height: 32px;
+	padding: 8px 10px;
+	margin-left: 8px;
+	box-sizing: border-box;
+	border: solid 1px #eaeaea;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+}
+
+.PostWritingBox>span {
+	width: 16px;
+	height: 16px;
+	background-size: 16px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(/images/write_feed.png);
+	transition: all 0.2s ease;
+}
+
+.PostWritingBox>p {
+	font-size: 14px;
+	color: #575757;
+	transition: all 0.2s ease;
+}
+
+.issueListArea {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: calc(100% - 10px);
+	margin-left: 10px;
+	background-color: #eaeaea;
+}
+
+.scroll {
+	overflow: auto;
+	border-color: #e1e1e1;
+	transition: border-color 0.3s ease;
+}
