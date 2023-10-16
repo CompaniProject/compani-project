@@ -9,6 +9,6 @@ public class CalendarPersonalController {
 	
 	@GetMapping("calendarPersonalList")
 	public String calendar(Model model) {
-		return "calendarPersonalList";
+		return "calendar/calendarPersonalList";
 	}
 }
