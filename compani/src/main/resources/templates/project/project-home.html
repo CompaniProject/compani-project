@@ -7,6 +7,21 @@
 <title>Insert title here</title>
 </head>
 <body>
+<script>
+var ctx = document.getElementById('pieChart').getContext("2d");
+window.mychart = var pieChart = new Chart(ctx,{
+	type: 'pie',
+	data: {
+		labels: ['2018','2019','2020'],
+		datasets: [{
+			data: [20,60,40],
+			backgroundColor: ['#f88','#484','#48f'],
+			weight: 100
+		}],
+	};
+})
+
+</script>
 <th:block layout:fragment="content">
     <div class="row">
         <!-- Pie Chart -->
@@ -28,5 +43,6 @@
         </div>
     </div>
 </th:block>
+
 </body>
 </html>
