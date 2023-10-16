@@ -2,6 +2,9 @@ package com.yedam.compani.log.service;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class LogVO {
 	private int prjtNo;
 	private int logNo;

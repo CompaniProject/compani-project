@@ -2,6 +2,9 @@ package com.yedam.compani.member.service;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class MemberVO {
 	private String membId;
 	private String membPwd;
