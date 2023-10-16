@@ -1,4 +1,4 @@
-package com.yedam.compani.questionreply.service;
+package com.yedam.compani.question.reply.service;
 
 import lombok.Data;
 

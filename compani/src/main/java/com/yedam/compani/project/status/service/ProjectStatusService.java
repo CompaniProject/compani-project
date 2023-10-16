@@ -1,4 +1,4 @@
-package com.yedam.compani.projectstatus.service;
+package com.yedam.compani.project.status.service;
 
 public interface ProjectStatusService {
 

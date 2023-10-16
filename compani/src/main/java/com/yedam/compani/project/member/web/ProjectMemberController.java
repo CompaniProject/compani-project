@@ -1,4 +1,4 @@
-package com.yedam.compani.projectmember.web;
+package com.yedam.compani.project.member.web;
 
 public class ProjectMemberController {
 

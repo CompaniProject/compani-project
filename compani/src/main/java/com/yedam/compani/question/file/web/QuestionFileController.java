@@ -1,4 +1,4 @@
-package com.yedam.compani.questionfile.web;
+package com.yedam.compani.question.file.web;
 
 public class QuestionFileController {
 

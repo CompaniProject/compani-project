@@ -1,4 +1,4 @@
-package com.yedam.compani.projectmember.mapper;
+package com.yedam.compani.project.member.mapper;
 
 public interface ProjectMemberMapper {
 

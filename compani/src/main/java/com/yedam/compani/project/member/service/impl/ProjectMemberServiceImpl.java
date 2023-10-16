@@ -1,6 +1,6 @@
-package com.yedam.compani.projectmember.serviceImpl;
+package com.yedam.compani.project.member.service.impl;
 
-import com.yedam.compani.projectmember.service.ProjectMemberService;
+import com.yedam.compani.project.member.service.ProjectMemberService;
 
 public class ProjectMemberServiceImpl implements ProjectMemberService {
 

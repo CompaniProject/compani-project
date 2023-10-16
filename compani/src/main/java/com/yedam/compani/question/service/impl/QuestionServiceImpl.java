@@ -1,4 +1,4 @@
-package com.yedam.compani.question.serviceImpl;
+package com.yedam.compani.question.service.impl;
 
 import com.yedam.compani.question.service.QuestionService;
 

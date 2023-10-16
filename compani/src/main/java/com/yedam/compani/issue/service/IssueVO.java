@@ -1,4 +1,4 @@
-package com.yedam.compani.issueService;
+package com.yedam.compani.issue.service;
 
 import java.util.Date;
 

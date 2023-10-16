@@ -1,4 +1,4 @@
-package com.yedam.compani.questionfile.service;
+package com.yedam.compani.question.file.service;
 
 public interface QuestionFileService {
 

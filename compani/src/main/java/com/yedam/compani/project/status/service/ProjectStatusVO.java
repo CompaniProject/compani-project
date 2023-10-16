@@ -1,4 +1,4 @@
-package com.yedam.compani.projectstatus.service;
+package com.yedam.compani.project.status.service;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.yedam.compani.companyStatusInfoService;
+package com.yedam.compani.company.status.info.service;
 
 import java.util.Date;
 

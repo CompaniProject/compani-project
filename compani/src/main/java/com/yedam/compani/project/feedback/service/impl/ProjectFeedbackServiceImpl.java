@@ -1,4 +1,4 @@
-package com.yedam.compani.project.feedback.serviceImpl;
+package com.yedam.compani.project.feedback.service.impl;
 
 import org.springframework.stereotype.Service;
 

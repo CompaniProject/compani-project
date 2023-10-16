@@ -1,4 +1,4 @@
-package com.yedam.compani.questionfile.mapper;
+package com.yedam.compani.question.file.mapper;
 
 public interface QuestionFileMapper {
 

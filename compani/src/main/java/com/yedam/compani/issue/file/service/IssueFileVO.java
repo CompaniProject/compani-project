@@ -1,4 +1,4 @@
-package com.yedam.compani.issueFileService;
+package com.yedam.compani.issue.file.service;
 
 public class IssueFileVO {
 	private Integer IssuFileNo;

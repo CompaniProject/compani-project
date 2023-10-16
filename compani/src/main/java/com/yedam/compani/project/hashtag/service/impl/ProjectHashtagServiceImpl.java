@@ -1,4 +1,4 @@
-package com.yedam.compani.project.hashtag.serviceImpl;
+package com.yedam.compani.project.hashtag.service.impl;
 
 import org.springframework.stereotype.Service;
 

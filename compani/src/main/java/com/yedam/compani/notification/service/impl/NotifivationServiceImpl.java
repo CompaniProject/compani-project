@@ -1,4 +1,4 @@
-package com.yedam.compani.notification.serviceImpl;
+package com.yedam.compani.notification.service.impl;
 
 import org.springframework.stereotype.Service;
 

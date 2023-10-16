@@ -1,4 +1,4 @@
-package com.yedam.compani.issueHashtagService;
+package com.yedam.compani.issue.hashtag.service;
 
 public class IssueHashtagVO {
 	private Integer IssuHtNo;

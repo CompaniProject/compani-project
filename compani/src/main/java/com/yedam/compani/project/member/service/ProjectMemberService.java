@@ -1,4 +1,4 @@
-package com.yedam.compani.projectmember.service;
+package com.yedam.compani.project.member.service;
 
 public interface ProjectMemberService {
 

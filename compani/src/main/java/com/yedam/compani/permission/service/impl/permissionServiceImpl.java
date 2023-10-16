@@ -1,4 +1,4 @@
-package com.yedam.compani.permission.serviceImpl;
+package com.yedam.compani.permission.service.impl;
 
 import org.springframework.stereotype.Service;
 
