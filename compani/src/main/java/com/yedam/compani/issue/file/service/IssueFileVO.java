@@ -1,8 +1,11 @@
 package com.yedam.compani.issue.file.service;
 
+import lombok.Data;
+
+@Data
 public class IssueFileVO {
-	private Integer IssuFileNo;
-	private String IssuFileNm;
-	private String IssuFilePath;
-	private Integer IssuNo;
+	private Integer issuFileNo;
+	private String issuFileNm;
+	private String issuFilePath;
+	private Integer issuNo;
 }

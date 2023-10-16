@@ -1,4 +1,4 @@
-package com.yedam.compani.issue.hashtag.service.Impl;
+package com.yedam.compani.issue.hashtag.service.impl;
 
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
 
