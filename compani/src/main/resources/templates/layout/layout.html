@@ -32,11 +32,13 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <body>
-	<div class="body-container">
-		<header th:replace="fragments/header :: header"></header>
-		<aside th:replace="fragments/aside:: aside"></aside>
-		<div class="content-container">
-			<th:block layout:fragment="content"></th:block>
+    <div id="main-wrapper">
+		<div class="body-container">
+			<header th:replace="fragments/header :: header"></header>
+			<aside th:replace="fragments/aside:: aside"></aside>
+			<div class="content-container">
+				<th:block layout:fragment="content"></th:block>
+			</div>
 		</div>
 	</div>
 </body>
