@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EncryptionConfig {
     // 암호화키를 환경변수에서 불러옴
-    @Value("${jasypt.encryptor.password")
+    @Value("${jasypt.encryptor.password}")
     private String password;
     
     // Bean을 등록
