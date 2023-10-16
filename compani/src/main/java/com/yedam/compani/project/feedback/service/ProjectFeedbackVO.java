@@ -1,4 +1,4 @@
-package com.yedam.compani.projectFeedback.service;
+package com.yedam.compani.project.feedback.service;
 
 import java.util.Date;
 
