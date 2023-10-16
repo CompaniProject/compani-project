@@ -38,7 +38,11 @@
 			<header th:replace="fragments/header :: header"></header>
 			<aside th:replace="fragments/aside:: aside"></aside>
 			<div class="content-container">
-				<th:block layout:fragment="content"></th:block>
+				<div class="content-body">
+					<div class="container-fluid">
+					<th:block layout:fragment="content"></th:block>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
