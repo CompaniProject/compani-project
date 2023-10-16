@@ -1,4 +1,4 @@
-package com.yedam.compani.projectHashtag.web;
+package com.yedam.compani.project.hashtag.web;
 
 import org.springframework.stereotype.Controller;
 
