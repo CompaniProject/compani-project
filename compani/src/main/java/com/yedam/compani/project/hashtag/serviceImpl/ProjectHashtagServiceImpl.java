@@ -1,8 +1,8 @@
-package com.yedam.compani.projectHashtag.serviceImpl;
+package com.yedam.compani.project.hashtag.serviceImpl;
 
 import org.springframework.stereotype.Service;
 
-import com.yedam.compani.projectHashtag.service.ProjectHashtagService;
+import com.yedam.compani.project.hashtag.service.ProjectHashtagService;
 
 @Service
 public class ProjectHashtagServiceImpl implements ProjectHashtagService {

@@ -1,4 +1,4 @@
-package com.yedam.compani.projectHashtag.service;
+package com.yedam.compani.project.hashtag.service;
 
 import lombok.Data;
 
