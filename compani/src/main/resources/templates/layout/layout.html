@@ -7,19 +7,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Compani</title>
-<!-- Favicon icon -->
-<link rel="icon" type="image/png" sizes="16x16"
-	href="/images/favicon.png">
-<!-- Pignose Calender -->
-<link href="/plugins/pg-calendar/css/pignose.calendar.min.css"
-	rel="stylesheet">
-<!-- Chartist -->
-<link rel="stylesheet"
-	href="static/plugins/chartist/css/chartist.min.css">
-<link rel="stylesheet"
-	href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
-<!-- Custom Stylesheet -->
-<link href="/css/style.css" rel="stylesheet">
+<!--  jquery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
 	integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
@@ -28,15 +17,28 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
-<!--  jquery -->
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+<!-- Pignose Calender -->
+<link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/css/style.css" rel="stylesheet">
+
 <body>
-	<div class="body-container">
-		<header th:replace="fragments/header :: header"></header>
-		<aside th:replace="fragments/aside:: aside"></aside>
-		<div class="content-container">
-			<th:block layout:fragment="content"></th:block>
+    <div id="main-wrapper">
+		<div class="body-container">
+			<header th:replace="fragments/header :: header"></header>
+			<aside th:replace="fragments/aside:: aside"></aside>
+			<div class="content-container">
+				<div class="content-body">
+					<div class="container-fluid">
+					<th:block layout:fragment="content"></th:block>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
@@ -65,8 +67,7 @@
 <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
 <!-- ChartistJS -->
 <script src="/plugins/chartist/js/chartist.min.js"></script>
-<script
-	src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+<script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 <script src="/js/dashboard/dashboard-1.js"></script>
 </html>
