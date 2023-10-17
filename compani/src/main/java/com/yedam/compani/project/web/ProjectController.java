@@ -20,10 +20,10 @@ public class ProjectController {
 		return "project/project-home";
 	}
 	
-	@GetMapping("/")
+	@GetMapping("home")
 	public String projectList(Model model) {
 		List<ProjectVO> list = projectService.getProjectList();
 		model.addAttribute("projectList", list);
-		return "index";
+		return "home";
 	}
 }
