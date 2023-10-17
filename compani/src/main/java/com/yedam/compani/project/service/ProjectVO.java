@@ -12,12 +12,10 @@ public class ProjectVO {
 	private	String coNo;
 	private String prjtNm;
 	private String prjtPubcyn;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date prjtFdt;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date prjtTdt;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date prjtCmplTdt;
 	private String prjtSt;
 	private int count;
+	private String prjtFav;
 }

@@ -3,7 +3,14 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+	
+</script>
 </head>
 <body>
 	<th:block layout:fragment="content">
@@ -21,37 +28,34 @@
 							</div>
 						</div>
 
-						<div>
-							<table>
+						<div class="table-responsive">
+							<table class="table">
 								<thead>
 									<tr>
-										<th>즐겨찾기<th>
-										<th>프로젝트 번호</th>
+										<th>즐</th>
+										<th>프로젝트번호</th>
 										<th>프로젝트명</th>
-										<th>참여인원<th>
-										<th>기한</th>
-										<th></th>
+										<th>참여인원</th>
+										<th>시작기간</th>
+										<th>종료기간</th>
 										<th>상태</th>
 									</tr>
 								</thead>
 								<tbody>
 									<th:block th:each="projectList : ${projectList}">
 										<tr>
-											<td><i class="fa-regular fa-star"></i></td>
+											<td th:if="${projectList.prjtFav == 'N'}"><i class="fa-regular fa-star" style="color: #080808;"></i></td>
+											<td th:if="${projectList.prjtFav == 'Y'}"><i class="fa-solid fa-star" style="color: #dee203;"></i></td>
 											<td th:text="${projectList.prjtNo}" />
 											<td th:text="${projectList.prjtNm}" />
 											<td th:text="${projectList.count}" />
-											<td th:text="${projectList.prjtFdt}" />
-											<td th:text="${projectList.prjtTdt}" />
+											<td th:text="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" />
+											<td th:text="${#dates.format(projectList.prjtTdt, 'yyyy-MM-dd')}" />
 											<td th:text="${projectList.prjtSt}" />
-
-
 										</tr>
 									</th:block>
 								</tbody>
-
 							</table>
-
 						</div>
 					</div>
 				</div>
@@ -77,11 +81,38 @@
 				<div class="card">
 					<div class="card-body">
 						<h4 class="card-title">이슈</h4>
-
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+			$('td:nth-child(1)').on('click', projectFavorite);
+			function projectFavorite() {
+				let favorite = $(this).children().hasClass("fa-solid fa-star");
+			
+				let projectFavorite;
+				if(favorite){
+					projectFavorite = 'Y';
+					console.log(projectFavorite);
+				}
+				else{
+					projectFavorite = 'N';
+					console.log(projectFavorite);
+				}
+				//projectFavorite ,회원아이디, 프로젝트 번호 
+				
+			/* 	$.ajax('projectFavoriteUpdate',{
+					type : 'post',
+					contentType : 'application/json',
+					data : JSON.stringify()
+				})
+				.done();
+				.fail();
+				 */
+				
+			}
+		</script>
 	</th:block>
+
 </body>
 </html>
