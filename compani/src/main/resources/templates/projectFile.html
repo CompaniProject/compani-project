@@ -1,0 +1,176 @@
+
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
+<head>
+<style>
+.content-body {
+	margin-left: 300px;
+}
+
+hr {
+	width: 60%;
+}
+
+#FileUpload {
+	margin-right: 30px;
+	border-radius: 5px;
+	color: white;
+	font-size: 18px;
+	width: 150px;
+	font-weight: bold;
+}
+
+#FileDelete {
+	border-radius: 5px;
+	color: white;
+	font-size: 18px;
+	width: 100px;
+	font-weight: bold;
+}
+
+#FileSearch {
+	margin-right: 30px;
+	width: 200px;
+	height: 41px;
+	border-radius: 5px;
+	text-align: center;
+	border-color: #C0C0C0;
+}
+
+#goBtn {
+	float: left;
+	display: block;
+	width: 50px;
+	height: 30px;
+	margin-right: 20px;
+}
+
+ul {
+	display: inline-block;
+}
+
+ul li {
+	float: left;
+}
+
+#FileText {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#DataBox {
+	width: 500px;
+	height: 150px;
+	padding: 20px;
+	background-color: #DCDCDC;
+	display: block;
+}
+
+#jobDown {
+	width: 180px;
+	display: block;
+}
+
+#Fcont {
+	display: block;
+}
+
+</style>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<th:block layout:fragment="content">
+	<div class="content-container">
+		<div class="content-body">
+			<br>
+			<h1>업무명</h1>
+			<hr>
+			<br>
+			<br> <input type="checkbox" style="margin-right: 30px">
+			
+			<i class="fa-solid fa-magnifying-glass fa-lg" style="margin-right: 5px"></i>
+			<input id="FileSearch" type="text" placeholder="검색">	
+			
+			<button id="FileUpload" type="button" class="btn mb-1 btn-info">파일 업로드</button>
+			<button id="FileDelete" type="button" class="btn mb-1 btn-dark">삭제</button>
+			<hr>
+
+			<p>테스틑ㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌ</p>
+
+			<!-- 다운로드 아이콘 -->
+			<i class="fa-regular fa-circle-down fa-2x"></i>
+			<!-- 쓰레기통 아이콘 -->
+			<i class="fa-solid fa-trash fa-2x"></i>
+
+			<hr>
+
+			<!-- 모달창 안 화면따라란 -->
+			<button id="goBtn">등록</button>
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<ul>
+				<li id="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
+				<li style="margin-right: 5px"><i
+					class="fa-regular fa-file fa-2x"></i></li>
+				<li><i class="fa-solid fa-paperclip-vertical fa-lg"></i></li>
+				<li id="FileUpLoad2" style="font-size: 15px"><p>파일 업로드</p></li>
+			</ul>
+
+			<!-- 데이터 들어갈 박스 -->
+			<span id="DataBox">박스입니다</span> <br>
+
+			<!-- 업무선택 드랍다운 -->
+			<div class="form-group">
+				<select class="form-control" id="jobDown">
+					<option>업무~</option>
+					<option>2ㅁ2</option>
+					<option>3ㅁ3</option>
+					<option>4w4</option>
+					<option>5w5</option>
+				</select>
+			</div>
+			<br>
+
+			<p>파일설명</p>
+			<input id="Fcont" type="text">
+			<br>
+			
+					<div class="col-lg-3 col-sm-2">
+                        <div class="card">
+                            <div class="card-body">
+                                 <h5 style="font-size: 15px">최종프로젝트.ppt</h5>
+                                 <p style="font-size: 10px">프로젝트기획안</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-2">
+                        <div class="card">
+                            <div class="card-body">
+                                 <h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+                                 <p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-2">
+                        <div class="card">
+                            <div class="card-body">
+                                 <h5 style="font-size: 15px">ㄹㄴㅇㅁㄹㄴㅁㅇㄹ</h5>
+                                 <p style="font-size: 10px">ㅁㄴㅇㄻㄴㄻㄴㄹ</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+
+		</div>
+	</div>
+</th:block>
+</html>
