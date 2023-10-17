@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/css/style.css" rel="stylesheet">
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
+    <script>
+    	// 달력 코드.
+    	document.addEventListener('DOMContentLoaded', function() {
+        	var calendarEl = document.getElementById('personalCalendar');
+        	var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth',
+        		headerToolbar: {
+					left: 'today',
+					center: 'prev title next',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay'
+				},
+				titleFormat: function (date) {
+		    	// YYYY년 MM월
+		    		return `${date.date.year}년 ${date.date.month + 1}월`;
+		    	},
+        	});
+        	calendar.render();
+      	});
+    </script>
+    
+<style type="text/css">
+#personalCalendarBox {
+	width: 70%;
+	
+	float: right;
+}
+
+#personalCalendar {
+	margin: 10px;
+	background-color: white;
+}
+
+#calendarBusinessInfo {
+	height: 700px;
+	width: 30%;
+	padding: 10px;
+	background-color: #dddddd;
+	float: right;
+}
+
+select {
+	appearance: none;
+	text-align: center;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+	margin: 10px;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+}
+
+#fc-dom-1 {
+	margin-left: 0;
+}
+
+.fc .fc-prev-button {
+	margin-right: 0.75em;
+}
+
+.businessList {
+	background-color: white;
+	width: 100%;
+	border: 1px solid;
+}
+
+.businessList2 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 21px;
+	word-wrap : brek-word;
+	display : -webkit-box;
+	-webkit-line-clamp : 1;
+	-webkit-box-orient: vertical;
+}
+</style>
+</head>
+<body>
+	<div id="main-wrapper">
+		<header th:replace="fragments/header :: header"></header>
+		<aside th:replace="fragments/aside:: aside"></aside>
+		
+		<div class="content-body">
+			
+			<!-- 업무 목록 -->
+			<div id='calendarBusinessInfo'>
+			<div style="background-color:red; width: 100%; margin: 10px 0; float:left;">
+				<span style="float:right;">
+					<select name="personalCalendarProjectSelect" form="personalCalendarBusinessForm">
+						<!-- 프로젝트 목록 만들어야 함---------------------------------------------------------- -->
+						<option hidden="" disabled="disabled" selected="selected" value="">필터링</option>
+						<option value="">프로젝트1</option>
+						<option value="">프로젝트2</option>
+						<option value="">프로젝트3</option>
+					</select>
+					<select name="personalCalendarSort" form="personalCalendarBusinessForm">
+						<option hidden="" disabled="disabled" selected="selected" value="">정렬</option>
+						<option value="">날짜순</option>
+						<option value="">진척도</option>
+						<option value="">중요도</option>
+					</select>
+				</span>
+				</div>
+				<div class="businessList">
+					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명123456789012345678901234567890123456789</div>
+					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
+				</div>
+				<div class="businessList">
+					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명안녕하세요프로젝트명테스트중입니다안녕하세요</div>
+					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
+				</div>
+				<div class="businessList">
+					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명1</div>
+					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
+				</div>
+				<button>ㅇㅇ</button>
+			</div>
+			
+			<!-- 달력 -->
+			<div id="personalCalendarBox">
+				<div id='personalCalendar'></div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<script src="plugins/common/common.min.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/gleek.js"></script>
+	<script src="js/styleSwitcher.js"></script>
+</body>
+</html>
