@@ -11,7 +11,7 @@ import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 
 @Controller
-public class PersonalCalendarController {
+public class CalendarController {
 	
 	@Autowired
 	BusinessService businessService;
@@ -22,5 +22,12 @@ public class PersonalCalendarController {
 		List<BusinessVO> list = businessService.getPersonalCalendarBusinessList();
 		model.addAttribute("personalCalendarList", list);
 		return "calendar/personalCalendarPage";
+	}
+	
+	@GetMapping("projectCalendarList")
+	public String projectCalendarList(Model model) {
+		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
+		model.addAttribute("projectCalendarList", list);
+		return "calendar/projectCalendarPage";
 	}
 }
