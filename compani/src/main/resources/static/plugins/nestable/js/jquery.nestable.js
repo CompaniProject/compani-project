@@ -22,8 +22,8 @@
         placeClass:"dd-placeholder",
         noDragClass:"dd-nodrag",
         emptyClass:"dd-empty",
-        expandBtnHTML:'<button data-action="expand" type="button">Expand</button>',
-        collapseBtnHTML:'<button data-action="collapse" type="button">Collapse</button>',
+        expandBtnHTML:'',
+        collapseBtnHTML:'',
         group:0,maxDepth:5,threshold:20};function n(e,i){
             this.w=t(s),this.el=t(e),this.options=t.extend({},l,i),this.init()
         }
