@@ -67,10 +67,19 @@ select {
 	margin-right: 0.75em;
 }
 
+.selectBox {
+	background-color:red;
+	width: 100%;
+	margin: 10px 0;
+	float:left;
+	
+}
+
 .businessList {
 	background-color: white;
 	width: 100%;
 	border: 1px solid;
+	float: left;
 }
 
 .businessList2 {
@@ -93,7 +102,7 @@ select {
 			
 			<!-- 업무 목록 -->
 			<div id='calendarBusinessInfo'>
-			<div style="background-color:red; width: 100%; margin: 10px 0; float:left;">
+			<div class="selectBox">
 				<span style="float:right;">
 					<select name="personalCalendarProjectSelect" form="personalCalendarBusinessForm">
 						<!-- 프로젝트 목록 만들어야 함---------------------------------------------------------- -->
@@ -110,8 +119,8 @@ select {
 					</select>
 				</span>
 				</div>
-				<div class="businessList">
-					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명123456789012345678901234567890123456789</div>
+				<div class="businessList" style="">
+					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명1</div>
 					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
 				</div>
 				<div class="businessList">
