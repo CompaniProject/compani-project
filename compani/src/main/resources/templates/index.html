@@ -66,19 +66,22 @@
 																	<div>
 																		<div class="issue-selectBox" style="width: 100px;">
 																			<div class="issue-selected" id="issue-selected">
-																				<div class="issue-selected-value" id="keyword">전체</div>
+																				<div class="issue-selected-value" id="keyword">
+																					<input type="hidden" id="hiddenKeywordInput"
+																						name="keyword" value="전체">전체
+																				</div>
 																				<div class="arrow"></div>
 																			</div>
 																			<ul class="issue-select-ul"
 																				style="width: 100px; top: 20%; display: none;">
 																				<li class="issue-select-option" data-value="전체">전체</li>
-																				<li class="issue-select-option" data-value="참여자">이름</li>
-																				<li class="issue-select-option" data-value="참여자">제목</li>
+																				<li class="issue-select-option" data-value="작성자">작성자</li>
+																				<li class="issue-select-option" data-value="제목">제목</li>
 																			</ul>
 																		</div>
 																	</div>
 																	<input class="SearchInputModalView" id="search"
-																		type="text" placeholder="검색어를 입력하세요."><span
+																		name="search" type="text" placeholder="검색어를 입력하세요."><span
 																		class="DeleteSearchWord"></span>
 																</div>
 															</div>
@@ -147,17 +150,16 @@
 												<div role="navigation" aria-label="Pagination"
 													class="pagination">
 
-
 													<a id="previous_page"
 														th:classappend="${issue.prePage == 0} ? 'disabled'"
-														th:href="@{/ModalIssueList(pageNum=${issue.prePage}, keyword=${search.getKeyword()}, search=${search.getSearch()})}">Previous</a>
+														th:attr="onclick='issuePaging(\'' + ${issue.prePage} + '\')'">Previous</a>
 													<a
 														th:each="page: ${#numbers.sequence(issue.navigateFirstPage, issue.navigateLastPage)}"
 														th:text="${page}"
-														th:href="@{/ModalIssueList(pageNum=${page}, keyword=${search.getKeyword()}, search=${search.getSearch()})}"></a>
-													<a th:classappend="${issue.nextPage == 0} ? 'disabled'"
-														id="next_page"
-														th:href="@{/ModalIssueList(pageNum=${issue.nextPage}, keyword=${search.getKeyword()}, search=${search.getSearch()})}">Next</a>
+														th:attr="onclick='issuePaging(\'' + ${page} + '\')'"></a>
+													<a id="next_page"
+														th:classappend="${issue.nextPage == 0} ? 'disabled'"
+														th:attr="onclick='issuePaging(\'' + ${issue.nextPage} + '\')'">Next</a>
 												</div>
 											</div>
 										</div>
@@ -180,11 +182,30 @@
 			const selectValue = e.currentTarget.textContent.trim();
 
 			$('.issue-selected-value').text(selectValue);
+			$('#hiddenKeywordInput').val(selectValue);
 			$('.issue-select-ul').css('display', 'none');
 			e.stopPropagation();
 		});
 
 		document.querySelector(".disabled").removeAttribute('href');
+
+		function issuePaging(pageNum) {
+			var keywordVal = $('#hiddenKeywordInput').val();
+			var searchVal = $('#search').val();
+			$.ajax({
+				url : '/ModalIssueList?pageNum=' + pageNum + '&keyword='
+						+ keywordVal + '&search=' + searchVal,
+				type : 'get',
+				success : function(data) {
+					$.each(data, function(idx, item) {
+						
+					})
+				},
+				error : function() {
+					alert('실패');
+				}
+			});
+		}
 	</script>
 </th:block>
 </html>

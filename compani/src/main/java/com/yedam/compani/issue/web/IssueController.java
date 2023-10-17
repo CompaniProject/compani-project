@@ -19,14 +19,13 @@ public class IssueController {
 	IssueService issueService;
 
 	@GetMapping("/ModalIssueList")
-	public String modalIssueList(@ModelAttribute SearchDto search, @ModelAttribute SearchDto keyword,
+	public String modalIssueList(@ModelAttribute SearchDto search,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
 		model.addAttribute("issue", issues);
 		model.addAttribute("issues", issueService.getIssueList(pageNum, search));
 		model.addAttribute("search", search);
-		model.addAttribute("keyword", keyword);
-		System.out.println(issueService.getIssueList(pageNum, search));
+
 		return "index";
 	}
 

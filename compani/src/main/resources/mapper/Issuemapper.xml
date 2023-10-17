@@ -16,11 +16,11 @@
 		  , ISSU_ST
 		  , ISSU_DT
 	FROM    ISSUE
-	<if test="keyword == 'membId'">
-	WHERE   MEMB_ID LIKE CONCAT('%', #{search}, '%')
+	<if test="keyword == '작성자'">
+	WHERE   MEMB_ID LIKE '%' || #{search} || '%'
 	</if>
-	<if test="keyword == 'issuTtl'">
-	WHERE   ISSU_TTL LIKE CONCAT('%', #{search}, '%') 
+	<if test="keyword == '제목'">
+	WHERE   ISSU_TTL LIKE '%' || #{search} || '%'
 	</if>
 	ORDER BY ISSU_DT ASC
 </select>
