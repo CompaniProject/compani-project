@@ -4,22 +4,22 @@
 	layout:decorate="~{/layout/layout}">
 <th:block layout:fragment="content">
 	<div class="content-body">
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-			data-bs-target="#workModal">Launch workModal</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#workModal">Launch workModal</button>
 
 		<div class="modal fade" id="workModal" tabindex="-1"
 			aria-labelledby="sidebarModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content"
-					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 601px; opacity: 1; z-index: 500;">
+					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
 					<!-- 모달 헤더 부분 -->
 					<div class="modal-header">
-							<div class="ContentTitleBox">
-								<div class="ContentImg"
-									style="background-image: url(/images/tab_issue.png);"></div>
-								<p class="ContentText">이슈</p>
-							</div>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
+						<div class="ContentTitleBox">
+							<div class="ContentImg"
+								style="background-image: url(/images/tab_issue.png);"></div>
+							<p class="ContentText">이슈</p>
+						</div>
+						<button type="button" class="btn-close" data-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-content-container">
@@ -60,9 +60,7 @@
 													<div></div>
 													<div class="TobBarIssueControlArea">
 														<div class="SearchBox">
-															<input id="SearchToggleCheckBox" type="checkbox"
-																style="display: none;"> <label
-																for="SearchToggleCheckBox"></label>
+															<label for="SearchToggleCheckBox"></label>
 															<div class="SearchInputBox" style="width: 270px;">
 																<div>
 																	<div class="issue-selectBox" style="width: 100px;">
@@ -71,9 +69,10 @@
 																				id="issue-select-value" data-value="전체">전체</div>
 																			<div class="arrow"></div>
 																		</div>
-																		<ul class="issue-select-ul" id="issue-select-ul"
-																			style="width: 100px; top: 20%;">
-
+																		<ul class="issue-select-ul"
+																			style="width: 100px; top: 20%; display: none;">
+																			<li class="issue-select-option" data-value="전체">전체</li>
+																			<li class="issue-select-option" data-value="참여자">참여자</li>
 																		</ul>
 																	</div>
 																</div>
@@ -147,7 +146,18 @@
 													</div>
 												</div>
 											</div>
+											<div
+												class="paginate-container d-none d-sm-flex flex-sm-justify-center">
+												<div role="navigation" aria-label="Pagination"
+													class="pagination">
+													<a class="previous_page" href="">Previous</a> <a href=""
+														class="current">1</a> <a href="">2</a> <a rel="next"
+														aria-label="Page 3" href="">3</a> <a href="">4</a> <a
+														class="next_page" href="">Next</a>
+												</div>
+											</div>
 										</div>
+
 									</div>
 								</div>
 							</div>
@@ -157,5 +167,18 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$('.issue-selectBox').on('click', function() {
+			$('.issue-select-ul').css('display', 'block');
+		});
+
+		$('.issue-select-option').on('click', function(e) {
+			const selectValue = e.currentTarget.textContent.trim();
+
+			$('.issue-selected-value').text(selectValue);
+			$('.issue-select-ul').css('display', 'none');
+			e.stopPropagation();
+		});
+	</script>
 </th:block>
 </html>

@@ -145,7 +145,7 @@ body {
 .workModalContentBack {
 	position: relative;
 	width: 100%;
-	height: calc(100% - 102px);
+	height: 100%;
 	overflow: hidden;
 }
 
@@ -456,6 +456,16 @@ input[type="checkbox" i] {
 	cursor: pointer;
 }
 
+.issue-select-option.active {
+	background: url(/images/arrow_active.png) no-repeat 97% 50%;
+	background-size: 16px 16px;
+}
+
+.issue-select-option {
+	padding: 8px 5px;
+	cursor: pointer;
+}
+
 .SearchBox .DeleteSearchWord {
 	width: 14px;
 	height: 14px;
@@ -513,4 +523,48 @@ input[type="checkbox" i] {
 	overflow: auto;
 	border-color: #e1e1e1;
 	transition: border-color 0.3s ease;
+}
+
+.flex-sm-justify-center {
+	justify-content: center !important;
+}
+
+.paginate-container {
+	margin-top: 16px;
+	margin-bottom: 16px;
+	text-align: center;
+}
+
+.paginate-container .pagination {
+	display: inline-block;
+}
+
+.pagination .previous_page, .pagination .next_page {
+	color: #0969DA;
+}
+
+.pagination a, .pagination span, .pagination em {
+	min-width: 32px;
+	padding: 5px 10px;
+	font-style: normal;
+	line-height: 20px;
+	color: #24292f;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	transition: border-color .2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+.pagination .current, .pagination .current:hover, .pagination [aria-current]:not([aria-current=false])
+	{
+	display: inline-block;
+	color: #FFFFFF;
+	background-color: #0969DA;
+	border-color: transparent;
+	color: var(- -fgColor-onEmphasis, var(- -color-fg-on-emphasis));
 }
