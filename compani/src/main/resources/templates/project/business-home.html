@@ -18,7 +18,7 @@
 	        </li>
 	    </ul>
         <div class="col p-md-0">
-	        <button type="button" class="btn mb-1 btn-primary float-right">업무 추가</button>
+	        <button type="button" class="btn mb-1 btn-primary float-right" id="insertBtn">업무 추가</button>
         </div>
     </div>
 	<!-- Bussiness Header End -->
@@ -247,6 +247,23 @@
 	    <!--  -->
     </div>
     
+    <!-- Modal -->
+    <div data-include1="showModal">
+    
+    </div>
+    <!-- Modal -->
+    <script>
+    	$(function(){
+            var includes1 = $('[data-include1="showModal"]');
+            jQuery.each(includes1, function(){
+               $(this).load('/modal');
+            });
+    	});
+    	
+    	$('#insertBtn').on('click',function(){
+            $('#workModal').modal('toggle');
+    	})
+    </script>
 </th:block>
 </body>
 </html>
