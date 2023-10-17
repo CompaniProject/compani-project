@@ -2,174 +2,175 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
+<head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	font-family: "Lato", sans-serif;
-	line-height: 1;
+hr {
+	width: 100%;
 }
 
-body {
-	background-color: #F5F6F8;
-	overflow: hidden;
-}
-
-.workModalTab {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 55px;
-	height: 535px;
-	border-right: solid 1px #eaeaea;
-	box-sizing: border-box;
-}
-
-.workModalTab ul {
-	text-align: center;
+#FileUpload {
+	margin-right: 20px;
+	border-radius: 5px;
 	color: white;
-	padding: 0;
+	font-size: 13px;
+	width: 120px;
+	font-weight: bold;
 }
 
-.workModalTab ul li {
-	padding: 28px 0;
-	cursor: pointer;
-	transition: all ease-out 120ms;
+#FileDelete {
+	border-radius: 5px;
+	color: white;
+	font-size: 13px;
+	width: 80px;
+	font-weight: bold;
 }
 
-.workModalTab ul li i {
-	display: block;
-	font-size: 24px;
-	transition: all ease 450ms;
-}
-
-.workModalTab ul li .tooltip {
-	display: inline-block;
-	position: absolute;
-	background-color: #313443;
-	padding: 5px 12px;
-	border-radius: 3px;
-	margin-top: -40px;
-	left: 70px;
-	opacity: 0;
-	visibility: hidden;
-	font-size: 12px;
-	letter-spacing: 0.5px;
-}
-
-.workModalTab ul li .tooltip:before {
-	content: "";
-	display: block;
-	position: absolute;
-	left: -4px;
-	top: 10px;
-	transform: rotate(45deg);
-	width: 10px;
-	height: 10px;
-	background-color: inherit;
-}
-
-.workModalTab ul li:hover {
-	cursor: pointer;
-	/* background-color: #f5f5f5; */
-}
-
-.workModalTab ul li:hover .tooltip {
-	visibility: visible;
-	opacity: 1;
-}
-
-.workModalTab ul li.active {
-	background-color: #22252E;
-}
-
-.workModalTab ul li.active i {
-	color: #98D7EC;
-}
-
-.ModalTab {
-	position: relative;
-	width: 30px;
-	height: 30px;
-	margin: 13px;
-	border-radius: 6px;
-	background-size: 30px;
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-.ModalTab.tab_basic {
-	background-image: url('/images/tab_basic.png');
-}
-
-.ModalTab.tab_file {
-	background-image: url('/images/tab_file.png');
-}
-
-.ModalTab.tab_issue {
-	background-image: url('/images/tab_issue.png');
-}
-
-.ModalTab.tab_log {
-	background-image: url('/images/tab_log.png');
-}
-
-.modal-content-container {
-	display: flex;
-}
-
-.modal-body {
-	flex: 1;
-	padding: 20px;
-}
 </style>
+</head>
 <th:block layout:fragment="content">
-	<div class="content-container">
-		<div class="content-body">
+	<div class="content-body">
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#workModal">Launch workModal</button>
 
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#workModal">Launch demo modal</button>
-			<div class="modal fade" id="workModal" tabindex="-1"
-				aria-labelledby="sidebarModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content"
-						style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 750px; top: calc(( 86vh - 601px)/2); height: 601px; opacity: 1; z-index: 500;">
-						<!-- 모달 헤더 부분 -->
-						<div class="modal-header">
-							<h5 class="modal-title" id="sidebarModalLabel">업무 모달</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
+		<div class="modal fade" id="workModal" tabindex="-1"
+			aria-labelledby="sidebarModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content"
+					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
+					<!-- 모달 헤더 부분 -->
+					<div class="modal-header">
+						<div class="ContentTitleBox">
+							<div class="ContentImg"
+								style="background-image: url(/images/tab_file.png);"></div>
+							<p class="ContentText">파일함</p>
 						</div>
-						<div class="modal-content-container">
-							<div class="workModalTab">
-								<ul>
-									<li><i class="ModalTab tab_basic"></i> <span
-										class="tooltip">기본정보</span></li>
-									<li><i class="ModalTab tab_file""></i> <span
-										class=" tooltip">자료관리</span></li>
-									<li><i class="ModalTab tab_issue"></i> <span
-										class="tooltip">이슈</span></li>
-									<li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
-								</ul>
-							</div>
-							<div class="modal-body">
-								<p>Hello world</p>
+						<button type="button" class="btn-close" data-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-content-container">
+						<div class="workModalTab">
+							<ul>
+								<li><i class="ModalTab tab_basic"></i> <span
+									class="tooltip">기본정보</span></li>
+								<li><i class="ModalTab tab_file"></i> <span
+									class=" tooltip">자료관리</span></li>
+								<li><i class="ModalTab tab_issue"></i> <span
+									class="tooltip">이슈</span></li>
+								<li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
+							</ul>
+						</div>
+						<div class="modal-body">
+							<div class="workModalContentBack">
+								<div class="workModalContentSlider">
+									<div class="workModalContent scroll issueContent">
+										<div class="workModalBussTitle">
+											<div class="ModalTitle">
+												<div class="ModalProjectNameBox">
+													<div id="ProjectLink">
+														#<span></span>
+														<p class="textEllipsis">프로젝트3</p>
+													</div>
+												</div>
+												<div class="ModalBussNameBox Edit">
+													<div class="ModalBussNameBack">
+														<textarea id="ModalUpdateBussName" readonly
+															maxlength="200" style="height: 34px;">업무명</textarea>
+														<hr style="border-bottom: solid 1px">
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="ModalInfo">
+											<div class="FixOnTop ModalTopBar">
+												<div class="IssueTopBar">
+													
+													<!-- 체크박스 -->
+													<input type="checkbox" style="margin-right: 30px">
+													<!-- 검색아이콘 -->
+													<div class="SearchBox" style="margin-right: 20px">
 
+														<label for="SearchToggleCheckBox"></label>
+														<div class="SearchInputBox" style="width: 290px;">
+
+															<div>
+																<div class="issue-selectBox" style="width: 100px;">
+																	<div class="issue-selected" id="issue-selected">
+																		<div class="issue-selected-value"
+																			id="issue-select-value" data-value="파일명">파일명</div>
+																		<div class="arrow"></div>
+																	</div>
+																	<ul class="issue-select-ul"
+																		style="width: 100px; top: 20%; display: none;">
+																		<li class="issue-select-option" data-value="파일명">파일명</li>
+																		<li class="issue-select-option" data-value="참여자">등록자</li>
+																	</ul>
+
+																</div>
+
+															</div>
+
+														</div>
+
+													</div>
+													<button id="FileUpload" type="button"
+														class="btn mb-1 btn-info">파일 업로드</button>
+													<button id="FileDelete" type="button"
+														class="btn mb-1 btn-dark">삭제</button>																						
+												</div>
+												<br><br>
+												
+												<table>
+													<tr>
+														<th>파일명</th>
+														<th>크기</th>
+														<th>등록자</th>
+														<th>등록날짜</th>
+														<th>저장</th>
+														<th>삭제</th>
+													</tr>			
+												</table>
+												<hr style="border-bottom: solid 1px">
+												<table>
+													
+														<tr>
+															<td>gdgd</td>
+															<td>ㅎㅇ</td>
+															<td>ㅎㅇ</td>
+															<td>ㅎ</td>
+															<td>ㅎ</td>
+															<td>ㅎ</td>
+														</tr>
+													
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</th:block>
-<script>
-	// 모달을 표시하기 위해 Bootstrap의 모달 토글을 사용
-	$('#workModalButton').on('click', function() {
-		$('#workModal').modal('show');
-	});
-</script>
+	<script>
+		$('.issue-selectBox').on('click', function() {
+			$('.issue-select-ul').css('display', 'block');
+		});
 
+		$('.issue-select-option').on('click', function(e) {
+			const selectValue = e.currentTarget.textContent.trim();
+
+			$('.issue-selected-value').text(selectValue);
+			$('.issue-select-ul').css('display', 'none');
+			e.stopPropagation();
+		});
+	</script>
+</th:block>
 </html>
