@@ -14,15 +14,4 @@ class CompaniApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-	
-    @Test
-    void encryptionTest() {
-        String[] dataList = {
-        };
-        
-        for(String data : dataList) {
-            String encData = jasyptStringEncryptor.encrypt(data);
-            System.out.println(encData);
-        }
-    }
 }
