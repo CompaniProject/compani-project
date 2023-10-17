@@ -1,5 +1,10 @@
 package com.yedam.compani.issue.mapper;
 
-public interface IssueMapper {
 
+import com.github.pagehelper.Page;
+import com.yedam.compani.issue.service.IssueVO;
+import com.yedam.compani.paging.SearchDto;
+
+public interface IssueMapper {
+	Page<IssueVO> findIssue(SearchDto search); 
 }

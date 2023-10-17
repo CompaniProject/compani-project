@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.compani.issue.mapper.IssueMapper">
+
+<select id="findIssue" resultType="com.yedam.compani.issue.service.IssueVO">
+	SELECT  ISSU_NO
+		  , PRJT_NO
+		  , BUSS_NO
+		  , MEMB_ID
+		  , ISSU_TTL
+		  , ISSU_CNTN
+		  , ISSU_KND
+		  , ISSU_RANK
+		  , ISSU_ST
+		  , ISSU_DT
+	FROM    ISSUE
+	<if test="keyword == 'membId'">
+	WHERE   MEMB_ID LIKE CONCAT('%', #{search}, '%')
+	</if>
+	<if test="keyword == 'issuTtl'">
+	WHERE   ISSU_TTL LIKE CONCAT('%', #{search}, '%') 
+	</if>
+	ORDER BY ISSU_DT ASC
+</select>
+
+</mapper>
