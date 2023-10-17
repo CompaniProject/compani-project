@@ -1,0 +1,159 @@
+<div class="modal fade" id="workModal" tabindex="-1" 
+	aria-labelledby="sidebarModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content"
+			style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
+			<!-- 모달 헤더 부분 -->
+			<div class="modal-header">
+				<div class="ContentTitleBox">
+					<div class="ContentImg"
+						style="background-image: url(/images/tab_issue.png);"></div>
+					<p class="ContentText">이슈</p>
+				</div>
+				<button type="button" class="btn-close" data-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-content-container">
+				<div class="workModalTab">
+					<ul>
+						<li><i class="ModalTab tab_basic"></i> <span
+							class="tooltip">기본정보</span></li>
+						<li><i class="ModalTab tab_file"></i> <span
+							class=" tooltip">자료관리</span></li>
+						<li><i class="ModalTab tab_issue"></i> <span
+							class="tooltip">이슈</span></li>
+						<li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
+					</ul>
+				</div>
+				<div class="modal-body">
+					<div class="workModalContentBack">
+						<div class="workModalContentSlider">
+							<div class="workModalContent scroll issueContent">
+								<div class="workModalBussTitle">
+									<div class="ModalTitle">
+										<div class="ModalProjectNameBox">
+											<div id="ProjectLink">
+												#<span></span>
+												<p class="textEllipsis">프로젝트3</p>
+											</div>
+										</div>
+										<div class="ModalBussNameBox Edit">
+											<div class="ModalBussNameBack">
+												<textarea id="ModalUpdateBussName" readonly
+													maxlength="200" style="height: 34px;">업무명</textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ModalInfo">
+									<div class="FixOnTop ModalTopBar">
+										<div class="IssueTopBar">
+											<div></div>
+											<div class="TobBarIssueControlArea">
+												<div class="SearchBox">
+													<label for="SearchToggleCheckBox"></label>
+													<div class="SearchInputBox" style="width: 270px;">
+														<div>
+															<div class="issue-selectBox" style="width: 100px;">
+																<div class="issue-selected" id="issue-selected">
+																	<div class="issue-selected-value"
+																		id="issue-select-value" data-value="전체">전체</div>
+																	<div class="arrow"></div>
+																</div>
+																<ul class="issue-select-ul"
+																	style="width: 100px; top: 20%; display: none;">
+																	<li class="issue-select-option" data-value="전체">전체</li>
+																	<li class="issue-select-option" data-value="참여자">참여자</li>
+																</ul>
+															</div>
+														</div>
+														<input id="SearchInputModalView" type="text"
+															placeholder="검색어를 입력하세요."> <span
+															class="DeleteSearchWord"></span>
+													</div>
+												</div>
+												<div class="PostWritingBox">
+													<span></span>
+													<p>글쓰기</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="ModalInfoArea IssueInfoArea">
+
+										<div class="col-lg-6" style="width: 100%; max-width: 100%;">
+
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th style="font-weight: normal;">종류</th>
+															<th style="font-weight: normal;">제목</th>
+															<th style="font-weight: normal;">이름</th>
+															<th style="font-weight: normal;">상태</th>
+															<th style="font-weight: normal;">우선순위</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th><span class="badge badge-pill badge-danger">버그</span>
+															</th>
+															<td>Something's wrong</td>
+															<td>홍길동</td>
+															<td><span class="badge badge-light">미해결</span></td>
+															<td><span class="badge badge-pill badge-primary">매우높음</span></td>
+														</tr>
+														<tr>
+															<th><span class="badge badge-pill badge-info">새기능</span>
+															</th>
+															<td>신기술 개발중 발생한 문제점에 대해서..</td>
+															<td>홍길동</td>
+															<td><span class="badge badge-light">미해결</span></td>
+															<td><span class="badge badge-pill badge-secondary">높음</span></td>
+														</tr>
+														<tr>
+															<th><span class="badge badge-pill badge-success">개선사항</span></th>
+															<td>업무중 문제 발생</td>
+															<td>홍길동</td>
+															<td><span class="badge badge-light">미해결</span></td>
+															<td><span class="badge badge-pill badge-info">중간</span></td>
+														</tr>
+														<tr>
+															<th><span class="badge badge-pill badge-light">업무</span></th>
+															<td>업무중 문제 발생</td>
+															<td>홍길동</td>
+															<td><span class="badge badge-light">미해결</span></td>
+															<td><span class="badge badge-pill badge-success">낮음</span></td>
+														</tr>
+														<tr>
+															<th><span class="badge badge-pill badge-light">업무</span></th>
+															<td>업무중 문제 발생</td>
+															<td>홍길동</td>
+															<td><span class="badge badge-light">미해결</span></td>
+															<td><span class="badge badge-pill badge-dark">매우낮음</span></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div
+										class="paginate-container d-none d-sm-flex flex-sm-justify-center">
+										<div role="navigation" aria-label="Pagination"
+											class="pagination">
+											<a class="previous_page" href="">Previous</a> <a href=""
+												class="current">1</a> <a href="">2</a> <a rel="next"
+												aria-label="Page 3" href="">3</a> <a href="">4</a> <a
+												class="next_page" href="">Next</a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
