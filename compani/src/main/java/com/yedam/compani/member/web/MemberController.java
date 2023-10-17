@@ -16,4 +16,22 @@ public class MemberController {
 	public String memberStandByForm() {
 		return "member/memberStandBy";
 	}
+	
+	// 회원가입 유형
+	@GetMapping("/signUp")
+	public String signUpPage() {
+		return "member/signUp";
+	}
+	
+	// 사원 등록
+	@GetMapping("/memberSignUp")
+	public String memberSignUpForm() {
+		return "member/memberSignUp";
+	}
+	
+	// 기업 등록
+	@GetMapping("/companySignUp")
+	public String companySignUpForm() {
+		return "member/companySignUp";
+	}
 }
