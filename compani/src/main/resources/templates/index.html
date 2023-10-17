@@ -2,14 +2,86 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
-<th:block layout:fragment="content">
-	<div class="content-container">
-		<div class="content-body">
-		
-		hello world
-		
-		
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-6 col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">프로젝트</h4>
+						<div class="dropdown custom-dropdown">
+							<div data-toggle="dropdown">
+								참여중<i class="fa fa-angle-down m-l-5"></i>
+							</div>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="#">완료</a>
+							</div>
+						</div>
+
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th>즐겨찾기<th>
+										<th>프로젝트 번호</th>
+										<th>프로젝트명</th>
+										<th>참여인원<th>
+										<th>기한</th>
+										<th></th>
+										<th>상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<th:block th:each="projectList : ${projectList}">
+										<tr>
+											<td><i class="fa-regular fa-star"></i></td>
+											<td th:text="${projectList.prjtNo}" />
+											<td th:text="${projectList.prjtNm}" />
+											<td th:text="${projectList.count}" />
+											<td th:text="${projectList.prjtFdt}" />
+											<td th:text="${projectList.prjtTdt}" />
+											<td th:text="${projectList.prjtSt}" />
+
+
+										</tr>
+									</th:block>
+								</tbody>
+
+							</table>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-lg-6 col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">코멘트</h4>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">업무</h4>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">이슈</h4>
+
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-</th:block>
+	</th:block>
+</body>
 </html>

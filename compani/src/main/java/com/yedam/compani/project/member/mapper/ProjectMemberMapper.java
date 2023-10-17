@@ -1,5 +1,10 @@
 package com.yedam.compani.project.member.mapper;
 
-public interface ProjectMemberMapper {
+import java.util.List;
 
+import com.yedam.compani.project.member.service.ProjectMemberVO;
+
+public interface ProjectMemberMapper {
+	
+	public List<ProjectMemberVO> selectAllProjectMemberCount();
 }
