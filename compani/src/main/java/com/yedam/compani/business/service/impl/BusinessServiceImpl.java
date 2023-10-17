@@ -20,4 +20,9 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.selectPersonalCalendarAllBusiness();
 	}
 
+	@Override
+	public List<BusinessVO> getProjectCalenderBusinessList() {
+		return businessMapper.selectProjectCalendarAllBusiness();
+	}
+
 }

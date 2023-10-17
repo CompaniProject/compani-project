@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>개인 캘린더</title>
+<title>프로젝트 캘린더</title>
 <link href="/css/style.css" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
     <script>
@@ -26,13 +26,13 @@
     </script>
     
 <style type="text/css">
-#personalCalendarBox {
+#projectCalendarBox {
 	width: 70%;
 	
 	float: right;
 }
 
-#personalCalendar {
+#projectCalendar {
 	margin: 10px;
 	background-color: white;
 }
@@ -104,14 +104,7 @@ select {
 			<div class='calendarBusinessInfo'>
 			<div class="selectBox">
 				<span style="float:right;">
-					<select name="personalCalendarProjectSelect" form="personalCalendarBusinessForm">
-						<!-- 프로젝트 목록 만들어야 함---------------------------------------------------------- -->
-						<option hidden="" disabled="disabled" selected="selected" value="">필터링</option>
-						<option value="">프로젝트1</option>
-						<option value="">프로젝트2</option>
-						<option value="">프로젝트3</option>
-					</select>
-					<select name="personalCalendarSort" form="personalCalendarBusinessForm">
+					<select name="projectCalendarSort" form="projectCalendarBusinessForm">
 						<option hidden="" disabled="disabled" selected="selected" value="">정렬</option>
 						<option value="">날짜순</option>
 						<option value="">진척도</option>
@@ -120,23 +113,23 @@ select {
 				</span>
 				</div>
 				<div class="businessList" style="">
-					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명1</div>
-					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
+					<div class="businessList2">23.10.23 ~ 23.10.04|중요도 중</div>
+					<div class="businessList2">업무명1 달력 구현|진척도 50%</div>
 				</div>
 				<div class="businessList">
-					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명안녕하세요프로젝트명테스트중입니다안녕하세요</div>
-					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
+					<div class="businessList2">23.10.23 ~ 23.10.04|중요도 중</div>
+					<div class="businessList2">업무명1 달력 구현|진척도 50%</div>
 				</div>
 				<div class="businessList">
-					<div class="businessList2">23.10.23 ~ 23.10.04|프로젝트명1</div>
-					<div class="businessList2">업무명1 달력 구현|중요도 중|진척도 50%</div>
+					<div class="businessList2">23.10.23 ~ 23.10.04|중요도 중</div>
+					<div class="businessList2">업무명1 달력 구현|진척도 50%</div>
 				</div>
 				<button>ㅇㅇ</button>
 			</div>
 			
 			<!-- 달력 -->
-			<div id="personalCalendarBox">
-				<div id='personalCalendar'></div>
+			<div id="projectCalendarBox">
+				<div id='projectCalendar'></div>
 			</div>
 			
 		</div>
