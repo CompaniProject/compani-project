@@ -1,5 +1,10 @@
 package com.yedam.compani.project.member.service;
 
-public interface ProjectMemberService {
+import java.util.List;
 
+
+
+public interface ProjectMemberService {
+	
+	public List<ProjectMemberVO> getProjectMemberCountList();
 }
