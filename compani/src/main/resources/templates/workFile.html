@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Lato", sans-serif;
+	line-height: 1;
+}
+
+body {
+	background-color: #F5F6F8;
+	overflow: hidden;
+}
+
+.workModalTab {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 55px;
+	height: 535px;
+	border-right: solid 1px #eaeaea;
+	box-sizing: border-box;
+}
+
+.workModalTab ul {
+	text-align: center;
+	color: white;
+	padding: 0;
+}
+
+.workModalTab ul li {
+	padding: 28px 0;
+	cursor: pointer;
+	transition: all ease-out 120ms;
+}
+
+.workModalTab ul li i {
+	display: block;
+	font-size: 24px;
+	transition: all ease 450ms;
+}
+
+.workModalTab ul li .tooltip {
+	display: inline-block;
+	position: absolute;
+	background-color: #313443;
+	padding: 5px 12px;
+	border-radius: 3px;
+	margin-top: -40px;
+	left: 70px;
+	opacity: 0;
+	visibility: hidden;
+	font-size: 12px;
+	letter-spacing: 0.5px;
+}
+
+.workModalTab ul li .tooltip:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: -4px;
+	top: 10px;
+	transform: rotate(45deg);
+	width: 10px;
+	height: 10px;
+	background-color: inherit;
+}
+
+.workModalTab ul li:hover {
+	cursor: pointer;
+	/* background-color: #f5f5f5; */
+}
+
+.workModalTab ul li:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
+.workModalTab ul li.active {
+	background-color: #22252E;
+}
+
+.workModalTab ul li.active i {
+	color: #98D7EC;
+}
+
+.ModalTab {
+	position: relative;
+	width: 30px;
+	height: 30px;
+	margin: 13px;
+	border-radius: 6px;
+	background-size: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.ModalTab.tab_basic {
+	background-image: url('/images/tab_basic.png');
+}
+
+.ModalTab.tab_file {
+	background-image: url('/images/tab_file.png');
+}
+
+.ModalTab.tab_issue {
+	background-image: url('/images/tab_issue.png');
+}
+
+.ModalTab.tab_log {
+	background-image: url('/images/tab_log.png');
+}
+
+.modal-content-container {
+	display: flex;
+}
+
+.modal-body {
+	flex: 1;
+	padding: 20px;
+}
+</style>
+<th:block layout:fragment="content">
+	<div class="content-container">
+		<div class="content-body">
+
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#workModal">Launch demo modal</button>
+			<div class="modal fade" id="workModal" tabindex="-1"
+				aria-labelledby="sidebarModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content"
+						style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 750px; top: calc(( 86vh - 601px)/2); height: 601px; opacity: 1; z-index: 500;">
+						<!-- 모달 헤더 부분 -->
+						<div class="modal-header">
+							<h5 class="modal-title" id="sidebarModalLabel">업무 모달</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-content-container">
+							<div class="workModalTab">
+								<ul>
+									<li><i class="ModalTab tab_basic"></i> <span
+										class="tooltip">기본정보</span></li>
+									<li><i class="ModalTab tab_file""></i> <span
+										class=" tooltip">자료관리</span></li>
+									<li><i class="ModalTab tab_issue"></i> <span
+										class="tooltip">이슈</span></li>
+									<li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
+								</ul>
+							</div>
+							<div class="modal-body">
+								<p>Hello world</p>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+<script>
+	// 모달을 표시하기 위해 Bootstrap의 모달 토글을 사용
+	$('#workModalButton').on('click', function() {
+		$('#workModal').modal('show');
+	});
+</script>
+
+</html>
