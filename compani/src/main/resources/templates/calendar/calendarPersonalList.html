@@ -1,22 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Quixlab - Bootstrap Admin Dashboard Template by Themefisher.com</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <!-- Custom Stylesheet -->
-    <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
+<link href="/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 	<div id="main-wrapper">
+		<header th:replace="fragments/header :: header"></header>
+		<aside th:replace="fragments/aside:: aside"></aside>
 		<div class="content-body">
 			<div class="container-fluid">
 				<div class="row">
@@ -26,9 +20,7 @@
 								<div class="row">
 									<div class="col-md-8">
 										<div class="card-box m-b-50">
-											<div id="calendar">
-											
-											</div>
+											<div id="calendar"></div>
 										</div>
 									</div>
 								</div>
@@ -39,16 +31,29 @@
 			</div>
 		</div>
 	</div>
-	
 	<script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
-    
-    <script src="./plugins/jqueryui/js/jquery-ui.min.js"></script>
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/fullcalendar/js/fullcalendar.min.js"></script>
-    <script src="./js/plugins-init/fullcalendar-init.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/gleek.js"></script>
+	<script src="js/styleSwitcher.js"></script>
+
+	<script src="./plugins/jqueryui/js/jquery-ui.min.js"></script>
+	<script src="./plugins/moment/moment.min.js"></script>
+	<script src="./plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="./js/plugins-init/fullcalendar-init.js"></script>
+	
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var calendarEl = document.getElementById('calendar');
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView : 'timeGridMonth',
+			headerToolbar : {
+				right : 'dayGridMonth',
+				center : 'prev title next',
+				left : 'today',
+			},
+		}
+	});
+	</script>
 </body>
 </html>

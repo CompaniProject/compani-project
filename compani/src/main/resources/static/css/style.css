@@ -14700,3 +14700,16 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+
+.fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+}
+
+#fc-dom-1 {
+	margin-left: 0;
+}
+
+.fc .fc-prev-button {
+	margin-right: 0.75em;
+}
