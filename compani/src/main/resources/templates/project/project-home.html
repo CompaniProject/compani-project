@@ -34,9 +34,11 @@ let pieChartDraw = function () {
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="row">
+	<div class="row">
+	<div class="col-lg-6">
+    <div class="column">
         <!-- Pie Chart -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">업무 요약</h4>
@@ -46,7 +48,7 @@ let pieChartDraw = function () {
         </div>
         <!-- Pie Chart End -->
         <!-- Member List -->
-       	<div class="col-lg-4">
+       	<div class="col-lg-12">
             <div class="card">
                <div class="card-body">
                     <h4 class="card-title">참여자별 업무 진행률</h4>
@@ -124,56 +126,18 @@ let pieChartDraw = function () {
         </div>
         <!-- Member List End -->
     </div>
-    <div class="row">
-		<div class="col-lg-12">
-	        <div class="card">
-	            <div class="card-body">
-	                <h4 class="card-title">Nestedable</h4>
-	                <div class="card-content">
-	                    <div class="nestable">
-	                        <div class="dd" id="nestable">
-	                            <ol class="dd-list">
-	                                <li class="dd-item" data-id="1">
-	                                    <div class="dd-handle">Item 1</div>
-	                                </li>
-	                                <li class="dd-item" data-id="2"><button data-action="collapse" type="button">Collapse</button><button data-action="expand" type="button" style="display: none;">Expand</button>
-	                                    <div class="dd-handle">Item 2</div>
-	                                    <ol class="dd-list">
-	                                        <li class="dd-item" data-id="3">
-	                                            <div class="dd-handle">Item 3</div>
-	                                        </li>
-	                                        <li class="dd-item" data-id="4">
-	                                            <div class="dd-handle">Item 4</div>
-	                                        </li>
-	                                        <li class="dd-item" data-id="5"><button data-action="collapse" type="button">Collapse</button><button data-action="expand" type="button" style="display: none;">Expand</button>
-	                                            <div class="dd-handle">Item 5</div>
-	                                            <ol class="dd-list">
-	                                                <li class="dd-item" data-id="6">
-	                                                    <div class="dd-handle">Item 6</div>
-	                                                </li>
-	                                                <li class="dd-item" data-id="7">
-	                                                    <div class="dd-handle">Item 7</div>
-	                                                </li>
-	                                                <li class="dd-item" data-id="8">
-	                                                    <div class="dd-handle">Item 8</div>
-	                                                </li>
-	                                            </ol>
-	                                        </li>
-	                                        <li class="dd-item" data-id="9">
-	                                            <div class="dd-handle">Item 9</div>
-	                                        </li>
-	                                        <li class="dd-item" data-id="10">
-	                                            <div class="dd-handle">Item 10</div>
-	                                        </li>
-	                                    </ol>
-	                                </li>
-	                            </ol>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-    	</div>
+	
+	</div>
+		<div class="col-lg-6">
+	       <div class="card">
+	           <div class="card-body">
+	               <h4 class="card-title">업무 목록</h4>
+	               <div class="card-content">
+	               
+	               </div>
+	           </div>
+	       </div>
+	    </div>
     </div>
 </th:block>
 </body>
