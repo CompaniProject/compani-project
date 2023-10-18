@@ -24,4 +24,24 @@
 		GROUP  BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
 		ORDER BY PRJT_FAV DESC
 	</select>
+
+	<select id="selectProjectAndMemberList" resultType="CamelHashMap">
+		SELECT pm.prjt_no
+				, memb_id
+				, prjt_memb_perm
+				, prjt_nm
+				, prjt_pubcyn
+				, prjt_fdt
+				, prjt_tdt
+				, prjt_cmpltdt
+				, prjt_st
+		FROM project_member pm LEFT JOIN project p ON(pm.prjt_no = p.prjt_no)
+		<where>
+			<if test="memberId != null">
+				AND memb_id = #{memberId}
+			</if>
+		</where>
+		ORDER BY prjt_no
+
+	</select>
 </mapper>

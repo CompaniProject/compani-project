@@ -16,15 +16,11 @@ public class LogTestAdvice {
     @Around("allPointCut()")
     public Object logger(ProceedingJoinPoint joinpoint) throws Throwable {
         String signatureStr = joinpoint.getSignature().toString();
-        System.out.println("시작 : " + signatureStr);
-        
-        System.out.println("기능 전 실행" + System.currentTimeMillis());
-        
         try {
             Object obj = joinpoint.proceed();
             return obj;
-        } finally {
-            System.out.println("기능 후 실행 " + System.currentTimeMillis());   
+        } finally { 
+        	
         }
     }
 }

@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
 <th:block layout:fragment="content">
+
 	<div class="content-body">
 		<button type="button" class="btn btn-primary" data-toggle="modal"
 			data-target="#workModal">Launch workModal</button>
@@ -59,17 +60,17 @@
 												<div class="IssueTopBar">
 													<div></div>
 													<div class="TobBarIssueControlArea">
-														<form action="ModalIssueList">
+
 															<div class="SearchBox">
-																<label for="SearchToggleCheckBox"></label>
+																<label for="SearchToggleCheckBox"
+																	th:attr="onclick='issuePaging(1)'"></label>
+																	<input type="hidden" id="keyword" name="keyword">
 																<div class="SearchInputBox" style="width: 270px;">
 																	<div>
 																		<div class="issue-selectBox" style="width: 100px;">
 																			<div class="issue-selected" id="issue-selected">
-																				<div class="issue-selected-value" id="keyword">
-																					<input type="hidden" id="hiddenKeywordInput"
-																						name="keyword" value="전체">전체
-																				</div>
+																				<div class="issue-selected-value">
+																					전체</div>
 																				<div class="arrow"></div>
 																			</div>
 																			<ul class="issue-select-ul"
@@ -85,7 +86,9 @@
 																		class="DeleteSearchWord"></span>
 																</div>
 															</div>
-														</form>
+															
+
+														
 														<div class="PostWritingBox">
 															<span></span>
 															<p>글쓰기</p>
@@ -153,7 +156,7 @@
 													<a id="previous_page"
 														th:classappend="${issue.prePage == 0} ? 'disabled'"
 														th:attr="onclick='issuePaging(\'' + ${issue.prePage} + '\')'">Previous</a>
-													<a
+													<a class="cur_page"
 														th:each="page: ${#numbers.sequence(issue.navigateFirstPage, issue.navigateLastPage)}"
 														th:text="${page}"
 														th:attr="onclick='issuePaging(\'' + ${page} + '\')'"></a>
@@ -173,51 +176,5 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$('.issue-selectBox').on('click', function() {
-			$('.issue-select-ul').css('display', 'block');
-		});
-
-		$('.issue-select-option').on('click', function(e) {
-			const selectValue = e.currentTarget.textContent.trim();
-
-			$('.issue-selected-value').text(selectValue);
-			$('#hiddenKeywordInput').val(selectValue);
-			$('.issue-select-ul').css('display', 'none');
-			e.stopPropagation();
-		});
-
-		document.querySelector(".disabled").removeAttribute('href');
-
-		function issuePaging(pageNum) {
-			var keywordVal = $('#hiddenKeywordInput').val();
-			var searchVal = $('#search').val();
-
-			
-			var issueList = $('#issueList');
-			$.ajax(
-					'/ModalAjaxIssueList?pageNum=' + pageNum + '&keyword='
-							+ keywordVal + '&search=' + searchVal, {
-						type : 'GET'
-					}).done(function(data) {
-				issueList.empty();
-
-				$.each(data.issues, function(idx, item) {
-					var trTag = $('<tr/>');
-
-					trTag.append('<th>' + item.issuKnd + '</th>');
-					trTag.append('<td>' + item.issuCntn + '</td>');
-					trTag.append('<td>' + item.issumembId + '</td>');
-					trTag.append('<th>' + item.issuSt + '</th>');
-					trTag.append('<th>' + item.issuRank + '</th>');
-
-					issueList.append(trTag);
-
-				})
-			}).fail(function() {
-				alert('실패');
-			});
-		};
-	</script>
 </th:block>
 </html>
