@@ -1,4 +1,4 @@
-package com.yedam.compani.project.serviceImpl;
+package com.yedam.compani.project.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,5 +19,6 @@ class ProjectServiceImplTest {
     public void projectTest() {
         List<ProjectVO> projects = new ArrayList<ProjectVO>();
         projects = projectService.getProjectList();
+        System.out.println(projects);
     }
 }
