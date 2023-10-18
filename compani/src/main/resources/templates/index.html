@@ -192,14 +192,11 @@
 		function issuePaging(pageNum) {
 			var keywordVal = $('#hiddenKeywordInput').val();
 			var searchVal = $('#search').val();
-			$.ajax({
-				url : '/ModalIssueList?pageNum=' + pageNum + '&keyword='
-						+ keywordVal + '&search=' + searchVal,
-				type : 'get',
+			$.ajax('/ModalIssueList?pageNum=' + pageNum + '&keyword='
+					+ keywordVal + '&search=' + searchVal, {
+				type : 'GET',
 				success : function(data) {
-					$.each(data, function(idx, item) {
-						
-					})
+					console.log(data.issuCntn[0]);
 				},
 				error : function() {
 					alert('실패');
