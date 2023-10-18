@@ -1,5 +1,7 @@
 package com.yedam.compani.member.mapper;
 
-public interface MemberMapper {
+import com.yedam.compani.member.service.MemberVO;
 
+public interface MemberMapper {
+	public MemberVO selectMemberInfo(MemberVO vo);
 }
