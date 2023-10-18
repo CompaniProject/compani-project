@@ -13,8 +13,9 @@
 						</i><span class="nav-text">프로젝트</span>&nbsp;&nbsp;&nbsp;<i class="icon-plus"></i>
 					</a>
 					<ul aria-expanded="false">
-						<li><a href="./app-profile.html">프로젝트1</a></li>
-						<li><a href="./app-calender.html">프로젝트2</a></li>
+						<li th:each="project : ${session.projectList}">
+							<a href="/project/home" th:text="${project.prjtNm}"></a>
+						</li>
 					</ul>
 				</li>
 				<li><a class="has-arrow" href="javascript:void()"
