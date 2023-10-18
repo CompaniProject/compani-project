@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
@@ -20,8 +21,8 @@ public class ProjectController {
 	@Autowired
 	ProjectService projectService;
 	
-	@GetMapping("/project/home")
-	public String projectHome() {
+	@GetMapping("/project/home/{prjtNo}")
+	public String projectHome(@PathVariable Integer prjtNo) {
 		return "project/project-home";
 	}
 	

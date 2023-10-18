@@ -14,7 +14,7 @@
 					</a>
 					<ul aria-expanded="false">
 						<li th:each="project : ${session.projectList}">
-							<a href="/project/home" th:text="${project.prjtNm}"></a>
+							<a th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}" th:text="${project.prjtNm}"></a>
 						</li>
 					</ul>
 				</li>
