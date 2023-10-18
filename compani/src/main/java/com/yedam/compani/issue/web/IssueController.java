@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,12 +23,23 @@ public class IssueController {
 	IssueService issueService;
 
 	@GetMapping("/ModalIssueList")
+	public String modalIssueList(@ModelAttribute SearchDto search,
+			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
+		model.addAttribute("issue", issues);
+		model.addAttribute("issues", issueService.getIssueList(pageNum, search));
+		model.addAttribute("search", search);
+
+		return "index";
+	}
+
+	@GetMapping("/ModalAjaxIssueList")
 	@ResponseBody
 	public Map<String, Object> modalIssueList(@ModelAttribute SearchDto search,
-			@RequestParam(required = false, defaultValue = "1") int pageNum) throws Exception {
+			@RequestParam(required = false, defaultValue = "1") int pageNum) {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
 		Map<String, Object> map = new HashMap<>();
-		map.put("issue", issues);
+		map.put("issu", issues);
 		map.put("issues", issueService.getIssueList(pageNum, search));
 		map.put("search", search);
 

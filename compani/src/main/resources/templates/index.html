@@ -108,7 +108,7 @@
 																	<th style="font-weight: normal;">우선순위</th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody id="issueList">
 																<tr th:each="issues : ${issues}">
 																	<th th:if="${issues.issuKnd == 'BUG'}"><span
 																		class="badge badge-danger" th:text="버그"></span></th>
@@ -192,17 +192,32 @@
 		function issuePaging(pageNum) {
 			var keywordVal = $('#hiddenKeywordInput').val();
 			var searchVal = $('#search').val();
-			$.ajax('/ModalIssueList?pageNum=' + pageNum + '&keyword='
-					+ keywordVal + '&search=' + searchVal, {
-				type : 'GET',
-				success : function(data) {
-					console.log(data.issuCntn[0]);
-				},
-				error : function() {
-					alert('실패');
-				}
+
+			
+			var issueList = $('#issueList');
+			$.ajax(
+					'/ModalAjaxIssueList?pageNum=' + pageNum + '&keyword='
+							+ keywordVal + '&search=' + searchVal, {
+						type : 'GET'
+					}).done(function(data) {
+				issueList.empty();
+
+				$.each(data, function(idx, item) {
+					var trTag = $('<tr/>');
+					console.log(item);
+					trTag.append('<th>' + item.issuKnd + '</th>');
+					trTag.append('<td>' + item.issuCntn + '</td>');
+					trTag.append('<td>' + item.issumembId + '</td>');
+					trTag.append('<th>' + item.issuSt + '</th>');
+					trTag.append('<th>' + item.issuRank + '</th>');
+
+					issueList.append(trTag);
+
+				})
+			}).fail(function() {
+				alert('실패');
 			});
-		}
+		};
 	</script>
 </th:block>
 </html>
