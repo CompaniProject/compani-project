@@ -2,6 +2,8 @@ package com.yedam.compani.file.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 @Data
 public class FileVO {
@@ -12,6 +14,8 @@ public class FileVO {
 	private String filePath;
 	private String fileType;
 	private String fileDesct;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fileDt;
 	private String membId;
+	private Integer fileSize;
 }

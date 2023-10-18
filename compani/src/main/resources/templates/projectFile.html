@@ -12,23 +12,6 @@ hr {
 	width: 60%;
 }
 
-#FileUpload {
-	margin-right: 30px;
-	border-radius: 5px;
-	color: white;
-	font-size: 18px;
-	width: 150px;
-	font-weight: bold;
-}
-
-#FileDelete {
-	border-radius: 5px;
-	color: white;
-	font-size: 18px;
-	width: 100px;
-	font-weight: bold;
-}
-
 #FileSearch {
 	margin-right: 30px;
 	width: 200px;
@@ -85,35 +68,18 @@ ul li {
 <th:block layout:fragment="content">
 	<div class="content-container">
 		<div class="content-body">
-			<br>
-			<h1>업무명</h1>
-			<hr>
-			<br>
-			<br> <input type="checkbox" style="margin-right: 30px">
-			
-			<i class="fa-solid fa-magnifying-glass fa-lg" style="margin-right: 5px"></i>
-			<input id="FileSearch" type="text" placeholder="검색">	
-			
-			<button id="FileUpload" type="button" class="btn mb-1 btn-info">파일 업로드</button>
+
+			<i class="fa-solid fa-magnifying-glass fa-lg"
+				style="margin-right: 5px"></i> <input id="FileSearch" type="text"
+				placeholder="검색">
+
+			<button id="FileUpload" type="button" class="btn mb-1 btn-info">파일
+				업로드</button>
 			<button id="FileDelete" type="button" class="btn mb-1 btn-dark">삭제</button>
-			<hr>
-
-			<p>테스틑ㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌ</p>
-
-			<!-- 다운로드 아이콘 -->
-			<i class="fa-regular fa-circle-down fa-2x"></i>
-			<!-- 쓰레기통 아이콘 -->
-			<i class="fa-solid fa-trash fa-2x"></i>
-
 			<hr>
 
 			<!-- 모달창 안 화면따라란 -->
 			<button id="goBtn">등록</button>
-			<br>
-			<br>
-			<br>
-			<br>
-
 			<ul>
 				<li id="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
 				<li style="margin-right: 5px"><i
@@ -138,10 +104,11 @@ ul li {
 			<br>
 
 			<p>파일설명</p>
-			<input id="Fcont" type="text">
-			<br>
-			
-					<div class="col-lg-3 col-sm-2">
+			<input id="Fcont" type="text"> <br>
+
+
+
+			<!-- <div class="col-lg-3 col-sm-2">
                         <div class="card">
                             <div class="card-body">
                                  <h5 style="font-size: 15px">최종프로젝트.ppt</h5>
@@ -156,21 +123,9 @@ ul li {
                                  <p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-2">
-                        <div class="card">
-                            <div class="card-body">
-                                 <h5 style="font-size: 15px">ㄹㄴㅇㅁㄹㄴㅁㅇㄹ</h5>
-                                 <p style="font-size: 10px">ㅁㄴㅇㄻㄴㄻㄴㄹ</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    
-
+                    </div> -->
 		</div>
 	</div>
+
 </th:block>
 </html>
