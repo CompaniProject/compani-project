@@ -202,9 +202,9 @@
 					}).done(function(data) {
 				issueList.empty();
 
-				$.each(data, function(idx, item) {
+				$.each(data.issues, function(idx, item) {
 					var trTag = $('<tr/>');
-					console.log(item);
+
 					trTag.append('<th>' + item.issuKnd + '</th>');
 					trTag.append('<td>' + item.issuCntn + '</td>');
 					trTag.append('<td>' + item.issumembId + '</td>');
