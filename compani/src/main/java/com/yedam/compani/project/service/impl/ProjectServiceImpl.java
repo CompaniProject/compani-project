@@ -1,6 +1,7 @@
 package com.yedam.compani.project.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectVO> getProjectList() {
 		
 		return projectMapper.selectAllProject();
+	}
+
+	@Override
+	public List<Map<Object, Object>> getProjectAndMemberList() {
+		return projectMapper.selectProjectAndMemberList();
 	}
 
 }
