@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class ProjectVO {
 	private int prjtNo;
-	private	String coNo;
+	private	String coCd;
 	private String prjtNm;
 	private String prjtPubcyn;
 	private Date prjtFdt;
