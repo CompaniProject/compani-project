@@ -41,7 +41,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.4'
 	// https://mvnrepository.com/artifact/com.google.guava/guava
 	implementation group: 'com.google.guava', name: 'guava', version: '32.1.2-jre'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {
