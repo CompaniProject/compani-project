@@ -39,7 +39,9 @@ dependencies {
 	implementation group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.4.1'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.4'
+	//시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 tasks.named('test') {
