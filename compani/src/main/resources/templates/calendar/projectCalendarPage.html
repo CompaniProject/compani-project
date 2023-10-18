@@ -5,26 +5,8 @@
 <title>프로젝트 캘린더</title>
 <link href="/css/style.css" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
-    <script>
-    	// 달력 코드.
-    	document.addEventListener('DOMContentLoaded', function() {
-        	var calendarEl = document.getElementById('personalCalendar');
-        	var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView: 'dayGridMonth',
-        		headerToolbar: {
-					left: 'today',
-					center: 'prev title next',
-					right: 'dayGridMonth,timeGridWeek,timeGridDay'
-				},
-				titleFormat: function (date) {
-		    	// YYYY년 MM월
-		    		return `${date.date.year}년 ${date.date.month + 1}월`;
-		    	},
-        	});
-        	calendar.render();
-      	});
-    </script>
-    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <style type="text/css">
 #projectCalendarBox {
 	width: 70%;
@@ -102,16 +84,17 @@ select {
 			
 			<!-- 업무 목록 -->
 			<div class='calendarBusinessInfo'>
-			<div class="selectBox">
-				<span style="float:right;">
-					<select name="projectCalendarSort" form="projectCalendarBusinessForm">
-						<option hidden="" disabled="disabled" selected="selected" value="">정렬</option>
-						<option value="">날짜순</option>
-						<option value="">진척도</option>
-						<option value="">중요도</option>
-					</select>
-				</span>
+				<div class="selectBox">
+					<span style="float:right;">
+						<select name="projectCalendarSort" form="projectCalendarBusinessForm">
+							<option hidden="" disabled="disabled" selected="selected" value="">정렬</option>
+							<option value="">날짜순</option>
+							<option value="">진척도</option>
+							<option value="">중요도</option>
+						</select>
+					</span>
 				</div>
+				
 				<div class="businessList" style="">
 					<div class="businessList2">23.10.23 ~ 23.10.04|중요도 중</div>
 					<div class="businessList2">업무명1 달력 구현|진척도 50%</div>
@@ -124,16 +107,65 @@ select {
 					<div class="businessList2">23.10.23 ~ 23.10.04|중요도 중</div>
 					<div class="businessList2">업무명1 달력 구현|진척도 50%</div>
 				</div>
-				<button>ㅇㅇ</button>
+				
+				<th:block th:each="bussInfo : ${projectCalendarList}">
+					<div class="businessList" style="">
+						<div class="businessList2" th:text="${bussInfo.bussFrdt} + ' ~ ' + ${bussInfo.bussTodt} + '|중요도 ' + ${bussInfo.bussImp}">
+						</div>
+						<div class="businessList2" th:text="${bussInfo.bussNm} + '|진척도 ' + ${bussInfo.bussPrgre} + '%'"></div>
+					</div>
+				</th:block>
+				
 			</div>
 			
-			<!-- 달력 -->
-			<div id="projectCalendarBox">
-				<div id='projectCalendar'></div>
+			<!-- 달력&차트 내용 -->
+			<div id="projectCalendarBox" >
+				<div id='projectCalendar' class="tab-pane"></div>
+				
+				<div id='projectGanttchart' class="tab-pane">project gantt chart</div>
 			</div>
-			
 		</div>
 	</div>
+	
+	<script>
+    	// 달력 코드.
+    	document.addEventListener('DOMContentLoaded', function() {
+        	var calendarEl = document.getElementById('projectCalendar');
+        	var calendar = new FullCalendar.Calendar(calendarEl, {
+        		initialView: 'dayGridMonth',
+        		customButtons: {
+        			calendarBtn: {
+        				text: '달력',
+        				click: function(){
+        					$('#projectCalendar').css("display","flex");
+        					$('#projectGanttchart').css("display","none");
+        				}
+        			},
+        			ganttBtn: {
+        				text: '차트',
+        				click: function(){
+        					$('#projectGanttchart').css("display","flex");
+        					$('#projectCalendar').css("display","none");
+        				}
+        			}
+        		},
+        		headerToolbar: {
+					left: 'today',
+					center: 'prev title next',
+					right: 'calendarBtn,ganttBtn'
+				},
+				titleFormat: function (date) {
+		    	// YYYY년 MM월
+		    		return `${date.date.year}년 ${date.date.month + 1}월`;
+		    	},
+        	});
+        	calendar.render();
+      	});
+    	
+    	$('#calendar').fullCalendar({
+    		schedulerLicenseKey: 'XXX'
+    	});
+    </script>
 	
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>

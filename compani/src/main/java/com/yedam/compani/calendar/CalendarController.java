@@ -24,6 +24,7 @@ public class CalendarController {
 		return "calendar/personalCalendarPage";
 	}
 	
+	// 프로젝트 캘린더 업무리스트
 	@GetMapping("projectCalendarList")
 	public String projectCalendarList(Model model) {
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
