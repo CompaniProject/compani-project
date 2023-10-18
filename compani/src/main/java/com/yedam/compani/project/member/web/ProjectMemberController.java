@@ -18,20 +18,20 @@ public class ProjectMemberController {
 	ProjectMemberService projectMemberService;
 	
 
-	@PostMapping("projectFavoriteUpdate")
+	@PostMapping("favAjax")
 	@ResponseBody
-	public Map<String, Object> projectFavoriteUpdate(ProjectMemberVO projectMemberVO){
+	public Map<String, Object> favAjax(ProjectMemberVO projectMemberVO){
 		
-		System.out.println(projectMemberVO.getPrjtFav());
-		int n = projectMemberService.UpdateFavorite(projectMemberVO);
-		
-		if( n == 1 ) {
-			System.out.println("성공");
-		}
-		else {
-			System.out.println("실패");
-		}
-		
+//		System.out.println(projectMemberVO.getPrjtFav());
+//		int n = projectMemberService.UpdateFavorite(projectMemberVO);
+//		
+//		if( n == 1 ) {
+//			System.out.println("성공");
+//		}
+//		else {
+//			System.out.println("실패");
+//		}
+//		
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", true);
