@@ -10,4 +10,25 @@
 		FROM PROJECT_MEMBER
 		GROUP BY PRJT_NO
 	</select>
+
+	<select id="selectProjectMemberList" resultType="CamelHashMap">
+		SELECT pm.memb_id
+				, prjt_no
+				, prjt_memb_perm
+				, prjt_fav
+				, memb_pwd
+				, memb_nm
+				, memb_birth_dt
+				, memb_email
+				, memb_telno
+				, co_cd
+				, memb_dept
+				, memb_msg
+		FROM project_member pm LEFT JOIN member m ON(pm.memb_id = m.memb_id)
+		<where>
+			<if test="prjtNo != null and prjtNo > 0">
+				AND prjt_no = #{prjtNo}
+			</if>
+		</where>
+	</select>
 </mapper>
