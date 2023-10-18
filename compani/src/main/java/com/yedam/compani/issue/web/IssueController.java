@@ -42,7 +42,8 @@ public class IssueController {
 		map.put("issu", issues);
 		map.put("issues", issueService.getIssueList(pageNum, search));
 		map.put("search", search);
-
+		
+		System.out.println(issues);
 		return map;
 	}
 
