@@ -25,7 +25,7 @@
 		ORDER BY PRJT_FAV DESC
 	</select>
 
-	<select id="selectProjectAndMemberList" resultType="map">
+	<select id="selectProjectAndMemberList" resultType="CamelHashMap">
 		SELECT pm.prjt_no
 				, memb_id
 				, prjt_memb_perm
