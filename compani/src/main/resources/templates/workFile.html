@@ -90,9 +90,9 @@ hr {
 											<div class="FixOnTop ModalTopBar">
 												<div class="IssueTopBar">
 													
-													<!-- 체크박스 a-->
+												<!-- 체크박스 -->
 													<input type="checkbox" style="margin-right: 30px">
-													<!-- 검색아이콘 -->
+												<!-- 검색아이콘 -->
 													<div class="SearchBox" style="margin-right: 20px">
 
 														<label for="SearchToggleCheckBox"></label>
@@ -110,14 +110,11 @@ hr {
 																		<li class="issue-select-option" data-value="파일명">파일명</li>
 																		<li class="issue-select-option" data-value="참여자">등록자</li>
 																	</ul>
-
 																</div>
-
 															</div>
-
 														</div>
-
 													</div>
+													
 													<button id="FileUpload" type="button"
 														class="btn mb-1 btn-info">파일 업로드</button>
 													<button id="FileDelete" type="button"
@@ -126,27 +123,30 @@ hr {
 												<br><br>
 												
 												<table>
-													<tr>
-														<th>파일명</th>
-														<th>크기</th>
-														<th>등록자</th>
-														<th>등록날짜</th>
-														<th>저장</th>
-														<th>삭제</th>
-													</tr>			
-												</table>
-												<hr style="border-bottom: solid 1px">
-												<table>
-													
+													<thead>
 														<tr>
-															<td>gdgd</td>
-															<td>ㅎㅇ</td>
-															<td>ㅎㅇ</td>
-															<td>ㅎ</td>
-															<td>ㅎ</td>
+															<th>파일명</th>
+															<th>크기</th>
+															<th>등록자</th>
+															<th>등록날짜</th>
+															<th>저장</th>
+															<th>삭제</th>
+														</tr>
+													</thead>			
+												
+												<hr style="border-bottom: solid 1px">
+												<tbody>
+													<th:block th:each = "file : ${fileList}">
+														<tr>
+															<td><input type="checkbox"></td>
+															<td th:text = "${file.fileNm}"/>
+															<td th:text = "${file.fileSize}"/>
+															<td th:text = "${file.membId}"/>
+															<td th:text = "${file.fileDt}"/>
 															<td>ㅎ</td>
 														</tr>
-													
+													</th:block>
+												</tbody>
 												</table>
 											</div>
 										</div>
