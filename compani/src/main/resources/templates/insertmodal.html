@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
+<head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+hr {
+	width: 100%;
+}
+
+#FileUpload {
+	float: right;
+	display: block;
+	width: 50px;
+	height: 30px;
+	margin-right: 130px;
+	border-radius: 5px;
+	color: white;
+	font-size: 15px;
+	width: 120px;
+	font-weight: bold;
+}
+
+.FileText {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#DataBox {
+	width: 500px;
+	height: 150px;
+	padding: 20px;
+	background-color: #DCDCDC;
+	display: block;
+}
+
+#jobDown {
+	width: 180px;
+	display: block;
+	float: right;
+	margin-right: 127px;
+}
+
+#FileSearch {
+	display: block;
+	margin-right: 30px;
+	width: 300px;
+	height: 41px;
+	border-radius: 5px;
+	text-align: left;
+	border-color: black;
+	padding-left: 15px;
+}
+
+ul {
+	display: inline-block;
+}
+
+ul li {
+	float: left;
+}
+
+#modal{
+	margin-left: 150px;
+}
+
+#FileUpload2{
+	margin-bottom: 20px;
+}
+
+</style>
+</head>
+<th:block layout:fragment="content">
+	<div class="content-body">
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#workModal">Launch workModal</button>
+
+		<div class="modal fade" id="workModal" tabindex="-1"
+			aria-labelledby="sidebarModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content"
+					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
+					<!-- 모달 헤더 부분 -->
+					<div class="modal-header">
+						<button type="button" class="btn-close" data-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-content-container">
+						
+						<div class="modal-body">		
+							
+						</div>
+					</div>
+					<div id="modal">
+					<button id="FileUpload" type="button" class="btn mb-1 btn-info">등록</button>
+					<br><br><br><br><br><br><br>
+						<ul>
+							<li class="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
+							<li style="margin-right: 5px"><i
+								class="fa-regular fa-file fa-2x"></i></li>
+							<li><i class="fa-solid fa-paperclip-vertical fa-lg"></i></li>
+							<li id="FileUpLoad2" style="font-size: 15px"><p>파일 업로드</p></li>
+						</ul>
+	
+						<!-- 데이터 들어갈 박스 -->
+						<span id="DataBox">박스입니다</span> <br>
+	
+						<!-- 업무선택 드랍다운 -->
+						<div class="form-group">
+							<select class="form-control" id="jobDown">
+								<option>업무~</option>
+								<option>2ㅁ2</option>
+								<option>3ㅁ3</option>
+								<option>4w4</option>
+								<option>5w5</option>
+							</select>
+						</div>
+						<br><br><br>
+	
+						<p class="FileText">파일설명</p>
+						<input id="FileSearch" type="text" placeholder="설명을 입력해주세요">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script>
+		$('.issue-selectBox').on('click', function() {
+			$('.issue-select-ul').css('display', 'block');
+		});
+
+		$('.issue-select-option').on('click', function(e) {
+			const selectValue = e.currentTarget.textContent.trim();
+
+			$('.issue-selected-value').text(selectValue);
+			$('.issue-select-ul').css('display', 'none');
+			e.stopPropagation();
+		});
+	</script>
+</th:block>
+</html>
