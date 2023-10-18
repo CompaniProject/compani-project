@@ -26,4 +26,8 @@ public class ProjectController {
 		model.addAttribute("projectList", list);
 		return "home";
 	}
+	
+	
+	
+	
 }

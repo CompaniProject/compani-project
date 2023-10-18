@@ -7,4 +7,5 @@ import java.util.List;
 public interface ProjectMemberService {
 	
 	public List<ProjectMemberVO> getProjectMemberCountList();
+	public int UpdateFavorite(ProjectMemberVO projectMemberVO);
 }

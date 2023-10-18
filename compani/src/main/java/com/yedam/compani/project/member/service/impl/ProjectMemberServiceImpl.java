@@ -19,5 +19,11 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 		
 		return projectMemberMapper.selectAllProjectMemberCount();
 	}
+	@Override
+	public int UpdateFavorite(ProjectMemberVO projectMemberVO) {
+		
+		return projectMemberMapper.UpdateFavorite(projectMemberVO);
+	}
+
 
 }

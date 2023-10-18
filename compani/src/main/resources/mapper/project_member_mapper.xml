@@ -10,4 +10,17 @@
 		FROM PROJECT_MEMBER
 		GROUP BY PRJT_NO
 	</select>
+	
+ 	<update id="UpdateFavorite" parameterType="ProjectMemberVO">
+		UPDATE PROJECT_MEMBER
+		SET PRJT_FAV = #{prjtFav}
+	<!-- 	<set>
+			<if test = "prjtFav.equals('Y')"> 
+				PRJT_FAV = #{prjtFav},
+			</if>
+			<if test = "prjtFav.equals('N')"> 
+				PRJT_FAV = #{prjtFav}
+			</if>
+		</set> -->
+	</update>
 </mapper>
