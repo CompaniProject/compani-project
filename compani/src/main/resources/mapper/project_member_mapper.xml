@@ -31,4 +31,9 @@
 			</if>
 		</where>
 	</select>
+	<update id="updateFavorite" parameterType="ProjectMemberVO">
+		UPDATE PROJECT_MEMBER
+		SET    PRJT_FAV = #{prjtFav}
+		WHERE  PRJT_NO = #{prjtNo}
+	</update>
 </mapper>

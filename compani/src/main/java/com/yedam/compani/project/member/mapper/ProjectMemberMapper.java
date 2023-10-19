@@ -9,4 +9,5 @@ public interface ProjectMemberMapper {
 	
 	public List<ProjectMemberVO> selectAllProjectMemberCount();
 	public List<Map<Object,Object>> selectProjectMemberList(Integer prjtNo);
+	public int updateFavorite(ProjectMemberVO projectMemberVO);
 }
