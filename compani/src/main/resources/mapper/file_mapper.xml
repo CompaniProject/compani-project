@@ -9,8 +9,8 @@
 			   , FILE_SIZE
 			   , MEMB_ID
 			   , FILE_DT
-		FROM PROJECT_FILE
-		ORDER BY FILE_NM
+		FROM   PROJECT_FILE
+		ORDER  BY FILE_NM
 	</select>
 	
 	<!-- 단건조회 -->
@@ -23,8 +23,15 @@
 		<selectKey keyProperty="fileNo"
 				   resultType="int"
 				   order="BEFORE">
-		</selectKey>
 		SELECT MAX(FILE_NO)
+		FROM   PROJECT_FILE
+		</selectKey>
+		INSERT INTO PROJECT_FILE(
+					, FILE_NO
+					, FILE_NM
+					, FILE_SIZE
+					, )
+		
 	</insert>
 	
 	<!-- 삭제 -->
