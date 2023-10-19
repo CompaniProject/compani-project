@@ -30,6 +30,14 @@ hr {
 	font-weight: bold;
 }
 
+input[type=file]::file-selector-button {
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+}
+
 </style>
 </head>
 <th:block layout:fragment="content">
@@ -115,13 +123,13 @@ hr {
 														</div>
 													</div>
 													
-													<button id="FileUpload" type="button"
-														class="btn mb-1 btn-info">파일 업로드</button>
-													<button id="FileDelete" type="button"
-														class="btn mb-1 btn-dark">삭제</button>																						
+													<input type="file" id="selectedFile" style="display: none;" />
+													<input type="button" id="FileUpload" value="업로드" onclick="document.getElementById('selectedFile').click();" class="btn mb-1 btn-info" />
+													<button id="FileDelete" type="submit" class="btn mb-1 btn-dark">삭제</button>																	
 												</div>
 												<br><br>
 												
+
 												<table>
 													<thead>
 														<tr>
