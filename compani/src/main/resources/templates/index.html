@@ -11,7 +11,7 @@
 			aria-labelledby="sidebarModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content"
-					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow:auto;">
+					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
 					<!-- 모달 헤더 부분 -->
 					<div class="modal-header">
 						<div class="ContentTitleBox">
@@ -86,7 +86,7 @@
 															</div>
 														</div>
 
-														<button class="PostWritingBox">
+														<button class="postWritingBox">
 															<span></span>
 															<p>글쓰기</p>
 														</button>
@@ -125,10 +125,12 @@
 																		<th th:if="${issueList.issuSt == 'solve'}"><span
 																			class="badge badge-pill badge-success" th:text="해결"></span></th>
 																		<th th:if="${issueList.issuSt == 'unsolve'}"><span
-																			class="badge badge-pill badge-dark" th:text="미해결"></span></th>
-																		<th th:if="${issueList.issuSt == 'unsolvable'}"><span
-																			class="badge badge-pill badge-secondary"
-																			th:text="해결불가"></span></th>
+																			class="badge badge-pill badge-dark" th:text="미해결"></span>
+																		</th>
+																		<th th:if="${issueList.issuSt == 'unsolvable'}">
+																			<span class="badge badge-pill badge-secondary"
+																			th:text="해결불가"></span>
+																		</th>
 
 																		<th th:if="${issueList.issuRank == '매우 높음'}"><span
 																			class="badge badge-primary" th:text="매우높음"></span></th>
@@ -174,33 +176,127 @@
 									<div class="issueInsertContentTopBar">
 										<span class="cancelWriting"></span>
 										<div class="completeWriting">등록</div>
-
 									</div>
-									<div class="writingContent">
-										<div class="writingSection">
-											<div class="sectionTitle">
-												<p class="sectionTitleText">내용</p>
-											</div>
-
-											<div id="editor" style="width: 608px;"></div>
-
-										</div>
-
-										<div class="attachSection">
-											<div class="sectionTitle">
-												<p class="sectionTitleText">파일</p>
-												<div class="LoadBtn upload">
-													<span></span>
-													<p>파일 업로드</p>
-													<input type="file" class="real-upload" multiple style="display: none;">
+								</div>
+								<div class="issueNameEdit">
+									<div class="issueNameBack">
+										<textarea id="modalIssueNameUpdate" maxlength="200"
+											style="height: 34px;" placeholder="제목을 입력하세요."></textarea>
+									</div>
+								</div>
+								<hr
+									style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+								<!--  이슈 종류, 이슈 중요도-->
+								<div class="issueKnd">
+									<p>종류</p>
+									<div class="dropBoxArea">
+										<div class="basic-dropdown" style="display: inline;">
+											<div class="dropdown">
+												<button type="button" class="badge badge-danger"
+													data-toggle="dropdown">버그</button>
+												<div class="dropdown-menu">
+													<a class="dropdown-item" href=""><span
+														class="badge badge-pill badge-warning">개선사항</span></a> <a
+														class="dropdown-item" href=""><span
+														class="badge badge-pill badge-info">새기능</span></a> <a
+														class="dropdown-item" href=""><span
+														class="badge badge-pill badge-light">업무</span></a>
 												</div>
 											</div>
-											<form class="dropzone dz-clickable"
-												action="https://mediumra.re/dropzone/upload.php">
+										</div>
+									</div>
 
-												<span class="dz-message">Drop files here or click
-													here to upload</span>
-											</form>
+									<div class="issueRank">
+										<p>중요도</p>
+										<div class="dropBoxArea">
+											<div class="basic-dropdown">
+												<div class="dropdown">
+													<button type="button" class="badge badge-success"
+														data-toggle="dropdown">보통</button>
+													<div class="dropdown-menu">
+														<a class="dropdown-item" href=""><span
+															class="badge badge-primary">매우높음</span></a> <a
+															class="dropdown-item" href=""><span
+															class="badge badge-secondary">높음</span></a> <a
+															class="dropdown-item" href=""><span
+															class="badge badge-success">보통</span></a> <a
+															class="dropdown-item" href=""><span
+															class="badge badge-warning">낮음</span></a> <a
+															class="dropdown-item" href=""><span
+															class="badge badge-danger">매우낮음</span></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+
+
+
+							<div class="writingContent">
+								<div class="writingSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">내용</p>
+									</div>
+
+									<div id="editor" style="width: 630px;"></div>
+
+								</div>
+
+								<div class="attachSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">파일</p>
+										<div class="LoadBtn upload">
+											<span></span>
+											<p>파일 업로드</p>
+											<input type="file" class="real-upload" multiple
+												style="display: none;">
+										</div>
+									</div>
+									<div class="fileupload dz">
+
+										<span class="dz-message" style="width: 630px; "></span>
+									</div>
+								</div>
+
+								<div class="hashtagSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">해시태그</p>
+									</div>
+									<div class="hashtagContent" style="width: 630px;">
+										<div class="hashtagList">
+											<div class="tagBox task" title="업무">
+												<p>#</p>
+												<span class="Ready"></span>
+												<p class="textEllipsis">업무</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal fade" id="cancelConfirmationModal"
+									tabindex="-1"
+									style="display: none; margin-top: 200px; margin-left: 200px;"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header" style="border-bottom: none;">
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<div class="modal-body" id="cancelConfirmationModalBody">
+												<img class="cancelWarning"> <span id="modal-meg"
+													class="notice_msg">현재 작성중인 글은 저장되지 않습니다.<br> 뒤로
+													가시겠습니까?
+												</span>
+											</div>
+											<div class="modal-footer" style="border-top: none;">
+												<button type="button" class="btn btn-danger btn-sm"
+													id="cancelCancel">취소</button>
+												<button type="button" class="btn btn-light btn-sm"
+													id="confirmCancel">확인</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -211,33 +307,66 @@
 			</div>
 		</div>
 	</div>
+	</div>
+	</div>
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<script>
-		$('.PostWritingBox').on('click', function() {
-			var workModalContentBack = $('.workModalContentBack');
-			var modalIssueInsertForm = $('.modalIssueInsertForm');
-			workModalContentBack.empty();
-			workModalContentBack.append(modalIssueInsertForm);
-			modalIssueInsertForm.css('display', 'block');
+
+		// 글쓰기 버튼
+		$('.postWritingBox').on('click', function () {
+			$('.modalIssueInsertForm').css('display', 'block');
+			$('.workModalContentBack').css('display', 'none');
 		});
 
-		// 뒤로 가기 버튼 눌렀을 때 ..
-
-		// toastuieditor
-		const editor = new toastui.Editor({
-			el : document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
-			height : '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
-			initialEditType : 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-			initialValue : '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-			previewStyle : 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+		// 글쓰기 취소 버튼
+		$('.modalIssueInsertForm').on('click', '.cancelWriting', function () {
+			$('#cancelConfirmationModal').modal('show');
+			
+			// ' 확인' 버튼이 클릭 시
+			$('#confirmCancel').on('click', function () {
+				$('#cancelConfirmationModal').modal('hide');
+				$('.modalIssueInsertForm').css('display', 'none');
+				$('.workModalContentBack').css('display', 'block');
+				issuePaging(1);
+			});
+			
+			// '취소' 버튼 클릭 시
+			$('#cancelCancel').on('click', function() {
+				$('#cancelConfirmationModal').modal('hide');
+			});
 		});
 		
+		// 제목 입력하는 textarea 클릭시 focus
+		$('#modalIssueNameUpdate').on('click', function () {
+        $('.issueNameBack').addClass('focus');
+    });
+		// textarea 벗어날 때 focus 클래스 삭제하기.
+		$('#modalIssueNameUpdate').on('blur', function () {
+	        $('.issueNameBack').removeClass('focus');
+	    });
+		// 엔터 누를 때 줄바꿈 방지하기..
+		$('#modalIssueNameUpdate').on('keydown', function (e) {
+	        if (e.keyCode == 13) {
+	            e.preventDefault(); 
+	        }
+	    });
+		
+		// toastuieditor
+		const editor = new toastui.Editor({
+			el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
+			height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+		});
+
 		// 파일 업로드 클릭
 		const realUpload = document.querySelector('.real-upload');
-    	const upload = document.querySelector('.LoadBtn.upload');
+		const upload = document.querySelector('.LoadBtn.upload');
 
-    	upload.addEventListener('click', () => realUpload.click());
+		upload.addEventListener('click', () => realUpload.click());
 	</script>
 </th:block>
+
 </html>
