@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.yedam.compani.project.member.service.ProjectMemberService;
-import com.yedam.compani.project.member.service.ProjectMemberVO;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
 
@@ -17,19 +15,14 @@ import com.yedam.compani.project.service.ProjectVO;
 class ProjectServiceImplTest {
     @Autowired
     ProjectService projectService;
-    
-    @Autowired
-    ProjectMemberService projectMemberService;
 
     @Test
     public void projectTest() {
         List<ProjectVO> projects = new ArrayList<ProjectVO>();
         projects = projectService.getProjectList();
         System.out.println(projects);
-        
-       
-        
     }
+    
     @Test
     public void projectAndMemberTest() {
         List<Map<Object,Object>> projects = new ArrayList<>();
