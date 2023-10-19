@@ -10,6 +10,6 @@ public interface BusinessService {
 	// 프로젝트 캘린더 업무리스트
 	public List<BusinessVO> getProjectCalenderBusinessList();
 
-	public List<Map<Object,Object>> getBusinessStateList(Integer prjtNo);
+	public List<List<String>> getBusinessStateList(Integer prjtNo);
 	public List<Map<Object,Object>> getBusinessAndLevelList(Integer prjtNo);
 }
