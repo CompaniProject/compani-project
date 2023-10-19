@@ -10,6 +10,7 @@
 			   , MEMB_ID
 			   , FILE_DT
 		FROM PROJECT_FILE
+		ORDER BY FILE_NM
 	</select>
 	
 	<!-- 단건조회 -->
@@ -23,7 +24,7 @@
 				   resultType="int"
 				   order="BEFORE">
 		</selectKey>
-		
+		SELECT MAX(FILE_NO)
 	</insert>
 	
 	<!-- 삭제 -->
