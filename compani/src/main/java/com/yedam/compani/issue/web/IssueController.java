@@ -30,8 +30,6 @@ public class IssueController {
 		
 		Page<IssueVO> vo = issueService.getIssueList(pageNum, search);
 		
-		System.out.println(vo);
-		
 		model.addAttribute("issue", issues);
 		model.addAttribute("issueList", vo);
 		model.addAttribute("search", search);
