@@ -16,9 +16,15 @@ class BusinessServiceImplTest {
     @Autowired
     BusinessService businessService;
 
-    @Test
+    //@Test
     void getBusinessStateList() {
         List<Map<Object,Object>> stateList = businessService.getBusinessStateList(1);
         System.out.println(stateList);
+    }
+
+    @Test
+    void getBusinessAndLevelList(){
+        List<Map<Object,Object>> businessLevelList = businessService.getBusinessAndLevelList(1);
+        System.out.println(businessLevelList);
     }
 }
