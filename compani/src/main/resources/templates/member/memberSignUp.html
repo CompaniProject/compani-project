@@ -16,10 +16,11 @@
 	background: #58ACFA;
 	color: #000000;
 }
+
 mark, .mark {
-    padding: 0.2em;
-    font-weight: 900;
-    background-color: transparent;
+	padding: 0.2em;
+	font-weight: 900;
+	background-color: transparent;
 }
 </style>
 </head>
@@ -239,7 +240,7 @@ mark, .mark {
 											</div>
 										</div>
 
-										<div class="form-group row" >
+										<div class="form-group row">
 											<label class="col-lg-4 col-form-label" for="val-phoneus">전화번호
 											</label>
 											<div class="col-lg-6">
@@ -308,7 +309,7 @@ mark, .mark {
 	// 검색어 리스트
 	const compList = [];
 	const compNm = [];
-	const obj={};
+	const obj = {};
 	$(function(){
 	    $.ajax('http://localhost/companyList', {
 	        type : 'post'
@@ -323,7 +324,6 @@ mark, .mark {
 	    })
 	    .fail(err =>console.log(err));
 	    
-	    document.querySelector('.autocomplete').children.on('mouseover', obj = window.event.target);
 	});
 
 	// 검색 입력 요소
@@ -334,6 +334,30 @@ mark, .mark {
 	// 현재 가르키고 있는 검색어 순번
 	let nowIndex = 0;
 	
+/////////////////////////////
+	      $(function(){
+	          $('.autocomplete>div').hover(function(){
+	              console.log($('.autocomplete>div'));
+	          });
+	      });
+	      
+	      
+	      
+	      
+	    $('.autocomplete>div').hover = (event) => {
+	    	console.log($('.autocomplete>div'));
+	    		    console.log($('.autocomplete>div').value);
+/* 	    nowIndex = $('.autocomplete>div').length - ; */
+	    };
+	    
+	    
+
+	
+	
+	
+	
+	
+	
 	// 단어 입력이 완료되었을 때
 	$search.onkeyup = (event) => {
 	  const value = $search.value.trim();
@@ -343,7 +367,13 @@ mark, .mark {
 	    ? compNm.filter((label) => label.includes(value))
 	    : [];
 	    
-/* 	  $('.autoComplete>div').on('mouseover', nowIndex = document.querySelector('.autocomplete').children.length - ); */
+	    
+	    
+///////////////////////////
+/* 	  $('.autocomplete>div').on('mouseover', nowIndex = document.querySelector('.autocomplete').children.length - ); */
+	    
+	    
+	    
 	    
 	  switch (event.keyCode) {
 	    // UP KEY
