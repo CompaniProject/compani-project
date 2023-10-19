@@ -5,32 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-window.onload = function () {
-    pieChartDraw();
-}
-
-let pieChartData = {
-    labels: ['foo', 'bar', 'baz', 'fie', 'foe', 'fee'],
-    datasets: [{
-        data: [95, 12, 13, 7, 13, 10],
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)']
-    }] 
-};
-
-let pieChartDraw = function () {
-    let ctx = document.getElementById('testChart').getContext('2d');
-    
-    window.pieChart = new Chart(ctx, {
-        type: 'pie',
-        data: pieChartData,
-        options: {
-            responsive: false
-        }
-    });
-};
-</script>
-
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -42,7 +16,7 @@ let pieChartDraw = function () {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">업무 요약</h4>
-                    <canvas id="testChart" width="500" height="250"></canvas>
+                    <canvas id="businessChart" width="500" height="250"></canvas>
                 </div>
             </div>
         </div>
@@ -98,7 +72,7 @@ let pieChartDraw = function () {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">이름</th>
+                                    <th scope="col">업무명</th>
                                     <th scope="col">일정</th>
                                     <th scope="col">진행률</th>
                                     <th scope="col">&nbsp</th>
@@ -106,100 +80,28 @@ let pieChartDraw = function () {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Air Conditioner</td>
-                                    <td>D-3</td>
+                                <tr th:each="business : ${businessLevelList}">
+                                    <td>
+                                    	<th:block th:each="i : ${#numbers.sequence(3,business.level,1)}">
+                                    	<span>&nbsp;&nbsp;&nbsp;</span>
+                                    	</th:block>
+                                    	<th:block th:if="${business.level > 1}">
+                                    		<i class="bi bi-arrow-return-right"></i>
+                                    	</th:block>
+                                    	<span th:utext="${business.bussNm}"></span>
+                                    </td>
+                                    <td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"
+                                    	th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
                                     <td>
                                         <div class="progress" style="height: 10px">
-                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
+                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
                                             </div>
                                         </div> 
                                     </td>
-                                    <td><span class="label gradient-1 btn-rounded">70%</span>
+                                    <td><span class="label gradient-1 btn-rounded" th:text="|${business.bussPrgre}%|"></span>
                                     </td>
                                     <td>
-                                    <span class="badge badge-primary px-2">진행중</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Textiles</td>
-                                    <td>D-2</td>
-                                    <td>
-                                        <div class="progress" style="height: 10px">
-                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                            </div>
-                                        </div> 
-                                    </td>
-                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-                                    </td>
-                                    <td>
-                                    <span class="badge badge-primary px-2">진행중</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Milk Powder</td>
-                                    <td>D-5</td>
-                                    <td>
-                                        <div class="progress" style="height: 10px">
-                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                            </div>
-                                        </div> 
-                                    </td>
-                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-                                    </td>
-                                    <td>
-                                    <span class="badge badge-primary px-2">진행중</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <i class="bi bi-arrow-return-right"></i>
-                                    Vehicles</td>
-                                    <td>D-3</td>
-                                    <td>
-                                        <div class="progress" style="height: 10px">
-                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                            </div>
-                                        </div> 
-                                    </td>
-                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-                                    </td>
-                                    <td>
-                                    <span class="badge badge-primary px-2">진행중</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <i class="bi bi-arrow-return-right"></i>
-                                    Boats
-                                    </td>
-                                    <td>D-3</td>
-                                    <td>
-                                        <div class="progress" style="height: 10px">
-                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                            </div>
-                                        </div> 
-                                    </td>
-                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-                                    </td>
-                                    <td>
-                                    <span class="badge badge-primary px-2">진행중</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Boats</td>
-                                    <td>D-3</td>
-                                    <td>
-                                        <div class="progress" style="height: 10px">
-                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                            </div>
-                                        </div> 
-                                    </td>
-                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-                                    </td>
-                                    <td>
-                                    <span class="badge badge-primary px-2">진행중</span>
+                                    <span class="badge badge-primary px-2" th:text="${business.bussSt}">진행중</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -209,6 +111,54 @@ let pieChartDraw = function () {
 	       </div>
 	    </div>
     </div>
+    <script th:inline="javascript">
+    const stateType = new Map([    	
+    	['PROCEED','참여중'],
+    	['DELAY','초과'],
+    	['END','완료'],
+    	['DELAYEND','초과완료']
+  	]);
+    
+    window.onload = function () {
+        pieChartDraw();
+    }
+    
+    let pieChartData = {
+        labels: Array.from(stateType.values()),
+        datasets: [{
+            data: getStateValues(),
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)']
+        }] 
+    };
+
+    let pieChartDraw = function () {
+        let ctx = document.getElementById('businessChart').getContext('2d');
+        
+        window.pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: pieChartData,
+            options: {
+                responsive: false
+            }
+        });
+    };
+    
+    function getStateValues(){
+        let bussStatList = [[${businessStateList}]];
+    	let valueMap = new Map();
+    	
+    	for (let stateName of stateType.keys()){
+    		valueMap.set(stateName,0);
+    	}
+    	
+        for(let i in bussStatList[0]){
+        	valueMap.set(bussStatList[0][i],bussStatList[1][i]); 
+        }
+        
+        return Array.from(valueMap.values());
+    }
+    
+    </script>
 </th:block>
 </body>
 </html>
