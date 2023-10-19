@@ -89,24 +89,25 @@
 			$('td:nth-child(1)').on('click', projectFavorite);
 			function projectFavorite(event) {
 				let favorite = $(this).children().hasClass("fa-solid fa-star");
-			
+				let prjtNo =  $(this).next().text();
+				console.log(prjtNo);
 				let projectFavorite;
 				if(favorite){
 					projectFavorite = 'N';
-					console.log("변경" + projectFavorite);
-				
+					console.log("변경해보자" + projectFavorite);
 				}
 				else{
 					projectFavorite = 'Y';
+					console.log("변경해보자" + projectFavorite);
 				}
-				//projectFavorite
 				
 			 	$.ajax('favAjax',{
 					type : 'post',
-					data : { prjtFav : projectFavorite }
+					data : { prjtFav : projectFavorite , prjtNo : prjtNo }
 				})
 				.done(result => {
 			        console.log(result)})
+			        
 				.fail(err =>  console.log(err));
 				 
 				

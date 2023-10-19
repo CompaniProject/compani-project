@@ -7,5 +7,5 @@ import com.yedam.compani.project.member.service.ProjectMemberVO;
 public interface ProjectMemberMapper {
 	
 	public List<ProjectMemberVO> selectAllProjectMemberCount();
-	public int UpdateFavorite(ProjectMemberVO projectMemberVO);
+	public int updateFavorite(ProjectMemberVO projectMemberVO);
 }
