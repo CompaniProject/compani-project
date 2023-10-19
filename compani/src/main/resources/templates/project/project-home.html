@@ -90,7 +90,7 @@
                                     	</th:block>
                                     	<span th:utext="${business.bussNm}"></span>
                                     </td>
-                                    <td>D-3</td>
+                                    <td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"></td>
                                     <td>
                                         <div class="progress" style="height: 10px">
                                             <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
