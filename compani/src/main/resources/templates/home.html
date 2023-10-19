@@ -87,28 +87,29 @@
 		</div>
 		<script>
 			$('td:nth-child(1)').on('click', projectFavorite);
-			function projectFavorite() {
+			function projectFavorite(event) {
 				let favorite = $(this).children().hasClass("fa-solid fa-star");
-			
+				let prjtNo =  $(this).next().text();
+				console.log(prjtNo);
 				let projectFavorite;
 				if(favorite){
-					projectFavorite = 'Y';
-					console.log(projectFavorite);
+					projectFavorite = 'N';
+					console.log("변경해보자" + projectFavorite);
 				}
 				else{
-					projectFavorite = 'N';
-					console.log(projectFavorite);
+					projectFavorite = 'Y';
+					console.log("변경해보자" + projectFavorite);
 				}
-				//projectFavorite ,회원아이디, 프로젝트 번호 
 				
-			/* 	$.ajax('projectFavoriteUpdate',{
+			 	$.ajax('favAjax',{
 					type : 'post',
-					contentType : 'application/json',
-					data : JSON.stringify()
+					data : { prjtFav : projectFavorite , prjtNo : prjtNo }
 				})
-				.done();
-				.fail();
-				 */
+				.done(result => {
+			        console.log(result)})
+			        
+				.fail(err =>  console.log(err));
+				 
 				
 			}
 		</script>

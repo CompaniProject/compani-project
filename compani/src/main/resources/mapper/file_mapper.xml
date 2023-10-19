@@ -5,7 +5,11 @@
 	
 	<!-- 전체조회 -->
 	<select id="FileList" resultType="FileVO">
-		
+		SELECT FILE_NM
+			   , FILE_SIZE
+			   , MEMB_ID
+			   , FILE_DT
+		FROM PROJECT_FILE
 	</select>
 	
 	<!-- 단건조회 -->

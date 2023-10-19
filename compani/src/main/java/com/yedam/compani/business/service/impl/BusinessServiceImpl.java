@@ -1,6 +1,7 @@
 package com.yedam.compani.business.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,16 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public List<BusinessVO> getProjectCalenderBusinessList() {
 		return businessMapper.selectProjectCalendarAllBusiness();
+	}
+
+	@Override
+	public List<Map<Object, Object>> getBusinessStateList(Integer prjtNo) {
+		return businessMapper.selectBusinessStateList(prjtNo);
+	}
+
+	@Override
+	public List<Map<Object, Object>> getBusinessAndLevelList(Integer prjtNo) {
+		return businessMapper.selectBusinessAndLevelList(prjtNo);
 	}
 
 }
