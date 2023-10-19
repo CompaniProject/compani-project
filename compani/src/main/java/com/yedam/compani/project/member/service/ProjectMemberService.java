@@ -8,4 +8,5 @@ public interface ProjectMemberService {
 	
 	public List<ProjectMemberVO> getProjectMemberCountList();
 	public List<Map<Object,Object>> getProjectMemberList(Integer prjtNo);
+	public List<Map<Object,Object>> getBusinessCompleteStatus(Integer prjtNo);
 }
