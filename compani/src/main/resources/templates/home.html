@@ -3,14 +3,16 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
 <head>
+
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-	
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">	
 </script>
+
 </head>
 <body>
 	<th:block layout:fragment="content">
@@ -21,7 +23,8 @@
 						<h4 class="card-title">프로젝트</h4>
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								참여중<i class="fa fa-angle-down m-l-5"></i>
+								<a class="dropdown-item" href="#"></a> 참여중<i
+									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="#">완료</a>
@@ -41,16 +44,20 @@
 										<th>상태</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="projecttbl">
 									<th:block th:each="projectList : ${projectList}">
 										<tr>
-											<td th:if="${projectList.prjtFav == 'N'}"><i class="fa-regular fa-star" style="color: #080808;"></i></td>
-											<td th:if="${projectList.prjtFav == 'Y'}"><i class="fa-solid fa-star" style="color: #dee203;"></i></td>
+											<td th:if="${projectList.prjtFav == 'N'}"><i
+												class="fa-regular fa-star" style="color: #080808;"></i></td>
+											<td th:if="${projectList.prjtFav == 'Y'}"><i
+												class="fa-solid fa-star" style="color: #dee203;"></i></td>
 											<td th:text="${projectList.prjtNo}" />
 											<td th:text="${projectList.prjtNm}" />
 											<td th:text="${projectList.count}" />
-											<td th:text="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" />
-											<td th:text="${#dates.format(projectList.prjtTdt, 'yyyy-MM-dd')}" />
+											<td
+												th:text="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" />
+											<td
+												th:text="${#dates.format(projectList.prjtTdt, 'yyyy-MM-dd')}" />
 											<td th:text="${projectList.prjtSt}" />
 										</tr>
 									</th:block>
@@ -65,7 +72,29 @@
 				<div class="card">
 					<div class="card-body">
 						<h4 class="card-title">코멘트</h4>
-
+						
+						<!-- drop down -->
+				
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>프로젝트명</th>
+										<th>코멘트</th>
+										<th>날짜</th>
+									</tr>
+								</thead>
+								<tbody id="replytbl">
+									<th:block th:each="projectList : ${projectList}">
+										<tr>
+											<td th:text="${projectList.prjtNo}" />
+											<td th:text="${projectList.prjtNm}" />
+											<td th:text="${projectList.count}" />
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -85,32 +114,85 @@
 				</div>
 			</div>
 		</div>
-		<script>
-			$('td:nth-child(1)').on('click', projectFavorite);
+		<script th:inline="javascript">
+			
+			$(document).on('click','td:nth-child(1)' ,projectFavorite);
+			
 			function projectFavorite(event) {
+			/* 	event.preventDefault();
+				event.stopPropagation(); */
+				
 				let favorite = $(this).children().hasClass("fa-solid fa-star");
 				let prjtNo =  $(this).next().text();
-				console.log(prjtNo);
+				let projecttbl = $('#projecttbl');
 				let projectFavorite;
 				if(favorite){
 					projectFavorite = 'N';
-					console.log("변경해보자" + projectFavorite);
 				}
 				else{
 					projectFavorite = 'Y';
-					console.log("변경해보자" + projectFavorite);
 				}
 				
 			 	$.ajax('favAjax',{
 					type : 'post',
 					data : { prjtFav : projectFavorite , prjtNo : prjtNo }
 				})
-				.done(result => {
-			        console.log(result)})
-			        
+				.done(function(data){
+					projecttbl.empty();
+		
+					$.each(data.project, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+			
+			 			if(data.prjtFav == 'Y'){
+							tdTag.append('<i class="fa-solid fa-star" style="color: #dee203;"></i>');
+						}
+						if(data.prjtFav == 'N'){
+							tdTag.append('<i class="fa-regular fa-star" style="color: #080808;"></i>');
+						} 
+						
+    					trTag.append(tdTag);
+						
+    					tdTag= $('<td/>');
+    					tdTag.append(data.prjtNo);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.count);
+    					trTag.append(tdTag);
+    					
+    					let prjtFdt = new Date(data.prjtFdt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(prjtFdt));
+    					trTag.append(tdTag);
+    				
+    					let prjtTdt = new Date(data.prjtTdt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(prjtTdt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.prjtSt);
+    					trTag.append(tdTag);
+    					
+						projecttbl.append(trTag);
+						
+					})
+					
+				})
 				.fail(err =>  console.log(err));
-				 
-				
+			}
+			
+			function dateFormat(date){
+					let year = date.getFullYear();
+					let month = date.getMonth() +1 ;
+					let day  = date.getDate();
+					return year +'-'+month + '-'+day;
+
 			}
 		</script>
 	</th:block>
