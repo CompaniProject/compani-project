@@ -50,7 +50,12 @@
 					, COUNT(memb_id) AS buss_st_cnt
 					, (SELECT COUNT(*) FROM business_member WHERE  memb_id = bm.memb_id) total
 			FROM business_member bm LEFT JOIN business b ON(bm.buss_no = b.buss_no)
-			WHERE bm.prjt_no = #{prjtNo}
+			<where>
+				<if test="prjtNo != null and prjtNo > 0">
+					AND bm.prjt_no = #{prjtNo}
+				</if>
+				AND buss_st = 'END' OR buss_st IS NULL
+			</where>
 			GROUP BY memb_id, buss_st
 		) mg ON(pm.memb_id = mg.memb_id)
 		LEFT JOIN member m ON(pm.memb_id = m.memb_id)
@@ -58,7 +63,6 @@
 			<if test="prjtNo != null and prjtNo > 0">
 				AND prjt_no = #{prjtNo}
 			</if>
-			AND mg.buss_st = 'END' OR mg.buss_st IS NULL
 		</where>
 		ORDER BY pm.memb_id
 	</select>
