@@ -183,15 +183,22 @@
 	       </div>
 	    </div>
     </div>
-    <script>
+    <script th:inline="javascript">
+    const stateType = new Map([    	
+    	['PROCEED','참여중'],
+    	['DELAY','초과'],
+    	['END','완료'],
+    	['DELAYEND','초과완료']
+  	]);
+    
     window.onload = function () {
         pieChartDraw();
     }
-
+    
     let pieChartData = {
-        labels: ['foo', 'bar', 'baz', 'fie'],
+        labels: Array.from(stateType.values()),
         datasets: [{
-            data: [95, 12, 13, 7],
+            data: getStateValues(),
             backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)']
         }] 
     };
@@ -207,6 +214,22 @@
             }
         });
     };
+    
+    function getStateValues(){
+        let bussStatList = [[${businessStateList}]];
+    	let valueMap = new Map();
+    	
+    	for (let stateName of stateType.keys()){
+    		valueMap.set(stateName,0);
+    	}
+    	
+        for(let i in bussStatList[0]){
+        	valueMap.set(bussStatList[0][i],bussStatList[1][i]); 
+        }
+        
+        return Array.from(valueMap.values());
+    }
+    
     </script>
 </th:block>
 </body>
