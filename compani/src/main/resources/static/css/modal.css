@@ -519,10 +519,8 @@ input[type="checkbox" i] {
 	background-color: #eaeaea;
 }
 
-.scroll {
-	overflow: auto;
-	border-color: #e1e1e1;
-	transition: border-color 0.3s ease;
+#modal-body::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 
 .flex-sm-justify-center {
@@ -567,4 +565,149 @@ input[type="checkbox" i] {
 	background-color: #0969DA;
 	border-color: transparent;
 	color: var(- -fgColor-onEmphasis, var(- -color-fg-on-emphasis));
+}
+
+.modalInsertContent	{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 6px 0 30px;
+    box-sizing: border-box;
+}
+
+
+.modalInsertContent > .issueInsertContentTopBar {
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    display: flex;
+    justify-content: space-between;
+    width: 96%;
+    height: 48px;
+    margin-right: 20px;
+    padding: 8px 0;
+    background-color: #FFFFFF;
+}
+
+.issueInsertContentTopBar > .cancelWriting {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    background-image: url(/images/cancel_writing.png);
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.issueInsertContentTopBar > .completeWriting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #cccccc;
+    background-color: #eaeaea;
+    transition: all 0.2s ease;
+}
+
+.issueInsertContentTopBar > .completeWriting.registrable {
+    color: #ffffff;
+    background-color: #0098fe;
+    border-color: #0098fe;
+    cursor: pointer;
+}
+
+
+.writingContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin-right: 22px;
+    padding-bottom: 8px;
+}
+
+.writingSection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.sectionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    min-height: 20px;
+}
+
+.sectionTitleText {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    margin-top: 10px;
+}
+
+.dz-message:hover {
+    background: #e9ecef;
+}
+
+.dz-message {
+    text-align: center;
+    padding: 1.5rem;
+    display: block;
+    font-size: .875rem;
+    font-weight: 500;
+    opacity: 1;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    background: #fff;
+    border: 1px dashed #dee2e6;
+    transition: all .35s ease;
+    color: rgba(108, 117, 125, 0.5);
+}
+
+form.dropzone {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.LoadBtn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.LoadBtn > span {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.LoadBtn.upload > span {
+    background-image: url(/images/upload_file.png);
+}
+
+.LoadBtn > p {
+    font-size: 14px;
+    color: #575757;
+    margin: 0;
 }
