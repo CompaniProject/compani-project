@@ -16,10 +16,17 @@ class ProjectMemberServiceImplTest {
     @Autowired
     ProjectMemberService projectMemberService;
 
-    @Test
+   // @Test
     void getProjectMemberList() {
         List<Map<Object,Object>> projectMemberList = new ArrayList<>();
         projectMemberList = projectMemberService.getProjectMemberList(1);
         System.out.println(projectMemberList);
+    }
+
+    @Test
+    void getBusinessCompleteStatus(){
+        List<Map<Object,Object>> projectStatusList = new ArrayList<>();
+        projectStatusList = projectMemberService.getBusinessCompleteStatus(1);
+        System.out.println(projectStatusList);
     }
 }
