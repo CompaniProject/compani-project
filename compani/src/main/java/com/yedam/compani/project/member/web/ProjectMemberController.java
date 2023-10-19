@@ -40,7 +40,7 @@ public class ProjectMemberController {
 
 		List<ProjectVO> projectVO = projectService.getProjectList();
 		map.put("result", true);
-		map.put("data", projectVO);
+		map.put("project", projectVO);
 
 		return map;
 	}
