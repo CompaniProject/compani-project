@@ -11,7 +11,17 @@
 	href="images/favicon.png">
 <!-- Custom Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
-
+<style>
+.autocomplete>div.active {
+	background: #58ACFA;
+	color: #000000;
+}
+mark, .mark {
+    padding: 0.2em;
+    font-weight: 900;
+    background-color: transparent;
+}
+</style>
 </head>
 
 <body>
@@ -96,25 +106,74 @@
 							<div class="card-body">
 								<div class="form-validation">
 									<form class="form-valide" action="#" method="post">
-									<h1><b>회원가입(사원)</b></h1>
+										<h1>
+											<b>회원가입(사원)</b>
+										</h1>
 										<div class="form-group row">
 											<label class="col-lg-4 col-form-label" for="val-skill">소속기관
 											</label>
+
+
+
+
+
+											<!-- Button trigger modal -->
+											<button type="button" class="btn btn-primary"
+												data-toggle="modal" data-target="#modalGrid">Basic
+												modal</button>
+											<!-- Modal -->
+											<div class="modal fade" id="modalGrid">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title">Modal title</h5>
+															<button type="button" class="close" data-dismiss="modal">
+																<span>&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+
+
+															<div class="container-fluid">
+																<div class="case">
+																	<!-- 검색어 입력 폼 -->
+																	<input type="text" id="search">
+																	<!-- 자동완성 단어 리스트 -->
+																	<div class="autocomplete" style="width: 163px"></div>
+																</div>
+															</div>
+
+
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-dismiss="modal">Close</button>
+															<button type="button" class="btn btn-primary">Save
+																changes</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+
 											<div class="col-lg-6">
-												<select class="form-control" id="val-skill" name="val-skill">
-													<option value="">Please select</option>
-													<option value="html">HTML</option>
-													<option value="css">CSS</option>
-													<option value="javascript">JavaScript</option>
-													<option value="angular">Angular</option>
-													<option value="angular">React</option>
-													<option value="vuejs">Vue.js</option>
-													<option value="ruby">Ruby</option>
-													<option value="php">PHP</option>
-													<option value="asp">ASP.NET</option>
-													<option value="python">Python</option>
-													<option value="mysql">MySQL</option>
-												</select>
+												<input type="text" class="form-control" id="val-skill"
+													name="val-skill" placeholder="소속기관 검색" list="val-com">
+												<datalist id="val-com">
+													<option value="html"></option>
+													<option value="css"></option>
+													<option value="javascript"></option>
+													<option value="angular"></option>
+													<option value="angular"></option>
+													<option value="vuejs"></option>
+													<option value="ruby"></option>
+													<option value="php"></option>
+													<option value="asp"></option>
+													<option value="python"></option>
+													<option value="mysql"></option>
+												</datalist>
 											</div>
 										</div>
 
@@ -180,7 +239,7 @@
 											</div>
 										</div>
 
-										<div class="form-group row">
+										<div class="form-group row" >
 											<label class="col-lg-4 col-form-label" for="val-phoneus">전화번호
 											</label>
 											<div class="col-lg-6">
@@ -241,9 +300,98 @@
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
+	<script src=""></script>
 
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
+	<script>
+	// 검색어 리스트
+	const compList = [];
+	const compNm = [];
+	const obj={};
+	$(function(){
+	    $.ajax('http://localhost/companyList', {
+	        type : 'post'
+	    })
+	    .done(result => {
+	        $.each(result.data, function(index, element){
+	        	compList.push(element);
+	        });
+	        $.each(compList, function(index, element){
+	        	compNm.push(element.CO_NM);
+	        });
+	    })
+	    .fail(err =>console.log(err));
+	    
+	    document.querySelector('.autocomplete').children.on('mouseover', obj = window.event.target);
+	});
+
+	// 검색 입력 요소
+	const $search = document.querySelector("#search");
+	// 검색어 리스트 요소
+	const $autoComplete = document.querySelector(".autocomplete");
+
+	// 현재 가르키고 있는 검색어 순번
+	let nowIndex = 0;
+	
+	// 단어 입력이 완료되었을 때
+	$search.onkeyup = (event) => {
+	  const value = $search.value.trim();
+
+	  // 리스트 필터링
+	  const matchCompList = value
+	    ? compNm.filter((label) => label.includes(value))
+	    : [];
+	    
+/* 	  $('.autoComplete>div').on('mouseover', nowIndex = document.querySelector('.autocomplete').children.length - ); */
+	    
+	  switch (event.keyCode) {
+	    // UP KEY
+	    case 38:
+	      nowIndex = Math.max(nowIndex - 1, 0);
+	      break;
+
+	    // DOWN KEY
+	    case 40:
+	      nowIndex = Math.min(nowIndex + 1, matchCompList.length - 1);
+	      break;
+
+	    // ENTER KEY
+	    case 13:
+	      document.querySelector("#search").value = matchCompList[nowIndex] || "";
+	      // 초기화
+	      nowIndex = 0;
+	      matchCompList.length = 0;
+	      break;
+
+	    // 그외 다시 초기화
+	    default:
+	      nowIndex = 0;
+	      break;
+	  }
+	  
+	  // 리스트 보여주기
+	  showList(matchCompList, value, nowIndex);
+	};
+	
+	
+	
+	const showList = (data, value, nowIndex) => {
+		  // 정규식으로 변환
+		  const regex = new RegExp(`(${value})`, "g");
+		  
+		  $autoComplete.innerHTML = data
+		    .map(
+		      (label, index) => `
+		        <div class='${nowIndex === index ? "active" : ""}'>
+		          ${label.replace(regex, "<mark>$1</mark>")}
+		        </div>
+		      `
+		    )
+		    .join("");
+		};
+	
+	</script>
 
 </body>
 
