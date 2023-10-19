@@ -44,12 +44,12 @@
 												<div class="ModalProjectNameBox">
 													<div id="ProjectLink">
 														#<span></span>
-														<p class="textEllipsis" th:text="${issueList.prjtNm}" />
+														<p class="textEllipsis" th:text="${issueList[0].prjtNm}" />
 													</div>
 												</div>
 												<div class="ModalBussNameBox Edit">
 													<div class="ModalBussNameBack">
-														<textarea id="ModalUpdateBussName" th:text="${issueList.bussNm}" readonly
+														<textarea id="ModalUpdateBussName" th:text="${issueList[0].bussNm}" readonly
 															maxlength="200" style="height: 34px;"></textarea>
 													</div>
 												</div>
