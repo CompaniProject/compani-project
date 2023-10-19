@@ -1,5 +1,6 @@
 package com.yedam.compani.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +28,21 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public List<Map<Object, Object>> getBusinessStateList(Integer prjtNo) {
-		return businessMapper.selectBusinessStateList(prjtNo);
+	public List<List<String>> getBusinessStateList(Integer prjtNo) {
+		List<List<String>> stateInfo = new ArrayList<>();
+		List<Map<Object,Object>> stateList = businessMapper.selectBusinessStateList(prjtNo);
+		List<String> states = new ArrayList<String>();
+		List<String> stateCnts = new ArrayList<String>();
+
+		for (Map<Object,Object> info: stateList) {
+			states.add((String) info.get("bussSt"));
+			stateCnts.add(String.valueOf(info.get("bussStCnt")));
+		}
+
+		stateInfo.add(states);
+		stateInfo.add(stateCnts);
+
+		return stateInfo;
 	}
 
 	@Override

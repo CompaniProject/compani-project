@@ -30,7 +30,7 @@ public class ProjectController {
 
 	@GetMapping("/project/home/{prjtNo}")
 	public String projectHome(@PathVariable Integer prjtNo, Model model) {
-		List<Map<Object,Object>> businessStateList = businessService.getBusinessStateList(prjtNo);
+		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object,Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object,Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
 

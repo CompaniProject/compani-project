@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ class BusinessServiceImplTest {
 
     //@Test
     void getBusinessStateList() {
-        List<Map<Object,Object>> stateList = businessService.getBusinessStateList(1);
+        List<List<String>> stateList = businessService.getBusinessStateList(1);
         System.out.println(stateList);
     }
 
