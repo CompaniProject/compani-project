@@ -3,11 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com/yedam/compani/project/member/mapper/ProjectMemberMapper">
+	namespace="com.yedam.compani.project.member.mapper.ProjectMemberMapper">
 
 	<select id="selectAllProjectMemberCount" resultType="ProjectMemberVO">
 		SELECT PRJT_NO , COUNT(PRJT_NO) AS COUNT
 		FROM PROJECT_MEMBER
 		GROUP BY PRJT_NO
+	</select>
+
+	<select id="selectProjectMemberList" resultType="CamelHashMap">
+		SELECT pm.memb_id
+				, prjt_no
+				, prjt_memb_perm
+				, prjt_fav
+				, memb_pwd
+				, memb_nm
+				, memb_birth_dt
+				, memb_email
+				, memb_telno
+				, co_cd
+				, memb_dept
+				, memb_msg
+		FROM project_member pm LEFT JOIN member m ON(pm.memb_id = m.memb_id)
+		<where>
+			<if test="prjtNo != null and prjtNo > 0">
+				AND prjt_no = #{prjtNo}
+			</if>
+		</where>
 	</select>
 </mapper>

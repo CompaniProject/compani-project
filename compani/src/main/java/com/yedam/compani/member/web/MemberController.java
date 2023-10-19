@@ -1,16 +1,44 @@
 package com.yedam.compani.member.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.yedam.compani.member.service.MemberService;
+import com.yedam.compani.member.service.MemberVO;
 
 @Controller
 public class MemberController {
+	@Autowired
+	MemberService service;
+	
 	// 로그인 페이지
-	@GetMapping("/login")
+	@GetMapping("/loginForm")
 	public String memberLoginForm() {
-		return "member/memberLogin";
+		return "member/memberLoginForm";
 	}
-
+	
+	// 로그인
+	@GetMapping("/login")
+	public String memberLogin(@RequestParam String loginId, @RequestParam String loginPwd, Model model) {
+		MemberVO loginVO = new MemberVO();
+		loginVO.setMembId(loginId);
+		loginVO.setMembPwd(loginPwd);
+		loginVO = service.getLogin(loginVO);
+		if(loginVO.getMembId() == null) {
+			return "member/memberLoginForm";
+		}else if(loginVO.getMembAccp().equals("N")){
+			return "member/memberStandBy";
+		}else{
+			model.addAttribute("loginInfo", loginVO);
+			return "home";
+		}
+		
+	}
+	
 	// 가입 후 대기
 	@GetMapping("/standBy")
 	public String memberStandByForm() {
