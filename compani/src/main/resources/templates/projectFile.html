@@ -21,63 +21,100 @@ hr {
 	border-color: #C0C0C0;
 }
 
+.card {
+	display: block;
+}
+
+.content-body {
+	padding-left: 20px;
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+	crossorigin="anonymous"></script>
 </head>
 <th:block layout:fragment="content">
 	<div class="content-container">
 		<div class="content-body">
+
 			
-		<!-- 검색 필터 -->
-		<div class="SearchInputBox" style="width: 290px;">
-			<div>
-				<div class="issue-selectBox" style="width: 100px;">
-					<div class="issue-selected" id="issue-selected">
-						<div class="issue-selected-value" id="issue-select-value"
-							data-value="파일명">파일명</div>
-						<div class="arrow"></div>
-					</div>
-					<ul class="issue-select-ul"
-						style="width: 100px; top: 20%; display: none;">
-						<li class="issue-select-option" data-value="파일명">파일명</li>
-						<li class="issue-select-option" data-value="참여자">등록자</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-			
-		<!-- 검색창 -->
+
+			<!-- 검색창 -->
 			<i class="fa-solid fa-magnifying-glass fa-lg"
 				style="margin-right: 5px"></i> <input id="FileSearch" type="text"
 				placeholder="검색">
-		<!-- 파일업로드 및 삭제 -->
-			<button id="FileUpload" type="button" class="btn mb-1 btn-info" style="margin-right: 10px;">파일업로드</button>
-			<button id="FileDown" type="button" class="btn mb-1 btn-info" style="margin-right: 10px;">다운로드</button>
-			<button id="FileDelete" type="button" class="btn mb-1 btn-dark">삭제</button>
-			<hr>
-			
-		<!-- 카드구간 -->
-			<div class="col-lg-3 col-sm-2">
-				<div class="card">
-					<div class="card-body">
-						<h5 style="font-size: 15px">최종프로젝트.ppt</h5>
-						<p style="font-size: 10px">프로젝트기획안</p>
+				
+			<!-- 검색 필터 -->
+			<label for="SearchToggleCheckBox"></label>
+			<div class="SearchInputBox" style="width: 290px;">
+
+				<div>
+					<div class="issue-selectBox" style="width: 100px;">
+						<div class="issue-selected" id="issue-selected">
+							<div class="issue-selected-value" id="issue-select-value"
+								data-value="파일명">파일명</div>
+							<div class="arrow"></div>
+						</div>
+						<ul class="issue-select-ul"
+							style="width: 100px; top: 20%; display: none;">
+							<li class="issue-select-option" data-value="파일명">파일명</li>
+							<li class="issue-select-option" data-value="참여자">등록자</li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-sm-2">
-				<div class="card">
-					<div class="card-body">
-						<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-						<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+			
+			
+
+			<!-- 파일업로드 및 삭제 -->
+			<input type="file" id="selectedFile" style="display: none;" /> <input
+				type="button" id="FileUpload" value="업로드"
+				onclick="document.getElementById('selectedFile').click();"
+				class="btn mb-1 btn-info" style="margin-right: 10px" />
+			<button id="FileDown" type="button" class="btn mb-1 btn-info"
+				style="margin-right: 10px;">다운로드</button>
+			<button id="FileDelete" type="button" class="btn mb-1 btn-dark">삭제</button>
+			<hr>
+
+			<!-- 카드구간 -->
+			<div>
+				<div class="col-lg-3 col-sm-2">
+					<div id="newColor" class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">최종프로젝트.ppt</h5>
+							<p style="font-size: 10px">프로젝트기획안</p>&nbsp;&nbsp;&nbsp;&nbsp;<p>반갑꼬리</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+
+					<div id="newColor" class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$('.card').on('click', function(){
+			let cBody = document.getElementById('newColor');
+			cBody.style.border = "solid 2px red";
+		});
+		
+		$('.id_btn').click(function(){
 
+			                       $('.id_btn').not(this).removeClass('active');
+
+			      $(this).toggleClass('active');
+			});
+		
+	</script>
 </th:block>
 </html>

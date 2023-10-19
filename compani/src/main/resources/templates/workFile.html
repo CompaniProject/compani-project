@@ -31,13 +31,12 @@ hr {
 }
 
 input[type=file]::file-selector-button {
-    width: 0;
-    height: 0;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
+	width: 0;
+	height: 0;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
 }
-
 </style>
 </head>
 <th:block layout:fragment="content">
@@ -93,14 +92,14 @@ input[type=file]::file-selector-button {
 												</div>
 											</div>
 										</div>
-										
+
 										<div class="ModalInfo">
 											<div class="FixOnTop ModalTopBar">
 												<div class="IssueTopBar">
-													
-												<!-- 체크박스 -->
+
+													<!-- 체크박스 -->
 													<input type="checkbox" style="margin-right: 30px">
-												<!-- 검색아이콘 -->
+													<!-- 검색 필터 -->
 													<div class="SearchBox" style="margin-right: 20px">
 
 														<label for="SearchToggleCheckBox"></label>
@@ -122,13 +121,17 @@ input[type=file]::file-selector-button {
 															</div>
 														</div>
 													</div>
-													
+
 													<input type="file" id="selectedFile" style="display: none;" />
-													<input type="button" id="FileUpload" value="업로드" onclick="document.getElementById('selectedFile').click();" class="btn mb-1 btn-info" />
-													<button id="FileDelete" type="submit" class="btn mb-1 btn-dark">삭제</button>																	
+													<input type="button" id="FileUpload" value="업로드"
+														onclick="document.getElementById('selectedFile').click();"
+														class="btn mb-1 btn-info" />
+													<button id="FileDelete" type="submit"
+														class="btn mb-1 btn-dark">삭제</button>
 												</div>
-												<br><br>
-												
+												<br>
+												<br>
+
 
 												<table>
 													<thead>
@@ -140,21 +143,22 @@ input[type=file]::file-selector-button {
 															<th>저장</th>
 															<th>삭제</th>
 														</tr>
-													</thead>			
-												
-												<hr style="border-bottom: solid 1px">
-												<tbody>
-													<th:block th:each = "file : ${fileList}">
-														<tr>
-															<td><input type="checkbox"></td>
-															<td th:text = "${file.fileNm}"/>
-															<td th:text = "${file.fileSize}"/>
-															<td th:text = "${file.membId}"/>
-															<td th:text = "${file.fileDt}"/>
-															<td>ㅎ</td>
-														</tr>
-													</th:block>
-												</tbody>
+													</thead>
+
+													<hr style="border-bottom: solid 1px">
+
+													<tbody>
+														<th:block th:each="file : ${fileList}">
+															<tr>
+																<td><input type="checkbox"></td>
+																<td th:text="${file.fileNm}" />
+																<td th:text="${file.fileSize}" />
+																<td th:text="${file.membId}" />
+																<td th:text="${file.fileDt}" />
+																<td>ㅎ</td>
+															</tr>
+														</th:block>
+													</tbody>
 												</table>
 											</div>
 										</div>
