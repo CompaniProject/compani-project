@@ -140,100 +140,28 @@
 			                                </tr>
 			                            </thead>
 			                            <tbody>
-			                                <tr>
-			                                    <td>Air Conditioner</td>
-			                                    <td>D-3</td>
+			                                <tr th:each="business : ${businessLevelList}">
+			                                    <td>
+			                                    	<th:block th:each="i : ${#numbers.sequence(3,business.level,1)}">
+			                                    	<span>&nbsp;&nbsp;&nbsp;</span>
+			                                    	</th:block>
+			                                    	<th:block th:if="${business.level > 1}">
+			                                    		<i class="bi bi-arrow-return-right"></i>
+			                                    	</th:block>
+			                                    	<span th:utext="${business.bussNm}"></span>
+			                                    </td>
+			                                    <td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"
+			                                    	th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
 			                                    <td>
 			                                        <div class="progress" style="height: 10px">
-			                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
+			                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
 			                                            </div>
 			                                        </div> 
 			                                    </td>
-			                                    <td><span class="label gradient-1 btn-rounded">70%</span>
+			                                    <td><span class="label gradient-1 btn-rounded" th:text="|${business.bussPrgre}%|"></span>
 			                                    </td>
 			                                    <td>
-			                                    <span class="badge badge-primary px-2">진행중</span>
-			                                    </td>
-			                                </tr>
-			                                <tr>
-			                                    <td>Textiles</td>
-			                                    <td>D-2</td>
-			                                    <td>
-			                                        <div class="progress" style="height: 10px">
-			                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-			                                            </div>
-			                                        </div> 
-			                                    </td>
-			                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-			                                    </td>
-			                                    <td>
-			                                    <span class="badge badge-primary px-2">진행중</span>
-			                                    </td>
-			                                </tr>
-			                                <tr>
-			                                    <td>Milk Powder</td>
-			                                    <td>D-5</td>
-			                                    <td>
-			                                        <div class="progress" style="height: 10px">
-			                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-			                                            </div>
-			                                        </div> 
-			                                    </td>
-			                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-			                                    </td>
-			                                    <td>
-			                                    <span class="badge badge-primary px-2">진행중</span>
-			                                    </td>
-			                                </tr>
-			                                <tr>
-			                                    <td>
-			                                    <i class="bi bi-arrow-return-right"></i>
-			                                    Vehicles</td>
-			                                    <td>D-3</td>
-			                                    <td>
-			                                        <div class="progress" style="height: 10px">
-			                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-			                                            </div>
-			                                        </div> 
-			                                    </td>
-			                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-			                                    </td>
-			                                    <td>
-			                                    <span class="badge badge-primary px-2">진행중</span>
-			                                    </td>
-			                                </tr>
-			                                <tr>
-			                                    <td>
-			                                    &nbsp;&nbsp;&nbsp;&nbsp;
-			                                    <i class="bi bi-arrow-return-right"></i>
-			                                    Boats
-			                                    </td>
-			                                    <td>D-3</td>
-			                                    <td>
-			                                        <div class="progress" style="height: 10px">
-			                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-			                                            </div>
-			                                        </div> 
-			                                    </td>
-			                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-			                                    </td>
-			                                    <td>
-			                                    <span class="badge badge-primary px-2">진행중</span>
-			                                    </td>
-			                                </tr>
-			                                <tr>
-			                                    <td>Boats</td>
-			                                    <td>D-3</td>
-			                                    <td>
-			                                        <div class="progress" style="height: 10px">
-			                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-			                                            </div>
-			                                        </div> 
-			                                    </td>
-			                                    <td><span class="label gradient-1 btn-rounded">70%</span>
-			                                    </td>
-			                                    <td>
-			                                    <span class="badge badge-primary px-2">진행중</span>
+			                                    <span class="badge badge-primary px-2" th:text="${business.bussSt}">진행중</span>
 			                                    </td>
 			                                </tr>
 			                            </tbody>
