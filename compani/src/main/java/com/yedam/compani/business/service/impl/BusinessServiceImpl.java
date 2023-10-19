@@ -31,4 +31,9 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.selectBusinessStateList(prjtNo);
 	}
 
+	@Override
+	public List<Map<Object, Object>> getBusinessAndLevelList(Integer prjtNo) {
+		return businessMapper.selectBusinessAndLevelList(prjtNo);
+	}
+
 }

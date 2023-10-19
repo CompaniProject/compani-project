@@ -50,4 +50,23 @@
 		</where>
 		GROUP BY buss_st
 	</select>
+
+	<select id="selectBusinessAndLevelList" resultType="CamelHashMap">
+		SELECT level
+				, buss_no
+				, buss_nm
+				, buss_upcd
+				, buss_imp
+				, buss_prgre
+				, buss_st
+				, TRUNC(buss_todt - sysdate,0) AS d_day
+		FROM business
+		<where>
+			<if test="prjtNo != null and prjtNo > 0">
+				AND prjt_no = #{prjtNo}
+			</if>
+		</where>
+		START WITH buss_upcd IS NULL
+		CONNECT BY PRIOR  buss_no = buss_upcd
+	</select>
 </mapper>

@@ -13,4 +13,5 @@ public interface BusinessMapper {
 	public List<BusinessVO>	selectProjectCalendarAllBusiness();
 	
 	public List<Map<Object,Object>> selectBusinessStateList(Integer prjtNo);
+	public List<Map<Object,Object>> selectBusinessAndLevelList(Integer prjtNo);
 }

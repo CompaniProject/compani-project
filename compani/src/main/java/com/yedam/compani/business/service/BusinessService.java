@@ -11,4 +11,5 @@ public interface BusinessService {
 	public List<BusinessVO> getProjectCalenderBusinessList();
 
 	public List<Map<Object,Object>> getBusinessStateList(Integer prjtNo);
+	public List<Map<Object,Object>> getBusinessAndLevelList(Integer prjtNo);
 }
