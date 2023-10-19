@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.yedam.compani.business.service.BusinessService;
+import com.yedam.compani.project.member.service.ProjectMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +20,24 @@ import com.yedam.compani.project.service.ProjectVO;
 
 @Controller
 public class ProjectController {
+
 	@Autowired
 	ProjectService projectService;
-	
+	@Autowired
+	BusinessService businessService;
+	@Autowired
+	ProjectMemberService projectMemberService;
+
 	@GetMapping("/project/home/{prjtNo}")
-	public String projectHome(@PathVariable Integer prjtNo) {
+	public String projectHome(@PathVariable Integer prjtNo, Model model) {
+		List<Map<Object,Object>> businessStateList = businessService.getBusinessStateList(prjtNo);
+		List<Map<Object,Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
+		List<Map<Object,Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
+
+		model.addAttribute("businessStateList",businessStateList);
+		model.addAttribute("businessLevelList",businessLevelList);
+		model.addAttribute("memberStatusList",memberStatusList);
+
 		return "project/project-home";
 	}
 	

@@ -31,4 +31,9 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 		return projectMemberMapper.selectProjectMemberList(prjtNo);
 	}
 
+	@Override
+	public List<Map<Object, Object>> getBusinessCompleteStatus(Integer prjtNo) {
+		return projectMemberMapper.selectBusinessCompleteStatus(prjtNo);
+	}
+
 }
