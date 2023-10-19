@@ -70,12 +70,12 @@ let pieChartDraw = function () {
                                        -->
                                        </td>
                                        <td th:text="|${member.endCnt}/${member.total}|"></td>
-                                       <td>
+                                       <td style="width:45%">
 		                                   <div class="progress" style="height: 10px">
 		                                  		<div class="progress-bar bg-success" th:style="|width:${member.status}%|"></div>
 		                                   </div>
                                        </td>
-                                       <td>
+                                       <td style="width:10%">
                                        <span class="label label-pill label-success" th:text="|${member.status}%|"></span>
                                        </td>
                                    </tr>
