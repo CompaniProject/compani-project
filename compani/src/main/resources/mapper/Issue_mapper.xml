@@ -5,23 +5,33 @@
 <mapper namespace="com.yedam.compani.issue.mapper.IssueMapper">
 
 <select id="findIssue" resultType="com.yedam.compani.issue.service.IssueVO">
-	SELECT  ISSU_NO
-		  , PRJT_NO
-		  , BUSS_NO
-		  , MEMB_ID
-		  , ISSU_TTL
-		  , ISSU_CNTN
-		  , ISSU_KND
-		  , ISSU_RANK
-		  , ISSU_ST
-		  , ISSU_DT
-	FROM    ISSUE
-	<if test="keyword == '작성자'">
-	WHERE   MEMB_ID LIKE '%' || #{search} || '%'
-	</if>
-	<if test="keyword == '제목'">
-	WHERE   ISSU_TTL LIKE '%' || #{search} || '%'
-	</if>
+	SELECT  I.ISSU_NO
+		  , I.PRJT_NO
+		  , I.BUSS_NO       
+		  , I.MEMB_ID
+		  , I.ISSU_TTL
+		  , I.ISSU_CNTN
+		  , I.ISSU_KND
+		  , I.ISSU_RANK
+		  , I.ISSU_ST
+		  , I.ISSU_DT
+		  , P.PRJT_NM
+		  , B.BUSS_NM
+	FROM    ISSUE I, PROJECT P, BUSINESS B
+	WHERE   I.BUSS_NO = B.BUSS_NO
+	AND     B.PRJT_NO = P.PRJT_NO
+	<choose>
+    <when test="keyword == '작성자'">
+      AND   MEMB_ID LIKE '%' || #{search} || '%'
+    </when>
+    <when test="keyword == '제목'">
+     AND   ISSU_TTL LIKE '%' || #{search} || '%'
+    </when>
+    <when test="keyword == '전체'">
+      AND   (MEMB_ID  LIKE '%' || #{search} || '%'
+      OR  	ISSU_TTL LIKE '%'  || #{search} || '%')
+    </when>
+	</choose>
 	ORDER BY ISSU_DT ASC
 </select>
 

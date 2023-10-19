@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
@@ -26,8 +27,13 @@ public class IssueController {
 	public String modalIssueList(@ModelAttribute SearchDto search,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
+		
+		Page<IssueVO> vo = issueService.getIssueList(pageNum, search);
+		
+		System.out.println(vo);
+		
 		model.addAttribute("issue", issues);
-		model.addAttribute("issues", issueService.getIssueList(pageNum, search));
+		model.addAttribute("issueList", vo);
 		model.addAttribute("search", search);
 
 		return "index";
@@ -43,7 +49,6 @@ public class IssueController {
 		map.put("issues", issueService.getIssueList(pageNum, search));
 		map.put("search", search);
 		
-		System.out.println(issues);
 		return map;
 	}
 
