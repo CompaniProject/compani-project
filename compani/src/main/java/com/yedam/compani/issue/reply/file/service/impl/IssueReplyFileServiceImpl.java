@@ -1,7 +1,7 @@
 package com.yedam.compani.issue.reply.file.service.impl;
 
-import com.yedam.compani.member.feedback.service.MemberFeedbackService;
+import com.yedam.compani.issue.reply.file.service.IssueReplyFileService;
 
-public class IssueReplyFileServiceImpl implements MemberFeedbackService {
+public class IssueReplyFileServiceImpl implements IssueReplyFileService {
 
 }

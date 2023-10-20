@@ -80,4 +80,10 @@
 		WHERE buss_st = 'PROCEED'
 		AND sysdate > buss_todt
 	</update>
+
+	<select id="getBusinessList" resultType="BusinessVO">
+		SELECT P.PRJT_NM, B.BUSS_NM,B.BUSS_FRDT, B.BUSS_TODT, B.BUSS_IMP
+		FROM PROJECT P, BUSINESS B
+		WHERE P.PRJT_NO = B.PRJT_NO
+	</select>
 </mapper>

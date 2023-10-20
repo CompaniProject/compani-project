@@ -7,35 +7,38 @@
 
 	<select id="selectAllProject" resultType="ProjectVO">
 
-		SELECT PM.PRJT_FAV, 
-			   P.PRJT_NO , 
-			   COUNT(P.PRJT_NO) AS count, 
-			   P.PRJT_NM,P.PRJT_TDT, 
-			   P.PRJT_FDT,
-			   P.PRJT_ST
-		FROM   PROJECT_MEMBER PM, PROJECT P
-		WHERE  PM.PRJT_NO = P.PRJT_NO
-		 <where>
-		 <!--참여중/ 완료 코드짜기  -->
-			<if test="PRJT_ST != null">
-			  	AND  PRJT_ST  = #{prjtSt}
-			</if>
-		</where> 
-		GROUP  BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+		SELECT PM.PRJT_FAV,
+		P.PRJT_NO ,
+		COUNT(P.PRJT_NO) AS count,
+		P.PRJT_NM,P.PRJT_TDT,
+		P.PRJT_FDT,
+		P.PRJT_ST
+		FROM PROJECT_MEMBER PM, PROJECT P
+		WHERE PM.PRJT_NO = P.PRJT_NO
+	<!-- 	<where>
+			<if test="prjtSt != null">
+				PRJT_ST = #{prjtSt}
+			</if>		
+		</where> -->
+
+		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT,
+		P.PRJT_ST
 		ORDER BY PRJT_FAV DESC
 	</select>
 
-	<select id="selectProjectAndMemberList" resultType="CamelHashMap">
+	<select id="selectProjectAndMemberList"
+		resultType="CamelHashMap">
 		SELECT pm.prjt_no
-				, memb_id
-				, prjt_memb_perm
-				, prjt_nm
-				, prjt_pubcyn
-				, prjt_fdt
-				, prjt_tdt
-				, prjt_cmpltdt
-				, prjt_st
-		FROM project_member pm LEFT JOIN project p ON(pm.prjt_no = p.prjt_no)
+		, memb_id
+		, prjt_memb_perm
+		, prjt_nm
+		, prjt_pubcyn
+		, prjt_fdt
+		, prjt_tdt
+		, prjt_cmpltdt
+		, prjt_st
+		FROM project_member pm LEFT JOIN project p ON(pm.prjt_no =
+		p.prjt_no)
 		<where>
 			<if test="memberId != null">
 				AND memb_id = #{memberId}
@@ -44,4 +47,30 @@
 		ORDER BY prjt_no
 
 	</select>
+
+	<select id="getProjectStateList" resultType="ProjectVO">
+
+		SELECT PM.PRJT_FAV,
+		P.PRJT_NO ,
+		COUNT(P.PRJT_NO) AS count,
+		P.PRJT_NM,P.PRJT_TDT,
+		P.PRJT_FDT,
+		P.PRJT_ST
+		FROM PROJECT_MEMBER PM, PROJECT P
+		WHERE PM.PRJT_NO = P.PRJT_NO
+		AND PRJT_ST = #{prjtSt}
+	<!-- 	<where>
+			<if test="prjtSt != null">
+				PRJT_ST = #{prjtSt}
+			</if>		
+		</where>  -->
+		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+		ORDER BY PRJT_FAV DESC
+
+	</select>
+	<update id="updateFavorite" parameterType="ProjectVO">
+		UPDATE PROJECT_MEMBER
+		SET PRJT_FAV = #{prjtFav}
+		WHERE PRJT_NO = #{prjtNo}
+	</update>
 </mapper>

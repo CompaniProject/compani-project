@@ -4,8 +4,6 @@ import java.util.Date;
 
 import lombok.Data;
 
-
-
 @Data
 public class IssueVO {
 	private int issuNo;
@@ -18,7 +16,6 @@ public class IssueVO {
 	private String issuRank;
 	private String issuSt;
 	private Date issuDt;
-
 	private String bussNm;
 	private String prjtNm;	
 	
