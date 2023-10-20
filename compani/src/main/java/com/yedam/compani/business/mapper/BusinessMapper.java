@@ -14,4 +14,5 @@ public interface BusinessMapper {
 	
 	public List<Map<Object,Object>> selectBusinessStateList(Integer prjtNo);
 	public List<Map<Object,Object>> selectBusinessAndLevelList(Integer prjtNo);
+	public int updateProceedToDelay();
 }

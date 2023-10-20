@@ -60,6 +60,10 @@
 				, buss_prgre
 				, buss_st
 				, TRUNC(buss_todt - sysdate,0) AS d_day
+				, CASE WHEN buss_cmpltdt IS NOT NULL
+					THEN TRUNC(buss_cmpltdt - buss_todt,0)
+					ELSE -1
+				  END AS end_delay_day
 		FROM business
 		<where>
 			<if test="prjtNo != null and prjtNo > 0">
@@ -69,4 +73,11 @@
 		START WITH buss_upcd IS NULL
 		CONNECT BY PRIOR  buss_no = buss_upcd
 	</select>
+
+	<update id="updateProceedToDelay">
+		UPDATE business
+		SET buss_st = 'DELAY'
+		WHERE buss_st = 'PROCEED'
+		AND sysdate > buss_todt
+	</update>
 </mapper>

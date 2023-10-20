@@ -23,9 +23,15 @@ class BusinessServiceImplTest {
         System.out.println(stateList);
     }
 
-    @Test
+    //@Test
     void getBusinessAndLevelList(){
         List<Map<Object,Object>> businessLevelList = businessService.getBusinessAndLevelList(1);
         System.out.println(businessLevelList);
+    }
+
+    @Test
+    void updateProceedToDelay(){
+        int cnt = businessService.updateProceedToDelay();
+        System.out.println(cnt);
     }
 }

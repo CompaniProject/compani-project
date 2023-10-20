@@ -50,4 +50,9 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.selectBusinessAndLevelList(prjtNo);
 	}
 
+	@Override
+	public int updateProceedToDelay() {
+		return businessMapper.updateProceedToDelay();
+	}
+
 }

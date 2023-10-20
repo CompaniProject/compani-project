@@ -8,6 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
+	<div>
 
 	<!-- Bussiness Header -->
 	<div class="row mx-0">
@@ -33,63 +34,38 @@
 		                    <h6 class="card-title text-uppercase text-truncate py-2">진행중</h6>
 		                    	<div class="items border-light">
 			                       	<!-- Card Body -->
+									<th:block th:each="business : ${businessLevelList}" th:if="${business.bussSt == 'PROCEED'}">
 			                        <div class="card shadow-sm border">
 			                            <div class="card-body p-3">
 			                                <div class="card-title">
-			                                    <a href="">업무이름</a>
+			                                    <a href="" th:text="${business.bussNm}"></a>
 			                                </div>
 			                                <div style="padding-top:10px; padding-bottom:10px;">
 			                                	<div class="progress" style="height: 10px">
-		                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar">
-		                                            <span class="sr-only">70% Complete</span>
+		                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
 		                                            </div>
 		                                        </div>
 			                                </div>
 			                                <div>
-		                                    	<span class="badge badge-primary px-2">D-3</span>
-		                                    	<span class="badge badge-pill badge-danger px-2">상</span>
+		                                    	<span 
+		                                    	th:class="${business.dDay < 0} ? 'badge badge-danger px-2' : 'badge badge-primary px-2' "
+		                                    	th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"></span>
+                                    			
+                                    			<th:block th:switch="${business.bussImp}">
+													<th:block th:case="high">
+			                                    		<span class="badge badge-pill badge-danger px-2">상</span>
+													</th:block>
+													<th:block th:case="mid">
+			                                    		<span class="badge badge-pill badge-warning px-2">중</span>
+													</th:block>
+													<th:block th:case="low">
+			                                    		<span class="badge badge-pill badge-info px-2">하</span>
+													</th:block>
+		                                    	</th:block>
 			                                </div>
 			                            </div>
 			                        </div>
-			                       <!-- Card Body -->
-			                        <div class="card shadow-sm border">
-			                            <div class="card-body p-3">
-			                                <div class="card-title">
-			                                    <a href="">업무이름</a>
-			                                </div>
-			                                <div style="padding-top:10px; padding-bottom:10px;">
-			                                	<div class="progress" style="height: 10px">
-		                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar">
-		                                            <span class="sr-only">70% Complete</span>
-		                                            </div>
-		                                        </div>
-			                                </div>
-			                                <div>
-		                                    	<span class="badge badge-primary px-2">D-3</span>
-		                                    	<span class="badge badge-pill badge-warning px-2">중</span>
-			                                </div>
-			                            </div>
-			                         </div>
-			                         
-			                        <!-- Card Body -->
-			                        <div class="card shadow-sm border">   
-			                            <div class="card-body p-3">
-			                                <div class="card-title">
-			                                    <a href="">업무이름</a>
-			                                </div>
-			                                <div style="padding-top:10px; padding-bottom:10px;">
-			                                	<div class="progress" style="height: 10px">
-		                                            <div class="progress-bar gradient-1" style="width: 70%;" role="progressbar">
-		                                            <span class="sr-only">70% Complete</span>
-		                                            </div>
-		                                        </div>
-			                                </div>
-			                                <div>
-		                                    	<span class="badge badge-primary px-2">D-3</span>
-		                                    	<span class="badge badge-pill badge-info px-2">하</span>
-			                                </div>
-			                            </div>
-			                         </div>
+									</th:block>
 		                        </div>
 		                    </div>
 		                </div>
@@ -98,6 +74,34 @@
 		            <div class="card">
 		                <div class="card-body">
 		                    <h6 class="card-title text-uppercase text-truncate py-2">완료</h6>
+		                    <th:block th:each="business : ${businessLevelList}" th:if="${business.bussSt == 'END'}">
+		                        <div class="card shadow-sm border">
+		                            <div class="card-body p-3">
+		                                <div class="card-title">
+		                                    <a href="" th:text="${business.bussNm}"></a>
+		                                </div>
+		                                <div style="padding-top:10px; padding-bottom:10px;">
+		                                	<div class="progress" style="height: 10px">
+	                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
+	                                            </div>
+	                                        </div>
+		                                </div>
+		                                <div>
+		                                    <span class="badge badge-success px-2" th:text="완료"></span>
+	                                  		<th:block th:switch="${business.bussImp}">
+												<th:block th:case="high">
+		                                    		<span class="badge badge-pill badge-danger px-2">상</span>
+												</th:block>
+												<th:block th:case="mid">
+		                                    		<span class="badge badge-pill badge-warning px-2">중</span>
+												</th:block>
+												<th:block th:case="low">
+		                                    		<span class="badge badge-pill badge-info px-2">하</span>
+												</th:block>
+	                                    	</th:block>
+		                                </div>
+		                            </div>
+		                        </div>
 		                </div>
 		            </div>
 		        </div>
@@ -105,7 +109,34 @@
 		            <div class="card">
 		                <div class="card-body">
 		                    <h6 class="card-title text-uppercase text-truncate py-2">초과완료</h6>
-		                    
+		                    <th:block th:each="business : ${businessLevelList}" th:if="${business.bussSt == 'DELAYEND'}">
+		                        <div class="card shadow-sm border">
+		                            <div class="card-body p-3">
+		                                <div class="card-title">
+		                                    <a href="" th:text="${business.bussNm}"></a>
+		                                </div>
+		                                <div style="padding-top:10px; padding-bottom:10px;">
+		                                	<div class="progress" style="height: 10px">
+	                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
+	                                            </div>
+	                                        </div>
+		                                </div>
+		                                <div>
+		                                    <span class="badge badge-success px-2" th:text="|${business.endDelayDay}일 초과|"></span>
+                                   			<th:block th:switch="${business.bussImp}">
+												<th:block th:case="high">
+		                                    		<span class="badge badge-pill badge-danger px-2">상</span>
+												</th:block>
+												<th:block th:case="mid">
+		                                    		<span class="badge badge-pill badge-warning px-2">중</span>
+												</th:block>
+												<th:block th:case="low">
+		                                    		<span class="badge badge-pill badge-info px-2">하</span>
+												</th:block>
+	                                    	</th:block>
+		                                </div>
+		                            </div>
+		                        </div>
 		                </div>
 		            </div>
 		        </div>
@@ -113,7 +144,38 @@
 		            <div class="card">
 		                <div class="card-body">
 		                    <h6 class="card-title text-uppercase text-truncate py-2">초과</h6>
-		                   
+		                   <th:block th:each="business : ${businessLevelList}" th:if="${business.bussSt == 'DELAY'}">
+		                        <div class="card shadow-sm border">
+		                            <div class="card-body p-3">
+		                                <div class="card-title">
+		                                    <a href="" th:text="${business.bussNm}"></a>
+		                                </div>
+		                                <div style="padding-top:10px; padding-bottom:10px;">
+		                                	<div class="progress" style="height: 10px">
+	                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
+	                                            </div>
+	                                        </div>
+		                                </div>
+		                                <div>
+	                                    	<span 
+	                                    	th:class="${business.dDay < 0} ? 'badge badge-danger px-2' : 'badge badge-primary px-2' "
+	                                    	th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|">
+	                                    	</span>
+                                   			
+                                   			<th:block th:switch="${business.bussImp}">
+												<th:block th:case="high">
+		                                    		<span class="badge badge-pill badge-danger px-2">상</span>
+												</th:block>
+												<th:block th:case="mid">
+		                                    		<span class="badge badge-pill badge-warning px-2">중</span>
+												</th:block>
+												<th:block th:case="low">
+		                                    		<span class="badge badge-pill badge-info px-2">하</span>
+												</th:block>
+	                                    	</th:block>
+		                                </div>
+		                            </div>
+		                        </div>
 		                </div>
 		            </div>
 		        </div>
@@ -150,9 +212,21 @@
 			                                    	</th:block>
 			                                    	<span th:utext="${business.bussNm}"></span>
 			                                    </td>
-			                                    <td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"
-			                                    	th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
-			                                    <td>
+												<th:block th:switch="${business.bussSt}">
+													<th:block th:case="PROCEED">
+														<td th:text="|D-${business.dDay}|"></td>
+													</th:block>
+													<th:block th:case="DELAY">
+														<td th:text="|지연 + ${-business.dDay}|" style="color:red;"></td>
+													</th:block>
+													<th:block th:case ="END">
+														<td style="color:green;">완료</td>
+													</th:block>
+													<th:block th:case ="DELAYEND">
+														<td style="color:green;" th:text="|${business.endDelayDay}일 초과|"></td>
+													</th:block>
+												</th:block>
+												<td>
 			                                        <div class="progress" style="height: 10px">
 			                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
 			                                            </div>
@@ -161,7 +235,12 @@
 			                                    <td><span class="label gradient-1 btn-rounded" th:text="|${business.bussPrgre}%|"></span>
 			                                    </td>
 			                                    <td>
-			                                    <span class="badge badge-primary px-2" th:text="${business.bussSt}">진행중</span>
+												<th:block th:switch="${business.bussSt}">
+													<span th:case="PROCEED" th:text="진행중" class="badge badge-info px-2"></span>
+													<span th:case="END" th:text="완료" class="badge badge-success px-2" ></span>
+													<span th:case="DELAY" th:text="초과" class="badge badge-danger px-2" ></span>
+													<span th:case="DELAYEND" th:text="초과완료" class="badge badge-light px-2" ></span>
+												</th:block>
 			                                    </td>
 			                                </tr>
 			                            </tbody>
@@ -173,6 +252,8 @@
 		    </div>
 	    </div>
 	    <!--  -->
+    </div>
+    
     </div>
     
     <!-- Modal -->
