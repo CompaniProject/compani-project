@@ -37,6 +37,26 @@ input[type=file]::file-selector-button {
 	border: 0;
 	overflow: hidden;
 }
+
+tr th {
+	font-weight: bold;
+	color: #696969;
+}
+
+input[type="checkbox"]::after {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	border: 1px solid black;
+	appearance: none;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+input[type="checkbox"]:checked::after {
+	color: red;
+	border-color: black;
+}
 </style>
 </head>
 <th:block layout:fragment="content">
@@ -97,10 +117,9 @@ input[type=file]::file-selector-button {
 											<div class="FixOnTop ModalTopBar">
 												<div class="IssueTopBar">
 
-													<!-- 체크박스 -->
-													<input type="checkbox" style="margin-right: 30px">
 													<!-- 검색 필터 -->
-													<div class="SearchBox" style="margin-right: 20px">
+													<div class="SearchBox"
+														style="margin-right: 20px; margin-left: 20px">
 
 														<label for="SearchToggleCheckBox"></label>
 														<div class="SearchInputBox" style="width: 290px;">
@@ -115,10 +134,13 @@ input[type=file]::file-selector-button {
 																	<ul class="issue-select-ul"
 																		style="width: 100px; top: 20%; display: none;">
 																		<li class="issue-select-option" data-value="파일명">파일명</li>
-																		<li class="issue-select-option" data-value="참여자">등록자</li>
+																		<li class="issue-select-option" data-value="작성자">작성자</li>
 																	</ul>
 																</div>
 															</div>
+															<input class="SearchInputModalView" id="search"
+																name="search" type="text" placeholder="검색어를 입력하세요."><span
+																class="DeleteSearchWord"></span>
 														</div>
 													</div>
 
@@ -129,37 +151,43 @@ input[type=file]::file-selector-button {
 													<button id="FileDelete" type="submit"
 														class="btn mb-1 btn-dark">삭제</button>
 												</div>
-												<br>
-												<br>
+												<br> <br>
 
+												<div class="ModalInfoArea IssueInfoArea">
 
-												<table>
-													<thead>
-														<tr>
-															<th>파일명</th>
-															<th>크기</th>
-															<th>등록자</th>
-															<th>등록날짜</th>
-															<th>저장</th>
-															<th>삭제</th>
-														</tr>
-													</thead>
+													<div class="col-lg-6" style="width: 100%; max-width: 100%;">
 
-													<hr style="border-bottom: solid 1px">
-
-													<tbody>
-														<th:block th:each="file : ${fileList}">
-															<tr>
-																<td><input type="checkbox"></td>
-																<td th:text="${file.fileNm}" />
-																<td th:text="${file.fileSize}" />
-																<td th:text="${file.membId}" />
-																<td th:text="${file.fileDt}" />
-																<td>ㅎ</td>
-															</tr>
-														</th:block>
-													</tbody>
-												</table>
+														<div class="table-responsive">
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th><input type="checkbox" id="kingBox"></th>
+																		<th style="font-weight: normal;">파일명</th>
+																		<th style="font-weight: normal;">크기</th>
+																		<th style="font-weight: normal;">작성자</th>
+																		<th style="font-weight: normal;">등록일자</th>
+																	</tr>
+																</thead>
+																<tbody id="issueList">
+																	<th:block th:each="file : ${fileList}">
+																		<tr>
+																			<td><input type="checkbox" name="noviBox"></td>
+																			<td th:text="${file.fileNm}" />
+																			<td th:text="${file.fileSize}" />
+																			<td th:text="${file.membId}" />
+																			<td
+																				th:text="${#dates.format(file.fileDt, 'yyyy-MM-dd')}" />
+																			<!-- 다운로드 아이콘 -->
+																			<td><i class="fa-solid fa-download"></i></td>
+																			<!-- 쓰레기 아이콘 -->
+																			<td id="trashIcon"><i class="fa-solid fa-trash"></i></td>
+																		</tr>
+																	</th:block>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -172,6 +200,7 @@ input[type=file]::file-selector-button {
 		</div>
 	</div>
 	<script>
+	// 모달
 		$('.issue-selectBox').on('click', function() {
 			$('.issue-select-ul').css('display', 'block');
 		});
@@ -183,6 +212,68 @@ input[type=file]::file-selector-button {
 			$('.issue-select-ul').css('display', 'none');
 			e.stopPropagation();
 		});
+	
+	// 체크박스 전체선택
+		$('#kingBox').on('click', boxCK);
+	
+		function boxCK(){
+			if($('#kingBox').is(':checked')){
+				$('input[name="noviBox"]').prop("checked", true);
+			}else{
+				$('input[name="noviBox"]').prop("checked", false);
+			};
+			return "workFile";
+		};
+	
+		// 아이콘 클릭시 삭제
+		$('#trashIcon').on('click', oneFileDel);
+		
+		function oneFileDel(event){
+			let trTag = $('#noviBox').closest('tr'); // 아이디가 noviBox인 input박스의 가장 가까운 부모인 tr을 지정
+			let fileNo = $(trTag).children().eq(1).text(); // 자식의 배열을 지정
+			
+			$.ajax('getDelAjax?fileNo='+fileNo)
+			.done(result => {
+				console.log(result);
+				
+				let delFile = result.list[0];
+				
+				$('tbody > tr > td:nth-of-type(2)').each(function(idx, tag){ // td 선택해서 tag에 집어넣고 반복문
+					if(tag.textContent == delFile){ // tag가 가진 텍스트 값이 list에 넣은 파일 번호와 일치한다면
+						$(tag).parent().remove(); // tag의 자식 삭제
+					}
+				})
+			})
+			.fail(reject=>
+				console.log(reject));
+		}	
+		
+		/* // 선택 삭제
+			
+			$('#trashIcon').on('click', fileDel);
+		
+			function fileDel(event){
+			
+			let getFileList = ();
+			
+			// ajax
+			$.ajax('FileDelete',{
+				type : "post",
+				contentType : "application/json",
+				data : JSON.stringify(empIdList)
+			})
+			.done(result =>{
+				console.log(result);
+				if(result){
+					location.href="workFile"; // 예외처리
+				}
+			})
+			.fail(reject =>
+				console.log(reject));
+		}  */
+		
+
+		
 	</script>
 </th:block>
 </html>
