@@ -46,17 +46,25 @@
 		project_member pm LEFT JOIN
 		(
 			SELECT memb_id
-					, buss_st
 					, COUNT(memb_id) AS buss_st_cnt
-					, (SELECT COUNT(*) FROM business_member WHERE  memb_id = bm.memb_id) total
+					, (
+						SELECT COUNT(*)
+						FROM business_member
+						<where>
+							<if test="prjtNo != null and prjtNo > 0">
+								AND prjt_no = #{prjtNo}
+							</if>
+							AND memb_id = bm.memb_id
+						</where>
+					) total
 			FROM business_member bm LEFT JOIN business b ON(bm.buss_no = b.buss_no)
 			<where>
 				<if test="prjtNo != null and prjtNo > 0">
 					AND bm.prjt_no = #{prjtNo}
 				</if>
-				AND buss_st = 'END' OR buss_st IS NULL
+				AND buss_st = 'END' OR buss_st = 'DELAYEND' OR buss_st IS NULL
 			</where>
-			GROUP BY memb_id, buss_st
+			GROUP BY memb_id
 		) mg ON(pm.memb_id = mg.memb_id)
 		LEFT JOIN member m ON(pm.memb_id = m.memb_id)
 		<where>
