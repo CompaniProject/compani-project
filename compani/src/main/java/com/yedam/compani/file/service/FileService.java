@@ -17,4 +17,6 @@ public interface FileService {
 	// 삭제
 	public Map<String, Object> getFileDelete(List<Integer> list);
 	
+
+	
 }

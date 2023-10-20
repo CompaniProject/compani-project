@@ -9,4 +9,6 @@ public interface ProjectMapper {
 	//전체조회
 	public List<ProjectVO> selectAllProject();
 	public List<Map<Object,Object>> selectProjectAndMemberList();
+	public List<ProjectVO> getProjectStateList(ProjectVO projectVO);
+	public int updateFavorite(ProjectVO projectVO); 
 }

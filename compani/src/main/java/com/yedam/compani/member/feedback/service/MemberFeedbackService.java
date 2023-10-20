@@ -1,5 +1,7 @@
 package com.yedam.compani.member.feedback.service;
 
-public interface MemberFeedbackService {
+import java.util.List;
 
+public interface MemberFeedbackService {
+	public List<MemberFeedbackVO> getMemberFeedbackList();
 }

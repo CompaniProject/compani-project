@@ -42,35 +42,35 @@ function issuePaging(pageNum) {
 			$.each(data.issues, function (idx, item) {
 				var trTag = $('<tr/>');
 
-				if (item.issuKnd === 'BUG') {
+				if (item.issuKnd == 'OL1') {
 					trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
-				} else if (item.issuKnd === 'IMPR') {
+				} else if (item.issuKnd == 'OL2') {
 					trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
-				} else if (item.issuKnd === 'FUNC') {
+				} else if (item.issuKnd == 'OL3') {
 					trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
-				} else if (item.issuKnd === 'BUSS') {
+				} else if (item.issuKnd == 'OL4') {
 					trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
 				}
 				trTag.append('<td>' + item.issuCntn + '</td>');
 				trTag.append('<td>' + item.membId + '</td>');
 
-				if (item.issuSt === 'solve') {
+				if (item.issuSt == 'OE1') {
 					trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
-				} else if (item.issuSt === 'unsolve') {
+				} else if (item.issuSt == 'OE2') {
 					trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
-				} else if (item.issuSt === 'unsolvable') {
+				} else if (item.issuSt == 'OE3') {
 					trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
 				}
 
-				if (item.issuRank === '매우 높음') {
+				if (item.issuRank == 'OG1') {
 					trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
-				} else if (item.issuRank === '높음') {
+				} else if (item.issuRank == 'OG2') {
 					trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
-				} else if (item.issuRank === '보통') {
+				} else if (item.issuRank == 'OG3') {
 					trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
-				} else if (item.issuRank === '낮음') {
+				} else if (item.issuRank == 'OG4') {
 					trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
-				} else if (item.issuRank === '매우 낮음') {
+				} else if (item.issuRank == 'OG5') {
 					trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
 				}
 

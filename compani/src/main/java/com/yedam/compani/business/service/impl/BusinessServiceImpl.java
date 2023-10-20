@@ -54,5 +54,11 @@ public class BusinessServiceImpl implements BusinessService {
 	public int updateProceedToDelay() {
 		return businessMapper.updateProceedToDelay();
 	}
+	
+	@Override
+	public List<BusinessVO> getBusinessList() {
+		
+		return businessMapper.getBusinessList();
+	}
 
 }

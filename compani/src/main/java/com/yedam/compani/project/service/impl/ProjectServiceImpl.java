@@ -27,4 +27,15 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectProjectAndMemberList();
 	}
 
+	@Override
+	public List<ProjectVO> getProjectStateList(ProjectVO projectVO) {
+		
+		return projectMapper.getProjectStateList(projectVO);
+	}
+
+	@Override
+	public int updateFavorite(ProjectVO projectVO) {
+		return projectMapper.updateFavorite(projectVO);
+	}
+
 }

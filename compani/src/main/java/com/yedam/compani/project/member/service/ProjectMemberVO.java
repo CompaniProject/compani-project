@@ -8,4 +8,5 @@ public class ProjectMemberVO {
 	private String membId;
 	private String prjtmembPerm;
 	private String prjtFav;
+	private String prjtSt;
 }
