@@ -50,4 +50,10 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.selectBusinessAndLevelList(prjtNo);
 	}
 
+	@Override
+	public List<BusinessVO> getBusinessList() {
+		
+		return businessMapper.getBusinessList();
+	}
+
 }

@@ -12,4 +12,7 @@ public interface BusinessService {
 
 	public List<List<String>> getBusinessStateList(Integer prjtNo);
 	public List<Map<Object,Object>> getBusinessAndLevelList(Integer prjtNo);
+	
+	//업무 리스트 
+	public List<BusinessVO> getBusinessList();
 }
