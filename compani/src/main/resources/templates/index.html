@@ -179,10 +179,10 @@
 								</div>
 							</div>
 							<form th:action="@{/ModalAjaxIssueInsert}" method="post" th:object="${issueVO}">
-					
+
 								<!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 								<div class="modalIssueInsertForm" style="display: none">
-									
+
 									<div class="modalInsertContent">
 										<div class="issueInsertContentTopBar">
 											<span class="cancelWriting"></span>
@@ -414,7 +414,7 @@
 			} else if ($('#issuKndVal').text() == '업무') {
 				$('#issuKnd').val('OL4');
 			}
-									
+
 			let content = editor.getHTML();
 			$('#issuCntn').attr('value', content);
 		});
@@ -431,7 +431,7 @@
 		const upload = document.querySelector('.LoadBtn.upload');
 
 		upload.addEventListener('click', () => realUpload.click());
-		
+
 		checkFile();
 		// 업로드 된 파일이 없을 경우 ..
 		function checkFile() {
