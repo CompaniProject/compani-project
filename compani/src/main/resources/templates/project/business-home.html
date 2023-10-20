@@ -161,7 +161,8 @@
 		                                <div>
 	                                    	<span 
 	                                    	th:class="${business.dDay < 0} ? 'badge badge-danger px-2' : 'badge badge-primary px-2' "
-	                                    	th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"></span>
+	                                    	th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|">
+	                                    	</span>
                                    			
                                    			<th:block th:switch="${business.bussImp}">
 												<th:block th:case="high">
@@ -213,9 +214,14 @@
 			                                    	</th:block>
 			                                    	<span th:utext="${business.bussNm}"></span>
 			                                    </td>
-			                                    <td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"
-			                                    	th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
-			                                    <td>
+												<th:block th:if="${business.bussSt} == 'PROCEED' or ${business.bussSt} == 'DELAY'">
+													<td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"
+														th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
+												</th:block>
+												<th:block th:unless ="${business.bussSt} == 'PROCEED' or ${business.bussSt} == 'DELAY'">
+													<td></td>
+												</th:block>
+												<td>
 			                                        <div class="progress" style="height: 10px">
 			                                            <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
 			                                            </div>
