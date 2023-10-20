@@ -47,6 +47,17 @@
 		WHERE buss_st = 'PROCEED'
 		OR	  buss_st = 'DELAY'
 		<!-- AND prjt_no = #{prjt_no} -->
-		ORDER BY buss_frdt
+		<if test='projectCalendarSort == "date"'>
+			ORDER BY buss_frdt
+		</if>
+		<if test='projectCalendarSort == "prgre"'>
+			ORDER BY buss_prgre DESC
+		</if>
+		<if test='projectCalendarSort == "imp"'>
+			ORDER BY buss_imp DESC
+		</if>
+		<if test='projectCalendarSort == ""'>
+			ORDER BY buss_frdt
+		</if>
 	</select>
 </mapper>
