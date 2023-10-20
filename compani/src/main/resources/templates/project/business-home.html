@@ -87,6 +87,7 @@
 	                                        </div>
 		                                </div>
 		                                <div>
+		                                    <span class="badge badge-success px-2" th:text="완료"></span>
 	                                  		<th:block th:switch="${business.bussImp}">
 												<th:block th:case="high">
 		                                    		<span class="badge badge-pill badge-danger px-2">상</span>
@@ -121,10 +122,6 @@
 	                                        </div>
 		                                </div>
 		                                <div>
-	                                    	<span 
-	                                    	th:class="${business.dDay < 0} ? 'badge badge-danger px-2' : 'badge badge-primary px-2' "
-	                                    	th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"></span>
-                                   			
                                    			<th:block th:switch="${business.bussImp}">
 												<th:block th:case="high">
 		                                    		<span class="badge badge-pill badge-danger px-2">상</span>
@@ -219,7 +216,7 @@
 														th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
 												</th:block>
 												<th:block th:unless ="${business.bussSt} == 'PROCEED' or ${business.bussSt} == 'DELAY'">
-													<td style="color:red;">완료</td>
+													<td style="color:green;">완료</td>
 												</th:block>
 												<td>
 			                                        <div class="progress" style="height: 10px">
