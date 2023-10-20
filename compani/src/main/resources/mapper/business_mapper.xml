@@ -73,4 +73,11 @@
 		START WITH buss_upcd IS NULL
 		CONNECT BY PRIOR  buss_no = buss_upcd
 	</select>
+
+	<update id="updateProceedToDelay">
+		UPDATE business
+		SET buss_st = 'DELAY'
+		WHERE buss_st = 'PROCEED'
+		AND sysdate > buss_todt
+	</update>
 </mapper>

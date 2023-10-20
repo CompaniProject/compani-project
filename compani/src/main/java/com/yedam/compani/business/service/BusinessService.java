@@ -12,4 +12,6 @@ public interface BusinessService {
 
 	public List<List<String>> getBusinessStateList(Integer prjtNo);
 	public List<Map<Object,Object>> getBusinessAndLevelList(Integer prjtNo);
+
+	public int updateProceedToDelay();
 }
