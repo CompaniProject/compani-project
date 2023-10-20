@@ -122,9 +122,11 @@ select {
 						<div class="businessList"
 							onMouseover="this.style.backgroundColor='#eeeeee';"
 							onMouseout="this.style.backgroundColor='#ffffff';">
-							<div class="businessList2" th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
+							<div class="businessList2" 
+								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
 							</div>
-							<div class="businessList2" th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'"></div>
+							<div class="businessList2" 
+								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'"></div>
 						</div>
 					</th:block>
 				</div>
@@ -169,7 +171,7 @@ select {
 			}
 	   		console.log(calendarData);
 	   		
-	   		/* 화면 재생성 */
+	   		/* 화면에 다시 뿌리기 */
 	   		$('.businessList').remove();
 	   		
 	   		for(let i=0; i<calendarData.length; i++){
@@ -177,7 +179,8 @@ select {
 	   			$('.businessList').attr("onMouseover", "this.style.backgroundColor='#eeeeee';");
 	   			$('.businessList').attr("onMouseout", "this.style.backgroundColor='#ffffff';");
 	   			
-	   			
+	   			$('.businessList').append($('<div class="businessList2"></div>'));
+	   			$('.businessList2:last').append(calendarData[i].bussFrdt + ' ~ ' + )
 	   		}
 	   	});
 	   	
