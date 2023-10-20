@@ -230,7 +230,12 @@
 			                                    <td><span class="label gradient-1 btn-rounded" th:text="|${business.bussPrgre}%|"></span>
 			                                    </td>
 			                                    <td>
-			                                    <span class="badge badge-primary px-2" th:text="${business.bussSt}">진행중</span>
+												<th:block th:switch="${business.bussSt}">
+													<span th:case="PROCEED" th:text="진행중" class="badge badge-info px-2"></span>
+													<span th:case="END" th:text="완료" class="badge badge-success px-2" ></span>
+													<span th:case="DELAY" th:text="초과" class="badge badge-danger px-2" ></span>
+													<span th:case="DELAYEND" th:text="초과완료" class="badge badge-light px-2" ></span>
+												</th:block>
 			                                    </td>
 			                                </tr>
 			                            </tbody>
