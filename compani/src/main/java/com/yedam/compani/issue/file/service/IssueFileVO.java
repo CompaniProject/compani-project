@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class IssueFileVO {
-	private Integer issuFileNo;
+	private int issuFileNo;
 	private String issuFileNm;
 	private String issuFilePath;
-	private Integer issuNo;
+	private int issuNo;
 }
