@@ -95,7 +95,7 @@
                                             th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
                                     </th:block>
                                     <th:block th:unless ="${business.bussSt} == 'PROCEED' or ${business.bussSt} == 'DELAY'">
-                                    	<td></td>
+                                    	<td style="color:green;">완료</td>
                                     </th:block>
                                     <td>
                                         <div class="progress" style="height: 10px">
