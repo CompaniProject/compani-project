@@ -9,7 +9,7 @@ public interface IssueService {
 	// 이슈 전체 조회(검색)
 	public Page<IssueVO> getIssueList(int pageNo, SearchDto search);
 	
-	//메인홈 이슈 리스트 조회
-	public List<IssueVO> getIssueList();
+	// 모달 이슈 등록
+	public int modalInsertIssue(IssueVO issueVO);
 	
 }

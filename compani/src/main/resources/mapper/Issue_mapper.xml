@@ -46,4 +46,44 @@
 
 	</select>
 
+	<insert id="modalInsertIssue" parameterType="IssueVO">
+		<selectKey keyProperty="issuNo" resultType="int" order="BEFORE">
+				SELECT NVL(MAX(issu_no), 0) + 1
+				FROM   issue
+		</selectKey>
+		INSERT INTO issue
+				(   issu_no
+				  , prjt_no
+				  , buss_no
+				  , memb_id
+				  , issu_ttl
+				  , issu_cntn
+				  , issu_knd
+				  , issu_rank
+				  , issu_st
+				  , issu_dt																			 
+				)
+			  VALUES  
+			   (
+					#{issuNo}
+				  , 1
+				  , 1
+				  , 'm1'
+				  , #{issuTtl}
+			<choose>
+				<when test="issuCntn != null and !issuCntn.equals('')">
+				  , #{issuCntn}
+				</when>
+				<otherwise>
+				  , 'No Contents'
+				</otherwise>
+			</choose>
+				  , #{issuKnd}
+				  , #{issuRank}
+				  , 'OE2'
+				  , SYSDATE					
+			   )								 
+</insert>
+
+	
 </mapper>

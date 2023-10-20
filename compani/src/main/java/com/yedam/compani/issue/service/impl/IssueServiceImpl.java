@@ -25,9 +25,8 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<IssueVO> getIssueList() {
-		
-		return issueMapper.getIssueList();
+	public int modalInsertIssue(IssueVO issueVO) {
+		return issueMapper.modalInsertIssue(issueVO);
 	}
 
 }
