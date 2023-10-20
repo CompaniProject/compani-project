@@ -16,6 +16,6 @@ public interface FileMapper {
 		public int FileInsert(FileVO fileVO);
 		
 		// 삭제
-		public int FileDelete(int FileNum);
+		public int FileDelete(int FileNo);
 	
 }
