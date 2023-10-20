@@ -90,13 +90,19 @@
                                     	</th:block>
                                     	<span th:utext="${business.bussNm}"></span>
                                     </td>
-                                    <th:block th:if="${business.bussSt} == 'PROCEED' or ${business.bussSt} == 'DELAY'">
-                                        <td th:text="${business.dDay < 0} ? |지연 + ${-business.dDay}|: |D-${business.dDay}|"
-                                            th:style="${business.dDay < 0 ? 'color:red;' : ''}"></td>
-                                    </th:block>
-                                    <th:block th:unless ="${business.bussSt} == 'PROCEED' or ${business.bussSt} == 'DELAY'">
-                                    	<td style="color:green;">완료</td>
-                                    </th:block>
+                                        <th:block th:switch="${business.bussSt}">
+                                            <th:block th:case="PROCEED">
+                                                <td th:text="|D-${business.dDay}|"></td>
+                                            </th:block>
+                                            <th:block th:case="DELAY">
+                                                <td th:text="|지연 + ${-business.dDay}|" style="color:red;"></td>
+                                            </th:block>
+                                            <th:block th:case ="END">
+                                                <td style="color:green;">완료</td>
+                                            </th:block>
+                                            <th:block th:case ="DELAYEND">
+                                                <td style="color:green;" th:text="|${business.endDelayDay}일 초과완료|"></td>
+                                        </th:block>
                                     <td>
                                         <div class="progress" style="height: 10px">
                                             <div class="progress-bar gradient-1" th:style="|width:${business.bussPrgre}%;|" role="progressbar">
