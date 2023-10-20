@@ -17,7 +17,7 @@ public class CompanyController {
 	
 	//회사목록
 	@PostMapping("/companyList")
-	@ResponseBody
+	@ResponseBody   
 	public Map<String, Object> companyList(){
 		Map<String, Object> compList = new HashMap<>();
 		compList.put("result", true);
