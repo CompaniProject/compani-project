@@ -18,17 +18,17 @@
 	<th:block layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-6 col-md-12">
-			<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">프로젝트</h4>
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								<a class="dropdown-item" href="#"></a> 참여중<i
+								<a class="dropdown-project" href="#"></a> 참여중<i
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">참여중</a> <a
-									class="dropdown-item" href="#">완료</a>
+								<a class="dropdown-project" href="#">참여중</a> <a
+									class="dropdown-project" href="#">완료</a>
 
 							</div>
 						</div>
@@ -71,16 +71,17 @@
 
 			</div>
 			<div class="col-lg-6 col-md-12">
-			<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">코멘트(개인피드백)</h4>
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								<a class="dropdown-item" href="#"></a>날짜<i
+								<a class="dropdown-feedback" href="#"></a>최신순<i
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">엥?</a>
+								<a class="dropdown-feedback" href="#">최신순</a>
+								<a class="dropdown-feedback" href="#">오래된순</a>
 							</div>
 						</div>
 
@@ -112,7 +113,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">업무</h4>
 						<div class="dropdown custom-dropdown">
@@ -156,7 +157,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">이슈</h4>
 
@@ -201,7 +202,8 @@
 			//즐겨찾기
 			$(document).on('click','td:nth-child(1)' ,projectFavorite);
 			//드롭다운 
-			$('.dropdown-item').on('click', projectDropDown);
+			$('.dropdown-project').on('click', projectDropDown);
+			$('.dropdown-feedback').on('click', feedbackDropdown);
 					
 			function projectDropDown() {
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
@@ -266,14 +268,24 @@
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
-						
 					})
-					
-
 				})
 				.fail(err =>  console.log(err));
 				}
 				
+			
+			
+			function feedbackDropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+				
+				 
+			 	let memberFeedbackList = memberFeedbackList;
+				
+			
+				
+			}
 
 			
 			function projectFavorite(event) {
