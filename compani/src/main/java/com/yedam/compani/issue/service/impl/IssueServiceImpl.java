@@ -22,4 +22,11 @@ public class IssueServiceImpl implements IssueService {
 		return issueMapper.findIssue(search);
 	}
 
+	@Override
+	public int modalInsertIssue(final IssueVO issueVO) {
+		issueMapper.modalInsertIssue(issueVO);
+		
+		return issueVO.getIssuNo();
+	}
+
 }

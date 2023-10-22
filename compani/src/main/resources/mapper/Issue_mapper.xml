@@ -4,35 +4,86 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.issue.mapper.IssueMapper">
 
-<select id="findIssue" resultType="com.yedam.compani.issue.service.IssueVO">
-	SELECT  I.ISSU_NO
-		  , I.PRJT_NO
-		  , I.BUSS_NO       
-		  , I.MEMB_ID
-		  , I.ISSU_TTL
-		  , I.ISSU_CNTN
-		  , I.ISSU_KND
-		  , I.ISSU_RANK
-		  , I.ISSU_ST
-		  , I.ISSU_DT
-		  , P.PRJT_NM
-		  , B.BUSS_NM
-	FROM    ISSUE I, PROJECT P, BUSINESS B
-	WHERE   I.BUSS_NO = B.BUSS_NO
-	AND     B.PRJT_NO = P.PRJT_NO
-	<choose>
-    <when test="keyword == '작성자'">
-      AND   MEMB_ID LIKE '%' || #{search} || '%'
-    </when>
-    <when test="keyword == '제목'">
-     AND   ISSU_TTL LIKE '%' || #{search} || '%'
-    </when>
-    <when test="keyword == '전체'">
-      AND   (MEMB_ID  LIKE '%' || #{search} || '%'
-      OR  	ISSU_TTL LIKE '%'  || #{search} || '%')
-    </when>
-	</choose>
-	ORDER BY ISSU_DT ASC
-</select>
+	<select id="findIssue"
+		resultType="com.yedam.compani.issue.service.IssueVO">
+		SELECT I.ISSU_NO
+		, I.PRJT_NO
+		, I.BUSS_NO
+		, I.MEMB_ID
+		, I.ISSU_TTL
+		, I.ISSU_CNTN
+		, I.ISSU_KND
+		, I.ISSU_RANK
+		, I.ISSU_ST
+		, I.ISSU_DT
+		, P.PRJT_NM
+		, B.BUSS_NM
+		FROM ISSUE I, PROJECT P, BUSINESS B
+		WHERE I.BUSS_NO = B.BUSS_NO
+		AND B.PRJT_NO = P.PRJT_NO
+		<choose>
+			<when test="keyword == '작성자'">
+				AND MEMB_ID LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '제목'">
+				AND ISSU_TTL LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '전체'">
+				AND (MEMB_ID LIKE '%' || #{search} || '%'
+				OR ISSU_TTL LIKE '%' || #{search} || '%')
+			</when>
+		</choose>
+		ORDER BY ISSU_DT ASC
+	</select>
 
+	<select id="getIssueList" resultType="IssueVO">
+		SELECT p.PRJT_NM, 
+			   i.MEMB_ID ,
+			   i.ISSU_DT,
+			   i.ISSU_ST
+		FROM   project p , issue i
+		WHERE  p.prjt_NO = i.prjt_NO
+
+	</select>
+
+	<insert id="modalInsertIssue" parameterType="IssueVO">
+		<selectKey keyProperty="issuNo" resultType="int" order="BEFORE">
+				SELECT NVL(MAX(issu_no), 0) + 1
+				FROM   issue
+		</selectKey>
+		INSERT INTO issue
+				(   issu_no
+				  , prjt_no
+				  , buss_no
+				  , memb_id
+				  , issu_ttl
+				  , issu_cntn
+				  , issu_knd
+				  , issu_rank
+				  , issu_st
+				  , issu_dt																			 
+				)
+			  VALUES  
+			   (
+					#{issuNo}
+				  , 1
+				  , 1
+				  , 'm1'
+				  , #{issuTtl}
+			<choose>
+				<when test="issuCntn != null and !issuCntn.equals('')">
+				  , #{issuCntn}
+				</when>
+				<otherwise>
+				  , 'No Contents'
+				</otherwise>
+			</choose>
+				  , #{issuKnd}
+				  , #{issuRank}
+				  , 'OE2'
+				  , SYSDATE					
+			   )								 
+</insert>
+
+	
 </mapper>

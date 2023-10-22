@@ -1,5 +1,9 @@
 package com.yedam.compani.member.feedback.mapper;
 
-public interface MemberFeedbackMapper {
+import java.util.List;
 
+import com.yedam.compani.member.feedback.service.MemberFeedbackVO;
+
+public interface MemberFeedbackMapper {
+	public List<MemberFeedbackVO> getMemberFeedbackList();
 }

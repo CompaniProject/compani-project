@@ -12,4 +12,5 @@ public class MemberFeedbackVO {
 	private Date membFdbkDt;
 	private String membFdbkObj;
 	private int prjtNo;
+	private String prjtNm;
 }

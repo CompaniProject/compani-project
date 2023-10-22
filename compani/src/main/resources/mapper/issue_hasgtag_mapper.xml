@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.compani.issue.hashtag.mapper.IssueHashtagMapper">
+	<insert id="modalInsertIssueHashtag" parameterType="IssueHashtagVO">
+		<selectKey keyProperty="issuHtNo" resultType="int" order="BEFORE">
+				SELECT NVL(MAX(issu_ht_no), 0) + 1
+				FROM   issue_hashtag
+		</selectKey>
+		INSERT INTO issue_hashtag
+				(   issu_ht_no
+				  , issu_no
+				  , issu_ht_nm																 
+				)
+			  VALUES  
+			   (
+					#{issuHtNo}
+				  , #{issuNo}
+				  , #{issuHtNm}			
+			   )								 
+</insert>
+</mapper>

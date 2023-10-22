@@ -6,8 +6,9 @@
 	namespace="com.yedam.compani.project.member.mapper.ProjectMemberMapper">
 
 	<select id="selectAllProjectMemberCount" resultType="ProjectMemberVO">
-		SELECT PRJT_NO , COUNT(PRJT_NO) AS COUNT
-		FROM PROJECT_MEMBER
+		SELECT PRJT_NO , 
+			   COUNT(PRJT_NO) AS COUNT
+		FROM   PROJECT_MEMBER
 		GROUP BY PRJT_NO
 	</select>
 
@@ -31,11 +32,6 @@
 			</if>
 		</where>
 	</select>
-	<update id="updateFavorite" parameterType="ProjectMemberVO">
-		UPDATE PROJECT_MEMBER
-		SET    PRJT_FAV = #{prjtFav}
-		WHERE  PRJT_NO = #{prjtNo}
-	</update>
 	<select id="selectBusinessCompleteStatus" resultType="CamelHashMap">
 		SELECT pm.memb_id
 				, NVL(mg.buss_st_cnt,0) AS end_cnt

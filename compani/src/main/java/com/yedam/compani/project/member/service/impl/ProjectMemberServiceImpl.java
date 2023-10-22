@@ -19,13 +19,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 	public List<ProjectMemberVO> getProjectMemberCountList() {
 		return projectMemberMapper.selectAllProjectMemberCount();
 	}
-	@Override
-	public int updateFavorite(ProjectMemberVO projectMemberVO) {
 	
-		return projectMemberMapper.updateFavorite(projectMemberVO);
-	}
-
-
 	@Override
 	public List<Map<Object, Object>> getProjectMemberList(Integer prjtNo) {
 		return projectMemberMapper.selectProjectMemberList(prjtNo);
