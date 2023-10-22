@@ -11,4 +11,6 @@ public interface IssueService {
 	// 모달 이슈 등록
 	public int modalInsertIssue(final IssueVO issueVO);
 	
+	public List<IssueVO> getIssueList();
+	
 }

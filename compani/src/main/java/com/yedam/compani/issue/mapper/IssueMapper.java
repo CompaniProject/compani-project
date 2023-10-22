@@ -11,5 +11,5 @@ public interface IssueMapper {
 	
 	// 모달 창에서 이슈 등록
 	public int modalInsertIssue(IssueVO issueVO);
-	
+	public List<IssueVO> getIssueList();
 }

@@ -29,4 +29,10 @@ public class IssueServiceImpl implements IssueService {
 		return issueVO.getIssuNo();
 	}
 
+	@Override
+	public List<IssueVO> getIssueList() {
+		
+		return issueMapper.getIssueList();
+	}
+
 }
