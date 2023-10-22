@@ -178,8 +178,7 @@
 									</div>
 								</div>
 							</div>
-							<form th:action="@{/ModalAjaxIssueInsert}" method="post" th:object="${issueVO}">
-
+							<form id="saveIssuePost" method="post" autocomplete="off" enctype="multipart/form-data">
 								<!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 								<div class="modalIssueInsertForm" style="display: none">
 
@@ -191,9 +190,8 @@
 									</div>
 									<div class="issueNameEdit">
 										<div class="issueNameBack">
-											<textarea class="modalIssueNameUpdate" id="issuTtl" maxlength="200"
-												style="height: 34px;" placeholder="제목을 입력하세요."
-												th:field="*{issuTtl}"></textarea>
+											<textarea class="modalIssueNameUpdate" id="issuTtlVal" maxlength="200"
+												style="height: 34px;" placeholder="제목을 입력하세요."></textarea>
 										</div>
 									</div>
 									<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
@@ -203,9 +201,8 @@
 										<div class="dropBoxArea">
 											<div class="basic-dropdown" style="display: inline;">
 												<div class="dropdown">
-													<button type="button" id="issuKndVal" class="badge badge-danger"
-														data-toggle="dropdown">버그</button>
-													<input type="hidden" id="issuKnd" th:field="*{issuKnd}">
+													<button type="button" id="issuKndVal" name="issuKndVal"
+														class="badge badge-danger" data-toggle="dropdown">버그</button>
 													<div class="dropdown-menu">
 														<a class="dropdown-item"><span
 																class="badge badge-pill badge-warning">개선사항</span></a>
@@ -227,7 +224,6 @@
 													<div class="dropdown">
 														<button type="button" class="badge badge-success"
 															data-toggle="dropdown" id="issuRankVal">보통</button>
-														<input type="hidden" id="issuRank" th:field="*{issuRank}">
 														<div class="dropdown-menu" style="cursor: pointer;">
 															<a class="dropdown-item"><span
 																	class="badge badge-primary">매우높음</span></a> <a
@@ -248,8 +244,7 @@
 									<div class="writingContent">
 										<div class="writingSection">
 											<div class="sectionTitle">
-												<p class="sectionTitleText">내용</p>
-												<input type="hidden" id="issuCntn" th:field="*{issuCntn}">
+												<p class="sectionTitleText" id="issuCntnVal">내용</p>
 											</div>
 
 											<div id="editor" style="width: 630px;"></div>
@@ -259,12 +254,11 @@
 										<div class="attachSection">
 											<div class="sectionTitle">
 												<p class="sectionTitleText">파일</p>
-												<div class="LoadBtn upload">
+												<div class="LoadBtn upload" onclick="addIssueFile();">
 													<span></span>
 													<p>파일 업로드</p>
 													<input type="file" class="real-upload"
-														onchange="return previewFile();" multiple
-														style="display: none;">
+														onchange="return addIssueFile();" style="display: none;">
 												</div>
 											</div>
 											<div class="fileupload dz">
@@ -278,7 +272,6 @@
 															</tr>
 														</thead>
 														<tbody id="issueFileList">
-
 														</tbody>
 													</table>
 												</div>
@@ -298,11 +291,6 @@
 												</div>
 											</div>
 										</div>
-									</div>
-									<div>
-										<input type="hidden" value='1' th:field="*{prjtNo}">
-										<input type="hidden" value='1' th:field="*{bussNo}">
-										<input type="hidden" value='m1' th:field="*{membId}">
 									</div>
 							</form>
 							<!--  취소 확인하는 모달  -->
@@ -392,31 +380,56 @@
 
 		// editor에 입력된 내용 가져오기 (종류, 중요도)의 값도 가져온다
 		$('.completeWriting').on('click', function () {
+
+			var formData = new FormData();
+			formData.append('issuTtl', $('#issuTtlVal').val());
+
+
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#issuRankVal').text() == '매우높음') {
-				$('#issuRank').val('OG1');
+				formData.append('issuRank', 'OG1');
 			} else if ($('#issuRankVal').text() == '높음') {
-				$('#issuRank').val('OG2');
+				formData.append('issuRank', 'OG2');
 			} else if ($('#issuRankVal').text() == '보통') {
-				$('#issuRank').val('OG3');
+				formData.append('issuRank', 'OG3');
 			} else if ($('#issuRankVal').text() == '낮음') {
-				$('#issuRank').val('OG4');
+				formData.append('issuRank', 'OG4');
 			} else if ($('#issuRankVal').text() == '매우낮음') {
-				$('#issuRank').val('OG5');
+				formData.append('issuRank', 'OG5');
 			}
 			// 종류 text 값 확인 후 data로 넣기 !
 			if ($('#issuKndVal').text() == '버그') {
-				$('#issuKnd').val('OL1');
+				formData.append('issuKnd', 'OL1');
 			} else if ($('#issuKndVal').text() == '개선사항') {
-				$('#issuKnd').val('OL2');
+				formData.append('issuKnd', 'OL2');
 			} else if ($('#issuKndVal').text() == '새기능') {
-				$('#issuKnd').val('OL3');
+				formData.append('issuKnd', 'OL3');
 			} else if ($('#issuKndVal').text() == '업무') {
-				$('#issuKnd').val('OL4');
+				formData.append('issuKnd', 'OL4');
 			}
 
 			let content = editor.getHTML();
-			$('#issuCntn').attr('value', content);
+			formData.append('issuCntn', content);
+
+			var inputFile = $("input[name='files']");
+			var files = inputFile[0].files;
+
+			for (var i = 0; i < files.length; i++) {
+				formData.append("files", files[i]);
+			}
+
+			$.ajax({
+				url: '/ModalAjaxIssueInsert',
+				data: formData,
+				type: 'post',
+				success: function (result) {
+					console.log(result);
+					issuePaging(1);
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			})
 		});
 
 
@@ -426,6 +439,7 @@
 			$(this).parent().siblings().text($(this).text());
 		});
 
+
 		// 파일 업로드 클릭
 		const realUpload = document.querySelector('.real-upload');
 		const upload = document.querySelector('.LoadBtn.upload');
@@ -433,6 +447,7 @@
 		upload.addEventListener('click', () => realUpload.click());
 
 		checkFile();
+
 		// 업로드 된 파일이 없을 경우 ..
 		function checkFile() {
 			if ($('#issueFileList').empty()) {
@@ -446,36 +461,53 @@
 				$('#issueFileList').append(trTag);
 			};
 		};
+
 		// 파일 삭제 버튼 누를 시 ..
 		$(document).on('click', '.deleteFile', function () {
 			$(this).parent().remove();
 			checkFile();
 		});
 
-		// 파일 업로드 시 정보
-		function previewFile() {
-			$('.fileEmpty').remove();
+		// 파일 사이즈 변환하기
+		function getByteSize(size) {
+			const byteUnits = ["KB", "MB", "GB", "TB"];
+			for (let i = 0; i < byteUnits.length; i++) {
+				size = Math.floor(size / 1024);
+				if (size < 1024) return size.toFixed(1) + byteUnits[i];
+			}
+		};
+
+		// 파일 추가
+		function addIssueFile() {
 			var fileInfo = document.querySelector('input[type=file]').files;
 
-			// 파일 용량 변환하기
-			function getByteSize(size) {
-				const byteUnits = ["KB", "MB", "GB", "TB"];
-				for (let i = 0; i < byteUnits.length; i++) {
-					size = Math.floor(size / 1024);
-					if (size < 1024) return size.toFixed(1) + byteUnits[i];
-				}
-			};
-
 			var file = fileInfo[0];
-			if (file) {
-				var trTag = $('<tr/>');
 
+			// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
+			if (!file) {
+				return false;
+			}
+
+			// 2. 파일 크기가 10MB을 초과하는 경우
+			const fileSize = Math.floor(file.size / 1024 / 1024);
+
+			if (fileSize > 10) {
+				alert('10MB 이하의 파일로 업로드해 주세요.');
+				return false;
+			}
+
+			if (file) {
+				$('.fileEmpty').remove();
+				var trTag = $('<tr/>');
 				var fileNameTag = $('<td/>').text(file.name);
 				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
 				var deleteFileTag = $('<td/>').attr('class', 'deleteFile');
+				var fileInputType = $('<input/>').attr('type', 'file').attr('name', 'files').css('display', 'none');
 				trTag.append(fileNameTag);
 				trTag.append(fileSizeTag);
 				trTag.append(deleteFileTag);
+				trTag.append(fileInputType);
+
 				$('#issueFileList').append(trTag);
 			}
 		};
