@@ -80,7 +80,7 @@
 			</choose>
 				  , #{issuKnd}
 				  , #{issuRank}
-				  , 'OE2'
+				  , '0E2'
 				  , SYSDATE					
 			   )								 
 </insert>

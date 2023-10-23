@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -68,11 +67,14 @@ public class IssueController {
 
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
-	public void modalIssueInsert(final IssueVO issueVO) {
+	public String modalIssueInsert(final IssueVO issueVO) {
 		int issuNo = issueService.modalInsertIssue(issueVO);
 
 		List<IssueFileVO> files = fileUtils.uploadFiles(issueVO.getFiles());
-		issueFileService.modalInsertIssueFile(issuNo, files);		
+		issueFileService.modalInsertIssueFile(issuNo, files);
+		
+		System.out.println("등록된 파일에 대한 정보는 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + files);
+		return "index";
 	}
 	
 }
