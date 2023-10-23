@@ -91,16 +91,16 @@
                                     	<span th:utext="${business.bussNm}"></span>
                                     </td>
                                         <th:block th:switch="${business.bussSt}">
-                                            <th:block th:case="PROCEED">
+                                            <th:block th:case="0K1">
                                                 <td th:text="|D-${business.dDay}|"></td>
                                             </th:block>
-                                            <th:block th:case="DELAY">
+                                            <th:block th:case="0K3">
                                                 <td th:text="|지연 + ${-business.dDay}|" style="color:red;"></td>
                                             </th:block>
-                                            <th:block th:case ="END">
+                                            <th:block th:case ="0K2">
                                                 <td style="color:green;">완료</td>
                                             </th:block>
-                                            <th:block th:case ="DELAYEND">
+                                            <th:block th:case ="0K4">
                                                 <td style="color:green;" th:text="|${business.endDelayDay}일 초과|"></td>
                                         </th:block>
                                     <td>
@@ -113,10 +113,10 @@
                                     </td>
                                     <td>
 										<th:block th:switch="${business.bussSt}">
-											<span th:case="PROCEED" th:text="진행중" class="badge badge-info px-2"></span>
-											<span th:case="END" th:text="완료" class="badge badge-success px-2" ></span>
-											<span th:case="DELAY" th:text="초과" class="badge badge-danger px-2" ></span>
-											<span th:case="DELAYEND" th:text="초과완료" class="badge badge-light px-2" ></span>
+											<span th:case="0K1" th:text="진행중" class="badge badge-info px-2"></span>
+											<span th:case="0K2" th:text="완료" class="badge badge-success px-2" ></span>
+											<span th:case="0K3" th:text="초과" class="badge badge-danger px-2" ></span>
+											<span th:case="0K4" th:text="초과완료" class="badge badge-light px-2" ></span>
 										</th:block>
                                     </td>
                                 </tr>
@@ -129,10 +129,10 @@
     </div>
     <script th:inline="javascript">
     const stateType = new Map([    	
-    	['PROCEED','참여중'],
-    	['DELAY','초과'],
-    	['END','완료'],
-    	['DELAYEND','초과완료']
+    	['0K1','참여중'],
+    	['0K3','초과'],
+    	['0K2','완료'],
+    	['0K4','초과완료']
   	]);
     
     window.onload = function () {

@@ -58,7 +58,7 @@
 				<if test="prjtNo != null and prjtNo > 0">
 					AND bm.prjt_no = #{prjtNo}
 				</if>
-				AND buss_st = 'END' OR buss_st = 'DELAYEND' OR buss_st IS NULL
+				AND buss_st = '0K2' OR buss_st = '0K4' OR buss_st IS NULL
 			</where>
 			GROUP BY memb_id
 		) mg ON(pm.memb_id = mg.memb_id)
