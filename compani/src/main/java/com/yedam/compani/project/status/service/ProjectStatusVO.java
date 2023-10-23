@@ -17,4 +17,6 @@ public class ProjectStatusVO {
 	private int issusolveRate;
 	private int issuunsolveRate;
 	private int issuunsolvableRate;
+	private int prjtStatDtCnt;
+	private int prjtMembCnt;
 }
