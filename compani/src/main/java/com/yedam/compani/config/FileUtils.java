@@ -26,14 +26,14 @@ public class FileUtils {
 	     * @return DB에 저장할 파일 정보 List
 	     */
 	    public List<IssueFileVO> uploadFiles(final List<MultipartFile> multipartFiles) {
-	        List<IssueFileVO> issueFileVO = new ArrayList<>();
+	        List<IssueFileVO> files = new ArrayList<>();
 	        for (MultipartFile multipartFile : multipartFiles) {
 	            if (multipartFile.isEmpty()) {
 	                continue;
 	            }
-	            issueFileVO.add(uploadFile(multipartFile));
+	            files.add(uploadFile(multipartFile));
 	        }
-	        return issueFileVO;
+	        return files;
 	    }
 	    
 	    /**

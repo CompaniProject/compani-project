@@ -178,14 +178,14 @@
 									</div>
 								</div>
 							</div>
-							<form id="saveIssuePost" method="post" autocomplete="off" enctype="multipart/form-data">
+							<!--   <form id="saveIssuePost" autocomplete="off" enctype="multipart/form-data"> -->
 								<!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 								<div class="modalIssueInsertForm" style="display: none">
 
 									<div class="modalInsertContent">
 										<div class="issueInsertContentTopBar">
 											<span class="cancelWriting"></span>
-											<button class="completeWriting">등록</button>
+											<button type="button" class="completeWriting" onclick="savePost(); ">등록</button>
 										</div>
 									</div>
 									<div class="issueNameEdit">
@@ -292,7 +292,7 @@
 											</div>
 										</div>
 									</div>
-							</form>
+							<!-- </form> -->
 							<!--  취소 확인하는 모달  -->
 							<div class="modal fade" id="cancelConfirmationModal" tabindex="-1"
 								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
@@ -379,7 +379,8 @@
 		});
 
 		// editor에 입력된 내용 가져오기 (종류, 중요도)의 값도 가져온다
-		$('.completeWriting').on('click', function () {
+		
+		function savePost() {
 
 			var formData = new FormData();
 			formData.append('issuTtl', $('#issuTtlVal').val());
@@ -411,7 +412,7 @@
 			let content = editor.getHTML();
 			formData.append('issuCntn', content);
 
-			var inputFile = $("input[name='files']");
+			var inputFile = $("input[type='file']");
 			var files = inputFile[0].files;
 
 			for (var i = 0; i < files.length; i++) {
@@ -419,18 +420,22 @@
 			}
 
 			$.ajax({
-				url: '/ModalAjaxIssueInsert',
-				data: formData,
+				url: 'ModalAjaxIssueInsert',
 				type: 'post',
+				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+	            contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+				data: formData,
 				success: function (result) {
-					console.log(result);
+					$('.modalIssueInsertForm').css('display', 'none');
+					$('.workModalContentBack').css('display', 'block');
 					issuePaging(1);
 				},
 				error: function (error) {
 					console.log(error);
+					console.log("error 발생!!!!");
 				}
 			})
-		});
+		};
 
 
 		// 드랍다운 
