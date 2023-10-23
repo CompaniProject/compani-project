@@ -11,14 +11,21 @@
 		FROM company
 	</select>
 
+	<!-- 회사코드 생성 -->
+	<select id="createCompanyCode" resultType="String">
+		SELECT 'CPN'||LPAD(NVL(MAX(substr(co_cd, 4)), 0) + 1, 3, '0') "CO_CD"
+		FROM company
+	</select>
+
 	<!--회사등록 -->
-	<insert id="InsertCompanyInfo" parameterType="CompanyVO">
+	<insert id="insertCompanyInfo" parameterType="CompanyVO">
 		<selectKey keyProperty="coCd" resultType="String"
 			order="BEFORE">
-			SELECT 'CPN'||LPAD(NVL(MAX(substr(co_cd, 4)), 0) + 1, 3, '0') "CO_CD" 
+			SELECT 'CPN'||LPAD(NVL(MAX(substr(co_cd, 4)), 0) + 1, 3, '0')
+			"CO_CD"
 			FROM company
 		</selectKey>
-		
+
 		INSERT INTO company(
 		co_cd
 		, co_nm

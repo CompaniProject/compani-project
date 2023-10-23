@@ -6,6 +6,9 @@ public interface CompanyService {
 //	회원가입 소속회사
 	public List<CompanyVO> getCompanyList();
 
+	//회사코드 생성
+	public String makeCompanyCode();
+	
 	// 회사 가입
 	public int setCompanyInfo(CompanyVO vo);
 }
