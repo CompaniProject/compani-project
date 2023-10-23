@@ -11,12 +11,12 @@ public class ProjectStatusVO {
 	private int issusolveCnt;
 	private int issuunsolveCnt;
 	private int issuunsolvableCnt;
-	private int busscmplRate;
-	private int bussuncmplRate;
-	private int bussexceRate;
-	private int issusolveRate;
-	private int issuunsolveRate;
-	private int issuunsolvableRate;
+	private float busscmplRate;
+	private float bussuncmplRate;
+	private float bussexceRate;
+	private float issusolveRate;
+	private float issuunsolveRate;
+	private float issuunsolvableRate;
 	private int prjtStatDtCnt;
 	private int prjtMembCnt;
 	private int prjt_stat_dt_cnt;
