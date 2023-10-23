@@ -19,7 +19,13 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 	@Override
 	public int setCompanyInfo(CompanyVO vo) {
-		return map.InsertCompanyInfo(vo);
+		return map.insertCompanyInfo(vo);
+	}
+	
+	//회사코드 생성
+	@Override
+	public String makeCompanyCode() {
+		return map.createCompanyCode();
 	}
 
 }

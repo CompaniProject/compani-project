@@ -20,7 +20,7 @@ public class CompanyController {
 	
 	//회원가입 소속회사
 	@PostMapping("/companyList")
-	@ResponseBody   
+	@ResponseBody
 	public Map<String, Object> companyList(){
 		Map<String, Object> compList = new HashMap<>();
 		compList.put("result", true);
@@ -34,10 +34,11 @@ public class CompanyController {
 	public String companySignUpForm() {
 		return "company/companySignUp";
 	}
+	
 	//소속회사 등록
 	@PostMapping("/companySignUpped")
 	public String companySignUp(CompanyVO vo, Model model) {
-		service.setCompanyInfo(vo);
+		vo.setCoCd(service.makeCompanyCode());
 		model.addAttribute("compInfo", vo);
 		return "member/memberSignUp";
 	}
