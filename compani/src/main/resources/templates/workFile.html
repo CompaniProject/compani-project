@@ -8,6 +8,10 @@
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">	
+</script>
+
 <style>
 hr {
 	width: 100%;
@@ -91,7 +95,7 @@ input[type="checkbox"]:checked::after {
 								<li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
 							</ul>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body" style="overflow: auto;">
 							<div class="workModalContentBack">
 								<div class="workModalContentSlider">
 									<div class="workModalContent scroll issueContent">
@@ -144,8 +148,9 @@ input[type="checkbox"]:checked::after {
 														</div>
 													</div>
 
-													<input type="file" id="selectedFile" style="display: none;" />
-													<input type="button" id="FileUpload" value="업로드"
+													<input type="file" id="selectedFile" style="display: none;"
+														onchange="fileInfo()" multiple="multiple" /> <input
+														type="button" id="FileUpload" value="업로드"
 														onclick="document.getElementById('selectedFile').click();"
 														class="btn mb-1 btn-info" />
 													<button id="FileDelete" type="submit"
@@ -168,19 +173,20 @@ input[type="checkbox"]:checked::after {
 																		<th style="font-weight: normal;">등록일자</th>
 																	</tr>
 																</thead>
-																<tbody id="issueList">
+																<tbody id="newTrTd">
 																	<th:block th:each="file : ${fileList}">
-																		<tr>
-																			<td><input type="checkbox" name="noviBox"></td>
+																		<tr id="tdData">
+																			<td class="newCKB"><input type="checkbox"
+																				name="noviBox"></td>
 																			<td th:text="${file.fileNm}" />
 																			<td th:text="${file.fileSize}" />
 																			<td th:text="${file.membId}" />
-																			<td
-																				th:text="${#dates.format(file.fileDt, 'yyyy-MM-dd')}" />
+																			<td th:text="${#dates.format(file.fileDt, 'yyyy-MM-dd')}" />
 																			<!-- 다운로드 아이콘 -->
-																			<td><i class="fa-solid fa-download"></i></td>
+																			<td class="downIcon"><i
+																				class="fa-solid fa-download"></i></td>
 																			<!-- 쓰레기 아이콘 -->
-																			<td id="trashIcon"><i class="fa-solid fa-trash"></i></td>
+																			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 																		</tr>
 																	</th:block>
 																</tbody>
@@ -200,7 +206,7 @@ input[type="checkbox"]:checked::after {
 		</div>
 	</div>
 	<script>
-	// 모달
+	// ======== 모달 ========
 		$('.issue-selectBox').on('click', function() {
 			$('.issue-select-ul').css('display', 'block');
 		});
@@ -212,23 +218,114 @@ input[type="checkbox"]:checked::after {
 			$('.issue-select-ul').css('display', 'none');
 			e.stopPropagation();
 		});
+		
+	// ======== 파일 바이트 계산 ========
+	function ByteSize(size) {
+		const byteUnits = ["KB", "MB", "GB", "TB"];
+		for (let i = 0; i < byteUnits.length; i++) {
+			size = Math.floor(size / 1024);
+			if (size < 1024) return size.toFixed(1) + byteUnits[i];
+		}
+	};
 	
-	// 체크박스 전체선택
+	// ======== 파일 업로드시 등록 ========
+	function fileInfo() {
+			
+			var fileInfo = document.querySelector('input[type=file]').files;
+			
+			var file = fileInfo[0];
+			
+			if (file) {
+				var checkTd = $('<td/>').attr('class', 'newCKB');
+				var trTag = $('<tr/>').attr('id','tdData');
+				fileCheckTag = $('<input/>').attr('type', 'checkbox').attr('name','noviBox');
+				var fileNameTag = $('<td/>').text(file.name);
+				var fileSizeTag = $('<td/>').text(ByteSize(file.size));
+				// 작성자 들어갈 곳
+				// 날짜 들어갈 곳
+				
+				var fileDownTag = $('<td/>').attr('class', 'downIcon');
+				 fileDown = $('<i/>').attr('class', 'fa-solid fa-download');
+				var fileDelTag = $('<td/>').attr('class', 'trashIcon');
+				 fileDel = $('<i/>').attr('class', 'fa-solid fa-trash');
+				
+				checkTd.append(fileCheckTag);
+				fileDownTag.append(fileDown);
+				fileDelTag.append(fileDel);
+				
+				
+				trTag.append(checkTd);
+				trTag.append(fileNameTag);
+				trTag.append(fileSizeTag);
+				trTag.append(fileDownTag);
+				trTag.append(fileDelTag);
+					
+				$('#newTrTd').append(trTag);
+			}
+		}
+	
+	// ======== 파일 정보 출력 ========		
+	/* function fileInfo(){
+		let previewFile = document.querySelector('input[type=file]').files; // 인풋타입 파일 긁어와서 파일즈
+		
+		console.log(previewFile); // 출력 확인
+		
+		let file = previewFile[0]; // 
+		
+		if(file){ // 파일이 존재하면 
+			console.log(file.name);
+			console.log(file.size); // 둘다 콘솔 띄워주기(확인용)
+			
+			$('#name').text(file.name); // 아이디 - <td>태그에 파일이름을 집어넣음
+			$('#size').text(ByteSize(file.size)); // 아이디 - <td>태그에 바이트계산 포함 + 파일크기 집어넣음
+			$('date').text(file.lastModified); // 아이디 - <td>태그에 마지막 수정날짜(어차피 수정 불가능하니 작성날짜)
+		}		
+	} */
+	
+	// ======== 파일 선택시 기존 파일을 덮지않고 리스트 생성 ========
+	
+	/* let selectedFiles = []; // 빈 배열 생성 */
+	
+	/* function fileInfo(files) { // input type=file의 files(객체?)
+	    console.log(files);
+	    const fileList = document.getElementById('tdData'); // tr 지정
+	    for(let i=0; i<files.length; i++) {
+	        selectedFiles.push(files[i]); // 빈 배열에 선택한 파일들 배열값 넣기
+	        const item = document.createElement('td'); // td를 새로 생성
+	        const fileName = document.createTextNode(files[i].name); // 선택한 파일의 이름을 변수에 텍스트 생성
+	        const fileSize = document.createTextNode(files[i].size); // 선택한 파일의 사이즈 변수에 텍스트 생성
+	        const deleteButton = document.createElement('button'); // 삭제버튼추가
+	        
+	        deleteButton.addEventListener('click', (event) => { // 삭제버튼 클릭시 새로운 이벤트 생성
+	            item.remove(); // 해당 td 삭제
+	            event.preventDefault(); // 이벤트 막기
+	            deleteFile(files[i]); // files의 배열을 삭제
+	        }); 
+	        
+	        deleteButton.innerText="X"; // 삭제버튼 X 모양 추가
+	        item.appendChild(fileName); // td에다가 파일 이름 추가
+	        item.appendChild(fileSize); // td에다가 사이즈 추가
+	        item.appendChild(deleteButton); // 삭제버튼 추가
+	        fileList.appendChild(item); // fileList에 td를 넣어 화면에 출력
+	    }     
+	} */
+    
+	// ======== 체크박스 전체선택 ========
 		$('#kingBox').on('click', boxCK);
 	
 		function boxCK(){
-			if($('#kingBox').is(':checked')){
-				$('input[name="noviBox"]').prop("checked", true);
+			if($('#kingBox').is(':checked')){ // 아디 KIngBox 상태가 체크됐다면
+				$('input[name="noviBox"]').prop("checked", true); // td에 있는 인풋들에게 체크 부여
 			}else{
-				$('input[name="noviBox"]').prop("checked", false);
+				$('input[name="noviBox"]').prop("checked", false); // 아니라면 해제
 			};
-			return "workFile";
+			return "workFile"; // 리턴
 		};
 	
-		// 아이콘 클릭시 삭제
-		$('#trashIcon').on('click', oneFileDel);
+		// ======== 쓰레기통 아이콘 클릭시 삭제 ========
+		/* $('#trashIcon').on('click', oneFileDel);
 		
-		function oneFileDel(event){
+		function oneFileDel(){
 			let trTag = $('#noviBox').closest('tr'); // 아이디가 noviBox인 input박스의 가장 가까운 부모인 tr을 지정
 			let fileNo = $(trTag).children().eq(1).text(); // 자식의 배열을 지정
 			
@@ -238,7 +335,7 @@ input[type="checkbox"]:checked::after {
 				
 				let delFile = result.list[0];
 				
-				$('tbody > tr > td:nth-of-type(2)').each(function(idx, tag){ // td 선택해서 tag에 집어넣고 반복문
+				$('tbody > tr').each(function(idx, tag){ // td 선택해서 tag에 집어넣고 반복문
 					if(tag.textContent == delFile){ // tag가 가진 텍스트 값이 list에 넣은 파일 번호와 일치한다면
 						$(tag).parent().remove(); // tag의 자식 삭제
 					}
@@ -246,8 +343,13 @@ input[type="checkbox"]:checked::after {
 			})
 			.fail(reject=>
 				console.log(reject));
-		}	
+		}	  */
 		
+		$('.trashIcon').on('click','.trashIcon' , function(){
+			$(this).parent().remove();
+		});
+			
+		 
 		/* // 선택 삭제
 			
 			$('#trashIcon').on('click', fileDel);
