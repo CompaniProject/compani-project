@@ -10,5 +10,34 @@
 		WHERE 	memb_id = #{membId}
 		AND		memb_pwd = #{membPwd}
 	</select>
+	<!-- 사원 회원가입 -->
+ 	<insert id="insertMemberInfo" parameterType="MemberVO">
+		INSERT INTO member(
+							memb_id
+						   ,memb_pwd
+						   ,memb_nm
+						   ,memb_birth_dt
+						   <if test="membEmail != null and !membEmail.equals('')">,memb_email</if>
+						   <if test="membTelno != null and !membTelno.equals('')">,memb_telno</if>
+						   ,co_cd
+							<if test="membDept != null and !membDept.equals('')">,memb_dept</if>
+							<if test="membWkgd != null and !membWkgd.equals('')">,memb_wkgd</if>
+						   ,memb_accp
+						   ,perm_no
+							)
+					VALUES(
+							#{membId}
+						   ,#{membPwd}
+						   ,#{membNm}
+						   ,#{membBirthDt}
+						   <if test="membEmail != null and !membEmail.equals('')">,#{membEmail}</if>
+						   <if test="membTelno != null and !membTelno.equals('')">,#{membTelno}</if>
+						   ,#{coCd}
+							<if test="membDept != null and !membDept.equals('')">,#{membDept}</if>
+							<if test="membWkgd != null and !membWkgd.equals('')">,#{membWkgd}</if>
+						   ,'N'
+						   ,'4'
+							)
+	</insert>
 
 </mapper>

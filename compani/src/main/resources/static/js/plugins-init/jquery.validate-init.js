@@ -63,7 +63,7 @@ jQuery(".form-valide").validate({
             required: "Please enter a username",
             minlength: "Your username must consist of at least 3 characters"
         },
-        "val-email": "Please enter a valid email address",
+        "val-email": "이메일을 확인하시오.",
         "val-password": {
             required: "Please provide a password",
             minlength: "Your password must be at least 5 characters long"
@@ -71,7 +71,7 @@ jQuery(".form-valide").validate({
         "val-confirm-password": {
             required: "Please provide a password",
             minlength: "Your password must be at least 5 characters long",
-            equalTo: "Please enter the same password as above"
+            equalTo: "비밀번호가 일치하지않습니다."
         },
         "val-select2": "Please select a value!",
         "val-select2-multiple": "Please select at least 2 values!",

@@ -53,19 +53,18 @@ public class ProjectController {
 		return "project/project-home";
 	}
 	
-	@GetMapping("home")
-	public String mainhomeList(Model model) {
-		List<ProjectVO> list = projectService.getProjectList();
-		model.addAttribute("projectList", list);
-		List<MemberFeedbackVO> list2 = memberFeedbackService.getMemberFeedbackList();
-		model.addAttribute("memberFeedbackList", list2);
-		List<BusinessVO> list3 = businessService.getBusinessList();
-		model.addAttribute("businessList", list3);
-		List<IssueVO> list4 = issueService.getIssueList();
-		model.addAttribute("issueList", list4);
-		
-		return "home";
-	}
+	/*
+	 * @GetMapping("home") public String mainhomeList(Model model) { List<ProjectVO>
+	 * list = projectService.getProjectList(); model.addAttribute("projectList",
+	 * list); List<MemberFeedbackVO> list2 =
+	 * memberFeedbackService.getMemberFeedbackList();
+	 * model.addAttribute("memberFeedbackList", list2); List<BusinessVO> list3 =
+	 * businessService.getBusinessList(); model.addAttribute("businessList", list3);
+	 * List<IssueVO> list4 = issueService.getIssueList();
+	 * model.addAttribute("issueList", list4);
+	 * 
+	 * return "home"; }
+	 */
 	
 	// session Test Controller
 	// setAttribute -> login Controller로 이동 필요
