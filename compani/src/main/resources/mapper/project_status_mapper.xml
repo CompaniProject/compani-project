@@ -3,6 +3,33 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.project.status.mapper.ProjectStatusMapper">
+    
+    <select id="selectProjectStatus">
+        SELECT prjt_no
+                , buss_uncmpl_cnt
+                , buss_cmpl_cnt
+                , buss_exce_cnt
+                , issu_solve_cnt
+                , issu_unsolve_cnt
+                , issu_unsolvable_cnt
+                , buss_cmpl_rate
+                , buss_uncmpl_rate
+                , buss_exce_rate
+                , issu_solve_rate
+                , issu_unsolve_rate
+                , issu_unsolvable_rate
+                , prjt_stat_dt_cnt
+                , prjt_memb_cnt
+        FROM project_status
+        <where>
+            <if test="prjtNo != 0 and prjtNo > 0">
+                AND prjt_no = #{prjtNo}
+            </if>
+        </where>
+        ORDER BY prjt_no
+        
+    </select>
+    
     <insert id="insert">
         INSERT INTO project_status
             (
