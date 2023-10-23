@@ -81,27 +81,57 @@ let stackChartDraw = function(){
 		<div class="column">
 			<div>
 				<div class="row">
-			        <div class="col-lg-3">
+			        <div class="col-lg-2">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">총 소요일수</h4>
+								<span th:text="${projectStatus.prjtStatDtCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
-			        <div class="col-lg-3">
+			        <div class="col-lg-2">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">참여자</h4>
+								<span th:text="${projectStatus.prjtMembCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
-			        <div class="col-lg-3">
+			        <div class="col-lg-2">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">총 업무개수</h4>
+								<span th:text="${projectStatus.bussUncmplCnt} + ${projectStatus.bussCmplCnt} + ${projectStatus.bussExceCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
-			        <div class="col-lg-3">
+			        <div class="col-lg-2">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">완료한 업무</h4>
+								<span th:text="${projectStatus.bussCmplCnt}">
+								</span>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="col-lg-2">
+			            <div class="card">
+			                <div class="card-body">
+								<h4 class="card-title">초과완료한 업무</h4>
+								<span th:text="${projectStatus.bussExceCnt}">
+								</span>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="col-lg-2">
+			            <div class="card">
+			                <div class="card-body">
+								<h4 class="card-title">미완료한 업무</h4>
+								<span th:text="${projectStatus.bussUncmplCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
@@ -110,24 +140,36 @@ let stackChartDraw = function(){
 			        <div class="col-lg-3">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">총 이슈 개수</h4>
+								<span th:text="${projectStatus.issuUnsolveCnt} + ${projectStatus.issuUnsolvableCnt} + ${projectStatus.issuSolveCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">해결 이슈</h4>
+								<span th:text="${projectStatus.issuSolveCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">미해결 이슈</h4>
+								<span th:text="${projectStatus.issuUnsolveCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="card">
 			                <div class="card-body">
+								<h4 class="card-title">해결불가 이슈</h4>
+								<span th:text="${projectStatus.issuUnsolvableCnt}">
+								</span>
 			                </div>
 			            </div>
 			        </div>
