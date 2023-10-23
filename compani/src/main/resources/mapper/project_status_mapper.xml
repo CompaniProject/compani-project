@@ -38,72 +38,20 @@
                 , prjt_dt_cnt
                 , prjt_memb_cnt
         FROM
-        (SELECT
             (
-                SELECT COUNT(*)
-                FROM business
-                WHERE prjt_no = #{prjtNo}
-                AND buss_st IN ('0K1', '0K3')
-            ) AS buss_uncmpl_cnt
-            ,
-            (
-                SELECT COUNT(*)
-                FROM business WHERE prjt_no = #{prjtNo}
-                AND buss_st = '0K2'
-            ) AS buss_cmpl_cnt
-            ,
-            (
-                SELECT COUNT(*)
-                FROM business
-                WHERE prjt_no = #{prjtNo}
-                AND buss_st = '0K4') AS buss_exce_cnt
-            ,
-            (
-                SELECT COUNT(*)
-                FROM issue
-                WHERE prjt_no = #{prjtNo}
-                AND issu_st = '0E1'
-            ) AS issu_solve
-            ,
-            (
-                SELECT COUNT(*)
-                FROM issue
-                WHERE prjt_no = #{prjtNo}
-                AND issu_st = '0E2'
-            ) AS issu_unsolve
-            ,
-            (
-                SELECT COUNT(*)
-                FROM issue
-                WHERE prjt_no = #{prjtNo}
-                AND issu_st = '0E3'
-            ) AS issu_unsolvable
-            ,
-            (
-                SELECT prjt_cmpltdt - prjt_fdt
-                FROM project
-                WHERE prjt_no = #{prjtNo}
-            ) AS prjt_dt_cnt
-            ,
-            (
-                SELECT COUNT(*)
-                FROM project_member
-                WHERE prjt_no = #{prjtNo}
-            ) AS prjt_memb_cnt
-            ,
-            (
-                SELECT COUNT(*)
-                FROM business
-                WHERE prjt_no = #{prjtNo}
-            ) AS buss_cnt
-            ,
-            (
-                SELECT COUNT(*)
-                FROM issue
-                WHERE prjt_no = #{prjtNo}
-            ) AS issu_cnt
+            SELECT
+                ( SELECT COUNT(*) FROM business WHERE prjt_no = #{prjtNo} AND buss_st IN ('0K1', '0K3')) AS buss_uncmpl_cnt,
+                ( SELECT COUNT(*) FROM business WHERE prjt_no = #{prjtNo} AND buss_st = '0K2') AS buss_cmpl_cnt,
+                ( SELECT COUNT(*) FROM business WHERE prjt_no = #{prjtNo} AND buss_st = '0K4') AS buss_exce_cnt,
+                ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E1' ) AS issu_solve,
+                ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E2' ) AS issu_unsolve,
+                ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E3' ) AS issu_unsolvable,
+                ( SELECT prjt_cmpltdt - prjt_fdt FROM project WHERE prjt_no = #{prjtNo}) AS prjt_dt_cnt,
+                ( SELECT COUNT(*) FROM project_member WHERE prjt_no = #{prjtNo}) AS prjt_memb_cnt,
+                ( SELECT COUNT(*) FROM business WHERE prjt_no = #{prjtNo}) AS buss_cnt,
+                ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo}) AS issu_cnt
             FROM dual
-        ) st;
+            ) st
 
     </insert>
 </mapper>
