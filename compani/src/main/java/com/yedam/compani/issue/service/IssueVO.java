@@ -1,6 +1,5 @@
 package com.yedam.compani.issue.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,5 +22,5 @@ public class IssueVO {
 	private String bussNm;
 	private String prjtNm;
 	
-	private List<MultipartFile> files = new ArrayList<>(); // 첨부 파일 List.	
+	private List<MultipartFile> files;
 }

@@ -178,7 +178,7 @@
 									</div>
 								</div>
 							</div>
-							<!--   <form id="saveIssuePost" autocomplete="off" enctype="multipart/form-data"> -->
+							  <form id="saveIssuePost" autocomplete="off" enctype="multipart/form-data">
 								<!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 								<div class="modalIssueInsertForm" style="display: none">
 
@@ -292,7 +292,7 @@
 											</div>
 										</div>
 									</div>
-							<!-- </form> -->
+								</form> 
 							<!--  취소 확인하는 모달  -->
 							<div class="modal fade" id="cancelConfirmationModal" tabindex="-1"
 								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
@@ -329,6 +329,8 @@
 
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<script>
+	
+	
 
 		// 글쓰기 버튼
 		$('.postWritingBox').on('click', function () {
@@ -423,17 +425,16 @@
 				type: 'post',
 				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
 	            contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
-	            enctype : 'multipart/form-data',
-				data: formData
+				data: formData,
 				})
 				.done(function(result) {
-					$('.modalIssueInsertForm').css('display', 'none');
-					$('.workModalContentBack').css('display', 'block');
-					issuePaging(1);
+					alert ("등록에 성공");
+/* 					$('.modalIssueInsertForm').css('display', 'none');
+					$('.workModalContentBack').css('display', 'block'); */
 				})
 				.fail(function(error) {
 					alert("등록에 실패");
-
+					
 					$('.modalIssueInsertForm').css('display', 'none');
 					$('.workModalContentBack').css('display', 'block');
 					issuePaging(1);
