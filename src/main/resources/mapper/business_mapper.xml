@@ -8,7 +8,7 @@
 		SELECT b.buss_no
 			   , b.prjt_no
 			   , p.prjt_nm
-			   , NVL(b.buss_upcd, 0) AS buss_upcd
+			   , NVL(b.buss_upcd, 0)
 			   , b.buss_nm
 			   , m.memb_id
 			   , CASE b.buss_imp WHEN '0J1' THEN '상'
@@ -32,7 +32,7 @@
 	<select id="selectProjectCalendarAllBusiness" resultType="BusinessVO">
 		SELECT buss_no
 			   , prjt_no
-			   , NVL(buss_upcd, 0) AS buss_upcd
+			   , NVL(buss_upcd, 0)
 			   , buss_nm
 			   , CASE buss_imp WHEN '0J1' THEN '상'
                				   WHEN '0J2' THEN '중'

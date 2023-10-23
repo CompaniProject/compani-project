@@ -321,9 +321,9 @@ select {
 	];
 	gantt.init("projectGanttchart");
 	gantt.parse({
-	    data: projectGanttData(),
+	    data: projectGanttArr(),
 	    links: [
-	      { id:7, source:1, target:6, type:"1" },
+	      { id:1, source:1, target:2, type:"1" },
 	      { id:2, source:2, target:3, type:"0" }
 	    ]
 	});
@@ -331,7 +331,7 @@ select {
 	/*----------------------------
 		Gantt Chart - data 출력
 	------------------------------*/
-	function projectGanttData(){
+	function projectGanttArr(){
 		let arr = [];
 		
 		for(let i=0; i<calendarData.length; i++){
@@ -343,7 +343,7 @@ select {
 			obj.text = calendarData[i].bussNm;
 			obj.start_date = getddmmyyyy(frdt);
 			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
-			obj.progress = calendarData[i].bussPrgre/100;
+			obj.progress = calendarData[i].bussPrgre;
 			obj.parent = calendarData[i].bussUpcd;
 			arr.push(obj);
 		}
