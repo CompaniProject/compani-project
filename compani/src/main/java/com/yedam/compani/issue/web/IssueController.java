@@ -73,8 +73,8 @@ public class IssueController {
 		List<IssueFileVO> files = fileUtils.uploadFiles(issueVO.getFiles());
 		issueFileService.modalInsertIssueFile(issuNo, files);
 		
+		System.out.println("등록된 파일에 대한 정보는 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + files);
 		return "index";
-
 	}
 	
 }
