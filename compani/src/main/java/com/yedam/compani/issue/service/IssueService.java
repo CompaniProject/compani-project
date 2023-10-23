@@ -1,6 +1,8 @@
 package com.yedam.compani.issue.service;
 
 
+import java.util.List;
+
 import com.github.pagehelper.Page;
 import com.yedam.compani.paging.SearchDto;
 
