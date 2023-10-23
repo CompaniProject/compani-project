@@ -110,46 +110,46 @@
 															<tbody id="issueLists">
 																<th:block th:each="issueList : ${issueList}">
 																	<tr>
-																		<th th:if="${issueList.issuKnd == 'OL1'}"><span
+																		<th th:if="${issueList.issuKnd == '0L1'}"><span
 																				class="badge badge-danger"
 																				th:text="버그"></span></th>
-																		<th th:if="${issueList.issuKnd == 'OL2'}"><span
+																		<th th:if="${issueList.issuKnd == '0L2'}"><span
 																				class="badge badge-warning"
 																				th:text="개선사항"></span></th>
-																		<th th:if="${issueList.issuKnd == 'OL3'}"><span
+																		<th th:if="${issueList.issuKnd == '0L3'}"><span
 																				class="badge badge-info"
 																				th:text="새기능"></span></th>
-																		<th th:if="${issueList.issuKnd == 'OL4'}"><span
+																		<th th:if="${issueList.issuKnd == '0L4'}"><span
 																				class="badge badge-light"
 																				th:text="업무"></span></th>
 																		<td th:text="${issueList.issuCntn}"></td>
 																		<td th:text="${issueList.membId}"></td>
-																		<th th:if="${issueList.issuSt == 'OE1'}"><span
+																		<th th:if="${issueList.issuSt == '0E1'}"><span
 																				class="badge badge-pill badge-success"
 																				th:text="해결"></span></th>
-																		<th th:if="${issueList.issuSt == 'OE2'}"><span
+																		<th th:if="${issueList.issuSt == '0E2'}"><span
 																				class="badge badge-pill badge-dark"
 																				th:text="미해결"></span>
 																		</th>
-																		<th th:if="${issueList.issuSt == 'OE3'}">
+																		<th th:if="${issueList.issuSt == '0E3'}">
 																			<span
 																				class="badge badge-pill badge-secondary"
 																				th:text="해결불가"></span>
 																		</th>
 
-																		<th th:if="${issueList.issuRank == 'OG1'}"><span
+																		<th th:if="${issueList.issuRank == '0G1'}"><span
 																				class="badge badge-primary"
 																				th:text="매우높음"></span></th>
-																		<th th:if="${issueList.issuRank == 'OG2'}"><span
+																		<th th:if="${issueList.issuRank == '0G2'}"><span
 																				class="badge badge-secondary"
 																				th:text="높음"></span></th>
-																		<th th:if="${issueList.issuRank == 'OG3'}"><span
+																		<th th:if="${issueList.issuRank == '0G3'}"><span
 																				class="badge badge-success"
 																				th:text="보통"></span></th>
-																		<th th:if="${issueList.issuRank == 'OG4'}"><span
+																		<th th:if="${issueList.issuRank == '0G4'}"><span
 																				class="badge badge-warning"
 																				th:text="낮음"></span></th>
-																		<th th:if="${issueList.issuRank == 'OG5'}"><span
+																		<th th:if="${issueList.issuRank == '0G5'}"><span
 																				class="badge badge-danger"
 																				th:text="매우낮음"></span></th>
 																	</tr>
@@ -178,14 +178,14 @@
 									</div>
 								</div>
 							</div>
-							<form id="saveIssuePost" method="post" autocomplete="off" enctype="multipart/form-data">
+							<!--   <form id="saveIssuePost" autocomplete="off" enctype="multipart/form-data"> -->
 								<!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 								<div class="modalIssueInsertForm" style="display: none">
 
 									<div class="modalInsertContent">
 										<div class="issueInsertContentTopBar">
 											<span class="cancelWriting"></span>
-											<button class="completeWriting">등록</button>
+											<button type="button" class="completeWriting" onclick="savePost(); ">등록</button>
 										</div>
 									</div>
 									<div class="issueNameEdit">
@@ -254,11 +254,11 @@
 										<div class="attachSection">
 											<div class="sectionTitle">
 												<p class="sectionTitleText">파일</p>
-												<div class="LoadBtn upload" onclick="addIssueFile();">
+												<div class="LoadBtn upload">
 													<span></span>
 													<p>파일 업로드</p>
-													<input type="file" class="real-upload"
-														onchange="return addIssueFile();" style="display: none;">
+													<input type="file" class="real-upload"  id="files" name="files" multiple
+														onchange="addIssueFile(this);" style="display: none;">
 												</div>
 											</div>
 											<div class="fileupload dz">
@@ -292,7 +292,7 @@
 											</div>
 										</div>
 									</div>
-							</form>
+							<!-- </form> -->
 							<!--  취소 확인하는 모달  -->
 							<div class="modal fade" id="cancelConfirmationModal" tabindex="-1"
 								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
@@ -379,7 +379,8 @@
 		});
 
 		// editor에 입력된 내용 가져오기 (종류, 중요도)의 값도 가져온다
-		$('.completeWriting').on('click', function () {
+		
+		function savePost() {
 
 			var formData = new FormData();
 			formData.append('issuTtl', $('#issuTtlVal').val());
@@ -387,50 +388,57 @@
 
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#issuRankVal').text() == '매우높음') {
-				formData.append('issuRank', 'OG1');
+				formData.append('issuRank', '0G1');
 			} else if ($('#issuRankVal').text() == '높음') {
-				formData.append('issuRank', 'OG2');
+				formData.append('issuRank', '0G2');
 			} else if ($('#issuRankVal').text() == '보통') {
-				formData.append('issuRank', 'OG3');
+				formData.append('issuRank', '0G3');
 			} else if ($('#issuRankVal').text() == '낮음') {
-				formData.append('issuRank', 'OG4');
+				formData.append('issuRank', '0G4');
 			} else if ($('#issuRankVal').text() == '매우낮음') {
-				formData.append('issuRank', 'OG5');
+				formData.append('issuRank', '0G5');
 			}
 			// 종류 text 값 확인 후 data로 넣기 !
 			if ($('#issuKndVal').text() == '버그') {
-				formData.append('issuKnd', 'OL1');
+				formData.append('issuKnd', '0L1');
 			} else if ($('#issuKndVal').text() == '개선사항') {
-				formData.append('issuKnd', 'OL2');
+				formData.append('issuKnd', '0L2');
 			} else if ($('#issuKndVal').text() == '새기능') {
-				formData.append('issuKnd', 'OL3');
+				formData.append('issuKnd', '0L3');
 			} else if ($('#issuKndVal').text() == '업무') {
-				formData.append('issuKnd', 'OL4');
+				formData.append('issuKnd', '0L4');
 			}
 
 			let content = editor.getHTML();
 			formData.append('issuCntn', content);
 
-			var inputFile = $("input[name='files']");
-			var files = inputFile[0].files;
-
-			for (var i = 0; i < files.length; i++) {
-				formData.append("files", files[i]);
-			}
-
-			$.ajax({
-				url: '/ModalAjaxIssueInsert',
-				data: formData,
+		 	var inputFile = document.querySelector('.real-upload');
+			var fileInfo = inputFile.files;
+		 	console.log(fileInfo.length + "길이는 !!!!!");
+		 	
+		 	for (i =0 ; i< fileInfo.length; i++) {
+		 	formData.append("files", fileInfo[i]);
+		 	};
+			$.ajax('/ModalAjaxIssueInsert', {
 				type: 'post',
-				success: function (result) {
-					console.log(result);
+				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+	            contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+	            enctype : 'multipart/form-data',
+				data: formData
+				})
+				.done(function(result) {
+					$('.modalIssueInsertForm').css('display', 'none');
+					$('.workModalContentBack').css('display', 'block');
 					issuePaging(1);
-				},
-				error: function (error) {
-					console.log(error);
-				}
-			})
-		});
+				})
+				.fail(function(error) {
+					alert("등록에 실패");
+
+					$('.modalIssueInsertForm').css('display', 'none');
+					$('.workModalContentBack').css('display', 'block');
+					issuePaging(1);
+				});
+		};
 
 
 		// 드랍다운 
@@ -463,10 +471,10 @@
 		};
 
 		// 파일 삭제 버튼 누를 시 ..
-		$(document).on('click', '.deleteFile', function () {
-			$(this).parent().remove();
+		function removeFile(element) {
+			$(element).parent().remove();
 			checkFile();
-		});
+		}
 
 		// 파일 사이즈 변환하기
 		function getByteSize(size) {
@@ -478,11 +486,8 @@
 		};
 
 		// 파일 추가
-		function addIssueFile() {
-			var fileInfo = document.querySelector('input[type=file]').files;
-
-			var file = fileInfo[0];
-
+		function addIssueFile(element) {
+			const file = element.files[0];			
 			// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
 			if (!file) {
 				return false;
@@ -501,16 +506,36 @@
 				var trTag = $('<tr/>');
 				var fileNameTag = $('<td/>').text(file.name);
 				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
-				var deleteFileTag = $('<td/>').attr('class', 'deleteFile');
-				var fileInputType = $('<input/>').attr('type', 'file').attr('name', 'files').css('display', 'none');
+				var deleteFileTag = $('<td/>').attr('class', 'deleteFile').attr('onclick', 'removeFile(this);');
 				trTag.append(fileNameTag);
 				trTag.append(fileSizeTag);
 				trTag.append(deleteFileTag);
-				trTag.append(fileInputType);
-
+				
 				$('#issueFileList').append(trTag);
+
 			}
 		};
+		
+		const dataTransfer = new DataTransfer();
+
+	    $("#files").change(function(){
+	       
+	        let fileArr = document.getElementById("files").files
+
+	        if(fileArr != null && fileArr.length>0){
+
+	          // =====DataTransfer 파일 관리========
+	            for(var i=0; i<fileArr.length; i++){
+	                dataTransfer.items.add(fileArr[i])
+	            }
+	            document.getElementById("files").files = dataTransfer.files;
+	            console.log("dataTransfer =>",dataTransfer.files)
+	            console.log("input FIles =>", document.getElementById("files").files)
+			// ==========================================
+	           
+	        }
+	         
+	    })
 
 	</script>
 </th:block>

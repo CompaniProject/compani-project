@@ -18,17 +18,17 @@
 	<th:block layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-6 col-md-12">
-			<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">프로젝트</h4>
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								<a class="dropdown-item" href="#"></a> 참여중<i
+								<a class="dropdown-project" href="#"></a> 참여중<i
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">참여중</a> <a
-									class="dropdown-item" href="#">완료</a>
+								<a class="dropdown-project" href="#">참여중</a> <a
+									class="dropdown-project" href="#">완료</a>
 
 							</div>
 						</div>
@@ -48,7 +48,7 @@
 								</thead>
 								<tbody id="projecttbl">
 									<th:block th:each="projectList : ${projectList}">
-										<tr th:if="${projectList.prjtSt == 'PROCEED'}">
+										<tr th:if="${projectList.prjtSt == '0D1'}">
 											<td th:if="${projectList.prjtFav == 'N'}"><i
 												class="fa-regular fa-star" style="color: #080808;"></i></td>
 											<td th:if="${projectList.prjtFav == 'Y'}"><i
@@ -60,7 +60,7 @@
 												th:text="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" />
 											<td
 												th:text="${#dates.format(projectList.prjtTdt, 'yyyy-MM-dd')}" />
-											<td th:text="${projectList.prjtSt}" />
+											<td th:if="${projectList.prjtSt == '0D1'}">참여중</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -71,16 +71,17 @@
 
 			</div>
 			<div class="col-lg-6 col-md-12">
-			<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">코멘트(개인피드백)</h4>
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								<a class="dropdown-item" href="#"></a>날짜<i
+								<a class="dropdown-feedback" href="#"></a>최신순<i
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">엥?</a>
+								<a class="dropdown-feedback" href="#">최신순</a> <a
+									class="dropdown-feedback" href="#">오래된순</a>
 							</div>
 						</div>
 
@@ -112,16 +113,18 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">업무</h4>
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								<a class="dropdown-item" href="#"></a>중요도<i
+								<a class="dropdown-business" href="#"></a>중요도<i
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">?</a>
+								<a class="dropdown-business" href="#">상</a>
+								<a class="dropdown-business" href="#">중</a>
+								<a class="dropdown-business" href="#">하</a>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -144,7 +147,10 @@
 												th:text="${#dates.format(businessList.bussFrdt, 'yyyy-MM-dd')}" />
 											<td
 												th:text="${#dates.format(businessList.bussTodt, 'yyyy-MM-dd')}" />
-											<td th:text="${businessList.bussImp}" />
+										
+											<td th:if="${businessList.bussImp == '0J1'}">상</td>
+											<td th:if="${businessList.bussImp == '0J2'}">중</td>
+											<td th:if="${businessList.bussImp == '0J3'}">하</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -156,17 +162,19 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<div class="card" style="height:400px;">
+				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">이슈</h4>
 
 						<div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
-								<a class="dropdown-item" href="#"></a>해결<i
+								<a class="dropdown-issue" href="#"></a>상태<i
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">미해결</a>
+								<a class="dropdown-issue" href="#">해결</a>
+								<a class="dropdown-issue" href="#">미해결</a>
+								<a class="dropdown-issue" href="#">해결불가</a>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -186,8 +194,9 @@
 											<td th:text="${issueList.membId}" />
 											<td
 												th:text="${#dates.format(issueList.issuDt, 'yyyy-MM-dd')}" />
-
-											<td th:text="${issueList.issuSt}" />
+											<td th:if="${issueList.issuSt == '0E1'}">해결</td>
+											<td th:if="${issueList.issuSt == '0E2'}">미해결</td>
+											<td th:if="${issueList.issuSt == '0E3'}">해결불가</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -197,11 +206,14 @@
 				</div>
 			</div>
 		</div>
-		<script>
+		<script th:inline="javascript">
 			//즐겨찾기
 			$(document).on('click','td:nth-child(1)' ,projectFavorite);
 			//드롭다운 
-			$('.dropdown-item').on('click', projectDropDown);
+			$('.dropdown-project').on('click', projectDropDown);
+			$('.dropdown-feedback').on('click', feedbackDropdown);
+			$('.dropdown-business').on('click', businessDropdown);
+			$('.dropdown-issue').on('click', issueDropdown);
 					
 			function projectDropDown() {
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
@@ -211,15 +223,14 @@
 				let projectState = $(this).text();
 				let projecttbl = $('#projecttbl');
 				if(projectState == '완료'){
-					projectState = 'END';
+					projectState = '0D2';
 					console.log(projectState);
 				}
 				else{
-					projectState = 'PROCEED';
+					projectState = '0D1';
 					console.log(projectState);
 				}
-				
-				
+			
 				$.ajax('ProjectStateAjax',{
 					type : 'post',
 					data : { prjtSt : projectState }
@@ -262,19 +273,321 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.prjtSt);
+    					if(data.prjtSt == '0D1'){
+    						tdTag.append('참여중');
+						}
+    					if(data.prjtSt == '0D2'){
+    						tdTag.append('완료');
+						}
+    					
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
-						
 					})
-					
-
 				})
 				.fail(err =>  console.log(err));
 				}
 				
-
+			
+			
+			function feedbackDropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+				
+				 
+				let fdList = [[${memberFeedbackList}]];
+		
+				let membFdbkDt =$(this).text();
+				let replytbl = $('#replytbl');
+				
+				if(membFdbkDt=='최신순'){
+					fdList.sort(date_desc);
+					console.log(fdList);
+					replytbl.empty();
+					
+					$.each(fdList, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membFdbkCntn);
+    					trTag.append(tdTag);
+    					
+    					let membFdbkDt = new Date(data.membFdbkDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(membFdbkDt));
+    					trTag.append(tdTag);
+    					
+    					replytbl.append(trTag);
+					})
+					
+				}else{
+					fdList.sort(date_asc);
+					console.log(fdList);
+					
+					replytbl.empty();
+					
+					$.each(fdList, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membFdbkCntn);
+    					trTag.append(tdTag);
+    					
+    					let membFdbkDt = new Date(data.membFdbkDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(membFdbkDt));
+    					trTag.append(tdTag);
+    					
+    					replytbl.append(trTag);
+					})
+				}
+			
+			
+			}
+			
+			function date_asc(a,b){
+				
+				var dateA = new Date(a['membFdbkDt']).getTime();
+				var dateB = new Date(b['membFdbkDt']).getTime();
+				return dateA > dateB ? 1 : -1;
+			}
+			function date_desc(a,b){
+				
+				var dateA = new Date(a['membFdbkDt']).getTime();
+				var dateB = new Date(b['membFdbkDt']).getTime();
+				return dateA < dateB ? 1 : -1;
+			}
+			
+			function businessDropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+				
+				 
+				let businessList = [[${businessList}]];
+		
+				let membFdbkDt =$(this).text();
+				let businesstbl = $('#businesstbl');
+				
+				if(membFdbkDt=='상'){
+					console.log(businessList);
+					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J1');
+					console.log(bussImp);
+					businesstbl.empty();
+					
+					$.each(bussImp, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.bussNm);
+    					trTag.append(tdTag);
+    					
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					let bussFrdt = new Date(data.bussFrdt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussFrdt));
+    					trTag.append(tdTag);
+    					
+    					let bussTodt = new Date(data.bussTodt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussTodt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('상');
+    					trTag.append(tdTag);
+    					
+    					businesstbl.append(trTag);
+					})
+					
+				}else if(membFdbkDt=='중'){
+					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J2');
+					console.log(bussImp);
+					businesstbl.empty();
+					
+					$.each(bussImp, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.bussNm);
+    					trTag.append(tdTag);
+    					
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					let bussFrdt = new Date(data.bussFrdt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussFrdt));
+    					trTag.append(tdTag);
+    					
+    					let bussTodt = new Date(data.bussTodt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussTodt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('중');
+    					trTag.append(tdTag);
+    					
+    					businesstbl.append(trTag);
+					})
+					
+				}else{
+					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J3');
+					console.log(bussImp);
+					businesstbl.empty();
+					
+					$.each(bussImp, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.bussNm);
+    					trTag.append(tdTag);
+    					
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					let bussFrdt = new Date(data.bussFrdt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussFrdt));
+    					trTag.append(tdTag);
+    					
+    					let bussTodt = new Date(data.bussTodt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussTodt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('');
+    					trTag.append(tdTag);
+    					
+    					businesstbl.append(trTag);
+					})
+				}
+			
+			}
+			function issueDropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+				
+				 
+				let issueList = [[${issueList}]];
+		
+				let membFdbkDt =$(this).text();
+				let issuetbl = $('#issuetbl');
+				
+				if(membFdbkDt=='해결'){
+					console.log(issueList);
+					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E1');
+					
+					issuetbl.empty();
+					
+					$.each(issueSt, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membId);
+    					trTag.append(tdTag);
+    					
+    					let issuDt = new Date(data.issuDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(issuDt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('해결');
+    					trTag.append(tdTag);
+    					
+    					issuetbl.append(trTag);
+					})
+					
+				}else if(membFdbkDt=='미해결'){
+					console.log(issueList);
+					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E2');
+					
+					issuetbl.empty();
+					
+					$.each(issueSt, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membId);
+    					trTag.append(tdTag);
+    					
+    					let issuDt = new Date(data.issuDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(issuDt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('미해결');
+    					trTag.append(tdTag);
+    					
+    					issuetbl.append(trTag);
+					})
+					
+				}else{
+					console.log(issueList);
+					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E3');
+					
+					issuetbl.empty();
+					
+					$.each(issueSt, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membId);
+    					trTag.append(tdTag);
+    					
+    					let issuDt = new Date(data.issuDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(issuDt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('해결불가');
+    					trTag.append(tdTag);
+    					
+    					issuetbl.append(trTag);
+					})
+					
+				}
+			}
 			
 			function projectFavorite(event) {
 				let favorite = $(this).children().hasClass("fa-solid fa-star");

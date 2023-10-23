@@ -113,12 +113,12 @@ public class ProjectController {
 		return map;
 	}
 	
-	@GetMapping("projectheader")
+	@GetMapping("projectlayout")
 	public String projectHeader(Model model) {
 		
 		
-		return "layout/projectheader";
+		return "layout/projectlayout";
 	}
-	
+
 	
 }

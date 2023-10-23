@@ -76,8 +76,8 @@
 
 	<update id="updateProceedToDelay">
 		UPDATE business
-		SET buss_st = 'DELAY'
-		WHERE buss_st = 'PROCEED'
+		SET buss_st = '0K3'
+		WHERE buss_st = '0K1'
 		AND sysdate > buss_todt
 	</update>
 

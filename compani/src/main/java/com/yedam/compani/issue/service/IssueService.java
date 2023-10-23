@@ -1,6 +1,8 @@
 package com.yedam.compani.issue.service;
 
 
+import java.util.List;
+
 import com.github.pagehelper.Page;
 import com.yedam.compani.paging.SearchDto;
 
@@ -10,5 +12,7 @@ public interface IssueService {
 	
 	// 모달 이슈 등록
 	public int modalInsertIssue(final IssueVO issueVO);
+	
+	public List<IssueVO> getIssueList();
 	
 }
