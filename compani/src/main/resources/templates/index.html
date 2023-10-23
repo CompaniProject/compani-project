@@ -1,56 +1,50 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
 <th:block layout:fragment="content">
-
 	<div class="content-body">
-		<button type="button" class="btn btn-primary" data-toggle="modal"
-			data-target="#workModal">Launch workModal</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#workModal">Launch
+			workModal</button>
 
-		<div class="modal fade" id="workModal" tabindex="-1"
-			aria-labelledby="sidebarModalLabel" aria-hidden="true">
+		<div class="modal fade" id="workModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true"
+			style="overflow:auto;">
 			<div class="modal-dialog">
 				<div class="modal-content"
-					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
+					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
 					<!-- 모달 헤더 부분 -->
 					<div class="modal-header">
 						<div class="ContentTitleBox">
-							<div class="ContentImg"
-								style="background-image: url(/images/tab_issue.png);"></div>
+							<div class="ContentImg" style="background-image: url(/images/tab_issue.png);"></div>
 							<p class="ContentText">이슈</p>
 						</div>
-						<button type="button" class="btn-close" data-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-content-container">
 						<div class="workModalTab">
 							<ul>
-								<li><i class="ModalTab tab_basic"></i> <span
-									class="tooltip">기본정보</span></li>
-								<li><i class="ModalTab tab_file"></i> <span
-									class=" tooltip">자료관리</span></li>
-								<li><i class="ModalTab tab_issue"></i> <span
-									class="tooltip">이슈</span></li>
+								<li><i class="ModalTab tab_basic"></i> <span class="tooltip">기본정보</span></li>
+								<li><i class="ModalTab tab_file"></i> <span class=" tooltip">자료관리</span></li>
+								<li><i class="ModalTab tab_issue"></i> <span class="tooltip">이슈</span></li>
 								<li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
 							</ul>
 						</div>
 						<div class="modal-body">
 							<div class="workModalContentBack">
 								<div class="workModalContentSlider">
-									<div class="workModalContent scroll issueContent">
+									<div class="workModalContent issueContent">
 										<div class="workModalBussTitle">
 											<div class="ModalTitle">
 												<div class="ModalProjectNameBox">
 													<div id="ProjectLink">
 														#<span></span>
-														<p class="textEllipsis">프로젝트3</p>
+														<p class="textEllipsis" th:text="${issueList[0].prjtNm}" />
 													</div>
 												</div>
 												<div class="ModalBussNameBox Edit">
 													<div class="ModalBussNameBack">
-														<textarea id="ModalUpdateBussName" readonly
-															maxlength="200" style="height: 34px;">업무명</textarea>
+														<textarea id="ModalUpdateBussName"
+															th:text="${issueList[0].bussNm}" readonly maxlength="200"
+															style="height: 34px;"></textarea>
 													</div>
 												</div>
 											</div>
@@ -61,38 +55,40 @@
 													<div></div>
 													<div class="TobBarIssueControlArea">
 
-															<div class="SearchBox">
-																<label for="SearchToggleCheckBox"
-																	th:attr="onclick='issuePaging(1)'"></label>
-																	<input type="hidden" id="keyword" name="keyword">
-																<div class="SearchInputBox" style="width: 270px;">
-																	<div>
-																		<div class="issue-selectBox" style="width: 100px;">
-																			<div class="issue-selected" id="issue-selected">
-																				<div class="issue-selected-value">
-																					전체</div>
-																				<div class="arrow"></div>
-																			</div>
-																			<ul class="issue-select-ul"
-																				style="width: 100px; top: 20%; display: none;">
-																				<li class="issue-select-option" data-value="전체">전체</li>
-																				<li class="issue-select-option" data-value="작성자">작성자</li>
-																				<li class="issue-select-option" data-value="제목">제목</li>
-																			</ul>
+														<div class="SearchBox">
+															<label for="SearchToggleCheckBox"
+																th:attr="onclick='issuePaging(1)'"></label> <input
+																type="hidden" id="keyword" name="keyword" value="전체">
+															<div class="SearchInputBox" style="width: 270px;">
+																<div>
+																	<div class="issue-selectBox" style="width: 100px;">
+																		<div class="issue-selected" id="issue-selected">
+																			<div class="issue-selected-value">전체</div>
+																			<div class="arrow"></div>
 																		</div>
+																		<ul class="issue-select-ul"
+																			style="width: 100px; top: 20%; display: none;">
+																			<li class="issue-select-option"
+																				data-value="전체">전체</li>
+																			<li class="issue-select-option"
+																				data-value="작성자">작성자</li>
+																			<li class="issue-select-option"
+																				data-value="제목">제목</li>
+																		</ul>
 																	</div>
-																	<input class="SearchInputModalView" id="search"
-																		name="search" type="text" placeholder="검색어를 입력하세요."><span
-																		class="DeleteSearchWord"></span>
 																</div>
+																<input class="SearchInputModalView" id="search"
+																	name="search" type="text"
+																	placeholder="검색어를 입력하세요."><span
+																	class="DeleteSearchWord"></span>
 															</div>
-															
+														</div>
 
-														
-														<div class="PostWritingBox">
+														<button class="postWritingBox">
 															<span></span>
 															<p>글쓰기</p>
-														</div>
+														</button>
+
 													</div>
 												</div>
 											</div>
@@ -111,70 +107,412 @@
 																	<th style="font-weight: normal;">우선순위</th>
 																</tr>
 															</thead>
-															<tbody id="issueList">
-																<tr th:each="issues : ${issues}">
-																	<th th:if="${issues.issuKnd == 'BUG'}"><span
-																		class="badge badge-danger" th:text="버그"></span></th>
-																	<th th:if="${issues.issuKnd == 'IMPR'}"><span
-																		class="badge badge-warning" th:text="개선사항"></span></th>
-																	<th th:if="${issues.issuKnd == 'FUNC'}"><span
-																		class="badge badge-info" th:text="새기능"></span></th>
-																	<th th:if="${issues.issuKnd == 'BUSS'}"><span
-																		class="badge badge-light" th:text="업무"></span></th>
-																	<td th:text="${issues.issuCntn}"></td>
-																	<td th:text="${issues.membId}"></td>
-																	<th th:if="${issues.issuSt == 'solve'}"><span
-																		class="badge badge-pill badge-success" th:text="해결"></span></th>
-																	<th th:if="${issues.issuSt == 'unsolve'}"><span
-																		class="badge badge-pill badge-dark" th:text="미해결"></span></th>
-																	<th th:if="${issues.issuSt == 'unsolvable'}"><span
-																		class="badge badge-pill badge-secondary"
-																		th:text="해결불가"></span></th>
+															<tbody id="issueLists">
+																<th:block th:each="issueList : ${issueList}">
+																	<tr>
+																		<th th:if="${issueList.issuKnd == 'OL1'}"><span
+																				class="badge badge-danger"
+																				th:text="버그"></span></th>
+																		<th th:if="${issueList.issuKnd == 'OL2'}"><span
+																				class="badge badge-warning"
+																				th:text="개선사항"></span></th>
+																		<th th:if="${issueList.issuKnd == 'OL3'}"><span
+																				class="badge badge-info"
+																				th:text="새기능"></span></th>
+																		<th th:if="${issueList.issuKnd == 'OL4'}"><span
+																				class="badge badge-light"
+																				th:text="업무"></span></th>
+																		<td th:text="${issueList.issuCntn}"></td>
+																		<td th:text="${issueList.membId}"></td>
+																		<th th:if="${issueList.issuSt == 'OE1'}"><span
+																				class="badge badge-pill badge-success"
+																				th:text="해결"></span></th>
+																		<th th:if="${issueList.issuSt == 'OE2'}"><span
+																				class="badge badge-pill badge-dark"
+																				th:text="미해결"></span>
+																		</th>
+																		<th th:if="${issueList.issuSt == 'OE3'}">
+																			<span
+																				class="badge badge-pill badge-secondary"
+																				th:text="해결불가"></span>
+																		</th>
 
-																	<th th:if="${issues.issuRank == '매우 높음'}"><span
-																		class="badge badge-primary" th:text="매우높음"></span></th>
-																	<th th:if="${issues.issuRank == '높음'}"><span
-																		class="badge badge-secondary" th:text="높음"></span></th>
-																	<th th:if="${issues.issuRank == '보통'}"><span
-																		class="badge badge-success" th:text="보통"></span></th>
-																	<th th:if="${issues.issuRank == '낮음'}"><span
-																		class="badge badge-warning" th:text="낮음"></span></th>
-																	<th th:if="${issues.issuRank == '매우 낮음'}"><span
-																		class="badge badge-danger" th:text="매우낮음"></span></th>
-																</tr>
-
+																		<th th:if="${issueList.issuRank == 'OG1'}"><span
+																				class="badge badge-primary"
+																				th:text="매우높음"></span></th>
+																		<th th:if="${issueList.issuRank == 'OG2'}"><span
+																				class="badge badge-secondary"
+																				th:text="높음"></span></th>
+																		<th th:if="${issueList.issuRank == 'OG3'}"><span
+																				class="badge badge-success"
+																				th:text="보통"></span></th>
+																		<th th:if="${issueList.issuRank == 'OG4'}"><span
+																				class="badge badge-warning"
+																				th:text="낮음"></span></th>
+																		<th th:if="${issueList.issuRank == 'OG5'}"><span
+																				class="badge badge-danger"
+																				th:text="매우낮음"></span></th>
+																	</tr>
+																</th:block>
 															</tbody>
 														</table>
 													</div>
 												</div>
 											</div>
-											<div
-												class="paginate-container d-none d-sm-flex flex-sm-justify-center">
-												<div role="navigation" aria-label="Pagination"
-													class="pagination">
 
-													<a id="previous_page"
-														th:classappend="${issue.prePage == 0} ? 'disabled'"
-														th:attr="onclick='issuePaging(\'' + ${issue.prePage} + '\')'">Previous</a>
-													<a class="cur_page"
-														th:each="page: ${#numbers.sequence(issue.navigateFirstPage, issue.navigateLastPage)}"
-														th:text="${page}"
-														th:attr="onclick='issuePaging(\'' + ${page} + '\')'"></a>
-													<a id="next_page"
-														th:classappend="${issue.nextPage == 0} ? 'disabled'"
-														th:attr="onclick='issuePaging(\'' + ${issue.nextPage} + '\')'">Next</a>
+										</div>
+										<div class="paginate-container d-none d-sm-flex flex-sm-justify-center">
+											<div role="navigation" aria-label="Pagination" class="pagination">
+
+												<a id="previous_page"
+													th:classappend="${issue.prePage == 0} ? 'disabled'"
+													th:attr="onclick='issuePaging(\'' + ${issue.prePage} + '\')'">Previous</a>
+												<a class="cur_page"
+													th:each="page: ${#numbers.sequence(issue.navigateFirstPage, issue.navigateLastPage)}"
+													th:text="${page}"
+													th:attr="onclick='issuePaging(\'' + ${page} + '\')'"></a>
+												<a id="next_page" th:classappend="${issue.nextPage == 0} ? 'disabled'"
+													th:attr="onclick='issuePaging(\'' + ${issue.nextPage} + '\')'">Next</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<form id="saveIssuePost" method="post" autocomplete="off" enctype="multipart/form-data">
+								<!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+								<div class="modalIssueInsertForm" style="display: none">
+
+									<div class="modalInsertContent">
+										<div class="issueInsertContentTopBar">
+											<span class="cancelWriting"></span>
+											<button class="completeWriting">등록</button>
+										</div>
+									</div>
+									<div class="issueNameEdit">
+										<div class="issueNameBack">
+											<textarea class="modalIssueNameUpdate" id="issuTtlVal" maxlength="200"
+												style="height: 34px;" placeholder="제목을 입력하세요."></textarea>
+										</div>
+									</div>
+									<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+									<!--  이슈 종류, 이슈 중요도-->
+									<div class="issueKnd">
+										<p>종류</p>
+										<div class="dropBoxArea">
+											<div class="basic-dropdown" style="display: inline;">
+												<div class="dropdown">
+													<button type="button" id="issuKndVal" name="issuKndVal"
+														class="badge badge-danger" data-toggle="dropdown">버그</button>
+													<div class="dropdown-menu">
+														<a class="dropdown-item"><span
+																class="badge badge-pill badge-warning">개선사항</span></a>
+														<a class="dropdown-item"><span
+																class="badge badge-pill badge-info">새기능</span></a> <a
+															class="dropdown-item"><span
+																class="badge badge-pill badge-light">업무</span></a>
+														<a class="dropdown-item"><span
+																class="badge badge-pill badge-danger">버그</span></a>
+													</div>
 												</div>
 											</div>
 										</div>
 
+										<div class="issueRank">
+											<p>중요도</p>
+											<div class="dropBoxArea">
+												<div class="basic-dropdown">
+													<div class="dropdown">
+														<button type="button" class="badge badge-success"
+															data-toggle="dropdown" id="issuRankVal">보통</button>
+														<div class="dropdown-menu" style="cursor: pointer;">
+															<a class="dropdown-item"><span
+																	class="badge badge-primary">매우높음</span></a> <a
+																class="dropdown-item"><span
+																	class="badge badge-secondary">높음</span></a> <a
+																class="dropdown-item"><span
+																	class="badge badge-success">보통</span></a> <a
+																class="dropdown-item"><span
+																	class="badge badge-warning">낮음</span></a> <a
+																class="dropdown-item"><span
+																	class="badge badge-danger">매우낮음</span></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="writingContent">
+										<div class="writingSection">
+											<div class="sectionTitle">
+												<p class="sectionTitleText" id="issuCntnVal">내용</p>
+											</div>
+
+											<div id="editor" style="width: 630px;"></div>
+
+										</div>
+
+										<div class="attachSection">
+											<div class="sectionTitle">
+												<p class="sectionTitleText">파일</p>
+												<div class="LoadBtn upload" onclick="addIssueFile();">
+													<span></span>
+													<p>파일 업로드</p>
+													<input type="file" class="real-upload"
+														onchange="return addIssueFile();" style="display: none;">
+												</div>
+											</div>
+											<div class="fileupload dz">
+												<div class="dz-message" style="width: 630px;">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>파일명</th>
+																<th>크기</th>
+																<th></th>
+															</tr>
+														</thead>
+														<tbody id="issueFileList">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="hashtagSection">
+											<div class="sectionTitle">
+												<p class="sectionTitleText">해시태그</p>
+											</div>
+											<div class="hashtagContent" style="width: 630px;">
+												<div class="hashtagList">
+													<div class="tagBox task" title="업무">
+														<p>#</p>
+														<span class="Ready"></span>
+														<p class="textEllipsis">업무</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+							</form>
+							<!--  취소 확인하는 모달  -->
+							<div class="modal fade" id="cancelConfirmationModal" tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header" style="border-bottom: none;">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close"></button>
+										</div>
+										<div class="modal-body" id="cancelConfirmationModalBody">
+											<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">현재 작성중인
+												글은 저장되지 않습니다.<br> 뒤로
+												가시겠습니까?
+											</span>
+										</div>
+										<div class="modal-footer" style="border-top: none;">
+											<button type="button" class="btn btn-danger btn-sm"
+												id="cancelCancel">취소</button>
+											<button type="button" class="btn btn-light btn-sm"
+												id="confirmCancel">확인</button>
+										</div>
 									</div>
 								</div>
 							</div>
+							<!--  취소 확인 하는 모달 END -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
+
+
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script>
+
+		// 글쓰기 버튼
+		$('.postWritingBox').on('click', function () {
+			$('.modalIssueInsertForm').css('display', 'block');
+			$('.workModalContentBack').css('display', 'none');
+		});
+
+		// 글쓰기 취소 버튼
+		$('.modalIssueInsertForm').on('click', '.cancelWriting', function () {
+			$('#cancelConfirmationModal').modal('show');
+
+			// ' 확인' 버튼이 클릭 시
+			$('#confirmCancel').on('click', function () {
+				$('#cancelConfirmationModal').modal('hide');
+				$('.modalIssueInsertForm').css('display', 'none');
+				$('.workModalContentBack').css('display', 'block');
+				issuePaging(1);
+			});
+
+			// '취소' 버튼 클릭 시
+			$('#cancelCancel').on('click', function () {
+				$('#cancelConfirmationModal').modal('hide');
+			});
+		});
+
+		// 제목 입력하는 textarea 클릭시 focus
+		$('.modalIssueNameUpdate').on('click', function () {
+			$('.issueNameBack').addClass('focus');
+		});
+		// textarea 벗어날 때 focus 클래스 삭제하기.
+		$('.modalIssueNameUpdate').on('blur', function () {
+			$('.issueNameBack').removeClass('focus');
+		});
+		// 엔터 누를 때 줄바꿈 방지하기..
+		$('.modalIssueNameUpdate').on('keydown', function (e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+			}
+		});
+
+		// toastuieditor
+		const editor = new toastui.Editor({
+			el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
+			height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+		});
+
+		// editor에 입력된 내용 가져오기 (종류, 중요도)의 값도 가져온다
+		$('.completeWriting').on('click', function () {
+
+			var formData = new FormData();
+			formData.append('issuTtl', $('#issuTtlVal').val());
+
+
+			// 중요도 text 값 확인 후 data로 넣기 !
+			if ($('#issuRankVal').text() == '매우높음') {
+				formData.append('issuRank', 'OG1');
+			} else if ($('#issuRankVal').text() == '높음') {
+				formData.append('issuRank', 'OG2');
+			} else if ($('#issuRankVal').text() == '보통') {
+				formData.append('issuRank', 'OG3');
+			} else if ($('#issuRankVal').text() == '낮음') {
+				formData.append('issuRank', 'OG4');
+			} else if ($('#issuRankVal').text() == '매우낮음') {
+				formData.append('issuRank', 'OG5');
+			}
+			// 종류 text 값 확인 후 data로 넣기 !
+			if ($('#issuKndVal').text() == '버그') {
+				formData.append('issuKnd', 'OL1');
+			} else if ($('#issuKndVal').text() == '개선사항') {
+				formData.append('issuKnd', 'OL2');
+			} else if ($('#issuKndVal').text() == '새기능') {
+				formData.append('issuKnd', 'OL3');
+			} else if ($('#issuKndVal').text() == '업무') {
+				formData.append('issuKnd', 'OL4');
+			}
+
+			let content = editor.getHTML();
+			formData.append('issuCntn', content);
+
+			var inputFile = $("input[name='files']");
+			var files = inputFile[0].files;
+
+			for (var i = 0; i < files.length; i++) {
+				formData.append("files", files[i]);
+			}
+
+			$.ajax({
+				url: '/ModalAjaxIssueInsert',
+				data: formData,
+				type: 'post',
+				success: function (result) {
+					console.log(result);
+					issuePaging(1);
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			})
+		});
+
+
+		// 드랍다운 
+		$('.dropdown-item').on('click', function () {
+			$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+			$(this).parent().siblings().text($(this).text());
+		});
+
+
+		// 파일 업로드 클릭
+		const realUpload = document.querySelector('.real-upload');
+		const upload = document.querySelector('.LoadBtn.upload');
+
+		upload.addEventListener('click', () => realUpload.click());
+
+		checkFile();
+
+		// 업로드 된 파일이 없을 경우 ..
+		function checkFile() {
+			if ($('#issueFileList').empty()) {
+				var trTag = $('<tr/>').attr('class', 'fileEmpty');
+				var fileEmptyTag = $('<td/>').text('등록된 파일은 여기에 저장됩니다').css('color', '#A8A8A8');
+				var emptyTdTag = $('<td/>');
+				var emptyTdTags = $('<td/>');
+				trTag.append(fileEmptyTag);
+				trTag.append(emptyTdTag);
+				trTag.append(emptyTdTags);
+				$('#issueFileList').append(trTag);
+			};
+		};
+
+		// 파일 삭제 버튼 누를 시 ..
+		$(document).on('click', '.deleteFile', function () {
+			$(this).parent().remove();
+			checkFile();
+		});
+
+		// 파일 사이즈 변환하기
+		function getByteSize(size) {
+			const byteUnits = ["KB", "MB", "GB", "TB"];
+			for (let i = 0; i < byteUnits.length; i++) {
+				size = Math.floor(size / 1024);
+				if (size < 1024) return size.toFixed(1) + byteUnits[i];
+			}
+		};
+
+		// 파일 추가
+		function addIssueFile() {
+			var fileInfo = document.querySelector('input[type=file]').files;
+
+			var file = fileInfo[0];
+
+			// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
+			if (!file) {
+				return false;
+			}
+
+			// 2. 파일 크기가 10MB을 초과하는 경우
+			const fileSize = Math.floor(file.size / 1024 / 1024);
+
+			if (fileSize > 10) {
+				alert('10MB 이하의 파일로 업로드해 주세요.');
+				return false;
+			}
+
+			if (file) {
+				$('.fileEmpty').remove();
+				var trTag = $('<tr/>');
+				var fileNameTag = $('<td/>').text(file.name);
+				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
+				var deleteFileTag = $('<td/>').attr('class', 'deleteFile');
+				var fileInputType = $('<input/>').attr('type', 'file').attr('name', 'files').css('display', 'none');
+				trTag.append(fileNameTag);
+				trTag.append(fileSizeTag);
+				trTag.append(deleteFileTag);
+				trTag.append(fileInputType);
+
+				$('#issueFileList').append(trTag);
+			}
+		};
+
+	</script>
 </th:block>
+
 </html>

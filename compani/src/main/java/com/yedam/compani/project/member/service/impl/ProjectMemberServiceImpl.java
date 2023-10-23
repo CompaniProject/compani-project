@@ -19,10 +19,15 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 	public List<ProjectMemberVO> getProjectMemberCountList() {
 		return projectMemberMapper.selectAllProjectMemberCount();
 	}
-
+	
 	@Override
 	public List<Map<Object, Object>> getProjectMemberList(Integer prjtNo) {
 		return projectMemberMapper.selectProjectMemberList(prjtNo);
+	}
+
+	@Override
+	public List<Map<Object, Object>> getBusinessCompleteStatus(Integer prjtNo) {
+		return projectMemberMapper.selectBusinessCompleteStatus(prjtNo);
 	}
 
 }

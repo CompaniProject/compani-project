@@ -1,7 +1,9 @@
 package com.yedam.compani.log.service.impl;
 
-import com.yedam.compani.member.feedback.service.MemberFeedbackService;
+import com.yedam.compani.log.service.LogService;
 
-public class LogServiceImpl implements MemberFeedbackService {
+public class LogServiceImpl implements LogService {
+
+
 
 }

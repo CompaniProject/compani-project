@@ -1,4 +1,4 @@
-// 검색 조건 (제목, 작성자, 전체) 
+//검색 조건 (제목, 작성자, 전체) 
 $('.issue-selectBox').on('click', function () {
 	$('.issue-select-ul').css('display', 'block');
 });
@@ -30,7 +30,7 @@ $('.issue-select-option').on('click', function (e) {
 function issuePaging(pageNum) {
 	var keywordVal = $('#keyword').val();
 	var searchVal = $('#search').val();
-	var issueList = $('#issueList');
+	var issueLists = $('#issueLists');
 	var pagination = $('.pagination');
 
 	$.ajax('/ModalAjaxIssueList?pageNum=' + pageNum + '&keyword='
@@ -38,46 +38,46 @@ function issuePaging(pageNum) {
 		{
 			type: 'GET'
 		}).done(function (data) {
-			issueList.empty();
+			issueLists.empty();
 			$.each(data.issues, function (idx, item) {
 				var trTag = $('<tr/>');
 
-				if (item.issuKnd === 'BUG') {
+				if (item.issuKnd == 'OL1') {
 					trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
-				} else if (item.issuKnd === 'IMPR') {
+				} else if (item.issuKnd == 'OL2') {
 					trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
-				} else if (item.issuKnd === 'FUNC') {
+				} else if (item.issuKnd == 'OL3') {
 					trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
-				} else if (item.issuKnd === 'BUSS') {
+				} else if (item.issuKnd == 'OL4') {
 					trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
 				}
 				trTag.append('<td>' + item.issuCntn + '</td>');
 				trTag.append('<td>' + item.membId + '</td>');
 
-				if (item.issuSt === 'solve') {
+				if (item.issuSt == 'OE1') {
 					trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
-				} else if (item.issuSt === 'unsolve') {
+				} else if (item.issuSt == 'OE2') {
 					trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
-				} else if (item.issuSt === 'unsolvable') {
+				} else if (item.issuSt == 'OE3') {
 					trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
 				}
 
-				if (item.issuRank === '매우 높음') {
+				if (item.issuRank == 'OG1') {
 					trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
-				} else if (item.issuRank === '높음') {
+				} else if (item.issuRank == 'OG2') {
 					trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
-				} else if (item.issuRank === '보통') {
+				} else if (item.issuRank == 'OG3') {
 					trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
-				} else if (item.issuRank === '낮음') {
+				} else if (item.issuRank == 'OG4') {
 					trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
-				} else if (item.issuRank === '매우 낮음') {
+				} else if (item.issuRank == 'OG5') {
 					trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
 				}
 
-				issueList.append(trTag);
+				issueLists.append(trTag);
 
 				/* 여기까지 tbody에 데이터 넣는 것 */
-				
+
 			})
 			// 페이징 업데이트..
 			updatePaging(data.issu);
@@ -127,33 +127,40 @@ function issuePaging(pageNum) {
 };
 
 function updatePaging(paging) {
-    pagination = $('.pagination');
+	var pagination = $('.pagination');
 	pagination.empty();
 
-    var pagesPer = 8;  // 한 번에 보이는 페이지 수
-    var startPage = Math.max(1, paging.pageNum - pagesPer);  // 시작 페이지
-    var endPage = Math.min(paging.pages, paging.pageNum + pagesPer);  // 끝 페이지
+	var pagesPer = 8;  // 한 번에 보이는 페이지 수
+	var endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
+	var realEndPage = paging.pages;
+	var startPage = (endPage - pagesPer) + 1;
 
-    for (var i = startPage; i <= endPage; i++) {
-        var aTag = $('<a/>');
-        aTag.addClass('cur_page').text(i);
-        aTag.attr('onclick', 'issuePaging(' + i + ')');
-        pagination.append(aTag);
-    }
+	if (endPage > realEndPage) {
+		endPage = realEndPage;
+	};
 
-    if (startPage > 1) {
-        var prevTag = $('<a/>');
-        prevTag.attr('id', 'previous_page');
-        prevTag.text('Previous');
-        prevTag.attr('onclick', 'issuePaging(' + (startPage - 1) + ')');
-        pagination.prepend(prevTag);
-    }
+	for (var i = startPage; i <= endPage; i++) {
+		var aTag = $('<a/>');
+		aTag.addClass('cur_page').text(i);
+		aTag.attr('onclick', 'issuePaging(' + i + ')');
+		pagination.append(aTag);
+	};
 
-    if (endPage < paging.pages) {
-        var nextTag = $('<a/>');
-        nextTag.attr('id', 'next_page');
-        nextTag.text('Next');
-        nextTag.attr('onclick', 'issuePaging(' + (endPage + 1) + ')');
-        pagination.append(nextTag);
-    }
-}
+	if (startPage >= 1) {
+		var prevTag = $('<a/>');
+		prevTag.attr('id', 'previous_page');
+		prevTag.text('Previous');
+		prevTag.attr('onclick', 'issuePaging(' + (paging.prePage) + ')');
+		pagination.prepend(prevTag);
+	};
+
+	if (endPage <= paging.pages) {
+		var nextTag = $('<a/>');
+		nextTag.attr('id', 'next_page');
+		nextTag.text('Next');
+		nextTag.attr('onclick', 'issuePaging(' + (paging.nextPage) + ')');
+		pagination.append(nextTag);
+	};
+};
+
+/* 페이징 끝 */

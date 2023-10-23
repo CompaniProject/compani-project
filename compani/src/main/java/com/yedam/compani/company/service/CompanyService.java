@@ -1,5 +1,7 @@
 package com.yedam.compani.company.service;
 
-public interface CompanyService {
+import java.util.List;
 
+public interface CompanyService {
+	public List<CompanyVO> getCompanyList();
 }

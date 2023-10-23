@@ -11,7 +11,12 @@ class CompaniApplicationTests {
     @Autowired
     StringEncryptor jasyptStringEncryptor;
     
-	@Test
-	void contextLoads() {
-	}
+	/*
+	 * @Test void encryptionTest() { String[] dataList = {
+	 * "net.sf.log4jdbc.sql.jdbcapi.DriverSpy",
+	 * "jdbc:log4jdbc:oracle:thin:@192.168.0.107:1521/xe", "compani", "1234"
+	 * 
+	 * }; for(String data : dataList) { String encData =
+	 * jasyptStringEncryptor.encrypt(data); System.out.println(encData); } }
+	 */
 }

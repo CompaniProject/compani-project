@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
@@ -14,7 +15,7 @@ import com.yedam.compani.member.service.MemberVO;
 public class MemberController {
 	@Autowired
 	MemberService service;
-	
+	CompanyService serviceC;
 	// 로그인 페이지
 	@GetMapping("/loginForm")
 	public String memberLoginForm() {
@@ -22,7 +23,7 @@ public class MemberController {
 	}
 	
 	// 로그인
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public String memberLogin(@RequestParam String loginId, @RequestParam String loginPwd, Model model) {
 		MemberVO loginVO = new MemberVO();
 		loginVO.setMembId(loginId);
@@ -38,7 +39,7 @@ public class MemberController {
 		}
 		
 	}
-	
+
 	// 가입 후 대기
 	@GetMapping("/standBy")
 	public String memberStandByForm() {

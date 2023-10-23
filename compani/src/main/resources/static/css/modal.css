@@ -17,7 +17,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	width: 55px;
-	height: 535px;
+	height: 100%;
 	border-right: solid 1px #eaeaea;
 	box-sizing: border-box;
 }
@@ -145,7 +145,7 @@ body {
 .workModalContentBack {
 	position: relative;
 	width: 100%;
-	height: 100%;
+	height: 150%;
 	overflow: hidden;
 }
 
@@ -480,7 +480,7 @@ input[type="checkbox" i] {
 	transition: background-color 0.2s ease;
 }
 
-.PostWritingBox {
+.postWritingBox {
 	flex-shrink: 0;
 	display: flex;
 	justify-content: center;
@@ -494,7 +494,7 @@ input[type="checkbox" i] {
 	transition: all 0.2s ease;
 }
 
-.PostWritingBox>span {
+.postWritingBox>span {
 	width: 16px;
 	height: 16px;
 	background-size: 16px;
@@ -504,7 +504,7 @@ input[type="checkbox" i] {
 	transition: all 0.2s ease;
 }
 
-.PostWritingBox>p {
+.postWritingBox>p {
 	font-size: 14px;
 	color: #575757;
 	transition: all 0.2s ease;
@@ -519,10 +519,8 @@ input[type="checkbox" i] {
 	background-color: #eaeaea;
 }
 
-.scroll {
-	overflow: auto;
-	border-color: #e1e1e1;
-	transition: border-color 0.3s ease;
+#modal-body::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 
 .flex-sm-justify-center {
@@ -567,4 +565,345 @@ input[type="checkbox" i] {
 	background-color: #0969DA;
 	border-color: transparent;
 	color: var(- -fgColor-onEmphasis, var(- -color-fg-on-emphasis));
+}
+
+.modalInsertContent	{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 6px 0 0;
+    box-sizing: border-box;
+}
+
+
+.modalInsertContent > .issueInsertContentTopBar {
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    display: flex;
+    justify-content: space-between;
+    width: 96%;
+    height: 48px;
+    margin-right: 20px;
+    padding: 8px 0;
+    background-color: #FFFFFF;
+}
+
+.issueInsertContentTopBar > .cancelWriting {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    background-image: url(/images/cancel_writing.png);
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.issueInsertContentTopBar > .completeWriting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #cccccc;
+    background-color: #eaeaea;
+    transition: all 0.2s ease;
+}
+
+.issueInsertContentTopBar > .completeWriting.registrable {
+    color: #ffffff;
+    background-color: #0098fe;
+    border-color: #0098fe;
+    cursor: pointer;
+}
+
+
+.writingContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin-right: 22px;
+    padding-bottom: 8px;
+}
+
+.writingSection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.sectionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    min-height: 20px;
+}
+
+.sectionTitleText {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    margin-top: 10px;
+}
+
+.dz-message {
+    text-align: center;
+    padding: 5px;
+    display: block;
+    font-size: .875rem;
+    font-weight: 500;
+    opacity: 1;
+    border-radius: 0.5rem;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    transition: all .35s ease;
+    color: rgba(108, 117, 125, 0.5);
+}
+
+form.fileupload.dz {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.LoadBtn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.LoadBtn > span {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.LoadBtn.upload > span {
+    background-image: url(/images/upload_file.png);
+}
+
+.LoadBtn > p {
+    font-size: 14px;
+    color: #575757;
+    margin: 0;
+}
+
+#cancelConfirmationModal {
+    width: 400px;
+    min-height: 245px;
+    box-sizing: border-box;
+    height: auto;
+    padding: 18px 24px 24px 24px;
+    border-radius: 20px;
+    display: inline-block;
+    z-index: 10000;
+}
+
+#cancelConfirmationModalBody {
+    text-align: center;
+    padding: 0 26px 0 26px;
+}
+
+.cancelWarning {
+    width: 40px;
+    height: 40px;
+    content: url(/images/notice.png);
+    /* margin-bottom: 7px; */
+}
+
+#modal-meg {
+    font-size: 14px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #222222;
+}
+
+.notice_msg {
+    width: 100%;
+    padding: 0px !important;
+    margin-top: 20px;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    /* line-height: 1.7rem; */
+    line-height: 1.5rem;
+    white-space: inherit;
+    word-break: break-word;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    color: var(--gary-font-color);
+}
+
+.hashtagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 4px;
+    width: 100%;
+    padding: 16px 12px;
+    box-sizing: border-box;
+}
+
+.tagBox {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+.tagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+}
+
+.tagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+    margin: 0;
+}
+
+.textEllipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.AddTagBoxArea {
+    width: 150px;
+    height: 20px;
+}
+
+.AddTagBoxArea > input {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    color: #575757;
+    outline: none;
+    border: none;
+}
+
+.hashtagContent {
+    width: 100%;
+    border: solid 1px #eaeaea;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    position: relative;
+    height: 80px;
+}
+
+.issueNameEdit {
+    width: 100%;
+    max-height: 82px;
+}
+
+.issueNameBack {
+    width: 100%;
+    min-height: 48px;
+    height: fit-content;
+    max-height: 82px;
+    padding: 6px 6px 5px 6px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: solid 1px transparent;
+    transition: all 0.2s ease;
+}
+
+.issueNameBack:hover {
+    border: solid 1px #eaeaea;
+}
+
+.issueNameBack.focus {
+    border: solid 1px #0098fe;
+}
+
+.issueNameBack > textarea {
+    width: 100%;
+    max-height: 68px;
+    line-height: 1.7;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    background-color: #ffffff;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    transition: all 0.4s ease;
+    letter-spacing: -0.03em;
+}
+
+.issueKnd {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+ .issueKnd > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 50px;
+
+}
+
+.dropBoxArea {
+    position: relative;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.issueRank {
+    display: flex;
+    align-items: center;
+    height: 100%;
+	margin-left: 150px;
+}
+
+ .issueRank > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 65px;
+}
+
+.deleteFile {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-image: url("/images/delete_file.png");
 }

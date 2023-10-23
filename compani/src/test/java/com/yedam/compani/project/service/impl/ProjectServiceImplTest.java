@@ -22,6 +22,7 @@ class ProjectServiceImplTest {
         projects = projectService.getProjectList();
         System.out.println(projects);
     }
+    
     @Test
     public void projectAndMemberTest() {
         List<Map<Object,Object>> projects = new ArrayList<>();

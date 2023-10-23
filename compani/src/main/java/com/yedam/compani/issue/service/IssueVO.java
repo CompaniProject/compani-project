@@ -1,6 +1,10 @@
 package com.yedam.compani.issue.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -16,4 +20,8 @@ public class IssueVO {
 	private String issuRank;
 	private String issuSt;
 	private Date issuDt;
+	private String bussNm;
+	private String prjtNm;
+	
+	private List<MultipartFile> files = new ArrayList<>(); // 첨부 파일 List.	
 }

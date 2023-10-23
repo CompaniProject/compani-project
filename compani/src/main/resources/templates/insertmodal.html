@@ -65,12 +65,13 @@ ul li {
 	float: left;
 }
 
-#modal{
+#modal {
 	margin-left: 150px;
 }
 
-#FileUpload2{
+#FileUpload2 {
 	margin-bottom: 20px;
+	font-size: 15px;
 }
 
 </style>
@@ -91,25 +92,32 @@ ul li {
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-content-container">
-						
-						<div class="modal-body">		
-							
-						</div>
+
+						<div class="modal-body"></div>
 					</div>
 					<div id="modal">
-					<button id="FileUpload" type="button" class="btn mb-1 btn-info">등록</button>
-					<br><br><br><br><br><br><br>
+						<button id="FileUpload" type="button" class="btn mb-1 btn-info">등록</button>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
 						<ul>
 							<li class="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
 							<li style="margin-right: 5px"><i
 								class="fa-regular fa-file fa-2x"></i></li>
 							<li><i class="fa-solid fa-paperclip-vertical fa-lg"></i></li>
-							<li id="FileUpLoad2" style="font-size: 15px"><p>파일 업로드</p></li>
+							<li>
+							<label class="input-file-button" for="FileUpload2">파일 업로드</label>
+							<input id="FileUpLoad2" type="file" style= "display: none;"/>
+							</li>
 						</ul>
-	
+
 						<!-- 데이터 들어갈 박스 -->
 						<span id="DataBox">박스입니다</span> <br>
-	
+
 						<!-- 업무선택 드랍다운 -->
 						<div class="form-group">
 							<select class="form-control" id="jobDown">
@@ -120,8 +128,10 @@ ul li {
 								<option>5w5</option>
 							</select>
 						</div>
-						<br><br><br>
-	
+						<br>
+						<br>
+						<br>
+
 						<p class="FileText">파일설명</p>
 						<input id="FileSearch" type="text" placeholder="설명을 입력해주세요">
 					</div>

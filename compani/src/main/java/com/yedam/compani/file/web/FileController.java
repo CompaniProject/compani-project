@@ -42,4 +42,10 @@ public class FileController {
 		return "insertmodal";
 	}
 	
+	// 파일 업로드 다운로드 테스트용
+	@GetMapping("FileTest")
+	public String FileTest() {
+		return "FileTest";
+	}
+	
 }

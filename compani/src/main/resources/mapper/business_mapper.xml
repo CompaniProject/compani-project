@@ -49,4 +49,51 @@
 		<!-- AND prjt_no = #{prjt_no} -->
 		ORDER BY buss_no
 	</select>
+	
+	<select id="selectBusinessStateList" resultType="CamelHashMap">
+		SELECT buss_st, COUNT(buss_st) AS buss_st_cnt
+		FROM business
+		<where>
+			<if test="prjtNo != null and prjtNo > 0">
+				AND prjt_no = #{prjtNo}
+			</if>
+		</where>
+		GROUP BY buss_st
+	</select>
+
+	<select id="selectBusinessAndLevelList" resultType="CamelHashMap">
+		SELECT level
+				, buss_no
+				, buss_nm
+				, buss_upcd
+				, buss_imp
+				, buss_prgre
+				, buss_st
+				, TRUNC(buss_todt - sysdate,0) AS d_day
+				, CASE WHEN buss_cmpltdt IS NOT NULL
+					THEN TRUNC(buss_cmpltdt - buss_todt,0)
+					ELSE -1
+				  END AS end_delay_day
+		FROM business
+		<where>
+			<if test="prjtNo != null and prjtNo > 0">
+				AND prjt_no = #{prjtNo}
+			</if>
+		</where>
+		START WITH buss_upcd IS NULL
+		CONNECT BY PRIOR  buss_no = buss_upcd
+	</select>
+
+	<update id="updateProceedToDelay">
+		UPDATE business
+		SET buss_st = 'DELAY'
+		WHERE buss_st = 'PROCEED'
+		AND sysdate > buss_todt
+	</update>
+
+	<select id="getBusinessList" resultType="BusinessVO">
+		SELECT P.PRJT_NM, B.BUSS_NM,B.BUSS_FRDT, B.BUSS_TODT, B.BUSS_IMP
+		FROM PROJECT P, BUSINESS B
+		WHERE P.PRJT_NO = B.PRJT_NO
+	</select>
 </mapper>

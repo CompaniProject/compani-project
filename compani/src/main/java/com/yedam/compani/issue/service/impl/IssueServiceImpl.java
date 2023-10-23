@@ -1,5 +1,7 @@
 package com.yedam.compani.issue.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,19 @@ public class IssueServiceImpl implements IssueService {
 	public Page<IssueVO> getIssueList(int pageNo, SearchDto search) {
 		PageHelper.startPage(pageNo, 6);
 		return issueMapper.findIssue(search);
+	}
+
+	@Override
+	public int modalInsertIssue(final IssueVO issueVO) {
+		issueMapper.modalInsertIssue(issueVO);
+		
+		return issueVO.getIssuNo();
+	}
+
+	@Override
+	public List<IssueVO> getIssueList() {
+		
+		return issueMapper.getIssueList();
 	}
 
 }

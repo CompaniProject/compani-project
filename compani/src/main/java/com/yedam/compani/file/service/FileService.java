@@ -16,4 +16,6 @@ public interface FileService {
 	// 삭제
 	public int getFileDelete(int FileNum);
 	
+
+	
 }
