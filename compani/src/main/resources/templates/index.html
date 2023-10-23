@@ -257,7 +257,7 @@
 												<div class="LoadBtn upload">
 													<span></span>
 													<p>파일 업로드</p>
-													<input type="file" class="real-upload" name="files" multiple
+													<input type="file" class="real-upload"  id="files" name="files" multiple
 														onchange="addIssueFile(this);" style="display: none;">
 												</div>
 											</div>
@@ -414,9 +414,11 @@
 
 		 	var inputFile = document.querySelector('.real-upload');
 			var fileInfo = inputFile.files;
-		 	console.log(fileInfo.length);
-		 	formData.append("files", inputFile.files[0]);
-
+		 	console.log(fileInfo.length + "길이는 !!!!!");
+		 	
+		 	for (i =0 ; i< fileInfo.length; i++) {
+		 	formData.append("files", fileInfo[i]);
+		 	};
 			$.ajax('/ModalAjaxIssueInsert', {
 				type: 'post',
 				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
@@ -513,6 +515,27 @@
 
 			}
 		};
+		
+		const dataTransfer = new DataTransfer();
+
+	    $("#files").change(function(){
+	       
+	        let fileArr = document.getElementById("files").files
+
+	        if(fileArr != null && fileArr.length>0){
+
+	          // =====DataTransfer 파일 관리========
+	            for(var i=0; i<fileArr.length; i++){
+	                dataTransfer.items.add(fileArr[i])
+	            }
+	            document.getElementById("files").files = dataTransfer.files;
+	            console.log("dataTransfer =>",dataTransfer.files)
+	            console.log("input FIles =>", document.getElementById("files").files)
+			// ==========================================
+	           
+	        }
+	         
+	    })
 
 	</script>
 </th:block>
