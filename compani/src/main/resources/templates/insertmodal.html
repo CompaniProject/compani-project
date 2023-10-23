@@ -8,12 +8,17 @@
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+	
+</script>
+
 <style>
 hr {
 	width: 100%;
 }
 
-#FileUpload {
+#FileInsert {
 	float: right;
 	display: block;
 	width: 50px;
@@ -57,11 +62,11 @@ hr {
 	padding-left: 15px;
 }
 
-ul {
+#ulLeft {
 	display: inline-block;
 }
 
-ul li {
+#ulLeft li {
 	float: left;
 }
 
@@ -69,14 +74,31 @@ ul li {
 	margin-left: 150px;
 }
 
-#FileUpload2 {
+#FileUpload {
 	margin-bottom: 20px;
 	font-size: 15px;
 }
 
+#fileBoxName {
+	margin-right: 120px;
+}
+
+#fileBoxSize {
+	margin-right: 100px;
+}
+
+#closeBtn {
+	font-weight: bold;
+	color: #777;
+	font-size: 20px;
+	cursor: pointer;
+}
 </style>
 </head>
 <th:block layout:fragment="content">
+
+
+
 	<div class="content-body">
 		<button type="button" class="btn btn-primary" data-toggle="modal"
 			data-target="#workModal">Launch workModal</button>
@@ -96,27 +118,28 @@ ul li {
 						<div class="modal-body"></div>
 					</div>
 					<div id="modal">
-						<button id="FileUpload" type="button" class="btn mb-1 btn-info">등록</button>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<ul>
+						<button id="FileInsert" type="button" class="btn mb-1 btn-info">등록</button>
+						<br> <br> <br> <br> <br> <br> <br>
+						<ul id="ulLeft">
 							<li class="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
 							<li style="margin-right: 5px"><i
 								class="fa-regular fa-file fa-2x"></i></li>
 							<li><i class="fa-solid fa-paperclip-vertical fa-lg"></i></li>
-							<li>
-							<label class="input-file-button" for="FileUpload2">파일 업로드</label>
-							<input id="FileUpLoad2" type="file" style= "display: none;"/>
-							</li>
+							<!-- <li>
+							<label class="input-file-button" for="FileUpload2">파일 업로드</label></li> -->
+							<li><input id="FileUpLoad" type="file"
+								onchange="fileInfo(this.files)" multiple="multiple" /></li>
 						</ul>
 
 						<!-- 데이터 들어갈 박스 -->
-						<span id="DataBox">박스입니다</span> <br>
+						<span id="DataBox">
+							<ul id="liData">
+								<li id="fileBoxName"></li>
+								<li id="fileBoxSize"></li>
+								<li id="closeBtnStyle"><span id="closeBtn"
+									style="display: none;">&times;</span></li>
+							</ul>
+						</span> <br>
 
 						<!-- 업무선택 드랍다운 -->
 						<div class="form-group">
@@ -128,9 +151,7 @@ ul li {
 								<option>5w5</option>
 							</select>
 						</div>
-						<br>
-						<br>
-						<br>
+						<br> <br> <br>
 
 						<p class="FileText">파일설명</p>
 						<input id="FileSearch" type="text" placeholder="설명을 입력해주세요">
@@ -141,6 +162,7 @@ ul li {
 		</div>
 	</div>
 	<script>
+		// 모달
 		$('.issue-selectBox').on('click', function() {
 			$('.issue-select-ul').css('display', 'block');
 		});
@@ -152,6 +174,65 @@ ul li {
 			$('.issue-select-ul').css('display', 'none');
 			e.stopPropagation();
 		});
+
+		// 파일 바이트 계산
+		function ByteSize(size) {
+			const byteUnits = [ "KB", "MB", "GB", "TB" ];
+			for (let i = 0; i < byteUnits.length; i++) {
+				size = Math.floor(size / 1024);
+				if (size < 1024)
+					return size.toFixed(1) + byteUnits[i];
+			}
+		};
+
+		// 스팬박스 파일 정보 출력		
+		 function fileInfo() {
+			let previewFile = document.querySelector('input[type=file]').files; // 인풋타입 파일 긁어와서 파일즈
+
+			console.log(previewFile); // 출력 확인
+
+			let file = previewFile[0]; // preivewFile의 첫번째 배열 가져옴
+
+			if (file) { // 파일이 존재하면 
+				console.log(file.name);
+				console.log(file.size); // 둘다 콘솔 띄워주기(확인용)
+
+				$('#fileBoxName').text(file.name); // 아이디 - <li>태그에 파일이름을 집어넣음
+				$('#fileBoxSize').text(ByteSize(file.size)); // 아이디 - <li>태그에 바이트계산 포함 + 파일크기 집어넣음
+			}
+			
+			if($('#fileBoxName') !== null){ // 박스에 값이 들어왔다면 : null이 아니라면
+				$('#closeBtn').show(); // 삭제아이콘 보여주기
+			}
+			
+		}  
+		
+		// 파일 선택시 기존 파일을 덮지않고 리스트 생성
+		
+		let selectedFiles = []; // 빈 배열 생성
+		
+		function fileInfo(files) { // input type=file의 files(객체?)
+		    console.log(files);
+		    const fileList = document.getElementById('liData'); // ul 지정
+		    for(let i=0; i<files.length; i++) {
+		        selectedFiles.push(files[i]); // 빈 배열에 선택한 파일들 배열값 넣기
+		        const item = document.createElement('li'); // li를 새로 생성
+		        const fileName = document.createTextNode(files[i].name); // 선택한 파일의 이름을 변수에 텍스트 생성
+		        const fileSize = document.createTextNode(files[i].size); // 선택한 파일의 사이즈 변수에 텍스트 생성
+		        const deleteButton = document.createElement('button'); // 삭제버튼추가
+		        deleteButton.addEventListener('click', (event) => { // 삭제버튼 클릭시 새로운 이벤트 생성
+		            item.remove(); // 해당 td 삭제
+		            event.preventDefault(); // 이벤트 막기
+		            deleteFile(files[i]); // files의 배열을 삭제
+		        }); 
+		        deleteButton.innerText="X"; // 삭제버튼 X 모양 추가
+		        item.appendChild(fileName); // li에다가 파일 이름 추가
+		        item.appendChild(fileSize); // li에다가 사이즈 추가
+		        item.appendChild(deleteButton); // 삭제버튼 추가
+		        fileList.appendChild(item); // fileList에 값을 넣은 tr을 넣어 화면에 출력
+		    }     
+		}
+		
 	</script>
 </th:block>
 </html>
