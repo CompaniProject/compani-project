@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.compani.project.status.mapper.ProjectStatusMapper">
+    <insert id="insert">
+        INSERT INTO project_status
+            (
+                prjt_no
+                , buss_uncmpl_cnt
+                , buss_cmpl_cnt
+                , buss_exce_cnt
+                , issu_solve_cnt
+                , issu_unsolve_cnt
+                , issu_unsolvable_cnt
+                , buss_cmpl_rate
+                , buss_uncmpl_rate
+                , buss_exce_rate
+                , issu_solve_rate
+                , issu_unsolve_rate
+                , issu_unsolvable_rate
+                , prjt_stat_dt_cnt
+                , prjt_memb_cnt
+            )
+        SELECT #{prjtNo}
+                , buss_uncmpl_cnt
+                , buss_cmpl_cnt
+                , buss_exce_cnt
+                , issu_solve
+                , issu_unsolve
+                , issu_unsolvable
+                , TRUNC(buss_uncmpl_cnt/buss_cnt*100,2) AS buss_cmpl_rate
+                , TRUNC(buss_cmpl_cnt/buss_cnt*100,2) AS buss_uncmpl_rate
+                , TRUNC(buss_exce_cnt/buss_cnt*100,2) AS buss_exce_rate
+                , TRUNC(issu_solve/issu_cnt*100,2) AS issu_solve_rate
+                , TRUNC(issu_unsolve/issu_cnt*100,2) AS issu_unsolve_rate
+                , TRUNC(issu_unsolvable/issu_cnt*100,2) AS issu_unsolvable_rate
+                , prjt_dt_cnt
+                , prjt_memb_cnt
+        FROM
+        (SELECT
+            (
+                SELECT COUNT(*)
+                FROM business
+                WHERE prjt_no = #{prjtNo}
+                AND buss_st IN ('0K1', '0K3')
+            ) AS buss_uncmpl_cnt
+            ,
+            (
+                SELECT COUNT(*)
+                FROM business WHERE prjt_no = #{prjtNo}
+                AND buss_st = '0K2'
+            ) AS buss_cmpl_cnt
+            ,
+            (
+                SELECT COUNT(*)
+                FROM business
+                WHERE prjt_no = #{prjtNo}
+                AND buss_st = '0K4') AS buss_exce_cnt
+            ,
+            (
+                SELECT COUNT(*)
+                FROM issue
+                WHERE prjt_no = #{prjtNo}
+                AND issu_st = '0E1'
+            ) AS issu_solve
+            ,
+            (
+                SELECT COUNT(*)
+                FROM issue
+                WHERE prjt_no = #{prjtNo}
+                AND issu_st = '0E2'
+            ) AS issu_unsolve
+            ,
+            (
+                SELECT COUNT(*)
+                FROM issue
+                WHERE prjt_no = #{prjtNo}
+                AND issu_st = '0E3'
+            ) AS issu_unsolvable
+            ,
+            (
+                SELECT prjt_cmpltdt - prjt_fdt
+                FROM project
+                WHERE prjt_no = #{prjtNo}
+            ) AS prjt_dt_cnt
+            ,
+            (
+                SELECT COUNT(*)
+                FROM project_member
+                WHERE prjt_no = #{prjtNo}
+            ) AS prjt_memb_cnt
+            ,
+            (
+                SELECT COUNT(*)
+                FROM business
+                WHERE prjt_no = #{prjtNo}
+            ) AS buss_cnt
+            ,
+            (
+                SELECT COUNT(*)
+                FROM issue
+                WHERE prjt_no = #{prjtNo}
+            ) AS issu_cnt
+            FROM dual
+        ) st;
+
+    </insert>
+</mapper>
