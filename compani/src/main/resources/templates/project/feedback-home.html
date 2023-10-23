@@ -103,7 +103,7 @@ let stackChartDraw = function(){
 			            <div class="card">
 			                <div class="card-body">
 								<h4 class="card-title">총 업무개수</h4>
-								<span th:text="${projectStatus.bussUncmplCnt} + ${projectStatus.bussCmplCnt} + ${projectStatus.bussExceCnt}">
+								<span th:text="${projectStatus.bussCnt}">
 								</span>
 			                </div>
 			            </div>
@@ -141,7 +141,7 @@ let stackChartDraw = function(){
 			            <div class="card">
 			                <div class="card-body">
 								<h4 class="card-title">총 이슈 개수</h4>
-								<span th:text="${projectStatus.issuUnsolveCnt} + ${projectStatus.issuUnsolvableCnt} + ${projectStatus.issuSolveCnt}">
+								<span th:text="${projectStatus.issuCnt}">
 								</span>
 			                </div>
 			            </div>
