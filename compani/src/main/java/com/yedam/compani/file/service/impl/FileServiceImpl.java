@@ -62,5 +62,11 @@ public class FileServiceImpl implements FileService {
 		return map;
 	}
 
+	@Override
+	public List<FileVO> getFileSearch(FileVO fileVO) {
+		
+		return filemapper.FileSearch(fileVO);
+	}
+
 }
 

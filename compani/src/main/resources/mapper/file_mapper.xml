@@ -5,13 +5,13 @@
 	
 				<!-- 파일 리스트 (업무 파일함)-->
 				<select id="FileList" resultType="FileVO">
-					SELECT	FILE_NO
-						   , FILE_NM
-						   , FILE_SIZE
-						   , MEMB_ID
-						   , FILE_DT
-					FROM   PROJECT_FILE
-					ORDER  BY FILE_NO
+					SELECT	  FILE_NO
+						    , FILE_NM
+						    , FILE_SIZE
+						    , MEMB_ID
+						   	, FILE_DT
+					FROM   	 PROJECT_FILE
+					ORDER BY FILE_NO DESC
 				</select>
 				
 				
@@ -39,7 +39,30 @@
 					WHERE 		file_no = #{fileNo}
 				</delete>
 		
-		
-		
+				<!-- 업무 모달 파일 검색기능 -->
+				<select id="FileSearch" resultType="FileVO">
+					SELECT F.FILE_NO
+						   , P.PRJT_NM
+						   , B.BUSS_NM
+						   , F.FILE_NM
+						   , F.FILE_PATH
+						   , F.FILE_TYPE
+						   , F.FILE_DESCT
+						   , F.FILE_DT
+						   , F.MEMB_ID
+						   , F.FILE_SIZE
+					FROM  PROJECT_FILE F, BUSINESS B, PROJECT P
+					WHERE F.BUSS_NO = B.BUSS_NO
+					AND   B.PRJT_NO = P.PRJT_NO
+					<choose>
+						<when test="keyword == 'fName'">
+						AND F.FILE_NM LIKE '%' || {#fileVO} || '%' 
+						</when>
+						<when test="keyword == 'fWriter">
+						AND F.MEMB_ID LIKE '%' || {#fileVO} || '%'
+						</when>
+					</choose>
+					ORDER BY FILE_NO DESC
+				</select>
 		
 </mapper>

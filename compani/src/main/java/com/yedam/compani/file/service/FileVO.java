@@ -17,4 +17,5 @@ public class FileVO {
 	private Date fileDt;
 	private String membId;
 	private Integer fileSize;
+
 }

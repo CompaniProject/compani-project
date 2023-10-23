@@ -17,6 +17,7 @@ public interface FileService {
 	// 삭제
 	public Map<String, Object> getFileDelete(List<Integer> list);
 	
-
+	// 업무 모달 파일함 검색기능
+	public List<FileVO> getFileSearch(FileVO fileVO);
 	
 }
