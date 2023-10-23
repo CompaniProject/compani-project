@@ -43,16 +43,16 @@ public class ProjectController {
 	@GetMapping("/project/home/{prjtNo}")
 	public String projectHome(@PathVariable Integer prjtNo, Model model) {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
-		List<Map<Object,Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
-		List<Map<Object,Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
+		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
+		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
 
-		model.addAttribute("businessStateList",businessStateList);
-		model.addAttribute("businessLevelList",businessLevelList);
-		model.addAttribute("memberStatusList",memberStatusList);
+		model.addAttribute("businessStateList", businessStateList);
+		model.addAttribute("businessLevelList", businessLevelList);
+		model.addAttribute("memberStatusList", memberStatusList);
 
 		return "project/project-home";
 	}
-	
+
 	@GetMapping("home")
 	public String mainhomeList(Model model) {
 		List<ProjectVO> list = projectService.getProjectList();
@@ -63,23 +63,23 @@ public class ProjectController {
 		model.addAttribute("businessList", list3);
 		List<IssueVO> list4 = issueService.getIssueList();
 		model.addAttribute("issueList", list4);
-		
+
 		return "home";
 	}
-	
+
 	// session Test Controller
 	// setAttribute -> login Controller로 이동 필요
 	@GetMapping("/test")
 	public String projectSidebar(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		List<Map<Object,Object>> projectList = new ArrayList<>();
+		List<Map<Object, Object>> projectList = new ArrayList<>();
 		projectList = projectService.getProjectAndMemberList();
 
 		session.setAttribute("projectList", projectList);
 
 		return "project/project-home";
 	}
-	
+
 	@PostMapping("ProjectStateAjax")
 	@ResponseBody
 	public Map<String, Object> ProjectStateAjax(ProjectVO projectVO) {
@@ -92,7 +92,7 @@ public class ProjectController {
 
 		return map;
 	}
-	
+
 	@PostMapping("favAjax")
 	@ResponseBody
 	public Map<String, Object> favAjax(ProjectVO projectVO) {
@@ -113,13 +113,11 @@ public class ProjectController {
 
 		return map;
 	}
-	
+
 	@GetMapping("projectlayout")
 	public String projectHeader(Model model) {
-		
-		
+
 		return "layout/projectlayout";
 	}
 
-	
 }

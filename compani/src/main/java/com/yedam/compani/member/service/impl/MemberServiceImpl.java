@@ -13,8 +13,13 @@ public class MemberServiceImpl implements MemberService {
 	MemberMapper map;
 	
 	@Override
-	public MemberVO getLogin(MemberVO vo) {
+	public MemberVO getMemberInfo(MemberVO vo) {
 		return map.selectMemberInfo(vo);
+	}
+
+	@Override
+	public int setMemberInfo(MemberVO vo) {
+		return map.insertMemberInfo(vo);
 	}
 	
 }
