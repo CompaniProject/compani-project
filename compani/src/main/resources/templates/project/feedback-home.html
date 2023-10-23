@@ -5,74 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-window.onload = function () {
-    donutChartDraw();
-    stackChartDraw();
-}
-
-// ---------------------- Test chart code
-let pieChartData = {
-    labels: ['완료', '미완료', '초과완료'],
-    datasets: [{
-        data: [95, 12, 13],
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)']
-    }] 
-};
-
-let donutChartDraw = function() {
-    let ctx = document.getElementById('donutChart').getContext('2d');
-    
-    window.pieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: pieChartData,
-        options: {
-            responsive: false
-        }
-    });
-};
-
-let stackChartDraw = function(){
-	var stctx = document.getElementById("stChart");
-    window.stBar = new Chart(stctx, { 
-        type: 'bar', 
-        data: { 
-            labels: ["프로젝트", "회사"], 
-            datasets: [{ 
-                label: '완료', 
-                backgroundColor: 'rgb(255, 99, 132)', 
-                data: [65, 65], 
-            }, { 
-                label: '미완료', 
-                backgroundColor: 'rgb(255, 159, 64)', 
-                data: [25, 20], 
-            }, { 
-                label: '초과완료', 
-                backgroundColor: 'rgb(255, 205, 86)', 
-                data: [10, 15], 
-            }], 
-        }, 
-        options: {
-        	plugins:{
-        		stacked100 :{
-        			enable: true
-        		}
-        	},
-            responsive: false,
-            scales: {
-                xAxes: [{
-                    stacked: true
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            },
-        }
-    });
-}
-
-//---------------------- Test chart code End
-</script>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -103,7 +35,7 @@ let stackChartDraw = function(){
 			            <div class="card">
 			                <div class="card-body">
 								<h4 class="card-title">총 업무개수</h4>
-								<span th:text="${projectStatus.bussUncmplCnt} + ${projectStatus.bussCmplCnt} + ${projectStatus.bussExceCnt}">
+								<span th:text="${projectStatus.bussCnt}">
 								</span>
 			                </div>
 			            </div>
@@ -141,7 +73,7 @@ let stackChartDraw = function(){
 			            <div class="card">
 			                <div class="card-body">
 								<h4 class="card-title">총 이슈 개수</h4>
-								<span th:text="${projectStatus.issuUnsolveCnt} + ${projectStatus.issuUnsolvableCnt} + ${projectStatus.issuSolveCnt}">
+								<span th:text="${projectStatus.issuCnt}">
 								</span>
 			                </div>
 			            </div>
@@ -183,10 +115,10 @@ let stackChartDraw = function(){
 			                    <h4 class="card-title">업무 통계</h4>
 			                    <div class="row">
 			        				<div class="col-lg-7">
-			                    	<canvas id="donutChart" width="300" height="250"></canvas>
+			                    	<canvas id="bussDonutChart" width="300" height="250"></canvas>
 			                    	</div>
 			        				<div class="col-lg-5">
-			                    	<canvas id="stChart" width="200" height="300"></canvas>
+			                    	<canvas id="bussStBar" width="200" height="300"></canvas>
 			                    	</div>    
 			                    </div> 
 			                </div>
@@ -237,6 +169,75 @@ let stackChartDraw = function(){
 	    </div>
 	    <!-- Comment Area End -->
 	</div>
+	
+	<script>
+window.onload = function () {
+    donutChartDraw();
+    stackChartDraw();
+}
+
+// ---------------------- Test chart code
+let pieChartData = {
+    labels: ['완료', '미완료', '초과완료'],
+    datasets: [{
+        data: [95, 12, 13],
+        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)']
+    }] 
+};
+
+let donutChartDraw = function() {
+    let ctx = document.getElementById('bussDonutChart').getContext('2d');
+    
+    window.pieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: pieChartData,
+        options: {
+            responsive: false
+        }
+    });
+};
+
+let stackChartDraw = function(){
+	var stctx = document.getElementById("bussStBar");
+    window.stBar = new Chart(stctx, { 
+        type: 'bar', 
+        data: { 
+            labels: ["프로젝트", "회사"],
+            datasets: [{ 
+                label: '완료', 
+                backgroundColor: 'rgb(255, 99, 132)', 
+                data: [65, 65], 
+            }, { 
+                label: '미완료', 
+                backgroundColor: 'rgb(255, 159, 64)', 
+                data: [25, 20], 
+            }, { 
+                label: '초과완료', 
+                backgroundColor: 'rgb(255, 205, 86)', 
+                data: [10, 15], 
+            }], 
+        }, 
+        options: {
+        	plugins:{
+        		stacked100 :{
+        			enable: true
+        		}
+        	},
+            responsive: false,
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            },
+        }
+    });
+}
+
+//---------------------- Test chart code End
+</script>
 </th:block>
 </body>
 </html>

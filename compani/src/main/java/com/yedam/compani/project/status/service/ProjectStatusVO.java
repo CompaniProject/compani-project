@@ -19,6 +19,6 @@ public class ProjectStatusVO {
 	private float issuUnsolvableRate;
 	private int prjtStatDtCnt;
 	private int prjtMembCnt;
-	private int prjt_stat_dt_cnt;
-	private int prjt_memb_cnt;
+	private int bussCnt;
+	private int issuCnt;
 }

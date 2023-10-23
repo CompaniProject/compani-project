@@ -20,6 +20,8 @@
                 , issu_unsolvable_rate
                 , prjt_stat_dt_cnt
                 , prjt_memb_cnt
+                , buss_cnt
+                , issu_cnt
         FROM project_status
         <where>
             <if test="prjtNo != 0 and prjtNo > 0">
@@ -48,6 +50,8 @@
                 , issu_unsolvable_rate
                 , prjt_stat_dt_cnt
                 , prjt_memb_cnt
+                , buss_cnt
+                , issu_cnt
             )
         SELECT #{prjtNo}
                 , buss_uncmpl_cnt
@@ -64,6 +68,8 @@
                 , TRUNC(issu_unsolvable/issu_cnt*100,2) AS issu_unsolvable_rate
                 , prjt_dt_cnt
                 , prjt_memb_cnt
+                , buss_cnt
+                , issu_cnt
         FROM
             (
             SELECT
