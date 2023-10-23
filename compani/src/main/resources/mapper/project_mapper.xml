@@ -8,11 +8,11 @@
 	<select id="selectAllProject" resultType="ProjectVO">
 
 		SELECT PM.PRJT_FAV,
-		P.PRJT_NO ,
-		COUNT(P.PRJT_NO) AS count,
-		P.PRJT_NM,P.PRJT_TDT,
-		P.PRJT_FDT,
-		P.PRJT_ST
+			   P.PRJT_NO ,
+			   COUNT(P.PRJT_NO) AS count,
+			   P.PRJT_NM,P.PRJT_TDT,
+			   P.PRJT_FDT,
+			   P.PRJT_ST
 		FROM PROJECT_MEMBER PM, PROJECT P
 		WHERE PM.PRJT_NO = P.PRJT_NO
 	<!-- 	<where>

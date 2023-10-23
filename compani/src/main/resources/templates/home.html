@@ -48,7 +48,7 @@
 								</thead>
 								<tbody id="projecttbl">
 									<th:block th:each="projectList : ${projectList}">
-										<tr th:if="${projectList.prjtSt == 'PROCEED'}">
+										<tr th:if="${projectList.prjtSt == '0D1'}">
 											<td th:if="${projectList.prjtFav == 'N'}"><i
 												class="fa-regular fa-star" style="color: #080808;"></i></td>
 											<td th:if="${projectList.prjtFav == 'Y'}"><i
@@ -60,7 +60,7 @@
 												th:text="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" />
 											<td
 												th:text="${#dates.format(projectList.prjtTdt, 'yyyy-MM-dd')}" />
-											<td th:text="${projectList.prjtSt}" />
+											<td th:if="${projectList.prjtSt == '0D1'}">참여중</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -147,7 +147,10 @@
 												th:text="${#dates.format(businessList.bussFrdt, 'yyyy-MM-dd')}" />
 											<td
 												th:text="${#dates.format(businessList.bussTodt, 'yyyy-MM-dd')}" />
-											<td th:text="${businessList.bussImp}" />
+										
+											<td th:if="${businessList.bussImp == '0J1'}">상</td>
+											<td th:if="${businessList.bussImp == '0J2'}">중</td>
+											<td th:if="${businessList.bussImp == '0J3'}">하</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -171,6 +174,7 @@
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-issue" href="#">해결</a>
 								<a class="dropdown-issue" href="#">미해결</a>
+								<a class="dropdown-issue" href="#">해결불가</a>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -190,8 +194,9 @@
 											<td th:text="${issueList.membId}" />
 											<td
 												th:text="${#dates.format(issueList.issuDt, 'yyyy-MM-dd')}" />
-
-											<td th:text="${issueList.issuSt}" />
+											<td th:if="${issueList.issuSt == '0E1'}">해결</td>
+											<td th:if="${issueList.issuSt == '0E2'}">미해결</td>
+											<td th:if="${issueList.issuSt == '0E3'}">해결불가</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -218,11 +223,11 @@
 				let projectState = $(this).text();
 				let projecttbl = $('#projecttbl');
 				if(projectState == '완료'){
-					projectState = 'END';
+					projectState = '0D2';
 					console.log(projectState);
 				}
 				else{
-					projectState = 'PROCEED';
+					projectState = '0D1';
 					console.log(projectState);
 				}
 			
@@ -268,7 +273,13 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.prjtSt);
+    					if(data.prjtSt == '0D1'){
+    						tdTag.append('참여중');
+						}
+    					if(data.prjtSt == '0D2'){
+    						tdTag.append('완료');
+						}
+    					
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
@@ -371,7 +382,7 @@
 				
 				if(membFdbkDt=='상'){
 					console.log(businessList);
-					let bussImp = businessList.filter( businessList => businessList.bussImp == 'high');
+					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J1');
 					console.log(bussImp);
 					businesstbl.empty();
 					
@@ -398,14 +409,14 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.bussImp);
+    					tdTag.append('상');
     					trTag.append(tdTag);
     					
     					businesstbl.append(trTag);
 					})
 					
 				}else if(membFdbkDt=='중'){
-					let bussImp = businessList.filter( businessList => businessList.bussImp == 'mid');
+					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J2');
 					console.log(bussImp);
 					businesstbl.empty();
 					
@@ -432,14 +443,14 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.bussImp);
+    					tdTag.append('중');
     					trTag.append(tdTag);
     					
     					businesstbl.append(trTag);
 					})
 					
 				}else{
-					let bussImp = businessList.filter( businessList => businessList.bussImp == 'low');
+					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J3');
 					console.log(bussImp);
 					businesstbl.empty();
 					
@@ -466,7 +477,7 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.bussImp);
+    					tdTag.append('');
     					trTag.append(tdTag);
     					
     					businesstbl.append(trTag);
@@ -487,7 +498,7 @@
 				
 				if(membFdbkDt=='해결'){
 					console.log(issueList);
-					let issueSt = issueList.filter(issueList =>issueList.issuSt == 'OE1');
+					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E1');
 					
 					issuetbl.empty();
 					
@@ -509,7 +520,37 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.issuSt);
+    					tdTag.append('해결');
+    					trTag.append(tdTag);
+    					
+    					issuetbl.append(trTag);
+					})
+					
+				}else if(membFdbkDt=='미해결'){
+					console.log(issueList);
+					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E2');
+					
+					issuetbl.empty();
+					
+					$.each(issueSt, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membId);
+    					trTag.append(tdTag);
+    					
+    					let issuDt = new Date(data.issuDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(issuDt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append('미해결');
     					trTag.append(tdTag);
     					
     					issuetbl.append(trTag);
@@ -517,7 +558,7 @@
 					
 				}else{
 					console.log(issueList);
-					let issueSt = issueList.filter(issueList =>issueList.issuSt == 'OE2');
+					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E3');
 					
 					issuetbl.empty();
 					
@@ -539,7 +580,7 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.issuSt);
+    					tdTag.append('해결불가');
     					trTag.append(tdTag);
     					
     					issuetbl.append(trTag);
