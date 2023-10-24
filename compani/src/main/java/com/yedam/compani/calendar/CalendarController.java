@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class CalendarController {
 	
 	@Autowired
@@ -24,6 +27,7 @@ public class CalendarController {
 		return "calendar/personalCalendarPage";
 	}
 	
+	// 프로젝트 캘린더 업무리스트
 	@GetMapping("projectCalendarList")
 	public String projectCalendarList(Model model) {
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
@@ -31,3 +35,14 @@ public class CalendarController {
 		return "calendar/projectCalendarPage";
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
