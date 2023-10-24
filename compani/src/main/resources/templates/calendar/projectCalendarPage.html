@@ -126,6 +126,14 @@ select {
 	float: left;
 	display: none;
 }
+
+.gantt_tree_content {
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 </style>
 
 </head>
@@ -322,15 +330,16 @@ select {
 	gantt.init("projectGanttchart");
 	gantt.parse({
 	    data: projectGanttData(),
-	    links: [
-	      { id:11, source:6, target:7, type:"0" },
-	      { id:12, source:6, target:8, type:"0" }
-	    ]
+	    links: projectGanttLink()
 	});
+	gantt.templates.grid_header_class = function(columnName, column){
+	    return "";
+	};
 	
 	/*----------------------------
 		Gantt Chart - data 출력
 	------------------------------*/
+	// 간트차트 내용 구현
 	function projectGanttData(){
 		let arr = [];
 		
@@ -344,11 +353,30 @@ select {
 			obj.start_date = getddmmyyyy(frdt);
 			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
 			obj.progress = calendarData[i].bussPrgre/100;
-			//obj.parent = calendarData[i].bussUpcd;
+			/* if(calendarData[i].bussUpcd != null){
+				obj.parent = calendarData[i].bussUpcd;
+			} */
 			arr.push(obj);
 		}
 		return arr;
 	}
+	// 간트차트 상위업무 구현
+	function projectGanttLink(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+			let obj = new Object();
+			if(calendarData[i].bussUpcd != null){
+				obj.id = calendarData[i].bussNo;
+				obj.source = calendarData[i].bussUpcd;
+				obj.target = calendarData[i].bussNo;
+				obj.type = "0";
+			}
+				arr.push(obj);
+		}
+		return arr;
+	}
+	
 	// 간트차트 날짜 형식 포맷
 	function getddmmyyyy(dt){
 		var date = new Date(dt);
