@@ -5,6 +5,8 @@ import com.yedam.compani.company.status.service.CompanyStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class CompanyStatusServiceImpl implements CompanyStatusService {
 
@@ -12,7 +14,7 @@ public class CompanyStatusServiceImpl implements CompanyStatusService {
     CompanyStatusMapper companyStatusMapper;
 
     @Override
-    public void insert(String date) {
+    public void insert(Date date) {
         companyStatusMapper.insert(date);
     }
 }
