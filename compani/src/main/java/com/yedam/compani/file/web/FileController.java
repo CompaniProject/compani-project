@@ -28,7 +28,7 @@ public class FileController {
 	// 전체조회
 	@GetMapping("workFile")
 	public String workFile(Model model) {
-		List<FileVO> lFile = fileservice.getFileList();
+		List<FileVO> lFile = fileservice.fileList();
 		model.addAttribute("fileList", lFile);
 		return "workFile";
 	}

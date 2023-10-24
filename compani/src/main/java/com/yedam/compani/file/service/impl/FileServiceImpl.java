@@ -18,54 +18,47 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	FileMapper filemapper;
 	
+	// 파일 리스트 확인
 	@Override
-	public List<FileVO> getFileList() {
+	public List<FileVO> fileList() {
 	
-		return filemapper.FileList();
+		return filemapper.fileList();
 	}
-
+	
+	// 조회??;
 	@Override
-	public FileVO getFileInto(FileVO fileVO) {
+	public FileVO fileInto(FileVO fileVO) {
 
-		return filemapper.FileInfo(fileVO);
+		return filemapper.fileInfo(fileVO);
 	}
-
+	
+	// 파일 등록
 	@Override
-	public int getFileInsert(FileVO fileVO) {
+	public int getfileInsert(FileVO fileVO) {
 
-		return filemapper.FileInsert(fileVO);
+		return filemapper.fileInsert(fileVO);
 	}
-
+	
+	// 파일 검색
 	@Override
-	public Map<String, Object> getFileDelete(List<Integer> list) {
-		boolean successOrNot = false; // 성공했는지 판단
-		List<Integer> success = new ArrayList<>(); // 성공한 대상
-		int count = 0; // 성공 횟수 판단
+	public List<FileVO> fileSearch(FileVO fileVO) {
 		
-		for(int fileNo : list) {
-			int result = filemapper.FileDelete(fileNo);
-			
-			if(result == 1) { // 삭제에 성공 한다면
-				count+= 1; // 성공 횟수 올려주고
-				success.add(fileNo); // 성공한 대상에 파일번호를 삽입
-			}
+		return filemapper.fileSearch(fileVO);
+	}
+	
+	// 파일 삭제
+	@Override
+	public int fileDelete(Integer fileNo) {
+		
+		return filemapper.fileDelete(fileNo);
+	}
+
+	@Override
+	public int fileSelDel(List<Integer> files) {
+		for(int i=0; i<files.size(); i++) {
+			filemapper.fileDelete(files.get(i));
 		}
-		if(count > 0) {
-			successOrNot = true;
-		}
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("total", list.size()); // total = list의 값을 가짐
-		map.put("result", successOrNot); // result = 성공했는지 판단
-		map.put("list", success); // list = 성공한 대상을 나타냄
-		
-		return map;
-	}
-
-	@Override
-	public List<FileVO> getFileSearch(FileVO fileVO) {
-		
-		return filemapper.FileSearch(fileVO);
+		return files.size();
 	}
 
 }

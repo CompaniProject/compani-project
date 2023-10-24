@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 @Data
 public class FileVO {
-	private Integer fileNo;
+	private int fileNo;
 	private Integer prjtNo;
 	private Integer bussNo;
 	private String fileNm;
