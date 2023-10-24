@@ -18,8 +18,8 @@
 					FROM (	
 							<foreach item="file" collection="list" separator="UNION ALL ">		   
 								SELECT #{file.issuFileNm}
-							  , 				 #{file.issuFilePath}
-							  , 				 #{file.issuNo}
+							  , 	   #{file.issuFilePath}
+							  , 	  #{file.issuNo}
 							  , 				 #{file.issuFileSize}
 							  , 				 0 
 							  ,              SYSDATE

@@ -12,6 +12,20 @@ body {
 	overflow: hidden;
 }
 
+.close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    background-size: 12px;
+    background-image: url(/images/closeModal.png);
+    background-repeat: no-repeat;
+}
+
 .workModalTab {
 	display: flex;
 	flex-direction: column;
