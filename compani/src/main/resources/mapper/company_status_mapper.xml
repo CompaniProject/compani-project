@@ -3,6 +3,49 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.company.status.mapper.CompanyStatusMapper">
+
+    <select id="selectStatusForCurrentDate" resultType="CompanyStatusVO">
+        SELECT co_stat_dt
+                , co_cd
+                , mm_buss_cmpl_cnt
+                , mm_buss_uncmpl_cnt
+                , mm_buss_excecmpl_cnt
+                , mm_issu_solve_cnt
+                , mm_issu_unsolvable_cnt
+                , mm_buss_cmpl_rate
+                , mm_buss_uncmpl_rate
+                , mm_buss_excecmpl_rate
+                , mm_issu_solve_rate
+                , mm_issu_unsolve_rate
+                , mm_issu_unsolvable_rate
+        FROM company_status
+        WHERE TO_CHAR(co_stat_dt,'YYMM') = TO_CHAR(ADD_MONTHS(sysdate,-1),'YYMM')
+            AND co_cd = #{coCd}
+
+    </select>
+
+    <select id="selectStatusForProjectDate" resultType="CompanyStatusVO">
+        SELECT co_stat_dt
+                , co_cd
+                , mm_buss_cmpl_cnt
+                , mm_buss_uncmpl_cnt
+                , mm_buss_excecmpl_cnt
+                , mm_issu_solve_cnt
+                , mm_issu_unsolvable_cnt
+                , mm_buss_cmpl_rate
+                , mm_buss_uncmpl_rate
+                , mm_buss_excecmpl_rate
+                , mm_issu_solve_rate
+                , mm_issu_unsolve_rate
+                , mm_issu_unsolvable_rate
+        FROM company_status
+        WHERE TO_CHAR(co_stat_dt,'YYMM') = (
+                                            SELECT TO_CHAR(ADD_MONTHS(prjt_cmpltdt,-1), 'YYMM')
+                                            FROM project WHERE prjt_no = #{prjtNo}
+                                            )
+            AND co_cd = #{coCd}
+    </select>
+
     <insert id="insert">
         DECLARE
             v_comp_stat company_status%ROWTYPE;
