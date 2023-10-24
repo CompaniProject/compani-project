@@ -29,17 +29,23 @@ public class CompanyController {
 		return compList;
 	}
 	
+	//회사코드생성
+	@PostMapping("/makeCoCd")
+	@ResponseBody
+	public String makeCompanyCode(){
+		return service.makeCompanyCode();
+	}
+	
 	// 기업 등록폼
 	@GetMapping("/companySignUp")
 	public String companySignUpForm() {
 		return "company/companySignUp";
 	}
 	
-	//소속회사 등록
+	//소속회사 코드생성후 사원회원가입폼으로
 	@PostMapping("/companySignUpped")
 	public String companySignUp(CompanyVO vo, Model model) {
 		vo.setCoCd(service.makeCompanyCode());
-		model.addAttribute("compInfo", vo);
 		return "member/memberSignUp";
 	}
 }

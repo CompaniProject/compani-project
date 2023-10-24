@@ -21,5 +21,5 @@ public class MemberVO {
 	private String membPhtPath;
 	private String membMsg;
 	private String membAccp;
-	private String permNo;
+	private int permNo;
 }
