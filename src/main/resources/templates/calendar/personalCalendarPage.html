@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>개인 캘린더</title>
+<!-- 간트차트 css & js -->
+<link rel="stylesheet" href="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" type="text/css"> 
+<script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+<!-- 전체 css -->
+<link href="/css/style.css" rel="stylesheet">
+<!-- 캘린더 js -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
+<!-- ajax -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+<style type="text/css">
+#personalCalendarBox {
+	width: 70%;
+	float: right;
+}
+
+#personalCalendar {
+	margin: 10px;
+	background-color: white;
+	height: 100%;
+}
+
+.calendarBusinessInfo {
+	min-height: 700px;
+	height: 100%;
+	width: 30%;
+	padding: 10px;
+	background-color: #dddddd;
+	float: right;
+}
+
+select {
+	appearance: none;
+	text-align: center;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+	margin: 10px;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+}
+
+#fc-dom-1 {
+	margin-left: 0;
+}
+
+.fc .fc-prev-button {
+	margin-right: 0.75em;
+}
+
+.fc .fc-button-primary {
+	background-color: #7571f9;
+	border-color: #7571f9;
+}
+
+.fc .fc-button-primary:hover {
+	background-color: #4540f7;
+}
+
+.fc .fc-button-primary:disabled {
+	background-color: #2c3e50;
+}
+
+.fc-event {
+	padding: 0;
+}
+
+.fc-event-title-container {
+	height: 1.5em;
+	padding-top: 0.15em;
+}
+
+.fc-event-title.fc-sticky {
+	font-size: 0.75em;
+	margin-bottom: 0;
+}
+
+.button-group {
+	float: left;
+	margin-bottom: 10px;
+}
+
+.btn.btn-primary.dropdown-toggle {
+	float: right;
+	padding: 7px 10px;
+}
+
+.dropdown-menu {
+	min-width: 3em;
+}
+
+.businessList {
+	background-color: white;
+	width: 100%;
+	border-radius: 5px;
+	float: left;
+	padding: 10px;
+	margin: 3px 0px;
+}
+
+.businessList:hover {
+	background-color: #eeeeee;
+}
+
+.businessList2 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 18px;
+	font-size: 1em;
+	word-wrap : brek-word;
+	display : -webkit-box;
+	-webkit-line-clamp : 1;
+	-webkit-box-orient: vertical;
+}
+
+#personalGanttchart {
+	padding: 10px;
+	float: left;
+	display: none;
+}
+</style>
+
+</head>
+<body>
+	<div id="main-wrapper">
+		<header th:replace="fragments/header :: header"></header>
+		<aside th:replace="fragments/aside:: aside"></aside>
+		
+		<div class="content-body">
+			
+			<!-- -------------------
+				업무 목록 - 버튼
+			-------------------- -->
+			<div class='calendarBusinessInfo'>
+				<!-- 달력 간트 스위치 -->
+				<div class="button-group">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary calendar">달력</button>
+						<button type="button" class="btn btn-primary gantt">차트</button>
+					</div>
+				</div>
+				
+				<!-- 정렬 버튼 -->
+				<div class="basic-dropdown">
+					<div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle sort" 
+							data-toggle="dropdown" aria-expanded="true">
+							정렬
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item sort">날짜순</a>
+							<a class="dropdown-item sort">진척도</a>
+							<a class="dropdown-item sort">중요도</a>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 필터링 버튼 -->
+				<div class="basic-dropdown">
+					<div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle filter" 
+							data-toggle="dropdown" aria-expanded="true"
+							style="margin-right: 10px;">
+							프로젝트
+						</button>
+						<div class="dropdown-menu">
+							<th:block th:each="info : ${personalCalendarPage}">
+								<a class="dropdown-item filter"
+									th:text="${info.prjtNm}"></a>
+							</th:block>
+						</div>
+					</div>
+				</div>
+				
+				<!-- ---------------
+					업무 목록 - 리스트
+				----------------- -->
+				<div class="businessListBox">
+					<th:block th:each="bussInfo : ${personalCalendarPage}">
+						<div class="businessList">
+							<div class="businessList2" 
+								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
+							</div>
+							<div class="businessList2" 
+								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
+							</div>
+						</div>
+					</th:block>
+				</div>
+				
+				<!-- -----------------
+					업무 목록 - 페이징
+				------------------ -->
+				
+			</div>
+			
+			<!-- --------------
+				달력&차트 내용
+			--------------- -->
+			<div id="personalCalendarBox">
+				<div id='personalCalendar' class="tab-pane"></div>
+				
+				<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
+			</div>
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+	let calendarData = [[${personalCalendarPage}]];
+	
+	/*----------------------------
+		필터링 중복제거
+	------------------------------*/
+	for(let i=0; i<calendarData.length; i++){
+		for(let j=1; j<calendarData.length; j++){
+			if(calendarData[i].prjtNm == calendarData[j].prjtNm){
+				$('.dropdown-item.filter').eq(i).remove();
+			}
+		}
+	}
+	// 필터링 화면에 다시 뿌리기
+	for(let j=0; j<$('.dropdown-item.filter').length; j++){
+		$('.dropdown-item.filter').eq(j).on('click', function(){
+			$('.businessList').remove();
+			for(let i=0; i<calendarData.length; i++){
+				if(calendarData[i].prjtNm == $('.dropdown-item.filter').eq(j).text()){
+					$('.businessListBox').append($('<div class="businessList"></div>'));
+					
+					$('.businessList:last').append($('<div class="businessList2"></div>'));
+					$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
+							+ ' | 중요도 ' + calendarData[i].bussImp);
+					
+					$('.businessList:last').append($('<div class="businessList2"></div>'));
+					$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+				}
+			}
+		});
+	}
+	
+	
+	/*----------------------------
+		업무리스트 정렬
+	------------------------------*/
+	$('.dropdown-item.sort').eq(0).on('click', function(){
+		calendarData.sort(function(a, b){
+			if(a.bussFrdt<b.bussFrdt) return -1;
+			if(a.bussFrdt>b.bussFrdt) return 1;
+			if(a.bussFrdt===b.bussFrdt) return 0;
+		});
+		resetBussList();
+	});
+	$('.dropdown-item.sort').eq(1).on('click', function(){
+		calendarData.sort(function(a, b){
+			if(a.bussPrgre>b.bussPrgre) return -1;
+			if(a.bussPrgre<b.bussPrgre) return 1;
+			if(a.bussPrgre===b.bussPrgre) return 0;
+		});
+		resetBussList();
+	});
+	$('.dropdown-item.sort').eq(2).on('click', function(){
+		calendarData.sort(function(a, b){
+			if(a.bussFrdt<b.bussFrdt) return -1;
+			if(a.bussFrdt>b.bussFrdt) return 1;
+			if(a.bussFrdt===b.bussFrdt) return 0;
+		});
+		calendarData.sort(function(a){
+			if(a.bussImp=="상") return -1;
+			if(a.bussImp=="중") return 0;
+			if(a.bussImp=="하") return 1;
+		});
+		resetBussList();
+	});
+	
+	// 업무리스트 화면에 다시 뿌리기
+	function resetBussList(){
+		$('.businessList').remove();
+		
+		for(let i=0; i<calendarData.length; i++){
+			$('.businessListBox').append($('<div class="businessList"></div>'));
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
+					+ ' | 중요도 ' + calendarData[i].bussImp);
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+		}
+	}
+	
+	/*----------------------------
+		Calendar 구현
+	------------------------------*/
+   	document.addEventListener('DOMContentLoaded', function() {
+       	var calendarEl = document.getElementById('personalCalendar');
+       	var calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView: 'dayGridMonth',
+       		headerToolbar: {
+				left: 'today',
+				center: 'prev title next',
+				right: ''
+			},
+			titleFormat: function (date) {
+	    		// YYYY년 MM월
+	    		return `${date.date.year}년 ${date.date.month + 1}월`;
+	    	},
+	    	events: personalCalendarArr()
+       	});
+       	calendar.render();
+   	});
+   	
+   	/*----------------------------
+		Calendar - events 출력
+	------------------------------*/
+	function personalCalendarArr(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+   			let obj = new Object();
+   			
+   			obj.title = calendarData[i].bussNm;
+   			obj.start = calendarData[i].bussFrdt;
+   			obj.end = calendarData[i].bussTodt;
+   			arr.push(obj);
+   		}
+   		return arr;
+   	}
+   	
+	/*----------------------------
+		Calendar - formatDate
+	------------------------------*/
+	function formatDate(date){
+		var d = new Date(date),
+		year = d.getFullYear(),
+		month = '' + (d.getMonth() + 1),
+		day = '' + d.getDate();
+		
+		if(month.length<2) month = '0'+month;
+		if(day.length<2) day = '0'+day;
+		
+		return [year, month, day].join('.');
+	}
+	
+	/*----------------------------
+		Gantt Chart
+	------------------------------*/
+	gantt.scales = [
+	    { unit: "year", step: 1, format: "%Y" }
+	];
+	gantt.init("personalGanttchart");
+	gantt.parse({
+	    data: [
+	      { id:1, text:"Project #2", start_date:"01-04-2018", 
+	        duration:18, progress:0.4, parent:0 },
+	      { id:2, text:"Task #1", start_date:"02-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	      { id:3, text:"Task #2", start_date:"11-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	      { id:4, text:"Project #2", start_date:"01-04-2018", 
+	        duration:18, progress:0.4, parent:0 },
+	      { id:5, text:"Task #1", start_date:"02-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	      { id:6, text:"Task #2", start_date:"11-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	   	  { id:7, text:"Project #2", start_date:"01-04-2018", 
+	        duration:18, progress:0.4, parent:0 },
+	      { id:8, text:"Task #1", start_date:"02-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	      { id:9, text:"Task #2", start_date:"11-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	      { id:10, text:"Project #2", start_date:"01-04-2018", 
+	        duration:18, progress:0.4, parent:0 },
+	      { id:11, text:"Task #1", start_date:"02-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	      { id:12, text:"Task #2", start_date:"11-04-2018", 
+	        duration:8, progress:0.6, parent:0 },
+	    ],
+	    links: [
+	      { id:1, source:1, target:2, type:"1" },
+	      { id:2, source:2, target:3, type:"0" }
+	    ]
+	});
+	
+	/*----------------------------
+		Calendar&Gantt switch
+	------------------------------*/
+	$('.btn.btn-primary.calendar').on('click', function(){
+		$('#personalCalendar').css("display","flex");
+		$('#personalGanttchart').css("display","none");
+	});
+	$('.btn.btn-primary.gantt').on('click', function(){
+		$('#personalGanttchart').css("display","flex");
+		$('#personalCalendar').css("display","none");
+	});
+    </script>
+	
+	<script src="plugins/common/common.min.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/gleek.js"></script>
+	<script src="js/styleSwitcher.js"></script>
+</body>
+</html>
