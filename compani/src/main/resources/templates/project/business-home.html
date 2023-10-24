@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<th:block layout:fragment="content">
-	<div>
+	<th:block layout:fragment="content">
+		<div>
 
 			<!-- Bussiness Header -->
 			<div class="row mx-0">
@@ -296,158 +296,162 @@
 									</div>
 								</div> -->
 
-								<div class="container-fluid">
+								<div>
 
+									<div class="card" style="height: 200px;">
+										<div class="card-body" style="overflow: auto;">
+											<div class="table-responsive">
+												<table class="table">
+													<thead>
+														<tr>
+															<th>프로필</th>
+															<th>부서</th>
+															<th>직책</th>
+															<th>이름</th>
+															<th>**삭제버튼**</th>
+														</tr>
+													</thead>
+													<tbody id="membertbl">
 
-									<div id="accordion-one" class="accordion">
-										<div class="card">
-											<div class="card-header">
-												<h5 class="mb-0" data-toggle="collapse"
-													data-target="#collapseOne" aria-expanded="true"
-													aria-controls="collapseOne">
-													<i class="fa" aria-hidden="true"></i>참여자
-												</h5>
+													</tbody>
+												</table>
 											</div>
 
-
-											<div id="collapseOne" class="collapse show"
-												data-parent="#accordion-one">
-												<div class="card-body">
-													<div class="table-responsive">
-														<table class="table">
-															<thead>
-																<tr>
-																	<th>프로필</th>
-																	<th>부서</th>
-																	<th>직책</th>
-																	<th>이름</th>
-																	<th>**삭제버튼**</th>
-																</tr>
-															</thead>
-															<tbody id="membertbl">
-
-															</tbody>
-														</table>
-													</div>
-													<hr>
-													<div class="SearchBox">
-														<label for="SearchToggleCheckBox"
-															th:attr="onclick='issuePaging(1)'"></label> <input
-															type="hidden" id="keyword" name="keyword" value="전체">
-														<div class="SearchInputBox" style="width: 270px;">
-															<div>
-																<div class="issue-selectBox" style="width: 100px;">
-																	<div class="issue-selected" id="issue-selected">
-																		<div class="issue-selected-value">전체</div>
-																		<div class="arrow"></div>
-																	</div>
-																	<ul class="issue-select-ul"
-																		style="width: 100px; top: 20%; display: none;">
-																		<li class="issue-select-option" data-value="전체">전체</li>
-																		<li class="issue-select-option" data-value="작성자">부서</li>
-																		<li class="issue-select-option" data-value="작성자">직책</li>
-																		<li class="issue-select-option" data-value="제목">이름</li>
-																	</ul>
+										</div>
+									</div>
+									<div>
+										<div class="card" style="height: 200px;">
+											<div class="card-body" style="overflow: auto;">
+												<div class="SearchBox">
+													<label for="SearchToggleCheckBox"
+														th:attr="onclick='issuePaging(1)'"></label> <input
+														type="hidden" id="keyword" name="keyword" value="전체">
+													<div class="SearchInputBox" style="width: 270px;">
+														<div>
+															<div class="issue-selectBox" style="width: 100px;">
+																<div class="issue-selected" id="issue-selected">
+																	<div class="issue-selected-value">전체</div>
+																	<div class="arrow"></div>
 																</div>
+																<ul class="issue-select-ul"
+																	style="width: 100px; top: 20%; display: none;">
+																	<li class="issue-select-option" data-value="전체">전체</li>
+																	<li class="issue-select-option" data-value="작성자">부서</li>
+																	<li class="issue-select-option" data-value="작성자">직책</li>
+																	<li class="issue-select-option" data-value="제목">이름</li>
+																</ul>
 															</div>
-															<input class="SearchInputModalView" id="search"
-																name="search" type="text" placeholder="검색어를 입력하세요."><span
-																class="DeleteSearchWord"></span>
 														</div>
-
+														<input class="SearchInputModalView" id="search"
+															name="search" type="text" placeholder="검색어를 입력하세요."><span
+															class="DeleteSearchWord"></span>
 													</div>
-													<div class="table-responsive">
-														<table class="table">
-															<thead>
+
+												</div>
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>프로필</th>
+																<th>부서</th>
+																<th>직책</th>
+																<th>이름</th>
+																<th>**추가버튼**</th>
+															</tr>
+														</thead>
+														<tbody id="membertbl">
+															<th:block th:each="memberList : ${memberList}">
 																<tr>
-																	<th>프로필</th>
-																	<th>부서</th>
-																	<th>직책</th>
-																	<th>이름</th>
-																	<th>**추가버튼**</th>
+																	<td><img id="imgId"
+																		th:src="@{/images/profile/} +${memberList.membPhtPath}"
+																		height="50px" width="50px" alt="프로필"
+																		th:if="${memberList.membPhtPath != null}" /></td>
+																	<td th:text="${memberList.membDept}" />
+																	<td th:text="${memberList.membWkgd}" />
+																	<td th:text="${memberList.membNm}" />
+																	<td><button>+</button></td>
 																</tr>
-															</thead>
-															<tbody id="membertbl">
+															</th:block>
+														</tbody>
+													</table>
+												</div>
+						
+											</div>
+										</div>
+									</div>
+				
 
-															</tbody>
-														</table>
-													</div>
+									</div>
+
+
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="val-username">일정
+
+										</label>
+										<div class="col-lg-3">
+											<input type="date" class="form-control" id="val-username"
+												name="val-username">
+										</div>
+										<div class="col-lg-1">
+											<label class="col-lg-4 col-form-label" for="val-username">~
+
+											</label>
+
+										</div>
+
+										<div class="col-lg-3">
+											<input type="date" class="form-control" id="val-username"
+												name="val-username">
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="val-username">중요도
+
+										</label>
+										<div class="col-lg-6">
+											<div class="dropdown custom-dropdown">
+												<div data-toggle="dropdown">
+													<a class="dropdown-project" href="#"></a>상<i
+														class="fa fa-angle-down m-l-5"></i>
+												</div>
+												<div class="dropdown-menu dropdown-menu-right">
+													<a class="dropdown-project" href="#">상</a> <a
+														class="dropdown-project" href="#">중</a> <a
+														class="dropdown-project" href="#">하</a>
 												</div>
 											</div>
 										</div>
-
 									</div>
-								</div>
-
-
-								<div class="form-group row">
-									<label class="col-lg-4 col-form-label" for="val-username">일정
-
-									</label>
-									<div class="col-lg-3">
-										<input type="date" class="form-control" id="val-username"
-											name="val-username">
-									</div>
-									<div class="col-lg-1">
-										<label class="col-lg-4 col-form-label" for="val-username">~
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="val-username">종속관계
 
 										</label>
-
-									</div>
-
-									<div class="col-lg-3">
-										<input type="date" class="form-control" id="val-username"
-											name="val-username">
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<label class="col-lg-4 col-form-label" for="val-username">중요도
-
-									</label>
-									<div class="col-lg-6">
-										<div class="dropdown custom-dropdown">
-											<div data-toggle="dropdown">
-												<a class="dropdown-project" href="#"></a>상<i
-													class="fa fa-angle-down m-l-5"></i>
+										<div class="col-lg-6">
+											<div class="dropdown custom-dropdown">
+												<div data-toggle="dropdown">
+													<a class="dropdown-project" href="#"></a>선행작업<i
+														class="fa fa-angle-down m-l-5"></i>
+												</div>
+												<div class="dropdown-menu dropdown-menu-right">
+													<a class="dropdown-project" href="#">선행 작업</a> <a
+														class="dropdown-project" href="#">후속 작업</a>
+												</div>
 											</div>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-project" href="#">상</a> <a
-													class="dropdown-project" href="#">중</a> <a
-													class="dropdown-project" href="#">하</a>
+											&nbsp &nbsp
+											<div class="dropdown custom-dropdown">
+												<div data-toggle="dropdown">
+													<a class="dropdown-project" href="#"></a>업무 찾기 <i
+														class="fa fa-angle-down m-l-5"></i>
+												</div>
+												<div class="dropdown-menu dropdown-menu-right">
+													<a class="dropdown-project" href="#">*업무 리스트 출력하기</a>
+
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="form-group row">
-									<label class="col-lg-4 col-form-label" for="val-username">종속관계
-
-									</label>
-									<div class="col-lg-6">
-										<div class="dropdown custom-dropdown">
-											<div data-toggle="dropdown">
-												<a class="dropdown-project" href="#"></a>선행작업<i
-													class="fa fa-angle-down m-l-5"></i>
-											</div>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-project" href="#">선행 작업</a> <a
-													class="dropdown-project" href="#">후속 작업</a>
-											</div>
-										</div>
-										&nbsp &nbsp
-										<div class="dropdown custom-dropdown">
-											<div data-toggle="dropdown">
-												<a class="dropdown-project" href="#"></a>업무 찾기 <i
-													class="fa fa-angle-down m-l-5"></i>
-											</div>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-project" href="#">*업무 리스트 출력하기</a>
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</form>
 					</div>
 					<div class="modal-footer">

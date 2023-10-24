@@ -11,4 +11,10 @@
 		AND		memb_pwd = #{membPwd}
 	</select>
 
+	<select id="getMemberList" resultType="MemberVO">
+		SELECT *
+		FROM   MEMBER
+	<!-- 	WHERE  CO_CD = #{coCd} -->
+	</select >
+	
 </mapper>
