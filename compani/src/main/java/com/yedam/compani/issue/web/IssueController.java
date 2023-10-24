@@ -60,7 +60,7 @@ public class IssueController {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
 		Map<String, Object> map = new HashMap<>();
 
-		map.put("issu", issues);
+		map.put("issue", issues);
 		map.put("issues", issueService.getIssueList(pageNum, search));
 		map.put("search", search);
 

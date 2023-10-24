@@ -49,17 +49,17 @@
 	<!-- 단건 조회 -->
 	<select id="selectIssueInfo" resultType="IssueVO">
 		SELECT 	  ISSU_NO
-				, PRJT_NO
-				, BUSS_NO
-				, MEMB_ID
-				, ISSU_TTL
-				, ISSU_CNTN
-				, ISSU_KND
-				, ISSU_RANK
-				, ISSU_ST
-				, ISSU_DT
-		FROM	  ISSUE
-		WHERE 	  I.ISSU_NO = #{issuNo}	
+						, PRJT_NO
+						, BUSS_NO
+						, MEMB_ID
+						, ISSU_TTL
+						, ISSU_CNTN
+						, ISSU_KND
+						, ISSU_RANK
+						, ISSU_ST
+						, ISSU_DT
+		FROM	  	  ISSUE
+		WHERE 	  ISSU_NO = #{issuNo}	
 	</select>
 
 	<insert id="modalInsertIssue" parameterType="IssueVO">

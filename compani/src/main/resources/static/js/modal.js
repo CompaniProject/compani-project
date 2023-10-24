@@ -52,7 +52,7 @@ function issuePaging(pageNum) {
 		}).done(function (data) {
 			issueLists.empty();
 			$.each(data.issues, function (idx, item) {
-				var trTag = $('<tr/>');
+				var trTag = $('<tr/>').data('value', item.issuNo);
 
 				if (item.issuKnd == '0L1') {
 					trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
@@ -66,7 +66,7 @@ function issuePaging(pageNum) {
 				trTag.append('<td>' + item.issuTtl + '</td>');
 				trTag.append('<td>' + item.membId + '</td>');
 
-				if (item.issuSt == 'OE1') {
+				if (item.issuSt == '0E1') {
 					trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
 				} else if (item.issuSt == '0E2') {
 					trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
@@ -92,15 +92,15 @@ function issuePaging(pageNum) {
 
 			})
 			// 페이징 업데이트..
-			updatePaging(data.issu);
+			updatePaging(data.issue);
 
 
-			var prePageNum = data.issu.prePage;
-			var nextPageNum = data.issu.nextPage;
-			var curPageNum = data.issu.pageNum;
-			var navFirstPage = data.issu.navigateFirstPage;
-			var navLastPage = data.issu.navigateLastPage;
-			var lastPage = data.issu.pages;
+			var prePageNum = data.issue.prePage;
+			var nextPageNum = data.issue.nextPage;
+			var curPageNum = data.issue.pageNum;
+			var navFirstPage = data.issue.navigateFirstPage;
+			var navLastPage = data.issue.navigateLastPage;
+			var lastPage = data.issue.pages;
 
 			// 현재 페이지에 current 클래스 붙이기!
 			$('.cur_page').each(function () {
@@ -452,6 +452,5 @@ function updatePaging(paging) {
 	const viewer = toastui.Editor.factory({
   		el: document.querySelector('#viewer'),
   		viewer : true,
-  		height: '600px',  		
-  		initialValue: '# hello'
+  		height: '600px'  		
 	});

@@ -109,7 +109,7 @@
 															</thead>
 															<tbody id="issueLists">
 																<th:block th:each="issueList : ${issueList}">
-																	<tr>
+																	<tr th:data-value="${issueList.issuNo}">
 																		<th th:if="${issueList.issuKnd == '0L1'}"><span
 																				class="badge badge-danger"
 																				th:text="버그"></span></th>
@@ -352,8 +352,8 @@
 								
 									<div class="issueNameInfo">
 										<div class="issueNames">
-											<textarea class="modalIssueName" id="issuTtlVal" maxlength="200"
-												style="height: 34px;" readonly placeholder="이슈 제목 들어오기"></textarea>
+											<textarea class="modalIssueName" maxlength="200"
+												style="height: 34px;" readonly></textarea>
 										</div>
 									</div>
 								<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
@@ -361,21 +361,18 @@
                                         <div class="media pt-5">
                                             <img class="mr-3 rounded-circle" src="images/avatar/1.jpg">
                                             <div class="media-body" style="margin-right: 50px; flex: 0;">
-                                                <h5 class="m-b-3">권오준</h5>
-                                                <p class="m-b-2">2023/10/24</p>
+                                                <h5 class="m-b-3"></h5>
+                                                <p class="m-b-2" style="width: 75px;">2023/10/24</p>
                                              
                                             </div>
                                                <div class="issueRankInfo">
                                                 	<p>중요도</p>
-                                                	<div class="badge badge-primary" style="margin-bottom: 15px;">높음</div>
                                                 </div>
                                                 <div class="issueKndInfo">
                                                 	<p>종류</p>
-                                                	<div class="badge badge-danger" style="margin-bottom: 15px;">버그</div>
                                                 </div>
                                                 <div class="issueStInfo">
                                                 	<p>상태</p>
-                                                	<div class="badge badge-dark" style="margin-bottom: 15px;">미해결</div>
                                                 </div>                                            
                                         </div>
                                 <hr style="margin:0 ; height: 1px; background-color: #eaeaea; width: 608px;">
@@ -418,7 +415,7 @@
 						                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
 						                                    "demons" LOL</p>
 						                                </div>
-													                            </div>
+													 </div>
 							                            <div class="anime__review__item">
 							                                <div class="anime__review__item__pic">
 							                                    <img src="images/users/1.jpg" alt="">
@@ -449,21 +446,71 @@
 			</div>
 		</div>
 	</div>
-	</div>	
+	</div>
+
 	<script>
-		/* var issueNo = ${issueInfo.issuNo};
-		<input type="hidden" value="${issueInfo.issuNo}"> */
+	
+	// 날짜 변환
+	function dateFormatting(date){
 		
+		let parseDate = new Date(date);
 		
-	$(document).on('click', '#issueLists tr', function() {
-		/* $.ajax('ModalIssueInfo?issuNo =' + issuNo)
-		.done(function(data) {
-			
-		})
-		. fail(function(error) {
-			console.log(error);
-		}) */
-		                                                                                                                          
+		let year = parseDate.getFullYear();
+		let month = ('0' + ( parseDate.getMonth() + 1)).slice(-2);
+		let day  = ('0' +  parseDate.getDate()).slice(-2);
+		return year +'-'+month + '-'+day;
+}
+	
+	
+ 	$(document).on('click', '#issueLists tr', function() {
+ 				var issuNo = $(this).data('value');
+ 				console.log(issuNo);
+ 				$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
+ 				.done(function(data) {
+ 					 	var issueInfo = data.issueInfo;
+ 					 	$('.modalIssueName').val(issueInfo.issuTtl);
+ 					 	$('.m-b-3').text(issueInfo.membId);
+ 					 	 					 	
+		 	
+ 					 	$('.m-b-2').text(dateFormatting(issueInfo.issuDt));
+ 					 	viewer.setMarkdown(issueInfo.issuCntn);
+ 					 	
+ 					 	// 종류 
+ 					 	var kndVal = $('.issueKndInfo');
+ 						if (issueInfo.issuKnd == '0L1') {
+ 							kndVal.append('<div class="badge badge-danger" style="margin-bottom: 15px; ">버그</div>');
+ 						} else if (issueInfo.issuKnd == '0L2') {
+ 							kndVal.append('<div class="badge badge-warning" style="margin-bottom: 15px; ">개선사항</div>');
+ 						} else if (issueInfo.issuKnd == '0L3') {
+ 							kndVal.append('<div class="badge badge-info" style="margin-bottom: 15px; ">새기능</div>');
+ 						} else if (issueInfo.issuKnd == '0L4') {
+ 							kndVal.append('<div class="badge badge-light" style="margin-bottom: 15px; ">업무</div>');
+ 						}
+						// 상태
+ 						if (issueInfo.issuSt == '0E1') {
+ 							$('.issueStInfo').append('<div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">해결</div>');
+ 						} else if (issueInfo.issuSt == '0E2') {
+ 							$('.issueStInfo').append('<div class="badge badge-pill badge-dark" style="margin-bottom: 15px; ">미해결</div>');
+ 						} else if (issueInfo.issuSt == '0E3') {
+ 							$('.issueStInfo').append('<div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">해결불가</div>');
+ 						}
+
+ 						if (issueInfo.issuRank == '0G1') {
+ 							$('.issueRankInfo').append('<div class="badge badge-pill badge-primary" style="margin-bottom: 15px; ">매우높음</div>');
+ 						} else if (issueInfo.issuRank == '0G2') {
+ 							$('.issueRankInfo').append('<div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">높음</div>');
+ 						} else if (issueInfo.issuRank == '0G3') {
+ 							$('.issueRankInfo').append('<div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">보통</div>');
+ 						} else if (issueInfo.issuRank == '0G4') {
+ 							$('.issueRankInfo').append('<div class="badge badge-pill badge-warning" style="margin-bottom: 15px; ">낮음</div>');
+ 						} else if (issueInfo.issuRank == '0G5') {
+ 							$('.issueRankInfo').append('<div class="badge badge-pill badge-danger" style="margin-bottom: 15px; ">매우낮음</div>');
+ 						}
+ 					 	
+ 				})
+ 				. fail(function(error) {
+ 					console.log(error);
+ 				})                                                                                                    
 		
 		$('.modalIssueInfoForm').css('display', 'block');
 		$('.workModalContentBack').css('display', 'none');
@@ -475,6 +522,8 @@
 		} else {
 			$('.issueInfoFileList').css('display','none');				
 		} 
+		
+			$('.issueInfoCommentList').css('display', 'none');
 	});
 	
 	$(document).on('click','.p-t-16', function() {
@@ -483,8 +532,10 @@
 		} else {
 			$('.issueInfoCommentList').css('display','none');				
 		} 
+		
+			$('.issueInfoFileList').css('display', 'none');
 	});
 	</script> 
-</th:block>
 
+</th:block>	
 </html>
