@@ -479,6 +479,43 @@ input[type="checkbox" i] {
 	padding: 8px 5px;
 	cursor: pointer;
 }
+.member-selectBox {
+	display: inline-block;
+	width: 60px;
+	background: url(../images/arrow.png) no-repeat 97% 50%;
+	background-size: 16px 16px;
+}
+
+.member-selected {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 5px;
+	cursor: pointer;
+}
+
+.member-select-ul {
+	list-style-type: none;
+	padding-left: 0px;
+	width: 100px;
+	border-radius: 4px;
+	border: 1px solid #0098fe;
+	position: absolute;
+	background: #fff;
+	margin: 1px 0 0 -1px;
+	z-index: 300;
+	display: none;
+	cursor: pointer;
+}
+
+.member-select-option.active {
+	background: url(/images/arrow_active.png) no-repeat 97% 50%;
+	background-size: 16px 16px;
+}
+
+.member-select-option {
+	padding: 8px 5px;
+	cursor: pointer;
+}
 
 .SearchBox .DeleteSearchWord {
 	width: 14px;

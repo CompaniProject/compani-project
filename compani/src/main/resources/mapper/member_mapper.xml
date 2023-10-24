@@ -5,13 +5,13 @@
 <mapper namespace="com.yedam.compani.member.mapper.MemberMapper">
 	<!-- 로그인 -->
 	<select id="selectMemberInfo" resultType="MemberVO">
-		SELECT 	*  
-		FROM 	member
-		WHERE 	memb_id = #{membId}
-		AND		memb_pwd = #{membPwd}
+		SELECT *
+		FROM member
+		WHERE memb_id = #{membId}
+		AND memb_pwd = #{membPwd}
 	</select>
 	<!-- 사원 회원가입 -->
- 	<insert id="insertMemberInfo" parameterType="MemberVO">
+	<insert id="insertMemberInfo" parameterType="MemberVO">
 		INSERT INTO member(
 							memb_id
 						   ,memb_pwd
@@ -39,5 +39,28 @@
 						   ,#{permNo}
 							)
 	</insert>
+
+	<select id="getMemberList" resultType="MemberVO">
+		SELECT *
+		FROM MEMBER
+		<!-- WHERE CO_CD = #{coCd} -->
+	</select>
+
+	<select id="memberSearchList" resultType="map">
+		SELECT *
+		FROM MEMBER
+	
+		<if test="key == '이름'">
+			WHERE MEMB_NM LIKE '%' || #{value} || '%'
+		</if>
+		<if test="key== '부서'">
+			WHERE MEMB_DEPT LIKE '%' || #{value} || '%'
+		</if>
+		<if test="key == '직책'">
+			WHERE MEMB_WKGD LIKE '%' || #{value} || '%'
+		</if>
+
+
+	</select>
 
 </mapper>

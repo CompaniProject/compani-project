@@ -2,6 +2,10 @@
 $('.issue-selectBox').on('click', function () {
 	$('.issue-select-ul').css('display', 'block');
 });
+//검색 조건 (제목, 작성자, 전체) 
+$('.member-selectBox').on('click', function () {
+	$('.member-select-ul').css('display', 'block');
+});
 
 // 현재 페이지에 current 클래스 붙이기!
 $('.cur_page').each(function () {
@@ -22,6 +26,14 @@ $('.issue-select-option').on('click', function (e) {
 	$('.issue-selected-value').text(selectValue);
 	$('#keyword').val(selectValue);
 	$('.issue-select-ul').css('display', 'none');
+	e.stopPropagation();
+});
+
+$('.member-select-option').on('click', function (e) {
+	var selectValue = e.currentTarget.textContent;
+	$('.member-selected-value').text(selectValue);
+	$('#keyword').val(selectValue);
+	$('.member-select-ul').css('display', 'none');
 	e.stopPropagation();
 });
 
