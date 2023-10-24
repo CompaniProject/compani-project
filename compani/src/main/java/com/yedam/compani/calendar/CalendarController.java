@@ -20,18 +20,18 @@ public class CalendarController {
 	BusinessService businessService;
 	
 	// 개인달력 업무리스트
-	@GetMapping("personalCalendarList")
+	@GetMapping("personalCalendarPage")
 	public String personalCalendarList(Model model) {
 		List<BusinessVO> list = businessService.getPersonalCalendarBusinessList();
-		model.addAttribute("personalCalendarList", list);
+		model.addAttribute("personalCalendarPage", list);
 		return "calendar/personalCalendarPage";
 	}
 	
 	// 프로젝트 캘린더 업무리스트
-	@GetMapping("projectCalendarList")
+	@GetMapping("projectCalendarPage")
 	public String projectCalendarList(Model model) {
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
-		model.addAttribute("projectCalendarList", list);
+		model.addAttribute("projectCalendarPage", list);
 		return "calendar/projectCalendarPage";
 	}
 }

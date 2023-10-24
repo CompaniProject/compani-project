@@ -3,10 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>프로젝트 캘린더</title>
+<!-- 간트차트 css & js -->
+<link rel="stylesheet" href="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" type="text/css"> 
+<script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+<!-- 전체 css -->
 <link href="/css/style.css" rel="stylesheet">
+<!-- 캘린더 js -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
+<!-- ajax -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/daypilot/daypilot-all.min.js"></script>
 
 <style type="text/css">
 #projectCalendarBox {
@@ -17,10 +22,12 @@
 #projectCalendar {
 	margin: 10px;
 	background-color: white;
+	height: 100%;
 }
 
 .calendarBusinessInfo {
-	height: 700px;
+	min-height: 700px;
+	height: 100%;
 	width: 30%;
 	padding: 10px;
 	background-color: #dddddd;
@@ -76,9 +83,13 @@ select {
 	margin-bottom: 0;
 }
 
+.button-group {
+	float: left;
+	margin-bottom: 10px;
+}
+
 .btn.btn-primary.dropdown-toggle {
 	float: right;
-	margin-bottom: 10px;
 	padding: 7px 10px;
 }
 
@@ -109,6 +120,12 @@ select {
 	-webkit-line-clamp : 1;
 	-webkit-box-orient: vertical;
 }
+
+#projectGanttchart {
+	padding: 10px;
+	float: left;
+	display: none;
+}
 </style>
 
 </head>
@@ -120,19 +137,18 @@ select {
 		<div class="content-body">
 			
 			<!-- -------------------
-				업무 목록 - 정렬 버튼
+				업무 목록 - 버튼
 			-------------------- -->
 			<div class='calendarBusinessInfo'>
-				<!-- <div class="selectBox">
-					<span style="float:right;">
-						<select name="projectCalendarSort" id="projectCalendarSort">
-							<option hidden="" disabled="disabled" selected="selected" value="">정렬</option>
-							<option value="date">날짜순</option>
-							<option value="prgre">진척도</option>
-							<option value="imp">중요도</option>
-						</select>
-					</span>
-				</div> -->
+				<!-- 달력 간트 스위치 -->
+				<div class="button-group">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary calendar">달력</button>
+						<button type="button" class="btn btn-primary gantt">차트</button>
+					</div>
+				</div>
+			
+				<!-- 정렬 버튼 -->
 				<div class="basic-dropdown">
 					<div class="dropdown">
 						<button type="button" class="btn btn-primary dropdown-toggle" 
@@ -157,7 +173,8 @@ select {
 								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
 							</div>
 							<div class="businessList2" 
-								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'"></div>
+								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
+							</div>
 						</div>
 					</th:block>
 				</div>
@@ -174,13 +191,25 @@ select {
 			<div id="projectCalendarBox" >
 				<div id='projectCalendar' class="tab-pane"></div>
 				
-				<div id='projectGanttchart' class="tab-pane"></div>
+				<div id='projectGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
 			</div>
 		</div>
 	</div>
 	
 	<script th:inline="javascript">
     let calendarData = [[${projectCalendarPage}]];
+    
+    /*----------------------------
+	Calendar&Gantt switch
+	------------------------------*/
+	$('.btn.btn-primary.calendar').on('click', function(){
+		$('#projectCalendar').css("display","flex");
+		$('#projectGanttchart').css("display","none");
+	});
+	$('.btn.btn-primary.gantt').on('click', function(){
+		$('#projectGanttchart').css("display","flex");
+		$('#projectCalendar').css("display","none");
+	});
     
    	/*----------------------------
 		업무리스트 정렬
@@ -214,33 +243,6 @@ select {
 		});
 		resetBussList();
    	});
-   	/* $('#projectCalendarSort').change(function(){
-		// 정렬 기능
-		if($('#projectCalendarSort option:selected').val()=="date"){
-			calendarData.sort(function(a, b){
-				if(a.bussFrdt<b.bussFrdt) return -1;
-				if(a.bussFrdt>b.bussFrdt) return 1;
-				if(a.bussFrdt===b.bussFrdt) return 0;
-			});
-		} else if($('#projectCalendarSort option:selected').val()=="prgre"){
-			calendarData.sort(function(a, b){
-				if(a.bussPrgre>b.bussPrgre) return -1;
-				if(a.bussPrgre<b.bussPrgre) return 1;
-				if(a.bussPrgre===b.bussPrgre) return 0;
-			});
-		} else if($('#projectCalendarSort option:selected').val()=="imp"){
-			calendarData.sort(function(a, b){
-					if(a.bussFrdt<b.bussFrdt) return -1;
-					if(a.bussFrdt>b.bussFrdt) return 1;
-					if(a.bussFrdt===b.bussFrdt) return 0;
-				});
-			calendarData.sort(function(a){
-				if(a.bussImp=="상") return -1;
-				if(a.bussImp=="중") return 0;
-				if(a.bussImp=="하") return 1;
-			});
-		}
-	}); */
    	
    	// 업무리스트 화면에 다시 뿌리기
    	function resetBussList(){
@@ -248,12 +250,11 @@ select {
    		
    		for(let i=0; i<calendarData.length; i++){
    			$('.businessListBox').append($('<div class="businessList"></div>'));
-   			$('.businessList:last').attr("onMouseover", "this.style.backgroundColor='#eeeeee';");
-   			$('.businessList:last').attr("onMouseout", "this.style.backgroundColor='#ffffff';");
    			
    			$('.businessList:last').append($('<div class="businessList2"></div>'));
    			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
    					+ ' | 중요도 ' + calendarData[i].bussImp);
+   			
    			$('.businessList:last').append($('<div class="businessList2"></div>'));
    			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
    		}
@@ -266,32 +267,16 @@ select {
        	var calendarEl = document.getElementById('projectCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
        		initialView: 'dayGridMonth',
-       		customButtons: {
-       			calendarBtn: {
-       				text: '달력',
-       				click: function(){
-       					$('#projectCalendar').css("display","flex");
-       					$('#projectGanttchart').css("display","none");
-       				}
-       			},
-       			ganttBtn: {
-       				text: '차트',
-       				click: function(){
-       					$('#projectGanttchart').css("display","flex");
-       					$('#projectCalendar').css("display","none");
-       				}
-       			}
-       		},
        		headerToolbar: {
 				left: 'today',
 				center: 'prev title next',
-				right: 'calendarBtn,ganttBtn'
+				right: ''
 			},
 			titleFormat: function (date) {
 	    		// YYYY년 MM월
 	    		return `${date.date.year}년 ${date.date.month + 1}월`;
 	    	},
-	    	events: projectCalendarArr()
+	    	events: projectCalendarArr(),
        	});
        	calendar.render();
    	});
@@ -329,17 +314,57 @@ select {
    	}
    	
    	/*----------------------------
-		Gantt Chart
+		Gantt Chart 구현
 	------------------------------*/
-	const dp = new DayPilot.Scheduler("projectGanttchart");
-    dp.startDate = DayPilot.Date.today().firstDayOfMonth();
-    dp.days = DayPilot.Date.today().daysInMonth();
-    dp.scale = "Day";
-    dp.timeHeaders = [
-        {groupBy: "Month"},
-        {groupBy: "Day", format: "d"}
-    ];
-    dp.init();
+	gantt.scales = [
+	    { unit: "year", step: 1, format: "%Y" }
+	];
+	gantt.init("projectGanttchart");
+	gantt.parse({
+	    data: projectGanttData(),
+	    links: [
+	      { id:11, source:6, target:7, type:"0" },
+	      { id:12, source:6, target:8, type:"0" }
+	    ]
+	});
+	
+	/*----------------------------
+		Gantt Chart - data 출력
+	------------------------------*/
+	function projectGanttData(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+			let obj = new Object();
+			let frdt = calendarData[i].bussFrdt;
+			let todt = calendarData[i].bussTodt;
+			
+			obj.id = calendarData[i].bussNo;
+			obj.text = calendarData[i].bussNm;
+			obj.start_date = getddmmyyyy(frdt);
+			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
+			obj.progress = calendarData[i].bussPrgre/100;
+			//obj.parent = calendarData[i].bussUpcd;
+			arr.push(obj);
+		}
+		return arr;
+	}
+	// 간트차트 날짜 형식 포맷
+	function getddmmyyyy(dt){
+		var date = new Date(dt);
+		var year = date.getFullYear();
+		var month = ('0' + (date.getMonth() + 1)).slice(-2);
+		var day = ('0' + date.getDate()).slice(-2);
+		
+		return day + '-' + month + '-' + year;
+	}
+	// 간트차트 날짜 초단위 포맷
+	function getMilliseconds(dt){
+		var date = new Date(dt);
+		var milli = date.getTime();
+		return milli;
+	}
+	
     </script>
 	
 	<script src="plugins/common/common.min.js"></script>
