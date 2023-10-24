@@ -8,37 +8,35 @@
 		SELECT b.buss_no
 			   , b.prjt_no
 			   , p.prjt_nm
+			   , NVL(b.buss_upcd, 0) AS buss_upcd
 			   , b.buss_nm
 			   , m.memb_id
-			   , CASE b.buss_imp
-               WHEN 'high' THEN '상'
-               WHEN 'mid' THEN '중'
-               WHEN 'low' THEN '하' END AS buss_imp
+			   , CASE b.buss_imp WHEN '0J1' THEN '상'
+               					 WHEN '0J2' THEN '중'
+               					 WHEN '0J3' THEN '하' END AS buss_imp
 			   , b.buss_prgre
 			   , b.buss_frdt
 			   , b.buss_todt
 			   , b.buss_st
-		FROM business b
-		LEFT JOIN project p 
-				ON b.prjt_no = p.prjt_no
-		LEFT JOIN business_member m 
-				ON b.buss_no = m.buss_no
+		FROM business b LEFT JOIN project p 
+							   ON b.prjt_no = p.prjt_no
+						LEFT JOIN business_member m 
+							   ON b.buss_no = m.buss_no
 		WHERE buss_st = '0K1'
 		OR	  buss_st = '0K3'
 		<!-- AND memb_id = #{sessionId} -->
-		ORDER BY buss_frdt;
+		ORDER BY buss_no
 	</select>
 	
 	<!-- 프로젝트 캘린더 업무 목록 -->
 	<select id="selectProjectCalendarAllBusiness" resultType="BusinessVO">
-		Select buss_no
+		SELECT buss_no
 			   , prjt_no
+			   , NVL(buss_upcd, 0) AS buss_upcd
 			   , buss_nm
-			   , case buss_imp
-               		when 'high'	then '상'
-               		when 'mid' 	then '중'
-               		when 'low' 	then '하'
-               		end as buss_imp
+			   , CASE buss_imp WHEN '0J1' THEN '상'
+               				   WHEN '0J2' THEN '중'
+               				   WHEN '0J3' THEN '하' END AS buss_imp
 			   , buss_prgre
 			   , buss_frdt
 			   , buss_todt
