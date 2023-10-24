@@ -23,4 +23,5 @@ public class IssueVO {
 	private String prjtNm;
 	
 	private List<MultipartFile> files;
+	private String membNm;
 }

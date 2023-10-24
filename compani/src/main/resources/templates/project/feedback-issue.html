@@ -16,6 +16,10 @@
 	margin-top: 10px;
 }
 
+.issuTtl {
+	text-align: left;
+}
+
 </style>
 
 </head>
@@ -85,20 +89,20 @@
 											<tr>
 												<th style="width: 5%;">#</th>
 												<th>제목</th>
-												<th>작성자</th>
-												<th>상태</th>
-												<th>종류</th>
-												<th>작성일</th>
+												<th style="width: 15%;">종류</th>
+												<th style="width: 15%;">상태</th>
+												<th style="width: 15%;">작성자</th>
+												<th style="width: 10%;">작성일</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr th:each="info : ${projectFeedbackIssueList}">
 												<th class="issueListTr"></th>
-												<td>1</td>
-												<td>2</td>
-												<td>3</td>
-												<td>4</td>
-												<td>5</td>
+												<td th:text="${info.issuTtl}" class="issuTtl"></td>
+												<td th:text="${info.issuKnd}"></td>
+												<td th:text="${info.issuSt}"></td>
+												<td th:text="${info.membNm}"></td>
+												<td th:text="${#dates.format(info.issuDt, 'yy.MM.dd')}"></td>
 											</tr>
 										</tbody>
 									</table>
@@ -108,7 +112,7 @@
 					<!-- 이슈 리스트 끝 -->
 				</div>
 			</div>
-			<!-- Comemnt Area -->
+			<!-- Comment Area -->
 			<div class="col-lg-4">
 	        	<div class="card"  style="height:80vh;">
 	        		<div class="card-header bg-white">
