@@ -14,7 +14,14 @@ import java.util.Date;
 public class CompanyStatusScheduler {
 
     private final CompanyStatusService companyStatusService;
+
+	// 매달 말일 오전 4시에 동작
+    @Scheduled(cron = "0 0 4 L * ?")
     public void calculateCompanyStatus(){
-    	// insert status data - per company, to project_status
+        final Calendar c = Calendar.getInstance();
+        if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
+            companyStatusService.insert(new Date());
+            // insert companyStatusInfo
+        }
     }
 }
