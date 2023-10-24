@@ -3,9 +3,14 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
 <head>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">	
+</script>
+
 <style>
 .content-body {
-	margin-left: 300px;
+	margin-left: 200px;
 }
 
 hr {
@@ -28,6 +33,27 @@ hr {
 .content-body {
 	padding-left: 20px;
 }
+
+#upAnddown {
+	display: inline-block;
+	float: right;
+	margin-left: 300px;
+}
+
+.weCard {
+	margin-top: 70px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 80%;
+}
+
+.card {
+	flex: 1;
+}
+
+.card:hover {
+	border: solid 0.5px red;
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -41,58 +67,111 @@ hr {
 	<div class="content-container">
 		<div class="content-body">
 
-			
-
-			<!-- 검색창 -->
-			<i class="fa-solid fa-magnifying-glass fa-lg"
-				style="margin-right: 5px"></i> <input id="FileSearch" type="text"
-				placeholder="검색">
-				
 			<!-- 검색 필터 -->
 			<label for="SearchToggleCheckBox"></label>
-			<div class="SearchInputBox" style="width: 290px;">
-
-				<div>
-					<div class="issue-selectBox" style="width: 100px;">
-						<div class="issue-selected" id="issue-selected">
-							<div class="issue-selected-value" id="issue-select-value"
-								data-value="파일명">파일명</div>
-							<div class="arrow"></div>
+			<div id="backWidth" class="SearchBox">
+				<label for="SearchToggleCheckBox" th:attr="onclick='issuePaging(1)'"></label>
+				<div class="SearchInputBox" style="width: 270px;">
+					<div>
+						<div class="issue-selectBox"
+							style="width: 100px; background-color: white;">
+							<div class="issue-selected" id="issue-selected">
+								<div class="issue-selected-value">전체</div>
+								<div class="arrow"></div>
+							</div>
+							<ul class="issue-select-ul"
+								style="width: 100px; top: 20%; display: none;">
+								<li class="issue-select-option" data-value="파일명">전체</li>
+								<li class="issue-select-option" data-value="업무명">업무명</li>
+								<li class="issue-select-option" data-value="작성자">작성자</li>
+							</ul>
 						</div>
-						<ul class="issue-select-ul"
-							style="width: 100px; top: 20%; display: none;">
-							<li class="issue-select-option" data-value="파일명">파일명</li>
-							<li class="issue-select-option" data-value="참여자">등록자</li>
-						</ul>
 					</div>
-				</div>
+				<!-- 검색 인풋 -->
+						<input id="FileSearch" type="text" placeholder="검색">
+					</div>
+				<input type="hidden" id="keyword" name="keyword">
+				<!-- 파일업로드 및 삭제 -->
+					<div id="upAnddown">
+						<input type="file" id="selectedFile" style="display: none;" /> <input
+							type="button" id="FileUpload" value="업로드"
+							onclick="document.getElementById('selectedFile').click();"
+							class="btn mb-1 btn-info" style="margin-right: 30px" />
+						<button id="FileDown" type="button" class="btn mb-1 btn-info"
+							style="margin-right: 30px;">다운로드</button>
+						<button id="FileDelete" type="button" class="btn mb-1 btn-dark">삭제</button>
+					</div>
 			</div>
-			
-			
-
-			<!-- 파일업로드 및 삭제 -->
-			<input type="file" id="selectedFile" style="display: none;" /> <input
-				type="button" id="FileUpload" value="업로드"
-				onclick="document.getElementById('selectedFile').click();"
-				class="btn mb-1 btn-info" style="margin-right: 10px" />
-			<button id="FileDown" type="button" class="btn mb-1 btn-info"
-				style="margin-right: 10px;">다운로드</button>
-			<button id="FileDelete" type="button" class="btn mb-1 btn-dark">삭제</button>
-			<hr>
 
 			<!-- 카드구간 -->
-			<div>
+			<div class="weCard">
 				<div class="col-lg-3 col-sm-2">
-					<div id="newColor" class="card">
+					<div class="card">
 						<div class="card-body">
 							<h5 style="font-size: 15px">최종프로젝트.ppt</h5>
-							<p style="font-size: 10px">프로젝트기획안</p>&nbsp;&nbsp;&nbsp;&nbsp;<p>반갑꼬리</p>
+							<p style="font-size: 10px">프로젝트기획안</p>
+							<p>반갑꼬리</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-3 col-sm-2">
-
-					<div id="newColor" class="card">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
+						<div class="card-body">
+							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
+							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-2">
+					<div class="card">
 						<div class="card-body">
 							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
 							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
@@ -103,18 +182,23 @@ hr {
 		</div>
 	</div>
 	<script>
-		$('.card').on('click', function(){
-			let cBody = document.getElementById('newColor');
-			cBody.style.border = "solid 2px red";
+		$('.card').on('click', function() {
+
+			let cBody = document.getElementsByClassName("card")[0]; // 배열을 안붙이면 클래스 인식 불가능
+
+			if ($(this).hasClass('active')) { // 만약 클릭한놈이 클래스가 있으면 active 지정
+				this.style.border = "solid 2px red"; // 그놈한테 테두리 지정해
+				$('.card').removeClass('active'); // 
+				this.style.border = "none"; // 
+
+			} else {
+				$('.card').removeClass('active');
+				this.style.border = "none";
+				$(this).addClass('active');
+				this.style.border = "solid 2px red";
+			}
+
 		});
-		
-		$('.id_btn').click(function(){
-
-			                       $('.id_btn').not(this).removeClass('active');
-
-			      $(this).toggleClass('active');
-			});
-		
 	</script>
 </th:block>
 </html>

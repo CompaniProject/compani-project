@@ -8,4 +8,5 @@ public interface MemberMapper {
 	public MemberVO selectMemberInfo(MemberVO vo);
 	
 	public List<MemberVO> getMemberList();
+	public int insertMemberInfo(MemberVO vo);
 }

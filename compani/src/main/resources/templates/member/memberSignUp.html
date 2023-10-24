@@ -106,109 +106,135 @@ mark, .mark {
 						<div class="card">
 							<div class="card-body">
 								<div class="form-validation">
-									<form class="form-valide" action="#" method="post">
+									<form class="form-valide" action="SignUpped" method="post">
 										<h1>
 											<b>회원가입(사원)</b>
 										</h1>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="val-skill">소속기관
-											</label>
+											<span class="text-danger">*</span><label
+												class="col-lg-4 col-form-label" for="coNm">소속기관 </label>
 
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="val-skill"
-													name="val-skill" readonly="readonly">
+												<input type="text" class="form-control" id=coNm name="coNm"
+													readonly="readonly" required> <input type="text"
+													class="form-control" id=coCd name="coCd"
+													readonly="readonly" required hidden="true"> <span>소속기관을
+													등록하시오.</span>
 											</div>
-																						<!-- Button trigger modal -->
+											<!-- Button trigger modal -->
 											<button type="button" class="btn btn-primary"
-												data-toggle="modal" data-target="#modalGrid">소속기관 찾기</button>
+												data-toggle="modal" data-target="#modalGrid">소속기관
+												찾기</button>
 										</div>
 
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="val-suggestions">아이디
-
-											</label>
+												class="col-lg-4 col-form-label" for="membId">아이디 </label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="val-suggestions"
-													name="val-suggestions" placeholder="">
+												<input type="text" class="form-control" id="membId"
+													name="membId"
+													placeholder="※ 4~50자 이내 / 영문(소문자), 숫자로만 입력 가능" required>
+												<span>※ 4~50자 이내 / 영문(소문자), 숫자로만 입력 가능</span>
+											</div>
+
+										</div>
+										<div class="form-group row">
+											<span class="text-danger">*</span> <label
+												class="col-lg-4 col-form-label" for="membPwd">비밀번호 </label>
+											<div class="col-lg-6">
+												<input type="password" class="form-control" id="membPwd"
+													name="membPwd" placeholder="※ 마우스 올릴 시, 설명"
+													title="영문(대/소문자), 숫자 및 특수문자 3가지로 구성하여 최소 10자 이상으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 ~ ! @ # $ % ^ & * ( ) _ - + = [ ] | \ ; : ‘ “ < > , . ? /"
+													required> <span>비밀번호를 확인하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="val-password">비밀번호
-
-											</label>
-											<div class="col-lg-6">
-												<input type="password" class="form-control"
-													id="val-password" name="val-password"
-													placeholder="8~20자 / 특수문자 모두 혼용">
-											</div>
-										</div>
-										<div class="form-group row">
-											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="val-confirm-password">비밀번호
+												class="col-lg-4 col-form-label" for="confirm-password">비밀번호
 												확인 </label>
 											<div class="col-lg-6">
 												<input type="password" class="form-control"
-													id="val-confirm-password" name="val-confirm-password"
-													placeholder="">
+													id="confirm-password" name="confirm-password"
+													placeholder="" required> <span>비밀번호가
+													일치하지않습니다.</span>
 											</div>
 										</div>
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="val-username">성명
-
-											</label>
+												class="col-lg-4 col-form-label" for="membNm">성명 </label>
 											<div class="col-lg-6">
-												<input class="form-control" id="val-username"
-													name="val-username" placeholder=""></input>
+												<input class="form-control" id="membNm" name="membNm"
+													placeholder="" required></input> <span>이름을 확인하시오.</span>
 											</div>
 										</div>
 
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="val-birth">생년월일
+												class="col-lg-4 col-form-label" for="membBirthDt">생년월일
 
 											</label>
 											<div class="col-lg-6">
-												<input type="date" class="form-control" id="val-birth"
-													name="val-birth" placeholder="0000/00/00" required
-													pattern="\d{4}/\d{2}/\d{2}">
+												<input type="date" class="form-control" id="membBirthDt"
+													name="membBirthDt" required pattern="\d{4}-\d{2}-\d{2}" />
+												<span>생년월일을 확인하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="val-email">이메일
+											<label class="col-lg-4 col-form-label" for="membEmail">이메일
 											</label>
 											<div class="col-lg-6">
-												<input type="email" class="form-control" id="val-email"
-													name="val-email" placeholder="">
+												<input type="email" class="form-control" id="membEmail"
+													name="membEmail" placeholder="ex) abc@example.com" required>
 											</div>
 										</div>
 
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="val-phoneus">전화번호
+											<label class="col-lg-4 col-form-label" for="membTelno">전화번호
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="val-phoneus"
-													name="val-phoneus" placeholder="ex)010-0000-0000">
+												<input type="text" class="form-control" id="membTelno"
+													name="membTelno" placeholder="ex) 010-0000-0000"> <span>전화번호를
+													학인하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="val-username">부서
+											<label class="col-lg-4 col-form-label" for="membDept">부서
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="val-username"
-													name="val-username" placeholder="">
+												<input type="text" class="form-control" id="membDept"
+													name="membDept" placeholder="">
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="val-username">직급
+											<label class="col-lg-4 col-form-label" for="membWkgd">직급
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="val-username"
-													name="val-username" placeholder="">
+												<input type="text" class="form-control" id="membWkgd"
+													name="membWkgd" placeholder="">
 											</div>
 										</div>
+
+
+
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label" for="aaa">1
+											</label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control" id="aaa"
+													name="aaa" placeholder="" value="${compInfo.coCd}">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label" for="bbb">2
+											</label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control" id="bbb"
+													name="bbb" placeholder="" value="${compInfo.coNm}">
+											</div>
+										</div>
+
+
+
 
 										<div class="form-group row">
 											<div class="col-lg-8 ml-auto">
@@ -232,7 +258,8 @@ mark, .mark {
 					<div class="modal-content" id="sea">
 						<div class="modal-header">
 							<h5 class="modal-title">소속기관 찾기</h5>
-							<button type="button" class="close" data-dismiss="modal" onclick="removeValue()">
+							<button type="button" class="close" data-dismiss="modal"
+								onclick="removeValue()">
 								<span>&times;</span>
 							</button>
 						</div>
@@ -243,6 +270,9 @@ mark, .mark {
 								<div class="case">
 									<!-- 검색어 입력 폼 -->
 									<input type="text" id="search" placeholder="상호명을 입력하시오.">
+									<span id="notice"
+										style="display: none; color: red; border: 900px; font-size: 12px">존재하지
+										않는 상호명입니다.</span>
 									<!-- 자동완성 단어 리스트 -->
 									<div class="autocomplete" style="width: 163px"></div>
 								</div>
@@ -253,7 +283,8 @@ mark, .mark {
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal" onclick="removeValue()">취소</button>
-							<button type="button" id="addBtn" class="btn btn-primary" data-dismiss="modal" onclick="entryValue()">등록</button>
+							<button type="button" id="addBtn" class="btn btn-primary"
+								data-dismiss="modal" onclick="entryValue()">등록</button>
 						</div>
 					</div>
 				</div>
@@ -284,7 +315,29 @@ mark, .mark {
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
 	<script>
+//@@@@@@@@@@@@@@@회원가입폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/* 	$('#val-suggestions').onkeyup = (event) => {
+		const value1 = $('#val-suggestions').value;
+		
+
+	};
 	
+	//아이디
+	$('#val-suggestions').keyup(function (e){
+		var content = $(this).val();
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		var blank_pattern = /[\s]/g;
+		var blank_pattern2 = /^\s+|\s+$/g;
+		
+	    if (content.length > 50 || content.length<4 || content.replace(blank_pattern2, '' ) == "" || blank_pattern.test(content) == true || special_pattern.test(str) == true){
+	        alert("아이디는 4~50자 이내(영문/대소문자, 숫자로만 입력 가능합니다.");
+	    }
+}); */
+
+
+	
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 회원가입폼@@@@@@@@@@@@
+
 //@@@@@@@@@@@@@@@@소속기관@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	// 검색어 리스트
 	const compList = [];
@@ -323,6 +376,7 @@ mark, .mark {
 	
 	// 리스트 키보드 누를 때////////////////////////////////////////////////////////////////
 	$search.onkeyup = (event) => {
+		$('#notice').css('display', 'none');
 		const value = $search.value.trim();
 		
 		// 리스트 필터링
@@ -349,15 +403,17 @@ mark, .mark {
 			    matchCompList.length = 0;
 		    }else{
 		    	if($search.value.length>0){
-		    		for(i=0; i<compList.length; i++){
+		    		for(var i = 0; i<compList.length; i++){
 		    			if(compList[i].CO_NM==$search.value){
-		    				$("#addBtn").click();
+		    				$('button[id="addBtn"]').click();
 		    				break;
+			    		}else{
+			    			$('#notice').css('display', 'block');
 			    		}
 		    		}
 		    	}
 		    }
-			break;
+			break;	
 		  // 그외 다시 초기화
 		  default:
 		    nowIndex = 0;
@@ -393,22 +449,30 @@ mark, .mark {
 	});
 	
 	///////////////////////////////////////////////////////End of 리스트 클릭 때//////////
+	
 	/////리스트 외부 클릭할때///////////////////////////////////////////////////////////////
 	$('div').on('click', $('.case'), (event) => {
 		$(".autocomplete div").remove();
 	});
 	/////////////////////////////////////////////////////////End of 리스트 외부 클릭할때///
+	
 	//모달창 버튼/////////////////////////////////////////////////////////////////////////
 	function removeValue(){
 		$search.value = '';
 	}
 	
 	function entryValue(){
-		document.querySelector('#val-skill').value = $search.value;
+		document.querySelector('#coNm').value = $search.value;
+ 		for(var i = 0; i<compList.length; i++){
+			if(document.querySelector('#coNm').value==compList[i].CO_NM){
+				document.querySelector('#coCd').value = compList[i].CO_CD;
+				break;
+			}
+		} 
 		$search.value = '';
 	}
-	///////////////////////////////////////////////////////////////////모달창 버튼///////
-//End of 소속기관@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/////////////////////////////////////////////////////////////End of 모달창 버튼///////
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 소속기관@@@@@@@@@@@@@
 		
 
 		

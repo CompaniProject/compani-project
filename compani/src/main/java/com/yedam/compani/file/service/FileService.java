@@ -1,6 +1,7 @@
 package com.yedam.compani.file.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FileService {
 	
@@ -14,8 +15,9 @@ public interface FileService {
 	public int getFileInsert(FileVO fileVO);
 	
 	// 삭제
-	public int getFileDelete(int FileNum);
+	public Map<String, Object> getFileDelete(List<Integer> list);
 	
-
+	// 업무 모달 파일함 검색기능
+	public List<FileVO> getFileSearch(FileVO fileVO);
 	
 }

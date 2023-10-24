@@ -16,6 +16,9 @@ public interface FileMapper {
 		public int FileInsert(FileVO fileVO);
 		
 		// 삭제
-		public int FileDelete(int FileNum);
+		public int FileDelete(Integer FileNo);
+		
+		// 업무 모달 파일함 검색기능
+		public List<FileVO> FileSearch(FileVO fileVO);
 	
 }

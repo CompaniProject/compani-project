@@ -12,9 +12,20 @@ import com.yedam.compani.company.service.CompanyVO;
 public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	CompanyMapper map;
+//	회원가입 소속회사
 	@Override
 	public List<CompanyVO> getCompanyList() {
 		return map.selectCompanyList();
+	}
+	@Override
+	public int setCompanyInfo(CompanyVO vo) {
+		return map.insertCompanyInfo(vo);
+	}
+	
+	//회사코드 생성
+	@Override
+	public String makeCompanyCode() {
+		return map.createCompanyCode();
 	}
 
 }

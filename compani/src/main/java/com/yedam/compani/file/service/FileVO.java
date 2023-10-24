@@ -14,8 +14,8 @@ public class FileVO {
 	private String filePath;
 	private String fileType;
 	private String fileDesct;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fileDt;
 	private String membId;
 	private Integer fileSize;
+
 }

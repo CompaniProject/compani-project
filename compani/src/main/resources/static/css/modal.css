@@ -707,7 +707,7 @@ form.fileupload.dz {
     margin: 0;
 }
 
-#cancelConfirmationModal {
+#cancelConfirmationModal, #checkingInput {
     width: 400px;
     min-height: 245px;
     box-sizing: border-box;

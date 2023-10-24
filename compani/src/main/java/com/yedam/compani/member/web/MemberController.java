@@ -31,7 +31,7 @@ public class MemberController {
 		MemberVO loginVO = new MemberVO();
 		loginVO.setMembId(loginId);
 		loginVO.setMembPwd(loginPwd);
-		loginVO = service.getLogin(loginVO);
+		loginVO = service.getMemberInfo(loginVO);
 		if(loginVO.getMembId() == null) {
 			return "member/memberLoginForm";
 		}else if(loginVO.getMembAccp().equals("N")){
@@ -60,11 +60,19 @@ public class MemberController {
 	public String memberSignUpForm() {
 		return "member/memberSignUp";
 	}
+
 	
-	// 기업 등록
-	@GetMapping("/companySignUp")
-	public String companySignUpForm() {
-		return "member/companySignUp";
+	//사원 가입 서브밋
+	@PostMapping("/SignUpped")
+	public String memberSignUpped(MemberVO joinVO, Model model) {
+		if(service.setMemberInfo(joinVO)>0) {
+			return "member/memberStandBy";
+		}else {
+			model.addAttribute("signUpInfo", joinVO);
+			model.addAttribute("notice", "회원가입이 정상적으로 이루어지지 않았습니다.");
+			return "member/memberSignUp";
+		}
+		
 	}
 	
 	/*

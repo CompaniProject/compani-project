@@ -3,41 +3,66 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.file.mapper.FileMapper">
 	
-	<!-- 전체조회 -->
-	<select id="FileList" resultType="FileVO">
-		SELECT FILE_NM
-			   , FILE_SIZE
-			   , MEMB_ID
-			   , FILE_DT
-		FROM   PROJECT_FILE
-		ORDER  BY FILE_NM
-	</select>
-	
-	<!-- 단건조회 -->
-	<select id="FileInfo" resultType="FileVO">
-	
-	</select>
-	
-	<!-- 등록 -->
-	<insert id="FileInsert" parameterType="FileVO">
-		<selectKey keyProperty="fileNo"
-				   resultType="int"
-				   order="BEFORE">
-		SELECT MAX(FILE_NO)
-		FROM   PROJECT_FILE
-		</selectKey>
-		INSERT INTO PROJECT_FILE(
-					, FILE_NO
-					, FILE_NM
-					, FILE_SIZE
-					, )
+				<!-- 파일 리스트 (업무 파일함)-->
+				<select id="FileList" resultType="FileVO">
+					SELECT	  FILE_NO
+						    , FILE_NM
+						    , FILE_SIZE
+						    , MEMB_ID
+						   	, FILE_DT
+					FROM   	 PROJECT_FILE
+					ORDER BY FILE_NO DESC
+				</select>
+				
+				
+				<!-- 파일 리스트 (프로젝트 자료함) -->
+				<select id="FileInfo" resultType="FileVO">
+				
+				</select>
+				
+				
+				<!-- 파일 업로드 (업무 파일함) -->
+				<insert id="FileInsert" parameterType="FileVO">
+					<selectKey keyProperty="fileNo"
+							   resultType="int"
+							   order="BEFORE">
+					SELECT MAX(FILE_NO)
+					FROM   PROJECT_FILE
+					</selectKey>
+					
+				</insert>
+				
+				
+				<!-- 파일 삭제 (업무 파일함, 프로젝트 자료함)-->
+				<delete id="FileDelete" parameterType="FileVO">
+					DELETE FROM project_file
+					WHERE 		file_no = #{fileNo}
+				</delete>
 		
-	</insert>
-	
-	<!-- 삭제 -->
-	<delete id="FileDelete" parameterType="FileVO">
-	
-	</delete>
+				<!-- 업무 모달 파일 검색기능 -->
+				<select id="FileSearch" resultType="FileVO">
+					SELECT F.FILE_NO
+						   , P.PRJT_NM
+						   , B.BUSS_NM
+						   , F.FILE_NM
+						   , F.FILE_PATH
+						   , F.FILE_TYPE
+						   , F.FILE_DESCT
+						   , F.FILE_DT
+						   , F.MEMB_ID
+						   , F.FILE_SIZE
+					FROM  PROJECT_FILE F, BUSINESS B, PROJECT P
+					WHERE F.BUSS_NO = B.BUSS_NO
+					AND   B.PRJT_NO = P.PRJT_NO
+					<choose>
+						<when test="keyword == 'fName'">
+						AND F.FILE_NM LIKE '%' || {#fileVO} || '%' 
+						</when>
+						<when test="keyword == 'fWriter">
+						AND F.MEMB_ID LIKE '%' || {#fileVO} || '%'
+						</when>
+					</choose>
+					ORDER BY FILE_NO DESC
+				</select>
 		
-
 </mapper>

@@ -1,6 +1,8 @@
 package com.yedam.compani.issue.web;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -67,14 +69,21 @@ public class IssueController {
 
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
-	public String modalIssueInsert(final IssueVO issueVO) {
+	public Map<String, Object> modalIssueInsert(@RequestParam(name= "files", required = false) MultipartFile[] files, @ModelAttribute IssueVO issueVO) {
+		Map<String, Object> map = new HashMap<>();
+		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
-
-		List<IssueFileVO> files = fileUtils.uploadFiles(issueVO.getFiles());
-		issueFileService.modalInsertIssueFile(issuNo, files);
 		
-		System.out.println("등록된 파일에 대한 정보는 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + files);
-		return "index";
+		
+		// 파일 업로드, 파일 DB에 저장
+		List<IssueFileVO> uploadedFiles = new ArrayList<>();
+		if (files != null && files.length > 0) {
+				uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
+				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
+		}
+		String result ="성공";
+		map.put("result", result);
+		return map;
 	}
 	
 }

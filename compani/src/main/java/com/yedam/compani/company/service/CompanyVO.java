@@ -1,6 +1,8 @@
 package com.yedam.compani.company.service;
 
-import java.sql.Date;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -10,5 +12,6 @@ public class CompanyVO {
 	private String coNm;
 	private String coRpstr;
 	private String coBizno;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date coDt;
 }

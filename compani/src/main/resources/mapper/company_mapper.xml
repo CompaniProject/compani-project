@@ -2,11 +2,44 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.compani.company.mapper.CompanyMapper">
+<mapper
+	namespace="com.yedam.compani.company.mapper.CompanyMapper">
 
 	<!-- 소속회사목록 -->
 	<select id="selectCompanyList" resultType="Map">
 		SELECT *
-		FROM COMPANY
+		FROM company
 	</select>
+
+	<!-- 회사코드 생성 -->
+	<select id="createCompanyCode" resultType="String">
+		SELECT 'CPN'||LPAD(NVL(MAX(substr(co_cd, 4)), 0) + 1, 3, '0') "CO_CD"
+		FROM company
+	</select>
+
+	<!--회사등록 -->
+	<insert id="insertCompanyInfo" parameterType="CompanyVO">
+		<selectKey keyProperty="coCd" resultType="String"
+			order="BEFORE">
+			SELECT 'CPN'||LPAD(NVL(MAX(substr(co_cd, 4)), 0) + 1, 3, '0')
+			"CO_CD"
+			FROM company
+		</selectKey>
+
+		INSERT INTO company(
+		co_cd
+		, co_nm
+		, co_rpstr
+		, co_bizno
+		, co_dt
+		)
+		VALUES(
+		#{coCd}
+		,#{coNm}
+		,#{coRpstr}
+		,#{coBizno}
+		,#{coDt}
+		)
+
+	</insert>
 </mapper>
