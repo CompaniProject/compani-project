@@ -15,9 +15,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class CalendarController {
-	
-	@Autowired
-	BusinessService businessService;
+
+	private final BusinessService businessService;
 	
 	// 개인달력 업무리스트
 	@GetMapping("personalCalendarList")
