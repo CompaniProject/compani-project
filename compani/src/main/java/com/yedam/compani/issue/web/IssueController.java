@@ -66,7 +66,19 @@ public class IssueController {
 
 		return map;
 	}
-
+	
+	// 모달 이슈 단건 조회
+	@GetMapping("/ModalIssueInfo")
+	@ResponseBody
+	public Map<String, Object> modalIssueSelect(IssueVO issueVO) {
+			Map<String, Object> map = new HashMap<>();
+			issueVO = issueService.getIssueInfo(issueVO);
+			map.put("issueInfo",issueVO);
+		
+			return map;
+	}
+	
+	
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
 	@ResponseBody
