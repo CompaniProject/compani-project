@@ -386,6 +386,7 @@
                                     <h6 class="p-t-15" style="display: inline-block; padding: 3px; "><i class="fa fa-download mb-2"></i> 첨부파일 <span>(3)</span></h6>
                                      <h6 class="p-t-16" style="display: inline-block; margin-left: 20px; padding: 3px; "><i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글<span>(3)</span></h6>  
                                 <hr style="margin: 0; height: 1px; background-color: #eaeaea; width: 608px;">
+                                                                            
                                       <div class="issueInfoFileList" style="display: none;">
 											<div class="list-message" style="width: 630px;">
 												<table class="table">
@@ -406,8 +407,38 @@
 												</table>
 											</div>
 										</div>
-										<div class="issueInfoCommentList">
+										<div class="issueInfoCommentList" style="display: none;">
+                                        	<div class="anime__details__review">
+						                            <div class="anime__review__item">
+						                                <div class="anime__review__item__pic">
+						                                    <img src="images/users/2.jpg" alt="">
+						                                </div>
+						                                <div class="anime__review__item__text">
+						                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
+						                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
+						                                    "demons" LOL</p>
+						                                </div>
+													                            </div>
+							                            <div class="anime__review__item">
+							                                <div class="anime__review__item__pic">
+							                                    <img src="images/users/1.jpg" alt="">
+							                                </div>
+							                                <div class="anime__review__item__text">
+							                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
+							                                    <p>Finally it came out ages ago</p>
+							                                </div>
+							                            </div>
+                      						  </div>
                                         	
+                                        	<div class="anime__details__form">
+					                            <div class="section-title">
+					                                <h5>댓글</h5>
+					                            </div>
+						                            <form action="#">
+						                                <textarea placeholder="Your Comment"></textarea>
+						                                <button type="submit"><i class="fa fa-location-arrow"></i>등록</button>
+						                            </form>
+                       					    </div>
                                         </div>
                                     </div>	
 							</div>					
@@ -419,8 +450,21 @@
 		</div>
 	</div>
 	</div>	
-	<script>	
+	<script>
+		/* var issueNo = ${issueInfo.issuNo};
+		<input type="hidden" value="${issueInfo.issuNo}"> */
+		
+		
 	$(document).on('click', '#issueLists tr', function() {
+		/* $.ajax('ModalIssueInfo?issuNo =' + issuNo)
+		.done(function(data) {
+			
+		})
+		. fail(function(error) {
+			console.log(error);
+		}) */
+		                                                                                                                          
+		
 		$('.modalIssueInfoForm').css('display', 'block');
 		$('.workModalContentBack').css('display', 'none');
 	});
@@ -430,6 +474,14 @@
 			$('.issueInfoFileList').css('display','block');			
 		} else {
 			$('.issueInfoFileList').css('display','none');				
+		} 
+	});
+	
+	$(document).on('click','.p-t-16', function() {
+		if ($('.issueInfoCommentList').css("display") == "none") {			
+			$('.issueInfoCommentList').css('display','block');			
+		} else {
+			$('.issueInfoCommentList').css('display','none');				
 		} 
 	});
 	</script> 

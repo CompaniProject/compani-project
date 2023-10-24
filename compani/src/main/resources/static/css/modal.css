@@ -1070,3 +1070,96 @@ form.fileupload.dz {
     transition: all .35s ease;
     color: rgba(108, 117, 125, 0.5);
 }
+
+.anime__review__item {
+	overflow: hidden;
+	margin-bottom: 15px;
+}
+
+.anime__review__item__pic {
+	float: left;
+	margin-right: 20px;
+	position: relative;
+}
+
+.anime__review__item__pic:before {
+	position: absolute;
+	right: -25px;
+	top: 15px;
+	border-top: 15px solid transparent;
+	border-left: 15px solid #bcbfd5f5;
+	content: "";
+	transform: rotate(225deg);
+}
+
+.anime__review__item__pic img {
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+}
+
+.anime__review__item__text {
+	overflow: hidden;
+	background: #fff;
+	padding: 18px 30px 16px 20px;
+	border-radius: 5px;
+	width: 525px; 
+}
+
+.anime__review__item__text h6 {
+	color: #76838f;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+.anime__review__item__text h6 span {
+	color: #b7b7b7;
+	font-weight: 400;
+}
+
+.anime__review__item__text p {
+	color: #575757;
+	line-height: 23px;
+	margin-bottom: 0;
+}
+
+.anime__details__form textarea {
+	width: 90%;
+	font-size: 15px;
+	color: #b7b7b7;
+	padding-left: 20px;
+	padding-top: 12px;
+	height: 110px;
+	resize: none;
+	margin-bottom: 24px;	
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    background-color: #ffffff;
+}
+
+.anime__details__form form button {
+	font-size: 12px;
+	color: #ffffff;
+	font-weight: 700;
+	letter-spacing: 2px;
+	background: #0098fe;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 2px;
+	margin-left: 525px;
+}
+
+.section-title {
+	color: #ffffff;
+	font-weight: 600;
+	line-height: 21px;
+	text-transform: uppercase;
+	padding-left: 5px;
+	position: relative;
+}
+
+.issueInfoCommentList{
+    width: 100%;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}

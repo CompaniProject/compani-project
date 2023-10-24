@@ -23,7 +23,12 @@ public class IssueServiceImpl implements IssueService {
 		PageHelper.startPage(pageNo, 6);
 		return issueMapper.findIssue(search);
 	}
-
+	
+	@Override
+	public IssueVO getIssueInfo(IssueVO issueVO) {
+		return issueMapper.selectIssueInfo(issueVO);
+	}
+	
 	@Override
 	public int modalInsertIssue(final IssueVO issueVO) {
 		issueMapper.modalInsertIssue(issueVO);
@@ -36,5 +41,7 @@ public class IssueServiceImpl implements IssueService {
 		
 		return issueMapper.getIssueList();
 	}
+
+
 
 }
