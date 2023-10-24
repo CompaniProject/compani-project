@@ -77,9 +77,9 @@
             FROM project_status
             WHERE prjt_no IN (  SELECT prjt_no
                                 FROM project
-                                WHERE prjt_no IS NOT NULL AND co_cd = r_comp.co_cd);
-                                -- AND prjt_st = '0D2'
-
+                                WHERE prjt_no IS NOT NULL AND co_cd = r_comp.co_cd
+                                AND prjt_st = '0D2'
+                              );
             v_comp_stat.mm_buss_cmpl_rate := TRUNC(NVL(v_comp_stat.mm_buss_cmpl_cnt/v_buss_cnt_sum*100,0),2);
             v_comp_stat.mm_buss_uncmpl_rate := TRUNC(NVL(v_comp_stat.mm_buss_uncmpl_cnt/v_buss_cnt_sum*100,0),2);
             v_comp_stat.mm_buss_excecmpl_rate := TRUNC(NVL(v_comp_stat.mm_buss_excecmpl_cnt/v_buss_cnt_sum*100,0),2);
