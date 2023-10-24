@@ -1,5 +1,7 @@
 package com.yedam.compani.member.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yedam.compani.company.service.CompanyService;
+import com.yedam.compani.company.service.CompanyVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
@@ -15,29 +18,31 @@ import com.yedam.compani.member.service.MemberVO;
 public class MemberController {
 	@Autowired
 	MemberService service;
+    @Autowired
 	CompanyService serviceC;
+
 	// 로그인 페이지
 	@GetMapping("/loginForm")
 	public String memberLoginForm() {
 		return "member/memberLoginForm";
 	}
-	
+
 	// 로그인
 	@PostMapping("/login")
-	public String memberLogin(@RequestParam String loginId, @RequestParam String loginPwd, Model model) {
+	public String memberLogin(@RequestParam String loginId, @RequestParam String loginPwd, HttpSession session) {
 		MemberVO loginVO = new MemberVO();
 		loginVO.setMembId(loginId);
 		loginVO.setMembPwd(loginPwd);
 		loginVO = service.getMemberInfo(loginVO);
-		if(loginVO.getMembId() == null) {
-			return "member/memberLoginForm";
-		}else if(loginVO.getMembAccp().equals("N")){
-			return "member/memberStandBy";
-		}else{
-			model.addAttribute("loginInfo", loginVO);
-			return "home";
+		if (loginVO == null) {
+			return "redirect:loginForm";
+		} else if (loginVO.getMembAccp().equals("N")) {
+			return "redirect:standBy";
+		} else {
+			session.setAttribute("loginInfo", loginVO);
+			return "redirect:home";
 		}
-		
+
 	}
 
 	// 가입 후 대기
@@ -45,30 +50,50 @@ public class MemberController {
 	public String memberStandByForm() {
 		return "member/memberStandBy";
 	}
-	
+	// 가입완료
+	@GetMapping("/complete")
+	public String memberSignUpComplete() {
+		return "member/memberSignUpped";
+	}
+
 	// 회원가입 유형
 	@GetMapping("/signUp")
 	public String signUpPage() {
 		return "member/signUp";
 	}
-	
-	// 사원 등록
+
+	// 사원 등록 폼
 	@GetMapping("/memberSignUp")
 	public String memberSignUpForm() {
 		return "member/memberSignUp";
 	}
 
 	
-	//사원 가입 서브밋
+	
+	
+	
+	// 가입 서브밋
 	@PostMapping("/SignUpped")
-	public String memberSignUpped(MemberVO joinVO, Model model) {
-		if(service.setMemberInfo(joinVO)>0) {
-			return "member/memberStandBy";
-		}else {
-			model.addAttribute("signUpInfo", joinVO);
-			model.addAttribute("notice", "회원가입이 정상적으로 이루어지지 않았습니다.");
-			return "member/memberSignUp";
+	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
+		if (membVO.getPermNo() == 2) {
+			if (serviceC.setCompanyInfo(compVO) > 0) {
+				if (service.setMemberInfo(membVO) > 0) {
+					return "redirect:complete";
+				} else {
+					model.addAttribute("notice", "회원가입(사원부분)이 정상적으로 이루어지지 않았습니다.");
+					return "memberSignUp";
+				}
+			} else {
+				model.addAttribute("notice", "회원가입(기업부분)이 정상적으로 이루어지지 않았습니다.");
+				return "memberSignUp";
+			}
+		} else {
+			if (service.setMemberInfo(membVO) > 0) {
+				return "redirect:complete";
+			} else {
+				model.addAttribute("notice", "회원가입(사원부분)이 정상적으로 이루어지지 않았습니다.");
+				return "companySignUp";
+			}
 		}
-		
 	}
 }

@@ -115,16 +115,31 @@ mark, .mark {
 												class="col-lg-4 col-form-label" for="coNm">소속기관 </label>
 
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id=coNm name="coNm"
-													readonly="readonly" required> <input type="text"
-													class="form-control" id=coCd name="coCd"
-													readonly="readonly" required hidden="true"> <span>소속기관을
-													등록하시오.</span>
+												<input type="text" class="form-control" id="coNm" name="coNm"
+													readonly="readonly" required>
+
+												<span>소속기관을 등록하시오.</span>
+											<!-- 	////////////////////////////////////////////// -->
+												<input type="text"
+													class="form-control" id="coRpstr" name="coRpstr"
+													readonly="readonly" required hidden="true"
+													th:value='${companyVO.coRpstr}'> 
+												<input type="text"
+													class="form-control" id="coCd" name="coCd"
+													readonly="readonly" required hidden="true"> 
+												<input type="text"
+													class="form-control" id="coBizno" name="coBizno"
+													readonly="readonly" required hidden="true"
+													th:value='${companyVO.coBizno}'>
+												<input type="date"
+													class="form-control" id="coDt" name="coDt"
+													readonly="readonly" required hidden="true"
+													th:value="${#dates.format(companyVO.coDt, 'yyyy-MM-dd')}">						
+											<!-- 	////////////////////////////////////////////// -->							
 											</div>
 											<!-- Button trigger modal -->
 											<button type="button" class="btn btn-primary"
-												data-toggle="modal" data-target="#modalGrid">소속기관
-												찾기</button>
+												data-toggle="modal" data-target="#modalGrid" onclick="selectCompList()">소속기관 찾기</button>
 										</div>
 
 										<div class="form-group row">
@@ -175,7 +190,7 @@ mark, .mark {
 											</label>
 											<div class="col-lg-6">
 												<input type="date" class="form-control" id="membBirthDt"
-													name="membBirthDt" required pattern="\d{4}-\d{2}-\d{2}" />
+													name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}"  required/>
 												<span>생년월일을 확인하시오.</span>
 											</div>
 										</div>
@@ -184,7 +199,7 @@ mark, .mark {
 											</label>
 											<div class="col-lg-6">
 												<input type="email" class="form-control" id="membEmail"
-													name="membEmail" placeholder="ex) abc@example.com" required>
+													name="membEmail" placeholder="ex) abc@example.com">
 											</div>
 										</div>
 
@@ -213,26 +228,8 @@ mark, .mark {
 													name="membWkgd" placeholder="">
 											</div>
 										</div>
-
-
-
-										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="aaa">1
-											</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="aaa"
-													name="aaa" placeholder="" value="${compInfo.coCd}">
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="bbb">2
-											</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="bbb"
-													name="bbb" placeholder="" value="${compInfo.coNm}">
-											</div>
-										</div>
-
+										<div><input type="number" class="form-control" id="permNo"
+													name="permNo" placeholder="" hidden></div>
 
 
 
@@ -314,8 +311,22 @@ mark, .mark {
 
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(function(){
+			if('[(${companyVO.coNm})]'!= null && '[(${companyVO.coNm})]' != ''){
+				$('#coNm').val('[(${companyVO.coNm})]');
+				$('#coCd').val('[(${companyVO.coCd})]');
+				$('#permNo').val(2);
+			}
+		})
+    /*]]>*/
+	</script>
 	<script>
 //@@@@@@@@@@@@@@@회원가입폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
 /* 	$('#val-suggestions').onkeyup = (event) => {
 		const value1 = $('#val-suggestions').value;
 		
@@ -344,7 +355,7 @@ mark, .mark {
 	const compNm = [];
 	const myComp = '';
 	
-	$(function(){
+	function selectCompList(){
 	    $.ajax('http://localhost/companyList', {
 	        type : 'post'
 	    })
@@ -358,7 +369,9 @@ mark, .mark {
 	    })
 	    .fail(err =>console.log(err));
 	    
-	});
+	    
+	    
+	}
 
 	
 	// 검색 입력 요소
@@ -470,6 +483,7 @@ mark, .mark {
 			}
 		} 
 		$search.value = '';
+		$('#permNo').val(4);
 	}
 	/////////////////////////////////////////////////////////////End of 모달창 버튼///////
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 소속기관@@@@@@@@@@@@@
