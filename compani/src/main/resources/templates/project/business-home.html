@@ -321,28 +321,26 @@
 										<div class="card" style="height: 200px;">
 											<div class="card-body" style="overflow: auto;">
 												<div class="SearchBox" style="height: 50%">
-													<label for="SearchToggleCheckBox"
-														th:attr="onclick=''"></label> <input
-														type="hidden" id="keyword" name="keyword" value="전체">
+											 		<label for="SearchToggleCheckBox" th:attr="onclick='searchMember()'"></label> <input
+														type="hidden" id="keyword" name="keyword" value="전체"> 
 													<div class="SearchInputBox" style="width: 270px;">
 														<div>
-															<div class="issue-selectBox" style="width: 100px;">
-																<div class="issue-selected" id="issue-selected">
-																	<div class="issue-selected-value">전체</div>
+															<div class="member-selectBox" style="width: 100px;">
+																<div class="member-selected" id="member-selected">
+																	<div class="member-selected-value">전체</div>
 																	<div class="arrow"></div>
 																</div>
-																<ul class="issue-select-ul"
+																<ul class="member-select-ul"
 																	style="width: 100px; top: 20%; display: none;">
-																	<li class="issue-select-option" data-value="전체">전체</li>
-																	<li class="issue-select-option" data-value="작성자">부서</li>
-																	<li class="issue-select-option" data-value="작성자">직책</li>
-																	<li class="issue-select-option" data-value="제목">이름</li>
+																	<li class="member-select-option" data-value="전체">전체</li>
+																	<li class="member-select-option" data-value="부서">부서</li>
+																	<li class="member-select-option" data-value="직책">직책</li>
+																	<li class="member-select-option" data-value="제목">이름</li>
 																</ul>
 															</div>
 														</div>
 														<input class="SearchInputModalView" id="search"
-															name="search" type="text" placeholder="검색어를 입력하세요."><span
-															class="DeleteSearchWord"></span>
+															name="search" type="text" placeholder="검색어를 입력하세요.">
 													</div>
 
 												</div>
@@ -461,9 +459,11 @@
 				</div>
 			</div>
 		</div>
+		
 		<script>
 			$('#membertbl td:nth-child(5)').on('click', insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
+			$('#keyword').on('click', searchMember )
 			
 			function insertMember(event){
 		
@@ -475,6 +475,7 @@
 				let posotion = $(this).siblings().eq(2).text();
 				let name = $(this).siblings().eq(3).text();
 	
+		
 				let isDup = true;				
 				$('#insertmembertbl tr').each(function(){
 					 let checkId = $(this).attr('id');
@@ -484,7 +485,9 @@
 				})
 				
 				if (isDup){
-					let insertmemtbl = $('#insertmembertbl');
+				/* 복사 .. 버튼 + 까지 복사네;; 	
+				let tr = $(this).closest('tr').clone().appendTo('#insertmembertbl'); */ 
+				 	let insertmemtbl = $('#insertmembertbl');
 					
 					let trTag = $('<tr/>');
 					let tdTag= $('<td/>');
@@ -518,12 +521,22 @@
 					tdTag.append('<i class="fa-solid fa-minus"></i>');
 					trTag.append(tdTag);
 					
-					insertmemtbl.append(trTag);
+					insertmemtbl.append(trTag); 
 				}
 			}
 			
 			function deleteMember(event){
 				$(this).parent().remove();
+			}
+		
+			function searchMember(){
+				let selected = $('.member-selected-value').text();
+				let search  = $('#search').val();
+	
+	
+				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
+				.done()
+				.fail(err =>  console.log(err));
 			}
 		</script>
 	</th:block>

@@ -5,45 +5,62 @@
 <mapper namespace="com.yedam.compani.member.mapper.MemberMapper">
 	<!-- 로그인 -->
 	<select id="selectMemberInfo" resultType="MemberVO">
-		SELECT 	*  
-		FROM 	member
-		WHERE 	memb_id = #{membId}
-		AND		memb_pwd = #{membPwd}
+		SELECT *
+		FROM member
+		WHERE memb_id = #{membId}
+		AND memb_pwd = #{membPwd}
 	</select>
 	<!-- 사원 회원가입 -->
- 	<insert id="insertMemberInfo" parameterType="MemberVO">
+	<insert id="insertMemberInfo" parameterType="MemberVO">
 		INSERT INTO member(
-							memb_id
-						   ,memb_pwd
-						   ,memb_nm
-						   ,memb_birth_dt
-						   <if test="membEmail != null and !membEmail.equals('')">,memb_email</if>
-						   <if test="membTelno != null and !membTelno.equals('')">,memb_telno</if>
-						   ,co_cd
-							<if test="membDept != null and !membDept.equals('')">,memb_dept</if>
-							<if test="membWkgd != null and !membWkgd.equals('')">,memb_wkgd</if>
-						   ,memb_accp
-						   ,perm_no
-							)
-					VALUES(
-							#{membId}
-						   ,#{membPwd}
-						   ,#{membNm}
-						   ,#{membBirthDt}
-						   <if test="membEmail != null and !membEmail.equals('')">,#{membEmail}</if>
-						   <if test="membTelno != null and !membTelno.equals('')">,#{membTelno}</if>
-						   ,#{coCd}
-							<if test="membDept != null and !membDept.equals('')">,#{membDept}</if>
-							<if test="membWkgd != null and !membWkgd.equals('')">,#{membWkgd}</if>
-						   ,'N'
-						   ,'4'
-							)
+		memb_id
+		,memb_pwd
+		,memb_nm
+		,memb_birth_dt
+		<if test="membEmail != null and !membEmail.equals('')">,memb_email</if>
+		<if test="membTelno != null and !membTelno.equals('')">,memb_telno</if>
+		,co_cd
+		<if test="membDept != null and !membDept.equals('')">,memb_dept</if>
+		<if test="membWkgd != null and !membWkgd.equals('')">,memb_wkgd</if>
+		,memb_accp
+		,perm_no
+		)
+		VALUES(
+		#{membId}
+		,#{membPwd}
+		,#{membNm}
+		,#{membBirthDt}
+		<if test="membEmail != null and !membEmail.equals('')">,#{membEmail}</if>
+		<if test="membTelno != null and !membTelno.equals('')">,#{membTelno}</if>
+		,#{coCd}
+		<if test="membDept != null and !membDept.equals('')">,#{membDept}</if>
+		<if test="membWkgd != null and !membWkgd.equals('')">,#{membWkgd}</if>
+		,'N'
+		,'4'
+		)
 	</insert>
 
 	<select id="getMemberList" resultType="MemberVO">
 		SELECT *
-		FROM   MEMBER
-	<!-- 	WHERE  CO_CD = #{coCd} -->
-	</select >
+		FROM MEMBER
+		<!-- WHERE CO_CD = #{coCd} -->
+	</select>
+
+	<select id="memberSearchList" resultType="map">
+		SELECT *
+		FROM MEMBER
 	
+		<if test="key == '이름'">
+			WHERE MEMB_NM LIKE '%' || #{value} || '%'
+		</if>
+		<if test="key== '부서'">
+			WHERE MEMB_DEPT LIKE '%' || #{value} || '%'
+		</if>
+		<if test="key == '직책'">
+			WHERE MEMB_WKGD LIKE '%' || #{value} || '%'
+		</if>
+
+
+	</select>
+
 </mapper>
