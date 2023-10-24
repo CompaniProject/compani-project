@@ -23,8 +23,10 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> getMemberList() {
 		
 		return map.getMemberList();
+		
+	}
 	public int setMemberInfo(MemberVO vo) {
 		return map.insertMemberInfo(vo);
 	}
-	
+
 }
