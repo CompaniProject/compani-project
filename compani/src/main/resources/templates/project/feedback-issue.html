@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+
+.card-body {
+	text-align: center;
+}
+
+.progress.mb-3 {
+	margin-top: 10px;
+}
+
+</style>
+
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="column">
+					<!-- 이슈 데이터 - 시작 -->
+					<div class="row">
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 42px;">
+									<h4 class="card-title">총 이슈 개수</h4>
+									<span th:text="${projectStatus.issuCnt}"> </span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">해결 이슈</h4>
+									<span th:text="|${projectStatus.issuSolveCnt} / ${projectStatus.issuCnt}|"> </span>
+									<div class="progress mb-3">
+										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+											<span class="sr-only"></span>
+                                    	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">미해결 이슈</h4>
+									<span th:text="|${projectStatus.issuUnsolveCnt} / ${projectStatus.issuCnt}|"> </span>
+									<div class="progress mb-3">
+										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+											<span class="sr-only"></span>
+                                    	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">해결불가 이슈</h4>
+									<span th:text="|${projectStatus.issuUnsolvableCnt} / ${projectStatus.issuCnt}|"> </span>
+									<div class="progress mb-3">
+										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+											<span class="sr-only"></span>
+                                    	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 이슈 데이터 - 끝 -->
+					
+					<!-- 이슈 리스트 시작 -->
+                        <div class="card">
+                            <div class="card-body">
+								<div class="table-responsive">
+                                    <table class="table table-bordered">
+										<thead>
+											<tr>
+												<th style="width: 5%;">#</th>
+												<th>제목</th>
+												<th>작성자</th>
+												<th>상태</th>
+												<th>종류</th>
+												<th>작성일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="info : ${projectFeedbackIssueList}">
+												<th class="issueListTr"></th>
+												<td>1</td>
+												<td>2</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					<!-- 이슈 리스트 끝 -->
+				</div>
+			</div>
+			<!-- Comemnt Area -->
+			<div class="col-lg-4">
+	        	<div class="card"  style="height:80vh;">
+	        		<div class="card-header bg-white">
+                    	<h5 class="card-title">Card title</h5>
+                    	<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                	</div>
+	            	<div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;">
+	            		<div class="card">
+		                	<div class="card-body">
+		                		<div class="media">
+		                        	<div class="media-body">
+										<h5 class="mt-0">Media heading</h5>
+										Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
+										 Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+										 Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+		                                <div class="media mt-3">
+		                                	<div class="media-body">
+		                                    	<h5 class="mt-0">Media heading</h5>
+	                                    		Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
+	                                    		 Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+	                                    		 Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+		                                	</div>
+		                            	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+	            	<div class="card-footer">
+			            <p class="card-text d-inline">
+			            	<small class="text-muted">Last updated 3 mins ago</small>
+			            </p>
+			            <a href="#" class="card-link float-right"><small>Card link</small></a>
+		            </div>
+	        	</div>
+			</div>
+	    	<!-- Comment Area End -->
+		</div>
+	
+	
+	<script th:inline="javascript">
+	let issueList = [[${projectFeedbackIssueList}]];
+	
+	/*----------------------------
+		업무리스트 정렬
+	------------------------------*/
+	let stripedBar1 = 100 * [[${projectStatus.issuSolveCnt}]] / [[${projectStatus.issuCnt}]];
+	let stripedBar2 = 100 * [[${projectStatus.issuUnsolveCnt}]] / [[${projectStatus.issuCnt}]];
+	let stripedBar3 = 100 * [[${projectStatus.issuUnsolvableCnt}]] / [[${projectStatus.issuCnt}]];
+	
+	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(0).css("width", stripedBar1+'%');
+	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(1).css("width", stripedBar2+'%');
+	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(2).css("width", stripedBar3+'%');
+	
+	/*----------------------------
+		업무리스트 넘버링
+	------------------------------*/
+	for(let i=0; i<issueList.length; i++){
+		$('.issueListTr').eq(i).append(i+1);
+	}
+	</script>
+	</th:block>
+</body>
+</html>

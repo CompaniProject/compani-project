@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.compani.project.feedback.mapper.ProjectFeedbackMapper">
+	<!-- 프로젝트 이슈 피드백 -->
+	<select id="selectProjectFeedbackIssueList" resultType="ProjectFeedbackVO">
+		SELECT issu_no
+			   , prjt_no
+			   , memb_nm
+			   , issu_ttl
+			   , CASE issu_knd WHEN '0L1' THEN '버그'
+                               WHEN '0L2' THEN '개선사항'
+                               WHEN '0L3' THEN '새기능'
+                               WHEN '0L4' THEN '업무' END AS issu_knd
+			   , CASE issu_st WHEN '0E1' THEN '해결'
+                              WHEN '0E2' THEN '미해결'
+                              WHEN '0E3' THEN '해결불가' END AS issu_st
+			   , issu_dt
+		FROM issue i LEFT JOIN member m
+						   ON i.memb_id = m.memb_id
+		<!-- WHERE prjt_no = {prjtNo} -->
+		ORDER BY issu_no
+	</select>
+</mapper>
