@@ -99,8 +99,12 @@
 											<tr th:each="info : ${projectFeedbackIssueList}">
 												<th class="issueListTr"></th>
 												<td th:text="${info.issuTtl}" class="issuTtl"></td>
-												<td th:text="${info.issuKnd}"></td>
-												<td th:text="${info.issuSt}"></td>
+												<td class="issuKnd">
+													<span th:text="${info.issuKnd}"></span>
+												</td>
+												<td class="issuSt">
+													<span th:text="${info.issuSt}"></span>
+												</td>
 												<td th:text="${info.membNm}"></td>
 												<td th:text="${#dates.format(info.issuDt, 'yy.MM.dd')}"></td>
 											</tr>
@@ -173,6 +177,32 @@
 	for(let i=0; i<issueList.length; i++){
 		$('.issueListTr').eq(i).append(i+1);
 	}
+	
+	/*----------------------------
+		데이터 디자인
+	------------------------------*/
+	for(let i=0; i<issueList.length; i++){
+		
+		if($('.issuKnd').eq(i).children('span').text() == '버그'){
+			$('.issuKnd').eq(i).children('span').addClass('badge badge-danger');
+		} else if($('.issuKnd').eq(i).children('span').text() == '개선사항'){
+			$('.issuKnd').eq(i).children('span').addClass('badge badge-warning');
+		} else if($('.issuKnd').eq(i).children('span').text() == '새기능'){
+			$('.issuKnd').eq(i).children('span').addClass('badge badge-info');
+		} else if($('.issuKnd').eq(i).children('span').text() == '업무'){
+			$('.issuKnd').eq(i).children('span').addClass('badge badge-light');
+		}
+		
+		if($('.issuSt').eq(i).children('span').text() == '해결'){
+			$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-success');
+		} else if($('.issuSt').eq(i).children('span').text() == '미해결'){
+			$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-dark');
+		} else if($('.issuSt').eq(i).children('span').text() == '해결불가'){
+			$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-secondary');
+		}
+		
+	}
+	
 	</script>
 	</th:block>
 </body>
