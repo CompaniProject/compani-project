@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,18 +28,14 @@ import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
 
 @Controller
+@RequiredArgsConstructor
 public class ProjectController {
 
-	@Autowired
-	ProjectService projectService;
-	@Autowired
-	BusinessService businessService;
-	@Autowired
-	ProjectMemberService projectMemberService;
-	@Autowired
-	MemberFeedbackService memberFeedbackService;
-	@Autowired
-	IssueService issueService;
+	private final ProjectService projectService;
+	private final BusinessService businessService;
+	private final ProjectMemberService projectMemberService;
+	private final MemberFeedbackService memberFeedbackService;
+	private final IssueService issueService;
 
 	@GetMapping("/project/home/{prjtNo}")
 	public String projectHome(@PathVariable Integer prjtNo, Model model) {

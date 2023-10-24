@@ -3,14 +3,15 @@ package com.yedam.compani.project.status.service.impl;
 import com.yedam.compani.project.status.mapper.ProjectStatusMapper;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectStatusServiceImpl implements ProjectStatusService {
 
-    @Autowired
-    ProjectStatusMapper projectStatusMapper;
+    private final ProjectStatusMapper projectStatusMapper;
 
     @Override
     public boolean insert(int prjtNo) {

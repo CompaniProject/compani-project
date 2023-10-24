@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.compani.company.status.mapper.CompanyStatusMapper">
+
+    <select id="selectStatusForCurrentDate" resultType="CompanyStatusVO">
+        SELECT co_stat_dt
+                , co_cd
+                , mm_buss_cmpl_cnt
+                , mm_buss_uncmpl_cnt
+                , mm_buss_excecmpl_cnt
+                , mm_issu_solve_cnt
+                , mm_issu_unsolvable_cnt
+                , mm_buss_cmpl_rate
+                , mm_buss_uncmpl_rate
+                , mm_buss_excecmpl_rate
+                , mm_issu_solve_rate
+                , mm_issu_unsolve_rate
+                , mm_issu_unsolvable_rate
+        FROM company_status
+        WHERE TO_CHAR(co_stat_dt,'YYMM') = TO_CHAR(ADD_MONTHS(sysdate,-1),'YYMM')
+            AND co_cd = #{coCd}
+
+    </select>
+
+    <select id="selectStatusForProjectDate" resultType="CompanyStatusVO">
+        SELECT co_stat_dt
+                , co_cd
+                , mm_buss_cmpl_cnt
+                , mm_buss_uncmpl_cnt
+                , mm_buss_excecmpl_cnt
+                , mm_issu_solve_cnt
+                , mm_issu_unsolvable_cnt
+                , mm_buss_cmpl_rate
+                , mm_buss_uncmpl_rate
+                , mm_buss_excecmpl_rate
+                , mm_issu_solve_rate
+                , mm_issu_unsolve_rate
+                , mm_issu_unsolvable_rate
+        FROM company_status
+        WHERE TO_CHAR(co_stat_dt,'YYMM') = (
+                                            SELECT TO_CHAR(ADD_MONTHS(prjt_cmpltdt,-1), 'YYMM')
+                                            FROM project WHERE prjt_no = #{prjtNo}
+                                            )
+            AND co_cd = #{coCd}
+    </select>
+
+    <insert id="insert">
+        DECLARE
+            v_comp_stat company_status%ROWTYPE;
+            v_buss_cnt_sum NUMBER := 0;
+            v_issu_cnt_sum NUMBER := 0;
+
+            CURSOR c_comp_cursor IS
+            SELECT co_cd
+            FROM company;
+        BEGIN
+
+        FOR r_comp IN c_comp_cursor LOOP
+            SELECT NVL(SUM(buss_cmpl_cnt),0)
+                    , NVL(SUM(buss_uncmpl_cnt),0)
+                    , NVL(SUM(buss_exce_cnt),0)
+                    , NVL(SUM(issu_solve_cnt),0)
+                    , NVL(SUM(issu_unsolve_cnt),0)
+                    , NVL(SUM(issu_unsolvable_cnt),0)
+                    , SUM(buss_cnt)
+                    , SUM(issu_cnt)
+            INTO v_comp_stat.mm_buss_cmpl_cnt
+                , v_comp_stat.mm_buss_uncmpl_cnt
+                , v_comp_stat.mm_buss_excecmpl_cnt
+                , v_comp_stat.mm_issu_solve_cnt
+                , v_comp_stat.mm_issu_unsolve_cnt
+                , v_comp_stat.mm_issu_unsolvable_cnt
+                , v_buss_cnt_sum
+                , v_issu_cnt_sum
+            FROM project_status
+            WHERE prjt_no IN (  SELECT prjt_no
+                                FROM project
+                                WHERE prjt_no IS NOT NULL AND co_cd = r_comp.co_cd
+                                AND prjt_st = '0D2'
+                              );
+            v_comp_stat.mm_buss_cmpl_rate := TRUNC(NVL(v_comp_stat.mm_buss_cmpl_cnt/v_buss_cnt_sum*100,0),2);
+            v_comp_stat.mm_buss_uncmpl_rate := TRUNC(NVL(v_comp_stat.mm_buss_uncmpl_cnt/v_buss_cnt_sum*100,0),2);
+            v_comp_stat.mm_buss_excecmpl_rate := TRUNC(NVL(v_comp_stat.mm_buss_excecmpl_cnt/v_buss_cnt_sum*100,0),2);
+            v_comp_stat.mm_issu_solve_rate := TRUNC(NVL(v_comp_stat.mm_issu_solve_cnt/v_issu_cnt_sum*100,0),2);
+            v_comp_stat.mm_issu_unsolve_rate := TRUNC(NVL(v_comp_stat.mm_issu_unsolve_cnt/v_issu_cnt_sum*100,0),2);
+            v_comp_stat.mm_issu_unsolvable_rate := TRUNC(NVL(v_comp_stat.mm_issu_unsolvable_cnt/v_issu_cnt_sum*100,0),2);
+
+            v_comp_stat.co_cd := r_comp.co_cd;
+            v_comp_stat.co_stat_dt := #{date};
+
+            INSERT INTO company_status
+            VALUES v_comp_stat;
+            END LOOP;
+        END;
+    </insert>
+</mapper>

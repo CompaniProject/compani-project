@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 
 @Service
+@RequiredArgsConstructor
 public class BusinessServiceImpl implements BusinessService {
-	
-	@Autowired
-	private BusinessMapper businessMapper;
+
+	private final BusinessMapper businessMapper;
 	
 	// 개인캘린더 업무리스트
 	@Override
@@ -59,7 +60,6 @@ public class BusinessServiceImpl implements BusinessService {
 	
 	@Override
 	public List<BusinessVO> getBusinessList() {
-		
 		return businessMapper.getBusinessList();
 	}
 

@@ -3,6 +3,7 @@ package com.yedam.compani.project.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,10 @@ import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
-	@Autowired
-	private ProjectMapper projectMapper;
+	private final ProjectMapper projectMapper;
 	
 	@Override
 	public List<ProjectVO> getProjectList() {

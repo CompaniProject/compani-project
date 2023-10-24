@@ -130,7 +130,16 @@
 			<div>
 			    <div class="col-lg-12">
 			        <div class="card">
-			            <div class="card-body">             
+			            <div class="card-body">
+			            	<h4 class="card-title">이슈 통계</h4>
+		                    <div class="row">
+		        				<div class="col-lg-7">
+		                    	<canvas id="issuDonutChart" width="300" height="250"></canvas>
+		                    	</div>
+		        				<div class="col-lg-5">
+		                    	<canvas id="issuStBar" width="200" height="300"></canvas>
+		                    	</div>    
+		                    </div>              
 			            </div>
 			        </div>
 			    </div>
@@ -170,73 +179,151 @@
 	    <!-- Comment Area End -->
 	</div>
 	
-	<script>
+	<script th:inline="javascript">
 window.onload = function () {
-    donutChartDraw();
-    stackChartDraw();
+    donutBussChartDraw();
+    donutIssueChartDraw();
+    stackBussChartDraw();
+    stackIssueChartDraw();
 }
 
-// ---------------------- Test chart code
-let pieChartData = {
+// -------------------- Status Data Start
+const projectStatus = [[${projectStatus}]];
+const cpnStatForCurrDt = [[${cpnStatForCurrDt}]];
+const cpnStatForPrjtDt = [[${cpnStatForPrjtDt}]];
+// -------------------- Status Data End
+
+
+//---------------------- Business Doughnut Chart Start ------
+let pieBussChartData = {
+	
     labels: ['완료', '미완료', '초과완료'],
     datasets: [{
-        data: [95, 12, 13],
+        data: [projectStatus.bussCmplCnt, projectStatus.bussUncmplCnt, projectStatus.bussExceCnt],
         backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)']
     }] 
 };
 
-let donutChartDraw = function() {
+let donutBussChartDraw = function() {
     let ctx = document.getElementById('bussDonutChart').getContext('2d');
     
     window.pieChart = new Chart(ctx, {
         type: 'doughnut',
-        data: pieChartData,
+        data: pieBussChartData,
+        options: {
+            responsive: false
+        }
+    });
+};
+//---------------------- Business Doughnut Chart End ------
+
+let barOption = {
+    	plugins:{
+    		stacked100 :{
+    			enable: true
+    		}
+    	},
+        responsive: false,
+        scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        },
+    }
+
+// ----------------------Business Bar Chart Start -------
+let stackBussChartDraw = function(){
+	
+	var stctx = document.getElementById("bussStBar");
+    window.stBar = new Chart(stctx, { 
+        type: 'bar', 
+        data: { 
+            labels: ["프로젝트", "회사(프로젝트 완료시점)","회사(현재)"],
+            datasets: [{ 
+                label: '완료', 
+                backgroundColor: 'rgb(255, 99, 132)', 
+                data: [projectStatus.bussCmplRate,
+                	cpnStatForPrjtDt.mmBussCmplRate,
+                	cpnStatForCurrDt.mmBussCmplRate], 
+            }, { 
+                label: '미완료', 
+                backgroundColor: 'rgb(255, 159, 64)', 
+                data: [projectStatus.bussUncmplRate,
+                	cpnStatForPrjtDt.mmBussUncmplRate,
+                	cpnStatForCurrDt.mmBussUncmplRate], 
+            }, { 
+                label: '초과완료', 
+                backgroundColor: 'rgb(255, 205, 86)', 
+                data: [projectStatus.bussExceRate,
+                	cpnStatForPrjtDt.mmBussExcecmplRate,
+                	cpnStatForCurrDt.mmBussExcecmplRate], 
+            }], 
+        }, 
+        options: barOption
+    });
+}
+
+//----------------------Business Bar Chart End -------
+
+//----------------------Issue Doughnut Chart Start
+let pieIssuChartData = {
+	
+    labels: ['해결', '미해결', '해결불가'],
+    datasets: [{
+        data: [projectStatus.issuSolveCnt, projectStatus.issuUnsolveCnt, projectStatus.issuUnsolvableCnt],
+        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)']
+    }] 
+};
+
+let donutIssueChartDraw = function() {
+    let ctx = document.getElementById('issuDonutChart').getContext('2d');
+    
+    window.pieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: pieIssuChartData,
         options: {
             responsive: false
         }
     });
 };
 
-let stackChartDraw = function(){
-	var stctx = document.getElementById("bussStBar");
+//----------------------Issue Doughnut Chart Start End
+
+// ----------------------Issue Bar Chart Start -------
+let stackIssueChartDraw = function(){
+	
+	var stctx = document.getElementById("issuStBar");
     window.stBar = new Chart(stctx, { 
         type: 'bar', 
         data: { 
-            labels: ["프로젝트", "회사"],
+            labels: ["프로젝트", "회사(프로젝트 완료시점)","회사(현재)"],
             datasets: [{ 
                 label: '완료', 
                 backgroundColor: 'rgb(255, 99, 132)', 
-                data: [65, 65], 
+                data: [projectStatus.issuSolveRate,
+                	cpnStatForPrjtDt.mmIssuSolveRate,
+                	cpnStatForCurrDt.mmIssuSolveRate], 
             }, { 
                 label: '미완료', 
                 backgroundColor: 'rgb(255, 159, 64)', 
-                data: [25, 20], 
+                data: [projectStatus.issuUnsolveRate,
+                	cpnStatForPrjtDt.mmIssuUnsolveRate,
+                	cpnStatForCurrDt.mmIssuUnsolveRate], 
             }, { 
                 label: '초과완료', 
                 backgroundColor: 'rgb(255, 205, 86)', 
-                data: [10, 15], 
+                data: [projectStatus.issuUnsolvableRate,
+                	cpnStatForPrjtDt.mmIssuUnsolvableRate,
+                	cpnStatForCurrDt.mmIssuUnsolvableRate], 
             }], 
         }, 
-        options: {
-        	plugins:{
-        		stacked100 :{
-        			enable: true
-        		}
-        	},
-            responsive: false,
-            scales: {
-                xAxes: [{
-                    stacked: true
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            },
-        }
+        options: barOption
     });
 }
 
-//---------------------- Test chart code End
 </script>
 </th:block>
 </body>

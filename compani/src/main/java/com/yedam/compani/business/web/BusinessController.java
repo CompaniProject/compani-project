@@ -3,6 +3,7 @@ package com.yedam.compani.business.web;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,10 @@ import com.yedam.compani.business.service.BusinessService;
 ;
 
 @Controller
+@RequiredArgsConstructor
 public class BusinessController {
-	
-	@Autowired
-	BusinessService businessService;
+
+	private final BusinessService businessService;
 	
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {
