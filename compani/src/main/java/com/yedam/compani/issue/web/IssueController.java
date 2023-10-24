@@ -69,11 +69,10 @@ public class IssueController {
 
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
-	public Map<String, Object> modalIssueInsert(@RequestParam(name= "files", required = false) MultipartFile[] files, @ModelAttribute IssueVO issueVO) {
-		Map<String, Object> map = new HashMap<>();
+	@ResponseBody
+	public void modalIssueInsert(MultipartFile[] files, IssueVO issueVO) {
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
-		
 		
 		// 파일 업로드, 파일 DB에 저장
 		List<IssueFileVO> uploadedFiles = new ArrayList<>();
@@ -81,9 +80,7 @@ public class IssueController {
 				uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
-		String result ="성공";
-		map.put("result", result);
-		return map;
+				
 	}
 	
 }
