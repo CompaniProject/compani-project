@@ -80,18 +80,17 @@ hr {
 }
 
 #fileBoxName {
-	margin-right: 120px;
+	font-weight: bold;
+	margin-right: 30px;
 }
 
 #fileBoxSize {
-	margin-right: 100px;
+	font-weight: bold;
+	margin-right: 30px;
 }
 
 #closeBtn {
 	font-weight: bold;
-	color: #777;
-	font-size: 20px;
-	cursor: pointer;
 }
 </style>
 </head>
@@ -122,23 +121,26 @@ hr {
 						<br> <br> <br> <br> <br> <br> <br>
 						<ul id="ulLeft">
 							<li class="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
-							<li style="margin-right: 5px"><i
-								class="fa-regular fa-file fa-2x"></i></li>
-							<li><i class="fa-solid fa-paperclip-vertical fa-lg"></i></li>
-							<!-- <li>
-							<label class="input-file-button" for="FileUpload2">파일 업로드</label></li> -->
-							<li><input id="FileUpLoad" type="file"
-								onchange="fileInfo(this.files)" multiple="multiple" /></li>
+							<li><input type="file" id="selectedFile"
+								style="display: none;" onchange="fileInfo()" multiple="multiple" />
+								<input type="button" id="FileUpload" value="업로드"
+								onclick="document.getElementById('selectedFile').click();"
+								class="btn mb-1 btn-info" />
+							</li>
 						</ul>
 
 						<!-- 데이터 들어갈 박스 -->
 						<span id="DataBox">
-							<ul id="liData">
-								<li id="fileBoxName"></li>
-								<li id="fileBoxSize"></li>
-								<li id="closeBtnStyle"><span id="closeBtn"
-									style="display: none;">&times;</span></li>
-							</ul>
+							<table>
+								<thead>
+									<tr>
+									</tr>
+								</thead>
+								<tbody id="newTrTd">
+
+								</tbody>
+							</table>
+
 						</span> <br>
 
 						<!-- 업무선택 드랍다운 -->
@@ -185,54 +187,32 @@ hr {
 			}
 		};
 
-		// 스팬박스 파일 정보 출력		
-		 function fileInfo() {
-			let previewFile = document.querySelector('input[type=file]').files; // 인풋타입 파일 긁어와서 파일즈
+		// ======== 파일 업로드시 등록 ========
+		function fileInfo() {
 
-			console.log(previewFile); // 출력 확인
+			var fileInfo = document.querySelector('input[type=file]').files;
 
-			let file = previewFile[0]; // preivewFile의 첫번째 배열 가져옴
+			var file = fileInfo[0];
 
-			if (file) { // 파일이 존재하면 
-				console.log(file.name);
-				console.log(file.size); // 둘다 콘솔 띄워주기(확인용)
+			if (file) {
+				var trTag = $('<tr/>').attr('id', 'tdData'); // tr 생성
+				var fileNameTag = $('<td/>').attr('id', 'fileBoxName').text(
+						file.name); // li 파일이름
+				var fileSizeTag = $('<td/>').attr('id', 'fileBoxSize').text(
+						ByteSize(file.size)); // li 파일크기
+				var tdClose = $('<td/>').attr('id', 'closeBtn'); // 
+				var xIcon = $('<i/>').attr('class', 'fa-solid fa-xmark');
+				var hrTag = $('<br/>')
 
-				$('#fileBoxName').text(file.name); // 아이디 - <li>태그에 파일이름을 집어넣음
-				$('#fileBoxSize').text(ByteSize(file.size)); // 아이디 - <li>태그에 바이트계산 포함 + 파일크기 집어넣음
+				tdClose.append(xIcon);
+				trTag.append(fileNameTag);
+				trTag.append(fileSizeTag);
+				trTag.append(tdClose);
+				trTag.append(hrTag);
+				$('#newTrTd').append(trTag);
 			}
-			
-			if($('#fileBoxName') !== null){ // 박스에 값이 들어왔다면 : null이 아니라면
-				$('#closeBtn').show(); // 삭제아이콘 보여주기
-			}
-			
-		}  
-		
-		// 파일 선택시 기존 파일을 덮지않고 리스트 생성
-		
-		let selectedFiles = []; // 빈 배열 생성
-		
-		function fileInfo(files) { // input type=file의 files(객체?)
-		    console.log(files);
-		    const fileList = document.getElementById('liData'); // ul 지정
-		    for(let i=0; i<files.length; i++) {
-		        selectedFiles.push(files[i]); // 빈 배열에 선택한 파일들 배열값 넣기
-		        const item = document.createElement('li'); // li를 새로 생성
-		        const fileName = document.createTextNode(files[i].name); // 선택한 파일의 이름을 변수에 텍스트 생성
-		        const fileSize = document.createTextNode(files[i].size); // 선택한 파일의 사이즈 변수에 텍스트 생성
-		        const deleteButton = document.createElement('button'); // 삭제버튼추가
-		        deleteButton.addEventListener('click', (event) => { // 삭제버튼 클릭시 새로운 이벤트 생성
-		            item.remove(); // 해당 td 삭제
-		            event.preventDefault(); // 이벤트 막기
-		            deleteFile(files[i]); // files의 배열을 삭제
-		        }); 
-		        deleteButton.innerText="X"; // 삭제버튼 X 모양 추가
-		        item.appendChild(fileName); // li에다가 파일 이름 추가
-		        item.appendChild(fileSize); // li에다가 사이즈 추가
-		        item.appendChild(deleteButton); // 삭제버튼 추가
-		        fileList.appendChild(item); // fileList에 값을 넣은 tr을 넣어 화면에 출력
-		    }     
+
 		}
-		
 	</script>
 </th:block>
 </html>

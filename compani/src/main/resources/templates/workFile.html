@@ -143,19 +143,22 @@ input[type="checkbox"]:checked::after {
 																</div>
 															</div>
 															<input class="SearchInputModalView" id="search"
-																name="search" type="text" placeholder="검색어를 입력하세요."><span
+																name="search" type="text" placeholder="검색어를 입력하세요."
+																onkeyup="search(this);"><span
 																class="DeleteSearchWord"></span>
 														</div>
 													</div>
 
 													<input type="file" id="selectedFile" style="display: none;"
-														onchange="fileInfo()" multiple="multiple" /> <input
+														onchange="fileInfo()" multiple="multiple" /> 
+														<input
 														type="button" id="FileUpload" value="업로드"
 														onclick="document.getElementById('selectedFile').click();"
 														class="btn mb-1 btn-info" />
 													<button id="FileDelete" type="submit"
 														class="btn mb-1 btn-dark">삭제</button>
 												</div>
+												<hr>
 												<br> <br>
 
 												<div class="ModalInfoArea IssueInfoArea">
@@ -172,12 +175,14 @@ input[type="checkbox"]:checked::after {
 																		<th style="font-weight: normal;">작성자</th>
 																		<th style="font-weight: normal;">등록일자</th>
 																	</tr>
+																	
 																</thead>
+																<form id="checkBoxForm">
 																<tbody id="newTrTd">
 																	<th:block th:each="file : ${fileList}">
-																		<tr id="tdData">
+																		<tr id="tdData" th:data-fileno="${file.fileNo}">
 																			<td class="newCKB"><input type="checkbox"
-																				name="noviBox"></td>
+																				name="files" th:value="${file.fileNo}"></td>
 																			<td th:text="${file.fileNm}" />
 																			<td th:text="${file.fileSize}" />
 																			<td th:text="${file.membId}" />
@@ -190,6 +195,7 @@ input[type="checkbox"]:checked::after {
 																		</tr>
 																	</th:block>
 																</tbody>
+																</form>
 															</table>
 														</div>
 													</div>
@@ -238,7 +244,7 @@ input[type="checkbox"]:checked::after {
 			if (file) {
 				var checkTd = $('<td/>').attr('class', 'newCKB');
 				var trTag = $('<tr/>').attr('id','tdData');
-				fileCheckTag = $('<input/>').attr('type', 'checkbox').attr('name','noviBox');
+				fileCheckTag = $('<input/>').attr('type', 'checkbox').attr('name','files');
 				var fileNameTag = $('<td/>').text(file.name);
 				var fileSizeTag = $('<td/>').text(ByteSize(file.size));
 				// 작성자 들어갈 곳
@@ -263,118 +269,70 @@ input[type="checkbox"]:checked::after {
 				$('#newTrTd').append(trTag);
 			}
 		}
-	
-	// ======== 파일 정보 출력 ========		
-	/* function fileInfo(){
-		let previewFile = document.querySelector('input[type=file]').files; // 인풋타입 파일 긁어와서 파일즈
-		
-		console.log(previewFile); // 출력 확인
-		
-		let file = previewFile[0]; // 
-		
-		if(file){ // 파일이 존재하면 
-			console.log(file.name);
-			console.log(file.size); // 둘다 콘솔 띄워주기(확인용)
-			
-			$('#name').text(file.name); // 아이디 - <td>태그에 파일이름을 집어넣음
-			$('#size').text(ByteSize(file.size)); // 아이디 - <td>태그에 바이트계산 포함 + 파일크기 집어넣음
-			$('date').text(file.lastModified); // 아이디 - <td>태그에 마지막 수정날짜(어차피 수정 불가능하니 작성날짜)
-		}		
-	} */
-	
-	// ======== 파일 선택시 기존 파일을 덮지않고 리스트 생성 ========
-	
-	/* let selectedFiles = []; // 빈 배열 생성 */
-	
-	/* function fileInfo(files) { // input type=file의 files(객체?)
-	    console.log(files);
-	    const fileList = document.getElementById('tdData'); // tr 지정
-	    for(let i=0; i<files.length; i++) {
-	        selectedFiles.push(files[i]); // 빈 배열에 선택한 파일들 배열값 넣기
-	        const item = document.createElement('td'); // td를 새로 생성
-	        const fileName = document.createTextNode(files[i].name); // 선택한 파일의 이름을 변수에 텍스트 생성
-	        const fileSize = document.createTextNode(files[i].size); // 선택한 파일의 사이즈 변수에 텍스트 생성
-	        const deleteButton = document.createElement('button'); // 삭제버튼추가
-	        
-	        deleteButton.addEventListener('click', (event) => { // 삭제버튼 클릭시 새로운 이벤트 생성
-	            item.remove(); // 해당 td 삭제
-	            event.preventDefault(); // 이벤트 막기
-	            deleteFile(files[i]); // files의 배열을 삭제
-	        }); 
-	        
-	        deleteButton.innerText="X"; // 삭제버튼 X 모양 추가
-	        item.appendChild(fileName); // td에다가 파일 이름 추가
-	        item.appendChild(fileSize); // td에다가 사이즈 추가
-	        item.appendChild(deleteButton); // 삭제버튼 추가
-	        fileList.appendChild(item); // fileList에 td를 넣어 화면에 출력
-	    }     
-	} */
     
 	// ======== 체크박스 전체선택 ========
 		$('#kingBox').on('click', boxCK);
 	
 		function boxCK(){
 			if($('#kingBox').is(':checked')){ // 아디 KIngBox 상태가 체크됐다면
-				$('input[name="noviBox"]').prop("checked", true); // td에 있는 인풋들에게 체크 부여
+				$('input[name="files"]').prop("checked", true); // td에 있는 인풋들에게 체크 부여
 			}else{
-				$('input[name="noviBox"]').prop("checked", false); // 아니라면 해제
+				$('input[name="files"]').prop("checked", false); // 아니라면 해제
 			};
 			return "workFile"; // 리턴
 		};
 	
 		// ======== 쓰레기통 아이콘 클릭시 삭제 ========
-		/* $('#trashIcon').on('click', oneFileDel);
-		
-		function oneFileDel(){
-			let trTag = $('#noviBox').closest('tr'); // 아이디가 noviBox인 input박스의 가장 가까운 부모인 tr을 지정
-			let fileNo = $(trTag).children().eq(1).text(); // 자식의 배열을 지정
+			$('#newTrTd').on('click', '.trashIcon', function(){
+			let fileDel = $(event.target).closest('#tdData').data('fileno');
+			// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
 			
-			$.ajax('getDelAjax?fileNo='+fileNo)
-			.done(result => {
-				console.log(result);
-				
-				let delFile = result.list[0];
-				
-				$('tbody > tr').each(function(idx, tag){ // td 선택해서 tag에 집어넣고 반복문
-					if(tag.textContent == delFile){ // tag가 가진 텍스트 값이 list에 넣은 파일 번호와 일치한다면
-						$(tag).parent().remove(); // tag의 자식 삭제
-					}
-				})
-			})
-			.fail(reject=>
-				console.log(reject));
-		}	  */
-		
-		$('.trashIcon').on('click','.trashIcon' , function(){
-			$(this).parent().remove();
-		});
+			let delTarget = $(event.target)
 			
-		 
-		/* // 선택 삭제
-			
-			$('#trashIcon').on('click', fileDel);
-		
-			function fileDel(event){
-			
-			let getFileList = ();
-			
-			// ajax
-			$.ajax('FileDelete',{
-				type : "post",
-				contentType : "application/json",
-				data : JSON.stringify(empIdList)
-			})
-			.done(result =>{
-				console.log(result);
-				if(result){
-					location.href="workFile"; // 예외처리
+			$.ajax({
+				type : "get",
+				url : "fileOneDelete",
+				dataType : "text",
+				data : {fileNo:fileDel},
+				success : function(){
+					delTarget.closest('#tdData').remove();
+				},
+				error : function(){
+					alert("AJAX 오류");
 				}
-			})
-			.fail(reject =>
-				console.log(reject));
-		}  */
+				});
+			});
 		
-
+		// ======== 체크박스 여러개 선택시 삭제 ========
+			
+			$('#FileDelete').on('click', selectCkbDel);
+		
+			function selectCkbDel(){
+			
+			let tdBox = $('input[name="files"]').is(':checked');
+		
+			// ajax
+			$.ajax({
+				type : "get",
+				url : "fileSelectDel",
+				dataType : "text",
+				data : $('#checkBoxForm').serialize(),
+				success : function(){
+					tdBox.closest('#tdData').remove();
+				},
+				error : function(){
+					alert("AJAX 오류");
+				}	
+			});
+		}  
+			
+			
+		
+		// ======== 검색기능 ========
+		function search(target){
+			let findInput = $('input[name="search"]')
+		}
+		
 		
 	</script>
 </th:block>

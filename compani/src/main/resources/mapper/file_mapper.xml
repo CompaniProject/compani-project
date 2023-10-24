@@ -4,7 +4,7 @@
 <mapper namespace="com.yedam.compani.file.mapper.FileMapper">
 	
 				<!-- 파일 리스트 (업무 파일함)-->
-				<select id="FileList" resultType="FileVO">
+				<select id="fileList" resultType="FileVO">
 					SELECT	  FILE_NO
 						    , FILE_NM
 						    , FILE_SIZE
@@ -16,13 +16,13 @@
 				
 				
 				<!-- 파일 리스트 (프로젝트 자료함) -->
-				<select id="FileInfo" resultType="FileVO">
+				<select id="fileInfo" resultType="FileVO">
 				
 				</select>
 				
 				
 				<!-- 파일 업로드 (업무 파일함) -->
-				<insert id="FileInsert" parameterType="FileVO">
+				<insert id="fileInsert" parameterType="FileVO">
 					<selectKey keyProperty="fileNo"
 							   resultType="int"
 							   order="BEFORE">
@@ -34,13 +34,13 @@
 				
 				
 				<!-- 파일 삭제 (업무 파일함, 프로젝트 자료함)-->
-				<delete id="FileDelete" parameterType="FileVO">
-					DELETE FROM project_file
-					WHERE 		file_no = #{fileNo}
+				<delete id="fileDelete" parameterType="FileVO">
+					DELETE FROM PROJECT_FILE
+					WHERE 		FILE_NO = #{fileNo}
 				</delete>
 		
 				<!-- 업무 모달 파일 검색기능 -->
-				<select id="FileSearch" resultType="FileVO">
+				<select id="fileSearch" resultType="FileVO">
 					SELECT F.FILE_NO
 						   , P.PRJT_NM
 						   , B.BUSS_NM
@@ -56,10 +56,10 @@
 					AND   B.PRJT_NO = P.PRJT_NO
 					<choose>
 						<when test="keyword == 'fName'">
-						AND F.FILE_NM LIKE '%' || {#fileVO} || '%' 
+						AND F.FILE_NM LIKE '%' || {#fileNm} || '%' 
 						</when>
 						<when test="keyword == 'fWriter">
-						AND F.MEMB_ID LIKE '%' || {#fileVO} || '%'
+						AND F.MEMB_ID LIKE '%' || {#membId} || '%'
 						</when>
 					</choose>
 					ORDER BY FILE_NO DESC
