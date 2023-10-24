@@ -170,17 +170,19 @@
 	    <!-- Comment Area End -->
 	</div>
 	
-	<script>
+	<script th:inline="javascript">
 window.onload = function () {
     donutChartDraw();
     stackChartDraw();
 }
 
 // ---------------------- Test chart code
+let projectStatus = [[${projectStatus}]];
 let pieChartData = {
+	
     labels: ['완료', '미완료', '초과완료'],
     datasets: [{
-        data: [95, 12, 13],
+        data: [projectStatus.bussCmplCnt, projectStatus.bussUncmplCnt, projectStatus.bussExceCnt],
         backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)']
     }] 
 };
@@ -198,23 +200,34 @@ let donutChartDraw = function() {
 };
 
 let stackChartDraw = function(){
+    let projectStatus = [[${projectStatus}]];
+    let cpnStatForCurrDt = [[${cpnStatForCurrDt}]];
+    let cpnStatForPrjtDt = [[${cpnStatForPrjtDt}]];
+	
+	
 	var stctx = document.getElementById("bussStBar");
     window.stBar = new Chart(stctx, { 
         type: 'bar', 
         data: { 
-            labels: ["프로젝트", "회사"],
+            labels: ["프로젝트", "회사(프로젝트 완료시점)","회사(현재)"],
             datasets: [{ 
                 label: '완료', 
                 backgroundColor: 'rgb(255, 99, 132)', 
-                data: [65, 65], 
+                data: [projectStatus.bussCmplRate,
+                	cpnStatForPrjtDt.mmBussCmplRate,
+                	cpnStatForCurrDt.mmBussCmplRate], 
             }, { 
                 label: '미완료', 
                 backgroundColor: 'rgb(255, 159, 64)', 
-                data: [25, 20], 
+                data: [projectStatus.bussUncmplRate,
+                	cpnStatForPrjtDt.mmBussUncmplRate,
+                	cpnStatForCurrDt.mmBussUncmplRate], 
             }, { 
                 label: '초과완료', 
                 backgroundColor: 'rgb(255, 205, 86)', 
-                data: [10, 15], 
+                data: [projectStatus.bussExceRate,
+                	cpnStatForPrjtDt.mmBussExcecmplRate,
+                	cpnStatForCurrDt.mmBussExcecmplRate], 
             }], 
         }, 
         options: {
