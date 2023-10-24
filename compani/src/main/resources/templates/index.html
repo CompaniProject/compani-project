@@ -344,23 +344,95 @@
 							<!-- @@@@@@@@@@@@@@@@@@@@@@@@이슈 등록폼 END@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 							
 							<!-- 이슈 상세보기 조회 시작!!!!! -->
-							<div>
+							<div class="modalIssueInfoForm" style="display: none;">
+								<div class="modalIssueInfoContent">
+									<div class="issueInfoContentTopBar">
+										<span class="returnIssueList"></span>
+									</div>
 								
-							</div>
-							<!-- 이슈 상세보기 END!!!!! -->
+									<div class="issueNameInfo">
+										<div class="issueNames">
+											<textarea class="modalIssueName" id="issuTtlVal" maxlength="200"
+												style="height: 34px;" readonly placeholder="이슈 제목 들어오기"></textarea>
+										</div>
+									</div>
+								<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+								  <div class="read-content">
+                                        <div class="media pt-5">
+                                            <img class="mr-3 rounded-circle" src="images/avatar/1.jpg">
+                                            <div class="media-body" style="margin-right: 50px; flex: 0;">
+                                                <h5 class="m-b-3">권오준</h5>
+                                                <p class="m-b-2">2023/10/24</p>
+                                             
+                                            </div>
+                                               <div class="issueRankInfo">
+                                                	<p>중요도</p>
+                                                	<div class="badge badge-primary" style="margin-bottom: 15px;">높음</div>
+                                                </div>
+                                                <div class="issueKndInfo">
+                                                	<p>종류</p>
+                                                	<div class="badge badge-danger" style="margin-bottom: 15px;">버그</div>
+                                                </div>
+                                                <div class="issueStInfo">
+                                                	<p>상태</p>
+                                                	<div class="badge badge-dark" style="margin-bottom: 15px;">미해결</div>
+                                                </div>                                            
+                                        </div>
+                                <hr style="margin:0 ; height: 1px; background-color: #eaeaea; width: 608px;">
+									<div class="card-body">
+										<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
+                                    	<div id="viewer"></div>
+                                    </div>
+                                    <h6 class="p-t-15" style="display: inline-block; padding: 3px; "><i class="fa fa-download mb-2"></i> 첨부파일 <span>(3)</span></h6>
+                                     <h6 class="p-t-16" style="display: inline-block; margin-left: 20px; padding: 3px; "><i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글<span>(3)</span></h6>  
+                                <hr style="margin: 0; height: 1px; background-color: #eaeaea; width: 608px;">
+                                      <div class="issueInfoFileList" style="display: none;">
+											<div class="list-message" style="width: 630px;">
+												<table class="table">
+													<thead>
+														<tr>
+															<th>파일명</th>
+															<th>크기</th>
+															<th>다운로드</th>
+														</tr>
+													</thead>
+													<tbody id="issueInfoFiles">
+														<tr class="InfoFilesEmpty">
+															<td style="color: rgb(168, 168, 168);">등록된 파일이 없습니다.</td>
+															<td></td>
+															<td></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="issueInfoCommentList">
+                                        	
+                                        </div>
+                                    </div>	
+							</div>					
 						</div>
+						<!-- 이슈 상세보기 END!!!!! -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-	<script>
+	</div>	
+	<script>	
+	$(document).on('click', '#issueLists tr', function() {
+		$('.modalIssueInfoForm').css('display', 'block');
+		$('.workModalContentBack').css('display', 'none');
+	});
 	
-
-	</script>
+	$(document).on('click','.p-t-15', function() {
+		if ($('.issueInfoFileList').css("display") == "none") {			
+			$('.issueInfoFileList').css('display','block');			
+		} else {
+			$('.issueInfoFileList').css('display','none');				
+		} 
+	});
+	</script> 
 </th:block>
 
 </html>

@@ -166,7 +166,7 @@ function updatePaging(paging) {
 /* 페이징 끝 */
 
 /* 이슈 등록 폼 시작 */
-
+			
 	// "등록" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
 		function checkInput() {
 			var issuKndVal = $('#issuKndVal').text();
@@ -190,7 +190,16 @@ function updatePaging(paging) {
 			$('.modalIssueInsertForm').css('display', 'block');
 			$('.workModalContentBack').css('display', 'none');
 		});
-
+		
+		// toastuieditor
+		const editor = new toastui.Editor({
+			el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
+			height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+		});
+		
 		// 글쓰기 취소 버튼
 		$('.modalIssueInsertForm').on('click', '.cancelWriting', function () {
 			$('#cancelConfirmationModal').modal('show');
@@ -233,14 +242,6 @@ function updatePaging(paging) {
 			}
 		});
 
-		// toastuieditor
-		const editor = new toastui.Editor({
-			el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
-			height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
-			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
-		});
 
 
 		$('.completeWriting').on('click', function () {
@@ -434,4 +435,11 @@ function updatePaging(paging) {
 			document.getElementById("files").files = dataTransfer.files;
 			}
 		}
-/* 이슈 등록 폼 END */
+/* 이슈 등록 폼 END */	
+	// toastuiviewer
+	const viewer = toastui.Editor.factory({
+  		el: document.querySelector('#viewer'),
+  		viewer : true,
+  		height: '600px',  		
+  		initialValue: '# hello'
+	});
