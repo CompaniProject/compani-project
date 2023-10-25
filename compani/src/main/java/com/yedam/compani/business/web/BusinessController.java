@@ -20,8 +20,7 @@ import com.yedam.compani.member.service.MemberVO;
 public class BusinessController {
 
 	private final BusinessService businessService;
-	@Autowired
-	MemberService memberService;
+	private final MemberService memberService;
 	
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {

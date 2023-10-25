@@ -23,9 +23,7 @@ public class ProjectFeedbackController {
 
 	private final ProjectStatusService projectStatusService;
 	private final CompanyStatusService companyStatusService;
-	
-	@Autowired
-	ProjectFeedbackService projectFeedbackService;
+	private final ProjectFeedbackService projectFeedbackService;
 	
 	@GetMapping("/project/feedback/{prjtNo}")
 	public String projectFeedbackHome(@PathVariable int prjtNo, Model model) {
