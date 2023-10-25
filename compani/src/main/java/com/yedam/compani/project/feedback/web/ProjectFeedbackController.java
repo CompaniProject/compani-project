@@ -2,9 +2,11 @@ package com.yedam.compani.project.feedback.web;
 
 import com.yedam.compani.company.status.service.CompanyStatusService;
 import com.yedam.compani.company.status.service.CompanyStatusVO;
+import com.yedam.compani.project.feedback.service.ProjectFeedbackVO;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,10 +35,13 @@ public class ProjectFeedbackController {
 		ProjectStatusVO projectStatus = projectStatusService.getProjectStatus(prjtNo);
 		CompanyStatusVO cpnStatForCurrDt = companyStatusService.getStatusForCurrentDate(coCd);
 		CompanyStatusVO cpnStatForPrjtDt = companyStatusService.getStatusForProjectDate(prjtNo,coCd);
+		List<Map<Object,Object>> feedbackList = projectFeedbackService.getListForLevel(prjtNo);
 
 		model.addAttribute("projectStatus",projectStatus);
 		model.addAttribute("cpnStatForCurrDt",cpnStatForCurrDt);
 		model.addAttribute("cpnStatForPrjtDt",cpnStatForPrjtDt);
+		model.addAttribute("projectFeedbackList",feedbackList);
+
 		return "project/feedback-home";
 	}
 	
