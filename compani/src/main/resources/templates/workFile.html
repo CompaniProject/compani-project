@@ -124,31 +124,32 @@ input[type="checkbox"]:checked::after {
 													<!-- 검색 필터 -->
 													<div class="SearchBox"
 														style="margin-right: 20px; margin-left: 20px">
-
 														<label for="SearchToggleCheckBox"></label>
-														<div class="SearchInputBox" style="width: 290px;">
-
-															<div>
-																<div class="issue-selectBox" style="width: 100px;">
-																	<div class="issue-selected" id="issue-selected">
-																		<div class="issue-selected-value"
-																			id="issue-select-value" data-value="파일명">파일명</div>
-																		<div class="arrow"></div>
+														<form name="search-form">
+															<div class="SearchInputBox" style="width: 290px;">
+	
+																<div>
+																	<div class="issue-selectBox" style="width: 100px;">
+																		<div class="issue-selected" id="issue-selected">
+																			<div class="issue-selected-value"
+																				id="issue-select-value" data-value="">내용선택</div>
+																			<div class="arrow"></div>
+																		</div>
+																		<ul class="issue-select-ul" data-value="type" id="type"
+																			style="width: 100px; top: 20%; display: none;">
+																			<li class="issue-select-option" data-value="name" id="name">파일명</li>
+																			<li class="issue-select-option" data-value="writer" id="writer">작성자</li>
+																		</ul>
 																	</div>
-																	<ul class="issue-select-ul"
-																		style="width: 100px; top: 20%; display: none;">
-																		<li class="issue-select-option" data-value="fName">파일명</li>
-																		<li class="issue-select-option" data-value="fWriter">작성자</li>
-																	</ul>
 																</div>
+																<input class="SearchInputModalView" id="keyword"
+																	name="keyword" data-value="keyword" type="text" placeholder="검색어를 입력하세요."
+																	><span
+																	class="DeleteSearchWord"></span>
 															</div>
-															<input class="SearchInputModalView" id="search"
-																name="search" type="text" placeholder="검색어를 입력하세요."
-																onkeyup="search(this);"><span
-																class="DeleteSearchWord"></span>
-														</div>
+														</form>
 													</div>
-
+													<button onclick="playSearch()">Test</button>
 													<input type="file" id="selectedFile" style="display: none;"
 														onchange="fileInfo()" multiple="multiple" /> 
 														<input
@@ -183,7 +184,7 @@ input[type="checkbox"]:checked::after {
 																		<tr id="tdData" th:data-fileno="${file.fileNo}">
 																			<td class="newCKB"><input type="checkbox"
 																				name="files" th:value="${file.fileNo}"></td>
-																			<td th:text="${file.fileNm}" />
+																			<td th:text="${file.fileNm}"/>
 																			<td th:text="${file.fileSize}" />
 																			<td th:text="${file.membId}" />
 																			<td th:text="${#dates.format(file.fileDt, 'yyyy-MM-dd')}" />
@@ -226,49 +227,49 @@ input[type="checkbox"]:checked::after {
 		});
 		
 	// ======== 파일 바이트 계산 ========
-	function ByteSize(size) {
-		const byteUnits = ["KB", "MB", "GB", "TB"];
-		for (let i = 0; i < byteUnits.length; i++) {
-			size = Math.floor(size / 1024);
-			if (size < 1024) return size.toFixed(1) + byteUnits[i];
-		}
-	};
+		function ByteSize(size) {
+			const byteUnits = ["KB", "MB", "GB", "TB"];
+			for (let i = 0; i < byteUnits.length; i++) {
+				size = Math.floor(size / 1024);
+				if (size < 1024) return size.toFixed(1) + byteUnits[i];
+			}
+		};
 	
 	// ======== 파일 업로드시 등록 ========
-	function fileInfo() {
-			
-			var fileInfo = document.querySelector('input[type=file]').files;
-			
-			var file = fileInfo[0];
-			
-			if (file) {
-				var checkTd = $('<td/>').attr('class', 'newCKB');
-				var trTag = $('<tr/>').attr('id','tdData');
-				fileCheckTag = $('<input/>').attr('type', 'checkbox').attr('name','files');
-				var fileNameTag = $('<td/>').text(file.name);
-				var fileSizeTag = $('<td/>').text(ByteSize(file.size));
-				// 작성자 들어갈 곳
-				// 날짜 들어갈 곳
+		function fileInfo() {
 				
-				var fileDownTag = $('<td/>').attr('class', 'downIcon');
-				 fileDown = $('<i/>').attr('class', 'fa-solid fa-download');
-				var fileDelTag = $('<td/>').attr('class', 'trashIcon');
-				 fileDel = $('<i/>').attr('class', 'fa-solid fa-trash');
+				var fileInfo = document.querySelector('input[type=file]').files;
 				
-				checkTd.append(fileCheckTag);
-				fileDownTag.append(fileDown);
-				fileDelTag.append(fileDel);
+				var file = fileInfo[0];
 				
-				
-				trTag.append(checkTd);
-				trTag.append(fileNameTag);
-				trTag.append(fileSizeTag);
-				trTag.append(fileDownTag);
-				trTag.append(fileDelTag);
+				if (file) {
+					var checkTd = $('<td/>').attr('class', 'newCKB');
+					var trTag = $('<tr/>').attr('id','tdData');
+					fileCheckTag = $('<input/>').attr('type', 'checkbox').attr('name','files');
+					var fileNameTag = $('<td/>').text(file.name);
+					var fileSizeTag = $('<td/>').text(ByteSize(file.size));
+					// 작성자 들어갈 곳
+					// 날짜 들어갈 곳
 					
-				$('#newTrTd').append(trTag);
+					var fileDownTag = $('<td/>').attr('class', 'downIcon');
+					 fileDown = $('<i/>').attr('class', 'fa-solid fa-download');
+					var fileDelTag = $('<td/>').attr('class', 'trashIcon');
+					 fileDel = $('<i/>').attr('class', 'fa-solid fa-trash');
+					
+					checkTd.append(fileCheckTag);
+					fileDownTag.append(fileDown);
+					fileDelTag.append(fileDel);
+					
+					
+					trTag.append(checkTd);
+					trTag.append(fileNameTag);
+					trTag.append(fileSizeTag);
+					trTag.append(fileDownTag);
+					trTag.append(fileDelTag);
+						
+					$('#newTrTd').append(trTag);
+				}
 			}
-		}
     
 	// ======== 체크박스 전체선택 ========
 		$('#kingBox').on('click', boxCK);
@@ -284,22 +285,25 @@ input[type="checkbox"]:checked::after {
 	
 		// ======== 쓰레기통 아이콘 클릭시 삭제 ========
 			$('#newTrTd').on('click', '.trashIcon', function(){
-			let fileDel = $(event.target).closest('#tdData').data('fileno');
-			// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
+				let fileDel = $(event.target).closest('#tdData').data('fileno');
+				// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
 			
-			let delTarget = $(event.target)
+				let delTarget = $(event.target)
 			
-			$.ajax({
-				type : "get",
-				url : "fileOneDelete",
-				dataType : "text",
-				data : {fileNo:fileDel},
-				success : function(){
-					delTarget.closest('#tdData').remove();
-				},
-				error : function(){
-					alert("AJAX 오류");
-				}
+				$.ajax({
+					type : "get",
+					url : "fileOneDelete",
+					dataType : "text",
+					data : {fileNo:fileDel},
+					success : function(){
+						if(confirm("해당 파일을 삭제 하시겠습니까?")){
+							alert("삭제가 완료되었습니다.");
+							delTarget.closest('#tdData').remove();
+						}
+					},
+					error : function(){
+						alert("AJAX 오류");
+					}
 				});
 			});
 		
@@ -309,30 +313,47 @@ input[type="checkbox"]:checked::after {
 		
 			function selectCkbDel(){
 			
-			let tdBox = $('input[name="files"]').is(':checked');
-		
-			// ajax
-			$.ajax({
-				type : "get",
-				url : "fileSelectDel",
-				dataType : "text",
-				data : $('#checkBoxForm').serialize(),
-				success : function(){
-					tdBox.closest('#tdData').remove();
-				},
-				error : function(){
-					alert("AJAX 오류");
-				}	
-			});
-		}  
+				let tdBox = $('input[name="files"]:checked') // 인풋 속성이 체크된 애들만 담음
 			
+				// ajax
+				$.ajax({
+					type : "get",
+					url : "fileSelectDel",
+					dataType : "text",
+					data : $('#checkBoxForm').serialize(),
+					success : function(){
+						if(confirm("해당 파일들을 삭제 하시겠습니까?")){
+							alert("삭제가 완료 되었습니다.")
+							tdBox.closest('tr').remove();
+						}						
+					},
+					error : function(){
+						alert("AJAX 오류");
+					}	
+				});
+			}  
+				
 			
 		
 		// ======== 검색기능 ========
-		function search(target){
-			let findInput = $('input[name="search"]')
-		}
-		
+			function playSearch(){
+				var typeValue = $('#type').val(); 
+				var keyValue = $('#keyword').val();
+				
+				$.ajax({
+					url : 'AjaxSearchFile?type=' + typeValue + '&keyword='
+							+ keyValue,
+					type : 'get',
+					data : $('form[name="search-form"]').serialize(),
+					success : function(){
+								alert("ㅋ");
+							},
+					error : function(){
+							alert("실패");
+					}
+				}								
+			)}
+
 		
 	</script>
 </th:block>
