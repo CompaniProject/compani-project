@@ -155,20 +155,37 @@
                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
                 </div>
 	            <div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;">
-	            			<div class="card">
-		                        <div class="card-body"><div class="media">
-                                        <div class="media-body">
-                                            <h5 class="mt-0">Media heading</h5>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-                                            vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                            <div class="media mt-3">
-                                                <div class="media-body">
-                                                    <h5 class="mt-0">Media heading</h5>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc
-                                                    ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</div>
-                                            </div>
-                                        </div>
-                                    </div>
-	                            </div>
-                             </div>
+					<th:block th:each="feedback : ${projectFeedbackList}">
+						<th:block th:if="${feedback.rootNo} == ${feedback.prjtFdbkNo}">
+						<div class="card">
+							<div class="card-body">
+								<div class="media">
+									<div class="media-body">
+										<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
+										<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+										<!-- 대댓글 출력 Start							-->
+										<div style="background-color:#F3F1FA;">
+											<th:block th:each="child : ${projectFeedbackList}"
+													  th:if="${child.rootNo} == ${feedback.rootNo} and ${child.prjtFdbkNo} != ${feedback.prjtFdbkNo}">
+												<div class="media mt-3">
+													<th:block th:each="i : ${#numbers.sequence(3,child.level,1)}">
+														<span>&nbsp;&nbsp;&nbsp;</span>
+													</th:block>
+													<i class="bi bi-arrow-return-right" style="padding:1.5%;"></i>
+													<div class="media-body">
+														<h5 class="mt-0" th:text="${child.membNm}"></h5>
+														<th:block th:text="${child.prjtFdbkCntn}"></th:block>
+													</div>
+												</div>
+											</th:block>
+										</div>
+										<!-- 대댓글 출력 End								-->
+									</div>
+								</div>
+							</div>
+						 </div>
+						</th:block>
+					</th:block>
 	            </div>
 	            <div class="card-footer">
 		            <p class="card-text d-inline"><small class="text-muted">Last updated 3 mins ago</small>
