@@ -17,15 +17,46 @@
 					SELECT issue_file_seq.nextval, A.*
 					FROM (	
 							<foreach item="file" collection="list" separator="UNION ALL ">		   
-								SELECT #{file.issuFileNm}
-							  , 	   #{file.issuFilePath}
-							  , 	  #{file.issuNo}
-							  , 				 #{file.issuFileSize}
-							  , 				 0 
-							  ,              SYSDATE
-							  ,              NULL
+								SELECT 		#{file.issuFileNm}
+							 			 , 	#{file.issuFilePath}
+							  			 , 	#{file.issuNo}
+							             , 	#{file.issuFileSize}
+							  , 			0 
+							  ,             SYSDATE
+							  ,             NULL
 							   FROM     DUAL
 						   </foreach>   	   
 						   ) A								 
 	</insert>
+	
+	<!-- 해당 이슈에 대한 모든 파일 조회 -->
+	<select id="select" resultType="IssueFileVO">
+		SELECT 	   ISSU_FILE_NO
+				 , ISSU_FILE_NM
+				 , ISSU_FILE_PATH
+				 , ISSU_NO
+				 , ISSU_FILE_SIZE
+				 , ISSU_FILE_DEL
+				 , ISSU_FILE_DT
+				 , ISSU_FILE_DEL_DT
+	   FROM        ISSUE_FILE
+	   WHERE       ISSU_NO = #{issuNo}	
+	</select>
+	
+	<!--  파일 다운로드를 위한 파일 단건 조회 -->
+	<select id="findById" resultType="IssueFileVO">
+		SELECT 	   ISSU_FILE_NO
+				 , ISSU_FILE_NM
+				 , ISSU_FILE_PATH
+				 , ISSU_NO
+				 , ISSU_FILE_SIZE
+				 , ISSU_FILE_DEL
+				 , ISSU_FILE_DT
+				 , ISSU_FILE_DEL_DT
+	   FROM        ISSUE_FILE
+	   WHERE       ISSU_FILE_NO = #{issuFileNo}
+	   AND		   ISSU_FILE_DEL = 0	
+	
+	
+	</select>
 </mapper>

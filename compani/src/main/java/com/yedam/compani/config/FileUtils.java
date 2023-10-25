@@ -2,6 +2,8 @@ package com.yedam.compani.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -104,5 +108,25 @@ public class FileUtils {
 	            dir.mkdirs();
 	        }
 	        return dir.getPath();
+	    }
+	    
+	    /**
+	     * 다운로드할 첨부파일(리소스) 조회 (as Resource)
+	     * @param file - 첨부파일 상세정보
+	     * @return 첨부파일(리소스)
+	     */
+	    public Resource readFileAsResource(final IssueFileVO file) {
+	        String uploadedDate = file.getIssuFileDt().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
+	        String filename = file.getIssuFilePath();
+	        Path filePath = Paths.get(uploadPath, uploadedDate, filename);
+	        try {
+	            Resource resource = new UrlResource(filePath.toUri());
+	            if (resource.exists() == false || resource.isFile() == false) {
+	                throw new RuntimeException("file not found : " + filePath.toString());
+	            }
+	            return resource;
+	        } catch (MalformedURLException e) {
+	            throw new RuntimeException("file not found : " + filePath.toString());
+	        }
 	    }
 }

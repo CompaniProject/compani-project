@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,14 +68,20 @@ public class IssueController {
 		return map;
 	}
 	
-	// 모달 이슈 단건 조회
-	@GetMapping("/ModalIssueInfo")
+	// 모달 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회
+	@RequestMapping("/ModalIssueInfo")
 	@ResponseBody
 	public Map<String, Object> modalIssueSelect(IssueVO issueVO) {
 			Map<String, Object> map = new HashMap<>();
-			issueVO = issueService.getIssueInfo(issueVO);
-			map.put("issueInfo",issueVO);
-		
+			
+			issueVO = issueService.getIssueInfo(issueVO);			
+			map.put("issueInfo", issueVO);
+			
+			int issuNo = issueVO.getIssuNo();
+			System.out.println("이슈 번호는 ===================" + issuNo);
+			List<IssueFileVO> list = issueFileService.selectIssueFile(issuNo);
+			
+			map.put("issueFile", list);									
 			return map;
 	}
 	

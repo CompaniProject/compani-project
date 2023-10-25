@@ -12,4 +12,14 @@ public interface IssueFileMapper {
 	
 	public void modalInsertIssueFile(List<IssueFileVO> files);
 	
+	// 이슈 단건에 대한 모든 파일 조회
+	public List<IssueFileVO> select(int issuNo);
+		
+	 /**
+     * 파일 상세정보 조회
+     * @param issuFileNo - PK
+     * @return 파일 상세정보
+     */
+	public IssueFileVO findById(int issuFileNo);
+	
 }

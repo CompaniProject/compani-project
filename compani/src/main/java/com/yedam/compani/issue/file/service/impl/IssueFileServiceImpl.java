@@ -24,7 +24,7 @@ public class IssueFileServiceImpl implements IssueFileService {
 	 */
 	@Override
 	@Transactional
-	public void modalInsertIssueFile(final int issuNo, final List<IssueFileVO> files) {
+	public void modalInsertIssueFile(int issuNo, final List<IssueFileVO> files) {
 		if (CollectionUtils.isEmpty(files)) {
 			return;
 		}
@@ -34,4 +34,14 @@ public class IssueFileServiceImpl implements IssueFileService {
 		issueFileMapper.modalInsertIssueFile(files);
 	}
 
+	@Override
+	public List<IssueFileVO> selectIssueFile(int issuNo) {	 
+		return issueFileMapper.select(issuNo);
+	}
+
+	@Override
+	public IssueFileVO findFileById(int issuFileNo) {
+		return issueFileMapper.findById(issuFileNo);
+	}
+	
 }
