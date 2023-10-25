@@ -1,13 +1,12 @@
 package com.yedam.compani.file.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.file.service.FileService;
@@ -52,14 +51,14 @@ public class FileController {
 	}
 	
 	// 업무 모달 파일함 검색 ajax 처리
-	@GetMapping("/AjaxSearchFile")
+	@GetMapping("AjaxSearchFile")
 	@ResponseBody
-	public Map<String, Object> SearchFile(FileVO fileVO){
+	public List<FileVO> SearchFile(@RequestParam("type") String type,
+			@RequestParam("keyword") String keyword, Model model){
 		
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("find", fileVO);
-		
-		return map;
+		FileVO fileVO = new FileVO();
+		fileVO.setType(type);
+		fileVO.setKeyword(keyword);
+		return fileservice.fileSearch(fileVO);
 	}
 }

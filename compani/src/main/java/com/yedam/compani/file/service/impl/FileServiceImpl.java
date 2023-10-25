@@ -39,20 +39,14 @@ public class FileServiceImpl implements FileService {
 		return filemapper.fileInsert(fileVO);
 	}
 	
-	// 파일 검색
-	@Override
-	public List<FileVO> fileSearch(FileVO fileVO) {
-		
-		return filemapper.fileSearch(fileVO);
-	}
-	
 	// 파일 삭제
 	@Override
 	public int fileDelete(Integer fileNo) {
 		
 		return filemapper.fileDelete(fileNo);
 	}
-
+	
+	// 선택 삭제 
 	@Override
 	public int fileSelDel(List<Integer> files) {
 		for(int i=0; i<files.size(); i++) {
@@ -60,6 +54,15 @@ public class FileServiceImpl implements FileService {
 		}
 		return files.size();
 	}
+	
+	
+	// 파일 검색
+	@Override
+	public List<FileVO> fileSearch(FileVO fileVO) {
+		
+		return filemapper.fileSearch(fileVO);
+	}
+	
 
 }
 
