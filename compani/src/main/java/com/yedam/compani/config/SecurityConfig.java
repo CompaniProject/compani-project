@@ -4,11 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.extern.log4j.Log4j2;
@@ -17,41 +12,30 @@ import lombok.extern.log4j.Log4j2;
 @EnableWebSecurity
 @Log4j2
 public class SecurityConfig {
-	@Bean
+/*	@Bean
 	public PasswordEncoder pwdEcd() {
 		return new BCryptPasswordEncoder();
-	}
+	}*/
+	
 	
 	@Bean
-	public InMemoryUserDetailsManager userDetailsService() {
-		UserDetails user = User.builder()
-				.username("admin")
-				.password(pwdEcd().encode("1234"))
-				.roles("USER")
-				.build();
-		return new InMemoryUserDetailsManager(user);
-	}
-	
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/loginForm").permitAll()
-			.antMatchers("/home").hasRole("USER");
+			.antMatchers("/loginForm").permitAll();
+//			.antMatchers("/").hasRole("0A1")
+//			.antMatchers("/").hasRole("0A2")
+//			.antMatchers("/").hasRole("0A3")
+//			.antMatchers("/").hasRole("0A4");
+		http.formLogin() //인가.인증 실패하는경우 로그인페이지를 볼수있음
+			.loginPage("/loginForm")
+			.usernameParameter("loginId")
+			.passwordParameter("loginPwd")
+			.loginProcessingUrl("/login")
+			.defaultSuccessUrl("/home")
+			;
+		http.csrf().disable();
+		http.logout();
+		
 		return http.build();
 	}
 }

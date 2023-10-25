@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.company.service.CompanyVO;
@@ -29,17 +28,14 @@ public class MemberController {
 
 	// 로그인
 	@PostMapping("/login")
-	public String memberLogin(@RequestParam String loginId, @RequestParam String loginPwd, HttpSession session) {
-		MemberVO loginVO = new MemberVO();
-		loginVO.setMembId(loginId);
-		loginVO.setMembPwd(loginPwd);
-		loginVO = service.getMemberInfo(loginVO);
-		if (loginVO == null) {
+	public String memberLogin(MemberVO  vo, HttpSession session) {
+		vo = service.getMemberInfo(vo);
+		if (vo == null) {
 			return "redirect:loginForm";
-		} else if (loginVO.getMembAccp().equals("N")) {
+		} else if (vo.getMembAccp().equals("N")) {
 			return "redirect:standBy";
 		} else {
-			session.setAttribute("loginInfo", loginVO);
+			session.setAttribute("loginInfo", vo);
 			return "redirect:home";
 		}
 
@@ -75,7 +71,7 @@ public class MemberController {
 	// 가입 서브밋
 	@PostMapping("/SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
-		if (membVO.getPermNo() == 2) {
+		if (membVO.getPermNo().equals("OA2")) {
 			if (serviceC.setCompanyInfo(compVO) > 0) {
 				if (service.setMemberInfo(membVO) > 0) {
 					return "redirect:complete";
@@ -96,4 +92,7 @@ public class MemberController {
 			}
 		}
 	}
+	
+	
+
 }
