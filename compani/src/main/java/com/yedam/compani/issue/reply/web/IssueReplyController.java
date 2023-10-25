@@ -1,0 +1,25 @@
+package com.yedam.compani.issue.reply.web;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.yedam.compani.issue.reply.service.IssueReplyService;
+import com.yedam.compani.issue.reply.service.IssueReplyVO;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController //컨트롤러의 모든 메서드에 @ResponseBody가 적용되며, 응답으로 페이지가 아닌 리턴 타입에 해당하는 데이터(객체) 자체를 리턴.
+@RequiredArgsConstructor
+public class IssueReplyController {
+	
+	private final IssueReplyService issueReplyService;
+	
+	// 신규 댓글 생성 -> 새로운 댓글을 생성한 후 생성된 댓글의 상세정보(응답 객체)를 리턴
+	@PostMapping("/issues/{issuNo}/reply") // @PathVariable -> Rest api 에서 리소스를 표현하는데 사용. 해당 어노테이션을 이용하면 URI에서 템플릿 형태로 파라미터를 전달받을 수 있음.
+	public IssueReplyVO saveIssueReply(@PathVariable final int issuNo, @RequestBody final IssueReplyVO params) {
+			int id = issueReplyService.saveIssueReply(params);
+			return issueReplyService.findReplyById(id);
+	}
+}

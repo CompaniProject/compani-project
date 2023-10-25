@@ -10,5 +10,6 @@ public class IssueReplyVO {
 	private int issuNo;
 	private String membId;
 	private String issuRplyCntn;
-	private Date issuRplyDt;
+	private Date issuRplyDt;  // 등록 일자
+	private int    issuRplyDel; // 삭제 여부
 }
