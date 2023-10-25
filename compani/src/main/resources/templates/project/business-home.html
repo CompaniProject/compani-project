@@ -289,8 +289,9 @@
 							<div>
 								<div class="issueNameEdit">
 									<div class="issueNameBack">
-										<textarea class="modalIssueNameUpdate" id="issuTtlVal" maxlength="200"
-											style="height: 34px;" placeholder="업무명을 입력하세요."></textarea>
+										<textarea class="modalIssueNameUpdate" id="bussNm"
+											name='bussNm' maxlength="200" style="height: 34px;"
+											placeholder="업무명을 입력하세요."></textarea>
 									</div>
 								</div>
 
@@ -321,8 +322,9 @@
 										<div class="card" style="height: 200px;">
 											<div class="card-body" style="overflow: auto;">
 												<div class="SearchBox" style="height: 50%">
-											 		<label for="SearchToggleCheckBox" th:attr="onclick='searchMember()'"></label> <input
-														type="hidden" id="keyword" name="keyword" value="전체"> 
+													<label for="SearchToggleCheckBox"
+														th:attr="onclick='searchMember()'"></label> <input
+														type="hidden" id="keyword" value="전체">
 													<div class="SearchInputBox" style="width: 270px;">
 														<div>
 															<div class="member-selectBox" style="width: 100px;">
@@ -340,7 +342,7 @@
 															</div>
 														</div>
 														<input class="SearchInputModalView" id="search"
-															name="search" type="text" placeholder="검색어를 입력하세요.">
+															type="text" placeholder="검색어를 입력하세요.">
 													</div>
 
 												</div>
@@ -358,7 +360,7 @@
 														<tbody id="membertbl">
 															<th:block th:each="memberList : ${memberList}">
 																<tr th:id="${memberList.membId}">
-																	<td><img 
+																	<td><img
 																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
 																		height="50px" width="50px" alt="프로필"
 																		th:if="${memberList.membPhtPath != null}" /></td>
@@ -372,105 +374,102 @@
 														</tbody>
 													</table>
 												</div>
-						
-											</div>
-										</div>
-									</div>
-				
 
-									</div>
-
-
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="val-username">일정
-
-										</label>
-										<div class="col-lg-3">
-											<input type="date" class="form-control" id="val-username"
-												name="val-username">
-										</div>
-										<div class="col-lg-1">
-											<label class="col-lg-4 col-form-label" for="val-username">~
-
-											</label>
-
-										</div>
-
-										<div class="col-lg-3">
-											<input type="date" class="form-control" id="val-username"
-												name="val-username">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="val-username">중요도
-
-										</label>
-										<div class="col-lg-6">
-											<div class="dropdown custom-dropdown">
-												<div data-toggle="dropdown">
-													<a class="dropdown-project" href="#"></a>상<i
-														class="fa fa-angle-down m-l-5"></i>
-												</div>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-project" href="#">상</a> <a
-														class="dropdown-project" href="#">중</a> <a
-														class="dropdown-project" href="#">하</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="val-username">종속관계
-
-										</label>
-										<div class="col-lg-6">
-											<div class="dropdown custom-dropdown">
-												<div data-toggle="dropdown">
-													<a class="dropdown-project" href="#"></a>선행작업<i
-														class="fa fa-angle-down m-l-5"></i>
-												</div>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-project" href="#">선행 작업</a> <a
-														class="dropdown-project" href="#">후속 작업</a>
-												</div>
-											</div>
-										&nbsp &nbsp
-										<div class="dropdown custom-dropdown">
-												<div data-toggle="dropdown">
-													<a class="dropdown-project" href="#"></a>업무 찾기 <i
-														class="fa fa-angle-down m-l-5"></i>
-												</div>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-project" href="#">*업무 리스트 출력하기</a>
-
-												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label">일정 </label>
+									<div class="col-lg-3">
+										<input type="date" class="form-control" id="bussFrdt"
+											name="bussFrdt">
+									</div>
+									<div class="col-lg-1">
+										<label class="col-lg-4 col-form-label">~ </label>
+
+									</div>
+									<div class="col-lg-3">
+										<input type="date" class="form-control" id="bussTodt"
+											name="bussTodt">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">중요도
+									</label>
+									<div class="col-lg-6">
+										<div class="dropdown custom-dropdown">
+											<select class="dropdown-import" name="bussImp">
+												<option class="dropdown-import" value="상">상</option>
+												<option class="dropdown-import" value="중">중</option>
+												<option class="dropdown-import" value="하">하</option>
+
+											</select>
+
+										</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">종속관계
+
+									</label>
+									<div class="col-lg-6">
+										<div class="dropdown custom-dropdown">
+											<div>
+												<select class="dropdown-relation" name="bussUpcd">
+													<option class="dropdown-relation" value="choose">선택</option>
+													<option class="dropdown-relation" value="up">선행 작업</option>
+													<option class="dropdown-relation" value="down">후속
+														작업</option>
+
+												</select>
+											</div>
+										</div>
+										&nbsp &nbsp
+										<div class="dropdown custom-dropdown">
+											<div>
+											<select class="dropdown-relation" name="bussNm">
+												<th:block th:each="bussNameList : ${businessNameList}">
+													<option class="dropdown-business" th:value="${bussNameList.bussNm}" th:text="${bussNameList.bussNm}"></option>
+						
+											</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button id="insertBtn" type="button" class="btn btn-primary">등록</button>
+							</div>
 						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">등록</button>
-					</div>
+
 				</div>
 			</div>
 		</div>
-		
-		<script>
-			$('#membertbl td:nth-child(5)').on('click', insertMember)
+
+		<script th:inline="javascript">
+			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember )
+			$('.dropdown-import').on('click', dropdown)
+			$('.dropdown-relation').on('click', dropdown)
+			$('.dropdown-business').on('click', dropdown)
+			$('#insertBtn').on('click',insertBusiness)
 			
+			function dropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+			}
 			function insertMember(event){
 		
 				//tr의 ID -중복체크를 위한 값 
 				let id = $(this).parent().attr('id');
 				
-				let image = $(this).siblings().eq(0).children().attr('src')
+				let image = $(this).siblings().eq(0).children().attr('src');
 				let dept = $(this).siblings().eq(1).text();
 				let posotion = $(this).siblings().eq(2).text();
 				let name = $(this).siblings().eq(3).text();
@@ -485,8 +484,7 @@
 				})
 				
 				if (isDup){
-				/* 복사 .. 버튼 + 까지 복사네;; 	
-				let tr = $(this).closest('tr').clone().appendTo('#insertmembertbl'); */ 
+			
 				 	let insertmemtbl = $('#insertmembertbl');
 					
 					let trTag = $('<tr/>');
@@ -494,21 +492,21 @@
 					
 					trTag.attr('id', id);
 					
-					let imgTag = $('<img>',{
-						src:image,
-						height:"50px", 
-						width:"50px"
-					})
-					
-		
-					tdTag.append(imgTag);
+					if(image != null){
+						let imgTag = $('<img>',{
+							src:image,
+							height:"50px", 
+							width:"50px"
+						})
+						
+						tdTag.append(imgTag);
+					}
 					trTag.append(tdTag);
 					
 					tdTag= $('<td/>');
 					tdTag.append(dept);
 					trTag.append(tdTag);
 					
-				
 					tdTag= $('<td/>');
 					tdTag.append(posotion);
 					trTag.append(tdTag);
@@ -535,8 +533,71 @@
 	
 	
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
-				.done()
+				.done(function(data){
+					console.log(data);
+					let tbody = $('#membertbl');
+					tbody.empty();
+					$.each( data, function(idx,data){
+	
+					 	let trTag = $('<tr/>');
+					 	let tdTag = $('<td/>');
+					 	
+						trTag.attr('id', data.MEMB_ID);
+						
+						
+						if(data.MEMB_PHT_PATH != null){
+						let imgTag = $('<img>',{
+							src:"/images/profile/" +data.MEMB_PHT_PATH,
+							height:"50px", 
+							width:"50px",
+						})
+			
+					 		tdTag.append(imgTag);
+						}
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_DEPT);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_WKGD);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_NM);
+					 	trTag.append(tdTag);
+					
+					 	tdTag = $('<td/>');
+					 	tdTag.append('<i class="fa-solid fa-plus"></i>');
+					 	trTag.append(tdTag);
+					 	
+					 	tbody.append(trTag);
+					})
+				})
 				.fail(err =>  console.log(err));
+			}
+			function insertBusiness(){
+				
+				
+				let formData = $('form').serializeArray();
+				console.log(formData);
+				
+				
+			 	let formObj = {};
+				$.each(formData, function(idx,obj){
+					formObj[obj.name] = obj.value;
+				}); 
+				
+				$.ajax('/insertBusiness' ,{
+					type : 'post',
+					contentType : 'application/json',
+					data : JSON.stringify(formObj)
+				})
+				.done(data => {})
+				.fail(err => {});
+					
+				
 			}
 		</script>
 	</th:block>

@@ -94,4 +94,11 @@
 		FROM PROJECT P, BUSINESS B
 		WHERE P.PRJT_NO = B.PRJT_NO
 	</select>
+	
+	<select id="bussinessNameList" resultType="BusinessVO">
+		SELECT BUSS_NM
+		FROM   BUSINESS 
+		WHERE  PRJT_NO = #{prjtNo}
+	
+	</select>
 </mapper>

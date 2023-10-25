@@ -451,11 +451,12 @@
 	</div>
 	</div>	
 	<script>
-		/* var issueNo = ${issueInfo.issuNo};
+		 var issueNo = ${issueInfo.issuNo};
 		<input type="hidden" value="${issueInfo.issuNo}"> */
 		
 		
 	$(document).on('click', '#issueLists tr', function() {
+		var issueNo = [[${issueInfo.issuNo}]];
 		/* $.ajax('ModalIssueInfo?issuNo =' + issuNo)
 		.done(function(data) {
 			

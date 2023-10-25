@@ -15,4 +15,5 @@ public interface BusinessService {
 	public int updateProceedToDelay();
 	//업무 리스트 
 	public List<BusinessVO> getBusinessList();
+	public List<BusinessVO> bussinessNameList(Integer prjtNo);
 }

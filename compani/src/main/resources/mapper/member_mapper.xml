@@ -50,6 +50,12 @@
 		SELECT *
 		FROM MEMBER
 	
+		<if test="key == '전체'">
+			WHERE MEMB_NM LIKE '%' || #{value} || '%'
+			   OR MEMB_DEPT LIKE '%' || #{value} || '%'
+			   OR MEMB_WKGD LIKE '%' || #{value} || '%'
+			   
+		</if>
 		<if test="key == '이름'">
 			WHERE MEMB_NM LIKE '%' || #{value} || '%'
 		</if>
