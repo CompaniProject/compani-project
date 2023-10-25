@@ -1200,3 +1200,22 @@ form.fileupload.dz {
     margin-bottom: 1.5rem;
     margin-top: 1.5rem;
 }
+
+.downloadFile {
+    width: 40px;
+    border-radius: 4px;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(/images/download_file.png);
+    transition: all 0.2s ease;
+    padding : 0;
+    
+}
+
+.downloadFile:hover {
+    cursor: pointer;
+    background-color: #f5f5f5;
+    transition: border-color 0.3s ease;
+    border-radius: 5px;
+}

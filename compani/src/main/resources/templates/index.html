@@ -17,7 +17,8 @@
 							<div class="ContentImg" style="background-image: url(/images/tab_issue.png);"></div>
 							<p class="ContentText">이슈</p>
 						</div>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin: 0; padding: 0;"></button>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"
+							style="margin: 0; padding: 0;"></button>
 					</div>
 					<div class="modal-content-container">
 						<div class="workModalTab">
@@ -297,8 +298,8 @@
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header" style="border-bottom: none;">
-												<button type="button" class="close" data-dismiss="modal" style="margin: 0; padding: 0;"
-													aria-label="Close"></button>
+												<button type="button" class="close" data-dismiss="modal"
+													style="margin: 0; padding: 0;" aria-label="Close"></button>
 											</div>
 											<div class="modal-body" id="cancelConfirmationModalBody">
 												<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">현재
@@ -324,8 +325,8 @@
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header" style="border-bottom: none;">
-												<button type="button" class="close" data-dismiss="modal" style="margin: 0; padding: 0;"
-													aria-label="Close"></button>
+												<button type="button" class="close" data-dismiss="modal"
+													style="margin: 0; padding: 0;" aria-label="Close"></button>
 											</div>
 											<div class="modal-body" id="cancelConfirmationModalBody">
 												<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">제목,
@@ -339,59 +340,64 @@
 										</div>
 									</div>
 								</div>
-								<!-- END -->								
-							</div>							
+								<!-- END -->
+							</div>
 							<!-- @@@@@@@@@@@@@@@@@@@@@@@@이슈 등록폼 END@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-							
+
 							<!-- 이슈 상세보기 조회 시작!!!!! -->
 							<div class="modalIssueInfoForm" style="display: none;">
 								<div class="modalIssueInfoContent">
 									<div class="issueInfoContentTopBar">
 										<span class="returnIssueList"></span>
 									</div>
-								
+
 									<div class="issueNameInfo">
 										<div class="issueNames">
-											<textarea class="modalIssueName" maxlength="200"
-												style="height: 34px;" readonly></textarea>
+											<textarea class="modalIssueName" maxlength="200" style="height: 34px;"
+												readonly></textarea>
 										</div>
 									</div>
-								<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
-								  <div class="read-content">
-                                        <div class="media pt-5">
-                                            <img class="mr-3 rounded-circle" src="images/avatar/1.jpg">
-                                            <div class="media-body" style="margin-right: 50px; flex: 0;">
-                                                <h5 class="m-b-3"></h5>
-                                                <p class="m-b-2" style="width: 75px;">2023/10/24</p>
-                                             
-                                            </div>
-                                               <div class="issueRankInfo">
-                                                	<p>중요도</p>
-                                                </div>
-                                                <div class="issueKndInfo">
-                                                	<p>종류</p>
-                                                </div>
-                                                <div class="issueStInfo">
-                                                	<p>상태</p>
-                                                </div>                                            
-                                        </div>
-                                <hr style="margin:0 ; height: 1px; background-color: #eaeaea; width: 608px;">
-									<div class="card-body">
-										<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
-                                    	<div id="viewer"></div>
-                                    </div>
-                                    <h6 class="p-t-15" style="display: inline-block; padding: 3px; "><i class="fa fa-download mb-2"></i> 첨부파일 <span>(3)</span></h6>
-                                     <h6 class="p-t-16" style="display: inline-block; margin-left: 20px; padding: 3px; "><i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글<span>(3)</span></h6>  
-                                <hr style="margin: 0; height: 1px; background-color: #eaeaea; width: 608px;">
-                                                                            
-                                      <div class="issueInfoFileList" style="display: none;">
+									<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+									<div class="read-content">
+										<div class="media pt-5">
+											<img class="mr-3 rounded-circle" src="images/avatar/1.jpg">
+											<div class="media-body" style="margin-right: 50px; flex: 0;">
+												<h5 class="m-b-3"></h5>
+												<p class="m-b-2" style="width: 75px;">2023/10/24</p>
+
+											</div>
+											<div class="issueRankInfo">
+												<p>중요도</p>
+											</div>
+											<div class="issueKndInfo">
+												<p>종류</p>
+											</div>
+											<div class="issueStInfo">
+												<p>상태</p>
+											</div>
+										</div>
+										<hr style="margin:0 ; height: 1px; background-color: #eaeaea; width: 608px;">
+										<div class="card-body">
+											<script
+												src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
+											<div id="viewer"></div>
+										</div>
+										<h6 class="p-t-15" style="display: inline-block; padding: 3px; "><i
+												class="fa fa-download mb-2"></i> 첨부파일 <span>(3)</span></h6>
+										<h6 class="p-t-16"
+											style="display: inline-block; margin-left: 20px; padding: 3px; "><i
+												class="fa fa-comment mb-2"
+												style="margin-right: 5px;"></i>댓글<span>(3)</span></h6>
+										<hr style="margin: 0; height: 1px; background-color: #eaeaea; width: 608px;">
+
+										<div class="issueInfoFileList" style="display: none;">
 											<div class="list-message" style="width: 630px;">
 												<table class="table">
 													<thead>
 														<tr>
 															<th>파일명</th>
 															<th>크기</th>
-															<th>다운로드</th>
+															<th></th>
 														</tr>
 													</thead>
 													<tbody id="issueInfoFiles">
@@ -405,137 +411,165 @@
 											</div>
 										</div>
 										<div class="issueInfoCommentList" style="display: none;">
-                                        	<div class="anime__details__review">
-						                            <div class="anime__review__item">
-						                                <div class="anime__review__item__pic">
-						                                    <img src="images/users/2.jpg" alt="">
-						                                </div>
-						                                <div class="anime__review__item__text">
-						                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-						                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-						                                    "demons" LOL</p>
-						                                </div>
-													 </div>
-							                            <div class="anime__review__item">
-							                                <div class="anime__review__item__pic">
-							                                    <img src="images/users/1.jpg" alt="">
-							                                </div>
-							                                <div class="anime__review__item__text">
-							                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-							                                    <p>Finally it came out ages ago</p>
-							                                </div>
-							                            </div>
-                      						  </div>
-                                        	
-                                        	<div class="anime__details__form">
-					                            <div class="section-title">
-					                                <h5>댓글</h5>
-					                            </div>
-						                            <form action="#">
-						                                <textarea placeholder="Your Comment"></textarea>
-						                                <button type="submit"><i class="fa fa-location-arrow"></i>등록</button>
-						                            </form>
-                       					    </div>
-                                        </div>
-                                    </div>	
-							</div>					
+											<div class="anime__details__review">
+												<div class="anime__review__item">
+													<div class="anime__review__item__pic">
+														<img src="images/users/2.jpg" alt="">
+													</div>
+													<div class="anime__review__item__text">
+														<h6>Chris Curry - <span>1 Hour ago</span></h6>
+														<p>whachikan Just noticed that someone categorized this as
+															belonging to the genre
+															"demons" LOL</p>
+													</div>
+												</div>
+												<div class="anime__review__item">
+													<div class="anime__review__item__pic">
+														<img src="images/users/1.jpg" alt="">
+													</div>
+													<div class="anime__review__item__text">
+														<h6>Lewis Mann - <span>5 Hour ago</span></h6>
+														<p>Finally it came out ages ago</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="anime__details__form">
+												<div class="section-title">
+													<h5>댓글</h5>
+												</div>
+												<form action="#">
+													<textarea placeholder="Your Comment"></textarea>
+													<button type="submit"><i
+															class="fa fa-location-arrow"></i>등록</button>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 이슈 상세보기 END!!!!! -->
 						</div>
-						<!-- 이슈 상세보기 END!!!!! -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
 
 	<script>
-	
-	// 날짜 변환
-	function dateFormatting(date){
-		
-		let parseDate = new Date(date);
-		
-		let year = parseDate.getFullYear();
-		let month = ('0' + ( parseDate.getMonth() + 1)).slice(-2);
-		let day  = ('0' +  parseDate.getDate()).slice(-2);
-		return year +'-'+month + '-'+day;
-}
-	
-	
- 	$(document).on('click', '#issueLists tr', function() {
- 				var issuNo = $(this).data('value');
- 				console.log(issuNo);
- 				$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
- 				.done(function(data) {
- 					 	var issueInfo = data.issueInfo;
- 					 	$('.modalIssueName').val(issueInfo.issuTtl);
- 					 	$('.m-b-3').text(issueInfo.membId);
- 					 	 					 	
-		 	
- 					 	$('.m-b-2').text(dateFormatting(issueInfo.issuDt));
- 					 	viewer.setMarkdown(issueInfo.issuCntn);
- 					 	
- 					 	// 종류 
- 					 	var kndVal = $('.issueKndInfo');
- 						if (issueInfo.issuKnd == '0L1') {
- 							kndVal.append('<div class="badge badge-danger" style="margin-bottom: 15px; ">버그</div>');
- 						} else if (issueInfo.issuKnd == '0L2') {
- 							kndVal.append('<div class="badge badge-warning" style="margin-bottom: 15px; ">개선사항</div>');
- 						} else if (issueInfo.issuKnd == '0L3') {
- 							kndVal.append('<div class="badge badge-info" style="margin-bottom: 15px; ">새기능</div>');
- 						} else if (issueInfo.issuKnd == '0L4') {
- 							kndVal.append('<div class="badge badge-light" style="margin-bottom: 15px; ">업무</div>');
- 						}
-						// 상태
- 						if (issueInfo.issuSt == '0E1') {
- 							$('.issueStInfo').append('<div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">해결</div>');
- 						} else if (issueInfo.issuSt == '0E2') {
- 							$('.issueStInfo').append('<div class="badge badge-pill badge-dark" style="margin-bottom: 15px; ">미해결</div>');
- 						} else if (issueInfo.issuSt == '0E3') {
- 							$('.issueStInfo').append('<div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">해결불가</div>');
- 						}
 
- 						if (issueInfo.issuRank == '0G1') {
- 							$('.issueRankInfo').append('<div class="badge badge-pill badge-primary" style="margin-bottom: 15px; ">매우높음</div>');
- 						} else if (issueInfo.issuRank == '0G2') {
- 							$('.issueRankInfo').append('<div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">높음</div>');
- 						} else if (issueInfo.issuRank == '0G3') {
- 							$('.issueRankInfo').append('<div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">보통</div>');
- 						} else if (issueInfo.issuRank == '0G4') {
- 							$('.issueRankInfo').append('<div class="badge badge-pill badge-warning" style="margin-bottom: 15px; ">낮음</div>');
- 						} else if (issueInfo.issuRank == '0G5') {
- 							$('.issueRankInfo').append('<div class="badge badge-pill badge-danger" style="margin-bottom: 15px; ">매우낮음</div>');
- 						}
- 					 	
- 				})
- 				. fail(function(error) {
- 					console.log(error);
- 				})                                                                                                    
+		// 날짜 변환
+		function dateFormatting(date) {
+
+			let parseDate = new Date(date);
+
+			let year = parseDate.getFullYear();
+			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+			let day = ('0' + parseDate.getDate()).slice(-2);
+			return year + '-' + month + '-' + day;
+		}
+
+
+		$(document).on('click', '#issueLists tr', function () {
+			var issuNo = $(this).data('value');
+			console.log(issuNo);
+			$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
+				.done(function (data) {
+					var issueInfo = data.issueInfo;
+					var issueFile = data.issueFile;
+
+					$('.modalIssueName').val(issueInfo.issuTtl);
+					$('.m-b-3').text(issueInfo.membId);
+
+					$('.m-b-2').text(dateFormatting(issueInfo.issuDt));
+					viewer.setMarkdown(issueInfo.issuCntn);
+
+					// 종류 
+					var kndVal = $('.issueKndInfo');
+					if (issueInfo.issuKnd == '0L1') {
+						kndVal.append('<div class="badge badge-danger" style="margin-bottom: 15px; ">버그</div>');
+					} else if (issueInfo.issuKnd == '0L2') {
+						kndVal.append('<div class="badge badge-warning" style="margin-bottom: 15px; ">개선사항</div>');
+					} else if (issueInfo.issuKnd == '0L3') {
+						kndVal.append('<div class="badge badge-info" style="margin-bottom: 15px; ">새기능</div>');
+					} else if (issueInfo.issuKnd == '0L4') {
+						kndVal.append('<div class="badge badge-light" style="margin-bottom: 15px; ">업무</div>');
+					}
+					// 상태
+					if (issueInfo.issuSt == '0E1') {
+						$('.issueStInfo').append('<div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">해결</div>');
+					} else if (issueInfo.issuSt == '0E2') {
+						$('.issueStInfo').append('<div class="badge badge-pill badge-dark" style="margin-bottom: 15px; ">미해결</div>');
+					} else if (issueInfo.issuSt == '0E3') {
+						$('.issueStInfo').append('<div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">해결불가</div>');
+					}
+
+					if (issueInfo.issuRank == '0G1') {
+						$('.issueRankInfo').append('<div class="badge badge-pill badge-primary" style="margin-bottom: 15px; ">매우높음</div>');
+					} else if (issueInfo.issuRank == '0G2') {
+						$('.issueRankInfo').append('<div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">높음</div>');
+					} else if (issueInfo.issuRank == '0G3') {
+						$('.issueRankInfo').append('<div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">보통</div>');
+					} else if (issueInfo.issuRank == '0G4') {
+						$('.issueRankInfo').append('<div class="badge badge-pill badge-warning" style="margin-bottom: 15px; ">낮음</div>');
+					} else if (issueInfo.issuRank == '0G5') {
+						$('.issueRankInfo').append('<div class="badge badge-pill badge-danger" style="margin-bottom: 15px; ">매우낮음</div>');
+					}
+
+					// 첨부된 파일 리스트.												
+					$.each(issueFile, function (idx, item) {
+
+						if (issueFile != null) {
+							$('#issueInfoFiles').empty();
+						}
+
+						var trTag = $('<tr/>').data('fileNo', issueFile.issuFileNo);
+
+						var fileNameTag = $('<td/>').text(item.issuFileNm);
+						var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
+						var downloadFileTag = $('<td/>').attr('class', 'downloadFile').attr("onclick", "fileDownloading(" +issuNo +"," + item.issuFileNo +")");
+						trTag.append(fileNameTag);
+						trTag.append(fileSizeTag);
+						trTag.append(downloadFileTag);
+
+						$('#issueInfoFiles').append(trTag);
+					});
+
+				})
+				.fail(function (error) {
+					console.log(error);
+				})
+
+			$('.modalIssueInfoForm').css('display', 'block');
+			$('.workModalContentBack').css('display', 'none');
+		});
 		
-		$('.modalIssueInfoForm').css('display', 'block');
-		$('.workModalContentBack').css('display', 'none');
-	});
-	
-	$(document).on('click','.p-t-15', function() {
-		if ($('.issueInfoFileList').css("display") == "none") {			
-			$('.issueInfoFileList').css('display','block');			
-		} else {
-			$('.issueInfoFileList').css('display','none');				
-		} 
+		function fileDownloading(issuNo, issuFileNo) {
+			location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
+		}
 		
+		
+		$(document).on('click', '.p-t-15', function () {
+			if ($('.issueInfoFileList').css("display") == "none") {
+				$('.issueInfoFileList').css('display', 'block');
+			} else {
+				$('.issueInfoFileList').css('display', 'none');
+			}
+
 			$('.issueInfoCommentList').css('display', 'none');
-	});
-	
-	$(document).on('click','.p-t-16', function() {
-		if ($('.issueInfoCommentList').css("display") == "none") {			
-			$('.issueInfoCommentList').css('display','block');			
-		} else {
-			$('.issueInfoCommentList').css('display','none');				
-		} 
-		
-			$('.issueInfoFileList').css('display', 'none');
-	});
-	</script> 
+		});
 
-</th:block>	
+		$(document).on('click', '.p-t-16', function () {
+			if ($('.issueInfoCommentList').css("display") == "none") {
+				$('.issueInfoCommentList').css('display', 'block');
+			} else {
+				$('.issueInfoCommentList').css('display', 'none');
+			}
+
+			$('.issueInfoFileList').css('display', 'none');
+		});
+	</script>
+
+</th:block>
+
 </html>
