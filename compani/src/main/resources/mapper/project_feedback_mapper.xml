@@ -22,4 +22,20 @@
 		<!-- WHERE prjt_no = {prjtNo} -->
 		ORDER BY issu_no
 	</select>
+
+	<select id="selectListForLevel" resultType="CamelHashMap">
+		SELECT level
+			, prjt_fdbk_no
+			, prjt_no
+			, pf.memb_id
+			, prjt_fdbk_cntn
+			, prjt_fdbk_dt
+			, prjt_fdbk_upno
+			, CONNECT_BY_ROOT prjt_fdbk_no AS root_no
+			, memb_nm
+		FROM project_feedback pf LEFT JOIN member m ON(pf.memb_id = m.memb_id)
+		WHERE prjt_no = #{prjtNo}
+		START WITH prjt_fdbk_upno IS NULL
+		CONNECT BY PRIOR  prjt_fdbk_no = prjt_fdbk_upno
+	</select>
 </mapper>
