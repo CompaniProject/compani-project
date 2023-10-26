@@ -1,5 +1,8 @@
 package com.yedam.compani.issue.reply.web;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,5 +24,11 @@ public class IssueReplyController {
 	public IssueReplyVO saveIssueReply(@PathVariable final int issuNo, @RequestBody final IssueReplyVO params) {
 			int id = issueReplyService.saveIssueReply(params);
 			return issueReplyService.findReplyById(id);
+	}
+	
+	// 댓글 리스트 조회
+	@GetMapping("/issues/{issuNo}/reply")
+	public List<IssueReplyVO> findAllReply(@PathVariable final int issuNo) {
+		return issueReplyService.findAllReply(issuNo);
 	}
 }

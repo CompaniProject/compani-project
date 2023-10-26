@@ -1108,18 +1108,18 @@ form.fileupload.dz {
     color: rgba(108, 117, 125, 0.5);
 }
 
-.anime__review__item {
+.issue__reply__item {
 	overflow: hidden;
 	margin-bottom: 15px;
 }
 
-.anime__review__item__pic {
+.issue__reply__item__pic {
 	float: left;
 	margin-right: 20px;
 	position: relative;
 }
 
-.anime__review__item__pic:before {
+.issue__reply__item__pic:before {
 	position: absolute;
 	right: -25px;
 	top: 15px;
@@ -1129,13 +1129,13 @@ form.fileupload.dz {
 	transform: rotate(225deg);
 }
 
-.anime__review__item__pic img {
+.issue__reply__item__pic img {
 	height: 50px;
 	width: 50px;
 	border-radius: 50%;
 }
 
-.anime__review__item__text {
+.issue__reply__item__text {
 	overflow: hidden;
 	background: #fff;
 	padding: 18px 30px 16px 20px;
@@ -1143,24 +1143,24 @@ form.fileupload.dz {
 	width: 525px; 
 }
 
-.anime__review__item__text h6 {
+.issue__reply__item__text h6 {
 	color: #76838f;
 	font-weight: 700;
 	margin-bottom: 10px;
 }
 
-.anime__review__item__text h6 span {
+.issue__reply__item__text h6 span {
 	color: #b7b7b7;
 	font-weight: 400;
 }
 
-.anime__review__item__text p {
+.issue__reply__item__text p {
 	color: #575757;
 	line-height: 23px;
 	margin-bottom: 0;
 }
 
-.anime__details__form textarea {
+.issueReply__details__form textarea {
 	width: 90%;
 	font-size: 15px;
 	color: #b7b7b7;
@@ -1174,7 +1174,7 @@ form.fileupload.dz {
     background-color: #ffffff;
 }
 
-.anime__details__form form button {
+.issueReply__details__form form button {
 	font-size: 12px;
 	color: #ffffff;
 	font-weight: 700;
@@ -1186,7 +1186,7 @@ form.fileupload.dz {
 	margin-left: 525px;
 }
 
-.section-title {
+.issueReply__section-title {
 	color: #ffffff;
 	font-weight: 600;
 	line-height: 21px;
