@@ -77,5 +77,17 @@ public class IssueReplyServiceImpl implements IssueReplyService {
 	public List<IssueReplyVO> findAllReply(final int issuNo) {
 		return issueReplyMapper.findAll(issuNo);
 	}
+	
+	/**
+	 * 댓글 수 카운트
+	 * 
+	 * @param issuNo - 게시글 번호 (FK)
+	 * @return 해당 게시글에 달린 댓글 수
+	 */
+	
+	@Override
+	public int countReply(int issuNo) {
+		return issueReplyMapper.count(issuNo);
+	}
 
 }

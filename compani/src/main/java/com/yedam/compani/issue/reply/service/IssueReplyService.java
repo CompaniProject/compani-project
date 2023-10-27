@@ -13,4 +13,6 @@ public interface IssueReplyService {
 	public int deleteReply(int issuRplyNo);
 	
 	public List<IssueReplyVO> findAllReply(int issuNo);
+	
+	public int countReply(int issuNo);
 }

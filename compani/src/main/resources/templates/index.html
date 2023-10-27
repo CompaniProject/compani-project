@@ -348,7 +348,7 @@
 							<div class="modalIssueInfoForm" style="display: none;">
 								<div class="modalIssueInfoContent">
 									<div class="issueInfoContentTopBar">
-										<span class="returnIssueList"></span>
+										<span class="returnIssueList" onclick="returnIssueList()"></span>
 									</div>
 
 									<div class="issueNameInfo">
@@ -378,16 +378,14 @@
 										</div>
 										<hr style="margin:0 ; height: 1px; background-color: #eaeaea; width: 608px;">
 										<div class="card-body">
-											<script
-												src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 											<div id="viewer"></div>
 										</div>
 										<h6 class="p-t-15" style="display: inline-block; padding: 3px; "><i
-												class="fa fa-download mb-2"></i> 첨부파일 <span>(3)</span></h6>
+												class="fa fa-download mb-2"></i> 첨부파일 <span id="countFile"></span></h6>
 										<h6 class="p-t-16"
 											style="display: inline-block; margin-left: 20px; padding: 3px; "><i
-												class="fa fa-comment mb-2"
-												style="margin-right: 5px;"></i>댓글<span>(3)</span></h6>
+												class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글 <span
+												id="countReply"></span></h6>
 										<hr style="margin: 0; height: 1px; background-color: #eaeaea; width: 608px;">
 
 										<div class="issueInfoFileList" style="display: none;">
@@ -412,30 +410,23 @@
 										</div>
 										<div class="issueInfoCommentList" style="display: none;">
 											<div class="IssueReviews">
-												<div class="issue__reply__item">
-													<div class="issue__reply__item__pic">
-														<img src="images/users/2.jpg" alt="">
-													</div>
-													<div class="issue__reply__item__text">
-														<h6>Chris Curry - <span>1 Hour ago</span></h6>
-														<p>whachikan Just noticed that someone categorized this as
-															belonging to the genre
-															"demons" LOL</p>
-													</div>
-												</div>
+
 											</div>
 											<!-- 이슈 댓글 작성 -->
 											<div class="issueReply__details__form">
 												<div class="issueReply__section-title">
-													<h5>댓글</h5>
+													<h5>댓글<i id="counter">0/300자</i></h5>
 												</div>
 												<form action="#">
-													<textarea id="issueReplyCntn" name="issueReplyCntn" onkeyup="countingLength(this);" placeholder="댓글을 입력하세요"></textarea>
-													
-													<button type="button" id="issueReplySave" onclick="saveReply();"><i class="fa fa-location-arrow"></i>등록 <i id="counter">0/300자</i> </button>
+													<textarea id="issueReplyCntn" name="issueReplyCntn"
+														onkeyup="countingLength(this);"
+														placeholder="댓글을 입력하세요"></textarea>
+
+													<button type="button" id="issueReplySave" onclick="saveReply();"><i
+															class="fa fa-location-arrow"></i>등록</button>
 												</form>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
@@ -447,9 +438,7 @@
 			</div>
 		</div>
 	</div>
-</th:block>
-	
-<th:block layout:fragment="script">
+
 	<script th:inline="javascript">
 
 		// 날짜 변환
@@ -463,21 +452,30 @@
 			return year + '-' + month + '-' + day;
 		}
 
-
+		// 글상세보기에서 글목록으로 돌아가기 버튼
+		function returnIssueList() {
+			// 입력 필드 초기화
+			$('#issuReplyCntn').val('');
+			$('#updateReplyComment').val('');
+			$('.modalIssueInfoForm').css('display', 'none');
+			$('.workModalContentBack').css('display', 'block');
+			issuePaging(1);
+		}
+								
 		$(document).on('click', '#issueLists tr', function () {
 			var issuNo = $(this).data('value');
-			console.log(issuNo);
 			$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
 				.done(function (data) {
 					var issueInfo = data.issueInfo;
 					var issueFile = data.issueFile;
 
-					$('.modalIssueName').val(issueInfo.issuTtl);
+					$('.modalIssueName').val(issueInfo.issuTtl).data('issuNo', issuNo);
 					$('.m-b-3').text(issueInfo.membId);
 
 					$('.m-b-2').text(dateFormatting(issueInfo.issuDt));
 					viewer.setMarkdown(issueInfo.issuCntn);
-
+					countReply(issuNo);
+					countFile(issuNo);
 					// 종류 
 					var kndVal = $('.issueKndInfo');
 					if (issueInfo.issuKnd == '0L1') {
@@ -521,14 +519,14 @@
 
 						var fileNameTag = $('<td/>').text(item.issuFileNm);
 						var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
-						var downloadFileTag = $('<td/>').attr('class', 'downloadFile').attr("onclick", "fileDownloading(" +issuNo +"," + item.issuFileNo +")");
+						var downloadFileTag = $('<td/>').attr('class', 'downloadFile').attr("onclick", "fileDownloading(" + issuNo + "," + item.issuFileNo + ")");
 						trTag.append(fileNameTag);
 						trTag.append(fileSizeTag);
 						trTag.append(downloadFileTag);
 
 						$('#issueInfoFiles').append(trTag);
 					});
-
+					countFile(issuNo);
 				})
 				.fail(function (error) {
 					console.log(error);
@@ -537,12 +535,12 @@
 			$('.modalIssueInfoForm').css('display', 'block');
 			$('.workModalContentBack').css('display', 'none');
 		});
-		
+
 		function fileDownloading(issuNo, issuFileNo) {
 			location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
 		}
-		
-		
+
+
 		$(document).on('click', '.p-t-15', function () {
 			if ($('.issueInfoFileList').css("display") == "none") {
 				$('.issueInfoFileList').css('display', 'block');
@@ -556,99 +554,240 @@
 		$(document).on('click', '.p-t-16', function () {
 			if ($('.issueInfoCommentList').css("display") == "none") {
 				$('.issueInfoCommentList').css('display', 'block');
+				findAllReply();
 			} else {
 				$('.issueInfoCommentList').css('display', 'none');
 			}
 
 			$('.issueInfoFileList').css('display', 'none');
 		});
-		
+
 		// 댓글 길이 카운팅
 		function countingLength(content) {
-			if(content.value.length > 300) {
+			if (content.value.length > 300) {
 				alert('댓글을 300자 이하로 입력해 주세요.');
 				content.value = content.value.substring(0, 300);
 				content.focus();
 			}
-				document.getElementById('counter').innerText = content.value.length + '/300자';			
+			document.getElementById('counter').innerText = content.value.length + '/300자';
 		}
-		
+
 		// 댓글 저장
 		function saveReply() {
 			const issueReplyCntn = document.getElementById('issueReplyCntn');
-			const issuNo = [[ ${issueInfo.issuNo} ]];
-			
+			const issuNo = $('.modalIssueName').data('issuNo');
+
 			const params = {
-					issuNo : issuNo,
-					issuReplyCntn : issueReplyCntn.value,
-					membId : '권오준'
+				issuNo: issuNo,
+				issuRplyCntn: issueReplyCntn.value,
+				membId: 'ojunkwon'
 			}
-			
+
 			$.ajax({
-				url : '/issues/{issuNo}/reply',
-				type : 'post',
-				contentType : 'application/json;',
-				data : JSON.stringify(params),
-				success : function (data) {
-					console.log(data);
-				},
-				error : function(error) {
+				url: '/issues/' + issuNo + '/reply',
+				type: 'post',
+				contentType: 'application/json;',
+				data: JSON.stringify(params)
+			})
+				.done(function (data) {
+					findAllReply();
+					countReply(issuNo);
+				})
+				.fail(function (error) {
 					console.log(error);
-				}												
-			})									
-		};
-		
+				})
+		}
+
 		// 전체 댓글 조회
 		function findAllReply() {
-			const issuNo = [[ ${issuInfo.issuNo} ]];
-			
+			const issuNo = $('.modalIssueName').data('issuNo');
+
 			$.ajax({
-				url : '/issues/{issuNo}/reply',
-				type : 'get'
-				success : function (response) {
-					
-                    // 1. 조회된 데이터가 없는 경우
-                    if ( !response.length ) {
-                        document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
-                        return false;
-                    }
-					
-                    // 2. 렌더링 할 HTML을 저장할 변수
-                    let commentHtml = '';
-                    
-                    // 3. 댓글 HTML 추가
-                    response.forEach(row => {
-                        commentHtml += `
-                            <div>
-                                <span class="writer_img"><img src="/images/default_profile.png" width="30" height="30" alt="기본 프로필 이미지"/></span>
-                                <p class="writer">
-                                    <em>${row.writer}</em>
-                                    <span class="date">${dayjs(row.createdDate).format('YYYY-MM-DD HH:mm')}</span>
-                                </p>
-                                <div class="cont"><div class="txt_con">${row.content}</div></div>
-                                <p class="func_btns">
-                                    <button type="button" class="btns"><span class="icons icon_modify">수정</span></button>
-                                    <button type="button" class="btns"><span class="icons icon_del">삭제</span></button>
-                                </p>
-                            </div>
-                        `;
-                    })
-                    
-                 	// 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
-                    document.querySelector('.cm_list').innerHTML = commentHtml;
-				},
-				error : function (err) {
-					console.log(err)
-				}
-				
+				url: '/issues/' + issuNo + '/reply',
+				type: 'GET'
 			})
-			
-			
-			
-			
-			
+				.done(function (response) {
+
+					// 1. 조회된 데이터가 없는 경우
+					if (!response.length) {
+						document.querySelector('.IssueReviews').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+						return false;
+					}
+
+					// 2. 렌더링 할 HTML을 저장할 변수
+					let commentHtml = '';
+
+					// 3. 댓글 HTML 추가
+					response.forEach(row => {
+						commentHtml += `                            
+                            <div class="IssueReviews">
+							<div class="issue__reply__item">
+								<div class="issue__reply__item__pic">
+									<img src="images/users/2.jpg" alt="">
+								</div>
+								<div class="issue__reply__item__text">
+									<h6>${row.membId} - <span>${dateFormatting(row.issuRplyDt)}</span>
+									<a id="edit_btn" onclick="openReplyUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
+										src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png" 
+										style="margin-left: 170px; ">
+										수정
+									</a>
+									<a id="del_btn" onclick="deleteReply(${row.issuRplyNo});"> <img class="toolsIcon"
+										src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_delete.png">
+										삭제
+									</a>
+									
+									</h6>
+									
+									<div id="IssueReplyEditForm" style="display: none;">
+											<textarea id="updateReplyComment" class="reply_edit_text_area" maxlength="300" rows="2"
+												cols="30" placeholder="수정할 내용을 입력"></textarea>
+											<button type="button" class="button condensed save" id="replyUpdateBtn">저장</button>
+											<button type="button" class="button condensed cancel"
+												onclick="closeReplyUpdateForm();">취소</button>
+									</div>
+									
+									
+									<p id="replyText">${row.issuRplyCntn}</p>
+								</div>
+							</div>
+                        `;
+
+						// 4. class가 "IssueReviews"인 요소를 찾아 HTML을 렌더링
+						document.querySelector('.IssueReviews').innerHTML = commentHtml;
+
+					})
+					countReply(issuNo);
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
 		}
-		
+
+		// 댓글 수정 div open
+		function openReplyUpdateForm(id) {
+
+			const issuNo = $('.modalIssueName').data('issuNo');
+			const issuRplyNo = id;
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+				type: 'get'
+			})
+				.done(function (response) {
+					var editForm = document.getElementById('IssueReplyEditForm');
+					var replyText = document.getElementById('replyText');
+
+					if (editForm.style.display === 'none') {
+						editForm.style.display = 'block';
+						replyText.style.display = 'none';
+
+						document.getElementById('updateReplyComment').value = response.issuRplyCntn;
+						document.getElementById('replyUpdateBtn').setAttribute('onclick', `updateReply(${id})`);
+					} else {
+						editForm.style.display = 'none';
+						replyText.style.display = 'block';
+					}
+				})
+
+				.fail(function (err) {
+					console.log(err)
+				})
+
+		}
+
+		// 댓글 수정 div close
+		function closeReplyUpdateForm() {
+			document.getElementById('updateReplyComment').value = '';
+			document.getElementById('replyUpdateBtn').removeAttribute('onclick');
+
+			document.getElementById('IssueReplyEditForm').style.display = 'none';
+			document.getElementById('replyText').style.display = 'block';
+		}
+
+		// 댓글 수정 ajax
+		function updateReply(id) {
+			const issuNo = $('.modalIssueName').data('issuNo');
+			const issuRplyNo = id;
+			const writer = 'ojunkwon';
+			const content = document.getElementById('updateReplyComment');
+
+			const params = {
+				issuRplyNo: id,
+				issuNo: issuNo,
+				issuRplyCntn: content.value,
+				membId: writer
+			}
+
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+				type: 'put',
+				contentType: 'application/json;',
+				data: JSON.stringify(params)
+			})
+				.done(function (response) {
+					alert('수정되었습니다.');
+					findAllReply();
+					closeReplyUpdateForm();
+					countReply(issuNo);
+				})
+
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+
+		// 댓글 삭제
+		function deleteReply(id) {
+
+			if (confirm('선택하신 댓글을 삭제할까요?')) {
+
+				const issuNo = $('.modalIssueName').data('issuNo');
+				const issuRplyNo = id;
+
+				$.ajax({
+					url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+					type: 'delete'
+				})
+					.done(function (response) {
+						alert('삭제가 완료되었습니다');
+						findAllReply();
+						countReply(issuNo);
+					})
+
+					.fail(function (err) {
+						console.log(err)
+					})
+			}
+		}
+
+		// 댓글 카운트
+		function countReply(issuNo) {
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply/count',
+				type: 'get'
+			})
+				.done(function (response) {
+					$('#countReply').text('(' + response + ')');
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+
+		// 파일 카운트
+		function countFile(issuNo) {
+			$.ajax({
+				url: '/issues/' + issuNo + '/files/count',
+				type: 'get'
+			})
+				.done(function (response) {
+					$('#countFile').text('(' + response + ')');
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
 	</script>
 </th:block>
+
 </html>

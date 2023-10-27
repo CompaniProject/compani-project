@@ -4,69 +4,76 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.issue.reply.mapper.IssueReplyMapper">
 		<!-- 댓글 저장 -->
-		<insert id="" parameterType="IssueReplyVO">
+		<insert id="save" parameterType="IssueReplyVO">
 			<selectKey keyProperty="issuRplyNo" resultType="int" order="BEFORE">
 				SELECT NVL(MAX(issu_rply_no), 0) + 1
 				FROM   issue_reply
 			</selectKey>
 			INSERT INTO 		issue_reply
-							(			
-										 issu_rply_no
-								   ,     issu_no
-								   ,     memb_id
-								   ,     issu_rply_cntn
-								   ,     issu_rply_dt
-								   ,     issu_rply_del					
-							)
+						(			
+							    issu_rply_no
+						  ,     issu_no
+						  ,     memb_id
+						  ,     issu_rply_cntn
+						  ,     issu_rply_dt
+						  ,     issu_rply_del					
+						)
 						VALUES
-						   (
-						   				#{issuRplyNo}
-						   		  ,     #{issuNo}
-						   		  ,     #{membId}
-						   		  ,     #{issuRplyCntn}
-						   		  ,     SYSDATE
-						   		  ,     0					   
-						   )
+						(
+						   	    #{issuRplyNo}
+						   	 ,  #{issuNo}
+						   	 ,  #{membId}
+						   	 ,  #{issuRplyCntn}
+						   	 ,  SYSDATE
+						   	 ,  0					   
+						)
 		</insert> 
 		
 		 <!-- 댓글 상세정보 조회 -->
 		 	<select id="findById" resultType="IssueReplyVO">
-		 		  SELECT			 issu_rply_no
+		 		  SELECT			 	 issu_rply_no
 								   ,     issu_no
 								   ,     memb_id
 								   ,     issu_rply_cntn
 								   ,     issu_rply_dt
 								   ,     issu_rply_del					
-				 FROM               issue_reply
-				 WHERE            issu_rply_no = #{issuRplyNo}		 			 			 	
+				 FROM               	 issue_reply
+				 WHERE           		 issu_rply_no = #{issuRplyNo}		 			 			 	
 		 	</select>
 		 	
 		 <!-- 댓글 수정 -->
 			  <update id="update" parameterType="IssueReplyVO">
-				   UPDATE 		issue_reply
+				   UPDATE 			issue_reply
 				   SET				issu_rply_dt    = SYSDATE
-									 ,  issu_rply_cntn = #{issuRplyCntn}
-				   WHERE         issu_rply_no    = #{issuRplyNo}
+								 ,  issu_rply_cntn  = #{issuRplyCntn}
+				   WHERE         	issu_rply_no    = #{issuRplyNo}
 			  </update>
 		
 		  <!-- 댓글 삭제 -->
 			  <delete id="deleteById" parameterType="int">
 			        UPDATE		 issue_reply
-				    SET				 issu_rply_del    = 1
-				   WHERE           issu_rply_no    = #{issuRplyNo}
+				    SET			 issu_rply_del   = 1
+				   WHERE         issu_rply_no    = #{issuRplyNo}
 			  </delete>
 		 <!-- 댓글 리스트 조회 -->
 			 <select id="findAll" parameterType="int" resultType="issueReplyVO">
 			 	SELECT			 issu_rply_no
-								   ,     issu_no
-								   ,     memb_id
-								   ,     issu_rply_cntn
-								   ,     issu_rply_dt
-								   ,     issu_rply_del					
-				 FROM               issue_reply
-				 WHERE            issu_rply_del = 0
-				 AND                issu_no  = #{issuNo}	 	
-				 ORDER BY       issu_rply_no  DESC			 			 			 
+						   ,     issu_no
+						   ,     memb_id
+						   ,     issu_rply_cntn
+						   ,     issu_rply_dt
+						   ,     issu_rply_del					
+				 FROM            issue_reply
+				 WHERE           issu_rply_del = 0
+				 AND             issu_no  = #{issuNo}	 	
+				 ORDER BY        issu_rply_no  DESC			 			 			 
 			 </select>
+		 <!--  댓글 수 카운팅 -->
+		   	<select id="count" resultType="int">
+		        SELECT	 COUNT(*)
+		        FROM	 issue_reply
+		        WHERE	 issu_rply_del = 0
+		        AND 	 issu_no = #{issuNo}
+    		</select>
 		 	
 </mapper>

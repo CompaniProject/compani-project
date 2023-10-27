@@ -43,5 +43,10 @@ public class IssueFileServiceImpl implements IssueFileService {
 	public IssueFileVO findFileById(int issuFileNo) {
 		return issueFileMapper.findById(issuFileNo);
 	}
+
+	@Override
+	public int countFile(int issuNo) {
+		return issueFileMapper.count(issuNo);
+	}
 	
 }
