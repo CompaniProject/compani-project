@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +27,9 @@ import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.paging.SearchDto;
+import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
+import com.yedam.compani.project.status.service.ProjectStatusService;
+import com.yedam.compani.project.status.service.ProjectStatusVO;
 
 @Controller
 public class IssueController {
@@ -37,6 +41,10 @@ public class IssueController {
 	IssueHashtagService issueHashtagService;
 	@Autowired
 	FileUtils fileUtils;
+	@Autowired
+	ProjectFeedbackService projectFeedbackService;
+	@Autowired
+	ProjectStatusService projectStatusService;
 
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList")
@@ -93,6 +101,16 @@ public class IssueController {
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
 				
+	}
+	
+	// 프로젝트 이슈 피드백
+	@GetMapping("/project/feedback/{prjtNo}/issue")
+	public String projectFeedbackIssueList(@PathVariable int prjtNo, Model model) {
+		List<IssueVO> list = issueService.getProjectFeedbackIssueList();
+		ProjectStatusVO projectStatus = projectStatusService.getProjectStatus(prjtNo);
+		model.addAttribute("projectFeedbackIssueList", list);
+		model.addAttribute("projectStatus",projectStatus);
+		return "project/feedback-issue";
 	}
 	
 }

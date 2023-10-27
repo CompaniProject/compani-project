@@ -18,4 +18,6 @@ public interface IssueService {
 	
 	public List<IssueVO> getIssueList();
 	
+	// 프로젝트 이슈 피드백
+	public List<IssueVO> getProjectFeedbackIssueList();
 }

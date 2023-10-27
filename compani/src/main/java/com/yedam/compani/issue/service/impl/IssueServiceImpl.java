@@ -42,6 +42,11 @@ public class IssueServiceImpl implements IssueService {
 		return issueMapper.getIssueList();
 	}
 
+	@Override
+	public List<IssueVO> getProjectFeedbackIssueList() {
+		return issueMapper.selectProjectFeedbackIssueList();
+	}
+
 
 
 }

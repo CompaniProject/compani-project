@@ -298,7 +298,9 @@ select {
    	------------------------------*/
    	function projectCalendarArr(){
    		let arr = [];
-   		
+   		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
+			'blueviolet', 'purple', 'chocolate', 'deeppink'];
+		
    		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
@@ -308,6 +310,7 @@ select {
    			obj.title = calendarData[i].bussNm;
    			obj.start = calendarData[i].bussFrdt;
    			obj.end = newFrdt;
+   			obj.color = color[i%12];
    			
    			arr.push(obj);
    		}

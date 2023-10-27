@@ -20,4 +20,6 @@ public interface IssueMapper {
 	// 이슈 단건 조회
 	public IssueVO selectIssueInfo(IssueVO issueVO);
 	
+	// 프로젝트 이슈 피드백
+	public List<IssueVO> selectProjectFeedbackIssueList();
 }
