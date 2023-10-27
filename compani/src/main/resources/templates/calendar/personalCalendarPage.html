@@ -342,6 +342,8 @@ select {
 	------------------------------*/
 	function personalCalendarArr(){
 		let arr = [];
+		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
+				'blueviolet', 'purple', 'chocolate', 'deeppink'];
 		
 		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
@@ -353,6 +355,7 @@ select {
    			obj.start = calendarData[i].bussFrdt;
    			obj.end = newFrdt;
    			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
+   			obj.color = color[i%12];
    			
    			arr.push(obj);
    		}
