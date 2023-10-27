@@ -11,6 +11,12 @@
 						    , MEMB_ID
 						   	, FILE_DT
 					FROM   	 PROJECT_FILE
+					<choose>
+						<when test="type != null and tpye == ''">
+						
+						</when>
+					</choose>
+					
 					ORDER BY FILE_NO DESC
 				</select>
 				
@@ -18,7 +24,7 @@
 				<!-- 파일 리스트 (프로젝트 자료함) -->
 				<select id="fileInfo" resultType="FileVO">
 				
-				</select>
+				</select>	
 				
 				
 				<!-- 파일 업로드 (업무 파일함) -->
@@ -26,10 +32,24 @@
 					<selectKey keyProperty="fileNo"
 							   resultType="int"
 							   order="BEFORE">
-					SELECT MAX(FILE_NO)
+					SELECT NVL(MAX(FILE_NO), 0) +1
 					FROM   PROJECT_FILE
 					</selectKey>
-					
+					INSERT INTO project_file(file_no
+											 , prjt_no
+											 , file_nm
+											 , file_path
+											 , memb_id
+											 , file_size)
+					VALUES (
+							file_no = #{fileNo}
+							, prjt_no = #{prjtNo}
+							, file_nm = #{fileNm}
+							, file_path = #{filePath}
+							, memb_id = #{membId}
+							, file_size = #{fileSize}
+								)
+						
 				</insert>
 				
 				

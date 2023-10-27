@@ -27,7 +27,6 @@ public class FileDeleteController {
 		@GetMapping("/fileSelectDel")
 		@ResponseBody
 		public int fileSelectDel(@RequestParam List<Integer> files) {
-			System.out.println(files);
 			return fileservice.fileSelDel(files);
 		}
 }

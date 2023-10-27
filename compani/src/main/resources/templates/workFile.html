@@ -150,8 +150,10 @@ input[type="checkbox"]:checked::after {
 														</form>
 													</div>
 													<button onclick="playSearch()">Test</button>
-													<input type="file" id="selectedFile" style="display: none;"
-														onchange="fileInfo()" multiple="multiple" /> 
+													<form id="formdata1">
+														<input type="file" id="selectedFile" style="display: none;"
+															onchange="fileInfo()" multiple="multiple" /> 
+													</form>
 														<input
 														type="button" id="FileUpload" value="업로드"
 														onclick="document.getElementById('selectedFile').click();"
@@ -187,7 +189,7 @@ input[type="checkbox"]:checked::after {
 																			<td th:text="${file.fileNm}"/>
 																			<td th:text="${file.fileSize}" />
 																			<td th:text="${file.membId}" />
-																			<td th:text="${#dates.format(file.fileDt, 'yyyy-MM-dd')}" />
+																			<td th:text="${#temporals.format(file.fileDt, 'yyyy-MM-dd HH:mm')}" />
 																			<!-- 다운로드 아이콘 -->
 																			<td class="downIcon"><i
 																				class="fa-solid fa-download"></i></td>
@@ -236,7 +238,7 @@ input[type="checkbox"]:checked::after {
 		};
 	
 	// ======== 파일 업로드시 등록 ========
-		function fileInfo() {
+	 	function fileInfo() {
 				
 				var fileInfo = document.querySelector('input[type=file]').files;
 				
@@ -269,7 +271,7 @@ input[type="checkbox"]:checked::after {
 						
 					$('#newTrTd').append(trTag);
 				}
-			}
+			} 
     
 	// ======== 체크박스 전체선택 ========
 		$('#kingBox').on('click', boxCK);
@@ -328,7 +330,7 @@ input[type="checkbox"]:checked::after {
 						}						
 					},
 					error : function(){
-						alert("AJAX 오류");
+						alert("선택된 파일이 존재하지 않습니다.");
 					}	
 				});
 			}  
@@ -353,6 +355,29 @@ input[type="checkbox"]:checked::after {
 					}
 				}								
 			)}
+		
+		// ======== 파일 업로드 ========
+			$('#selectedFile').on('change', function(){
+				
+				var formData = $('#formData1').serialize();
+				
+				
+				$.ajax({
+					url: '/AjaxFileInsert',
+					type: 'POST',
+					processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+					contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+					data: formData,
+					success: function (fileUp) {
+						alert("성공");
+						console.log();
+					},
+					error: function (reject) {
+						alert("벌레컷");
+						console.log(reject);			
+					}
+				});
+			})
 
 		
 	</script>

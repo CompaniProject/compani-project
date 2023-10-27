@@ -122,66 +122,11 @@ hr {
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-2">
-					<div class="card">
-						<div class="card-body">
-							<h5 style="font-size: 15px">ㅎㅇㅎㅇㅇㅎ</h5>
-							<p style="font-size: 10px">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
 	<script>
+		// ======== 카드 클릭 시 테두리 지정 ========
 		$('.card').on('click', function() {
 
 			let cBody = document.getElementsByClassName("card")[0]; // 배열을 안붙이면 클래스 인식 불가능
@@ -190,14 +135,12 @@ hr {
 				this.style.border = "solid 2px red"; // 그놈한테 테두리 지정해
 				$('.card').removeClass('active'); // 
 				this.style.border = "none"; // 
-
 			} else {
 				$('.card').removeClass('active');
 				this.style.border = "none";
 				$(this).addClass('active');
 				this.style.border = "solid 2px red";
 			}
-
 		});
 	</script>
 </th:block>
