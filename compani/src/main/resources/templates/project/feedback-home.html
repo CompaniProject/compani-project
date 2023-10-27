@@ -162,6 +162,7 @@
 								<div class="media">
 									<div class="media-body">
 										<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
+										<i class="bi bi-reply-fill float-right"></i>
 										<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
 										<!-- 대댓글 출력 Start							-->
 										<div style="background-color:#F3F1FA;">
@@ -197,6 +198,13 @@
 	        </div>
 	    </div>
 	    <!-- Comment Area End -->
+	</div>
+
+	<div id="replyArea" style="display:none;">
+		<div class="media mt-3">
+			<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" placeholder="Post a new message" style="height: 56px;"></textarea>
+		    <button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+		</div>
 	</div>
 	
 	<script th:inline="javascript">
@@ -252,6 +260,9 @@
 		}
 		
 		$('#insertBtn').on('click', insertComment);
+		
+		$('.bi-reply-fill').on('click',function(event){
+		})
 		
 	</script>
 </th:block>
