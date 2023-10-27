@@ -1,5 +1,6 @@
 package com.yedam.compani.business.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +45,21 @@ public class BusinessController {
 	}
 	@PostMapping("insertBusiness")
 	@ResponseBody
-	public String insertBusiness(@RequestBody List<MemberVO> list) {
-		System.out.println(list);
-		//
-		return "";
+	public Map<String,Object>insertBusiness(@RequestBody BusinessVO businessVO) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		if(businessService.insertBusiness(businessVO) >= 1) {
+			map.put("insertResult", true);
+			
+			if(businessService.updateBusiness(businessVO)>= 1) {
+				map.put("updateResult", true);
+			}else {
+				map.put("updateResult", false);
+			}
+		}else {
+			map.put("insertResult", false);
+		}
+		return map;
 	}
 }

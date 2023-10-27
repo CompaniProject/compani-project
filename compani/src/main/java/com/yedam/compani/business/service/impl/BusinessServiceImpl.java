@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.compani.business.mapper.BusinessMapper;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +66,39 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public List<BusinessVO> bussinessNameList(Integer prjtNo) {
 		
-		return businessMapper.bussinessNameList(prjtNo);
+		return businessMapper.businessNameList(prjtNo);
+	}
+
+	@Override
+	public int insertBusiness(BusinessVO businessVO) {
+		
+		///insert !
+		//up % down 
+		
+		/*
+		 * if( businessVO.getBussDep().equals("up")) {
+		 * 
+		 * //up 일경우 1. bussUpNm 의 업무번호 찾기 (select bussNo // FROM BUSINESS // WHERE
+		 * bussUpNm = #{bussUpNm} // and prjtNo = #{prjtNo}} // 2. 찾은 업무 번호를 bussUpcd 로
+		 * set 해주고 insert 하기 !
+		 * 
+		 * }else { //하위 업무 일경우 // 업무 2 insert => 업무 1 update // 하위업무의 Upcd 를 등록할 업무 번호로
+		 * update // 1.선택한 업무의 기본키 가져오기 // select bussNo // FROM BUSINESS // WHERE
+		 * bussUpNm = #{bussUpNm // and prjtNo = #{prjtNo}} // // 2. 업무 번호의 bussUpcd 를
+		 * 등록할 업무 번호로 update
+		 * 
+		 * 
+		 * }
+		 */
+		
+		
+		return 	businessMapper.insertBusiness(businessVO);
+	}
+
+	@Override
+	public int updateBusiness(BusinessVO businessVO) {
+		
+		return businessMapper.updateBusiness(businessVO);
 	}
 
 }

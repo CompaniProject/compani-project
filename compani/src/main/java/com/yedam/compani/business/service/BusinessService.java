@@ -16,4 +16,7 @@ public interface BusinessService {
 	//업무 리스트 
 	public List<BusinessVO> getBusinessList();
 	public List<BusinessVO> bussinessNameList(Integer prjtNo);
+	
+	public int insertBusiness(BusinessVO businessVO);
+	public int updateBusiness(BusinessVO businessVO);
 }

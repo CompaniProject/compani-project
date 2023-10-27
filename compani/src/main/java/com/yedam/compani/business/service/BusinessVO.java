@@ -17,4 +17,6 @@ public class BusinessVO {
 	private Date bussCmpltdt;
 	private String bussSt;
 	private String prjtNm;
+	private String bussDep;
+	private String bussUpNm;
 }

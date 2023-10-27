@@ -95,10 +95,54 @@
 		WHERE P.PRJT_NO = B.PRJT_NO
 	</select>
 	
-	<select id="bussinessNameList" resultType="BusinessVO">
+	<select id="businessNameList" resultType="BusinessVO">
 		SELECT BUSS_NM
 		FROM   BUSINESS 
 		WHERE  PRJT_NO = #{prjtNo}
 	
 	</select>
+	
+	<insert id="insertBusiness" parameterType="BusinessVO">
+		INSERT INTO BUSINESS 
+		  	    (BUSS_NO,
+       			PRJT_NO,
+        		<if test=" bussUpcd != null and  !bussUpcd.equals('') ">
+					BUSS_UPCD,
+		 		</if>
+		 		BUSS_NM,
+        		BUSS_IMP,
+        		BUSS_PRGRE,
+        		BUSS_FRDT,
+        		BUSS_TODT,
+       			BUSS_CMPLTDT
+        		)
+		VALUES(
+		
+			 (SELECT NVL(MAX(BUSS_NO),0)+1 FROM BUSINESS),
+			 #{prjtNo},
+			 <if test=" bussUpcd != null and  !bussUpcd.equals('') ">
+			 #{bussUpcd},
+			 </if>
+			 #{bussNm},
+			 #{bussImp},
+			 0,
+			 #{bussFrdt},
+			 #{bussTodt},
+			 NULL
+			)
+	
+	</insert>
+	
+	<update id="updateBusiness" parameterType="BusinessVO">
+		UPDATE BUSINESS
+		<set>
+			<if test = "bussDep.equals('up')" >
+					BUSSUPCD = #{}
+					WHERE BUSS_NO = #{}
+			</if>
+		
+		</set>
+		
+	
+	</update>
 </mapper>
