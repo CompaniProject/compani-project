@@ -41,6 +41,7 @@ public class ProjectFeedbackController {
 		model.addAttribute("cpnStatForCurrDt",cpnStatForCurrDt);
 		model.addAttribute("cpnStatForPrjtDt",cpnStatForPrjtDt);
 		model.addAttribute("projectFeedbackList",feedbackList);
+		model.addAttribute("prjtNo",prjtNo);
 
 		return "project/feedback-home";
 	}
