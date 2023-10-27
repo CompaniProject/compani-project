@@ -154,7 +154,7 @@
                     <h5 class="card-title">Card title</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
                 </div>
-	            <div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;">
+	            <div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;" id="commentBody">
 					<th:block th:each="feedback : ${projectFeedbackList}">
 						<th:block th:if="${feedback.rootNo} == ${feedback.prjtFdbkNo}">
 						<div class="card">
@@ -190,8 +190,8 @@
 	            </div>
 				<!-- 댓글 등록 영역 -->
 	            <div class="card-footer">
-					<textarea class="form-control" name="textarea" id="textarea" cols="30" rows="2" placeholder="Post a new message" style="height: 56px;"></textarea>
-		            <button class="btn btn-primary px-3 ml-4">Send</button>
+					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" placeholder="Post a new message" style="height: 56px;"></textarea>
+		            <button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
 	            </div>
 				<!-- 댓글 등록 영역 End -->
 	        </div>
@@ -209,6 +209,30 @@
 	</script>
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
+	
+	<script th:inline="javascript">
+		function insertComment(){
+			let value = $('#inputCntn').val();
+			let obj = {};
+			obj["prjtFdbkCntn"] = value;
+			obj["prjtNo"] = prjtNo;
+			
+			insertAjax(obj);
+		function insertAjax(obj){
+            $.ajax({
+                url:'/project/feedback/insert',
+                type: 'post',
+                contentType: "application/json",
+                data:JSON.stringify(obj)
+            })
+            .done(data => {})
+            .fail(err => {});
+		}
+		}
+		
+		$('#insertBtn').on('click', insertComment);
+		
+	</script>
 </th:block>
 </body>
 </html>
