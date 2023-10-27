@@ -9,4 +9,5 @@ public interface ProjectFeedbackService {
 	// 프로젝트 이슈 피드백
 	public List<IssueVO> getProjectFeedbackIssueList();
 	public List<Map<Object,Object>> getListForLevel(int prjtNo);
+	public boolean insert(ProjectFeedbackVO projectFeedbackVO);
 }

@@ -38,4 +38,30 @@
 		START WITH prjt_fdbk_upno IS NULL
 		CONNECT BY PRIOR  prjt_fdbk_no = prjt_fdbk_upno
 	</select>
+
+	<insert id="insert" parameterType="ProjectFeedbackVO">
+		<selectKey keyProperty="prjtFdbkNo,prjtFdbkDt" resultType="ProjectFeedbackVO" order="BEFORE">
+			SELECT NVL(MAX(prjt_fdbk_no),0) + 1 AS prjtFdbkNo, SYSDATE AS prjtFdbkDt
+			FROM project_feedback
+		</selectKey>
+
+		INSERT INTO project_feedback
+			(
+				prjt_fdbk_no
+				, prjt_no
+				, memb_id
+				, prjt_fdbk_cntn
+				, prjt_fdbk_dt
+				, prjt_fdbk_upno
+			)
+		VALUES
+			(
+				#{prjtFdbkNo}
+				, #{prjtNo}
+				, #{membId}
+				, #{prjtFdbkCntn}
+				, #{prjtFdbkDt}
+				, #{prjtFdbkUpno}
+			)
+	</insert>
 </mapper>

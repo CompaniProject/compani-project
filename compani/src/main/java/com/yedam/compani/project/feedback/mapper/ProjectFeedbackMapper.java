@@ -10,4 +10,5 @@ public interface ProjectFeedbackMapper {
 	// 프로젝트 이슈 피드백
 	public List<IssueVO> selectProjectFeedbackIssueList();
 	public List<Map<Object,Object>> selectListForLevel(int prjtNo);
+	public int insert(ProjectFeedbackVO projectFeedbackVO);
 }

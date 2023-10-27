@@ -28,5 +28,10 @@ public class ProjectFeedbackServiceImpl implements ProjectFeedbackService {
 		return projectFeedbackMapper.selectListForLevel(prjtNo);
 	}
 
+	@Override
+	public boolean insert(ProjectFeedbackVO projectFeedbackVO) {
+		return (projectFeedbackMapper.insert(projectFeedbackVO) == 1);
+	}
+
 
 }
