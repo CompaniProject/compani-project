@@ -54,22 +54,22 @@
                 , issu_cnt
             )
         SELECT #{prjtNo}
-                , buss_uncmpl_cnt
-                , buss_cmpl_cnt
-                , buss_exce_cnt
-                , issu_solve
-                , issu_unsolve
-                , issu_unsolvable
-                , TRUNC(buss_uncmpl_cnt/buss_cnt*100,2) AS buss_cmpl_rate
-                , TRUNC(buss_cmpl_cnt/buss_cnt*100,2) AS buss_uncmpl_rate
-                , TRUNC(buss_exce_cnt/buss_cnt*100,2) AS buss_exce_rate
-                , TRUNC(issu_solve/issu_cnt*100,2) AS issu_solve_rate
-                , TRUNC(issu_unsolve/issu_cnt*100,2) AS issu_unsolve_rate
-                , TRUNC(issu_unsolvable/issu_cnt*100,2) AS issu_unsolvable_rate
-                , prjt_dt_cnt
-                , prjt_memb_cnt
-                , buss_cnt
-                , issu_cnt
+                , NVL(buss_uncmpl_cnt,0)
+                , NVL(buss_cmpl_cnt,0)
+                , NVL(buss_exce_cnt,0)
+                , NVL(issu_solve,0)
+                , NVL(issu_unsolve,0)
+                , NVL(issu_unsolvable,0)
+                , NVL(TRUNC(buss_uncmpl_cnt/buss_cnt*100,2) AS buss_cmpl_rate,0)
+                , NVL(TRUNC(buss_cmpl_cnt/buss_cnt*100,2) AS buss_uncmpl_rate,0)
+                , NVL(TRUNC(buss_exce_cnt/buss_cnt*100,2) AS buss_exce_rate,0)
+                , NVL(TRUNC(issu_solve/issu_cnt*100,2) AS issu_solve_rate,0)
+                , NVL(TRUNC(issu_unsolve/issu_cnt*100,2) AS issu_unsolve_rate,0)
+                , NVL(TRUNC(issu_unsolvable/issu_cnt*100,2) AS issu_unsolvable_rate,0)
+                , NVL(prjt_dt_cnt,0)
+                , NVL(prjt_memb_cnt,0)
+                , NVL(buss_cnt,0)
+                , NVL(issu_cnt,0)
         FROM
             (
             SELECT
