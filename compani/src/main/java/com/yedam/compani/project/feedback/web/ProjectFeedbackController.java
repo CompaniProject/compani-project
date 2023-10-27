@@ -2,6 +2,7 @@ package com.yedam.compani.project.feedback.web;
 
 import com.yedam.compani.company.status.service.CompanyStatusService;
 import com.yedam.compani.company.status.service.CompanyStatusVO;
+import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackVO;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +12,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,5 +57,13 @@ public class ProjectFeedbackController {
 		model.addAttribute("projectStatus",projectStatus);
 		return "project/feedback-issue";
 	}
-	
+
+	@RequestMapping("/project/feedback/insert")
+	@ResponseBody
+	public ProjectFeedbackVO insertProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk, HttpSession session){
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		prjtFdbk.setMembId(memberVO.getMembId());
+		projectFeedbackService.insert(prjtFdbk);
+		return prjtFdbk;
+	}
 }
