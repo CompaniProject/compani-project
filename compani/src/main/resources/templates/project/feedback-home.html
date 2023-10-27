@@ -219,6 +219,10 @@
 			obj["prjtNo"] = prjtNo;
 			
 			insertAjax(obj);
+			
+			$('#inputCntn').val('');
+		}
+		
 		function insertAjax(obj){
             $.ajax({
                 url:'/project/feedback/insert',
