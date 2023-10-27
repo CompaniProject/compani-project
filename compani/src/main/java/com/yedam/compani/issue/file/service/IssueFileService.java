@@ -11,4 +11,6 @@ public interface IssueFileService {
 
 	// 해당 파일 다운로드를 위한 단건 조회
 	public IssueFileVO findFileById(int issuFileNo);
+	
+	public int countFile(int issuNo);
 }

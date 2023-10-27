@@ -2,9 +2,11 @@ package com.yedam.compani.issue.reply.web;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,5 +32,30 @@ public class IssueReplyController {
 	@GetMapping("/issues/{issuNo}/reply")
 	public List<IssueReplyVO> findAllReply(@PathVariable final int issuNo) {
 		return issueReplyService.findAllReply(issuNo);
+	}
+	
+	// 댓글 상세정보 조회
+	@GetMapping("/issues/{issuNo}/reply/{issuRplyNo}")
+	public IssueReplyVO findReplyById(@PathVariable final int issuNo, @PathVariable final int issuRplyNo) {
+		return issueReplyService.findReplyById(issuRplyNo);
+	}
+	
+	// 기존 댓글 수정
+	@PutMapping("/issues/{issuNo}/reply/{issuRplyNo}")
+	public IssueReplyVO updateReply(@PathVariable final int issuNo, @PathVariable final int issuRplyNo, @RequestBody final IssueReplyVO params) {
+		issueReplyService.updateReply(params);
+		return issueReplyService.findReplyById(issuRplyNo);
+	}
+	
+	// 댓글 삭제
+	@DeleteMapping("issues/{issuNo}/reply/{issuRplyNo}")
+	public int deleteReply(@PathVariable final int issuNo, @PathVariable final int issuRplyNo) {
+		return issueReplyService.deleteReply(issuRplyNo);
+	}
+	
+	// 댓글 수 카운트
+	@GetMapping("issues/{issuNo}/reply/count")
+	public int countReply(@PathVariable final int issuNo) {
+		return issueReplyService.countReply(issuNo);
 	}
 }

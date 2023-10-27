@@ -41,5 +41,10 @@ public class IssueFileController {
 	            throw new RuntimeException("filename encoding failed : " + file.getIssuFileNm());
 	        }
 	    }
-	
+	  	  
+	  // 파일 수 카운트
+	  @GetMapping("/issues/{issuNo}/files/count")
+		public int countReply(@PathVariable final int issuNo) {
+			return issueFileService.countFile(issuNo);
+		}
 }

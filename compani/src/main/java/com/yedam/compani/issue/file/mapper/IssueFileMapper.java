@@ -22,4 +22,11 @@ public interface IssueFileMapper {
      */
 	public IssueFileVO findById(int issuFileNo);
 	
+	
+	 /**
+     * 파일 수 카운팅
+     * @param issuNo - 게시글 번호 (FK)
+     * @return 파일 수
+     */
+    int count(int issuNo);
 }

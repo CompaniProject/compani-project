@@ -55,8 +55,14 @@
 				 , ISSU_FILE_DEL_DT
 	   FROM        ISSUE_FILE
 	   WHERE       ISSU_FILE_NO = #{issuFileNo}
-	   AND		   ISSU_FILE_DEL = 0	
-	
-	
+	   AND		   ISSU_FILE_DEL = 0			
 	</select>
+	
+	<!--  파일 수 카운팅 -->
+	<select id="count" resultType="int">
+		 SELECT	 COUNT(*)
+		 FROM	 issue_file
+		 WHERE	 issu_file_del = 0
+		 AND 	 issu_no = #{issuNo}
+    </select>
 </mapper>

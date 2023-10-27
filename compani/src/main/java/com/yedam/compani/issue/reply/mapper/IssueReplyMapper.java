@@ -32,14 +32,14 @@ public interface IssueReplyMapper {
 
     /**
      * 댓글 리스트 조회
-     * @param postId - 게시글 번호 (FK)
+     * @param issuNo - 게시글 번호 (FK)
      * @return 댓글 리스트
      */
     List<IssueReplyVO> findAll(int issuNo);
 
     /**
      * 댓글 수 카운팅
-     * @param postId - 게시글 번호 (FK)
+     * @param issuNo - 게시글 번호 (FK)
      * @return 댓글 수
      */
     int count(int issuNo);

@@ -1219,3 +1219,87 @@ form.fileupload.dz {
     transition: border-color 0.3s ease;
     border-radius: 5px;
 }
+
+#counter {
+	margin-left: 10px;
+    font-size: 14px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #575757;
+}
+
+#edit_btn, #del_btn {
+	padding: 5px 8px 5px 8px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	cursor: pointer;
+	color: #76838F;
+	font-weight: normal;
+}
+
+
+.toolsIcon {
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+.reply_edit_text_area {
+	width: calc(100% - 13px);
+	height: 200px;
+	border: solid 1px #eaeaea;
+	border-radius: 4px;
+	max-width: 800px;
+	background-color: #ffffff;
+	color: #b7b7b7;
+	padding: 10px 11px;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.primary:hover,
+.condensed:hover,
+.touch:hover {
+	transform: scale(1.02);
+}
+
+.condensed {
+	transition: ease-in-out .2s;
+	line-height: 24px;
+	padding: 0 8px;
+	font-size: 12px;
+	color: #ffffff;
+	letter-spacing: 2px;
+	background: #0098fe;
+	border-radius: 2px;
+}
+
+.edit:before,
+.save:before,
+.new:before,
+.cancel:before,
+.delete:before {
+	display: inline-block;
+	font-size: 1rem;
+	padding-right: 12px;
+	background: none;
+	color: #FFF;
+}
+
+.condensed.edit:before,
+.condensed.save:before,
+.condensed.new:before,
+.condensed.cancel:before,
+.condensed.delete:before {
+	content: none;
+}
+
+.save {
+	background: #0098FE;
+
+}
+
+.cancel {
+	background: #555555;
+}
