@@ -25,6 +25,7 @@ mark, .mark {
 
 [id^="condition"] {
 	display: none;
+	color: red;
 }
 </style>
 </head>
@@ -127,7 +128,7 @@ mark, .mark {
 													name="coRpstr" readonly="readonly" hidden="true"
 													th:value='${companyVO.coRpstr}'> <input type="text"
 													class="form-control" id="coCd" name="coCd"
-													readonly="readonly" required hidden="true"> <input
+													readonly="readonly" hidden="true"> <input
 													type="text" class="form-control" id="coBizno"
 													name="coBizno" readonly="readonly" hidden="true"
 													th:value='${companyVO.coBizno}'> <input type="date"
@@ -159,19 +160,20 @@ mark, .mark {
 											<div class="col-lg-6">
 												<input type="password" class="form-control" id="membPwd"
 													name="membPwd" placeholder="※ 마우스 올릴 시, 설명"
-													title="영문(대/소문자), 숫자 및 특수문자 3가지로 구성하여 최소 8자 이상, 20자 이하으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 ~ ! @ # $ % ^ & * ( ) _ - + = [ ] | \ ; : ‘ “ < > , . ? /">
-												<span id="conditionPw">잘못된 구성된 비밀번호입니다..</span>
+													title="영문(대/소문자), 숫자 및 특수문자 4가지로 구성하여 최소 8자 이상, 20자 이하으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 # ? ! @ $ % ^ & * -">
+												<span id="conditionPw">잘못된 비밀번호입니다.</span> <span
+													id="conditionPw2">정상적인 비밀번호입니다.</span>
 											</div>
 										</div>
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="confirm-password">비밀번호
+												class="col-lg-4 col-form-label" for="membPwd2">비밀번호
 												확인 </label>
 											<div class="col-lg-6">
-												<input type="password" class="form-control"
-													id="confirm-password" name="confirm-password"
-													placeholder=""> <span id="conditionPw2">비밀번호가
-													일치하지않습니다.</span>
+												<input type="password" class="form-control" id="membPwd2"
+													name="membPwd2" placeholder=""> <span
+													id="conditionPw3">비밀번호가 일치하지않습니다.</span> <span
+													id="conditionPw4">비밀번호가 일치합니다.</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -180,7 +182,7 @@ mark, .mark {
 											<div class="col-lg-6">
 												<input class="form-control" id="membNm" name="membNm"
 													placeholder=""></input> <span id="conditionNm">이름을
-													확인하시오.</span>
+													입력하시오.</span>
 											</div>
 										</div>
 
@@ -200,19 +202,84 @@ mark, .mark {
 											</label>
 											<div class="col-lg-6">
 												<input type="email" class="form-control" id="membEmail"
-													name="membEmail" placeholder="ex) abc@example.com">
+													name="membEmail" placeholder="ex) abc@example.com"
+													hidden="true"> <input type="text" id="email_id"
+													class="form-control" value="" title="이메일 아이디"
+													placeholder="" style="width: 206px; display: inline-block;" />
+												<b>&nbsp;@&nbsp;&nbsp;</b> <input class="form-control" type="text" name="str_email02"
+													id="str_email02"
+													style="width: 206px; display: inline-block;" disabled
+													value="naver.com"> <select
+													style="width: 206px; margin-left: 10px; display: inline-block;"
+													name="selectEmail" id="selectEmail" class="form-control">
+													<option value="1">직접입력</option>
+													<option value="naver.com" selected>naver.com</option>
+													<option value="hanmail.net">hanmail.net</option>
+													<option value="hotmail.com">hotmail.com</option>
+													<option value="nate.com">nate.com</option>
+													<option value="yahoo.co.kr">yahoo.co.kr</option>
+													<option value="empas.com">empas.com</option>
+													<option value="dreamwiz.com">dreamwiz.com</option>
+													<option value="freechal.com">freechal.com</option>
+													<option value="lycos.co.kr">lycos.co.kr</option>
+													<option value="korea.com">korea.com</option>
+													<option value="gmail.com">gmail.com</option>
+													<option value="hanmir.com">hanmir.com</option>
+													<option value="paran.com">paran.com</option>
+												</select> <span id="conditionEid">이메일 아이디를 입력하시오.</span><span
+													id="conditionEmail">잘못된 이메일 주소입니다.</span>
 											</div>
 										</div>
-
 										<div class="form-group row">
 											<label class="col-lg-4 col-form-label" for="membTelno">전화번호
 											</label>
 											<div class="col-lg-6">
 												<input type="tel" class="form-control" id="membTelno"
-													name="membTelno" placeholder="ex) 010-0000-0000"> <span
+													name="membTelno" hidden="true">
+													
+													
+													 <select
+													style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
+													name="selectTel" id="selectTel" class="form-control" >
+													
+													<option value="">선택 &nbsp;&nbsp;</option>
+													<option value="010" selected>010 &nbsp;&nbsp;</option>
+													<option value="070">070 &nbsp;&nbsp;</option>
+													<option value="02">02 &nbsp;&nbsp;</option>
+							                          <option value="031">031&nbsp;&nbsp;</option>
+							                          <option value="032">032&nbsp;&nbsp;</option>
+							                          <option value="033">033 &nbsp;&nbsp;</option>
+							                          <option value="041">041 &nbsp;&nbsp;</option>
+							                          <option value="042">042 &nbsp;&nbsp;</option>
+							                          <option value="043">043 &nbsp;&nbsp; </option>
+							                          <option value="051">051 &nbsp;&nbsp; </option>
+							                          <option value="052">052 &nbsp;&nbsp; </option>
+							                          <option value="053">053  &nbsp;&nbsp;</option>
+							                          <option value="054">054 &nbsp;&nbsp; </option>
+							                          <option value="054">054 &nbsp;&nbsp; </option>
+							                          <option value="055">055  &nbsp;&nbsp;</option>
+							                          <option value="061">061  &nbsp;&nbsp;</option>
+							                          <option value="062">062 &nbsp;&nbsp; </option>
+							                          <option value="063">063 &nbsp;&nbsp; </option>
+							                          <option value="064">064  &nbsp;&nbsp;</option>
+
+
+												</select>&nbsp;&nbsp;<b>ㅡ</b>
+												
+												<input type="text" class="form-control" id="tel1"
+													name="tel1" style="width: 205px; display: inline-block;">
+													<b>ㅡ</b>
+													
+													<input type="text" id="tel2"
+													class="form-control"
+													style="width: 205px; display: inline-block;" /> 
+													
+													<span
 													id="conditionTel">전화번호를 학인하시오.</span>
 											</div>
 										</div>
+
+										
 										<div class="form-group row">
 											<label class="col-lg-4 col-form-label" for="membDept">부서
 											</label>
@@ -332,21 +399,239 @@ mark, .mark {
 	
 
   //ID 영어소문자,숫자만 입력가능하게
-     $("#membId").keyup(function(event) {
+		  //한글입력 안되게 처리
+	let testId = /^(?=.*?[a-z])(?=.*?[0-9]).{4,}/;
+	$('#membId').on("input", function(event){ 
+		let inputVal = $(this).val();
+		
+		$(this).val(inputVal.toLowerCase().replace(/[^a-z0-9]/gi,''));
+		
+		//아이디 글자수 20넘으면 삭제, 안내문 떳을때 글자수 4이상되면 안내문 숨김
+		
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
 
-        if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+		if(testId.test(inputVal) != false){
+			$('#conditionId').hide();
+		}else{
+			$('#conditionId').show();
+		}
+	});
 
-           var inputVal = $(this).val();
+//비밀번호 조건검사
 
-           $(this).val(inputVal.replace(/[^(0-9a-z)]/gi, ''));
-           $(this).val(inputVal.toLowerCase());
+	let testPw1 = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/;
+	let testPw2 = /[^A-Za-z\d#?!@$%^&*-]/; 
+	$('#membPwd').on("input", function(event){ 
+		
+		let inputVal = $(this).val();
+		
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+		
+		if(testPw1.test(inputVal) != false && testPw2.test(inputVal) == false){
+			$('#conditionPw').hide();
+			$('#conditionPw2').show();
+		}else{
+			$('#conditionPw').show();
+			$('#conditionPw2').hide();
+			if(inputVal.length == 0){
+				$('#conditionPw').hide();
+				$('#conditionPw2').hide();
+			}
+		}
+	});
 
-        }
+//비밀번호확인
+	$('#membPwd2').on("input", function(event){
+		
+		let inputVal = $(this).val();
+		
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+		
+		if($(this).val() != $('#membPwd').val()){
+			$('#conditionPw4').hide();
+			$('#conditionPw3').show();
+			if($(this).val().length == 0){
+				$('#conditionPw3').hide();
+				$('#conditionPw4').hide();
+			}
+		}else{
+			$('#conditionPw4').show();
+			$('#conditionPw3').hide();
+		}
+	});
 
-     });
+//이름확인
+	$('#membNm').on("input", function(event){
+		
+		let inputVal = $(this).val();
+		
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+		
+		if($(this).val() != null && $(this).val() != ''){
+			$('#conditionNm').hide();
+			
+		}else{
+			$('#conditionNm').show();
+		}
+	});
+//생년월일확인
+	$('#membBirthDt').on("input", function(event){
+		
+		let inputVal = $(this).val();
+		
+		if($(this).val() != null && $(this).val() != ''){
+			$('#conditionBd').hide();
+			
+		}else{
+			$('#conditionBd').show();
+		}
+	});
+	
+//이메일형식 확인
 
+	let testEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	
+	//이메일아이디 입력하시오.
+	$('#email_id').on("input", function(event){
+		$('#conditionEmail').hide();
+		let inputVal = $(this).val();
+		
+
+		
+		$(this).val(inputVal.replace(/[^a-zA-Z0-9]/gi,''));
+		
+		if(inputVal.length > 20){
+			$('#email_id').val(inputVal.substr(0, 20)); 
+		}
+		
+		if(inputVal.length != 0){
+			$('#conditionEid').hide();
+			if(testEmail.test($('#str_email02').val()) == false){
+				$('#conditionEmail').css('display', 'block');
+			}
+		}else{
+			$('#conditionEid').css('display', 'block');
+		}
+	});
+	//이메일 입력방식 선택
+	$('#selectEmail').change(function(){
+	   $("#selectEmail option:selected").each(function () {
+			
+			if($(this).val()== '1'){ //직접입력일 경우
+				 $("#str_email02").val('');                        //값 초기화
+				 $("#str_email02").attr("disabled",false); //활성화
+			}else{ //직접입력이 아닐경우
+				 $("#str_email02").val($(this).text());      //선택값 입력
+				 $("#str_email02").attr("disabled",true); //비활성화
+			}
+	   });
+	});
+
+	//이메일 형식 검사
+	$('#selectEmail').change(function(){
+		
+		if($('#str_email02').val() == null || $('#str_email02').val() == ''){
+			$('#conditionEmail').css('display', 'block');
+			$('#conditionEid').hide();
+		}else{
+			$('#conditionEmail').hide();
+			if($('#email_id').val() == null || $('#email_id').val() == ''){
+				$('#conditionEid').css('display', 'block');
+			}
+		}
+		
+	});
+	
+	$('#str_email02').on("input", function(event){
+		let inputVal = $(this).val();
+		if(inputVal.length > 20){
+			$('#str_email02').val(inputVal.substr(0, 20)); 
+		}
+		$('#conditionEid').hide();
+		if(testEmail.test(inputVal) == false){
+			$('#conditionEmail').css('display', 'block');
+			if(inputVal.length == 0){
+				$('#conditionEmail').hide();
+				if($('#email_id').val() == null || $('#email_id').val() == ''){
+					$('#conditionEid').css('display', 'block');
+				}
+			}
+		}else{
+			$('#conditionEmail').hide();
+			if($('#email_id').val() == null || $('#email_id').val() == ''){
+				$('#conditionEid').css('display', 'block');
+			}
+		}
+		
+	});
 
 	
+	//휴대폰 형식 검사
+	$('#tel1').on("input", function(event){ 
+		let inputVal = $(this).val();
+		
+		$(this).val(inputVal.replace(/[^0-9]/gi,''));
+		
+		if(inputVal.length > 4){
+			$('#tel1').val(inputVal.substr(0, 4)); 
+		}
+		
+		if(inputVal.length < 3 && inputVal.length > 0){
+			$('#conditionTel').css('display', 'block');
+		}else if(inputVal.length == 0 && $('#tel2').val().length == 0){
+			$('#conditionTel').css('display', 'none');
+		}else if(inputVal.length >= 3 && $('#tel2').val().length == 4){
+			$('#conditionTel').css('display', 'none');
+		}
+	});
+	
+	$('#tel2').on("input", function(event){ 
+		let inputVal = $(this).val();
+		
+		$(this).val(inputVal.replace(/[^0-9]/gi,''));
+		
+		if(inputVal.length > 4){
+			$('#tel2').val(inputVal.substr(0, 4)); 
+		}
+		
+		if(inputVal.length < 4 && inputVal.length > 0){
+			$('#conditionTel').css('display', 'block');
+		}else if(inputVal.length == 0 && $('#tel1').val().length==0){
+			$('#conditionTel').css('display', 'none');
+		}else if(inputVal.length == 4 && $('#tel1').val().length >=3){
+			$('#conditionTel').css('display', 'none');
+		}
+	});
+	
+	//부서
+	$('#membDept').on("input", function(event){
+	
+	let inputVal = $(this).val();
+	
+	if(inputVal.length > 20){
+		$(this).val(inputVal.substr(0, 20)); 
+	}
+	});
+	
+	//직급 
+	$('#membWkgd').on("input", function(event){
+	
+		let inputVal = $(this).val();
+	
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+
+	});
+
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 회원가입폼@@@@@@@@@@@@
 
 //@@@@@@@@@@@@@@@@소속기관@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
@@ -390,6 +675,7 @@ mark, .mark {
 	// 리스트 키보드 누를 때////////////////////////////////////////////////////////////////
 	$search.onkeyup = (event) => {
 		$('#notice').css('display', 'none');
+		
 		const value = $search.value.trim();
 		
 		// 리스트 필터링
