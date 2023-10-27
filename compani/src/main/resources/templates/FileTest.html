@@ -16,69 +16,18 @@ ul li {
 
 </head>
 <body>
-	<!-- 	<h2>파일 업로드</h2>
 
-	<form action="/upload" method="post" enctype="multipart/form-data">
+		<input type="file" multiple="multiple" id="hi" />
 
-		<h4>단일 파일 업로드</h4>
-		<input type="file" name="file">
-
-		<h4>다중 파일 업로드</h4>
-		<input type="file" multiple="multiple" name="files"> <input
-			type="submit" />
-	</form>
- -->
-
-	<input type="file" multiple="multiple" onchange="return test()" />
-
+	
 	<ul id="wow">
 
 	</ul>
-
-
-	<table>
-
-		<thead>
-			<tr>
-				<th>gd</th>
-				<th>gd</th>
-				<th>gd</th>
-				<th>gd</th>
-				<th>gd</th>
-				<th>gd</th>
-			</tr>
-		</thead>
-		<tbody id="wow">
-		</tbody>
-	</table>
-
-
+	
+    
 
 </body>
 <script>
-	// 파일 선택시 기존 파일을 덮지않고 리스트 생성
-	/* et selectedFiles = []; // 빈 배열 생성
-
-			function test(files) { // input의 files를 넘겨주기
-			    console.log(files);
-			    const fileList = document.getElementById('wow'); // tr 지정
-			    for(let i=0; i<files.length; i++) {
-			        selectedFiles.push(files[i]); // 빈 배열에 선택한 파일들 배열값 넣기
-			        const item = document.createElement('li'); // td를 새로 생성
-			        const fileName = document.createTextNode(files[i].name); // 선택한 파일의 이름을 변수에 넣기
-			        const fileSize = document.createTextNode(files[i].name); // 선택한 파일의 사이즈 변수에 넣기
-			        const deleteButton = document.createElement('button'); // 삭제버튼추가
-			        deleteButton.addEventListener('click', (event) => { // 삭제버튼 클릭시 새로운 이벤트 생성
-			            item.remove(); // 해당 td 삭제
-			            event.preventDefault(); // 이벤트 막기
-			            deleteFile(files[i]); // files의 배열을 삭제
-			        });
-			        deleteButton.innerText="X"; // 삭제버튼 X 모양 
-			        item.appendChild(fileName); // td에다가 파일 이름 추가
-			        item.appendChild(deleteButton); // 삭제버튼 추가
-			        fileList.appendChild(item); // fileList에 td를 넣어 화면에 출력
-			    }
-			} */
 
 	// 파일 바이트 계산
 	function ByteSize(size) {
@@ -111,5 +60,29 @@ ul li {
 			$('#wow').append(trTag);
 		}
 	}
+	
+	// ======== 파일 업로드 ========
+	$('#hi').on('change', function(){
+		
+		var formData = $('#hi').serialize();
+		
+		
+		$.ajax({
+			url: '/AjaxFileInsert',
+			type: 'POST',
+			processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+			contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+			data: formData,
+			success: function (fileUp) {
+				alert("성공");
+				console.log(UploadedFiles);
+			},
+			error: function (reject) {
+				alert("벌레컷");
+				console.log(reject);			
+			}
+		});
+	})
+	
 </script>
 </html>

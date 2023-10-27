@@ -9,10 +9,10 @@ public interface FileMapper {
 		// 전체보기
 		public List<FileVO> fileList();
 		
-		// 조회
-		public FileVO fileInfo(FileVO fileVO);
+		// 다운로드할 파일 조회
+		public FileVO fileInfo(Integer FileNo);
 		
-		// 등록
+		// 파일 등록(업로드)
 		public int fileInsert(FileVO fileVO);
 		
 		// 삭제

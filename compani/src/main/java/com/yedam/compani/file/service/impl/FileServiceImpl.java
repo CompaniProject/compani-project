@@ -27,14 +27,14 @@ public class FileServiceImpl implements FileService {
 	
 	// 조회??;
 	@Override
-	public FileVO fileInto(FileVO fileVO) {
+	public FileVO fileInto(Integer FileNo) {
 
-		return filemapper.fileInfo(fileVO);
+		return filemapper.fileInfo(FileNo);
 	}
 	
 	// 파일 등록
 	@Override
-	public int getfileInsert(FileVO fileVO) {
+	public int fileInsert(final FileVO fileVO) {
 
 		return filemapper.fileInsert(fileVO);
 	}

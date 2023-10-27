@@ -9,10 +9,10 @@ public interface FileService {
 	public List<FileVO> fileList();
 	
 	// 조회
-	public FileVO fileInto(FileVO fileVO);
+	public FileVO fileInto(Integer FileNO);
 	
-	// 등록
-	public int getfileInsert(FileVO fileVO);
+	// 파일 등록
+	public int fileInsert(final FileVO fileVO);
 	
 	// 삭제
 	public int fileDelete(Integer fileNo);

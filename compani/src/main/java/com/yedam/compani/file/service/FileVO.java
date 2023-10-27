@@ -1,11 +1,13 @@
 package com.yedam.compani.file.service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
+@NoArgsConstructor // 생성자 
 public class FileVO {
 	private int fileNo;
 	private Integer prjtNo;
@@ -14,11 +16,18 @@ public class FileVO {
 	private String filePath;
 	private String fileType;
 	private String fileDesct;
-	private Date fileDt;
+	private LocalDateTime fileDt;
 	private String membId;
-	private Integer fileSize;
+	private Long fileSize;
 	
 	private String type;
 	private String keyword;
+	
+	@Builder
+	public FileVO(String fileNm, String filePath, long fileSize) {
+		this.fileNm = fileNm;
+		this.filePath = filePath;
+		this.fileSize = fileSize;
+	}
 
 }
