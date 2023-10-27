@@ -228,14 +228,13 @@ select {
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]];
 	
-	/*----------------------------
-		필터링
-	------------------------------*/
 	// 필터링 - 중복제거
-	for(let i=0; i<calendarData.length; i++){
-		for(let j=1; j<calendarData.length; j++){
-			if(calendarData[i].prjtNm == calendarData[j].prjtNm){
-				$('.dropdown-item.filter').eq(i).remove();
+	for(let i=0; i<$('.dropdown-item.filter').length; i++){
+		for(let j=i+1; j<$('.dropdown-item.filter').length; j++){
+			if($('.dropdown-item.filter').eq(i).text() == $('.dropdown-item.filter').eq(j).text()){
+				$('.dropdown-item.filter').eq(j).remove();
+				i=0;
+				j=0;
 			}
 		}
 	}
@@ -260,9 +259,12 @@ select {
 	// 필터링 - 캘린더에 다시 뿌리기
 	$('.dropdown-item.filter').on('click', function(){
 		$('.fc-daygrid-event-harness').css('display', 'none');
-		console.log(event.target.dataset.prjtnm);
+		let target = event.target.dataset.prjtnm;
 		
+		let regexFor = / /gi;
+		let targetStr = target.replace(regexFor, '.');
 		
+		$('.calendarEvent_' + targetStr).parent().css('display', 'block');
 	})
 	
 	/*----------------------------
@@ -350,6 +352,7 @@ select {
    			obj.title = calendarData[i].bussNm;
    			obj.start = calendarData[i].bussFrdt;
    			obj.end = newFrdt;
+   			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
    			
    			arr.push(obj);
    		}
@@ -401,7 +404,7 @@ select {
 			obj.id = calendarData[i].bussNo;
 			obj.text = calendarData[i].bussNm;
 			obj.start_date = getddmmyyyy(frdt);
-			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
+			obj.duration = ((getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000)) + 1;
 			obj.progress = calendarData[i].bussPrgre/100;
 			/* if(calendarData[i].bussUpcd != null){
 				obj.parent = calendarData[i].bussUpcd;

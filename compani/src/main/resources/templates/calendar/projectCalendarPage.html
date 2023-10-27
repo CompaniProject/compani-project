@@ -359,7 +359,7 @@ select {
 			obj.id = calendarData[i].bussNo;
 			obj.text = calendarData[i].bussNm;
 			obj.start_date = getddmmyyyy(frdt);
-			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
+			obj.duration = ((getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000)) + 1;
 			obj.progress = calendarData[i].bussPrgre/100;
 			/* if(calendarData[i].bussUpcd != null){
 				obj.parent = calendarData[i].bussUpcd;
