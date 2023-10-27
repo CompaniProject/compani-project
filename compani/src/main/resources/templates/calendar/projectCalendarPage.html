@@ -134,6 +134,10 @@ select {
 	text-overflow: ellipsis;
 }
 
+.gantt_link_control.task_left.task_start_date {
+	display: none;
+}
+
 </style>
 
 </head>
@@ -298,9 +302,13 @@ select {
    		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
+   			Frdt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
+   			newFrdt = Frdt.getFullYear() + '-' + (Frdt.getMonth() + 1) + '-' + Frdt.getDate();
+   			
    			obj.title = calendarData[i].bussNm;
    			obj.start = calendarData[i].bussFrdt;
-   			obj.end = calendarData[i].bussTodt;
+   			obj.end = newFrdt;
+   			
    			arr.push(obj);
    		}
    		return arr;

@@ -126,6 +126,18 @@ select {
 	float: left;
 	display: none;
 }
+
+.gantt_tree_content {
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.gantt_link_control.task_left.task_start_date {
+	display: none;
+}
+
 </style>
 
 </head>
@@ -173,7 +185,7 @@ select {
 						</button>
 						<div class="dropdown-menu">
 							<th:block th:each="info : ${personalCalendarPage}">
-								<a class="dropdown-item filter"
+								<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
 									th:text="${info.prjtNm}"></a>
 							</th:block>
 						</div>
@@ -217,8 +229,9 @@ select {
 	let calendarData = [[${personalCalendarPage}]];
 	
 	/*----------------------------
-		필터링 중복제거
+		필터링
 	------------------------------*/
+	// 필터링 - 중복제거
 	for(let i=0; i<calendarData.length; i++){
 		for(let j=1; j<calendarData.length; j++){
 			if(calendarData[i].prjtNm == calendarData[j].prjtNm){
@@ -226,7 +239,7 @@ select {
 			}
 		}
 	}
-	// 필터링 화면에 다시 뿌리기
+	// 필터링 - 업무리스트에 다시 뿌리기
 	for(let j=0; j<$('.dropdown-item.filter').length; j++){
 		$('.dropdown-item.filter').eq(j).on('click', function(){
 			$('.businessList').remove();
@@ -244,7 +257,13 @@ select {
 			}
 		});
 	}
-	
+	// 필터링 - 캘린더에 다시 뿌리기
+	$('.dropdown-item.filter').on('click', function(){
+		$('.fc-daygrid-event-harness').css('display', 'none');
+		console.log(event.target.dataset.prjtnm);
+		
+		
+	})
 	
 	/*----------------------------
 		업무리스트 정렬
@@ -325,9 +344,13 @@ select {
 		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
+   			Frdt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
+   			newFrdt = Frdt.getFullYear() + '-' + (Frdt.getMonth() + 1) + '-' + Frdt.getDate();
+   			
    			obj.title = calendarData[i].bussNm;
    			obj.start = calendarData[i].bussFrdt;
-   			obj.end = calendarData[i].bussTodt;
+   			obj.end = newFrdt;
+   			
    			arr.push(obj);
    		}
    		return arr;
@@ -355,38 +378,72 @@ select {
 	    { unit: "year", step: 1, format: "%Y" }
 	];
 	gantt.init("personalGanttchart");
-	gantt.parse({
-	    data: [
-	      { id:1, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:2, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:3, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:4, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:5, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:6, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	   	  { id:7, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:8, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:9, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:10, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:11, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:12, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	    ],
-	    links: [
-	      { id:1, source:1, target:2, type:"1" },
-	      { id:2, source:2, target:3, type:"0" }
-	    ]
-	});
+	if(calendarData.length != 0){
+		gantt.parse({
+		    data: personalGanttData(),
+		    links: personalGanttLink()
+		});
+	}
+	
+	
+	/*----------------------------
+		Gantt Chart - data 출력
+	------------------------------*/
+	// 간트차트 내용 구현
+	function personalGanttData(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+			let obj = new Object();
+			let frdt = calendarData[i].bussFrdt;
+			let todt = calendarData[i].bussTodt;
+			
+			obj.id = calendarData[i].bussNo;
+			obj.text = calendarData[i].bussNm;
+			obj.start_date = getddmmyyyy(frdt);
+			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
+			obj.progress = calendarData[i].bussPrgre/100;
+			/* if(calendarData[i].bussUpcd != null){
+				obj.parent = calendarData[i].bussUpcd;
+			} */
+			arr.push(obj);
+		}
+		return arr;
+	}
+	
+	// 간트차트 상위업무 구현
+	function personalGanttLink(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+			let obj = new Object();
+			if(calendarData[i].bussUpcd != null){
+				obj.id = calendarData[i].bussNo;
+				obj.source = calendarData[i].bussUpcd;
+				obj.target = calendarData[i].bussNo;
+				obj.type = "0";
+			}
+				arr.push(obj);
+		}
+		return arr;
+	}
+	
+	// 간트차트 날짜 형식 포맷
+	function getddmmyyyy(dt){
+		var date = new Date(dt);
+		var year = date.getFullYear();
+		var month = ('0' + (date.getMonth() + 1)).slice(-2);
+		var day = ('0' + date.getDate()).slice(-2);
+		
+		return day + '-' + month + '-' + year;
+	}
+	
+	// 간트차트 날짜 초단위 포맷
+	function getMilliseconds(dt){
+		var date = new Date(dt);
+		var milli = date.getTime();
+		return milli;
+	}
 	
 	/*----------------------------
 		Calendar&Gantt switch
