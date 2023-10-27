@@ -22,6 +22,10 @@ mark, .mark {
 	font-weight: 900;
 	background-color: transparent;
 }
+
+[id^="condition"] {
+	display: none;
+}
 </style>
 </head>
 
@@ -106,7 +110,7 @@ mark, .mark {
 						<div class="card">
 							<div class="card-body">
 								<div class="form-validation">
-									<form class="form-valide" action="SignUpped" method="post">
+									<form class="form-valide" id="formSignUp" method="post">
 										<h1>
 											<b>회원가입(사원)</b>
 										</h1>
@@ -115,31 +119,27 @@ mark, .mark {
 												class="col-lg-4 col-form-label" for="coNm">소속기관 </label>
 
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="coNm" name="coNm"
-													readonly="readonly" required>
-
-												<span>소속기관을 등록하시오.</span>
-											<!-- 	////////////////////////////////////////////// -->
-												<input type="text"
-													class="form-control" id="coRpstr" name="coRpstr"
-													readonly="readonly" required hidden="true"
-													th:value='${companyVO.coRpstr}'> 
-												<input type="text"
+												<input type="text" class="form-control" id="coNm"
+													name="coNm" readonly="readonly"> <span
+													id="conditionCN">소속기관을 등록하시오.</span>
+												<!-- 	////////////////////////////////////////////// -->
+												<input type="text" class="form-control" id="coRpstr"
+													name="coRpstr" readonly="readonly" hidden="true"
+													th:value='${companyVO.coRpstr}'> <input type="text"
 													class="form-control" id="coCd" name="coCd"
-													readonly="readonly" required hidden="true"> 
-												<input type="text"
-													class="form-control" id="coBizno" name="coBizno"
-													readonly="readonly" required hidden="true"
-													th:value='${companyVO.coBizno}'>
-												<input type="date"
+													readonly="readonly" required hidden="true"> <input
+													type="text" class="form-control" id="coBizno"
+													name="coBizno" readonly="readonly" hidden="true"
+													th:value='${companyVO.coBizno}'> <input type="date"
 													class="form-control" id="coDt" name="coDt"
-													readonly="readonly" required hidden="true"
-													th:value="${#dates.format(companyVO.coDt, 'yyyy-MM-dd')}">						
-											<!-- 	////////////////////////////////////////////// -->							
+													readonly="readonly" hidden="true"
+													th:value="${#dates.format(companyVO.coDt, 'yyyy-MM-dd')}">
+												<!-- 	////////////////////////////////////////////// -->
 											</div>
 											<!-- Button trigger modal -->
-											<button type="button" class="btn btn-primary"
-												data-toggle="modal" data-target="#modalGrid" onclick="selectCompList()">소속기관 찾기</button>
+											<button type="button" class="btn btn-primary" id="searchComp"
+												data-toggle="modal" data-target="#modalGrid"
+												onclick="selectCompList()">소속기관 찾기</button>
 										</div>
 
 										<div class="form-group row">
@@ -148,8 +148,8 @@ mark, .mark {
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="membId"
 													name="membId"
-													placeholder="※ 4~50자 이내 / 영문(소문자), 숫자로만 입력 가능" required>
-												<span>※ 4~50자 이내 / 영문(소문자), 숫자로만 입력 가능</span>
+													placeholder="※ 4~20자 이내 / 영문(소문자), 숫자로만 입력 가능"> <span
+													id="conditionId">※ 4~20자 이내 / 영문(소문자), 숫자로만 입력 가능</span>
 											</div>
 
 										</div>
@@ -159,8 +159,8 @@ mark, .mark {
 											<div class="col-lg-6">
 												<input type="password" class="form-control" id="membPwd"
 													name="membPwd" placeholder="※ 마우스 올릴 시, 설명"
-													title="영문(대/소문자), 숫자 및 특수문자 3가지로 구성하여 최소 10자 이상으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 ~ ! @ # $ % ^ & * ( ) _ - + = [ ] | \ ; : ‘ “ < > , . ? /"
-													required> <span>비밀번호를 확인하시오.</span>
+													title="영문(대/소문자), 숫자 및 특수문자 3가지로 구성하여 최소 8자 이상, 20자 이하으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 ~ ! @ # $ % ^ & * ( ) _ - + = [ ] | \ ; : ‘ “ < > , . ? /">
+												<span id="conditionPw">잘못된 구성된 비밀번호입니다..</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -170,7 +170,7 @@ mark, .mark {
 											<div class="col-lg-6">
 												<input type="password" class="form-control"
 													id="confirm-password" name="confirm-password"
-													placeholder="" required> <span>비밀번호가
+													placeholder=""> <span id="conditionPw2">비밀번호가
 													일치하지않습니다.</span>
 											</div>
 										</div>
@@ -179,7 +179,8 @@ mark, .mark {
 												class="col-lg-4 col-form-label" for="membNm">성명 </label>
 											<div class="col-lg-6">
 												<input class="form-control" id="membNm" name="membNm"
-													placeholder="" required></input> <span>이름을 확인하시오.</span>
+													placeholder=""></input> <span id="conditionNm">이름을
+													확인하시오.</span>
 											</div>
 										</div>
 
@@ -190,8 +191,8 @@ mark, .mark {
 											</label>
 											<div class="col-lg-6">
 												<input type="date" class="form-control" id="membBirthDt"
-													name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}"  required/>
-												<span>생년월일을 확인하시오.</span>
+													name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}" /> <span
+													id="conditionBd">생년월일을 확인하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -207,9 +208,9 @@ mark, .mark {
 											<label class="col-lg-4 col-form-label" for="membTelno">전화번호
 											</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="membTelno"
-													name="membTelno" placeholder="ex) 010-0000-0000"> <span>전화번호를
-													학인하시오.</span>
+												<input type="tel" class="form-control" id="membTelno"
+													name="membTelno" placeholder="ex) 010-0000-0000"> <span
+													id="conditionTel">전화번호를 학인하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -228,8 +229,10 @@ mark, .mark {
 													name="membWkgd" placeholder="">
 											</div>
 										</div>
-										<div><input type="number" class="form-control" id="permNo"
-													name="permNo" placeholder="" hidden></div>
+										<div>
+											<input type="number" class="form-control" id="permNo"
+												name="permNo" placeholder="" hidden>
+										</div>
 
 
 
@@ -311,39 +314,36 @@ mark, .mark {
 
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
-	
+
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 		$(function(){
-			if('[(${companyVO.coNm})]'!= null && '[(${companyVO.coNm})]' != ''){
+			if('[(${companyVO.coBizno})]'!= null && '[(${companyVO.coBizno})]' != ''){
 				$('#coNm').val('[(${companyVO.coNm})]');
 				$('#coCd').val('[(${companyVO.coCd})]');
-				$('#permNo').val("0A2");
+				$('#searchComp').css('display', 'none');
+				$('#permNo').val("2");
 			}
-		})
+		});
     /*]]>*/
 	</script>
 	<script>
 //@@@@@@@@@@@@@@@회원가입폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-/* 	$('#val-suggestions').onkeyup = (event) => {
-		const value1 = $('#val-suggestions').value;
-		
-
-	};
 	
-	//아이디
-	$('#val-suggestions').keyup(function (e){
-		var content = $(this).val();
-		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-		var blank_pattern = /[\s]/g;
-		var blank_pattern2 = /^\s+|\s+$/g;
-		
-	    if (content.length > 50 || content.length<4 || content.replace(blank_pattern2, '' ) == "" || blank_pattern.test(content) == true || special_pattern.test(str) == true){
-	        alert("아이디는 4~50자 이내(영문/대소문자, 숫자로만 입력 가능합니다.");
-	    }
-}); */
+
+  //ID 영어소문자,숫자만 입력가능하게
+     $("#membId").keyup(function(event) {
+
+        if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+
+           var inputVal = $(this).val();
+
+           $(this).val(inputVal.replace(/[^(0-9a-z)]/gi, ''));
+           $(this).val(inputVal.toLowerCase());
+
+        }
+
+     });
 
 
 	
@@ -483,7 +483,7 @@ mark, .mark {
 			}
 		} 
 		$search.value = '';
-		$('#permNo').val("0A4");
+		$('#permNo').val("4");
 	}
 	/////////////////////////////////////////////////////////////End of 모달창 버튼///////
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 소속기관@@@@@@@@@@@@@

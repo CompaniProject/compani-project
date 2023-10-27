@@ -60,7 +60,7 @@ public class MemberController {
 
 	// 사원 등록 폼
 	@GetMapping("/memberSignUp")
-	public String memberSignUpForm() {
+	public String memberSignUpForm(CompanyVO vo) {
 		return "member/memberSignUp";
 	}
 
@@ -71,7 +71,7 @@ public class MemberController {
 	// 가입 서브밋
 	@PostMapping("/SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
-		if (membVO.getPermNo().equals("OA2")) {
+		if (membVO.getPermNo().equals("2")) {
 			if (serviceC.setCompanyInfo(compVO) > 0) {
 				if (service.setMemberInfo(membVO) > 0) {
 					return "redirect:complete";

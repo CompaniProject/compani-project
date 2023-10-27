@@ -46,7 +46,7 @@
 		,#{coCd}
 		<if test="membDept != null and !membDept.equals('')">,#{membDept}</if>
 		<if test="membWkgd != null and !membWkgd.equals('')">,#{membWkgd}</if>
-		,'N'
+		,'0C2'
 		,#{permNo}
 		)
 	</insert>
