@@ -320,20 +320,23 @@
 			  contentType: "application/json",
 			  accept: "application/json",
 			  success: function(result) {
-				  if(result.valid_cnt > 0){
+				  if($('#checksCoBno2').css('display') == 'inline' || $('#checksCoBno').css('display') == 'inline' || result.valid_cnt == null){
+					  $('#checksCoBno3').hide();
+				      $('#checksCoBno2').show();
+				      $('#checksCoBno').hide();
+				  }else if(result.valid_cnt > 0){
 					  $('#checksCoBno3').show();
 				      $('#checksCoBno2').hide();
-				      $('#checksCoBno1').hide();  
 				  }else{
 					  $('#checksCoBno3').hide();
 				      $('#checksCoBno2').show();
-				      $('#checksCoBno1').hide();
+				      $('#checksCoBno').hide();
 				  }
 			  },
 			  error: function(result) {
 				  $('#checksCoBno3').hide();
 			      $('#checksCoBno2').show();
-			      $('#checksCoBno1').hide();
+			      $('#checksCoBno').hide();
 			  }
 			});
 	}

@@ -566,13 +566,8 @@ mark, .mark {
 			$('#email_id').val(inputVal.substr(0, 20)); 
 		}
 		
-		if(inputVal.length != 0){
-			$('#conditionEid').hide();
-			if(testEmail.test($('#str_email02').val()) == false){
-				$('#conditionEmail').css('display', 'block');
-			}
-		}else{
-			$('#conditionEid').css('display', 'block');
+		if(testEmail.test($('#str_email02').val()) == false){
+			$('#conditionEmail').css('display', 'block');
 		}
 	});
 	//이메일 입력방식 선택
@@ -597,9 +592,6 @@ mark, .mark {
 			$('#conditionEid').hide();
 		}else{
 			$('#conditionEmail').hide();
-			if($('#email_id').val() == null || $('#email_id').val() == ''){
-				$('#conditionEid').css('display', 'block');
-			}
 		}
 		
 	});
@@ -614,15 +606,9 @@ mark, .mark {
 			$('#conditionEmail').css('display', 'block');
 			if(inputVal.length == 0){
 				$('#conditionEmail').hide();
-				if($('#email_id').val() == null || $('#email_id').val() == ''){
-					$('#conditionEid').css('display', 'block');
-				}
 			}
 		}else{
 			$('#conditionEmail').hide();
-			if($('#email_id').val() == null || $('#email_id').val() == ''){
-				$('#conditionEid').css('display', 'block');
-			}
 		}
 		
 	});
@@ -693,8 +679,14 @@ mark, .mark {
 	    $('form').submit(function(e) {
 			if($('#conditionCN').css("display") != 'inline' && $('#conditionId').css("display") != 'inline' && $('#conditionId2').css("display") != 'inline' && $('#conditionPw').css("display") != 'inline' && $('#conditionPw3').css("display") != 'inline' && $('#conditionNm').css("display") != 'inline' && $('#conditionBd').css("display") != 'inline' && $('#conditionEid').css("display") != 'inline' && $('#conditionEmail').css("display") != 'inline' && $('#conditionTel').css("display") != 'inline' 
 				&& $('#coNm').val().length != 0 && $('#membId').val().length != 0 && $('#membPwd').val().length != 0 && $('#membPwd2').val().length != 0 && $('#membNm').val().length != 0 && $('#membBirthDt').val().length != 0){
-				$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
-				$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
+				if($('#email_id').val().length > 0 && $('#tel1').val().length > 2 && $('#tel2').val().length > 3){
+					$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
+					$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());	
+				}else if($('#email_id').val().length > 0 && $('#tel1').val().length + $('#tel2').val().length < 7){
+					$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
+				}else if($('#email_id').val().length == 0 && $('#tel1').val().length + $('#tel2').val().length > 6){
+					$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
+				}
 				$("#formSignUp").attr("action","SignUpped").submit();
 			}else{
 				e.preventDefault();
