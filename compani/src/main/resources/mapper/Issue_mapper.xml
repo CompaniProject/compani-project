@@ -22,26 +22,26 @@
 		AND 		  B.PRJT_NO = P.PRJT_NO
 		<choose>
 			<when test="keyword == '작성자'">
-				AND MEMB_ID LIKE '%' || #{search} || '%'
+				 AND MEMB_ID LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '제목'">
-				AND ISSU_TTL LIKE '%' || #{search} || '%'
+				 AND ISSU_TTL LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '전체'">
-				AND (MEMB_ID LIKE '%' || #{search} || '%'
-				OR ISSU_TTL LIKE '%' || #{search} || '%')
+				 AND (MEMB_ID LIKE '%' || #{search} || '%'
+				 OR ISSU_TTL LIKE '%' || #{search} || '%')
 			</when>
 		</choose>
 		ORDER BY ISSU_DT ASC
 	</select>
 
 	<select id="getIssueList" resultType="IssueVO">
-		SELECT p.PRJT_NM, 
-			   i.MEMB_ID ,
-			   i.ISSU_DT,
-			   i.ISSU_ST
-		FROM   project p , issue i
-		WHERE  p.prjt_NO = i.prjt_NO
+		SELECT  p.PRJT_NM, 
+					   i.MEMB_ID ,
+					   i.ISSU_DT,
+					   i.ISSU_ST
+		FROM      project p , issue i
+		WHERE    p.prjt_NO = i.prjt_NO
 
 	</select>
 	
@@ -113,6 +113,13 @@
 		WHERE    
 						issu_no    = #{issuNo}								
 	</update>
-
+	
+	<!--  이슈 삭제 -->
+		<delete id="deleteById" parameterType="int">
+			DELETE 
+			FROM 		 ISSUE
+			WHERE      
+							 ISSU_NO = #{issuNo}
+		</delete>
 	
 </mapper>

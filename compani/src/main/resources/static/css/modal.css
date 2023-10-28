@@ -758,7 +758,7 @@ form.fileupload.dz {
     margin: 0;
 }
 
-#cancelConfirmationModal,  #cancelEditConfirmationModal, #checkingInput, #editCheckingInput, #editConfirmationModalBody {
+#cancelConfirmationModal,  #cancelEditConfirmationModal, #checkingInput, #editCheckingInput, #delConfirmationModal {
     width: 400px;
     min-height: 245px;
     box-sizing: border-box;
@@ -769,7 +769,7 @@ form.fileupload.dz {
     z-index: 10000;
 }
 
-#cancelConfirmationModalBody, #cancelEditConfirmationModalBody {
+#cancelConfirmationModalBody, #cancelEditConfirmationModalBody, #editConfirmationModalBody, #delConfirmationModalBody {
     text-align: center;
     padding: 0 26px 0 26px;
 }
@@ -778,7 +778,6 @@ form.fileupload.dz {
     width: 40px;
     height: 40px;
     content: url(/images/notice.png);
-    /* margin-bottom: 7px; */
 }
 
 #modal-meg {

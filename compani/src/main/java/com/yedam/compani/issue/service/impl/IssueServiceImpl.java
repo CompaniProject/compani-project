@@ -72,5 +72,17 @@ public class IssueServiceImpl implements IssueService {
 		issueMapper.update(params);
 		return params.getIssuNo();
 	}
+	
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param PK
+	 * @return PK
+	 */	
+	@Override
+	public int deleteIssue(int issuNo) {
+		issueMapper.deleteById(issuNo);
+		return issuNo;
+	}
 
 }

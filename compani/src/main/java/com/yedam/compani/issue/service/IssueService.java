@@ -19,5 +19,8 @@ public interface IssueService {
 
 	// 이슈 수정
 	public int updateIssue(final IssueVO params);
+	
+	// 이슈 삭제
+	public int deleteIssue(final int issuNo);
 
 }

@@ -349,8 +349,8 @@
 								<div class="modalIssueInfoContent">
 									<div class="issueInfoContentTopBar">
 										<span class="returnIssueList" onclick="returnIssueList()"></span>
-										<button type="button" class="issueEditing" onclick=" swtichEditForm()">수정</button>
-										<button type="button" class="issueDeleting">삭제</button>
+										<button type="button" class="issueEditing" onclick="switchEditForm()">수정</button>
+										<button type="button" class="issueDeleting" onclick="deleteIssue()">삭제</button>
 									</div>
 
 									<div class="issueNameInfo">
@@ -439,7 +439,7 @@
 								<div class="modalEditContent">
 									<div class="issueEditContentTopBar">
 										<span class="cancelEditing"></span>
-										<button type="button" class="completeEditing" onclick="updateIssue()">수정</button>
+										<button type="button" class="completeEditing">수정</button>
 									</div>
 								</div>
 								<div class="editIssueName">
@@ -603,8 +603,8 @@
 													style="margin: 0; padding: 0;" aria-label="Close"></button>
 											</div>
 											<div class="modal-body" id="editConfirmationModalBody">
-												<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">제목,
-													종류, 중요도를 입력하세요!<br>
+												<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">제목
+													을 입력하세요!<br>
 												</span>
 											</div>
 											<div class="modal-footer" style="border-top: none;">
@@ -617,6 +617,31 @@
 								<!-- END -->
 							</div>
 							<!-- @@@@@@@@@@@@@@@@@@@@@@@@이슈 수정폼 END@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+							
+							<!--  이슈 삭제 시 경고창 -->
+								<div class="modal fade" id="delConfirmationModal" tabindex="-1"
+									style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header" style="border-bottom: none;">
+												<button type="button" class="close" data-dismiss="modal"
+													style="margin: 0; padding: 0;" aria-label="Close"></button>
+											</div>
+											<div class="modal-body" id="delConfirmationModalBody">
+												<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">
+													정말 삭제하시겠습니까?
+												</span>
+											</div>
+											<div class="modal-footer" style="border-top: none;">
+												<button type="button" class="btn btn-danger btn-sm"
+													id="delCancel">취소</button>
+												<button type="button" class="btn btn-light btn-sm"
+													id="delConfirm">확인</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--  이슈 삭제 시 경고창 END -->
 						</div>
 					</div>
 				</div>
@@ -627,7 +652,7 @@
 	<script th:inline="javascript">
 		
 	// 댓글 수정 폼
-	function swtichEditForm() {
+	function switchEditForm() {
 			
 			const issuNo = $('.modalIssueName').data('issuNo');
 			
@@ -808,7 +833,50 @@
 		});
 	});
 	
+	$('.completeEditing').on('click', function () {
+	// "수정" 버튼이 활성화 상태일 때만 실행됨
+	if ($(this).hasClass('registrable')) {
+		updateIssue();
+	} else {
+		$('#editCheckingInput').modal('show');
+		$('#editCheckingInput').css('display', 'block');
+		// 확인 버튼 클릭 시
+		$('#confirmEditCheckingInput').on('click', function () {
+			$('#editCheckingInput').modal('hide');
+			$('#editCheckingInput').css('display', 'none');
+		});
+	}
+
+});
 	
+		// 이슈 삭제
+		function deleteIssue(){
+			var issuNo = $('.modalIssueName').data('issuNo');
+			// 경고창
+			$('#delConfirmationModal').modal('show');
+			
+			$('#delCancel').on('click', function() {
+				$('#delConfirmationModal').modal('hide');
+			})
+			
+			$('#delConfirm').on('click', function() {
+				$('#delConfirmationModal').modal('hide');
+				$.ajax({
+					url: '/ModalIssueDelete',
+					type: 'post',
+					data: {issuNo : issuNo} // 데이터를 객체 형식으로 전달			
+				})
+					.done(function(response) {
+						$('.modalIssueInfoForm').css('display', 'none');
+						$('.workModalContentBack').css('display', 'block');
+						issuePaging(1);
+					})
+					.fail(function (err) {
+						console.log(err)
+					})								
+			})
+			
+		}
 	</script>
 </th:block>
 

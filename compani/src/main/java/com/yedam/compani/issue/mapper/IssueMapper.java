@@ -37,7 +37,13 @@ public interface IssueMapper {
 	 * @param params - 게시글 정보
 	 * @return PK
 	 */
-
 	void update(IssueVO params);
+	
+	/**
+     * 이슈 삭제
+     *
+     * @param id - PK
+     */
+    void deleteById(int issuNo);
 
 }
