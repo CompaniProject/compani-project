@@ -1,7 +1,6 @@
 package com.yedam.compani.member.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,9 +30,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberVO> getMemberList(Map<String, String> list) {
-		
-		return map.memberSearchList(list);
+	public List<MemberVO> getMemberIdList() {
+		return map.selectMemberIdList();
 	}
-
+	
+	
 }

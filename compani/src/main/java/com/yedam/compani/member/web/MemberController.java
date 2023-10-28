@@ -1,5 +1,8 @@
 package com.yedam.compani.member.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.company.service.CompanyService;
@@ -32,17 +34,14 @@ public class MemberController {
 
 	// 로그인
 	@PostMapping("/login")
-	public String memberLogin(@RequestParam String loginId, @RequestParam String loginPwd, HttpSession session) {
-		MemberVO loginVO = new MemberVO();
-		loginVO.setMembId(loginId);
-		loginVO.setMembPwd(loginPwd);
-		loginVO = service.getMemberInfo(loginVO);
-		if (loginVO == null) {
+	public String memberLogin(MemberVO  vo, HttpSession session) {
+		vo = service.getMemberInfo(vo);
+		if (vo == null) {
 			return "redirect:loginForm";
-		} else if (loginVO.getMembAccp().equals("N")) {
+		} else if (vo.getMembAccp().equals("N")) {
 			return "redirect:standBy";
 		} else {
-			session.setAttribute("loginInfo", loginVO);
+			session.setAttribute("loginInfo", vo);
 			return "redirect:home";
 		}
 
@@ -67,18 +66,25 @@ public class MemberController {
 
 	// 사원 등록 폼
 	@GetMapping("/memberSignUp")
-	public String memberSignUpForm() {
+	public String memberSignUpForm(CompanyVO vo) {
 		return "member/memberSignUp";
 	}
 
+	//아이디 중복체크용
+	@PostMapping("/memberIdList")
+	@ResponseBody
+	public Map<String, Object> getMemberIdLists(){
+		Map<String, Object> membIdList = new HashMap<>();
+		membIdList.put("result", true);
+		membIdList.put("data", service.getMemberIdList());
+		return membIdList;
+	}
 	
-	
-
 	
 	// 가입 서브밋
 	@PostMapping("/SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
-		if (membVO.getPermNo() == 2) {
+		if (membVO.getPermNo().equals("2")) {
 			if (serviceC.setCompanyInfo(compVO) > 0) {
 				if (service.setMemberInfo(membVO) > 0) {
 					return "redirect:complete";
@@ -99,12 +105,7 @@ public class MemberController {
 			}
 		}
 	}
-	@GetMapping("memSearchAjax")
-	@ResponseBody
-	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,String> map) {
 	
-		List<MemberVO> List = service.getMemberList(map);
 	
-		return List;
-	}
+
 }

@@ -5,13 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=chrome">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MemberSignUp</title>
+<title>CompanySignUp</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
 <!-- Custom Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
-
+<style type="text/css">
+[id^="checks"] {
+	display: none;
+	color: red;
+}
+</style>
 </head>
 
 <body>
@@ -95,7 +100,7 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="form-validation">
-									<form class="form-valide" action="companySignUpped"
+									<form class="form-valide" action="companySignUpped" id="form1"
 										method="post">
 										<h1>
 											<b>회원가입(기업)</b>
@@ -105,7 +110,7 @@
 												class="col-lg-4 col-form-label" for="coRpstr">대표자명 </label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="coRpstr"
-													name="coRpstr" placeholder="" required>
+													name="coRpstr" placeholder="">
 											</div>
 										</div>
 										<div class="form-group row">
@@ -113,8 +118,10 @@
 												class="col-lg-4 col-form-label" for="coNm">상호명 </label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="coNm"
-													name="coNm" placeholder="" required>
+													name="coNm" placeholder=""> <span id="checksCoNm">이미
+													존재하는 상호명입니다.</span>
 											</div>
+
 										</div>
 
 										<div class="form-group row">
@@ -122,7 +129,7 @@
 												class="col-lg-4 col-form-label" for="coDt">개업일자 </label>
 											<div class="col-lg-6">
 												<input type="date" class="form-control" id="coDt"
-													name="coDt" pattern="\d{4}-\d{2}-\d{2}" required>
+													name="coDt" pattern="\d{4}-\d{2}-\d{2}">
 											</div>
 										</div>
 
@@ -133,21 +140,32 @@
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="col-lg-6" id="coBizno"
-													name="coBizno" minlength="14" maxlength="14"
-													style="margin-right: 10px; width: 200px; border-color: transparent; border-bottom-color: black;" required>
+													name="coBizno" 
+													style="margin-right: 10px; width: 200px; border-color: transparent; border-bottom-color: black;"
+													>
+
 												<button type="button" class="btn btn-primary"
-													onclick="location.href='login';">인증하기</button>
+													onclick="auths()">인증하기</button>
 											</div>
 										</div>
 
 										<div class="form-group row">
 											<div class="col-lg-8 ml-auto">
-												<button type="submit" class="btn btn-primary">다음으로</button>
+												<span id="checksCoBno">이미 등록된 번호입니다.</span>
+												<span id="checksCoBno2">인증되지 않았습니다.</span>
+												<span id="checksCoBno3" style="color:green;">인증이 완료되었습니다.</span>
+											</div>
+										</div>
+										<div class="form-group row">
+											<div class="col-lg-8 ml-auto">
+
+												<button type="button" id="nextBtn" class="btn btn-primary">다음으로</button>
 												<button type="button" class="btn btn-primary"
 													onclick="location.href='loginForm';">메인으로</button>
 											</div>
 										</div>
-										<input type="text" class="form-control" id="coCd" name="coCd" hidden="true">
+										<input type="text" class="form-control" id="coCd" name="coCd"
+											hidden="true">
 									</form>
 								</div>
 							</div>
@@ -181,7 +199,13 @@
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
 	<script>
+	
+	const compList = [];
+	
 	$(function(){
+		
+		//회사코드생성 
+		
 	    $.ajax('http://localhost/makeCoCd', {
 	        type : 'post'
 	    })
@@ -190,34 +214,129 @@
 	    })
 	    .fail(err =>console.log(err));
 
+		//회사 중복체크용 데이터		
+
+	    $.ajax('http://localhost/companyList', {
+	        type : 'post'
+	    })
+	    .done(result => {
+	        $.each(result.data, function(index, element){
+	        	compList.push(element);
+	        });
+	    })
+	    .fail(err =>console.log(err));
 	});
 	
 	
+	//대표자명
+	$('#coRpstr').on("input", function(event){
+		$('#checksCoBno3').hide();
+		let inputVal = $(this).val();
+	
+		if(inputVal.length > 15){
+			$(this).val(inputVal.substr(0, 15)); 
+		}
+		
+
+	});
 	
 	
-	//사업자번호 제한
+	//회사명
+	$('#coNm').on("input", function(event){
+		$('#checksCoBno3').hide();
+		let inputVal = $(this).val();
+	
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+		
+		if(compList.some(data => data.CO_NM == inputVal) == true){
+			$('#checksCoNm').show();
+		}else if(compList.some(date => date.CO_NM == inputVal) != true){
+			$('#checksCoNm').hide();
+		}
+	});
+	
+	//개업일자
+	$('#coDt').change(function(){
+		$('#checksCoBno3').hide();
+	})
+	
+	//사업자번호
 	
 	let date = document.querySelector("#coBizno");
 	
 	// 문자열, 하이픈을 막기 위해 input event 사용
 	date.addEventListener("input", () => {
-	  
+		$('#checksCoBno3').hide();
 	  // 사용자 입력값은 모두 숫자만 받는다.(나머지는 ""처리)
-	  let val = date.value.replace(/\D/g, "");
-	  let leng = val.length;
+	 	date.value = date.value.replace(/\D/g, "");
+		
+		if(date.value.length > 10){
+			date.value = date.value.substr(0, 10); 
+		}
+		  
+		  //중복검사
+		if(compList.some(datas => datas.CO_BIZNO == date.value) == true){
+			$('#checksCoBno').show();
+		      $('#checksCoBno3').hide();
+		      $('#checksCoBno2').hide();
+		}else if(compList.some(date => date.CO_BIZNO == date.value) != true){
+			$('#checksCoBno').hide();
+		      $('#checksCoBno3').hide();
+		      $('#checksCoBno2').hide();
+		}
 	  
-	  // 출력할 결과 변수
-	  let result = '';
-	  
-	  if(leng > 6){
-	  	result += val.substring(0,6);
-	    result += "-";
-	    result += val.substring(6);
-	  }else if(leng <=6){
-		  	result += val;
-	  }
-	  date.value = result;
 	})
+	
+	//등록버튼
+	$('#nextBtn').on('click', function(){
+		if($('#checksCoBno3').css("display") != 'inline'){
+			$('#nextBtn').attr("type", "button");
+			alert('인증을 완료하시오');
+		}else{
+			$('#form1').submit();
+		}
+	});
+
+	//인증하기
+	function auths(){
+		var data = {
+				  "businesses": [
+					    {
+					      "b_no": $('#coBizno').val().replace(/[^0-9]/gi,''),
+					      "start_dt": $('#coDt').val().replace(/[^0-9]/gi,''),
+					      "p_nm": $('#coRpstr').val(),
+					      "b_nm": $('#coNm').val()
+					    }
+					  ]
+					};
+			   
+			$.ajax({
+			  url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=JP%2FuS23NqgUgilDn%2FvnUHyVnLBbGdRPSaWrNrnL8DcrinFauMWB9nFtZZPhGM%2FQoi22l9AfUDmJJKzULzej6lw%3D%3D",
+			  type: "POST",
+			  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+			  dataType: "JSON",
+			  contentType: "application/json",
+			  accept: "application/json",
+			  success: function(result) {
+				  if(result.valid_cnt > 0){
+					  $('#checksCoBno3').show();
+				      $('#checksCoBno2').hide();
+				      $('#checksCoBno1').hide();  
+				  }else{
+					  $('#checksCoBno3').hide();
+				      $('#checksCoBno2').show();
+				      $('#checksCoBno1').hide();
+				  }
+			  },
+			  error: function(result) {
+				  $('#checksCoBno3').hide();
+			      $('#checksCoBno2').show();
+			      $('#checksCoBno1').hide();
+			  }
+			});
+	}
 	</script>
 </body>
 

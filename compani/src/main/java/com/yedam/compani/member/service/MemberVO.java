@@ -5,9 +5,8 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
-
 @Data
-public class MemberVO {
+public class MemberVO{
 	private String membId;
 	private String membPwd;
 	private String membNm;
@@ -21,5 +20,7 @@ public class MemberVO {
 	private String membPhtPath;
 	private String membMsg;
 	private String membAccp;
-	private int permNo;
+	private String permNo;
+
+	
 }
