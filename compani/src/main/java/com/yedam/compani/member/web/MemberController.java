@@ -1,5 +1,8 @@
 package com.yedam.compani.member.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.company.service.CompanyVO;
@@ -64,8 +68,15 @@ public class MemberController {
 		return "member/memberSignUp";
 	}
 
-	
-	
+	//아이디 중복체크용
+	@PostMapping("/memberIdList")
+	@ResponseBody
+	public Map<String, Object> getMemberIdLists(){
+		Map<String, Object> membIdList = new HashMap<>();
+		membIdList.put("result", true);
+		membIdList.put("data", service.getMemberIdList());
+		return membIdList;
+	}
 	
 	
 	// 가입 서브밋

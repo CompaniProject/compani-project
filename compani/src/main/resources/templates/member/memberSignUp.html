@@ -27,6 +27,10 @@ mark, .mark {
 	display: none;
 	color: red;
 }
+[id^="forms"] {
+	display: none;
+	color: red;
+}
 </style>
 </head>
 
@@ -122,7 +126,7 @@ mark, .mark {
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="coNm"
 													name="coNm" readonly="readonly"> <span
-													id="conditionCN">소속기관을 등록하시오.</span>
+													id="formsCoNm">소속기관을 등록하시오.</span>
 												<!-- 	////////////////////////////////////////////// -->
 												<input type="text" class="form-control" id="coRpstr"
 													name="coRpstr" readonly="readonly" hidden="true"
@@ -150,7 +154,10 @@ mark, .mark {
 												<input type="text" class="form-control" id="membId"
 													name="membId"
 													placeholder="※ 4~20자 이내 / 영문(소문자), 숫자로만 입력 가능"> <span
-													id="conditionId">※ 4~20자 이내 / 영문(소문자), 숫자로만 입력 가능</span>
+													id="conditionId">※ 4~20자 이내 / 영문(소문자), 숫자로만 입력 가능</span> <span
+													id="conditionId2">이미 존재하는 아이디입니다.</span>
+													<span
+													id="formsMembId">아이디를 입력하시오.</span>
 											</div>
 
 										</div>
@@ -162,7 +169,10 @@ mark, .mark {
 													name="membPwd" placeholder="※ 마우스 올릴 시, 설명"
 													title="영문(대/소문자), 숫자 및 특수문자 4가지로 구성하여 최소 8자 이상, 20자 이하으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 # ? ! @ $ % ^ & * -">
 												<span id="conditionPw">잘못된 비밀번호입니다.</span> <span
-													id="conditionPw2">정상적인 비밀번호입니다.</span>
+													id="conditionPw2" style="color: green;">정상적인
+													비밀번호입니다.</span>
+													<span
+													id="formsMembPw">비밀번호를 입력하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -173,7 +183,9 @@ mark, .mark {
 												<input type="password" class="form-control" id="membPwd2"
 													name="membPwd2" placeholder=""> <span
 													id="conditionPw3">비밀번호가 일치하지않습니다.</span> <span
-													id="conditionPw4">비밀번호가 일치합니다.</span>
+													id="conditionPw4" style="color: green;">비밀번호가 일치합니다.</span>
+													<span
+													id="formsMembPw2">비밀번호확인을 하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -195,6 +207,8 @@ mark, .mark {
 												<input type="date" class="form-control" id="membBirthDt"
 													name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}" /> <span
 													id="conditionBd">생년월일을 확인하시오.</span>
+													<span
+													id="formsMembBd">생년월일을 입력하시오.</span>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -206,8 +220,12 @@ mark, .mark {
 													hidden="true"> <input type="text" id="email_id"
 													class="form-control" value="" title="이메일 아이디"
 													placeholder="" style="width: 206px; display: inline-block;" />
-												<b>&nbsp;@&nbsp;&nbsp;</b> <input class="form-control" type="text" name="str_email02"
-													id="str_email02"
+												<b>&nbsp;@&nbsp;&nbsp;</b>
+												
+												
+												
+												 <input class="form-control"
+													type="text" name="str_email02" id="str_email02"
 													style="width: 206px; display: inline-block;" disabled
 													value="naver.com"> <select
 													style="width: 206px; margin-left: 10px; display: inline-block;"
@@ -235,51 +253,43 @@ mark, .mark {
 											</label>
 											<div class="col-lg-6">
 												<input type="tel" class="form-control" id="membTelno"
-													name="membTelno" hidden="true">
-													
-													
-													 <select
+													name="membTelno" hidden="true"> <select
 													style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
-													name="selectTel" id="selectTel" class="form-control" >
-													
+													name="selectTel" id="selectTel" class="form-control">
+
 													<option value="">선택 &nbsp;&nbsp;</option>
 													<option value="010" selected>010 &nbsp;&nbsp;</option>
 													<option value="070">070 &nbsp;&nbsp;</option>
 													<option value="02">02 &nbsp;&nbsp;</option>
-							                          <option value="031">031&nbsp;&nbsp;</option>
-							                          <option value="032">032&nbsp;&nbsp;</option>
-							                          <option value="033">033 &nbsp;&nbsp;</option>
-							                          <option value="041">041 &nbsp;&nbsp;</option>
-							                          <option value="042">042 &nbsp;&nbsp;</option>
-							                          <option value="043">043 &nbsp;&nbsp; </option>
-							                          <option value="051">051 &nbsp;&nbsp; </option>
-							                          <option value="052">052 &nbsp;&nbsp; </option>
-							                          <option value="053">053  &nbsp;&nbsp;</option>
-							                          <option value="054">054 &nbsp;&nbsp; </option>
-							                          <option value="054">054 &nbsp;&nbsp; </option>
-							                          <option value="055">055  &nbsp;&nbsp;</option>
-							                          <option value="061">061  &nbsp;&nbsp;</option>
-							                          <option value="062">062 &nbsp;&nbsp; </option>
-							                          <option value="063">063 &nbsp;&nbsp; </option>
-							                          <option value="064">064  &nbsp;&nbsp;</option>
+													<option value="031">031&nbsp;&nbsp;</option>
+													<option value="032">032&nbsp;&nbsp;</option>
+													<option value="033">033 &nbsp;&nbsp;</option>
+													<option value="041">041 &nbsp;&nbsp;</option>
+													<option value="042">042 &nbsp;&nbsp;</option>
+													<option value="043">043 &nbsp;&nbsp;</option>
+													<option value="051">051 &nbsp;&nbsp;</option>
+													<option value="052">052 &nbsp;&nbsp;</option>
+													<option value="053">053 &nbsp;&nbsp;</option>
+													<option value="054">054 &nbsp;&nbsp;</option>
+													<option value="054">054 &nbsp;&nbsp;</option>
+													<option value="055">055 &nbsp;&nbsp;</option>
+													<option value="061">061 &nbsp;&nbsp;</option>
+													<option value="062">062 &nbsp;&nbsp;</option>
+													<option value="063">063 &nbsp;&nbsp;</option>
+													<option value="064">064 &nbsp;&nbsp;</option>
 
 
-												</select>&nbsp;&nbsp;<b>ㅡ</b>
-												
-												<input type="text" class="form-control" id="tel1"
-													name="tel1" style="width: 205px; display: inline-block;">
-													<b>ㅡ</b>
-													
-													<input type="text" id="tel2"
-													class="form-control"
-													style="width: 205px; display: inline-block;" /> 
-													
-													<span
+												</select>&nbsp;&nbsp;<b>ㅡ</b> <input type="text" class="form-control"
+													id="tel1" name="tel1"
+													style="width: 205px; display: inline-block;"> <b>ㅡ</b>
+
+												<input type="text" id="tel2" class="form-control"
+													style="width: 205px; display: inline-block;" /> <span
 													id="conditionTel">전화번호를 학인하시오.</span>
 											</div>
 										</div>
 
-										
+
 										<div class="form-group row">
 											<label class="col-lg-4 col-form-label" for="membDept">부서
 											</label>
@@ -396,12 +406,30 @@ mark, .mark {
 	</script>
 	<script>
 //@@@@@@@@@@@@@@@회원가입폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//아이디 중복체크용 데이터
+	const memberIdList = [];
+
 	
+	$(function(){
+	    $.ajax('http://localhost/memberIdList', {
+	        type : 'post'
+	    })
+	    .done(result => {
+	        $.each(result.data, function(index, element){
+	        	memberIdList.push(element);
+	        });
+	    })
+	    .fail(err =>console.log(err));
+	});
+	
+
 
   //ID 영어소문자,숫자만 입력가능하게
 		  //한글입력 안되게 처리
 	let testId = /^(?=.*?[a-z])(?=.*?[0-9]).{4,}/;
 	$('#membId').on("input", function(event){ 
+		
+		$('#formsMembId').hide();
 		let inputVal = $(this).val();
 		
 		$(this).val(inputVal.toLowerCase().replace(/[^a-z0-9]/gi,''));
@@ -414,8 +442,17 @@ mark, .mark {
 
 		if(testId.test(inputVal) != false){
 			$('#conditionId').hide();
+			if(memberIdList.some(data => data.MEMB_ID == inputVal) == true){
+				$('#conditionId2').show();
+			}else if(memberIdList.some(date => date.MEMB_ID == inputVal) != true){
+				$('#conditionId2').hide();
+			}
 		}else{
 			$('#conditionId').show();
+			$('#conditionId2').hide();
+			if(inputVal.length == 0){
+				$('#conditionId').hide();
+			}
 		}
 	});
 
@@ -424,7 +461,7 @@ mark, .mark {
 	let testPw1 = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/;
 	let testPw2 = /[^A-Za-z\d#?!@$%^&*-]/; 
 	$('#membPwd').on("input", function(event){ 
-		
+		$('#formsMembPw').hide();
 		let inputVal = $(this).val();
 		
 		if(inputVal.length > 20){
@@ -442,11 +479,26 @@ mark, .mark {
 				$('#conditionPw2').hide();
 			}
 		}
+		if($('#membPwd2').val() != $('#membPwd').val()){
+			$('#conditionPw4').hide();
+			$('#conditionPw3').show();
+			if($('#membPwd2').val().length == 0){
+				$('#conditionPw3').hide();
+				$('#conditionPw4').hide();
+			}
+		}else{
+			$('#conditionPw4').show();
+			$('#conditionPw3').hide();
+			if($('#membPwd2').val().length == 0){
+				$('#conditionPw3').hide();
+				$('#conditionPw4').hide();
+			}
+		}
 	});
 
 //비밀번호확인
 	$('#membPwd2').on("input", function(event){
-		
+		$('#formsMembPw2').hide();
 		let inputVal = $(this).val();
 		
 		if(inputVal.length > 20){
@@ -463,6 +515,10 @@ mark, .mark {
 		}else{
 			$('#conditionPw4').show();
 			$('#conditionPw3').hide();
+			if($(this).val().length == 0){
+				$('#conditionPw3').hide();
+				$('#conditionPw4').hide();
+			}
 		}
 	});
 
@@ -471,20 +527,18 @@ mark, .mark {
 		
 		let inputVal = $(this).val();
 		
-		if(inputVal.length > 20){
-			$(this).val(inputVal.substr(0, 20)); 
+		if(inputVal.length > 15){
+			$(this).val(inputVal.substr(0, 15)); 
 		}
 		
 		if($(this).val() != null && $(this).val() != ''){
 			$('#conditionNm').hide();
 			
-		}else{
-			$('#conditionNm').show();
 		}
 	});
 //생년월일확인
 	$('#membBirthDt').on("input", function(event){
-		
+		$('#formsMembBd').hide();
 		let inputVal = $(this).val();
 		
 		if($(this).val() != null && $(this).val() != ''){
@@ -616,8 +670,8 @@ mark, .mark {
 	
 	let inputVal = $(this).val();
 	
-	if(inputVal.length > 20){
-		$(this).val(inputVal.substr(0, 20)); 
+	if(inputVal.length > 15){
+		$(this).val(inputVal.substr(0, 15)); 
 	}
 	});
 	
@@ -626,11 +680,33 @@ mark, .mark {
 	
 		let inputVal = $(this).val();
 	
-		if(inputVal.length > 20){
-			$(this).val(inputVal.substr(0, 20)); 
+		if(inputVal.length > 15){
+			$(this).val(inputVal.substr(0, 15)); 
 		}
 
 	});
+	
+	
+	//가입클릭
+
+
+
+
+	$(document).ready(function() {
+	    $('form').submit(function(e) {
+			if($('#conditionCN').css("display") != 'inline' && $('#conditionId').css("display") != 'inline' && $('#conditionId2').css("display") != 'inline' && $('#conditionPw').css("display") != 'inline' && $('#conditionPw3').css("display") != 'inline' && $('#conditionNm').css("display") != 'inline' && $('#conditionBd').css("display") != 'inline' && $('#conditionEid').css("display") != 'inline' && $('#conditionEmail').css("display") != 'inline' && $('#conditionTel').css("display") != 'inline' 
+				&& $('#coNm').val().length != 0 && $('#membId').val().length != 0 && $('#membPwd').val().length != 0 && $('#membPwd2').val().length != 0 && $('#membNm').val().length != 0 && $('#membBirthDt').val().length != 0){
+				$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
+				$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
+				$("#formSignUp").attr("action","SignUpped").submit();
+			}else{
+				e.preventDefault();
+				$( "span[id^='forms']").show();
+				$( "#conditionNm").show();
+			}
+	    });
+	});
+
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 회원가입폼@@@@@@@@@@@@
 
@@ -654,7 +730,7 @@ mark, .mark {
 	    })
 	    .fail(err =>console.log(err));
 	    
-	    
+	    $('#formsCoNm').hide();
 	    
 	}
 
@@ -761,15 +837,19 @@ mark, .mark {
 	}
 	
 	function entryValue(){
-		document.querySelector('#coNm').value = $search.value;
- 		for(var i = 0; i<compList.length; i++){
-			if(document.querySelector('#coNm').value==compList[i].CO_NM){
-				document.querySelector('#coCd').value = compList[i].CO_CD;
-				break;
-			}
-		} 
-		$search.value = '';
-		$('#permNo').val("4");
+		if(compList.some(data => data.CO_NM == $("#search").val()) == true){
+			document.querySelector('#coNm').value = $search.value;
+	 		for(var i = 0; i<compList.length; i++){
+				if(document.querySelector('#coNm').value==compList[i].CO_NM){
+					document.querySelector('#coCd').value = compList[i].CO_CD;
+					break;
+				}
+			} 
+			$search.value = '';
+			$('#permNo').val("4");
+		}else{
+			alert("존재하지 않는 기업명입니다.");
+		}
 	}
 	/////////////////////////////////////////////////////////////End of 모달창 버튼///////
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@End of 소속기관@@@@@@@@@@@@@

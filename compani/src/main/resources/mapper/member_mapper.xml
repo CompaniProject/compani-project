@@ -21,6 +21,12 @@
 		FROM member
 		WHERE memb_id = #{membId}
 	</select>
+	
+	<!-- 중복체크 -->
+	<select id="selectMemberIdList" resultType="Map">
+		SELECT MEMB_ID
+		FROM member
+	</select>
 	<!-- 사원 회원가입 -->
 	<insert id="insertMemberInfo" parameterType="MemberVO">
 		INSERT INTO member(
