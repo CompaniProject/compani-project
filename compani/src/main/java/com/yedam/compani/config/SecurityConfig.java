@@ -12,17 +12,13 @@ import lombok.extern.log4j.Log4j2;
 @EnableWebSecurity
 @Log4j2
 public class SecurityConfig {
-/*	@Bean
-	public PasswordEncoder pwdEcd() {
-		return new BCryptPasswordEncoder();
-	}*/
-	
+
 	
 	@Bean
 	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
 			.antMatchers("/loginForm").permitAll();
-//			.antMatchers("/").hasRole("0A1")
+			//.antMatchers("/home").hasRole("0C1");
 //			.antMatchers("/").hasRole("0A2")
 //			.antMatchers("/").hasRole("0A3")
 //			.antMatchers("/").hasRole("0A4");
@@ -32,7 +28,7 @@ public class SecurityConfig {
 			.passwordParameter("loginPwd")
 			.loginProcessingUrl("/login")
 			.defaultSuccessUrl("/home")
-			;
+			.failureUrl("/loginForm");
 		http.csrf().disable();
 		http.logout();
 		

@@ -46,10 +46,10 @@
 
 								<form class="mt-5 mb-5 login-input" th:action="@{login}" method="post">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="아이디" name="loginId">
+										<input type="text" class="form-control" placeholder="아이디" name="loginId" id="loginId">
 									</div>
 									<div class="form-group">
-										<input type="password" class="form-control" placeholder="비밀번호" name="loginPwd">
+										<input type="password" class="form-control" placeholder="비밀번호" name="loginPwd" id="loginPwd">
 									</div>
 									<button class="btn login-form__btn submit w-100" type="submit">로그인</button>
 								</form>
@@ -75,5 +75,26 @@
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
+	<script type="text/javascript">
+	let testId = /^(?=.*?[a-z])(?=.*?[0-9]).{4,}/;
+	$('#loginId').on("input", function(event){ 
+		
+		let inputVal = $(this).val();
+		
+		$(this).val(inputVal.toLowerCase().replace(/[^a-z0-9]/gi,''));
+		
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+	});
+	$('#loginPwd').on("input", function(event){ 
+		
+		let inputVal = $(this).val();
+		
+		if(inputVal.length > 20){
+			$(this).val(inputVal.substr(0, 20)); 
+		}
+	});
+	</script>
 </body>
 </html>

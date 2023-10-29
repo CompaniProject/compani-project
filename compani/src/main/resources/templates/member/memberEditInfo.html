@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="h-100" lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=chrome">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MemberSignUp</title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="images/favicon.png">
+<!-- Custom Stylesheet -->
+<link href="css/style.css" rel="stylesheet">
+<style>
+.autocomplete>div.active {
+	background: #58ACFA;
+	color: #000000;
+}
+
+mark, .mark {
+	padding: 0.2em;
+	font-weight: 900;
+	background-color: transparent;
+}
+
+[id^="condition"] {
+	display: none;
+	color: red;
+}
+
+[id^="forms"] {
+	display: none;
+	color: red;
+}
+</style>
+</head>
+
+<body>
+
+
+
+
+	<!--**********************************
+            Content body start
+        ***********************************-->
+
+	<div class="content-body">
+
+
+		<!-- row -->
+
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-validation">
+								<form class="form-valide" id="formSignUp" method="post">
+									<img class="form-group" width="200" height="200" />
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="coNm">소속기관
+										</label>
+
+										<div class="col-lg-6">
+											<span class="" id="coNm"></span>
+										</div>
+
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membId">아이디
+										</label>
+										<div class="col-lg-6">
+											<span class="" id="membId" sec:authentication="name"></span>
+
+										</div>
+
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membNm">성명
+										</label>
+										<div class="col-lg-6">
+											<input class="form-control" id="membNm" name="membNm"
+												placeholder=""></input> <span id="conditionNm">이름을
+												입력하시오.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membDept">부서
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" id="membDept"
+												name="membDept" placeholder="">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membWkgd">직급
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" id="membWkgd"
+												name="membWkgd" placeholder="">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membPwd">비밀번호
+										</label>
+										<div class="col-lg-6">
+											<input type="password" class="form-control" id="membPwd"
+												name="membPwd" placeholder="※ 마우스 올릴 시, 설명"
+												title="영문(대/소문자), 숫자 및 특수문자 4가지로 구성하여 최소 8자 이상, 20자 이하으로 입력합니다.&#13;&#10;&#13;&#10;※ 특수문자 # ? ! @ $ % ^ & * -">
+											<span id="conditionPw">잘못된 비밀번호입니다.</span> <span
+												id="conditionPw2" style="color: green;">정상적인 비밀번호입니다.</span>
+											<span id="formsMembPw">비밀번호를 입력하시오.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membPwd2">비밀번호
+											확인 </label>
+										<div class="col-lg-6">
+											<input type="password" class="form-control" id="membPwd2"
+												name="membPwd2" placeholder=""> <span
+												id="conditionPw3">비밀번호가 일치하지않습니다.</span> <span
+												id="conditionPw4" style="color: green;">비밀번호가 일치합니다.</span>
+											<span id="formsMembPw2">비밀번호확인을 하시오.</span>
+										</div>
+									</div>
+
+
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membBirthDt">생년월일
+
+										</label>
+										<div class="col-lg-6">
+											<input type="date" class="form-control" id="membBirthDt"
+												name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}" /> <span
+												id="conditionBd">생년월일을 확인하시오.</span> <span id="formsMembBd">생년월일을
+												입력하시오.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membEmail">이메일
+										</label>
+										<div class="col-lg-6">
+											<input type="email" class="form-control" id="membEmail"
+												name="membEmail" placeholder="ex) abc@example.com"
+												hidden="true"> <input type="text" id="email_id"
+												class="form-control" value="" title="이메일 아이디" placeholder=""
+												style="width: 206px; display: inline-block;" /> <b>&nbsp;@&nbsp;&nbsp;</b>
+											<input class="form-control" type="text" name="str_email02"
+												id="str_email02"
+												style="width: 206px; display: inline-block;" disabled
+												value="naver.com"> <select
+												style="width: 206px; margin-left: 10px; display: inline-block;"
+												name="selectEmail" id="selectEmail" class="form-control">
+												<option value="1">직접입력</option>
+												<option value="naver.com" selected>naver.com</option>
+												<option value="hanmail.net">hanmail.net</option>
+												<option value="hotmail.com">hotmail.com</option>
+												<option value="nate.com">nate.com</option>
+												<option value="yahoo.co.kr">yahoo.co.kr</option>
+												<option value="empas.com">empas.com</option>
+												<option value="dreamwiz.com">dreamwiz.com</option>
+												<option value="freechal.com">freechal.com</option>
+												<option value="lycos.co.kr">lycos.co.kr</option>
+												<option value="korea.com">korea.com</option>
+												<option value="gmail.com">gmail.com</option>
+												<option value="hanmir.com">hanmir.com</option>
+												<option value="paran.com">paran.com</option>
+											</select> <span id="conditionEid">이메일 아이디를 입력하시오.</span><span
+												id="conditionEmail">잘못된 이메일 주소입니다.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membTelno">전화번호
+										</label>
+										<div class="col-lg-6">
+											<input type="tel" class="form-control" id="membTelno"
+												name="membTelno" hidden="true"> <select
+												style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
+												name="selectTel" id="selectTel" class="form-control">
+
+												<option value="">선택 &nbsp;&nbsp;</option>
+												<option value="010" selected>010 &nbsp;&nbsp;</option>
+												<option value="070">070 &nbsp;&nbsp;</option>
+												<option value="02">02 &nbsp;&nbsp;</option>
+												<option value="031">031&nbsp;&nbsp;</option>
+												<option value="032">032&nbsp;&nbsp;</option>
+												<option value="033">033 &nbsp;&nbsp;</option>
+												<option value="041">041 &nbsp;&nbsp;</option>
+												<option value="042">042 &nbsp;&nbsp;</option>
+												<option value="043">043 &nbsp;&nbsp;</option>
+												<option value="051">051 &nbsp;&nbsp;</option>
+												<option value="052">052 &nbsp;&nbsp;</option>
+												<option value="053">053 &nbsp;&nbsp;</option>
+												<option value="054">054 &nbsp;&nbsp;</option>
+												<option value="054">054 &nbsp;&nbsp;</option>
+												<option value="055">055 &nbsp;&nbsp;</option>
+												<option value="061">061 &nbsp;&nbsp;</option>
+												<option value="062">062 &nbsp;&nbsp;</option>
+												<option value="063">063 &nbsp;&nbsp;</option>
+												<option value="064">064 &nbsp;&nbsp;</option>
+
+
+											</select>&nbsp;&nbsp;<b>ㅡ</b> <input type="text" class="form-control"
+												id="tel1" name="tel1"
+												style="width: 205px; display: inline-block;"> <b>ㅡ</b>
+
+											<input type="text" id="tel2" class="form-control"
+												style="width: 205px; display: inline-block;" /> <span
+												id="conditionTel">전화번호를 학인하시오.</span>
+										</div>
+									</div>
+
+
+
+
+
+									<div class="form-group row">
+										<div class="col-lg-8 ml-auto">
+											<button type="submit" class="btn btn-primary">가입신청</button>
+											<button type="button" class="btn btn-primary"
+												onclick="location.href='loginForm';">메인으로</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="modalGrid">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" id="sea">
+					<div class="modal-header">
+						<h5 class="modal-title">소속기관 찾기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							onclick="removeValue()">
+							<span>&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+
+						<div class="container-fluid">
+							<div class="case">
+								<!-- 검색어 입력 폼 -->
+								<input type="text" id="search" placeholder="상호명을 입력하시오.">
+								<span id="notice"
+									style="display: none; color: red; border: 900px; font-size: 12px">존재하지
+									않는 상호명입니다.</span>
+								<!-- 자동완성 단어 리스트 -->
+								<div class="autocomplete" style="width: 163px"></div>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal" onclick="removeValue()">취소</button>
+						<button type="button" id="addBtn" class="btn btn-primary"
+							data-dismiss="modal" onclick="entryValue()">등록</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="plugins/common/common.min.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/gleek.js"></script>
+	<script src="js/styleSwitcher.js"></script>
+
+	<script src="./plugins/validation/jquery.validate.min.js"></script>
+	<script src="./plugins/validation/jquery.validate-init.js"></script>
+
+	<script>
+	let loginInfo = [];
+	 $(function(){
+	 	$.ajax('http://localhost/memberInfo', {
+	 	type : 'post'
+		 })
+		 .done(result => {
+				 loginInfo.push(result);
+			 console.log(loginInfo);
+		 })
+		 .fail(err =>console.log("err"));
+	 });
+	
+
+	</script>
+
+</body>
+
+</html>
