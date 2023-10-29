@@ -291,6 +291,8 @@ mark, .mark {
 
 	<script>
 	let loginInfo = [];
+	let companyInfo = [];
+	
 	 $(function(){
 	 	$.ajax('http://localhost/memberInfo', {
 	 	type : 'post'
@@ -300,7 +302,20 @@ mark, .mark {
 			 console.log(loginInfo);
 		 })
 		 .fail(err =>console.log("err"));
+	 	
+	 	$.ajax('http://localhost/companyInfo', {
+		 	type : 'post',
+		 	dataType : 'json', 
+		 	data : {coCd : "CPN000"}
+			 })
+			 .done(result => {
+				 companyInfo.push(result);
+				 console.log(companyInfo);
+			 })
+			 .fail(err =>console.log("err"));
+	 	console.log(loginInfo[0].coCd);
 	 });
+	 
 	
 
 	</script>
