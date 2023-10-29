@@ -1,5 +1,6 @@
 package com.yedam.compani.issue.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,4 +24,6 @@ public class IssueVO {
 	private String prjtNm;
 	
 	private List<MultipartFile> files;
+	private List<MultipartFile> editFiles;
+	private List<Integer> removeFileIds = new ArrayList<>(); // 삭제할 첨부파일 issuFileNo List
 }

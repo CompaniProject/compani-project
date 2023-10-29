@@ -96,15 +96,36 @@ public class IssueController {
 				uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
+		// 해시태그 저장
+		//issueHashtagService.modalInsertIssueHashtag(issuNo, );
 				
 	}
 	
 	// 모달에서 이슈 수정
 	@PostMapping("/ModalIssueUpdate")
 	@ResponseBody
-	public IssueVO modalIssueUpdate(@RequestBody final IssueVO params) {
-		issueService.updateIssue(params);
-		return issueService.findIssueById(params.getIssuNo());
+	public IssueVO modalIssueUpdate(final IssueVO issueVO, MultipartFile[] editFiles) {
+
+		// 1. 이슈글 정보 수정
+		issueService.updateIssue(issueVO);
+
+		// 2. 파일 업로드 (to disk & to database)
+		List<IssueFileVO> uploadedFiles = new ArrayList<>();
+		if(editFiles != null && editFiles.length > 0) {
+			uploadedFiles = fileUtils.uploadFiles(Arrays.asList(editFiles));
+			issueFileService.modalInsertIssueFile(issueVO.getIssuNo(), uploadedFiles);
+		}
+
+		// 3. 삭제할 파일 정보 조회 (from database)
+		List<IssueFileVO> deleteFiles = issueFileService.findAllByIds(issueVO.getRemoveFileIds());
+
+		// 4. 파일 삭제 (from disk)
+		fileUtils.deleteFiles(deleteFiles);
+
+		// 5. 파일 삭제 (from database)
+		issueFileService.deleteAllFileByIds(issueVO.getRemoveFileIds());
+
+		return issueService.findIssueById(issueVO.getIssuNo());
 	}
 	
 	// 모달에서 이슈 삭제

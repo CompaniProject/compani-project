@@ -207,8 +207,7 @@
                                         <div class="basic-dropdown" style="display: inline;">
                                             <div class="dropdown">
                                                 <button type="button" id="issuKndVal" name="issuKndVal"
-                                                    class="badge badge-dark" data-toggle="dropdown">선택
-                                                </button>
+                                                    class="badge badge-dark" data-toggle="dropdown">선택</button>
                                                 <div class="dropdown-menu" style="cursor: pointer;">
                                                     <a class="dropdown-item"><span
                                                             class="badge badge-pill badge-warning">개선사항</span></a>
@@ -229,8 +228,7 @@
                                             <div class="basic-dropdown">
                                                 <div class="dropdown">
                                                     <button type="button" class="badge badge-dark"
-                                                        data-toggle="dropdown" id="issuRankVal">선택
-                                                    </button>
+                                                        data-toggle="dropdown" id="issuRankVal">선택</button>
                                                     <div class="dropdown-menu" style="cursor: pointer;">
                                                         <a class="dropdown-item"><span
                                                                 class="badge badge-primary">매우높음</span></a> <a
@@ -288,15 +286,7 @@
                                         <div class="sectionTitle">
                                             <p class="sectionTitleText">해시태그</p>
                                         </div>
-                                        <div class="hashtagContent" style="width: 630px;">
-                                            <div class="hashtagList">
-                                                <div class="tagBox task" title="업무">
-                                                    <p>#</p>
-                                                    <span class="Ready"></span>
-                                                    <p class="textEllipsis">업무</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <input name='input-custom-dropdown' class='tagify__dropdown__item' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
                                     </div>
                                 </div>
                                 <!--  취소 확인하는 모달  -->
@@ -407,11 +397,6 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="issueInfoFiles">
-                                                        <tr class="InfoFilesEmpty">
-                                                            <td style="color: rgb(168, 168, 168);">등록된 파일이 없습니다.</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -661,331 +646,25 @@
             </div>
         </div>
     </div>
-
-
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
     <script th:inline="javascript">
+    var inputHash = document.querySelector('input[name="input-custom-dropdown"]');
 
-        // 이슈 수정 폼
-        function switchEditForm() {
+    var tagify = new Tagify(inputHash, {
+      maxTags : 10, // 최대 허용 태그 개수
+      dropdown: {
+        position: "input",
+        classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+        enabled : 0 // always opens dropdown when input gets focus
+      }
+    })
+    tagify.on('add', function() {
+      console.log(JSON.stringify(tagify.value));
+    })
 
-            const issuNo = $('.modalIssueName').data('issuNo');
-
-            $.ajax({
-                url: '/ModalIssueInfo?issuNo=' + issuNo,
-                type: 'get'
-            })
-                .done(function (response) {
-                    var issueEditForm = document.querySelector('.modalIssueEditForm');
-                    var infoForm = document.querySelector('.modalIssueInfoForm');
-                    var kndVal = document.getElementById('editIssuKndVal');
-                    var stVal = document.getElementById('editIssuStVal');
-                    var rankVal = document.getElementById('editIssuRankVal');
-
-                    if (issueEditForm.style.display === 'none') {
-                        issueEditForm.style.display = 'block';
-                        infoForm.style.display = 'none';
-
-                        document.getElementById('editIssuTtlVal').value = response.issueInfo.issuTtl;
-                        editorEditing.setHTML(response.issueInfo.issuCntn);
-                        if (response.issueInfo.issuKnd == '0L1') {
-                            kndVal.className = 'badge badge-danger';
-                            kndVal.innerHTML = '버그';
-                        } else if (response.issueInfo.issuKnd == '0L2') {
-                            kndVal.className = 'badge badge-warning';
-                            kndVal.innerHTML = '개선사항';
-                        } else if (response.issueInfo.issuKnd == '0L3') {
-                            kndVal.className = 'badge badge-info';
-                            kndVal.innerHTML = '새기능';
-                        } else if (response.issueInfo.issuKnd == '0L4') {
-                            kndVal.className = 'badge badge-light';
-                            kndVal.innerHTML = '업무';
-                        }
-
-                        if (response.issueInfo.issuSt == '0E1') {
-                            stVal.className = 'badge badge-pill badge-success';
-                            stVal.innerHTML = '해결';
-                        } else if (response.issueInfo.issuSt == '0E2') {
-                            stVal.className = 'badge badge-pill badge-dark';
-                            stVal.innerHTML = '미해결';
-                        } else if (response.issueInfo.issuSt == '0E3') {
-                            stVal.className = 'badge badge-pill badge-secondary';
-                            stVal.innerHTML = '해결불가';
-                        }
-
-                        if (response.issueInfo.issuRank == '0G1') {
-                            rankVal.className = 'badge badge-primary';
-                            rankVal.innerHTML = '매우높음';
-                        } else if (response.issueInfo.issuRank == '0G2') {
-                            rankVal.className = 'badge badge-secondary';
-                            rankVal.innerHTML = '높음';
-                        } else if (response.issueInfo.issuRank == '0G3') {
-                            rankVal.className = 'badge badge-success';
-                            rankVal.innerHTML = '보통';
-                        } else if (response.issueInfo.issuRank == '0G4') {
-                            rankVal.className = 'badge badge-warning';
-                            rankVal.innerHTML = '낮음';
-                        } else if (response.issueInfo.issuRank == '0G5') {
-                            rankVal.className = 'badge badge-danger';
-                            rankVal.innerHTML = '매우낮음';
-                        }
-
-                        checkEditInput();
-                        findAllFile();
-                    } else {
-                        issueEditForm.style.display = 'none';
-                        infoForm.style.display = 'block';
-                    }
-                })
-
-                .fail(function (err) {
-                    console.log(err)
-                })
-        }
-
-        // "수정" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
-        function checkEditInput() {
-            var issuTtlVal = $('#editIssuTtlVal').val();
-
-            if (issuTtlVal == '') {
-                $('.completeEditing').removeClass('registrable');
-            } else {
-                $('.completeEditing').addClass('registrable');
-            }
-        }
-
-        $('#editIssuTtlVal').on('change', function () {
-            checkEditInput();
-        });
-
-        // ajax 이슈 수정
-        function updateIssue() {
-            var issuNo = $('.modalIssueName').data('issuNo');
-            var title = $('#editIssuTtlVal').val();
-            var content = editorEditing.getHTML();
-            var kind = $('#editIssuKndVal').text();
-            var rank = $('#editIssuRankVal').text();
-            var status = $('#editIssuStVal').text();
-
-            // 중요도 text 값 확인 후 data로 넣기 !
-            if (rank == '매우높음') {
-                rank = '0G1';
-            } else if (rank == '높음') {
-                rank = '0G2';
-            } else if (rank == '보통') {
-                rank = '0G3';
-            } else if (rank == '낮음') {
-                rank = '0G4';
-            } else if (rank == '매우낮음') {
-                rank = '0G5';
-            }
-            // 종류 text 값 확인 후 data로 넣기 !
-            if (kind == '버그') {
-                kind = '0L1';
-            } else if (kind == '개선사항') {
-                kind = '0L2';
-            } else if (kind == '새기능') {
-                kind = '0L3';
-            } else if (kind == '업무') {
-                kind = '0L4';
-            }
-
-            // 상태 text 값 확인 후 data로 넣기 !
-            if (status == '해결') {
-                status = '0E1';
-            } else if (status == '미해결') {
-                status = '0E2';
-            } else if (status == '해결불가') {
-                status = '0E3';
-            }
-
-            const params = {
-                issuNo: issuNo,
-                issuTtl: title,
-                issuCntn: content,
-                issuKnd: kind,
-                issuRank: rank,
-                issuSt: status
-            }
-
-            $.ajax({
-                url: '/ModalIssueUpdate',
-                type: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify(params)
-            })
-                .done(function (response) {
-                    alert('수정되었습니다');
-                    $('.modalIssueEditForm').css('display', 'none');
-                    $('.modalIssueInfoForm').css('display', 'block');
-                    viewIssueInfo(response.issuNo);
-                })
-                .fail(function (err) {
-                    console.log(err)
-                })
-        }
-
-        // 이슈 수정하기 취소 버튼
-        $('.modalIssueEditForm').on('click', '.cancelEditing', function () {
-            $('#cancelEditConfirmationModal').modal('show');
-
-            // ' 확인' 버튼이 클릭 시
-            $('#confirmEditCancel').on('click', function () {
-                // 입력 필드 초기화
-
-                $('#issuTtlVal').val('');
-                editorEditing.setHTML('');
-
-                $('#cancelEditConfirmationModal').modal('hide');
-                $('.modalIssueEditForm').css('display', 'none');
-                $('.workModalContentBack').css('display', 'block');
-                issuePaging(1);
-            });
-
-            // '취소' 버튼 클릭 시
-            $('#cancelCancel').on('click', function () {
-                $('#cancelEditConfirmationModal').modal('hide');
-            });
-        });
-
-        $('.completeEditing').on('click', function () {
-            // "수정" 버튼이 활성화 상태일 때만 실행됨
-            if ($(this).hasClass('registrable')) {
-                updateIssue();
-            } else {
-                $('#editCheckingInput').modal('show');
-                $('#editCheckingInput').css('display', 'block');
-                // 확인 버튼 클릭 시
-                $('#confirmEditCheckingInput').on('click', function () {
-                    $('#editCheckingInput').modal('hide');
-                    $('#editCheckingInput').css('display', 'none');
-                });
-            }
-
-        });
-
-        // 이슈 삭제
-        function deleteIssue() {
-            var issuNo = $('.modalIssueName').data('issuNo');
-            // 경고창
-            $('#delConfirmationModal').modal('show');
-
-            $('#delCancel').on('click', function () {
-                $('#delConfirmationModal').modal('hide');
-            })
-
-            $('#delConfirm').on('click', function () {
-                $('#delConfirmationModal').modal('hide');
-                $.ajax({
-                    url: '/ModalIssueDelete',
-                    type: 'post',
-                    data: { issuNo: issuNo } // 데이터를 객체 형식으로 전달
-                })
-                    .done(function (response) {
-                        $('.modalIssueInfoForm').css('display', 'none');
-                        $('.workModalContentBack').css('display', 'block');
-                        issuePaging(1);
-                    })
-                    .fail(function (err) {
-                        console.log(err)
-                    })
-            })
-        }
-
-        // 이슈 수정 창에서 파일 리스트 조회
-        function findAllFile() {
-            var issuNo = $('.modalIssueName').data('issuNo');
-            $('#editIssueFileList').empty();
-            $.ajax({
-                url: '/issues/' + issuNo + '/files',
-                type: 'get'
-            })
-                .done(function (response) {
-                    $.each(response, function (idx, item) {
-
-                        var trTag = $('<tr/>').data('editFileNo', response.issuFileNo);
-
-                        var fileNameTag = $('<td/>').text(item.issuFileNm);
-                        var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
-                        var deleteFileTag = $('<td/>').attr('class', 'deleteEditFile').attr('onclick', ''); // 기존꺼 삭제하는 함수.
-
-                        trTag.append(fileNameTag);
-                        trTag.append(fileSizeTag);
-                        trTag.append(deleteFileTag);
-
-                        $('#editIssueFileList').append(trTag);
-                    })
-                })
-                .fail(function (err) {
-                    console.log(err);
-                })
-        }
-
-
-        // 수정 폼에서 파일 추가
-        const editRealUpload = document.querySelector('.editReal-upload');
-        const editUpload = document.querySelector('.editingLoadBtn.upload');
-        editUpload.addEventListener('click', () => editRealUpload.click());
-
-        function addIssueFileE(element) {
-            const file = element.files[0];
-
-            // 1. 파일 선택 창에서 취소 버튼이 클릭 되는 경우
-            if (!file) {
-                return false;
-            }
-            // 2. 파일 크기가 10MB을 초과하는 경우
-            const editFileSize = Math.floor(file.size / 1024 / 1024);
-            if (editFileSize > 10) {
-                alert('10MB 이하의 파일로 업로드해 주세요.');
-                return false;
-            }
-
-            if (file) {
-                var trTag = $('<tr/>').addClass('added');
-                var fileNameTag = $('<td/>').text(file.name);
-                var fileSizeTag = $('<td/>').text(getByteSize(file.size));
-                var deleteFileTag = $('<td/>').attr('class', 'deleteEditFile').attr('onclick', 'editRemoveFile(this);');
-
-                trTag.append(fileNameTag);
-                trTag.append(fileSizeTag);
-                trTag.append(deleteFileTag);
-
-                $('#editIssueFileList').append(trTag);
-            }
-        }
-
-        const editDataTransfer = new DataTransfer();
-
-        $("#editFiles").change(function () {
-            let fileArr = document.getElementById("editFiles").files
-
-            if (fileArr != null && fileArr.length > 0) {
-                // DataTransfer 파일 관리 //
-                for (var i = 0; i < fileArr.length; i++) {
-                    editDataTransfer.items.add(fileArr[i])
-                    console.log("dataTransfer =>", editDataTransfer.files)
-                    console.log("input FIles =>", document.getElementById("editFiles").files)
-                }
-                document.getElementById('editFiles').files = editDataTransfer.files;
-            }
-        })
-        // 수정 폼에서 새롭게 추가된 파일 삭제 시
-        function removeEditFileFromDataTransfer(element) {
-            var addedFiles = $(".added");
-            var index = addedFiles.index($(element).parent());
-            console.log(index + "입니다");
-            if (index != -1) {
-                editDataTransfer.items.remove(index);
-                document.getElementById("editFiles").files = editDataTransfer.files;
-            }
-        }
-        // 수정 폼에서 새롭게 추가된 파일 삭제 시
-        function editRemoveFile(element) {
-            removeEditFileFromDataTransfer(element);
-            var tr = $(element).closest('tr');
-            tr.remove();
-        }
     </script>
+
+
 </th:block>
 
 </html>
