@@ -3,6 +3,7 @@ package com.yedam.compani.issue.file.service.impl;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +14,10 @@ import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 
 @Service
+@RequiredArgsConstructor
 public class IssueFileServiceImpl implements IssueFileService {
 
-    @Autowired
-    private IssueFileMapper issueFileMapper;
+    private final IssueFileMapper issueFileMapper;
 
     /**
      * 게시글 번호 ( issuNo), 파일 정보 (issueFileVO)를 전달받아, 업로드된 파일 정보를 테이블에 저장하는 역할. 만약 게시글

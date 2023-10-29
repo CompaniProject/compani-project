@@ -1679,4 +1679,31 @@ fileupload.dz {
     text-overflow: ellipsis;
 }
 
+.tagify{
+  width: 100%;
+  max-width: 700px;
+}
+
+.tags-look, .tagify__dropdown__item{
+  display: inline-block;
+  border-radius: 3px;
+  padding: .3em .5em;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  background: #FFF;
+  margin: .2em;
+  font-size: .85em;
+  transition: 0s;
+  max-height: 100px;
+  width: 625px;
+}
+
+.tags-look, .tagify__dropdown__item--focus{
+  border-color: #CCC;
+}
+
+.tags-look, .tagify__dropdown__item:hover{
+  background: lightyellow;
+  border-color: gold;
+}
 

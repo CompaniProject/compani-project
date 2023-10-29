@@ -96,6 +96,8 @@ public class IssueController {
 				uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
+		// 해시태그 저장
+		//issueHashtagService.modalInsertIssueHashtag(issuNo, );
 				
 	}
 	

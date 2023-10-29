@@ -1,6 +1,8 @@
 package com.yedam.compani.issue.hashtag.service;
 
+import java.util.List;
+
 public interface IssueHashtagService {
 	// 모달 해시태그 등록
-	public int modalInsertIssueHashtag(IssueHashtagVO issueHashtagVO);
+	public void modalInsertIssueHashtag(final int issuNo, final List<IssueHashtagVO> hashtags);
 }

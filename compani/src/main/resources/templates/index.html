@@ -286,15 +286,7 @@
                                         <div class="sectionTitle">
                                             <p class="sectionTitleText">해시태그</p>
                                         </div>
-                                        <div class="hashtagContent" style="width: 630px;">
-                                            <div class="hashtagList">
-                                                <div class="tagBox task" title="업무">
-                                                    <p>#</p>
-                                                    <span class="Ready"></span>
-                                                    <p class="textEllipsis">업무</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <input name='input-custom-dropdown' class='tagify__dropdown__item' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
                                     </div>
                                 </div>
                                 <!--  취소 확인하는 모달  -->
@@ -654,11 +646,25 @@
             </div>
         </div>
     </div>
-
-
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
     <script th:inline="javascript">
+    var inputHash = document.querySelector('input[name="input-custom-dropdown"]');
+
+    var tagify = new Tagify(inputHash, {
+      maxTags : 10, // 최대 허용 태그 개수
+      dropdown: {
+        position: "input",
+        classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+        enabled : 0 // always opens dropdown when input gets focus
+      }
+    })
+    tagify.on('add', function() {
+      console.log(JSON.stringify(tagify.value));
+    })
 
     </script>
+
+
 </th:block>
 
 </html>
