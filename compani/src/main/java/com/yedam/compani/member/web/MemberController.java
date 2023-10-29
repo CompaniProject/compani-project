@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.company.service.CompanyVO;
+import com.yedam.compani.member.service.MemberAuthVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 @Controller
 public class MemberController {
 	@Autowired
@@ -34,17 +36,9 @@ public class MemberController {
 
 	// 로그인
 	@PostMapping("/login")
-	public String memberLogin(MemberVO  vo, HttpSession session) {
+	public void memberLogin(MemberVO  vo, HttpSession session) {
 		vo = service.getMemberInfo(vo);
-		if (vo == null) {
-			return "redirect:loginForm";
-		} else if (vo.getMembAccp().equals("N")) {
-			return "redirect:standBy";
-		} else {
-			session.setAttribute("loginInfo", vo);
-			return "redirect:home";
-		}
-
+		session.setAttribute("membInfo", vo);
 	}
 
 	// 가입 후 대기
@@ -106,6 +100,20 @@ public class MemberController {
 		}
 	}
 	
+	//수정
+	@GetMapping("memberEditForm")
+	public String memberEditForm() {
+	return "member/memberEditInfo";	
+	}
 	
+	//세션 로그인 정보
+	@PostMapping("/memberInfo")
+	@ResponseBody
+	public MemberVO memberInfo(@AuthenticationPrincipal MemberAuthVO vo) {
+		MemberVO membVO = new MemberVO();
+		membVO.setMembId(vo.getUsername());
+		membVO = service.getMemberInfo(membVO);
+		return membVO;
+	}
 
 }
