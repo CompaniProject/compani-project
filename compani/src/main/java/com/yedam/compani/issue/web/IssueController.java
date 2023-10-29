@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,16 +28,16 @@ import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.paging.SearchDto;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class IssueController {
-	@Autowired
-	IssueService issueService;
-	@Autowired
-	IssueFileService issueFileService;
-	@Autowired
-	IssueHashtagService issueHashtagService;
-	@Autowired
-	FileUtils fileUtils;
+	
+	private final IssueService issueService;
+	private final IssueFileService issueFileService;	
+	private final IssueHashtagService issueHashtagService;
+	private final FileUtils fileUtils;
 
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList")
@@ -71,17 +71,14 @@ public class IssueController {
 	// 모달 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회
 	@RequestMapping("/ModalIssueInfo")
 	@ResponseBody
-	public Map<String, Object> modalIssueSelect(IssueVO issueVO) {
+	public Map<String, Object> modalIssueSelect(final int issuNo) {
 			Map<String, Object> map = new HashMap<>();
+			IssueVO vo = issueService.findIssueById(issuNo);
+			map.put("issueInfo", vo);
 			
-			issueVO = issueService.getIssueInfo(issueVO);			
-			map.put("issueInfo", issueVO);
+			List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);			
+			map.put("issueFile", list);
 			
-			int issuNo = issueVO.getIssuNo();
-			System.out.println("이슈 번호는 ===================" + issuNo);
-			List<IssueFileVO> list = issueFileService.selectIssueFile(issuNo);
-			
-			map.put("issueFile", list);									
 			return map;
 	}
 	
@@ -102,4 +99,18 @@ public class IssueController {
 				
 	}
 	
+	// 모달에서 이슈 수정
+	@PostMapping("/ModalIssueUpdate")
+	@ResponseBody
+	public IssueVO modalIssueUpdate(@RequestBody final IssueVO params) {
+		issueService.updateIssue(params);
+		return issueService.findIssueById(params.getIssuNo());
+	}
+	
+	// 모달에서 이슈 삭제
+	@PostMapping("/ModalIssueDelete")
+	@ResponseBody
+	public void modalIssueDelete(@RequestParam final int issuNo) {
+		issueService.deleteIssue(issuNo);
+	}
 }

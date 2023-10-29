@@ -22,31 +22,31 @@
 		AND 		  B.PRJT_NO = P.PRJT_NO
 		<choose>
 			<when test="keyword == '작성자'">
-				AND MEMB_ID LIKE '%' || #{search} || '%'
+				 AND MEMB_ID LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '제목'">
-				AND ISSU_TTL LIKE '%' || #{search} || '%'
+				 AND ISSU_TTL LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '전체'">
-				AND (MEMB_ID LIKE '%' || #{search} || '%'
-				OR ISSU_TTL LIKE '%' || #{search} || '%')
+				 AND (MEMB_ID LIKE '%' || #{search} || '%'
+				 OR ISSU_TTL LIKE '%' || #{search} || '%')
 			</when>
 		</choose>
-		ORDER BY ISSU_DT ASC
+		ORDER BY ISSU_DT DESC
 	</select>
 
 	<select id="getIssueList" resultType="IssueVO">
-		SELECT p.PRJT_NM, 
-			   i.MEMB_ID ,
-			   i.ISSU_DT,
-			   i.ISSU_ST
-		FROM   project p , issue i
-		WHERE  p.prjt_NO = i.prjt_NO
+		SELECT  p.PRJT_NM, 
+			    i.MEMB_ID ,
+			    i.ISSU_DT,
+			    i.ISSU_ST
+		FROM    project p , issue i
+		WHERE   p.prjt_NO = i.prjt_NO
 
 	</select>
 	
 	<!-- 단건 조회 -->
-	<select id="selectIssueInfo" resultType="IssueVO">
+	<select id="findById" resultType="IssueVO">
 		SELECT 	  ISSU_NO
 						, PRJT_NO
 						, BUSS_NO
@@ -66,39 +66,60 @@
 				SELECT NVL(MAX(issu_no), 0) + 1
 				FROM   issue
 		</selectKey>
-		INSERT INTO issue
-				(   issu_no
-				  , prjt_no
-				  , buss_no
-				  , memb_id
-				  , issu_ttl
-				  , issu_cntn
-				  , issu_knd
-				  , issu_rank
-				  , issu_st
-				  , issu_dt																			 
-				)
+		INSERT INTO		 issue
+						(   
+								 issu_no
+							   , prjt_no
+							   , buss_no
+							   , memb_id
+							   , issu_ttl
+							   , issu_cntn
+							   , issu_knd
+							   , issu_rank
+							   , issu_st
+							   , issu_dt																			 
+						)
 			  VALUES  
-			   (
-					#{issuNo}
-				  , 1
-				  , 1
-				  , 'm1'
-				  , #{issuTtl}
+			           (
+								#{issuNo}
+							  , 1
+							  , 1
+							  , 'm1'
+							  , #{issuTtl}
 			<choose>
 				<when test="issuCntn != null and !issuCntn.equals('')">
-				  , #{issuCntn}
+							  , #{issuCntn}
 				</when>
 				<otherwise>
-				  , 'No Contents'
+				 			 , 'No Contents'
 				</otherwise>
 			</choose>
-				  , #{issuKnd}
-				  , #{issuRank}
-				  , '0E2'
-				  , SYSDATE					
-			   )								 
-</insert>
-
+						     , #{issuKnd}
+						     , #{issuRank}
+						     , '0E2'
+					 	     , SYSDATE					
+			 		   )								 
+	</insert>
+	
+	<update id="update" parameterType="IssueVO">
+		UPDATE    issue
+		SET         
+					    issu_ttl    = #{issuTtl}
+					,   issu_cntn = #{issuCntn}
+					,   issu_knd  = #{issuKnd}
+					,   issu_rank = #{issuRank}
+					,   issu_st     = #{issuSt}
+					,   issu_dt     = SYSDATE
+		WHERE    
+						issu_no    = #{issuNo}								
+	</update>
+	
+	<!--  이슈 삭제 -->
+		<delete id="deleteById" parameterType="int">
+			DELETE 
+			FROM 		 ISSUE
+			WHERE      
+							 ISSU_NO = #{issuNo}
+		</delete>
 	
 </mapper>

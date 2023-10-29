@@ -32,11 +32,11 @@
 		 <!-- 댓글 상세정보 조회 -->
 		 	<select id="findById" resultType="IssueReplyVO">
 		 		  SELECT			 	 issu_rply_no
-								   ,     issu_no
-								   ,     memb_id
-								   ,     issu_rply_cntn
-								   ,     issu_rply_dt
-								   ,     issu_rply_del					
+									   ,     issu_no
+									   ,     memb_id
+									   ,     issu_rply_cntn
+									   ,     issu_rply_dt
+									   ,     issu_rply_del					
 				 FROM               	 issue_reply
 				 WHERE           		 issu_rply_no = #{issuRplyNo}		 			 			 	
 		 	</select>
@@ -45,7 +45,7 @@
 			  <update id="update" parameterType="IssueReplyVO">
 				   UPDATE 			issue_reply
 				   SET				issu_rply_dt    = SYSDATE
-								 ,  issu_rply_cntn  = #{issuRplyCntn}
+									 ,  issu_rply_cntn  = #{issuRplyCntn}
 				   WHERE         	issu_rply_no    = #{issuRplyNo}
 			  </update>
 		
@@ -58,22 +58,22 @@
 		 <!-- 댓글 리스트 조회 -->
 			 <select id="findAll" parameterType="int" resultType="issueReplyVO">
 			 	SELECT			 issu_rply_no
-						   ,     issu_no
-						   ,     memb_id
-						   ,     issu_rply_cntn
-						   ,     issu_rply_dt
-						   ,     issu_rply_del					
-				 FROM            issue_reply
-				 WHERE           issu_rply_del = 0
-				 AND             issu_no  = #{issuNo}	 	
+								   ,     issu_no
+								   ,     memb_id
+								   ,     issu_rply_cntn
+								   ,     issu_rply_dt
+								   ,     issu_rply_del					
+				 FROM               issue_reply
+				 WHERE            issu_rply_del = 0
+				 AND                 issu_no  = #{issuNo}	 	
 				 ORDER BY        issu_rply_no  DESC			 			 			 
 			 </select>
 		 <!--  댓글 수 카운팅 -->
 		   	<select id="count" resultType="int">
 		        SELECT	 COUNT(*)
-		        FROM	 issue_reply
-		        WHERE	 issu_rply_del = 0
-		        AND 	 issu_no = #{issuNo}
+		        FROM	   	 issue_reply
+		        WHERE	     issu_rply_del = 0
+		        AND 	     issu_no = #{issuNo}
     		</select>
 		 	
 </mapper>

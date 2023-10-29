@@ -758,7 +758,7 @@ form.fileupload.dz {
     margin: 0;
 }
 
-#cancelConfirmationModal, #checkingInput {
+#cancelConfirmationModal,  #cancelEditConfirmationModal, #checkingInput, #editCheckingInput, #delConfirmationModal {
     width: 400px;
     min-height: 245px;
     box-sizing: border-box;
@@ -769,7 +769,7 @@ form.fileupload.dz {
     z-index: 10000;
 }
 
-#cancelConfirmationModalBody {
+#cancelConfirmationModalBody, #cancelEditConfirmationModalBody, #editConfirmationModalBody, #delConfirmationModalBody {
     text-align: center;
     padding: 0 26px 0 26px;
 }
@@ -778,7 +778,6 @@ form.fileupload.dz {
     width: 40px;
     height: 40px;
     content: url(/images/notice.png);
-    /* margin-bottom: 7px; */
 }
 
 #modal-meg {
@@ -946,7 +945,7 @@ form.fileupload.dz {
     width: 65px;
 }
 
-.deleteFile {
+.deleteFile, .deleteEditFile{
     width: 28px;
     height: 28px;
     border-radius: 4px;
@@ -967,18 +966,46 @@ form.fileupload.dz {
     box-sizing: border-box;
 }
 
-.modaIssuelInfoContent > .issueInfoContentTopBar {
+.modalIssueInfoContent > .issueInfoContentTopBar {
     position: sticky;
     top: 0;
     z-index: 5000;
     display: flex;
-    justify-content: space-between;
     width: 96%;
     height: 48px;
     margin-right: 20px;
     padding: 8px 0;
     background-color: #FFFFFF;
 }
+
+ .issueInfoContentTopBar > .issueEditing {	 
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #FFFFFF;
+    background-color: #0098fe;
+    transition: all 0.2s ease;
+    margin-left : 405px;
+ } 
+ 
+  .issueInfoContentTopBar > .issueDeleting {	 
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #FFFFFF;
+    background-color: #ff5e5e;
+    transition: all 0.2s ease;
+    margin-left: 5px;
+ } 
+ 
 
 .issueNameInfo {
     width: 100%;
@@ -1303,3 +1330,353 @@ form.fileupload.dz {
 .cancel {
 	background: #555555;
 }
+
+<!-- 이슈 수정 폼 -->
+.modalEditContent	{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 6px 0 0;
+    box-sizing: border-box;
+}
+
+
+.modalEditContent > .issueEditContentTopBar {
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    height: 48px;
+    margin-right: 20px;
+    padding: 8px 0;
+    background-color: #FFFFFF;
+}
+
+.issueEditContentTopBar > .cancelEditing {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    background-image: url(/images/cancel_writing.png);
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.issueEditContentTopBar > .completeEditing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #cccccc;
+    background-color: #eaeaea;
+    transition: all 0.2s ease;
+}
+
+.issueEditContentTopBar > .completeEditing.registrable {
+    color: #ffffff;
+    background-color: #0098fe;
+    border-color: #0098fe;
+    cursor: pointer;
+}
+
+.editIssueName {
+    width: 100%;
+    max-height: 82px;
+}
+
+.editIssueNameBack {
+    width: 100%;
+    min-height: 48px;
+    height: fit-content;
+    max-height: 82px;
+    padding: 6px 6px 5px 6px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: solid 1px transparent;
+    transition: all 0.2s ease;
+}
+
+.editIssueNameBack:hover {
+    border: solid 1px #eaeaea;
+}
+
+.editIssueNameBack.focus {
+    border: solid 1px #0098fe;
+}
+
+.editIssueNameBack > textarea {
+    width: 100%;
+    max-height: 68px;
+    line-height: 1.7;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    background-color: #ffffff;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    transition: all 0.4s ease;
+    letter-spacing: -0.03em;
+}
+
+.editIssueKnd {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+ .editIssueKnd > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 50px;
+
+}
+
+.dropBoxArea {
+    position: relative;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.editIssueSt {
+    display: flex;
+    align-items: center;
+    height: 100%;
+	margin-left: 150px;
+}
+
+ .editIssueSt > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 65px;
+}
+
+.editIssueRank {
+    display: flex;
+    align-items: center;
+    height: 100%;
+	margin-left: 150px;
+}
+
+ .editIssueRank > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 65px;
+}
+
+.writingContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin-right: 22px;
+    padding-bottom: 8px;
+}
+
+.writingSection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.sectionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    min-height: 20px;
+}
+
+.sectionTitleText {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    margin-top: 10px;
+}
+
+.dz-message {
+    text-align: center;
+    padding: 5px;
+    display: block;
+    font-size: .875rem;
+    font-weight: 500;
+    opacity: 1;
+    border-radius: 0.5rem;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    transition: all .35s ease;
+    color: rgba(108, 117, 125, 0.5);
+}
+
+form.fileupload.dz {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.editingLoadBtn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.editingLoadBtn > span {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.editingLoadBtn.upload > span {
+    background-image: url(/images/upload_file.png);
+}
+
+.editingLoadBtn > p {
+    font-size: 14px;
+    color: #575757;
+    margin: 0;
+}
+
+.editingContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin-right: 22px;
+    padding-bottom: 8px;
+}
+
+.editingSection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.dz-message {
+    text-align: center;
+    padding: 5px;
+    display: block;
+    font-size: .875rem;
+    font-weight: 500;
+    opacity: 1;
+    border-radius: 0.5rem;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    transition: all .35s ease;
+    color: rgba(108, 117, 125, 0.5);
+}
+
+fileupload.dz {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.LoadBtn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.LoadBtn > span {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.LoadBtn.upload > span {
+    background-image: url(/images/upload_file.png);
+}
+
+.LoadBtn > p {
+    font-size: 14px;
+    color: #575757;
+    margin: 0;
+}
+
+.editHashtagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 4px;
+    width: 100%;
+    padding: 16px 12px;
+    box-sizing: border-box;
+}
+
+.editHashtagContent {
+    width: 100%;
+    border: solid 1px #eaeaea;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    position: relative;
+    height: 80px;
+}
+
+.editTagBox {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+.editTagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+}
+
+.editTagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+    margin: 0;
+}
+
+.editTextEllipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+

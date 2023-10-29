@@ -4,60 +4,93 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.issue.file.mapper.IssueFileMapper">
 	<insert id="modalInsertIssueFile" parameterType="list">
-					INSERT INTO issue_file
-							(   issu_file_no
-							  , issu_file_nm
-							  , issu_file_path
-							  , issu_no
-							  , issu_file_size
-							  , issu_file_del
-							  , issu_file_dt
-							  , issu_file_del_dt																		 
-							)
-					SELECT issue_file_seq.nextval, A.*
-					FROM (	
-							<foreach item="file" collection="list" separator="UNION ALL ">		   
-								SELECT 		#{file.issuFileNm}
-							 			 , 	#{file.issuFilePath}
-							  			 , 	#{file.issuNo}
-							             , 	#{file.issuFileSize}
-							  , 			0 
-							  ,             SYSDATE
-							  ,             NULL
-							   FROM     DUAL
-						   </foreach>   	   
-						   ) A								 
+        INSERT INTO   issue_file
+                  (   issu_file_no
+                    , issu_file_nm
+                    , issu_file_path
+                    , issu_no
+                    , issu_file_size
+                    , issu_file_del
+                    , issu_file_dt
+                    , issu_file_del_dt
+                  )
+        SELECT issue_file_seq.nextval, A.*
+        FROM (
+        <foreach item="file" collection="list" separator="UNION ALL ">
+            SELECT 		#{file.issuFileNm}
+                    , 	#{file.issuFilePath}
+                    , 	#{file.issuNo}
+                    , 	#{file.issuFileSize}
+                    , 	0
+                    ,  SYSDATE
+                    ,  NULL
+            FROM       DUAL
+        </foreach>
+             ) A
 	</insert>
-	
+
 	<!-- 해당 이슈에 대한 모든 파일 조회 -->
 	<select id="select" resultType="IssueFileVO">
-		SELECT 	   ISSU_FILE_NO
-				 , ISSU_FILE_NM
-				 , ISSU_FILE_PATH
-				 , ISSU_NO
-				 , ISSU_FILE_SIZE
-				 , ISSU_FILE_DEL
-				 , ISSU_FILE_DT
-				 , ISSU_FILE_DEL_DT
-	   FROM        ISSUE_FILE
-	   WHERE       ISSU_NO = #{issuNo}	
+		SELECT 	   issu_file_no
+				 , issu_file_nm
+				 , issu_file_path
+				 , issu_no
+				 , issu_file_size
+				 , issu_file_del
+				 , issu_file_dt
+				 , issu_file_del_dt
+	    FROM       issue_file
+	    WHERE      issu_no = #{issuNo}
+  		AND        issu_file_del = 0
+        ORDER BY   issu_file_no
 	</select>
-	
+
+    <!-- 해당 이슈에 대한 모든 파일 조회 -->
+    <select id="findAllByIds" parameterType="list" resultType="IssueFileVO">
+        SELECT 	      issu_file_no
+                    , issu_file_nm
+                    , issu_file_path
+                    , issu_no
+                    , issu_file_size
+                    , issu_file_del
+                    , issu_file_dt
+                    , issu_file_del_dt
+        FROM          issue_file
+        WHERE         issu_file_del = 0
+        AND       	  issu_file_no IN
+              <foreach collection="list" item="issuFileNo" open="(" separator="," close=")">
+                      #{issuFileNo}
+              </foreach>
+        ORDER BY      issu_file_no
+    </select>
+
+    <delete id="deleteAllByIds" parameterType="list">
+        UPDATE    issue_file
+        SET
+                  issu_file_del = 1
+                , issu_file_del_dt = sysdate
+        WHERE
+                  issu_file_no IN
+                  <foreach collection="list" item="issuFileNo" open="(" separator="," close=")">
+                  #{issuFileNo}
+                  </foreach>
+    </delete>
+
 	<!--  파일 다운로드를 위한 파일 단건 조회 -->
 	<select id="findById" resultType="IssueFileVO">
-		SELECT 	   ISSU_FILE_NO
-				 , ISSU_FILE_NM
-				 , ISSU_FILE_PATH
-				 , ISSU_NO
-				 , ISSU_FILE_SIZE
-				 , ISSU_FILE_DEL
-				 , ISSU_FILE_DT
-				 , ISSU_FILE_DEL_DT
-	   FROM        ISSUE_FILE
-	   WHERE       ISSU_FILE_NO = #{issuFileNo}
-	   AND		   ISSU_FILE_DEL = 0			
+		SELECT 	   issu_file_no
+				 , issu_file_nm
+				 , issu_file_path
+				 , issu_no
+				 , issu_file_size
+				 , issu_file_del
+				 , issu_file_dt
+				 , issu_file_del_dt
+	   FROM        issue_file
+	   WHERE       issu_file_no = #{issuFileNo}
+	   AND		   issu_file_del = 0
 	</select>
-	
+
 	<!--  파일 수 카운팅 -->
 	<select id="count" resultType="int">
 		 SELECT	 COUNT(*)
