@@ -486,15 +486,22 @@ function viewIssueInfo(id) {
 	modals.find('.issueKndInfo').empty();
 	modals.find('.issueStInfo').empty();
 
-    var itrTag = $('<tr/>').addClass('InfoFilesEmpty');
-    var itdTag = $('<td/>').text('등록된 파일이 없습니다').css('color', '#A8A8A8');
-    itrTag.append(itdTag);
-    $('#issueInfoFiles').append(itrTag);
-
 	$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
 		.done(function (data) {
 			var issueInfo = data.issueInfo;
 			var issueFile = data.issueFile;
+			var issueInfoFiles = $('#issueInfoFiles');
+
+            if (issueFile.length != 0) {
+                  issueInfoFiles.empty();
+            } else {
+                  issueInfoFiles.empty();
+			      var itrTag = $('<tr/>').addClass('InfoFilesEmpty');
+                  var itdTag = $('<td/>').text('등록된 파일이 없습니다').css('color', '#A8A8A8');
+                  itrTag.append(itdTag);
+                  issueInfoFiles.append(itrTag);
+            };
+
 			$('.modalIssueName').val(issueInfo.issuTtl).data('issuNo', issuNo);
 			$('.m-b-3').text(issueInfo.membId);
 			
@@ -536,10 +543,7 @@ function viewIssueInfo(id) {
 
 			// 첨부된 파일 리스트.												
 			$.each(issueFile, function (idx, item) {
-                if (issueFile != null) {
-                        $('#issueInfoFiles').empty();
-                }
-				var trTag = $('<tr/>').data('fileNo', issueFile.issuFileNo);
+				var trTag = $('<tr/>').data('fileNo', item.issuFileNo);
 
 				var fileNameTag = $('<td/>').text(item.issuFileNm);
 				var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
@@ -548,7 +552,7 @@ function viewIssueInfo(id) {
 				trTag.append(fileSizeTag);
 				trTag.append(downloadFileTag);
 
-				$('#issueInfoFiles').append(trTag);
+				issueInfoFiles.append(trTag);
 			});
 			countFile(issuNo);
 

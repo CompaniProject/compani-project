@@ -207,8 +207,7 @@
                                         <div class="basic-dropdown" style="display: inline;">
                                             <div class="dropdown">
                                                 <button type="button" id="issuKndVal" name="issuKndVal"
-                                                    class="badge badge-dark" data-toggle="dropdown">선택
-                                                </button>
+                                                    class="badge badge-dark" data-toggle="dropdown">선택</button>
                                                 <div class="dropdown-menu" style="cursor: pointer;">
                                                     <a class="dropdown-item"><span
                                                             class="badge badge-pill badge-warning">개선사항</span></a>
@@ -229,8 +228,7 @@
                                             <div class="basic-dropdown">
                                                 <div class="dropdown">
                                                     <button type="button" class="badge badge-dark"
-                                                        data-toggle="dropdown" id="issuRankVal">선택
-                                                    </button>
+                                                        data-toggle="dropdown" id="issuRankVal">선택</button>
                                                     <div class="dropdown-menu" style="cursor: pointer;">
                                                         <a class="dropdown-item"><span
                                                                 class="badge badge-primary">매우높음</span></a> <a
@@ -407,11 +405,6 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="issueInfoFiles">
-                                                        <tr class="InfoFilesEmpty">
-                                                            <td style="color: rgb(168, 168, 168);">등록된 파일이 없습니다.</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -759,9 +752,17 @@
 
         // ajax 이슈 수정
         function updateIssue() {
+            var formData = new FormData();
+
             var issuNo = $('.modalIssueName').data('issuNo');
+            formData.append('issuNo', issuNo);
+
             var title = $('#editIssuTtlVal').val();
+            formData.append('issuTtl', title);
+
             var content = editorEditing.getHTML();
+             formData.append('issuCntn', content);
+
             var kind = $('#editIssuKndVal').text();
             var rank = $('#editIssuRankVal').text();
             var status = $('#editIssuStVal').text();
@@ -797,27 +798,32 @@
             } else if (status == '해결불가') {
                 status = '0E3';
             }
+            formData.append('issuRank', rank);
+            formData.append('issuKnd', kind);
+            formData.append('issuSt', status);
 
-            const params = {
-                issuNo: issuNo,
-                issuTtl: title,
-                issuCntn: content,
-                issuKnd: kind,
-                issuRank: rank,
-                issuSt: status
+            var inputFiles = document.querySelector('.editReal-upload');
+            var filesInfo = inputFiles.files;
+            console.log('들어간 파일 길이는 .....' +filesInfo.length + " 입니다 !!!!!!!");
+            for (i = 0; i< filesInfo.length; i++) {
+                formData.append("editFiles", filesInfo[i]);
             }
-
+            formData.append('removeFileIds', removeFileId.getAll().join());
+            console.log('삭제된 fileNo는 ' +removeFileId.getAll().join() + '번 입니다 ....!!!');
             $.ajax({
                 url: '/ModalIssueUpdate',
                 type: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify(params)
+                processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+		        contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+                data: formData
             })
                 .done(function (response) {
                     alert('수정되었습니다');
                     $('.modalIssueEditForm').css('display', 'none');
                     $('.modalIssueInfoForm').css('display', 'block');
                     viewIssueInfo(response.issuNo);
+                    removeFileId.removeAll();
+                    editDataTransfer.clearData();
                 })
                 .fail(function (err) {
                     console.log(err)
@@ -902,11 +908,11 @@
                 .done(function (response) {
                     $.each(response, function (idx, item) {
 
-                        var trTag = $('<tr/>').data('editFileNo', response.issuFileNo);
-
+                        var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
+                        console.log(item.issuFileNo + '입니다');
                         var fileNameTag = $('<td/>').text(item.issuFileNm);
                         var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
-                        var deleteFileTag = $('<td/>').attr('class', 'deleteEditFile').attr('onclick', ''); // 기존꺼 삭제하는 함수.
+                        var deleteFileTag = $('<td/>').attr('class', 'deleteEditFile').attr('onclick', 'removeExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
 
                         trTag.append(fileNameTag);
                         trTag.append(fileSizeTag);
@@ -982,6 +988,36 @@
         // 수정 폼에서 새롭게 추가된 파일 삭제 시
         function editRemoveFile(element) {
             removeEditFileFromDataTransfer(element);
+            var tr = $(element).closest('tr');
+            tr.remove();
+        }
+
+        // 파일 삭제 처리용 익명 함수
+        const removeFileId = (function() {
+            const ids = [];
+            return {
+                add(id) {
+                    if (ids.includes(id)) {
+                        return false;
+                    }
+                    ids.push(id);
+                },
+                getAll() {
+                    return ids;
+                },
+                removeAll() {
+                    ids.length = 0;
+                }
+            }
+        }());
+
+        // 수정 폼 기존 파일 삭제
+        function removeExistingFile(element, id) {
+            // 1. 삭제할 파일 id 추가
+            if (id) {
+                removeFileId.add(id);
+            }
+            // 2. 파일 영역 삭제
             var tr = $(element).closest('tr');
             tr.remove();
         }
