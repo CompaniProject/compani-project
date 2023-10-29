@@ -42,12 +42,12 @@
 											 , memb_id
 											 , file_size)
 					VALUES (
-							file_no = #{fileNo}
-							, prjt_no = #{prjtNo}
-							, file_nm = #{fileNm}
-							, file_path = #{filePath}
-							, memb_id = #{membId}
-							, file_size = #{fileSize}
+							#{fileNo}
+							, #{prjtNo}
+							, #{fileNm}
+							, #{filePath}
+							, #{membId}
+							, #{fileSize}
 								)
 						
 				</insert>
@@ -58,6 +58,35 @@
 					DELETE FROM PROJECT_FILE
 					WHERE 		FILE_NO = #{fileNo}
 				</delete>
-
+				
+				<!-- 검색기능 -->
+				<select id="fileSearch" resultType="FileVO">
+					SELECT  FILE_NO
+							, PRJT_NO
+							, BUSS_NO
+							, FILE_NM
+							, FILE_PATH
+							, FILE_TYPE
+							, FILE_DESCT
+							, FILE_DT
+							, MEMB_ID
+							, FILE_SIZE
+							
+					FROM	PROJECT_FILE F, BUSINESS B, PROJECT P
+					WHERE 	F.BUSS_NO = B.BUSS_NO
+					AND		B.PRJT_NO = P.PRJT
+					<choose>
+						<when test="type == 'name'.toString()">
+							(fileNm like '%' || #{keyword} || '%')
+						</when>
+						<when test="type == 'writer'.toString()">
+							(membId like '%' || #{keyword) || '%')
+						</when>
+					</choose>		
+				</select>
+		
+		
+		
+		
 		
 </mapper>

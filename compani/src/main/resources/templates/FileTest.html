@@ -16,15 +16,22 @@ ul li {
 
 </head>
 <body>
-
-		<input type="file" multiple="multiple" id="hi" />
-
+		<form method="post" action="/upload" enctype="multipart/form-data">
+			<input type="file" multiple="multiple" id="hi" />
+			<input type="submit">
+		</form>
 	
 	<ul id="wow">
 
 	</ul>
 	
-    
+	<select name="type">
+		<option value="name">파일명</option>
+		<option value="writer">ㅅㅂ</option>
+	</select>
+	
+	<input type="text" name="keyword">    
+	<button id="tq"> tq</button>
 
 </body>
 <script>
@@ -61,7 +68,7 @@ ul li {
 		}
 	}
 	
-	// ======== 파일 업로드 ========
+	/* ¿// ======== 파일 업로드 ========
 	$('#hi').on('change', function(){
 		
 		var formData = $('#hi').serialize();
@@ -82,7 +89,31 @@ ul li {
 				console.log(reject);			
 			}
 		});
-	})
+	}) */
+	
+	 $('#tq').on('click', function() {
+		      
+		        var keyword = $('[name="keyword"]').val();
+		        var type = $('[name="type"]').val();
+		
+		   
+		        $.ajax({
+		            type: 'GET',
+		            url: 'ajaxSearch',
+		            data: {
+		                type: type,
+		                keyword: keyword
+		            },
+		            success: function(response) {
+		                console.log(response);
+	
+		            },
+		            error: function(error) {
+		                console.log(error);
+		            }
+		        });
+		    });
+		
 	
 </script>
 </html>

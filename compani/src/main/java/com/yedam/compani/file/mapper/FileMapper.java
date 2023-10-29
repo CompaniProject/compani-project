@@ -2,6 +2,7 @@ package com.yedam.compani.file.mapper;
 
 import java.util.List;
 
+import com.yedam.compani.file.service.FileSearch;
 import com.yedam.compani.file.service.FileVO;
 
 public interface FileMapper {
@@ -22,6 +23,6 @@ public interface FileMapper {
 		public int fileSelDel(List<Integer> fileNo);
 		
 		// 업무 모달 파일함 검색기능
-		public List<FileVO> fileSearch(FileVO fileVO);
+		public List<FileVO> fileSearch(FileSearch search);
 	
 }

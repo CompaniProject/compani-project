@@ -103,7 +103,7 @@ input[type="checkbox"]:checked::after {
 											<div class="ModalTitle">
 												<div class="ModalProjectNameBox">
 													<div id="ProjectLink">
-														#<span></span>
+														<span></span>
 														<p class="textEllipsis">프로젝트3</p>
 													</div>
 												</div>
@@ -124,18 +124,21 @@ input[type="checkbox"]:checked::after {
 													<!-- 검색 필터 -->
 													<div class="SearchBox"
 														style="margin-right: 20px; margin-left: 20px">
+
 														<label for="SearchToggleCheckBox"></label>
-														<form name="search-form">
+														
+														<input type="hidden" data-value="type" >
+																<input type="button" id="Searching" value="ㅇ안녕">
 															<div class="SearchInputBox" style="width: 290px;">
 	
 																<div>
 																	<div class="issue-selectBox" style="width: 100px;">
 																		<div class="issue-selected" id="issue-selected">
 																			<div class="issue-selected-value"
-																				id="issue-select-value" data-value="">내용선택</div>
+																				id="select-value" data-value="">--</div>
 																			<div class="arrow"></div>
 																		</div>
-																		<ul class="issue-select-ul" data-value="type" id="type"
+																		<ul class="issue-select-ul"
 																			style="width: 100px; top: 20%; display: none;">
 																			<li class="issue-select-option" data-value="name" id="name">파일명</li>
 																			<li class="issue-select-option" data-value="writer" id="writer">작성자</li>
@@ -147,9 +150,9 @@ input[type="checkbox"]:checked::after {
 																	><span
 																	class="DeleteSearchWord"></span>
 															</div>
-														</form>
+													
 													</div>
-													<button onclick="playSearch()">Test</button>
+										
 													<form id="formdata1">
 														<input type="file" id="selectedFile" style="display: none;"
 															onchange="fileInfo()" multiple="multiple" /> 
@@ -163,7 +166,7 @@ input[type="checkbox"]:checked::after {
 												</div>
 												<hr>
 												<br> <br>
-
+												<button id="sibal"> ㅋㅋ</button>
 												<div class="ModalInfoArea IssueInfoArea">
 
 													<div class="col-lg-6" style="width: 100%; max-width: 100%;">
@@ -334,27 +337,6 @@ input[type="checkbox"]:checked::after {
 					}	
 				});
 			}  
-				
-			
-		
-		// ======== 검색기능 ========
-			function playSearch(){
-				var typeValue = $('#type').val(); 
-				var keyValue = $('#keyword').val();
-				
-				$.ajax({
-					url : 'AjaxSearchFile?type=' + typeValue + '&keyword='
-							+ keyValue,
-					type : 'get',
-					data : $('form[name="search-form"]').serialize(),
-					success : function(){
-								alert("ㅋ");
-							},
-					error : function(){
-							alert("실패");
-					}
-				}								
-			)}
 		
 		// ======== 파일 업로드 ========
 			$('#selectedFile').on('change', function(){
@@ -378,6 +360,27 @@ input[type="checkbox"]:checked::after {
 					}
 				});
 			})
+			
+			// ======== 검색 기능 ========			
+		    $('#Searching').on('click', function() {
+		        var keyword = $('#keyword').val();
+		        var type = $('#type').val();
+		
+		        $.ajax({
+		            type: 'GET',
+		            url: '/api/files/ajaxSearch',
+		            data: {
+		                type: type,
+		                keyword: keyword
+		            },
+		            success: function(response) {
+		                console.log(response);
+		            },
+		            error: function(error) {
+		                console.log(error);
+		            }
+		        });
+		    });
 
 		
 	</script>
