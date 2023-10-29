@@ -36,7 +36,7 @@
 		SELECT pm.memb_id
 				, NVL(mg.buss_st_cnt,0) AS end_cnt
 				, NVL(mg.total,0) AS total
-				, ROUND(NVL(buss_st_cnt/DECODE(total*100, 0, NULL, total*100),0)) AS status
+				, ROUND(NVL(buss_st_cnt/DECODE(total, 0, NULL, total)*100,0)) AS status
 				, m.memb_nm
 		FROM
 		project_member pm LEFT JOIN
