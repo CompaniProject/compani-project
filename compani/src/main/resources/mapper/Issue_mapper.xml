@@ -32,16 +32,16 @@
 				 OR ISSU_TTL LIKE '%' || #{search} || '%')
 			</when>
 		</choose>
-		ORDER BY ISSU_DT ASC
+		ORDER BY ISSU_DT DESC
 	</select>
 
 	<select id="getIssueList" resultType="IssueVO">
 		SELECT  p.PRJT_NM, 
-					   i.MEMB_ID ,
-					   i.ISSU_DT,
-					   i.ISSU_ST
-		FROM      project p , issue i
-		WHERE    p.prjt_NO = i.prjt_NO
+			    i.MEMB_ID ,
+			    i.ISSU_DT,
+			    i.ISSU_ST
+		FROM    project p , issue i
+		WHERE   p.prjt_NO = i.prjt_NO
 
 	</select>
 	

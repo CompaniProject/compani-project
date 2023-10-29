@@ -76,9 +76,9 @@ public class IssueController {
 			IssueVO vo = issueService.findIssueById(issuNo);
 			map.put("issueInfo", vo);
 			
-			List<IssueFileVO> list = issueFileService.selectIssueFile(issuNo);
+			List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);			
+			map.put("issueFile", list);
 			
-			map.put("issueFile", list);									
 			return map;
 	}
 	

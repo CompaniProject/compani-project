@@ -424,8 +424,8 @@ $("#files").change(function () {
 		for (var i = 0; i < fileArr.length; i++) {
 			dataTransfer.items.add(fileArr[i])
 		}
-		/* 	console.log("dataTransfer =>",dataTransfer.files)
-			console.log("input FIles =>", document.getElementById("files").files) */
+		 /*	console.log("dataTransfer =>",dataTransfer.files)
+			console.log("input FIles =>", document.getElementById("files").files)*/
 		document.getElementById("files").files = dataTransfer.files;
 		// ==========================================
 
@@ -435,11 +435,7 @@ $("#files").change(function () {
 
 function removeFileFromDataTransfer(element) {
 	var parent = $(element).parent().parent();
-	/* 			console.log(element);
-				console.log(parent); */
 	var children = $(parent).children();
-	//	console.log(children);
-
 	var index = children.index($(element).parent());
 
 	if (index != -1) {
@@ -471,6 +467,7 @@ function returnIssueList() {
 	// 입력 필드 초기화
 	$('#issuReplyCntn').val('');
 	$('#updateReplyComment').val('');
+    $('#issueInfoFiles').empty();
 	$('.modalIssueInfoForm').css('display', 'none');
 	$('.workModalContentBack').css('display', 'block');
 	$('.issueInfoFileList').css('display', 'none');
@@ -489,6 +486,10 @@ function viewIssueInfo(id) {
 	modals.find('.issueKndInfo').empty();
 	modals.find('.issueStInfo').empty();
 
+    var itrTag = $('<tr/>').addClass('InfoFilesEmpty');
+    var itdTag = $('<td/>').text('등록된 파일이 없습니다').css('color', '#A8A8A8');
+    itrTag.append(itdTag);
+    $('#issueInfoFiles').append(itrTag);
 
 	$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
 		.done(function (data) {
@@ -496,7 +497,7 @@ function viewIssueInfo(id) {
 			var issueFile = data.issueFile;
 			$('.modalIssueName').val(issueInfo.issuTtl).data('issuNo', issuNo);
 			$('.m-b-3').text(issueInfo.membId);
-
+			
 			$('.m-b-2').text(dateFormatting(issueInfo.issuDt));
 			viewer.setMarkdown(issueInfo.issuCntn);
 			countReply(issuNo);
@@ -535,11 +536,9 @@ function viewIssueInfo(id) {
 
 			// 첨부된 파일 리스트.												
 			$.each(issueFile, function (idx, item) {
-
-				if (issueFile != null) {
-					$('#issueInfoFiles').empty();
-				}
-
+                if (issueFile != null) {
+                        $('#issueInfoFiles').empty();
+                }
 				var trTag = $('<tr/>').data('fileNo', issueFile.issuFileNo);
 
 				var fileNameTag = $('<td/>').text(item.issuFileNm);

@@ -2,7 +2,9 @@ package com.yedam.compani.issue.file.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,13 +19,17 @@ import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 
 @RestController
+@RequiredArgsConstructor
 public class IssueFileController {
-			
-	  @Autowired
-	  IssueFileService issueFileService;
-	  @Autowired
-	  FileUtils fileUtils;
-	  
+
+	  private final IssueFileService issueFileService;
+	  private final FileUtils fileUtils;
+
+	  // 파일 리스트 조회
+	  @GetMapping("/issues/{issuNo}/files")
+	  public List<IssueFileVO> findAllFileByIssuNo(@PathVariable final int issuNo) {
+		  return issueFileService.findAllFileByIssuNo(issuNo);
+	  }
 	  //첨부 파일 다운로드
 	  @GetMapping("/issues/{issuNo}/files/{issuFileNo}/download")
 	    public ResponseEntity<Resource> downloadFile(@PathVariable final int issuNo, @PathVariable final int issuFileNo) {
