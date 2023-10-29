@@ -21,6 +21,6 @@ public interface FileService {
 	public int fileSelDel(List<Integer> FileNo);
 	
 	// 업무 모달 파일함 검색기능
-	public List<FileVO> fileSearch(FileVO fileVO);
+	public List<FileVO> fileSearch(FileSearch search);
 	
 }

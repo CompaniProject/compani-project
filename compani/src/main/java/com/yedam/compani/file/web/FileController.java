@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.compani.config.BusinessFileUtils;
+import com.yedam.compani.file.service.FileDTO;
+import com.yedam.compani.file.service.FileSearch;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -29,13 +29,13 @@ public class FileController {
 	FileService fileservice;
 	BusinessFileUtils businessfileutils;
 
-	// 전체조회
+	// 프로젝트 자료함 전체조회
 	@GetMapping("projectFile")
 	public String prjtF() {
 		return "projectFile";
 	}
 
-	// 전체조회
+	// 업무 파일함 전체조회
 	@GetMapping("workFile")
 	public String workFile(Model model) {
 		List<FileVO> lFile = fileservice.fileList();
@@ -63,16 +63,14 @@ public class FileController {
 
 	// 업무 모달 파일함 검색 ajax 처리
 
-	@GetMapping("AjaxSearchFile")
-
+	@GetMapping("/AjaxSearch")
 	@ResponseBody
-	public List<FileVO> SearchFile(@RequestParam("type") String type,
-			@RequestParam("keyword") String keyword, Model model) {
-		FileVO fileVO = new FileVO();
-		fileVO.setType(type);
-		fileVO.setKeyword(keyword);
-		return fileservice.fileSearch(fileVO);
-	}
+    public List<FileVO> AjaxSearch(@RequestParam String type, @RequestParam String keyword) {
+        FileSearch search = new FileSearch();
+        search.setType(type);
+        search.setKeyword(keyword);
+        return fileservice.fileSearch(search);
+    }
 
 	// 업무 파일함 파일 업로드(등록)
 	@PostMapping("/AjaxFileInsert")
@@ -133,4 +131,26 @@ public class FileController {
 	        model.addAttribute("originalFileName", originalFileName);
 	        return"upload/fileUploadResult";
 	    }
+	    
+	    @PostMapping("/upload")
+	    public String upload(@RequestParam MultipartFile[] uploadfile, Model model) throws IllegalStateException, IOException {
+	    	List<FileDTO> list = new ArrayList<>();
+	    	for (MultipartFile file : uploadfile) {
+	    		if (!file.isEmpty()) {
+	    			FileDTO dto = new FileDTO(UUID.randomUUID().toString(),
+	    									  file.getOriginalFilename(),
+	    									  file.getContentType());
+	    			list.add(dto);
+	    			
+	    			File newFileName = new File(dto.getFilePath() + "_" + dto.getFileNm());
+	    			
+	    			file.transferTo(newFileName);
+	    		}
+	    	}
+	    	model.addAttribute("files", list);
+	    	return "FileTest";
+	    }
+	    
+	    
+	    
 }
