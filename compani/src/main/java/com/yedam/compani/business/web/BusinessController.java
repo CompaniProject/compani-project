@@ -18,8 +18,7 @@ import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
-import lombok.RequiredArgsConstructor;
-;
+import lombok.RequiredArgsConstructor;;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,38 +27,55 @@ public class BusinessController {
 	private final BusinessService businessService;
 	@Autowired
 	MemberService memberService;
-	
-	
+	@Autowired
+	BusinessService businessMember;
+
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {
-		List<Map<Object,Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
-		model.addAttribute("businessLevelList",businessLevelList);
-		
+		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
+		model.addAttribute("businessLevelList", businessLevelList);
+
 		List<MemberVO> list = memberService.getMemberList();
 		model.addAttribute("memberList", list);
-		
-		List<BusinessVO> busineesNameList =  businessService.bussinessNameList(prjtNo);
+
+		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		System.out.println(busineesNameList);
 		model.addAttribute("businessNameList", busineesNameList);
 		return "project/business-home";
 	}
+
 	@PostMapping("insertBusiness")
 	@ResponseBody
-	public Map<String,Object>insertBusiness(@RequestBody BusinessVO businessVO) {
-		
+	public Map<String, Object> insertBusiness(@RequestBody BusinessVO businessVO) {
+
 		Map<String, Object> map = new HashMap<>();
-		
-		if(businessService.insertBusiness(businessVO) >= 1) {
+		if (businessService.insertBusiness(businessVO) >= 1) {
 			map.put("insertResult", true);
-			
-			if(businessService.updateBusiness(businessVO)>= 1) {
-				map.put("updateResult", true);
-			}else {
-				map.put("updateResult", false);
+			if (!businessVO.getBussDep().equals("")) {
+				if (businessService.updateBusiness(businessVO) >= 1) {
+					map.put("updateResult", true);
+				} else {
+					map.put("updateResult", false);
+				}
 			}
-		}else {
+		} else {
 			map.put("insertResult", false);
 		}
 		return map;
 	}
+	
+	@PostMapping("bussInfoAjax")
+	@ResponseBody
+	public Map<String, Object> bussInfo(BusinessVO businessVO){
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		BusinessVO bussVO = businessService.businessSelect(businessVO);
+		System.out.println(bussVO);
+		map.put("businessVO", bussVO);
+		
+		return map;
+	}
+		
+	
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import com.yedam.compani.config.FileUtils;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
@@ -35,8 +35,8 @@ public class IssueController {
 	IssueFileService issueFileService;
 	@Autowired
 	IssueHashtagService issueHashtagService;
-	@Autowired
-	FileUtils fileUtils;
+	//@Autowired
+	//FileUtils fileUtils;
 
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList")
@@ -89,7 +89,7 @@ public class IssueController {
 		// 파일 업로드, 파일 DB에 저장
 		List<IssueFileVO> uploadedFiles = new ArrayList<>();
 		if (files != null && files.length > 0) {
-				uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
+				//uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
 				

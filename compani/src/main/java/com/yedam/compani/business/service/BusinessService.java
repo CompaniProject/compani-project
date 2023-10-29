@@ -19,4 +19,5 @@ public interface BusinessService {
 	
 	public int insertBusiness(BusinessVO businessVO);
 	public int updateBusiness(BusinessVO businessVO);
+	public BusinessVO businessSelect(BusinessVO businessVO);
 }

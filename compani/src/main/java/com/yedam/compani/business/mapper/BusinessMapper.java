@@ -21,5 +21,6 @@ public interface BusinessMapper {
 	public List<BusinessVO> businessNameList(Integer prjtNo);
 	public int insertBusiness(BusinessVO businessVO);
 	public int updateBusiness(BusinessVO businessVO);
+	public BusinessVO businessSelect(BusinessVO businessVO);
 	
 }
