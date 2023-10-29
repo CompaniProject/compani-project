@@ -20,6 +20,6 @@
 		FROM issue i LEFT JOIN member m
 						   ON i.memb_id = m.memb_id
 		<!-- WHERE prjt_no = {prjtNo} -->
-		ORDER BY issu_no
+		ORDER BY issu_no DESC
 	</select>
 </mapper>
