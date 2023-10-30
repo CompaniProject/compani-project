@@ -24,6 +24,7 @@ import com.yedam.compani.config.FileUtils;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
+import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.paging.SearchDto;
@@ -86,7 +87,7 @@ public class IssueController {
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
 	@ResponseBody
-	public void modalIssueInsert(MultipartFile[] files, IssueVO issueVO) {
+	public void modalIssueInsert(MultipartFile[] files, IssueVO issueVO, IssueHashtagVO issuHashtagVO) {
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
 		
