@@ -5,7 +5,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+.editBtn{
+	cursor:pointer;
+}
+
+.delBtn{
+	cursor:pointer;
+	margin-right:3%;
+
+}
+
+.submitBtn{
+	margin-right:3%;
+	cursor:pointer;
+	display:none;
+	color:blue;
+}
+
+</style>
+
 </head>
+
 <body>
 <th:block layout:fragment="content">
 	<div class="row">
@@ -172,7 +194,8 @@
 											<div style="margin-top:3%">
 												<div th:text="${feedback.prjtFdbkDt}" class="float-left"></div>
 												<div th:text="수정" class="float-right editBtn"></div>
-												<div th:text="삭제" class="float-right delBtn" style="margin-right:3%"></div>
+												<div th:text="삭제" class="float-right delBtn"></div>
+												<div th:text="확인" class="float-right submitBtn"></div>
 											</div>
 										</div>
 										<!-- Comment Area End -->
@@ -259,9 +282,11 @@
 			let comment = $(event.target).closest('.comment-content');
 			let content = comment.find('.content-area');
 			let edit = comment.find('.edit-area');
+			let submitBtn = comment.find('.submitBtn');
 			
 			content.toggle();
 			edit.toggle();
+			submitBtn.toggle();
 			
 		})
 		
