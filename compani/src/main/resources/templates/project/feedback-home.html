@@ -192,7 +192,7 @@
 												<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
 											</div>
 											<div style="margin-top:3%">
-												<div th:text="${feedback.prjtFdbkDt}" class="float-left"></div>
+												<div th:text="${feedback.prjtFdbkDt}" class="float-left" id="date-area"></div>
 												<div th:text="수정" class="float-right editBtn"></div>
 												<div th:text="삭제" class="float-right delBtn"></div>
 												<div th:text="확인" class="float-right submitBtn"></div>
@@ -229,7 +229,7 @@
 		const cpnStatForCurrDt = [[${cpnStatForCurrDt}]];
 		const cpnStatForPrjtDt = [[${cpnStatForPrjtDt}]];
 		const prjtNo = [[${prjtNo}]];
-		const membNm = [[${session.loginInfo.membNm}]];
+		const membNm = 'm1';
 		// -------------------- Status Data End
 	</script>
 	
@@ -281,27 +281,42 @@
 		
 		// ---------------------------------------Project Feedback(Comment) Insert End
 		
-		function updateAjax(obj){
+		// date, content change
+		function changeComment(data, comment){
+			console.log(data);
+			comment.find(".content-area").text(data.prjtFdbkCntn);
+			comment.find("#date-area").text(data.prjtFdbkDt);
+		}
+		
+		// get comment, content, editBtn, submitBtn to Toggle
+		// update textarea - copy to content text
+		function toggleTags(event){
+			let comment = $(event.target).closest('.comment-content');
+			let content = comment.find('.content-area');
+			let edit = comment.find('.edit-area');
+			let submitBtn = comment.find('.submitBtn');
+			
+			content.val(comment.find('textarea').val());
+			
+			content.toggle();
+			edit.toggle();
+			submitBtn.toggle();
+		}
+		
+		// update - using edit, delete
+		function updateAjax(obj, comment){
 			$.ajax({
 				url:'/project/feedback/update',
                 type: 'post',
                 contentType: "application/json",
                 data:JSON.stringify(obj)
 			})
-            .done(data => {console.log(data)})
+            .done(data => {changeComment(data, comment)})
             .fail(err => {});
 		}
 		
 		$('.editBtn').on('click',function(event){
-			// search 
-			let comment = $(event.target).closest('.comment-content');
-			let content = comment.find('.content-area');
-			let edit = comment.find('.edit-area');
-			let submitBtn = comment.find('.submitBtn');
-			
-			content.toggle();
-			edit.toggle();
-			submitBtn.toggle();
+			toggleTags(event);
 		})
 		
 		$('.delBtn').on('click',function(event){
@@ -310,19 +325,14 @@
 		
 		$('.submitBtn').on('click',function(event){
 			let comment = $(event.target).closest('.comment-content');
-			let content = comment.find('.content-area');
-			let edit = comment.find('.edit-area');
-			let submitBtn = comment.find('.submitBtn');
-			
 			let textCntn = comment.find("textarea");
+			
 			let obj = {};
 			obj["prjtFdbkCntn"] = textCntn.val();
 			obj["prjtFdbkNo"] = comment.data('no');
-			updateAjax(obj);
+			updateAjax(obj, comment);
 			
-			content.toggle();
-			edit.toggle();
-			submitBtn.toggle();
+			toggleTags(event);
 		})
 	</script>
 </th:block>
