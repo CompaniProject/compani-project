@@ -1,12 +1,12 @@
 package com.yedam.compani.file.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.compani.file.mapper.FileMapper;
-import com.yedam.compani.file.service.FileSearch;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -25,7 +25,7 @@ public class FileServiceImpl implements FileService {
 	
 	// 조회??;
 	@Override
-	public FileVO fileInto(Integer FileNo) {
+	public FileVO fileInfo(Integer FileNo) {
 
 		return filemapper.fileInfo(FileNo);
 	}
@@ -56,9 +56,9 @@ public class FileServiceImpl implements FileService {
 	
 	// 파일 검색
 	@Override
-	public List<FileVO> fileSearch(FileSearch search) {
+	public List<FileVO> fileSearch(Map<String, String> map) {
 		
-		return filemapper.fileSearch(search);
+		return filemapper.fileSearch(map);
 	}
 	
 
