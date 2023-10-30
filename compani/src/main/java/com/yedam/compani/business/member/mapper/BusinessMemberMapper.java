@@ -1,5 +1,8 @@
 package com.yedam.compani.business.member.mapper;
 
-public interface BusinessMemberMapper {
+import com.yedam.compani.business.member.service.BusinessMemberVO;
+import com.yedam.compani.business.service.FormVO;
 
+public interface BusinessMemberMapper {
+	public BusinessMemberVO insertBusinessMember(FormVO formVO);
 }

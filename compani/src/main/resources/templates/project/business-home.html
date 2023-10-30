@@ -293,7 +293,7 @@
 					</div>
 					<div class="modal-body">
 
-						<form class="form-valide" action="#" method="post">
+						<form id="insertform" class="form-valide" action="#" method="post">
 							<div>
 								<div class="issueNameEdit">
 									<div class="issueNameBack">
@@ -334,7 +334,7 @@
 														th:attr="onclick='searchMember()'"></label> <input
 														type="hidden" id="keyword" value="전체">
 													<div class="SearchInputBox" style="width: 270px;">
-														<div>
+														<div> <!-- 킹킹 -->
 															<div class="member-selectBox" style="width: 100px;">
 																<div class="member-selected" id="member-selected">
 																	<div class="member-selected-value">전체</div>
@@ -367,6 +367,7 @@
 														</thead>
 														<tbody id="membertbl">
 															<th:block th:each="memberList : ${memberList}">
+																<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
 																<tr th:id="${memberList.membId}">
 																	<td><img
 																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
@@ -477,7 +478,7 @@
 
 					</div>
 					<div class="modal-body">
-						<form class="form-valide" action="#" method="post">
+						<form id="updateform" class="form-valide" action="#" method="post">
 							<div>
 								<div class="issueNameEdit">
 									<div class="issueNameBack">
@@ -502,7 +503,7 @@
 															<th>삭제</th>
 														</tr>
 													</thead>
-													<tbody id="insertmembertbl">
+													<tbody id="updatemembertbl">
 
 													</tbody>
 												</table>
@@ -516,11 +517,11 @@
 												<div class="SearchBox" style="height: 50%">
 													<label for="SearchToggleCheckBox"
 														th:attr="onclick='searchMember()'"></label> <input
-														type="hidden" id="keyword" value="전체">
+														type="hidden" id="infokeyword" value="전체">
 													<div class="SearchInputBox" style="width: 270px;">
 														<div>
 															<div class="member-selectBox" style="width: 100px;">
-																<div class="member-selected" id="member-selected">
+																<div class="member-selected" id="infomember-selected">
 																	<div class="member-selected-value">전체</div>
 																	<div class="arrow"></div>
 																</div>
@@ -549,9 +550,9 @@
 																<th>추가</th>
 															</tr>
 														</thead>
-														<tbody id="membertbl">
+														<tbody id="membertbl2">
 															<th:block th:each="memberList : ${memberList}">
-																<tr th:id="${memberList.membId}">
+																<tr th:id="memId" th:value="${memberList.membId}">
 																	<td><img
 																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
 																		height="50px" width="50px" alt="프로필"
@@ -719,6 +720,7 @@
 					
 					trTag.attr('id', id);
 					
+				
 					if(image != null){
 						let imgTag = $('<img>',{
 							src:image,
@@ -746,6 +748,12 @@
 					tdTag.append('<i class="fa-solid fa-minus"></i>');
 					trTag.append(tdTag);
 					
+					let inputTag = $('<input/>');
+					inputTag.attr('type', 'hidden');
+					inputTag.attr('name', 'memId');
+					inputTag.attr('value', id);
+					trTag.append(inputTag);
+					
 					insertmemtbl.append(trTag); 
 				}
 			}
@@ -755,9 +763,10 @@
 			}
 		
 			function searchMember(){
-				let selected = $('.member-selected-value').text();
+				let selected = $('.member-selected-value').first().text();
 				let search  = $('#search').val();
-	
+				console.log(selected);
+				console.log(search);
 	
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
 				.done(function(data){
@@ -770,8 +779,7 @@
 					 	let tdTag = $('<td/>');
 					 	
 						trTag.attr('id', data.MEMB_ID);
-						
-						
+				
 						if(data.MEMB_PHT_PATH != null){
 						let imgTag = $('<img>',{
 							src:"/images/profile/" +data.MEMB_PHT_PATH,
@@ -806,18 +814,29 @@
 			}
 			function insertBusiness(){
 				
-				let formData = $('form').serializeArray();
-				
+				let formData = $('#insertform').serializeArray();
+
 			 	let formObj = {};
+			 	let memberArray = [];
 				$.each(formData, function(idx,obj){
-					formObj[obj.name] = obj.value;
-				}); 
-				console.log(formObj);
+		 		  	if(obj.name != "memId"){
+						formObj[obj.name] = obj.value;
+					}  
+		 		  	else{
+						memberArray.push({membId : obj.value});
+				    }
+				});
+				
+			
+				let obj = {};
+				console.log(obj);
+				obj["business"] = formObj;
+				obj["businessMember"] = memberArray;
 				
 				$.ajax('/insertBusiness' ,{
 					type : 'post',
 					contentType : 'application/json',
-					data : JSON.stringify(formObj)
+					data : JSON.stringify(obj)
 				})
 				.done(data => {
 					console.log(data);

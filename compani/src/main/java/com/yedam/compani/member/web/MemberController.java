@@ -1,6 +1,7 @@
 package com.yedam.compani.member.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.company.service.CompanyService;
@@ -104,5 +106,22 @@ public class MemberController {
 		return "member/memberEditInfo";	
 	}
 	
+	//세션 로그인 정보
+	@PostMapping("/memberInfo")
+	@ResponseBody
+	public MemberVO memberInfo(@AuthenticationPrincipal MemberAuthVO vo) {
+		MemberVO membVO = new MemberVO();
+		membVO.setMembId(vo.getUsername());
+		membVO = service.getMemberInfo(membVO);
+		return membVO;
+	}
+	@GetMapping("memSearchAjax")
+	@ResponseBody
+	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,String> map) {
+	
+		List<MemberVO> List = service.getMemberList(map);
+	
+		return List;
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.yedam.compani.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
 	public List<MemberVO> getMemberList();
@@ -9,4 +10,5 @@ public interface MemberService {
 	public int setMemberInfo(MemberVO vo);
 
 	public List<MemberVO> getMemberIdList();
+	public List<MemberVO> getMemberList(Map<String,String> map);
 }
