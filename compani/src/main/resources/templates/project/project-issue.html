@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/projectlayout}">
+
+<th:block layout:fragment="content">
+	<!--/* 검색, 글쓰기 버튼 START */-->
+	<div class="TopBarProjectIssueControlArea">
+		<div class="piSearchBox">
+			<label for="SearchToggleCheckBox"
+				th:attr="onclick='projectIssuePaging(1)'"></label> <input
+				type="hidden" id="keyword" name="keyword" value="전체">
+			<div class="piSearchInputBox" style="width: 350px;">
+				<div>
+					<div class="pissue-selectBox" style="width: 100px;">
+						<div class="pissue-selected" id="pissue-selected">
+							<div class="pissue-selected-value">전체</div>
+							<div class="arrow"></div>
+						</div>
+						<ul class="pissue-select-ul" style="width: 100px; display: none;">
+							<li class="pissue-select-option" data-value="전체">전체</li>
+							<li class="pissue-select-option" data-value="작성자">작성자</li>
+							<li class="pissue-select-option" data-value="제목">제목</li>
+							<li class="pissue-select-option" data-value="업무명">업무명</li>
+						</ul>
+					</div>
+				</div>
+				<input class="piSearchInput" id="search" name="search" type="text"
+					placeholder="검색어를 입력하세요."><span class="piDeleteSearchWord" onclick="delSearchVal()"></span>
+			</div>
+		</div>
+		<button class="postWritingBoxP">
+			<span></span>
+			<p>글쓰기</p>
+		</button>
+	</div>
+	<!--/* 검색, 글쓰기 버튼 END */-->
+
+	<div class="ModalInfoArea IssueInfoArea">
+
+		<div class="col-lg-8" style="width: 100%; max-width: 100%;">
+
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead style="text-align: center;">
+						<tr>
+							<th style="font-weight: normal;">종류</th>
+							<th style="font-weight: normal;">제목</th>
+							<th style="font-weight: normal;">이름</th>
+							<th style="font-weight: normal;">상태</th>
+							<th style="font-weight: normal;">우선순위</th>
+							<th style="font-weight: normal;">업무명</th>
+							<th style="font-weight: normal;">등록날짜</th>
+						</tr>
+					</thead>
+					<tbody class="projectIssueLists" style="text-align: center;">
+						<th:block th:each="projectIssueList : ${prjoectIssueList}">
+							<tr>
+								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span
+									class="badge badge-danger" th:text="버그"></span></th>
+								<th th:if="${projectIssueList.issuKnd == '0L2'}"><span
+									class="badge badge-warning" th:text="개선사항"></span></th>
+								<th th:if="${projectIssueList.issuKnd == '0L3'}"><span
+									class="badge badge-info" th:text="새기능"></span></th>
+								<th th:if="${projectIssueList.issuKnd == '0L4'}"><span
+									class="badge badge-light" th:text="업무"></span></th>
+								<td th:text="${projectIssueList.issuTtl}"></td>
+								<td th:text="${projectIssueList.membId}"></td>
+								<th th:if="${projectIssueList.issuSt == '0E1'}"><span
+									class="badge badge-pill badge-success" th:text="해결"></span></th>
+								<th th:if="${projectIssueList.issuSt == '0E2'}"><span
+									class="badge badge-pill badge-dark" th:text="미해결"></span></th>
+								<th th:if="${projectIssueList.issuSt == '0E3'}"><span
+									class="badge badge-pill badge-secondary" th:text="해결불가"></span></th>
+
+								<th th:if="${projectIssueList.issuRank == '0G1'}"><span
+									class="badge badge-primary" th:text="매우높음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G2'}"><span
+									class="badge badge-secondary" th:text="높음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G3'}"><span
+									class="badge badge-success" th:text="보통"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G4'}"><span
+									class="badge badge-warning" th:text="낮음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G5'}"><span
+									class="badge badge-danger" th:text="매우낮음"></span></th>
+								<td th:text="${projectIssueList.bussNm}"></td>
+								<td
+									th:text="${#dates.format(projectIssueList.issuDt, 'yyyy-MM-dd')}"></td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="paginate-container d-none d-sm-flex flex-sm-justify-center">
+		<div role="navigation" aria-label="piPagination" class="piPagination">
+
+			<a id="previous_page"
+				th:classappend="${projectIssue.prePage == 0} ? 'disabled'"
+				th:attr="onclick='projectIssuePaging(\'' + ${projectIssue.prePage} + '\')'">Previous</a>
+			<a class="cur_page"
+				th:each="page: ${#numbers.sequence(projectIssue.navigateFirstPage, projectIssue.navigateLastPage)}"
+				th:text="${page}"
+				th:attr="onclick='projectIssuePaging(\'' + ${page} + '\')'"></a> <a
+				id="next_page"
+				th:classappend="${projectIssue.nextPage == 0} ? 'disabled'"
+				th:attr="onclick='projectIssuePaging(\'' + ${projectIssue.nextPage} + '\')'">Next</a>
+		</div>
+	</div>
+	<script>
+			//검색 조건 (제목, 작성자, 전체) 
+			$('.pissue-selectBox').on('click', function () {
+				$('.pissue-select-ul').css('display', 'block');
+			});
+			
+			// 현재 페이지에 current 클래스 붙이기!
+			$('.cur_page').each(function () {
+				var page = $(this).text();
+
+				if (page == 1) {
+					$(this).addClass('current').css('color', '#ffffff');
+				} else {
+					$(this).removeClass('current').css('color', '#76838F');
+				}
+			});
+			
+			// disabled 일 때 , onclick 지우기
+			$(".disabled").css("color", "#8C959F").removeAttr("onclick");
+			
+			$('.pissue-select-option').on('click', function (e) {
+				var selectValue = e.currentTarget.textContent;
+				$('.pissue-selected-value').text(selectValue);
+				$('#keyword').val(selectValue);
+				$('.pissue-select-ul').css('display', 'none');
+				e.stopPropagation();
+
+			});
+			
+			// ajax 
+			function projectIssuePaging(pageNum) {
+				
+				var keywordVal = $('#keyword').val();
+				var searchVal = $('#search').val();
+				var issueLists = $('.projectIssueLists');
+				var pagination = $('.piPagination');
+
+				$.ajax('/project/aissues/1?pageNum=' + pageNum + '&keyword='
+					+ keywordVal + '&search=' + searchVal,
+					{
+						type: 'GET'
+					}).done(function (data) {
+						issueLists.empty();
+						$.each(data.projectIssueList, function (idx, item) {
+							var trTag = $('<tr/>').attr('onclick', 'viewIssueInfo(' + item.issuNo + ')');
+
+							if (item.issuKnd == '0L1') {
+								trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
+							} else if (item.issuKnd == '0L2') {
+								trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
+							} else if (item.issuKnd == '0L3') {
+								trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
+							} else if (item.issuKnd == '0L4') {
+								trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
+							}
+							trTag.append('<td>' + item.issuTtl + '</td>');
+							trTag.append('<td>' + item.membId + '</td>');
+
+							if (item.issuSt == '0E1') {
+								trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
+							} else if (item.issuSt == '0E2') {
+								trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
+							} else if (item.issuSt == '0E3') {
+								trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
+							}
+
+							if (item.issuRank == '0G1') {
+								trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
+							} else if (item.issuRank == '0G2') {
+								trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
+							} else if (item.issuRank == '0G3') {
+								trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
+							} else if (item.issuRank == '0G4') {
+								trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
+							} else if (item.issuRank == '0G5') {
+								trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
+							}
+							trTag.append('<td>' + item.bussNm + '</td>');
+							trTag.append('<td>' + dateFormatting(item.issuDt) + '</td>');
+							issueLists.append(trTag);
+
+							/* 여기까지 tbody에 데이터 넣는 것 */
+
+						})
+						// 페이징 업데이트..
+						updatePiPaging(data.pissue);
+						
+
+						var prePageNum = data.pissue.prePage;
+						var nextPageNum = data.pissue.nextPage;
+						var curPageNum = data.pissue.pageNum;
+						var navFirstPage = data.pissue.navigateFirstPage;
+						var navLastPage = data.pissue.navigateLastPage;
+						var lastPage = data.pissue.pages;
+
+						// 현재 페이지에 current 클래스 붙이기!
+						$('.cur_page').each(function () {
+							var page = $(this).text();
+
+							if (page == curPageNum) {
+								$(this).addClass('current').css('color', '#ffffff');
+							} else {
+								$(this).removeClass('current').css('color', '#76838F');
+							}
+						});
+
+						// 현재 페이지 업데이트.
+						$('#previous_page').attr('onclick',
+							'projectIssuePaging(' + prePageNum + ')');
+						$('#next_page').attr('onclick',
+							'projectIssuePaging(' + nextPageNum + ')');
+
+						// previous, next disabled 설정 + onclick 속성 제거
+						if (prePageNum == 0) {
+							$('#previous_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+						} else {
+							$('#previous_page').css("color", "#0969DA");
+						};
+
+						if (nextPageNum == 0) {
+							$('#next_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+						} else {
+							$('#next_page').css("color", "#0969DA");
+						};
+
+
+					}).fail(function () {
+						alert('실패');
+					});
+			};
+
+			function updatePiPaging(paging) {
+				var pagination = $('.piPagination');
+				pagination.empty();
+
+				var pagesPer = 8;  // 한 번에 보이는 페이지 수
+				var endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
+				var realEndPage = paging.pages;
+				var startPage = (endPage - pagesPer) + 1;
+
+				if (endPage > realEndPage) {
+					endPage = realEndPage;
+				};
+
+				for (var i = startPage; i <= endPage; i++) {
+					var aTag = $('<a/>');
+					aTag.addClass('cur_page').text(i);
+					aTag.attr('onclick', 'projectIssuePaging(' + i + ')');
+					pagination.append(aTag);
+				};
+
+				if (startPage >= 1) {
+					var prevTag = $('<a/>');
+					prevTag.attr('id', 'previous_page');
+					prevTag.text('Previous');
+					prevTag.attr('onclick', 'projectIssuePaging(' + (paging.prePage) + ')');
+					pagination.prepend(prevTag);
+				};
+
+				if (endPage <= paging.pages) {
+					var nextTag = $('<a/>');
+					nextTag.attr('id', 'next_page');
+					nextTag.text('Next');
+					nextTag.attr('onclick', 'projectIssuePaging(' + (paging.nextPage) + ')');
+					pagination.append(nextTag);
+				};
+			};
+		
+			function delSearchVal() {
+				$('.piSearchInput').val('');
+			}
+		
+
+		</script>
+</th:block>
+</body>
+
+</html>

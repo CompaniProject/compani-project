@@ -32,6 +32,18 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	/**
+	 * 프로젝트 내 이슈 리스트 조회
+	 * 
+	 * @param pageNo, search conditions, prjtNo
+	 * @return list & pagination information
+	 */
+	@Override
+	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, int prjtNo) {
+		PageHelper.startPage(pageNo, 10);
+		return issueMapper.findProjectIssue(search, keyword, prjtNo);
+	}
+
+	/**
 	 * 이슈 상세정보 조회
 	 * 
 	 * @param issuNo - PK
@@ -72,13 +84,13 @@ public class IssueServiceImpl implements IssueService {
 		issueMapper.update(params);
 		return params.getIssuNo();
 	}
-	
+
 	/**
 	 * 게시글 삭제
 	 * 
 	 * @param PK
 	 * @return PK
-	 */	
+	 */
 	@Override
 	public int deleteIssue(int issuNo) {
 		issueMapper.deleteById(issuNo);
