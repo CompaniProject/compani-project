@@ -161,7 +161,11 @@
 								<div class="media">
 									<div class="media-body">
 										<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
+										<div>
 										<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+										</div>
+										<div th:text="수정" class="float-right"></div>
+										<div th:text="삭제" class="float-right" style="margin-right:3%"></div>
 									</div>
 								</div>
 							</div>
