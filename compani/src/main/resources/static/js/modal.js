@@ -449,6 +449,7 @@ const viewer = toastui.Editor.factory({
 	viewer: true,
 	height: '600px'
 });
+
 /* 이슈 상세 보기 START */
 // 날짜 변환
 function dateFormatting(date) {
@@ -667,16 +668,16 @@ function findAllReply() {
 									
 									</h6>
 									
-									<div id="IssueReplyEditForm" style="display: none;">
-											<textarea id="updateReplyComment" class="reply_edit_text_area" maxlength="300" rows="2"
+									<div id="IssueReplyEditForm_${row.issuRplyNo}" style="display: none;">
+											<textarea id="updateReplyComment_${row.issuRplyNo}" class="reply_edit_text_area" maxlength="300" rows="2"
 												cols="30" placeholder="수정할 내용을 입력"></textarea>
-											<button type="button" class="button condensed save" id="replyUpdateBtn">저장</button>
+											<button type="button" class="button condensed save" id="replyUpdateBtn" onclick="updateReply(${row.issuRplyNo})">저장</button>
 											<button type="button" class="button condensed cancel"
-												onclick="closeReplyUpdateForm();">취소</button>
+												onclick="closeReplyUpdateForm(${row.issuRplyNo});">취소</button>
 									</div>
 									
 									
-									<p id="replyText">${row.issuRplyCntn}</p>
+									<p id="replyText_${row.issuRplyNo}">${row.issuRplyCntn}</p>
 								</div>
 							</div>
                         `;
@@ -702,19 +703,19 @@ function openReplyUpdateForm(id) {
 		type: 'get'
 	})
 		.done(function (response) {
-			var editForm = document.getElementById('IssueReplyEditForm');
-			var replyText = document.getElementById('replyText');
+			var editForm = document.getElementById('IssueReplyEditForm_' + id);
+			var replyText = document.getElementById('replyText_' + id);
 
 			if (editForm.style.display === 'none') {
 				editForm.style.display = 'block';
 				replyText.style.display = 'none';
 
-				document.getElementById('updateReplyComment').value = response.issuRplyCntn;
-				document.getElementById('replyUpdateBtn').setAttribute('onclick', `updateReply(${id})`);
 			} else {
 				editForm.style.display = 'none';
 				replyText.style.display = 'block';
 			}
+			
+			document.getElementById('updateReplyComment_' + id).value = response.issuRplyCntn;		
 		})
 
 		.fail(function (err) {
@@ -724,12 +725,11 @@ function openReplyUpdateForm(id) {
 }
 
 // 댓글 수정 div close
-function closeReplyUpdateForm() {
-	document.getElementById('updateReplyComment').value = '';
-	document.getElementById('replyUpdateBtn').removeAttribute('onclick');
+function closeReplyUpdateForm(id) {
+	document.getElementById('updateReplyComment_' + id).value = '';
 
-	document.getElementById('IssueReplyEditForm').style.display = 'none';
-	document.getElementById('replyText').style.display = 'block';
+	document.getElementById('IssueReplyEditForm_' + id).style.display = 'none';
+	document.getElementById('replyText_' + id).style.display = 'block';
 }
 
 // 댓글 수정 ajax
@@ -737,7 +737,7 @@ function updateReply(id) {
 	const issuNo = $('.modalIssueName').data('issuNo');
 	const issuRplyNo = id;
 	const writer = 'ojunkwon';
-	const content = document.getElementById('updateReplyComment');
+	const content = document.getElementById('updateReplyComment_' + id);
 
 	const params = {
 		issuRplyNo: id,
@@ -755,7 +755,7 @@ function updateReply(id) {
 		.done(function (response) {
 			alert('수정되었습니다.');
 			findAllReply();
-			closeReplyUpdateForm();
+			closeReplyUpdateForm(id);
 			countReply(issuNo);
 		})
 
