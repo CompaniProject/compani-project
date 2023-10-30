@@ -122,9 +122,9 @@
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-business" href="#">상</a>
-								<a class="dropdown-business" href="#">중</a>
-								<a class="dropdown-business" href="#">하</a>
+								<a class="dropdown-business" href="#">상</a> <a
+									class="dropdown-business" href="#">중</a> <a
+									class="dropdown-business" href="#">하</a>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -147,7 +147,7 @@
 												th:text="${#dates.format(businessList.bussFrdt, 'yyyy-MM-dd')}" />
 											<td
 												th:text="${#dates.format(businessList.bussTodt, 'yyyy-MM-dd')}" />
-										
+
 											<td th:if="${businessList.bussImp == '0J1'}">상</td>
 											<td th:if="${businessList.bussImp == '0J2'}">중</td>
 											<td th:if="${businessList.bussImp == '0J3'}">하</td>
@@ -172,9 +172,9 @@
 									class="fa fa-angle-down m-l-5"></i>
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-issue" href="#">해결</a>
-								<a class="dropdown-issue" href="#">미해결</a>
-								<a class="dropdown-issue" href="#">해결불가</a>
+								<a class="dropdown-issue" href="#">해결</a> <a
+									class="dropdown-issue" href="#">미해결</a> <a
+									class="dropdown-issue" href="#">해결불가</a>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -477,7 +477,7 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append('');
+    					tdTag.append('하');
     					trTag.append(tdTag);
     					
     					businesstbl.append(trTag);
@@ -660,10 +660,10 @@
 			
 			function dateFormat(date){
 					let year = date.getFullYear();
-					let month = date.getMonth() +1 ;
-					let day  = date.getDate();
-					return year +'-'+month + '-'+day;
+					let month = '0'+(date.getMonth() +1);
+					let day  = '0' + date.getDate();
 
+					return year +'-'+ month.substring(month.length -2) + '-'+day.substring(day.length -2);
 			}
 		
 		</script>

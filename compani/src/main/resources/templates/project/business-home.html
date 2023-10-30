@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 </head>
 <body>
 	<th:block layout:fragment="content">
@@ -23,8 +22,11 @@
 				<div class="col p-md-0">
 					<!-- 	<button type="button" class="btn mb-1 btn-primary float-right"
 						data-toggle="modal" id="insertBtn">업무 추가</button> -->
-					<button type="button" class="btn mb-1 btn-primary float-right"
-						data-toggle="modal" data-target=".bd-example-modal-lg">업무추가</button>
+					<!-- <button type="button" id="insertModal"
+						class="btn mb-1 btn-primary float-right" data-toggle="modal"
+						data-target=".bd-example-modal-lg">업무추가</button> -->
+					<button type="button" id="insertModal"
+						class="btn mb-1 btn-primary float-right">업무추가</button>
 				</div>
 			</div>
 			<!-- Bussiness Header End -->
@@ -43,6 +45,8 @@
 											th:if="${business.bussSt == '0K1'}">
 											<div class="card shadow-sm border">
 												<div class="card-body p-3">
+													<input type="hidden" id="bussNo"
+														th:value="${business.bussNo}" />
 													<div class="card-title">
 														<a href="" th:text="${business.bussNm}"></a>
 													</div>
@@ -85,6 +89,8 @@
 										th:if="${business.bussSt == '0K2'}">
 										<div class="card shadow-sm border">
 											<div class="card-body p-3">
+												<input type="hidden" id="bussNo"
+													th:value="${business.bussNo}" />
 												<div class="card-title">
 													<a href="" th:text="${business.bussNm}"></a>
 												</div>
@@ -122,6 +128,8 @@
 										th:if="${business.bussSt == '0K4'}">
 										<div class="card shadow-sm border">
 											<div class="card-body p-3">
+												<input type="hidden" id="bussNo"
+													th:value="${business.bussNo}" />
 												<div class="card-title">
 													<a href="" th:text="${business.bussNm}"></a>
 												</div>
@@ -160,6 +168,8 @@
 										th:if="${business.bussSt == '0K3'}">
 										<div class="card shadow-sm border">
 											<div class="card-body p-3">
+												<input type="hidden" id="bussNo"
+													th:value="${business.bussNo}" />
 												<div class="card-title">
 													<a href="" th:text="${business.bussNm}"></a>
 												</div>
@@ -271,26 +281,25 @@
 			</div>
 
 		</div>
-
-		<div class="modal fade bd-example-modal-lg" tabindex="-1"
-			role="dialog" aria-hidden="true">
+		<!--  업무상세보기 모달  -->
+		<div class="modal fade bd-example-modal-lg" id="insertbuss"
+			tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">업무명</h5>
 						<button type="button" class="close" data-dismiss="modal">
 							<span>&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
 
-
 						<form class="form-valide" action="#" method="post">
 							<div>
 								<div class="issueNameEdit">
 									<div class="issueNameBack">
-										<textarea class="modalIssueNameUpdate" id="issuTtlVal" maxlength="200"
-											style="height: 34px;" placeholder="업무명을 입력하세요."></textarea>
+										<textarea class="modalIssueNameUpdate" id="bussNm"
+											name='bussNm' maxlength="200" style="height: 34px;"
+											placeholder="업무명을 입력하세요."></textarea>
 									</div>
 								</div>
 
@@ -321,8 +330,9 @@
 										<div class="card" style="height: 200px;">
 											<div class="card-body" style="overflow: auto;">
 												<div class="SearchBox" style="height: 50%">
-											 		<label for="SearchToggleCheckBox" th:attr="onclick='searchMember()'"></label> <input
-														type="hidden" id="keyword" name="keyword" value="전체"> 
+													<label for="SearchToggleCheckBox"
+														th:attr="onclick='searchMember()'"></label> <input
+														type="hidden" id="keyword" value="전체">
 													<div class="SearchInputBox" style="width: 270px;">
 														<div>
 															<div class="member-selectBox" style="width: 100px;">
@@ -340,7 +350,7 @@
 															</div>
 														</div>
 														<input class="SearchInputModalView" id="search"
-															name="search" type="text" placeholder="검색어를 입력하세요.">
+															type="text" placeholder="검색어를 입력하세요.">
 													</div>
 
 												</div>
@@ -358,7 +368,7 @@
 														<tbody id="membertbl">
 															<th:block th:each="memberList : ${memberList}">
 																<tr th:id="${memberList.membId}">
-																	<td><img 
+																	<td><img
 																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
 																		height="50px" width="50px" alt="프로필"
 																		th:if="${memberList.membPhtPath != null}" /></td>
@@ -372,105 +382,321 @@
 														</tbody>
 													</table>
 												</div>
-						
-											</div>
-										</div>
-									</div>
-				
 
-									</div>
-
-
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="val-username">일정
-
-										</label>
-										<div class="col-lg-3">
-											<input type="date" class="form-control" id="val-username"
-												name="val-username">
-										</div>
-										<div class="col-lg-1">
-											<label class="col-lg-4 col-form-label" for="val-username">~
-
-											</label>
-
-										</div>
-
-										<div class="col-lg-3">
-											<input type="date" class="form-control" id="val-username"
-												name="val-username">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="val-username">중요도
-
-										</label>
-										<div class="col-lg-6">
-											<div class="dropdown custom-dropdown">
-												<div data-toggle="dropdown">
-													<a class="dropdown-project" href="#"></a>상<i
-														class="fa fa-angle-down m-l-5"></i>
-												</div>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-project" href="#">상</a> <a
-														class="dropdown-project" href="#">중</a> <a
-														class="dropdown-project" href="#">하</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="val-username">종속관계
-
-										</label>
-										<div class="col-lg-6">
-											<div class="dropdown custom-dropdown">
-												<div data-toggle="dropdown">
-													<a class="dropdown-project" href="#"></a>선행작업<i
-														class="fa fa-angle-down m-l-5"></i>
-												</div>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-project" href="#">선행 작업</a> <a
-														class="dropdown-project" href="#">후속 작업</a>
-												</div>
-											</div>
-										&nbsp &nbsp
-										<div class="dropdown custom-dropdown">
-												<div data-toggle="dropdown">
-													<a class="dropdown-project" href="#"></a>업무 찾기 <i
-														class="fa fa-angle-down m-l-5"></i>
-												</div>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-project" href="#">*업무 리스트 출력하기</a>
-
-												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label">일정 </label>
+									<div class="col-lg-3">
+										<input type="date" class="form-control" id="bussFrdt"
+											name="bussFrdt">
+									</div>
+									<div class="col-lg-1">
+										<label class="col-lg-4 col-form-label">~ </label>
+
+									</div>
+									<div class="col-lg-3">
+										<input type="date" class="form-control" id="bussTodt"
+											name="bussTodt">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">중요도
+									</label>
+									<div class="col-lg-6">
+										<div class="dropdown custom-dropdown">
+											<select class="dropdown-import" name="bussImp">
+												<option class="dropdown-import" value="0J1">상</option>
+												<option class="dropdown-import" value="0J2">중</option>
+												<option class="dropdown-import" value="0J3">하</option>
+
+											</select>
+
+										</div>
+									</div>
+								</div>
+
+								<label class="col-lg-4 col-form-label" for="val-username">종속관계
+
+								</label>
+								<div class="col-lg-6">
+									<div class="dropdown custom-dropdown">
+										<div>
+											<select class="dropdown-relation" name="bussDep">
+												<option class="dropdown-relation" value="">선택</option>
+												<option class="dropdown-relation" value="up">선행 작업</option>
+												<option class="dropdown-relation" value="down">후속
+													작업</option>
+
+											</select>
+										</div>
+									</div>
+
+									<div class="dropdown custom-dropdown">
+										<div>
+											<select class="dropdown-relation" name="bussUpNm">
+												<th:block th:each="bussNameList : ${businessNameList}">
+													<option class="dropdown-business"
+														th:value="${bussNameList.bussNm}"
+														th:text="${bussNameList.bussNm}"></option>
+												</th:block>
+											</select>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div>
+								<input type="hidden" name="prjtNo" th:value="1" />
+							</div>
+							<div class="modal-footer">
+								<button id="insertBtn" type="button" class="btn btn-primary">등록</button>
+							</div>
+
 						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">등록</button>
+
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<script>
-			$('#membertbl td:nth-child(5)').on('click', insertMember)
+
+		<!--  업무 상세 보기 모달 ========================================= -->
+		<div class="modal fade bd-example-modal-lg" id="infoModal"
+			tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button id="deleteBtn" type="button" class="btn btn-primary">삭제</button>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+
+					</div>
+					<div class="modal-body">
+						<form class="form-valide" action="#" method="post">
+							<div>
+								<div class="issueNameEdit">
+									<div class="issueNameBack">
+										<textarea class="modalIssueNameUpdate" id="bussNm"
+											name='bussNm' maxlength="200" style="height: 34px;"
+											placeholder="업무명을 입력하세요."></textarea>
+									</div>
+								</div>
+
+								<div>
+
+									<div class="card" style="height: 200px;">
+										<div class="card-body" style="overflow: auto;">
+											<div class="table-responsive">
+												<table class="table">
+													<thead>
+														<tr>
+															<th>프로필</th>
+															<th>부서</th>
+															<th>직책</th>
+															<th>이름</th>
+															<th>삭제</th>
+														</tr>
+													</thead>
+													<tbody id="insertmembertbl">
+
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+									</div>
+									<div>
+										<div class="card" style="height: 200px;">
+											<div class="card-body" style="overflow: auto;">
+												<div class="SearchBox" style="height: 50%">
+													<label for="SearchToggleCheckBox"
+														th:attr="onclick='searchMember()'"></label> <input
+														type="hidden" id="keyword" value="전체">
+													<div class="SearchInputBox" style="width: 270px;">
+														<div>
+															<div class="member-selectBox" style="width: 100px;">
+																<div class="member-selected" id="member-selected">
+																	<div class="member-selected-value">전체</div>
+																	<div class="arrow"></div>
+																</div>
+																<ul class="member-select-ul"
+																	style="width: 100px; top: 20%; display: none;">
+																	<li class="member-select-option" data-value="전체">전체</li>
+																	<li class="member-select-option" data-value="부서">부서</li>
+																	<li class="member-select-option" data-value="직책">직책</li>
+																	<li class="member-select-option" data-value="제목">이름</li>
+																</ul>
+															</div>
+														</div>
+														<input class="SearchInputModalView" id="search"
+															type="text" placeholder="검색어를 입력하세요.">
+													</div>
+
+												</div>
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>프로필</th>
+																<th>부서</th>
+																<th>직책</th>
+																<th>이름</th>
+																<th>추가</th>
+															</tr>
+														</thead>
+														<tbody id="membertbl">
+															<th:block th:each="memberList : ${memberList}">
+																<tr th:id="${memberList.membId}">
+																	<td><img
+																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
+																		height="50px" width="50px" alt="프로필"
+																		th:if="${memberList.membPhtPath != null}" /></td>
+																	<td th:text="${memberList.membDept}" />
+																	<td th:text="${memberList.membWkgd}" />
+																	<td th:text="${memberList.membNm}" />
+																	<!-- 버튼 수정하기 -->
+																	<td><i class="fa-solid fa-plus"></i></td>
+																</tr>
+															</th:block>
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label">일정 </label>
+									<div class="col-lg-3">
+										<input type="date" class="form-control" id="bussFrdt"
+											name="bussFrdt">
+									</div>
+									<div class="col-lg-1">
+										<label class="col-lg-4 col-form-label">~ </label>
+
+									</div>
+									<div class="col-lg-3">
+										<input type="date" class="form-control" id="bussTodt"
+											name="bussTodt">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">중요도
+									</label>
+									<div class="col-lg-6">
+										<div class="dropdown custom-dropdown">
+											<select class="dropdown-import" id="bussImp" name="bussImp">
+												<option class="dropdown-import" value="0J1">상</option>
+												<option class="dropdown-import" value="0J2">중</option>
+												<option class="dropdown-import" value="0J3">하</option>
+
+											</select>
+
+										</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">진척도
+									</label>
+									<div class="col-lg-6">
+										<div style="padding-top: 10px; padding-bottom: 10px;">
+											<div class="progress" style="height: 10px">
+												<div class="progress-bar gradient-1" th:style="0"
+													role="progressbar"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">상태
+									</label>
+									<div class="col-lg-6">
+										<input type="text" id="bussSt" value="" readonly="readonly" />
+									</div>
+
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="val-username">종속관계
+									</label>
+									<div class="col-lg-6">
+										<div class="dropdown custom-dropdown">
+											<div>
+												<select class="dropdown-relation" name="bussDep">
+													<option class="dropdown-relation" value="">선택</option>
+													<option class="dropdown-relation" value="up">선행 작업</option>
+													<option class="dropdown-relation" value="down">후속
+														작업</option>
+
+												</select>
+											</div>
+										</div>
+
+										<div class="dropdown custom-dropdown">
+											<div>
+												<select class="dropdown-relation" name="bussUpNm">
+													<option class="dropdown-business" value="">선택</option>
+													<th:block th:each="bussNameList : ${businessNameList}">
+
+														<option class="dropdown-business"
+															th:value="${bussNameList.bussNm}"
+															th:text="${bussNameList.bussNm}"></option>
+													</th:block>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div>
+								<input type="hidden" name="prjtNo" th:value="1" />
+							</div>
+							<div class="modal-footer">
+								<button id="insertBtn" type="button" class="btn btn-primary">수정</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember )
+			$('.dropdown-import').on('click', dropdown)
+			$('.dropdown-relation').on('click', dropdown)
+			$('.dropdown-business').on('click', dropdown)
+			$('#insertBtn').on('click',insertBusiness)
 			
+			//업무 등록 모달 - 미구현
+			$('#insertModal').on('click', businessModal)
+			
+			//업무 칸반보드 클릭시 모달
+			$('.card-body.p-3').on('click', infoBusiness)
+			
+			function businessModal(){
+				$('#insertbuss').modal('show');
+			}
+
+			function dropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+			}
 			function insertMember(event){
-		
+				
 				//tr의 ID -중복체크를 위한 값 
 				let id = $(this).parent().attr('id');
 				
-				let image = $(this).siblings().eq(0).children().attr('src')
+				let image = $(this).siblings().eq(0).children().attr('src');
 				let dept = $(this).siblings().eq(1).text();
 				let posotion = $(this).siblings().eq(2).text();
 				let name = $(this).siblings().eq(3).text();
@@ -485,8 +711,7 @@
 				})
 				
 				if (isDup){
-				/* 복사 .. 버튼 + 까지 복사네;; 	
-				let tr = $(this).closest('tr').clone().appendTo('#insertmembertbl'); */ 
+			
 				 	let insertmemtbl = $('#insertmembertbl');
 					
 					let trTag = $('<tr/>');
@@ -494,21 +719,21 @@
 					
 					trTag.attr('id', id);
 					
-					let imgTag = $('<img>',{
-						src:image,
-						height:"50px", 
-						width:"50px"
-					})
-					
-		
-					tdTag.append(imgTag);
+					if(image != null){
+						let imgTag = $('<img>',{
+							src:image,
+							height:"50px", 
+							width:"50px"
+						})
+						
+						tdTag.append(imgTag);
+					}
 					trTag.append(tdTag);
 					
 					tdTag= $('<td/>');
 					tdTag.append(dept);
 					trTag.append(tdTag);
 					
-				
 					tdTag= $('<td/>');
 					tdTag.append(posotion);
 					trTag.append(tdTag);
@@ -535,8 +760,108 @@
 	
 	
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
-				.done()
+				.done(function(data){
+					console.log(data);
+					let tbody = $('#membertbl');
+					tbody.empty();
+					$.each( data, function(idx,data){
+	
+					 	let trTag = $('<tr/>');
+					 	let tdTag = $('<td/>');
+					 	
+						trTag.attr('id', data.MEMB_ID);
+						
+						
+						if(data.MEMB_PHT_PATH != null){
+						let imgTag = $('<img>',{
+							src:"/images/profile/" +data.MEMB_PHT_PATH,
+							height:"50px", 
+							width:"50px",
+						})
+			
+					 		tdTag.append(imgTag);
+						}
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_DEPT);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_WKGD);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_NM);
+					 	trTag.append(tdTag);
+					
+					 	tdTag = $('<td/>');
+					 	tdTag.append('<i class="fa-solid fa-plus"></i>');
+					 	trTag.append(tdTag);
+					 	
+					 	tbody.append(trTag);
+					})
+				})
 				.fail(err =>  console.log(err));
+			}
+			function insertBusiness(){
+				
+				let formData = $('form').serializeArray();
+				
+			 	let formObj = {};
+				$.each(formData, function(idx,obj){
+					formObj[obj.name] = obj.value;
+				}); 
+				console.log(formObj);
+				
+				$.ajax('/insertBusiness' ,{
+					type : 'post',
+					contentType : 'application/json',
+					data : JSON.stringify(formObj)
+				})
+				.done(data => {
+					console.log(data);
+				})
+				.fail(err => {});
+					
+			}
+			function infoBusiness(e){
+				e.preventDefault();
+				//let bussNm = $(this).find('a').text();
+				let bussNo = $(this).find('input').val();
+				//let prjtNo = 세션값;
+				console.log(bussNo);
+				
+				 $.ajax('/bussInfoAjax',{
+					type : 'post',
+					data : {bussNo : bussNo}	
+				})
+				.done(function(data){
+					console.log(data);
+					console.log(data.businessVO.bussNm);
+					let bussSt = '';
+					$('#infoModal #bussNm').val(data.businessVO.bussNm);
+					$('#infoModal input[id=bussFrdt]').attr('value',data.businessVO.bussFrdt);
+					$('#infoModal input[id=bussTodt]').attr('value',data.businessVO.bussTodt);
+					$('#bussImp').val(data.businessVO.bussImp).prop("selected",true);
+					 $('#bussDep').val(data.businessVO.bussDep).prop("selected",true);
+					$('#bussUpNm').val(data.businessVO.bussUpNm).prop("selected",true); 
+					if(data.businessVO.bussSt == '0K1'){
+						 bussSt = '진행중';
+					}else if(data.businessVO.bussSt == '0K2'){
+						 bussSt = '완료';
+					}
+					else if(data.businessVO.bussSt == '0K3'){
+						 bussSt = '초과';
+					}else{
+						 bussSt = '초과완료';
+					}
+					$('#infoModal input[id=bussSt]').attr('value',bussSt);
+					$('#infoModal').modal('show'); 
+					
+				})
+				.fail();
+				
 			}
 		</script>
 	</th:block>
