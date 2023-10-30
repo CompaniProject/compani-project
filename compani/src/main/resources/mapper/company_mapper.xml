@@ -10,6 +10,12 @@
 		SELECT *
 		FROM company
 	</select>
+		<!-- 소속회사목록 -->
+	<select id="selectCompanyinfo" resultType="CompanyVO">
+		SELECT *
+		FROM company
+		WHERE co_cd = #{coCd}
+	</select>
 
 	<!-- 회사코드 생성 -->
 	<select id="createCompanyCode" resultType="String">

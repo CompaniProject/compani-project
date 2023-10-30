@@ -12,7 +12,7 @@
             <div class="modal-dialog">
                 <div class="modal-content"
                     style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
-                    <!-- 모달 헤더 부분 -->
+                     <!--/* 모달 헤더 부분 */-->
                     <div class="modal-header">
                         <div class="ContentTitleBox">
                             <div class="ContentImg" style="background-image: url(/images/tab_issue.png);"></div>
@@ -21,7 +21,10 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="margin: 0; padding: 0;"></button>
                     </div>
+                    <!--/* 모달 헤더 부분 END */-->
+                    
                     <div class="modal-content-container">
+                        <!--/* 모달 사이드 부분 START */-->
                         <div class="workModalTab">
                             <ul>
                                 <li><i class="ModalTab tab_basic"></i> <span class="tooltip">기본정보</span></li>
@@ -30,6 +33,8 @@
                                 <li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
                             </ul>
                         </div>
+                         <!--/* 모달 사이드 부분 END */-->
+                        
                         <div class="modal-body">
                             <div class="workModalContentBack">
                                 <div class="workModalContentSlider">
@@ -184,7 +189,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 등록 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                             <!--/* 이슈 등록 폼 START */-->
                             <div class="modalIssueInsertForm" style="display: none">
 
                                 <div class="modalInsertContent">
@@ -200,7 +205,7 @@
                                     </div>
                                 </div>
                                 <hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
-                                <!--  이슈 종류, 이슈 중요도-->
+                                 <!--/* 이슈 종류, 중요도 START */-->
                                 <div class="issueKnd">
                                     <p>종류</p>
                                     <div class="dropBoxArea">
@@ -244,8 +249,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                   
                                 </div>
+                                 <!--/* 이슈 종류, 중요도 END */-->
                                 <div class="writingContent">
                                     <div class="writingSection">
                                         <div class="sectionTitle">
@@ -289,7 +295,7 @@
                                             <input name='input-custom-dropdown' class='tagify__dropdown__item' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
                                     </div>
                                 </div>
-                                <!--  취소 확인하는 모달  -->
+                                 <!--/* 취소 확인하는 모달 START */-->
                                 <div class="modal fade" id="cancelConfirmationModal" tabindex="-1"
                                     style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -314,9 +320,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--  취소 확인 하는 모달 END -->
+                                 <!--/* 취소 확인 모달 END */-->
 
-                                <!-- 종류, 제목, 중요도가 다 입력되지 않았을 때  -->
+                                 <!--/* 종류, 제목, 중요도가 다 입력되지 않을 때 START */-->
                                 <div class="modal fade" id="checkingInput" tabindex="-1"
                                     style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -338,11 +344,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- END -->
+                                 <!--/* END */-->
                             </div>
-                            <!-- @@@@@@@@@@@@@@@@@@@@@@@@이슈 등록폼 END@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                             <!--/* 이슈 등록 폼 END */-->
 
-                            <!-- 이슈 상세보기  시작!!!!! -->
+                             <!--/* 이슈 상세보기 START */-->
                             <div class="modalIssueInfoForm" style="display: none;">
                                 <div class="modalIssueInfoContent">
                                     <div class="issueInfoContentTopBar">
@@ -405,7 +411,7 @@
                                             <div class="IssueReviews">
 
                                             </div>
-                                            <!-- 이슈 댓글 작성 -->
+                                             <!--/* 이슈 상세보기에서 댓글 등록 START */-->
                                             <div class="issueReply__details__form">
                                                 <div class="issueReply__section-title">
                                                     <h5>댓글<i id="counter">0/300자</i></h5>
@@ -425,9 +431,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- 이슈 상세보기 END!!!!! -->
+                             <!--/* 이슈 상세보기 END */-->
 
-                            <!-- @@@@@@@@@@@@@@@@@@@@@@@@여기서 부터 이슈 수정 폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                             <!--/* 이슈 수정 폼 START */-->
                             <div class="modalIssueEditForm" style="display: none">
 
                                 <div class="modalEditContent">
@@ -443,7 +449,7 @@
                                     </div>
                                 </div>
                                 <hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
-                                <!--  이슈 종류, 이슈 중요도-->
+                                 <!--/* 이슈 종류, 상태, 중요도 START */-->
                                 <div class="editIssueKnd">
                                     <p>종류</p>
                                     <div class="dropBoxArea">
@@ -509,6 +515,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!--/* 이슈 종류, 중요도, 상태 END */-->
                                 <div class="editingContent">
                                     <div class="editingSection">
                                         <div class="sectionTitle">
@@ -562,7 +569,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--  취소 확인하는 모달  -->
+                                <!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
                                 <div class="modal fade" id="cancelEditConfirmationModal" tabindex="-1"
                                     style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -588,9 +595,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--  취소 확인 하는 모달 END -->
+                                <!--/* 이슈 수정폼에서 수정 취소 확인 END */-->
 
-                                <!-- 종류, 제목, 중요도가 다 입력되지 않았을 때  -->
+                                <!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 START */-->
                                 <div class="modal fade" id="editCheckingInput" tabindex="-1"
                                     style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -612,11 +619,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- END -->
+                                <!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 END */-->
                             </div>
-                            <!-- @@@@@@@@@@@@@@@@@@@@@@@@이슈 수정폼 END@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                            <!--/* 이슈 수정폼 END */-->
 
-                            <!--  이슈 삭제 시 경고창 -->
+                            <!--/* 이슈 삭제시 경고창 START */-->
                             <div class="modal fade" id="delConfirmationModal" tabindex="-1"
                                 style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -639,13 +646,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--  이슈 삭제 시 경고창 END -->
+                            <!--/* 이슈 삭제시 경고창 END */-->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <script src="https://unpkg.com/@yaireo/tagify"></script>
     <script th:inline="javascript">
     var inputHash = document.querySelector('input[name="input-custom-dropdown"]');
@@ -658,10 +666,17 @@
         enabled : 0 // always opens dropdown when input gets focus
       }
     })
-    tagify.on('add', function() {
-      console.log(JSON.stringify(tagify.value));
-    })
-
+	
+    // tagNm 구하는 함수.
+    function getTagNm() {
+    	var tagObj = {};
+    	for(i = 0; i < tagify.value.length; i++) {  	
+   		 var tagNm = $('.tagify__tag-text')[i].innerHTML;
+    	 tagObj['issuHtNm'] = tagNm;
+    	}
+    	return tagObj;
+    	console.log(tagObj);
+    }
     </script>
 
 

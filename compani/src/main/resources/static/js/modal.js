@@ -371,7 +371,6 @@ function removeFile(element) {
 	checkFile();
 }
 
-
 // 파일 사이즈 변환하기
 function getByteSize(size) {
 	const byteUnits = ["KB", "MB", "GB", "TB"];
@@ -976,12 +975,12 @@ function updateIssue() {
 
 	var inputFiles = document.querySelector('.editReal-upload');
 	var filesInfo = inputFiles.files;
-	console.log('들어간 파일 길이는 .....' + filesInfo.length + " 입니다 !!!!!!!");
+
 	for (i = 0; i < filesInfo.length; i++) {
 		formData.append("editFiles", filesInfo[i]);
 	}
 	formData.append('removeFileIds', removeFileId.getAll().join());
-	console.log('삭제된 fileNo는 ' + removeFileId.getAll().join() + '번 입니다 ....!!!');
+	
 	$.ajax({
 		url: '/ModalIssueUpdate',
 		type: 'post',

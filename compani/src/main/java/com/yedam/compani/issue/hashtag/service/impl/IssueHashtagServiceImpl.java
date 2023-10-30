@@ -1,8 +1,6 @@
 package com.yedam.compani.issue.hashtag.service.impl;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.compani.issue.hashtag.mapper.IssueHashtagMapper;

@@ -3,6 +3,7 @@ package com.yedam.compani.member.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +28,16 @@ public class MemberController {
 	MemberService service;
     @Autowired
 	CompanyService serviceC;
+    
+    HttpServletRequest request;
+    HttpSession session;
 
 	// 로그인 페이지
 	@GetMapping("/loginForm")
 	public String memberLoginForm() {
 		return "member/memberLoginForm";
 	}
-
-	// 로그인
-	@PostMapping("/login")
-	public void memberLogin(MemberVO  vo, HttpSession session) {
-		vo = service.getMemberInfo(vo);
-		session.setAttribute("membInfo", vo);
-	}
+	
 
 	// 가입 후 대기
 	@GetMapping("/standBy")
@@ -103,17 +101,8 @@ public class MemberController {
 	//수정
 	@GetMapping("memberEditForm")
 	public String memberEditForm() {
-	return "member/memberEditInfo";	
+		return "member/memberEditInfo";	
 	}
 	
-	//세션 로그인 정보
-	@PostMapping("/memberInfo")
-	@ResponseBody
-	public MemberVO memberInfo(@AuthenticationPrincipal MemberAuthVO vo) {
-		MemberVO membVO = new MemberVO();
-		membVO.setMembId(vo.getUsername());
-		membVO = service.getMemberInfo(membVO);
-		return membVO;
-	}
 
 }

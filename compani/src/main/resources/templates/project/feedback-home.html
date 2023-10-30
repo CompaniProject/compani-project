@@ -5,7 +5,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+.editBtn{
+	cursor:pointer;
+}
+
+.delBtn{
+	cursor:pointer;
+	margin-right:3%;
+
+}
+
+.submitBtn{
+	margin-right:3%;
+	cursor:pointer;
+	display:none;
+	color:blue;
+}
+
+</style>
+
 </head>
+
 <body>
 <th:block layout:fragment="content">
 	<div class="row">
@@ -156,37 +178,31 @@
                 </div>
 	            <div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;" id="commentBody">
 					<th:block th:each="feedback : ${projectFeedbackList}">
-						<th:block th:if="${feedback.rootNo} == ${feedback.prjtFdbkNo}">
 						<div class="card">
 							<div class="card-body">
 								<div class="media">
 									<div class="media-body">
-										<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
-										<i class="bi bi-reply-fill float-right"></i>
-										<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
-										<!-- 대댓글 출력 Start							-->
-										<div style="background-color:#F3F1FA;">
-											<th:block th:each="child : ${projectFeedbackList}"
-													  th:if="${child.rootNo} == ${feedback.rootNo} and ${child.prjtFdbkNo} != ${feedback.prjtFdbkNo}">
-												<div class="media mt-3">
-													<th:block th:each="i : ${#numbers.sequence(3,child.level,1)}">
-														<span>&nbsp;&nbsp;&nbsp;</span>
-													</th:block>
-													<i class="bi bi-arrow-return-right" style="padding:1.5%;"></i>
-													<div class="media-body">
-														<h5 class="mt-0" th:text="${child.membNm}"></h5>
-														<th:block th:text="${child.prjtFdbkCntn}"></th:block>
-													</div>
-												</div>
-											</th:block>
-											
+										<!-- Comment Area Start -->
+										<div class="comment-content" th:data-no="${feedback.prjtFdbkNo}">
+											<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
+											<div class="content-area">
+												<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+											</div>
+											<div class="edit-area" style="display:none;">
+												<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
+											</div>
+											<div style="margin-top:3%" class="btn-area">
+												<div th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}" class="float-left" id="date-area"></div>
+												<div th:text="수정" class="float-right editBtn"></div>
+												<div th:text="삭제" class="float-right delBtn"></div>
+												<div th:text="확인" class="float-right submitBtn"></div>
+											</div>
 										</div>
-										<!-- 대댓글 출력 End								-->
+										<!-- Comment Area End -->
 									</div>
 								</div>
 							</div>
 						 </div>
-						</th:block>
 					</th:block>
 	            </div>
 				<!-- 댓글 등록 영역 -->
@@ -213,13 +229,15 @@
 		const cpnStatForCurrDt = [[${cpnStatForCurrDt}]];
 		const cpnStatForPrjtDt = [[${cpnStatForPrjtDt}]];
 		const prjtNo = [[${prjtNo}]];
-		const membNm = [[${session.loginInfo.membNm}]];
+		const membNm = 'm1';
 		// -------------------- Status Data End
 	</script>
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
 	
 	<script th:inline="javascript">
+	
+	//----------------------- Project Feedback(Comment) Insert Start
 		function insertComment(){
 			let value = $('#inputCntn').val();
 			let obj = {};
@@ -245,24 +263,95 @@
 		function insertCommentHTML(data){
 			// create tag
 			let body = $('#commentBody');
-			let card = $('<div/>').addClass('card');
-			let cardBody = $('<div/>').addClass('card-body');
-			let media = $('<div/>').addClass('media');
-			let content = $('<div/>').addClass('media-body');
+			let card = body.find('.card').first().clone();
 			
 			// input content values
-			let name = $('<h5/>').addClass("mt-0").text(membNm);
-			content.append(name);
-			content.append($('<div/>').text(data.prjtFdbkCntn));
+			card.find('comment-content').data('no',data.prjtFdbkNo);
+			card.find('.mt-0').text(membNm);
+			card.find('.content-area').text(data.prjtFdbkCntn);
+			card.find('textarea').text(data.prjtFdbkCntn);
+			card.find('#date-area').text(timestamp(data.prjtFdbkDt));
 			
 			// insert comment tag to comment body
-			body.append(card.append(cardBody.append(media.append(content))));
+			body.append(card);
 		}
 		
 		$('#insertBtn').on('click', insertComment);
 		
-		$('.bi-reply-fill').on('click',function(event){
-		})
+		// ---------------------------------------Project Feedback(Comment) Insert End
+		
+		// date, content change
+		function changeComment(data, comment){
+			let text = (data.prjtFdbkShow == null) ? data.prjtFdbkCntn : '삭제되었습니다.'; 
+			comment.find(".content-area").text(text);
+			comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
+		}
+		
+		// get comment, content, editBtn, submitBtn to Toggle
+		// update textarea - copy to content text
+		function toggleTags(event){
+			let comment = $(event.target).closest('.comment-content');
+			let content = comment.find('.content-area');
+			let edit = comment.find('.edit-area');
+			let submitBtn = comment.find('.submitBtn');
+			
+			content.val(comment.find('textarea').val());
+			
+			content.toggle();
+			edit.toggle();
+			submitBtn.toggle();
+		}
+		
+		function editSubmit(event){
+			let comment = $(event.target).closest('.comment-content');
+			let textCntn = comment.find("textarea");
+			
+			let obj = {};
+			obj["prjtFdbkCntn"] = textCntn.val();
+			obj["prjtFdbkNo"] = comment.data('no');
+			updateAjax(obj, comment);
+			
+			toggleTags(event);
+		}
+		
+		// ----------------------------------Delete Comment
+		function deleteComment(event){
+			let comment = $(event.target).closest('.comment-content');
+			
+			let obj = {};
+			obj["prjtFdbkShow"] = '0N2';		// Delete State Change
+			obj["prjtFdbkNo"] = comment.data('no');
+			
+			updateAjax(obj,comment);
+		}
+		// ----------------------------------Delete Comment 
+		
+		// ----------------------------------Update Ajax
+		// update - using edit, delete
+		function updateAjax(obj, comment){
+			$.ajax({
+				url:'/project/feedback/update',
+                type: 'post',
+                contentType: "application/json",
+                data:JSON.stringify(obj)
+			})
+            .done(data => {changeComment(data, comment)})
+            .fail(err => {});
+		}
+		// -------------------------------Update Ajax End
+		
+		// -------------------------------onclick Event
+		$(document).on('click','.delBtn',deleteComment);
+		$(document).on('click','.editBtn',toggleTags);
+		$(document).on('click','.submitBtn',editSubmit);
+		// ------------------------------onclick Event End
+		
+		//------------ Date formatting
+		function timestamp(convertDate){
+		    let today = new Date(convertDate);
+		    today.setHours(today.getHours() + 9);
+		    return today.toISOString().replace('T', ' ').substring(0, 16);
+		}
 		
 	</script>
 </th:block>

@@ -27,5 +27,10 @@ public class CompanyServiceImpl implements CompanyService {
 	public String makeCompanyCode() {
 		return map.createCompanyCode();
 	}
+	//회사정보
+	@Override
+	public CompanyVO getCompanyInfo(CompanyVO vo) {
+		return map.selectCompanyinfo(vo);
+	}
 
 }

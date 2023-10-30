@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,7 @@ import com.github.pagehelper.PageInfo;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
+import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.paging.SearchDto;
@@ -38,8 +38,7 @@ public class IssueController {
 	private final IssueService issueService;
 	private final IssueFileService issueFileService;	
 	private final IssueHashtagService issueHashtagService;
-	private final FileUtils fileUtils;
-
+	private final com.yedam.compani.config.FileUtils fileUtils;
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList")
 	public String modalIssueList(@ModelAttribute SearchDto search, IssueVO issueVO,
@@ -87,7 +86,7 @@ public class IssueController {
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
 	@ResponseBody
-	public void modalIssueInsert(MultipartFile[] files, IssueVO issueVO) {
+	public void modalIssueInsert(MultipartFile[] files, IssueVO issueVO, IssueHashtagVO issuHashtagVO) {
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
 		

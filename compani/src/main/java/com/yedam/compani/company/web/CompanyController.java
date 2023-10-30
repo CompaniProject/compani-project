@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.company.service.CompanyVO;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 @Controller
 public class CompanyController {
 	@Autowired
@@ -47,5 +49,13 @@ public class CompanyController {
 	public String companySignUp(CompanyVO vo, Model model) {
 		vo.setCoCd(service.makeCompanyCode());
 		return "member/memberSignUp";
+	}
+	
+	//회사코드생성
+	@PostMapping("/companyInfo")
+	@ResponseBody
+	public CompanyVO companyInfo(CompanyVO vo){
+		vo = service.getCompanyInfo(vo);
+		return vo;
 	}
 }

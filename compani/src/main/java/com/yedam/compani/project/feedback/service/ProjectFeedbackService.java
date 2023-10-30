@@ -10,4 +10,5 @@ public interface ProjectFeedbackService {
 	public List<IssueVO> getProjectFeedbackIssueList();
 	public List<Map<Object,Object>> getListForLevel(int prjtNo);
 	public boolean insert(ProjectFeedbackVO projectFeedbackVO);
+	public boolean update(ProjectFeedbackVO projectFeedbackVO);
 }

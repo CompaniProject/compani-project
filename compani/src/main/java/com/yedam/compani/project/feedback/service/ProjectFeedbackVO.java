@@ -12,4 +12,5 @@ public class ProjectFeedbackVO {
 	private String prjtFdbkCntn;
 	private Date prjtFdbkDt;
 	private Integer prjtFdbkUpno;
+	private String prjtFdbkShow;
 }

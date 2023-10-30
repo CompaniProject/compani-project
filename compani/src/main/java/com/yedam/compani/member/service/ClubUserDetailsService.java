@@ -37,6 +37,6 @@ public class ClubUserDetailsService implements UserDetailsService{
 		List<GrantedAuthority> auth = new ArrayList<>();
 		auth.add(new SimpleGrantedAuthority(vo.getMembAccp()));
 		
-		return new MemberAuthVO(vo.getMembId(), vo.getMembPwd(), auth);
+		return new MemberAuthVO(vo.getMembId(), vo.getMembPwd(), auth, vo);
 	}
 }

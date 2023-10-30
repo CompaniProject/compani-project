@@ -64,4 +64,23 @@
 				, #{prjtFdbkUpno}
 			)
 	</insert>
+
+	<update id="update" parameterType="ProjectFeedbackVO">
+		<selectKey keyProperty="prjtFdbkDt" resultType="ProjectFeedbackVO" order="BEFORE">
+			SELECT SYSDATE AS prjtFdbkDt
+			FROM dual
+		</selectKey>
+		
+		UPDATE project_feedback
+		<set>
+			<if test="prjtFdbkCntn != null">
+				prjt_fdbk_cntn = #{prjtFdbkCntn},
+			</if>
+			<if test="prjtFdbkShow != null">
+				prjt_fdbk_show = #{prjtFdbkShow},
+			</if>
+			prjt_fdbk_dt = #{prjtFdbkDt}
+		</set>
+		WHERE prjt_fdbk_no = #{prjtFdbkNo}
+	</update>
 </mapper>

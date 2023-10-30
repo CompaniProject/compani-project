@@ -12,7 +12,11 @@ import lombok.extern.log4j.Log4j2;
 @EnableWebSecurity
 @Log4j2
 public class SecurityConfig {
-
+	
+	@Bean
+	public CustomLoginSuccessHandler successHandler() {
+		return new CustomLoginSuccessHandler();
+	}
 	
 	@Bean
 	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
@@ -27,8 +31,9 @@ public class SecurityConfig {
 			.usernameParameter("loginId")
 			.passwordParameter("loginPwd")
 			.loginProcessingUrl("/login")
-			.defaultSuccessUrl("/home")
-			.failureUrl("/loginForm");
+			.successHandler(successHandler())
+			.failureUrl("/loginForm")
+			.permitAll();
 		http.csrf().disable();
 		http.logout();
 		

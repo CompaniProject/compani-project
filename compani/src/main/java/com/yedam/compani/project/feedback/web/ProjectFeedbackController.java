@@ -66,4 +66,13 @@ public class ProjectFeedbackController {
 		projectFeedbackService.insert(prjtFdbk);
 		return prjtFdbk;
 	}
+
+	@RequestMapping("/project/feedback/update")
+	@ResponseBody
+	public ProjectFeedbackVO updateProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk) {
+		projectFeedbackService.update(prjtFdbk);
+		return prjtFdbk;
+	}
+
 }
+

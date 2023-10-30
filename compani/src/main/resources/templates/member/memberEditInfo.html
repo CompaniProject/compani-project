@@ -229,7 +229,7 @@ mark, .mark {
 			</div>
 		</div>
 		<!-- #/ container -->
-
+[[${session.loginInfo.coCd}]]
 		<!-- Modal -->
 		<div class="modal fade" id="modalGrid">
 			<div class="modal-dialog" role="document">
@@ -290,17 +290,40 @@ mark, .mark {
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
 
 	<script>
-	let loginInfo = [];
+/* 	let loginInfo = {};
+	let companyInfo = {};
+	let cocd = "";
+	let sess =  {};
 	 $(function(){
 	 	$.ajax('http://localhost/memberInfo', {
-	 	type : 'post'
+	 	type : 'post',
+	 	async: false
 		 })
 		 .done(result => {
-				 loginInfo.push(result);
-			 console.log(loginInfo);
+				 loginInfo = result;
 		 })
 		 .fail(err =>console.log("err"));
-	 });
+	 	console.log("시작");
+	 	console.log(loginInfo.coCd);
+	 	cocd = loginInfo.coCd;
+	 	console.log(cocd);
+
+	 	
+	 	$.ajax('http://localhost/companyInfo', {
+		 	type : 'post',
+		 	dataType : 'json', 
+		 	data : {coCd : cocd},
+		 	async: false
+			 })
+			 .done(result => {
+				 companyInfo = result;
+				 console.log(companyInfo);
+			 })
+			 .fail(err =>console.log("err"));
+	 	sess = sessionStorage.getItem('loginInfo');
+	 	console.log(sess);
+	 }); */
+	 
 	
 
 	</script>
