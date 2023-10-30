@@ -266,6 +266,7 @@
 			let card = body.find('.card').first().clone();
 			
 			// input content values
+			card.find('comment-content').data('no',data.prjtFdbkNo);
 			card.find('.mt-0').text(membNm);
 			card.find('.content-area').text(data.prjtFdbkCntn);
 			card.find('textarea').text(data.prjtFdbkCntn);
