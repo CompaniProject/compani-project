@@ -184,6 +184,7 @@ select {
 							프로젝트
 						</button>
 						<div class="dropdown-menu">
+							<a class="dropdown-item selectAll">전체</a>
 							<th:block th:each="info : ${personalCalendarPage}">
 								<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
 									th:text="${info.prjtNm}"></a>
@@ -227,7 +228,11 @@ select {
 	
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]];
+	let prjtNum = [];
 	
+	/*----------------------------
+		필터링
+	------------------------------*/
 	// 필터링 - 중복제거
 	for(let i=0; i<$('.dropdown-item.filter').length; i++){
 		for(let j=i+1; j<$('.dropdown-item.filter').length; j++){
@@ -238,26 +243,60 @@ select {
 			}
 		}
 	}
-	// 필터링 - 업무리스트에 다시 뿌리기
-	for(let j=0; j<$('.dropdown-item.filter').length; j++){
-		$('.dropdown-item.filter').eq(j).on('click', function(){
+	// 필터링 전체 - 화면에 다시 뿌리기
+	if($('.dropdown-item.selectAll').on('click', function(){
+		// 캘린더에 뿌리기
+		$('.fc-daygrid-event-harness').css('display', 'block');
+		
+		// 업무리스트에 뿌리기
+		$('.businessList').remove();
+		for(let i=0; i<calendarData.length; i++){
+			$('.businessListBox').append($('<div class="businessList"></div>'));
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
+					+ ' | 중요도 ' + calendarData[i].bussImp);
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+		}
+		
+		// 간트에 뿌리기
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		    for(let i=0; i<calendarData.length; i++){
+		    	if (task.id == calendarData[i].bussNo){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
+		gantt.init("personalGanttchart");
+		
+		console.log($(event.target).text());
+		console.log(prjtNum);
+		
+	}));
+	// 필터링 선택 - 업무리스트에 뿌리기
+	for(let i=0; i<$('.dropdown-item.filter').length; i++){
+		$('.dropdown-item.filter').eq(i).on('click', function(){
 			$('.businessList').remove();
-			for(let i=0; i<calendarData.length; i++){
-				if(calendarData[i].prjtNm == $('.dropdown-item.filter').eq(j).text()){
+			for(let j=0; j<calendarData.length; j++){
+				if(calendarData[j].prjtNm == $('.dropdown-item.filter').eq(i).text()){
 					$('.businessListBox').append($('<div class="businessList"></div>'));
 					
 					$('.businessList:last').append($('<div class="businessList2"></div>'));
-					$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
-							+ ' | 중요도 ' + calendarData[i].bussImp);
+					$('.businessList2:last').append(formatDate(calendarData[j].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[j].bussTodt).substr(2)
+							+ ' | 중요도 ' + calendarData[j].bussImp);
 					
 					$('.businessList:last').append($('<div class="businessList2"></div>'));
-					$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+					$('.businessList2:last').append(calendarData[j].bussNm + ' | 진척도 ' + calendarData[j].bussPrgre + '%');
 				}
 			}
 		});
 	}
-	// 필터링 - 캘린더에 다시 뿌리기
+	// 필터링 선택 - 캘린더&간트에 다시 뿌리기
 	$('.dropdown-item.filter').on('click', function(){
+		// 캘린더에 다시 뿌리기
 		$('.fc-daygrid-event-harness').css('display', 'none');
 		let target = event.target.dataset.prjtnm;
 		
@@ -265,7 +304,27 @@ select {
 		let targetStr = target.replace(regexFor, '.');
 		
 		$('.calendarEvent_' + targetStr).parent().css('display', 'block');
-	})
+		
+		console.log($(event.target).text());
+		
+		// 간트차트에 다시 뿌리기
+		prjtNum = [];
+		for(let j=0; j<calendarData.length; j++){
+			if(calendarData[j].prjtNm == $(event.target).text()){
+				prjtNum.push(calendarData[j].bussNo);
+			}
+		}
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		    for(let i=0; i<prjtNum.length; i++){
+		    	if (task.id == prjtNum[i]){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
+		gantt.init("personalGanttchart");
+	console.log(prjtNum);
+	});
 	
 	/*----------------------------
 		업무리스트 정렬
@@ -380,17 +439,18 @@ select {
 	/*----------------------------
 		Gantt Chart
 	------------------------------*/
-	gantt.scales = [
-	    { unit: "year", step: 1, format: "%Y" }
-	];
-	gantt.init("personalGanttchart");
-	if(calendarData.length != 0){
-		gantt.parse({
-		    data: personalGanttData(),
-		    links: personalGanttLink()
-		});
-	}
-	
+	document.addEventListener('DOMContentLoaded', function() {
+		gantt.scales = [
+		    { unit: "year", step: 1, format: "%Y" }
+		];
+		gantt.init("personalGanttchart");
+		if(calendarData.length != 0){
+			gantt.parse({
+			    data: personalGanttData(),
+			    links: personalGanttLink()
+			});
+		}
+	});
 	
 	/*----------------------------
 		Gantt Chart - data 출력
@@ -416,7 +476,6 @@ select {
 		}
 		return arr;
 	}
-	
 	// 간트차트 상위업무 구현
 	function personalGanttLink(){
 		let arr = [];
