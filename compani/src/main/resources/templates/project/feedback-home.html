@@ -192,7 +192,7 @@
 												<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
 											</div>
 											<div style="margin-top:3%">
-												<div th:text="${feedback.prjtFdbkDt}" class="float-left" id="date-area"></div>
+												<div th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}" class="float-left" id="date-area"></div>
 												<div th:text="수정" class="float-right editBtn"></div>
 												<div th:text="삭제" class="float-right delBtn"></div>
 												<div th:text="확인" class="float-right submitBtn"></div>
@@ -285,7 +285,7 @@
 		function changeComment(data, comment){
 			console.log(data);
 			comment.find(".content-area").text(data.prjtFdbkCntn);
-			comment.find("#date-area").text(data.prjtFdbkDt);
+			comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
 		}
 		
 		// get comment, content, editBtn, submitBtn to Toggle
@@ -334,6 +334,14 @@
 			
 			toggleTags(event);
 		})
+		
+		//------------ Date formatting
+		function timestamp(convertDate){
+		    let today = new Date(convertDate);
+		    today.setHours(today.getHours() + 9);
+		    return today.toISOString().replace('T', ' ').substring(0, 16);
+		}
+		
 	</script>
 </th:block>
 </body>
