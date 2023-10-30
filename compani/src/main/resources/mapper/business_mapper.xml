@@ -2,52 +2,55 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.compani.business.mapper.BusinessMapper">
+<mapper
+	namespace="com.yedam.compani.business.mapper.BusinessMapper">
 	<!-- 개인캘린더 업무 목록 -->
-	<select id="selectPersonalCalendarAllBusiness" resultType="BusinessVO">
+	<select id="selectPersonalCalendarAllBusiness"
+		resultType="BusinessVO">
 		SELECT b.buss_no
-			   , b.prjt_no
-			   , p.prjt_nm
-			   , NVL(b.buss_upcd, 0) AS buss_upcd
-			   , b.buss_nm
-			   , m.memb_id
-			   , CASE b.buss_imp WHEN '0J1' THEN '상'
-               					 WHEN '0J2' THEN '중'
-               					 WHEN '0J3' THEN '하' END AS buss_imp
-			   , b.buss_prgre
-			   , b.buss_frdt
-			   , b.buss_todt
-			   , b.buss_st
-		FROM business b LEFT JOIN project p 
-							   ON b.prjt_no = p.prjt_no
-						LEFT JOIN business_member m 
-							   ON b.buss_no = m.buss_no
+		, b.prjt_no
+		, p.prjt_nm
+		, NVL(b.buss_upcd, 0) AS buss_upcd
+		, b.buss_nm
+		, m.memb_id
+		, CASE b.buss_imp WHEN '0J1' THEN '상'
+		WHEN '0J2' THEN '중'
+		WHEN '0J3' THEN '하' END AS buss_imp
+		, b.buss_prgre
+		, b.buss_frdt
+		, b.buss_todt
+		, b.buss_st
+		FROM business b LEFT JOIN project p
+		ON b.prjt_no = p.prjt_no
+		LEFT JOIN business_member m
+		ON b.buss_no = m.buss_no
 		WHERE buss_st = '0K1'
-		OR	  buss_st = '0K3'
+		OR buss_st = '0K3'
 		<!-- AND memb_id = #{sessionId} -->
 		ORDER BY buss_no
 	</select>
-	
+
 	<!-- 프로젝트 캘린더 업무 목록 -->
-	<select id="selectProjectCalendarAllBusiness" resultType="BusinessVO">
+	<select id="selectProjectCalendarAllBusiness"
+		resultType="BusinessVO">
 		SELECT buss_no
-			   , prjt_no
-			   , NVL(buss_upcd, 0) AS buss_upcd
-			   , buss_nm
-			   , CASE buss_imp WHEN '0J1' THEN '상'
-               				   WHEN '0J2' THEN '중'
-               				   WHEN '0J3' THEN '하' END AS buss_imp
-			   , buss_prgre
-			   , buss_frdt
-			   , buss_todt
-			   , buss_st
+		, prjt_no
+		, NVL(buss_upcd, 0) AS buss_upcd
+		, buss_nm
+		, CASE buss_imp WHEN '0J1' THEN '상'
+		WHEN '0J2' THEN '중'
+		WHEN '0J3' THEN '하' END AS buss_imp
+		, buss_prgre
+		, buss_frdt
+		, buss_todt
+		, buss_st
 		FROM business
 		WHERE buss_st = '0K1'
-		OR	  buss_st = '0K3'
+		OR buss_st = '0K3'
 		<!-- AND prjt_no = #{prjt_no} -->
 		ORDER BY buss_no
 	</select>
-	
+
 	<select id="selectBusinessStateList" resultType="CamelHashMap">
 		SELECT buss_st, COUNT(buss_st) AS buss_st_cnt
 		FROM business
@@ -59,19 +62,20 @@
 		GROUP BY buss_st
 	</select>
 
-	<select id="selectBusinessAndLevelList" resultType="CamelHashMap">
+	<select id="selectBusinessAndLevelList"
+		resultType="CamelHashMap">
 		SELECT level
-				, buss_no
-				, buss_nm
-				, buss_upcd
-				, buss_imp
-				, buss_prgre
-				, buss_st
-				, TRUNC(buss_todt - sysdate,0) AS d_day
-				, CASE WHEN buss_cmpltdt IS NOT NULL
-					THEN TRUNC(buss_cmpltdt - buss_todt,0)
-					ELSE -1
-				  END AS end_delay_day
+		, buss_no
+		, buss_nm
+		, buss_upcd
+		, buss_imp
+		, buss_prgre
+		, buss_st
+		, TRUNC(buss_todt - sysdate,0) AS d_day
+		, CASE WHEN buss_cmpltdt IS NOT NULL
+		THEN TRUNC(buss_cmpltdt - buss_todt,0)
+		ELSE -1
+		END AS end_delay_day
 		FROM business
 		<where>
 			<if test="prjtNo != null and prjtNo > 0">
@@ -79,19 +83,101 @@
 			</if>
 		</where>
 		START WITH buss_upcd IS NULL
-		CONNECT BY PRIOR  buss_no = buss_upcd
+		CONNECT BY PRIOR buss_no = buss_upcd
 	</select>
 
 	<update id="updateProceedToDelay">
 		UPDATE business
 		SET buss_st = '0K3'
-		WHERE buss_st = '0K1'
+		WHERE buss_st =
+		'0K1'
 		AND sysdate > buss_todt
 	</update>
 
 	<select id="getBusinessList" resultType="BusinessVO">
-		SELECT P.PRJT_NM, B.BUSS_NM,B.BUSS_FRDT, B.BUSS_TODT, B.BUSS_IMP
-		FROM PROJECT P, BUSINESS B
+		SELECT P.PRJT_NM,
+		B.BUSS_NM,B.BUSS_FRDT, B.BUSS_TODT, B.BUSS_IMP
+		FROM PROJECT P, BUSINESS
+		B
 		WHERE P.PRJT_NO = B.PRJT_NO
+	</select>
+
+	<select id="businessNameList" resultType="BusinessVO">
+		SELECT BUSS_NM
+		FROM
+		BUSINESS
+		WHERE PRJT_NO = #{prjtNo}
+
+	</select>
+
+	<insert id="insertBusiness" parameterType="BusinessVO">
+		INSERT INTO BUSINESS
+		(BUSS_NO,
+		PRJT_NO,
+		<if test=" bussUpcd != null and  !bussUpcd.equals('') ">
+			BUSS_UPCD,
+			BUSS_NM,
+		</if>
+
+		BUSS_IMP,
+		BUSS_PRGRE,
+		BUSS_FRDT,
+		BUSS_TODT,
+		BUSS_CMPLTDT
+		)
+		VALUES(
+
+		(SELECT NVL(MAX(BUSS_NO),0)+1 FROM BUSINESS),
+		#{prjtNo},
+		<if test=" bussUpcd != null and  !bussUpcd.equals('') ">
+			#{bussUpcd},
+			#{bussNm},
+		</if>
+		#{bussImp},
+		0,
+		#{bussFrdt},
+		#{bussTodt},
+		NULL
+		)
+
+	</insert>
+
+	<update id="updateBusiness" parameterType="BusinessVO">
+
+		DECLARE
+			max_no NUMBER(10) := 0;
+			p_buss_no  NUMBER(10) := 0;
+		BEGIN
+			SELECT MAX(BUSS_NO)
+			INTO max_no
+			FROM BUSINESS;
+			
+			SELECT BUSS_NO
+			INTO   p_buss_no
+			FROM  BUSINESS
+			WHERE BUSS_NM = #{bussUpNm}
+			AND PRJT_NO = #{prjtNo};
+			
+			UPDATE BUSINESS
+			<set>
+				<if test="bussDep.equals('up')">
+					BUSS_UPCD =  p_buss_no
+					WHERE BUSS_NO = BUSS_NO;
+			</if>
+				<if test="bussDep.equals('down')">
+					BUSS_UPCD =  p_buss_no
+					WHERE BUSS_NO = BUSS_NO;
+				</if>
+
+			</set>
+
+		END;
+		
+	</update>
+	
+	<select id="businessSelect" resultType="BusinessVO">
+		SELECT *
+		FROM   BUSINESS
+		WHERE  BUSS_NO = #{bussNo}
 	</select>
 </mapper>

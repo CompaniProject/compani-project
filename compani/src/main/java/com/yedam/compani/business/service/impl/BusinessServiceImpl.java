@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.compani.business.mapper.BusinessMapper;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -61,6 +61,30 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public List<BusinessVO> getBusinessList() {
 		return businessMapper.getBusinessList();
+	}
+
+	@Override
+	public List<BusinessVO> bussinessNameList(Integer prjtNo) {
+		
+		return businessMapper.businessNameList(prjtNo);
+	}
+
+	@Override
+	public int insertBusiness(BusinessVO businessVO) {
+		
+		return 	businessMapper.insertBusiness(businessVO);
+	}
+
+	@Override
+	public int updateBusiness(BusinessVO businessVO) {
+		
+		return businessMapper.updateBusiness(businessVO);
+	}
+
+	@Override
+	public BusinessVO businessSelect(BusinessVO businessVO) {
+		
+		return businessMapper.businessSelect(businessVO);
 	}
 
 }

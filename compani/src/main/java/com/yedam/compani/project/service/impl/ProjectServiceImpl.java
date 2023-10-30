@@ -38,5 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public int updateFavorite(ProjectVO projectVO) {
 		return projectMapper.updateFavorite(projectVO);
 	}
+	
+	
 
 }
