@@ -191,7 +191,7 @@
 											<div class="edit-area" style="display:none;">
 												<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
 											</div>
-											<div style="margin-top:3%">
+											<div style="margin-top:3%" class="btn-area">
 												<div th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}" class="float-left" id="date-area"></div>
 												<div th:text="수정" class="float-right editBtn"></div>
 												<div th:text="삭제" class="float-right delBtn"></div>
@@ -303,6 +303,20 @@
 			submitBtn.toggle();
 		}
 		
+		function editSubmit(event){
+			let comment = $(event.target).closest('.comment-content');
+			let textCntn = comment.find("textarea");
+			
+			let obj = {};
+			obj["prjtFdbkCntn"] = textCntn.val();
+			obj["prjtFdbkNo"] = comment.data('no');
+			updateAjax(obj, comment);
+			
+			toggleTags(event);
+		}
+		
+		// ----------------------------------Update Ajax
+		
 		// update - using edit, delete
 		function updateAjax(obj, comment){
 			$.ajax({
@@ -315,25 +329,19 @@
             .fail(err => {});
 		}
 		
-		$('.editBtn').on('click',function(event){
-			toggleTags(event);
-		})
+		// -------------------------------Update Ajax End
+		
+		// -------------------------------onclick Event
+		
 		
 		$('.delBtn').on('click',function(event){
 			let comment = $(event.target).closest('.comment-content');
 		})
 		
-		$('.submitBtn').on('click',function(event){
-			let comment = $(event.target).closest('.comment-content');
-			let textCntn = comment.find("textarea");
-			
-			let obj = {};
-			obj["prjtFdbkCntn"] = textCntn.val();
-			obj["prjtFdbkNo"] = comment.data('no');
-			updateAjax(obj, comment);
-			
-			toggleTags(event);
-		})
+		$(document).on('click','.editBtn',toggleTags);
+		$(document).on('click','.submitBtn',editSubmit);
+		
+		// ------------------------------onclick Event End
 		
 		//------------ Date formatting
 		function timestamp(convertDate){
