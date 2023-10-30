@@ -263,18 +263,16 @@
 		function insertCommentHTML(data){
 			// create tag
 			let body = $('#commentBody');
-			let card = $('<div/>').addClass('card');
-			let cardBody = $('<div/>').addClass('card-body');
-			let media = $('<div/>').addClass('media');
-			let content = $('<div/>').addClass('media-body');
+			let card = body.find('.card').first().clone();
 			
 			// input content values
-			let name = $('<h5/>').addClass("mt-0").text(membNm);
-			content.append(name);
-			content.append($('<div/>').text(data.prjtFdbkCntn));
+			card.find('.mt-0').text(membNm);
+			card.find('.content-area').text(data.prjtFdbkCntn);
+			card.find('textarea').text(data.prjtFdbkCntn);
+			card.find('#date-area').text(timestamp(data.prjtFdbkDt));
 			
 			// insert comment tag to comment body
-			body.append(card.append(cardBody.append(media.append(content))));
+			body.append(card);
 		}
 		
 		$('#insertBtn').on('click', insertComment);
