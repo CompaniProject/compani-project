@@ -33,5 +33,9 @@ public class ProjectFeedbackServiceImpl implements ProjectFeedbackService {
 		return (projectFeedbackMapper.insert(projectFeedbackVO) == 1);
 	}
 
+	@Override
+	public boolean update(ProjectFeedbackVO projectFeedbackVO) {
+		return (projectFeedbackMapper.update(projectFeedbackVO) == 1);
+	}
 
 }

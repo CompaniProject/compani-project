@@ -64,4 +64,11 @@
 				, #{prjtFdbkUpno}
 			)
 	</insert>
+
+	<update id="update" parameterType="ProjectFeedbackVO">
+		UPDATE project_feedback
+		SET prjt_fdbk_cntn = #{prjtFdbkCntn}
+			, prjt_fdbk_dt = SYSDATE
+		WHERE prjt_fdbk_no = #{prjtFdbkNo}
+	</update>
 </mapper>
