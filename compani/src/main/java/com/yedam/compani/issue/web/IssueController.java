@@ -39,8 +39,7 @@ public class IssueController {
 	private final IssueService issueService;
 	private final IssueFileService issueFileService;	
 	private final IssueHashtagService issueHashtagService;
-	private final FileUtils fileUtils;
-
+	private final com.yedam.compani.config.FileUtils fileUtils;
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList")
 	public String modalIssueList(@ModelAttribute SearchDto search, IssueVO issueVO,
