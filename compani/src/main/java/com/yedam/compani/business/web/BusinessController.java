@@ -13,22 +13,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.compani.business.member.service.BusinessMemberService;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
-import lombok.RequiredArgsConstructor;;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class BusinessController {
 
 	private final BusinessService businessService;
 	private final MemberService memberService;
-	
+
 	@Autowired
-	BusinessService businessMember;
+	BusinessMemberService businessMemberService;
 
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {
@@ -46,36 +50,46 @@ public class BusinessController {
 
 	@PostMapping("insertBusiness")
 	@ResponseBody
-	public Map<String, Object> insertBusiness(@RequestBody BusinessVO businessVO) {
+	public Map<String, Object> insertBusiness(@RequestBody FormVO formVO) {
+
+		// ServiceImpl 로 옮기기**********************
 
 		Map<String, Object> map = new HashMap<>();
-		if (businessService.insertBusiness(businessVO) >= 1) {
-			map.put("insertResult", true);
-			if (!businessVO.getBussDep().equals("")) {
-				if (businessService.updateBusiness(businessVO) >= 1) {
-					map.put("updateResult", true);
-				} else {
-					map.put("updateResult", false);
-				}
-			}
-		} else {
-			map.put("insertResult", false);
+
+		/*
+		 * if (businessService.insertBusiness(formVO.getBusiness()) >= 1) {
+		 * map.put("insertResult", true); if
+		 * (!formVO.getBusiness().getBussDep().equals("")) { if
+		 * (businessService.updateBusiness(formVO.getBusiness()) >= 1) {
+		 * map.put("updateResult", true); } else { map.put("updateResult", false); } } }
+		 * else { map.put("insertResult", false); }
+		 */
+		
+		businessService.insertBusiness(formVO.getBusiness());
+		System.out.println(formVO.getBusiness());
+		
+		businessMemberService.insertBusinessMember(formVO);
+		
+		//이거 한번 고민 해보자구 
+		if (!formVO.getBusiness().getBussDep().equals("")) {
+			businessService.updateBusiness(formVO.getBusiness());
 		}
+
 		return map;
+
 	}
-	
+
 	@PostMapping("bussInfoAjax")
 	@ResponseBody
-	public Map<String, Object> bussInfo(BusinessVO businessVO){
-		
+	public Map<String, Object> bussInfo(BusinessVO businessVO) {
+
 		Map<String, Object> map = new HashMap<>();
-		
+
 		BusinessVO bussVO = businessService.businessSelect(businessVO);
 		System.out.println(bussVO);
 		map.put("businessVO", bussVO);
-		
+
 		return map;
 	}
-		
-	
+
 }

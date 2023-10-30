@@ -79,6 +79,7 @@ public class BusinessServiceImpl implements BusinessService {
 	public int updateBusiness(BusinessVO businessVO) {
 		
 		return businessMapper.updateBusiness(businessVO);
+		
 	}
 
 	@Override
