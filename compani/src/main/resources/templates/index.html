@@ -658,10 +658,17 @@
         enabled : 0 // always opens dropdown when input gets focus
       }
     })
-    tagify.on('add', function() {
-      console.log(JSON.stringify(tagify.value));
-    })
-
+	
+    // tagNm 구하는 함수.
+    function getTagNm() {
+    	var tagObj = {};
+    	for(i = 0; i < tagify.value.length; i++) {  	
+   		 var tagNm = $('.tagify__tag-text')[i].innerHTML;
+    	 tagObj['issuHtNm'] = tagNm;
+    	}
+    	return tagObj;
+    	console.log(tagObj);
+    }
     </script>
 
 
