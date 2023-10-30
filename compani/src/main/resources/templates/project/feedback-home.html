@@ -160,12 +160,20 @@
 							<div class="card-body">
 								<div class="media">
 									<div class="media-body">
-										<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
-										<div>
-										<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+										<!-- Comment Area Start -->
+										<div class="reply-content" th:data-no="${feedback.prjtFdbkNo}">
+											<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
+											<div>
+											<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+											</div>
+											
+											<div style="margin-top:3%">
+												<div th:text="${feedback.prjtFdbkDt}" class="float-left"></div>
+												<div th:text="수정" class="float-right editBtn"></div>
+												<div th:text="삭제" class="float-right delBtn" style="margin-right:3%"></div>
+											</div>
 										</div>
-										<div th:text="수정" class="float-right"></div>
-										<div th:text="삭제" class="float-right" style="margin-right:3%"></div>
+										<!-- Comment Area End -->
 									</div>
 								</div>
 							</div>
