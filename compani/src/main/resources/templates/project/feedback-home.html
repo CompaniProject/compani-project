@@ -161,7 +161,7 @@
 								<div class="media">
 									<div class="media-body">
 										<!-- Comment Area Start -->
-										<div class="reply-content" th:data-no="${feedback.prjtFdbkNo}">
+										<div class="comment-content" th:data-no="${feedback.prjtFdbkNo}">
 											<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
 											<div>
 											<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
@@ -251,6 +251,13 @@
 		}
 		
 		$('#insertBtn').on('click', insertComment);
+		
+		$('.editBtn').on('click',function(event){
+		})
+		
+		$('.delBtn').on('click',function(event){
+			let comment = $(event.target).closest('.comment-content');
+		})
 	</script>
 </th:block>
 </body>
