@@ -185,13 +185,17 @@
 										<!-- Comment Area Start -->
 										<div class="comment-content" th:data-no="${feedback.prjtFdbkNo}">
 											<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
+											
 											<div class="content-area">
-												<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+												<th:block th:switch="${feedback.prjtFdbkShow}">
+													<th:block th:case="0N1" th:text="${feedback.prjtFdbkCntn}"></th:block>	
+													<th:block th:case="0N2">삭제된 내용입니다.</th:block>	
+												</th:block>
 											</div>
 											<div class="edit-area" style="display:none;">
 												<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
 											</div>
-											<div style="margin-top:3%" class="btn-area">
+											<div style="margin-top:3%" class="btn-area" th:if="${feedback.prjtFdbkShow} == '0N1'">
 												<div th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}" class="float-left" id="date-area"></div>
 												<div th:text="수정" class="float-right editBtn"></div>
 												<div th:text="삭제" class="float-right delBtn"></div>
@@ -283,8 +287,14 @@
 		// date, content change
 		function changeComment(data, comment){
 			let text = (data.prjtFdbkShow == null) ? data.prjtFdbkCntn : '삭제되었습니다.'; 
-			comment.find(".content-area").text(text);
-			comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
+
+			if (data.prjtFdbkShow == null){
+				comment.find(".content-area").text(data.prjtFdbkCntn);
+				comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
+			} else {
+				comment.find(".content-area").text('삭제된 내용입니다.');
+				comment.find(".btn-area").remove();
+			}
 		}
 		
 		// get comment, content, editBtn, submitBtn to Toggle
