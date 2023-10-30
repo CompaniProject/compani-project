@@ -185,4 +185,6 @@
 		FROM BUSINESS
 		WHERE BUSS_NO = #{bussNo}
 	</select>
+
+	
 </mapper>

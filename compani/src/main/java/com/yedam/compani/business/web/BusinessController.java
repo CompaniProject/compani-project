@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.business.member.service.BusinessMemberService;
+import com.yedam.compani.business.member.service.BusinessMemberVO;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.business.service.FormVO;
@@ -66,11 +67,9 @@ public class BusinessController {
 		 */
 		
 		businessService.insertBusiness(formVO.getBusiness());
-		System.out.println(formVO.getBusiness());
-		
 		businessMemberService.insertBusinessMember(formVO);
 		
-		//이거 한번 고민 해보자구 
+		//이거 한번 고민 해보자구 mapper 설계
 		if (!formVO.getBusiness().getBussDep().equals("")) {
 			businessService.updateBusiness(formVO.getBusiness());
 		}
@@ -84,10 +83,19 @@ public class BusinessController {
 	public Map<String, Object> bussInfo(BusinessVO businessVO) {
 
 		Map<String, Object> map = new HashMap<>();
-
+		
+		//업무 단건 
 		BusinessVO bussVO = businessService.businessSelect(businessVO);
 		System.out.println(bussVO);
 		map.put("businessVO", bussVO);
+		
+		
+		//업무 참여자 list
+		BusinessMemberVO bmVO = new BusinessMemberVO();
+		bmVO.setBussNo(businessVO.getBussNo());
+		bmVO.setPrjtNo(businessVO.getPrjtNo());
+		List<BusinessMemberVO> list = businessMemberService.bussMemberList(bmVO);
+		map.put("bussMemberList", list);
 
 		return map;
 	}

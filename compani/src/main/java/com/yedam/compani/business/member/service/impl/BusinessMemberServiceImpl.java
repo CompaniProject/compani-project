@@ -1,5 +1,7 @@
 package com.yedam.compani.business.member.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,20 @@ public class BusinessMemberServiceImpl implements BusinessMemberService{
 	BusinessMemberMapper businessMemberMapper;
 
 	@Override
-	public BusinessMemberVO insertBusinessMember(FormVO formVO) {
+	public int insertBusinessMember(FormVO formVO) {
 		
-	
-		return businessMemberMapper.insertBusinessMember(formVO);
+		for(int i =0 ; i< formVO.getBusinessMember().size(); i++) {
+			formVO.getBusinessMember().get(i).setPrjtNo(formVO.getBusiness().getPrjtNo());
+			formVO.getBusinessMember().get(i).setBussNo(formVO.getBusiness().getBussNo());
+		}
+		System.out.println(formVO.getBusinessMember());
+		return businessMemberMapper.insertBusinessMember(formVO.getBusinessMember());
+	}
+
+	@Override
+	public List<BusinessMemberVO> bussMemberList(BusinessMemberVO bmVO) {
+		
+		return businessMemberMapper.bussMemberList(bmVO);
 	}
 
 	

@@ -11,14 +11,23 @@
 			 MEMB_ID,
 			 BUSS_NO
 			)
-	<foreach collection="list" item="membId" separator="UNION ALL">
-	
-			#{prjtNo},
-			#{membId},
-			#{membId}
+	<foreach collection="list" item="member" separator="UNION ALL">
+			SELECT
+			#{member.prjtNo},
+			#{member.membId},
+			#{member.bussNo}
+			FROM DUAL
 	</foreach>
 			 	
   </insert>
+  
+  <select id="bussMemberList" resultType="BusinessMemberVO">
+		   SELECT * 
+		   FROM   BUSINESS_MEMBER
+		   WHERE  BUSS_NO = #{bussNo}
+		  <!--  AND    PRJT_NO = #{prjtNo} -->
+		   
+  </select>
   
   
   </mapper>
