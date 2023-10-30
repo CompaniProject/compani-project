@@ -156,37 +156,16 @@
                 </div>
 	            <div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;" id="commentBody">
 					<th:block th:each="feedback : ${projectFeedbackList}">
-						<th:block th:if="${feedback.rootNo} == ${feedback.prjtFdbkNo}">
 						<div class="card">
 							<div class="card-body">
 								<div class="media">
 									<div class="media-body">
 										<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
-										<i class="bi bi-reply-fill float-right"></i>
 										<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
-										<!-- 대댓글 출력 Start							-->
-										<div style="background-color:#F3F1FA;">
-											<th:block th:each="child : ${projectFeedbackList}"
-													  th:if="${child.rootNo} == ${feedback.rootNo} and ${child.prjtFdbkNo} != ${feedback.prjtFdbkNo}">
-												<div class="media mt-3">
-													<th:block th:each="i : ${#numbers.sequence(3,child.level,1)}">
-														<span>&nbsp;&nbsp;&nbsp;</span>
-													</th:block>
-													<i class="bi bi-arrow-return-right" style="padding:1.5%;"></i>
-													<div class="media-body">
-														<h5 class="mt-0" th:text="${child.membNm}"></h5>
-														<th:block th:text="${child.prjtFdbkCntn}"></th:block>
-													</div>
-												</div>
-											</th:block>
-											
-										</div>
-										<!-- 대댓글 출력 End								-->
 									</div>
 								</div>
 							</div>
 						 </div>
-						</th:block>
 					</th:block>
 	            </div>
 				<!-- 댓글 등록 영역 -->
@@ -260,10 +239,6 @@
 		}
 		
 		$('#insertBtn').on('click', insertComment);
-		
-		$('.bi-reply-fill').on('click',function(event){
-		})
-		
 	</script>
 </th:block>
 </body>
