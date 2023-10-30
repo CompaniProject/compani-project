@@ -2,13 +2,18 @@ package com.yedam.compani.issue.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.github.pagehelper.Page;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.paging.SearchDto;
 
 public interface IssueMapper {
+	
 	Page<IssueVO> findIssue(SearchDto search);
-
+	
+	Page<IssueVO> findProjectIssue(@Param("search")String search, @Param("keyword") String keyword, @Param("prjtNo") int prjtNo);
+	
 	/**
 	 * 모달 이슈 저장
 	 * 

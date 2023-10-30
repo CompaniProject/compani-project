@@ -8,6 +8,8 @@ import com.yedam.compani.paging.SearchDto;
 public interface IssueService {
 	// 이슈 전체 조회(검색)
 	public Page<IssueVO> getIssueList(int pageNo, SearchDto search);
+	
+	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, final int prjtNo);
 
 	// 이슈 단건 조회
 	public IssueVO findIssueById(final int issuNo);

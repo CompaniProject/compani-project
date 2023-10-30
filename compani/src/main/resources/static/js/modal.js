@@ -371,7 +371,6 @@ function removeFile(element) {
 	checkFile();
 }
 
-
 // 파일 사이즈 변환하기
 function getByteSize(size) {
 	const byteUnits = ["KB", "MB", "GB", "TB"];
