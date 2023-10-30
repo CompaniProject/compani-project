@@ -163,10 +163,12 @@
 										<!-- Comment Area Start -->
 										<div class="comment-content" th:data-no="${feedback.prjtFdbkNo}">
 											<h5 class="mt-0" th:text="${feedback.membNm}"></h5>
-											<div>
-											<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
+											<div class="content-area">
+												<th:block th:text="${feedback.prjtFdbkCntn}"></th:block>
 											</div>
-											
+											<div class="edit-area" style="display:none;">
+												<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
+											</div>
 											<div style="margin-top:3%">
 												<div th:text="${feedback.prjtFdbkDt}" class="float-left"></div>
 												<div th:text="수정" class="float-right editBtn"></div>
@@ -253,6 +255,14 @@
 		$('#insertBtn').on('click', insertComment);
 		
 		$('.editBtn').on('click',function(event){
+			// search 
+			let comment = $(event.target).closest('.comment-content');
+			let content = comment.find('.content-area');
+			let edit = comment.find('.edit-area');
+			
+			content.toggle();
+			edit.toggle();
+			
 		})
 		
 		$('.delBtn').on('click',function(event){
