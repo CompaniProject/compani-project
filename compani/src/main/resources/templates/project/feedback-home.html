@@ -282,8 +282,8 @@
 		
 		// date, content change
 		function changeComment(data, comment){
-			console.log(data);
-			comment.find(".content-area").text(data.prjtFdbkCntn);
+			let text = (data.prjtFdbkShow == null) ? data.prjtFdbkCntn : '삭제되었습니다.'; 
+			comment.find(".content-area").text(text);
 			comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
 		}
 		
@@ -314,8 +314,19 @@
 			toggleTags(event);
 		}
 		
-		// ----------------------------------Update Ajax
+		// ----------------------------------Delete Comment
+		function deleteComment(event){
+			let comment = $(event.target).closest('.comment-content');
+			
+			let obj = {};
+			obj["prjtFdbkShow"] = '0N2';		// Delete State Change
+			obj["prjtFdbkNo"] = comment.data('no');
+			
+			updateAjax(obj,comment);
+		}
+		// ----------------------------------Delete Comment 
 		
+		// ----------------------------------Update Ajax
 		// update - using edit, delete
 		function updateAjax(obj, comment){
 			$.ajax({
@@ -327,19 +338,12 @@
             .done(data => {changeComment(data, comment)})
             .fail(err => {});
 		}
-		
 		// -------------------------------Update Ajax End
 		
 		// -------------------------------onclick Event
-		
-		
-		$('.delBtn').on('click',function(event){
-			let comment = $(event.target).closest('.comment-content');
-		})
-		
+		$(document).on('click','.delBtn',deleteComment);
 		$(document).on('click','.editBtn',toggleTags);
 		$(document).on('click','.submitBtn',editSubmit);
-		
 		// ------------------------------onclick Event End
 		
 		//------------ Date formatting
