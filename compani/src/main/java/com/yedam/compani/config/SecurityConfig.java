@@ -21,8 +21,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
-			.antMatchers("/loginForm").permitAll();
-			//.antMatchers("/home").hasRole("0C1");
+			.antMatchers("/loginForm").permitAll()
+			.antMatchers("/home").hasRole("0A1");
 //			.antMatchers("/").hasRole("0A2")
 //			.antMatchers("/").hasRole("0A3")
 //			.antMatchers("/").hasRole("0A4");
@@ -32,7 +32,7 @@ public class SecurityConfig {
 			.passwordParameter("loginPwd")
 			.loginProcessingUrl("/login")
 			.successHandler(successHandler())
-			.failureUrl("/loginForm")
+			.failureUrl("/standBy")
 			.permitAll();
 		http.csrf().disable();
 		http.logout();

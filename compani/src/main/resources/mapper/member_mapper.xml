@@ -17,7 +17,7 @@
 		,MEMB_PHT_PATH
 		,MEMB_MSG
 		,MEMB_ACCP
-		,PERM_NO
+		,'ROLE_'|| PERM_NO as PERM_NO
 		FROM member
 		WHERE memb_id = #{membId}
 	</select>

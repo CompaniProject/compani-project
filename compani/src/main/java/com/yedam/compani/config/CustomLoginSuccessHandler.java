@@ -31,15 +31,15 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		});
 		
 		log.warn("ROLE NAMES: " + roleNames);
-		
-		//if(roleNames.contains("ROLE_0C1")) {
-		response.sendRedirect("/home");
-		//	return;
-		//} else	if(roleNames.contains("ROLE_0C2")) {
-		//	response.sendRedirect("/home");
-		//	return;
-		//}
-		
+		if(roleNames.contains("ROLE_0A1")) {
+			response.sendRedirect("/home");
+			//마스터 페이지로 
+			return;
+		}else if(roleNames.contains("ROLE_0A2") || roleNames.contains("ROLE_0A3") || roleNames.contains("ROLE_0A4")) {
+			response.sendRedirect("/home");
+			return;
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+roleNames);//권한값 확인
 	}
 
 }

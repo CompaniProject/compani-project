@@ -15,4 +15,10 @@ public class MemberAuthVO extends User {
 		this.vo = vo;
 	}
 
+	@Override
+	public boolean isEnabled() {
+		return vo.getMembAccp().equals("0C1") ;
+	}// 로그인 승인권한 설정
+
+	
 }
