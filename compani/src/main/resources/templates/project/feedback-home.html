@@ -236,6 +236,8 @@
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
 	
 	<script th:inline="javascript">
+	
+	//----------------------- Project Feedback(Comment) Insert Start
 		function insertComment(){
 			let value = $('#inputCntn').val();
 			let obj = {};
@@ -277,6 +279,19 @@
 		
 		$('#insertBtn').on('click', insertComment);
 		
+		// ---------------------------------------Project Feedback(Comment) Insert End
+		
+		function updateAjax(obj){
+			$.ajax({
+				url:'/project/feedback/update',
+                type: 'post',
+                contentType: "application/json",
+                data:JSON.stringify(obj)
+			})
+            .done(data => {console.log(data)})
+            .fail(err => {});
+		}
+		
 		$('.editBtn').on('click',function(event){
 			// search 
 			let comment = $(event.target).closest('.comment-content');
@@ -287,11 +302,27 @@
 			content.toggle();
 			edit.toggle();
 			submitBtn.toggle();
-			
 		})
 		
 		$('.delBtn').on('click',function(event){
 			let comment = $(event.target).closest('.comment-content');
+		})
+		
+		$('.submitBtn').on('click',function(event){
+			let comment = $(event.target).closest('.comment-content');
+			let content = comment.find('.content-area');
+			let edit = comment.find('.edit-area');
+			let submitBtn = comment.find('.submitBtn');
+			
+			let textCntn = comment.find("textarea");
+			let obj = {};
+			obj["prjtFdbkCntn"] = textCntn.val();
+			obj["prjtFdbkNo"] = comment.data('no');
+			updateAjax(obj);
+			
+			content.toggle();
+			edit.toggle();
+			submitBtn.toggle();
 		})
 	</script>
 </th:block>
