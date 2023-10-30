@@ -66,9 +66,14 @@
 	</insert>
 
 	<update id="update" parameterType="ProjectFeedbackVO">
+		<selectKey keyProperty="prjtFdbkDt" resultType="ProjectFeedbackVO" order="BEFORE">
+			SELECT SYSDATE AS prjtFdbkDt
+			FROM dual
+		</selectKey>
+		
 		UPDATE project_feedback
 		SET prjt_fdbk_cntn = #{prjtFdbkCntn}
-			, prjt_fdbk_dt = SYSDATE
+			, prjt_fdbk_dt = #{prjtFdbkDt}
 		WHERE prjt_fdbk_no = #{prjtFdbkNo}
 	</update>
 </mapper>
