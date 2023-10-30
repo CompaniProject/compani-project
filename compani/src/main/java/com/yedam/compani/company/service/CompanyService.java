@@ -11,4 +11,6 @@ public interface CompanyService {
 	
 	// 회사 가입
 	public int setCompanyInfo(CompanyVO vo);
+	
+	public CompanyVO getCompanyInfo(CompanyVO vo);
 }

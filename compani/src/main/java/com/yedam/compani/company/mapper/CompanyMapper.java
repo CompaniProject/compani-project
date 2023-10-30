@@ -13,4 +13,7 @@ public interface CompanyMapper {
 	
 	//회사 가입
 	public int insertCompanyInfo(CompanyVO vo);
+	
+	//회사정보
+	public CompanyVO selectCompanyinfo(CompanyVO vo);
 }
