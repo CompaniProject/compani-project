@@ -94,4 +94,16 @@
 		FROM PROJECT P, BUSINESS B
 		WHERE P.PRJT_NO = B.PRJT_NO
 	</select>
+	
+	<!-- 캘린더 업무바 수정 -->
+	<update id="updatePersonalCalendarBuss" parameterType="BusinessVO">
+		UPDATE business
+		SET buss_frdt = #{bussFrdt}, buss_todt = #{bussTodt}
+		WHERE buss_no = #{bussNo}
+	</update>
+	<update id="updateProjectCalendarBuss" parameterType="BusinessVO">
+		UPDATE business
+		SET buss_frdt = #{bussFrdt}, buss_todt = #{bussTodt}
+		WHERE buss_no = #{bussNo}
+	</update>
 </mapper>

@@ -103,7 +103,7 @@ public class IssueController {
 				
 	}
 	
-	// 프로젝트 이슈 피드백
+	// 김연규, 2023-10-25, 프로젝트 이슈 피드백
 	@GetMapping("/project/feedback/{prjtNo}/issue")
 	public String projectFeedbackIssueList(@PathVariable int prjtNo, Model model) {
 		List<IssueVO> list = issueService.getProjectFeedbackIssueList();
