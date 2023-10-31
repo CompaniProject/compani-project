@@ -11,7 +11,7 @@
 								style="background-image: url(/images/tab_issue.png);"></div>
 							<p class="ContentText">이슈</p>
 						</div>
-						<button type="button" class="btn-close" data-dismiss="modal"
+						<button type="button" class="modalClose" data-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-content-container"  style="overflow: auto;">
@@ -42,10 +42,14 @@
             
     		$('#tab_issue').on('click',function(){
     			includes1.load('/ModalIssueList')
+    			$('.ContentText').text($(this).text());
+    			$('.ContentImg').css('background-image', 'url(/images/tab_issue.png)');
     		})
     		
     		$('#tab_file').on('click',function(){
     			includes1.load('/workFile')
+    			$('.ContentText').text($(this).text());
+    			$('.ContentImg').css('background-image', 'url(/images/tab_file.png)');
     		})
     	});
     	
