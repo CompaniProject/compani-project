@@ -30,9 +30,7 @@ public class BusinessController {
 
 	private final BusinessService businessService;
 	private final MemberService memberService;
-
-	@Autowired
-	BusinessMemberService businessMemberService;
+	private final BusinessMemberService businessMemberService;
 
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {
@@ -43,7 +41,6 @@ public class BusinessController {
 		model.addAttribute("memberList", list);
 
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
-		System.out.println(busineesNameList);
 		model.addAttribute("businessNameList", busineesNameList);
 		return "project/business-home";
 	}
