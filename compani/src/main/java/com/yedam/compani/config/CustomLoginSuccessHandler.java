@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.yedam.compani.member.service.MemberAuthVO;
+import com.yedam.compani.member.service.MemberVO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -20,7 +21,16 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication auth) throws IOException, ServletException {
-		request.getSession().setAttribute("loginInfo", ((MemberAuthVO)auth.getPrincipal()).getVo());
+			
+		MemberVO vo = ((MemberAuthVO)auth.getPrincipal()).getVo();//오버라이드 된 getPrincipal()이 클래스 안에 모든 정보를 담고있고, 그 클래스(MemberAuthVO)는 첫줄에 MemberVO를 생성했고, 생성된 vo안의 값이 그 클래스의 @Data로 인해 
+																	//getVo로 vo의 모든 정보를 불러오는데 그 정보를 현재의 MemberVO생성자에 넣는다.
+		request.getSession().setAttribute("loginInfo", vo); // 세션에 loginInfo라는 변수에 vo값을 넣는다.
+		
+		//승인상태 체크
+		if(vo.getMembAccp().equals("0C2")) {//맞는지 학인하고 맞으면 매핑(컨트롤러)시켜줌
+			response.sendRedirect("/standBy");
+			return; 
+		}
 		
 		log.warn("Login Success");
 		
@@ -31,14 +41,13 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		});
 		
 		log.warn("ROLE NAMES: " + roleNames);
-		if(roleNames.contains("ROLE_0A1")) {
-			response.sendRedirect("/home");
-			//마스터 페이지로 
-			return;
-		}else if(roleNames.contains("ROLE_0A2") || roleNames.contains("ROLE_0A3") || roleNames.contains("ROLE_0A4")) {
+		if(roleNames.contains("ROLE_0A1")||roleNames.contains("ROLE_0A2") || roleNames.contains("ROLE_0A3") || roleNames.contains("ROLE_0A4")) {
 			response.sendRedirect("/home");
 			return;
-		}
+		} 
+		/*
+			 * else if() { response.sendRedirect("/home"); return; }
+			 */
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+roleNames);//권한값 확인
 	}
 

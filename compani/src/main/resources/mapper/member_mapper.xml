@@ -85,5 +85,21 @@
 
 
 	</select>
+	
+	<update id="updateMemberInfo" parameterType="MemberVO">
+		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm},</if>
+                          <if test="membDept != null and !membDept.equals('')">memb_dept = #{membDept},</if>
+                          <if test="membWkgd != null and !membWkgd.equals('')">memb_wkgd = #{membWkgd},</if>
+                          <if test="membMsg != null and !membMsg.equals('')">memb_msg = #{membMsg},</if>
+                          <if test="membBirthDt != null and !membBirthDt.equals('')">memb_birth_dt = #{membBirthDt},</if>
+                          <if test="membEmail != null and !membEmail.equals('')">memb_email = #{membEmail},</if>
+                          <if test="membTelno != null and !membTelno.equals('')">memb_telno = #{membTelno},</if>
+                          <if test="membPwd != null and !membPwd.equals('')">memb_pwd = #{membPwd}</if>
+                      WHERE memb_id = #{membId}
+	</update>
+		<update id="updateMemberPwd" parameterType="MemberVO">
+		UPDATE member SET 	memb_pwd = #{membPwd}
+                      WHERE memb_id = #{membId}
+	</update>
 
 </mapper>

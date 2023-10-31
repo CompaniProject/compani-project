@@ -33,6 +33,17 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> getMemberIdList() {
 		return map.selectMemberIdList();
 	}
+
+	@Override
+	public int editMemberInfo(MemberVO vo) {
+		return map.updateMemberInfo(vo);
+	}
+
+	@Override
+	public int editMemberPwd(MemberVO vo) {
+		return map.updateMemberPwd(vo);
+	}
+	
 	
 	
 }

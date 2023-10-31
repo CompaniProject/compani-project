@@ -1,5 +1,10 @@
 package com.yedam.compani.member.web;
 
+/*
+ * 작성자 : 이상길
+ * 작성일자 : 
+ * Member 관리 : 회원가입, 정보수정, 로그인 
+ */
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,29 +36,30 @@ import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
 import lombok.extern.log4j.Log4j2;
+
 @Log4j2
 @Controller
 public class MemberController {
 	@Autowired
 	MemberService service;
-    @Autowired
+	@Autowired
 	CompanyService serviceC;
-    
-    HttpServletRequest request;
-    HttpSession session;
+
+	HttpServletRequest request;
+	HttpSession session;
 
 	// 로그인 페이지
 	@GetMapping("/loginForm")
 	public String memberLoginForm() {
 		return "member/memberLoginForm";
 	}
-	
 
 	// 가입 후 대기
 	@GetMapping("/standBy")
 	public String memberStandByForm() {
 		return "member/memberStandBy";
 	}
+
 	// 가입완료
 	@GetMapping("/complete")
 	public String memberSignUpComplete() {
@@ -72,17 +78,16 @@ public class MemberController {
 		return "member/memberSignUp";
 	}
 
-	//아이디 중복체크용
+	// 아이디 중복체크용
 	@PostMapping("/memberIdList")
 	@ResponseBody
-	public Map<String, Object> getMemberIdLists(){
+	public Map<String, Object> getMemberIdLists() {
 		Map<String, Object> membIdList = new HashMap<>();
 		membIdList.put("result", true);
 		membIdList.put("data", service.getMemberIdList());
 		return membIdList;
 	}
-	
-	
+
 	// 가입 서브밋
 	@PostMapping("/SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
@@ -107,14 +112,14 @@ public class MemberController {
 			}
 		}
 	}
-	
-	//수정
+
+	// 수정
 	@GetMapping("memberEditForm")
 	public String memberEditForm() {
-	return "member/memberEditInfo";	
+		return "member/memberEditInfo";
 	}
-	
-	//세션 로그인 정보
+
+	// 세션 로그인 정보
 	@PostMapping("/memberInfo")
 	@ResponseBody
 	public MemberVO memberInfo(@AuthenticationPrincipal MemberAuthVO vo) {
@@ -123,33 +128,48 @@ public class MemberController {
 		membVO = service.getMemberInfo(membVO);
 		return membVO;
 	}
-	
-	
-	
-	
+
+	// 정보수정
+	@PostMapping("/memberEditInfo")
+	public String editMemberInfo(MemberVO vo) {
+		service.editMemberInfo(vo);
+		return "redirect:memberEditForm";
+	}
+
+	// 비번수정
+	@PostMapping("/memberEditPwd")
+	public String editMemberPwd(MemberVO vo) {
+		service.editMemberPwd(vo);
+		return "redirect:memberEditForm";
+	}
+
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> uploadFile(
-	    @RequestParam("uploadfile") MultipartFile uploadfile) {
-	  
-	  try {
-	    // Get the filename and build the local file path (be sure that the 
-	    // application have write permissions on such directory)
-	    String filename = uploadfile.getOriginalFilename();
-	    String directory = "/images/member";
-	    String filepath = Paths.get(directory, filename).toString();
-	    
-	    // Save the file locally
-	    BufferedOutputStream stream =
-	        new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-	    stream.write(uploadfile.getBytes());
-	    stream.close();
-	  }
-	  catch (Exception e) {
-	    System.out.println(e.getMessage());
-	    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	  }
-	  
-	  return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadfile) {
+
+		try {
+			// Get the filename and build the local file path (be sure that the
+			// application have write permissions on such directory)
+			String filename = uploadfile.getOriginalFilename();
+			String directory = "/images/member";
+			String filepath = Paths.get(directory, filename).toString();
+
+			// Save the file locally
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+			stream.write(uploadfile.getBytes());
+			stream.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(HttpStatus.OK);
 	} // method uploadFile
+	/////////////////////////////////////////////////////////
+	
+	//피드백
+	@GetMapping("/fbpsn")
+	public String feedBackPersonal() {
+		return "member/feedbackPers";
+	}
 }
