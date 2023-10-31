@@ -27,7 +27,7 @@
 }
 
 .calendarBusinessInfo {
-	min-height: 700px;
+	min-height: 1000px;
 	height: 100%;
 	width: 30%;
 	padding: 10px;
@@ -280,6 +280,7 @@ select {
    	document.addEventListener('DOMContentLoaded', function() {
        	var calendarEl = document.getElementById('projectCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
+       		height: "1000px",
        		expandRows: true,
        		initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
        		dayMaxEvents: 5,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -381,17 +382,32 @@ select {
    	/*----------------------------
 		Gantt Chart 구현
 	------------------------------*/
-	gantt.scales = [
-	    { unit: "year", step: 1, format: "%Y" }
-	];
-	gantt.init("projectGanttchart");
-	gantt.parse({
-	    data: projectGanttData(),
-	    links: projectGanttLink()
+	document.addEventListener('DOMContentLoaded', function() {
+		gantt.config.scales = [
+		    {unit: "month", step: 1, format: "<Strong style='font-size:16px'>%Y / %m</Strong>"},
+		    {unit: "day", step: 1, format: "%j"}
+		];
+		
+		gantt.config.min_column_width = 50;
+		gantt.config.scale_height = 60;
+		
+		gantt.config.columns = [
+			{name: "text", label: "업무명", tree: true, width: '*'},
+			{name: "start_date", label: "시작일", align: "center", width: 100},
+			{name: "duration", label: "기간", align: "center", width: 50}
+		];
+		
+		gantt.init("projectGanttchart");
+		
+		if(calendarData.length != 0){
+			gantt.parse({
+			    data: projectGanttData(),
+			    links: projectGanttLink()
+			});
+		}
+		console.log(gantt.getTask(15).start_date);
+		console.log(gantt.getTask(15).end_date);
 	});
-	gantt.templates.grid_header_class = function(columnName, column){
-	    return "";
-	};
 	
 	/*----------------------------
 		Gantt Chart - data 출력
