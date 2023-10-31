@@ -1,0 +1,52 @@
+    <!-- Modal -->
+    <div>
+		<div class="modal fade" id="workModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content"
+					style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
+					<!-- 모달 헤더 부분 -->
+					<div class="modal-header">
+						<div class="ContentTitleBox">
+							<div class="ContentImg"
+								style="background-image: url(/images/tab_issue.png);"></div>
+							<p class="ContentText">이슈</p>
+						</div>
+						<button type="button" class="btn-close" data-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-content-container">
+                        <!--/* 모달 사이드 부분 START */-->
+                        <div class="workModalTab">
+                            <ul>
+                                <li><i class="ModalTab tab_basic"></i> <span class="tooltip">기본정보</span></li>
+                                <li id="tab_file"><i class="ModalTab tab_file"></i> <span class=" tooltip">자료관리</span></li>
+                                <li id="tab_issue"><i class="ModalTab tab_issue"></i> <span class="tooltip">이슈</span></li>
+                                <li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
+                            </ul>
+                        </div>
+                         <!--/* 모달 사이드 부분 END */-->
+						<div class="modal-body" data-include1="showModal">
+						
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+  
+    <!-- Modal -->
+    <script>
+    	$(function(){
+            var includes1 = $('[data-include1="showModal"]');
+            
+    		$('#tab_issue').on('click',function(){
+    			includes1.load('/ModalIssueList')
+    		})
+    		
+    		$('#tab_file').on('click',function(){
+    			includes1.load('/workFile')
+    		})
+    	});
+    	
+    </script>

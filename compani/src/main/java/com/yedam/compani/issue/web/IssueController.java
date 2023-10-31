@@ -50,7 +50,7 @@ public class IssueController {
 		model.addAttribute("issueList", vo);
 		model.addAttribute("search", search);
 
-		return "index";
+		return "modal/modal-issue";
 	}
 
 	// 페이징 또는 검색 시 ajax 처리

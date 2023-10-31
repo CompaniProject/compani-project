@@ -24,8 +24,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Map<Object, Object>> getProjectAndMemberList() {
-		return projectMapper.selectProjectAndMemberList();
+	public List<Map<Object, Object>> getProjectAndMemberList(String membId) {
+		return projectMapper.selectProjectAndMemberList(membId);
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class FileController {
 	public String workFile(Model model) {
 		List<FileVO> lFile = fileservice.fileList();
 		model.addAttribute("fileList", lFile);
-		return "workFile";
+		return "modal/modal-file";
 	}
 
 	// 모달 확인용

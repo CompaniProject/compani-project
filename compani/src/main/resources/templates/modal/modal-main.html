@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+	<div class="row mx-0">
+        <div class="col p-md-0">
+	        <button type="button" class="btn mb-1 btn-primary float-right" id="insertBtn">modal</button>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div data-include1="showModalMain">
+
+    </div>
+  
+    <!-- Modal -->
+    <script>
+    	$(function(){
+            var includes1 = $('[data-include1="showModalMain"]');
+            jQuery.each(includes1, function(){
+               $(this).load('/modal/modal-home.html');
+            });
+    	});
+    	
+    	$('#insertBtn').on('click',function(){
+            $('#workModal').modal('toggle');
+    	})
+    </script>
+</th:block>
+</body>
+</html>
