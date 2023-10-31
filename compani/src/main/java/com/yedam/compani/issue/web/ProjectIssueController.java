@@ -41,7 +41,7 @@ public class ProjectIssueController {
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
 
 		model.addAttribute("projectIssue", issues);
-		model.addAttribute("prjoectIssueList", vo);
+		model.addAttribute("projectIssueList", vo);
 		model.addAttribute("search", search);
 
 		return "project/project-issue";
