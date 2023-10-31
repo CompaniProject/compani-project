@@ -110,4 +110,9 @@ public class BusinessController {
 		return "modal/modal-main";
 	}
 
+	@GetMapping("/businessInfo")
+	public String businessInfo() {
+		return "modal/modal-business";
+	}
+
 }

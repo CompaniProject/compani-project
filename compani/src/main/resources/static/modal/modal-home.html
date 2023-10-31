@@ -18,7 +18,7 @@
                         <!--/* 모달 사이드 부분 START */-->
                         <div class="workModalTab">
                             <ul>
-                                <li><i class="ModalTab tab_basic"></i> <span class="tooltip">기본정보</span></li>
+                                <li id="tab_info"><i class="ModalTab tab_basic"></i> <span class="tooltip">기본정보</span></li>
                                 <li id="tab_file"><i class="ModalTab tab_file"></i> <span class=" tooltip">자료관리</span></li>
                                 <li id="tab_issue"><i class="ModalTab tab_issue"></i> <span class="tooltip">이슈</span></li>
                                 <li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
@@ -26,8 +26,8 @@
                         </div>
                          <!--/* 모달 사이드 부분 END */-->
 						<div class="modal-body" data-include1="showModal">
-						
-		
+							
+
 						</div>
 					</div>
 				</div>
@@ -46,6 +46,9 @@
     		
     		$('#tab_file').on('click',function(){
     			includes1.load('/workFile')
+    		})
+    		$('#tab_info').on('click',function(){
+    			includes1.load('/businessInfo')
     		})
     	});
     	
