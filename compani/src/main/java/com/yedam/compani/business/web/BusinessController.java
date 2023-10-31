@@ -69,11 +69,11 @@ public class BusinessController {
 		 * map.put("updateResult", true); } else { map.put("updateResult", false); } } }
 		 * else { map.put("insertResult", false); }
 		 */
-		
+
 		businessService.insertBusiness(formVO.getBusiness());
 		businessMemberService.insertBusinessMember(formVO);
-		
-		//이거 한번 고민 해보자구 mapper 설계
+
+		// 이거 한번 고민 해보자구 mapper 설계
 		if (!formVO.getBusiness().getBussDep().equals("")) {
 			businessService.updateBusiness(formVO.getBusiness());
 		}
@@ -86,22 +86,22 @@ public class BusinessController {
 	@ResponseBody
 	public Map<String, Object> bussInfo(BusinessVO businessVO, BusinessMemberVO businessMemberVO) {
 
-		System.out.println("null이니" +businessMemberVO);
+		System.out.println("null이니" + businessMemberVO);
 		Map<String, Object> map = new HashMap<>();
-		
-		//업무 단건 
+
+		// 업무 단건
 		BusinessVO bussVO = businessService.businessSelect(businessVO);
 		System.out.println(bussVO);
 		map.put("businessVO", bussVO);
-		
-		//업무 참여자 list
-		List<MemberVO> list = businessMemberService.bussMemberList(businessMemberVO); 
+
+		// 업무 참여자 list
+		List<MemberVO> list = businessMemberService.bussMemberList(businessMemberVO);
 		map.put("businessMemberList", list);
-		
-		//회사 멤버 list
+
+		// 회사 멤버 list
 		List<MemberVO> memberList = memberService.getMemberList();
 		map.put("memberList", memberList);
-		 
+
 		return map;
 	}
 
@@ -111,7 +111,21 @@ public class BusinessController {
 	}
 
 	@GetMapping("/businessInfo")
-	public String businessInfo() {
+	public String businessInfo(Model model, BusinessVO businessVO, BusinessMemberVO businessMemberVO) {
+
+		// 업무 단건
+		BusinessVO bussVO = businessService.businessSelect(businessVO);
+		System.out.println(bussVO);
+		model.addAttribute("businessVO", bussVO);
+
+		// 업무 참여자 list
+		List<MemberVO> list = businessMemberService.bussMemberList(businessMemberVO);
+		model.addAttribute("businessMemberList", list);
+
+		// 회사 멤버 list
+		List<MemberVO> memberList = memberService.getMemberList();
+		model.addAttribute("memberList", memberList);
+
 		return "modal/modal-business";
 	}
 
