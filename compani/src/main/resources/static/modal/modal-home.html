@@ -53,6 +53,8 @@
     		})
     		$('#tab_info').on('click',function(){
     			includes1.load('/businessInfo')
+    			$('.ContentText').text($(this).text());
+    			$('.ContentImg').css('background-image', 'url(/images/tab_basic.png)');
     		})
     		
     		includes1.load('/businessInfo');

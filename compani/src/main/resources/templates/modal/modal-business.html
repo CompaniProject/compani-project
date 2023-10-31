@@ -7,7 +7,6 @@
 					maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요."></textarea>
 			</div>
 		</div>
-
 		<div>
 
 			<div class="card" style="height: 200px;">
@@ -182,3 +181,119 @@
 		<button id="insertBtn" type="button" class="btn btn-primary">수정</button>
 	</div>
 </form>
+ <script>
+	$('.card-body.p-3').on('click', infoBusiness)
+
+	function infoBusiness(e) {
+		
+		//e.preventDefault();
+		//let bussNm = $(this).find('a').text();
+		let bussNo = $(this).find('input').val();
+		let prjtNo = $('input[name=prjtNo]').val();
+		//membId 세션값 넣어주기 let membId
+
+		$.ajax('/bussInfoAjax', {
+			type : 'post',
+			data : {
+				bussNo : bussNo,
+				prjtNo : prjtNo
+			}
+		}).done(
+				function(data) {
+					console.log(data);
+					let bussSt = '';
+					$('#bussNm').val(data.businessVO.bussNm);
+					$('#input[id=bussFrdt]').attr('value', data.businessVO.bussFrdt);
+					$('#input[id=bussTodt]').attr('value', data.businessVO.bussTodt);
+					$('#bussImp').val(data.businessVO.bussImp).prop("selected", true);
+					$('#bussDep').val(data.businessVO.bussDep).prop("selected", true);
+					$('#bussUpNm').val(data.businessVO.bussUpNm).prop("selected", true);
+					if (data.businessVO.bussSt == '0K1') {
+						bussSt = '진행중';
+					} else if (data.businessVO.bussSt == '0K2') {
+						bussSt = '완료';
+					} else if (data.businessVO.bussSt == '0K3') {
+						bussSt = '초과';
+					} else {
+						bussSt = '초과완료';
+					}
+					$('#input[id=bussSt]').attr('value', bussSt);
+
+					//업무 참여자 리스트 보여주기 
+					let tbody = $('#updatemembertbl');
+					$.each(data.businessMemberList, function(idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag = $('<td/>');
+
+						trTag.attr('id', data.membId);
+
+						if (data.membPhtPath != null) {
+							let imgTag = $('<img>', {
+								src : "/images/profile/" + data.membPhtPath,
+								height : "50px",
+								width : "50px",
+							})
+							tdTag.append(imgTag);
+						}
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append(data.membDept);
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append(data.membWkgd);
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append(data.membNm);
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append('<i class="fa-solid fa-minus"></i>');
+						trTag.append(tdTag);
+
+						tbody.append(trTag);
+
+					})
+
+					let memberbody = $('#membertbl2');
+					$.each(data.memberList, function(idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag = $('<td/>');
+
+						trTag.attr('id', data.membId);
+
+						if (data.membPhtPath != null) {
+							let imgTag = $('<img>', {
+								src : "/images/profile/" + data.membPhtPath,
+								height : "50px",
+								width : "50px",
+							})
+							tdTag.append(imgTag);
+						}
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append(data.membDept);
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append(data.membWkgd);
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append(data.membNm);
+						trTag.append(tdTag);
+
+						tdTag = $('<td/>');
+						tdTag.append('<i class="fa-solid fa-plus"></i>');
+						trTag.append(tdTag);
+
+						memberbody.append(trTag);
+
+					})
+				}).fail();
+
+	}
+</script>
