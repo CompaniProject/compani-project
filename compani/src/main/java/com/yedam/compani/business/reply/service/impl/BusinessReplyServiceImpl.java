@@ -1,6 +1,7 @@
 package com.yedam.compani.business.reply.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class BusinessReplyServiceImpl implements BusinessReplyService {
 	@Override
 	public boolean update(BusinessReplyVO projectFeedbackVO) {
 		return (businessReplyMapper.update(projectFeedbackVO) == 1);
+	}
+
+	@Override
+	public List<Map<Object, Object>> getListForLevel(int bussNo) {
+		return businessReplyMapper.selectListForLevel(bussNo);
 	}
 
 }

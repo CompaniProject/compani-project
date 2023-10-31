@@ -8,6 +8,22 @@
 		FROM   BUSINESS_REPLY
 	</select>
 
+	<select id="selectListForLevel" resultType="CamelHashMap">
+		SELECT level
+			, reply_no
+			, buss_no
+			, reply_cntn
+			, reply_dt
+			, pubcyn
+			, memb_id
+			, reply_upno
+			, memb_nm
+		FROM business_reply br LEFT JOIN member m ON(br.memb_id = m.memb_id)
+		WHERE buss_no = #{bussNo}
+		START WITH reply_upno IS NULL
+		CONNECT BY PRIOR  reply_no = reply_upno
+	</select>
+
 	<insert id="insert" parameterType="BusinessReplyVO">
 		<selectKey keyProperty="replyNo,replyDt" resultType="BusinessReplyVO" order="BEFORE">
 			SELECT NVL(MAX(reply_no),0) + 1 AS replyNo, SYSDATE AS replyDt
