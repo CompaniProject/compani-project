@@ -15,10 +15,21 @@ import com.yedam.compani.business.reply.service.BusinessReplyVO;
 public class BusinessReplyServiceImpl implements BusinessReplyService {
 
 	private final BusinessReplyMapper businessReplyMapper;
+	
 	@Override
 	public List<BusinessReplyVO> getBusinessReply() {
 
 		return businessReplyMapper.getBusinessReply();
+	}
+	
+	@Override
+	public boolean insert(BusinessReplyVO projectFeedbackVO) {
+		return (businessReplyMapper.insert(projectFeedbackVO) == 1);
+	}
+	
+	@Override
+	public boolean update(BusinessReplyVO projectFeedbackVO) {
+		return (businessReplyMapper.update(projectFeedbackVO) == 1);
 	}
 
 }
