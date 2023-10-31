@@ -20,7 +20,7 @@
                             <ul>
                                 <li><i class="ModalTab tab_basic"></i> <span class="tooltip">기본정보</span></li>
                                 <li><i class="ModalTab tab_file"></i> <span class=" tooltip">자료관리</span></li>
-                                <li><i class="ModalTab tab_issue"></i> <span class="tooltip">이슈</span></li>
+                                <li id="tab_issue"><i class="ModalTab tab_issue"></i> <span class="tooltip">이슈</span></li>
                                 <li><i class="ModalTab tab_log"></i> <span class="tooltip">로그</span></li>
                             </ul>
                         </div>
@@ -39,9 +39,10 @@
     <script>
     	$(function(){
             var includes1 = $('[data-include1="showModal"]');
-            jQuery.each(includes1, function(){
-               $(this).load('/ModalIssueList');
-            });
+            
+    		$('#tab_issue').on('click',function(){
+    			includes1.load('/ModalIssueList')
+    		})
     	});
     	
     </script>
