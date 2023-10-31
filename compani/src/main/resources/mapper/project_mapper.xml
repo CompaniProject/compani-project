@@ -41,7 +41,7 @@
 		p.prjt_no)
 		<where>
 			<if test="memberId != null">
-				AND memb_id = #{memberId}
+				AND memb_id = #{membId}
 			</if>
 		</where>
 		ORDER BY prjt_no
