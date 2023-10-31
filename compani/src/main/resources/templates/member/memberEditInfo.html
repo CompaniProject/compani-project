@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="h-100" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="ko" xmlns:th="http://www.thymeleaf.org"	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
 
 <head>
 <meta charset="utf-8">
@@ -37,7 +38,7 @@
 <body>
 
 
-
+	<th:block layout:fragment="content">
 
 	<!--**********************************
             Content body start
@@ -50,7 +51,7 @@
 
 		<div class="container-fluid">
 			<div class="row justify-content-center">
-				<div class="col-lg-4">
+				<div class="col-lg-8">
 					<div class="card">
 						<div class="card-body">
 							<div class="form-validation">
@@ -150,15 +151,17 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control" id="membEmail"
 												name="membEmail" placeholder="ex) abc@example.com"
-												hidden="true"> <input type="text" id="email_id"
-												class="form-control" value="" title="이메일 아이디" placeholder=""
-												style="width: 206px; display: inline-block;" /> <b>&nbsp;@&nbsp;&nbsp;</b>
-											<input class="form-control" type="text" name="str_email02"
+												hidden="true"> 
+												<input type="text" id="email_id"
+												class="form-control col-lg-4" value="" title="이메일 아이디" placeholder=""
+												style="display: inline-block;" /> @
+											<input class="form-control col-lg-3" type="text" name="str_email02"
 												id="str_email02"
-												style="width: 206px; display: inline-block;" disabled
-												value="naver.com"> <select
-												style="width: 206px; margin-left: 10px; display: inline-block;"
-												name="selectEmail" id="selectEmail" class="form-control">
+												style="display: inline-block;" disabled
+												value="naver.com"> 
+												<select 
+												style="display: inline-block;"
+												name="selectEmail" id="selectEmail" class="form-control col-lg-4">
 												<option value="1">직접입력</option>
 												<option value="naver.com" selected>naver.com</option>
 												<option value="hanmail.net">hanmail.net</option>
@@ -183,8 +186,8 @@
 										<div class="col-lg-6">
 											<input type="tel" class="form-control" id="membTelno"
 												name="membTelno" hidden="true"> <select
-												style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
-												name="selectTel" id="selectTel" class="form-control">
+												style="display: inline-block; text-align: right; font-weight: 900;"
+												name="selectTel" id="selectTel" class="form-control col-lg-3">
 
 												<option value="">선택 &nbsp;&nbsp;</option>
 												<option value="010" selected>010 &nbsp;&nbsp;</option>
@@ -208,12 +211,12 @@
 												<option value="064">064 &nbsp;&nbsp;</option>
 
 
-											</select>&nbsp;&nbsp;<b>ㅡ</b> <input type="text" class="form-control"
+											</select>&nbsp;<b>ㅡ</b> <input type="text" class="form-control col-lg-3"
 												id="tel1" name="tel1"
-												style="width: 205px; display: inline-block;"> <b>ㅡ</b>
+												style=" display: inline-block;"> <b>ㅡ</b>
 
-											<input type="text" id="tel2" class="form-control"
-												style="width: 205px; display: inline-block;" /> <span
+											<input type="text" id="tel2" class="form-control col-lg-3"
+												style="display: inline-block;" /> <span
 												id="conditionTel">전화번호를 학인하시오.</span>
 										</div>
 									</div>
@@ -749,7 +752,7 @@ function uploadFile() {
 
 
 	</script>
-
+</th:block>
 </body>
 
 </html>

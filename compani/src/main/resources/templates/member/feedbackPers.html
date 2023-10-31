@@ -5,10 +5,167 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
-<body>
-<th:block layout:fragment="content">
 
-</th:block>
+<style>
+.editBtn {
+	cursor: pointer;
+}
+
+.delBtn {
+	cursor: pointer;
+	margin-right: 3%;
+}
+
+.submitBtn {
+	margin-right: 3%;
+	cursor: pointer;
+	display: none;
+	color: blue;
+}
+</style>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="column">
+					<div>
+						<div class="row">
+
+
+							<div class="col-lg-3">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title">해결 이슈</h4>
+										<span>2 </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title">미해결 이슈</h4>
+										<span>2 </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title">해결불가 이슈</h4>
+										<span>0 </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Project Status Chart Area -->
+					<div>
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">업무 통계</h4>
+									<div class="row">
+										<div class="col-lg-7">
+											<canvas id="bussDonutChart" width="300" height="250"></canvas>
+										</div>
+										<div class="col-lg-5">
+											<canvas id="bussStBar" width="200" height="300"></canvas>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">이슈 통계</h4>
+									<div class="row">
+										<div class="col-lg-7">
+											<canvas id="issuDonutChart" width="300" height="250"></canvas>
+										</div>
+										<div class="col-lg-5">
+											<canvas id="issuStBar" width="200" height="300"></canvas>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Project Status Chart Area End -->
+					<!-- Issue Status Chart Area -->
+				</div>
+			</div>
+			<!-- Issue Status Chart Area End -->
+			<!-- Comemnt Area -->
+			<div class="col-lg-4">
+				<div class="card" style="height: 80vh;">
+					<div class="card-header bg-white">
+						<h5 class="card-title">Card title</h5>
+						<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					</div>
+					<div class="card-body"
+						style="overflow-y: auto; background-color: #FAFAFA;"
+						id="commentBody">
+						<th:block>
+							<div class="card">
+								<div class="card-body">
+									<div class="media">
+										<div class="media-body">
+											<!-- Comment Area Start -->
+											<div class="comment-content" th:data-no="1">
+												<h5 class="mt-0" th:text="금쪽이"></h5>
+
+												<div class="content-area">
+													<th:block th:switch="1">
+														<th:block th:case="0N1" th:text="1"></th:block>
+														<th:block th:case="0N2">삭제된 내용입니다.</th:block>
+													</th:block>
+												</div>
+												<div class="edit-area" style="display: none;">
+													<textarea class="form-control" id="editCntn" th:text="1"></textarea>
+												</div>
+												<div style="margin-top: 3%" class="btn-area" th:if="'0N1'">
+													<div
+														th:text="${#dates.format('2023/10/30 13:30','yyyy-MM-dd HH:mm')}"
+														class="float-left" id="date-area"></div>
+													<div th:text="수정" class="float-right editBtn"></div>
+													<div th:text="삭제" class="float-right delBtn"></div>
+													<div th:text="확인" class="float-right submitBtn"></div>
+												</div>
+											</div>
+											<!-- Comment Area End -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					<!-- 댓글 등록 영역 -->
+					<div class="card-footer">
+						<textarea class="form-control" name="inputCntn" id="inputCntn"
+							cols="30" rows="2" placeholder="Post a new message"
+							style="height: 56px;"></textarea>
+						<button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+					</div>
+					<!-- 댓글 등록 영역 End -->
+				</div>
+			</div>
+			<!-- Comment Area End -->
+		</div>
+
+		<div id="replyArea" style="display: none;">
+			<div class="media mt-3">
+				<textarea class="form-control" name="inputCntn" id="inputCntn"
+					cols="30" rows="2" placeholder="Post a new message"
+					style="height: 56px;"></textarea>
+				<button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+			
+		</script>
+	</th:block>
 </body>
 </html>
