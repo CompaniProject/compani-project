@@ -6,5 +6,69 @@
 	<select id="getBusinessReply" resultType="BusinessReplyVO">
 		SELECT *
 		FROM   BUSINESS_REPLY
-	</select>  
+	</select>
+
+	<select id="selectListForLevel" resultType="CamelHashMap">
+		SELECT level
+			, reply_no
+			, buss_no
+			, reply_cntn
+			, reply_dt
+			, pubcyn
+			, memb_id
+			, reply_upno
+			, memb_nm
+		FROM business_reply br LEFT JOIN member m ON(br.memb_id = m.memb_id)
+		WHERE buss_no = #{bussNo}
+		START WITH reply_upno IS NULL
+		CONNECT BY PRIOR  reply_no = reply_upno
+	</select>
+
+	<insert id="insert" parameterType="BusinessReplyVO">
+		<selectKey keyProperty="replyNo,replyDt" resultType="BusinessReplyVO" order="BEFORE">
+			SELECT NVL(MAX(reply_no),0) + 1 AS replyNo, SYSDATE AS replyDt
+			FROM business_reply
+		</selectKey>
+
+		INSERT INTO business_reply
+			(
+			reply_no
+			, buss_no
+			, reply_cntn
+			, reply_dt
+			, pubcyn
+			, memb_id
+			, reply_upno
+			)
+		VALUES
+			(
+			#{replyNo}
+			, #{bussNo}
+			, #{replyCntn}
+			, #{reply_dt}
+			, #{pubcyn}
+			, memb_id
+			, reply_upno
+			)
+		
+	</insert>
+
+	<update id="update" parameterType="BusinessReplyVO">
+		<selectKey keyProperty="replyDt" resultType="BusinessReplyVO" order="BEFORE">
+			SELECT SYSDATE AS replyDt
+			FROM dual
+		</selectKey>
+
+		UPDATE business_reply
+		<set>
+			<if test="replyCntn != null">
+				reply_cntn = #{replyCntn},
+			</if>
+			<if test="replyShow != null">
+				reply_show = #{replyShow},
+			</if>
+			reply_dt = #{replyDt}
+		</set>
+		WHERE reply_no = #{prjtFdbkNo}
+	</update>
   </mapper>
