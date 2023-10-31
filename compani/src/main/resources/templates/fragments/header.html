@@ -102,13 +102,13 @@
                         </li>
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                <img src="/images/user/1.png" height="40" width="40" alt=""><span>[[${session.loginInfo.membId}]]</span>
+                                <img th:src="'images/member/'+${session.loginInfo.membPhtPath}" id="profile" height="40" width="40" alt=""><span>&nbsp;[[${session.loginInfo.membId}]]</span>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="memberEditForm"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
                                                                            
                                         <hr class="my-2">
@@ -127,5 +127,7 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->    
+        
 </th:block>
+
 </html>
