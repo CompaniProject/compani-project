@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/projectlayout}">
+
+<th:block layout:fragment="content">
+	<!--/* 이슈 상세보기 START */-->
+	<div class="pIssueInfoForm">
+		<div class="pIssueInfoContent">
+			<div class="pIssueInfoContentTopBar">
+				<span class="returnPIssueList" onclick="returnPIssueList()"></span>
+				<button type="button" class="pIssueEditing"
+					onclick="switchEditForm()">수정</button>
+				<button type="button" class="pIssueDeleting"
+					onclick="deletePIssue()">삭제</button>
+			</div>
+
+			<div class="pIssueNameInfo">
+				<div class="pIssueNames">
+					<textarea class="modalIssueName" maxlength="200"
+						style="height: 34px;" readonly th:text="${issueInfo.issuTtl}"></textarea>
+				</div>
+			</div>
+			<hr style="margin: 0; height: 2px; background-color: #eaeaea;">
+			<div class="read-content">
+				<div class="media pt-5">
+					<img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
+					<div class="media-body" style="margin-right: 50px; flex: 0;">
+						<h5 class="m-b-3" th:text="${issueInfo.membId}"></h5>
+						<p class="m-b-2" style="width: 75px;"
+							th:text="${#dates.format(issueInfo.issuDt, 'yyyy-MM-dd')}"></p>
+
+					</div>
+					<div class="pIssueRankInfo"></div>
+					<div class="pIssueKndInfo"></div>
+					<div class="pIssueStInfo"></div>
+				</div>
+				<hr style="margin: 0; height: 1px; background-color: #eaeaea;">
+				<div class="card-body">
+					<div id="piviewer"></div>
+				</div>
+				<h6 class="p-t-15p" style="display: inline-block; padding: 3px;">
+					<i class="fa fa-download mb-2"></i> 첨부파일 <span id="countFileP"></span>
+				</h6>
+				<h6 class="p-t-16p"
+					style="display: inline-block; margin-left: 20px; padding: 3px;">
+					<i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글 <span
+						id="countReplyP"></span>
+				</h6>
+				<hr style="margin: 0; height: 1px; background-color: #eaeaea;">
+
+				<div class="pIssueInfoFileList" style="display: none;">
+					<div class="list-message" style="width: 750px;">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>파일명</th>
+									<th>크기</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="pIssueInfoFiles">
+								<th:block th:each="issueFile : ${issueFile}">
+									<tr th:data-fno="${issueFile.issuFileNo}">
+										<td th:text="${issueFile.issuFileNm}"></td>
+										<td class="fs" th:text="${issueFile.issuFileSize}"></td>
+										<td th:class="downloadFile"
+											th:attr="onclick='fileDownloading(\'' + ${issueFile.issuNo} +'\', \'' + ${issueFile.issuFileNo} + '\')'">
+										</td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="pIssueInfoCommentList" style="display: none;">
+					<div class="pIssueReviews"></div>
+					<!--/* 이슈 상세보기에서 댓글 등록 START */-->
+					<div class="pIssueReply__details__form">
+						<div class="pIssueReply__section-title">
+							<h5>
+								댓글<i id="counter">0/300자</i>
+							</h5>
+						</div>
+						<form action="#">
+							<textarea id="pIssueReplyCntn" name="pIssueReplyCntn"
+								onkeyup="countingLengthP(this);" placeholder="댓글을 입력하세요"></textarea>
+
+							<button type="button" id="issueReplySave" onclick="saveReplyP();">
+								<i class="fa fa-location-arrow"></i>등록
+							</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/* 이슈 상세보기 END */-->
+	<!--/* 이슈 삭제시 경고창 START */-->
+	<div class="modal fade" id="delPConfirmationModal" tabindex="-1"
+		style="display: none; margin: auto;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: none;">
+					<button type="button" class="close" data-dismiss="modal"
+						style="margin: 0; padding: 0;" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="delPConfirmationModalBody">
+					<img class="cancelWarning"> <span id="modal-meg"
+						class="notice_msg"> 정말 삭제하시겠습니까? </span>
+				</div>
+				<div class="modal-footer" style="border-top: none;">
+					<button type="button" class="btn btn-danger btn-sm" id="delPCancel">취소
+					</button>
+					<button type="button" class="btn btn-light btn-sm" id="delPConfirm">확인
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/* 이슈 삭제시 경고창 END */-->
+	<script
+		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script th:inline="javascript">
+	
+	// 파일 사이즈 변환하기
+	function getFileSize(size) {
+		const byteUnits = ["KB", "MB", "GB", "TB"];
+		for (let i = 0; i < byteUnits.length; i++) {
+			size = Math.floor(size / 1024);
+			if (size < 1024) return size.toFixed(1) + byteUnits[i];
+		}
+	};
+		$('.fs').each(function(idx, item) {
+			$(item).text(getFileSize($(item).text()));
+		});	
+	
+	
+	
+		$(document).ready(function () {
+			countReplyP(pIssuNo);
+			countFileP(pIssuNo);
+		});
+
+		const piviewer = toastui.Editor.factory({
+			el: document.querySelector('#piviewer'),
+			viewer: true,
+			height: '600px'
+		});
+
+		piviewer.setMarkdown([[${ issueInfo.issuCntn }]]);
+		// 종류
+		var piKndVal = $('.pIssueKndInfo');
+		var piStVal = $('.pIssueStInfo');
+		var piRankVal = $('.pIssueRankInfo');
+
+		if ([[${ issueInfo.issuKnd }]] == '0L1') {
+			piKndVal.append('<p>종류</p><div class="label label-danger" style="margin-bottom: 15px; ">버그</div>');
+		} else if ([[${ issueInfo.issuKnd }]] == '0L2') {
+			piKndVal.append('<p>종류</p><div class="label label-warning" style="margin-bottom: 15px; ">개선사항</div>');
+		} else if ([[${ issueInfo.issuKnd }]] == '0L3') {
+			piKndVal.append('<p>종류</p><div class="label label-info" style="margin-bottom: 15px; ">새기능</div>');
+		} else if ([[${ issueInfo.issuKnd }]] == '0L4') {
+			piKndVal.append('<p>종류</p><div class="label label-light" style="margin-bottom: 15px; ">업무</div>');
+		}
+		// 상태
+		if ([[${ issueInfo.issuSt }]] == '0E1') {
+			piStVal.append('<p>상태</p><div class="label label-success" style="margin-bottom: 15px; ">해결</div>');
+		} else if ([[${ issueInfo.issuSt }]] == '0E2') {
+			piStVal.append('<p>상태</p><div class="label label-dark" style="margin-bottom: 15px; ">미해결</div>');
+		} else if ([[${ issueInfo.issuSt }]] == '0E3') {
+			piStVal.append('<p>상태</p><div class="label label-secondary" style="margin-bottom: 15px; ">해결불가</div>');
+		}
+
+		if ([[${ issueInfo.issuRank }]] == '0G1') {
+			piRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">매우높음</div>');
+		} else if ([[${ issueInfo.issuRank }]] == '0G2') {
+			piRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">높음</div>');
+		} else if ([[${ issueInfo.issuRank }]] == '0G3') {
+			piRankVal.append('<p>중요도</p><div class="label label-success" style="margin-bottom: 15px; ">보통</div>');
+		} else if ([[${ issueInfo.issuRank }]] == '0G4') {
+			piRankVal.append('<p>중요도</p><div class="label label-warning" style="margin-bottom: 15px; ">낮음</div>');
+		} else if ([[${ issueInfo.issuRank }]] == '0G5') {
+			piRankVal.append('<p>중요도</p><div class="label label-danger" style="margin-bottom: 15px; ">매우낮음</div>');
+		}
+
+		$(document).on('click', '.p-t-15p', function () {
+			if ($('.pIssueInfoFileList').css("display") == "none") {
+				$('.pIssueInfoFileList').css('display', 'block');
+			} else {
+				$('.pIssueInfoFileList').css('display', 'none');
+			}
+
+			$('.pIssueInfoCommentList').css('display', 'none');
+		});
+
+		$(document).on('click', '.p-t-16p', function () {
+			if ($('.pIssueInfoCommentList').css("display") == "none") {
+				$('.pIssueInfoCommentList').css('display', 'block');
+				findAllReplyP();
+			} else {
+				$('.pIssueInfoCommentList').css('display', 'none');
+			}
+
+			$('.pIssueInfoFileList').css('display', 'none');
+		});
+
+		// 댓글 카운트
+		var pIssuNo = [[${ issueInfo.issuNo }]];
+		function countReplyP(issuNo) {
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply/count',
+				type: 'get'
+			})
+				.done(function (response) {
+					$('#countReplyP').text('(' + response + ')');
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+
+		// 파일 카운트
+		function countFileP(issuNo) {
+			$.ajax({
+				url: '/issues/' + issuNo + '/files/count',
+				type: 'get'
+			})
+				.done(function (response) {
+					$('#countFileP').text('(' + response + ')');
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+		
+		// 댓글 길이 카운팅
+		function countingLengthP(content) {
+			if (content.value.length > 300) {
+				alert('댓글을 300자 이하로 입력해 주세요.');
+				content.value = content.value.substring(0, 300);
+				content.focus();
+			}
+			document.getElementById('counter').innerText = content.value.length + '/300자';
+		}
+
+		// 댓글 저장
+		function saveReplyP() {
+			const issueReplyCntn = document.getElementById('pIssueReplyCntn');
+			const issuNo = pIssuNo;
+			const params = {
+				issuNo: issuNo,
+				issuRplyCntn: issueReplyCntn.value,
+				membId: 'ojunkwon'
+			}
+
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply',
+				type: 'post',
+				contentType: 'application/json;',
+				data: JSON.stringify(params)
+			})
+				.done(function (data) {
+					findAllReplyP();
+					countReplyP(issuNo);
+				})
+				.fail(function (error) {
+					console.log(error);
+				})
+		}
+
+		// 전체 댓글 조회
+		function findAllReplyP() {
+			const issuNo = pIssuNo;
+
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply',
+				type: 'GET'
+			})
+				.done(function (response) {
+
+					// 1. 조회된 데이터가 없는 경우
+					if (!response.length) {
+						document.querySelector('.pIssueReviews').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+						return false;
+					}
+
+					// 2. 렌더링 할 HTML을 저장할 변수
+					let commentHtml = '';
+
+					// 3. 댓글 HTML 추가
+					response.forEach(row => {
+						commentHtml += `                            
+		                            <div class="pIssueReviews">
+									<div class="issue__reply__itemP">
+										<div class="issue__reply__itemP__pic">
+											<img src="/images/users/2.jpg" alt="">
+										</div>
+										<div class="issue__reply__itemP__text">
+											<h6>${row.membId} - <span>${dateFormatting(row.issuRplyDt)}</span>
+											<a id="edit_btn" onclick="openReplyPUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
+												src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png" 
+												style="margin-left: 345px; ">
+												수정
+											</a>
+											<a id="del_btn" onclick="deleteReplyP(${row.issuRplyNo});"> <img class="toolsIcon"
+												src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_delete.png">
+												삭제
+											</a>
+											
+											</h6>
+											
+											<div id="IssueReplyPEditForm_${row.issuRplyNo}" style="display: none;">
+													<textarea id="updateReplyCommentP_${row.issuRplyNo}" class="replyP_edit_text_area" maxlength="300" rows="2"
+														cols="30" placeholder="수정할 내용을 입력"></textarea>
+													<button type="button" class="button condensed save" id="replyPUpdateBtn" onclick="updateReplyP(${row.issuRplyNo})">저장</button>
+													<button type="button" class="button condensed cancel"
+														onclick="closeReplyPUpdateForm(${row.issuRplyNo});">취소</button>
+											</div>
+											
+											
+											<p id="replyPText_${row.issuRplyNo}">${row.issuRplyCntn}</p>
+										</div>
+									</div>
+		                        `;
+
+						// 4. class가 "IssueReviews"인 요소를 찾아 HTML을 렌더링
+						document.querySelector('.pIssueReviews').innerHTML = commentHtml;
+
+					})
+					countReplyP(issuNo);
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+
+		// 댓글 수정 div open
+		function openReplyPUpdateForm(id) {
+
+			const issuNo = pIssuNo;
+			const issuRplyNo = id;
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+				type: 'get'
+			})
+				.done(function (response) {
+					var editForm = document.getElementById('IssueReplyPEditForm_' + id);
+					var replyText = document.getElementById('replyPText_' + id);
+
+					if (editForm.style.display === 'none') {
+						editForm.style.display = 'block';
+						replyText.style.display = 'none';					
+					} else {
+						editForm.style.display = 'none';
+						replyText.style.display = 'block';
+					}
+					document.getElementById('updateReplyCommentP_' + id).value = response.issuRplyCntn;
+
+				})
+
+				.fail(function (err) {
+					console.log(err)
+				})
+
+		}
+
+		// 댓글 수정 div close
+		function closeReplyPUpdateForm(id) {
+			document.getElementById('updateReplyCommentP_' + id).value = '';
+			document.getElementById('replyPUpdateBtn').removeAttribute('onclick');
+
+			document.getElementById('IssueReplyPEditForm_' + id).style.display = 'none';
+			document.getElementById('replyPText_' + id).style.display = 'block';
+		}
+
+		// 댓글 수정 ajax
+		function updateReplyP(id) {
+			const issuNo = pIssuNo;
+			const issuRplyNo = id;
+			const writer = 'ojunkwon';
+			const content = document.getElementById('updateReplyCommentP_' + id);
+
+			const params = {
+				issuRplyNo: id,
+				issuNo: issuNo,
+				issuRplyCntn: content.value,
+				membId: writer
+			}
+
+			$.ajax({
+				url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+				type: 'put',
+				contentType: 'application/json;',
+				data: JSON.stringify(params)
+			})
+				.done(function (response) {
+					alert('수정되었습니다.');
+					findAllReplyP();
+					closeReplyPUpdateForm(id);
+					countReply(issuNo);
+				})
+
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+
+		// 댓글 삭제
+		function deleteReplyP(id) {
+
+			if (confirm('선택하신 댓글을 삭제할까요?')) {
+
+				const issuNo = pIssuNo;
+				const issuRplyNo = id;
+
+				$.ajax({
+					url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+					type: 'delete'
+				})
+					.done(function (response) {
+						alert('삭제가 완료되었습니다');
+						findAllReplyP();
+						countReply(issuNo);
+					})
+
+					.fail(function (err) {
+						console.log(err)
+					})
+			}
+		}
+		// 프로젝트 이슈 게시판으로 돌아가기
+		function returnPIssueList() {
+			// 입력 필드 초기화
+/* 			$('#issuReplyCntn').val('');
+			$('#updateReplyComment').val('');
+			$('#issueInfoFiles').empty();
+			$('.modalIssueInfoForm').css('display', 'none');
+			$('.workModalContentBack').css('display', 'block');
+			$('.issueInfoFileList').css('display', 'none');
+			$('.issueInfoCommentList').css('display', 'none'); */
+			location.href = '/project/issues/1';
+		}
+		
+		// 프로젝트 게시판에서 이슈 삭제
+		function deletePIssue() {
+			var issuNo = pIssuNo;
+			// 경고창
+			$('#delPConfirmationModal').modal('show');
+
+			$('#delPCancel').on('click', function () {
+				$('#delPConfirmationModal').modal('hide');
+			})
+
+			$('#delPConfirm').on('click', function () {
+				$.ajax({
+					url: '/ModalIssueDelete',
+					type: 'post',
+					data: { issuNo: issuNo } // 데이터를 객체 형식으로 전달
+				})
+					.done(function (response) {
+						$('#delPConfirmationModal').modal('hide');
+						location.href = '/project/issues/1';
+					})
+					.fail(function (err) {
+						console.log(err)
+					})
+			})
+		}		
+	</script>
+
+</th:block>
+
+</html>

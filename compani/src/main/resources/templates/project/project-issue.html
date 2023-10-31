@@ -55,7 +55,7 @@
 					</thead>
 					<tbody class="projectIssueLists" style="text-align: center;">
 						<th:block th:each="projectIssueList : ${prjoectIssueList}">
-							<tr>
+							<tr th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
 								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span
 									class="badge badge-danger" th:text="버그"></span></th>
 								<th th:if="${projectIssueList.issuKnd == '0L2'}"><span
@@ -153,7 +153,7 @@
 					}).done(function (data) {
 						issueLists.empty();
 						$.each(data.projectIssueList, function (idx, item) {
-							var trTag = $('<tr/>').attr('onclick', 'viewIssueInfo(' + item.issuNo + ')');
+							var trTag = $('<tr/>').attr('onclick', 'selectIssueInfo(' + item.issuNo + ')');
 
 							if (item.issuKnd == '0L1') {
 								trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
@@ -280,7 +280,10 @@
 			function delSearchVal() {
 				$('.piSearchInput').val('');
 			}
-		
+
+		function selectIssueInfo(issuNo) {
+				location.href = '/project/issues/1/' + issuNo;
+				}
 
 		</script>
 </th:block>

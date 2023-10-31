@@ -33,6 +33,7 @@
 			, prjt_fdbk_upno
 			, CONNECT_BY_ROOT prjt_fdbk_no AS root_no
 			, memb_nm
+			, prjt_fdbk_show
 		FROM project_feedback pf LEFT JOIN member m ON(pf.memb_id = m.memb_id)
 		WHERE prjt_no = #{prjtNo}
 		START WITH prjt_fdbk_upno IS NULL
