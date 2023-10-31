@@ -67,14 +67,7 @@ public class FileController {
 		return "FileTest";
 	}
 
-	// 검색기능
 
-	@GetMapping("/AjaxSearch")
-	@ResponseBody
-	public List<FileVO> AjaxSearch(@RequestParam Map<String, String> map) {
-		List<FileVO> searchFile = fileservice.fileList(map);
-		return searchFile;
-	}
 
 	// 첨부 파일 다운로드
 
