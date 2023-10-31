@@ -64,19 +64,6 @@ public class ProjectController {
 		return "home";
 	}
 
-	// session Test Controller
-	// setAttribute -> login Controller로 이동 필요
-	@GetMapping("/test")
-	public String projectSidebar(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		List<Map<Object, Object>> projectList = new ArrayList<>();
-		projectList = projectService.getProjectAndMemberList();
-
-		session.setAttribute("projectList", projectList);
-
-		return "project/project-home";
-	}
-
 	@PostMapping("ProjectStateAjax")
 	@ResponseBody
 	public Map<String, Object> ProjectStateAjax(ProjectVO projectVO) {
