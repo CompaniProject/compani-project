@@ -442,13 +442,6 @@ function removeFileFromDataTransfer(element) {
 		document.getElementById("files").files = dataTransfer.files;
 	}
 }
-/* 이슈 등록 폼 END */
-// toastuiviewer
-const viewer = toastui.Editor.factory({
-	el: document.querySelector('#viewer'),
-	viewer: true,
-	height: '600px'
-});
 
 /* 이슈 상세 보기 START */
 // 날짜 변환
@@ -568,28 +561,6 @@ function viewIssueInfo(id) {
 function fileDownloading(issuNo, issuFileNo) {
 	location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
 }
-
-
-$(document).on('click', '.p-t-15', function () {
-	if ($('.issueInfoFileList').css("display") == "none") {
-		$('.issueInfoFileList').css('display', 'block');
-	} else {
-		$('.issueInfoFileList').css('display', 'none');
-	}
-
-	$('.issueInfoCommentList').css('display', 'none');
-});
-
-$(document).on('click', '.p-t-16', function () {
-	if ($('.issueInfoCommentList').css("display") == "none") {
-		$('.issueInfoCommentList').css('display', 'block');
-		findAllReply();
-	} else {
-		$('.issueInfoCommentList').css('display', 'none');
-	}
-
-	$('.issueInfoFileList').css('display', 'none');
-});
 
 // 댓글 길이 카운팅
 function countingLength(content) {
