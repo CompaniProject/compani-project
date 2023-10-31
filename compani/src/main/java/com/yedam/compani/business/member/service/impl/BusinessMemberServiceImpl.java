@@ -9,6 +9,7 @@ import com.yedam.compani.business.member.mapper.BusinessMemberMapper;
 import com.yedam.compani.business.member.service.BusinessMemberService;
 import com.yedam.compani.business.member.service.BusinessMemberVO;
 import com.yedam.compani.business.service.FormVO;
+import com.yedam.compani.member.service.MemberVO;
 
 @Service
 public class BusinessMemberServiceImpl implements BusinessMemberService{
@@ -28,7 +29,7 @@ public class BusinessMemberServiceImpl implements BusinessMemberService{
 	}
 
 	@Override
-	public List<BusinessMemberVO> bussMemberList(BusinessMemberVO bmVO) {
+	public List<MemberVO> bussMemberList(BusinessMemberVO bmVO) {
 		
 		return businessMemberMapper.bussMemberList(bmVO);
 	}

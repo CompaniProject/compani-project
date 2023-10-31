@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
 </head>
 <body>
 	<th:block layout:fragment="content">
@@ -334,7 +335,7 @@
 														th:attr="onclick='searchMember()'"></label> <input
 														type="hidden" id="keyword" value="전체">
 													<div class="SearchInputBox" style="width: 270px;">
-														<div> <!-- 킹킹 -->
+														<div>
 															<div class="member-selectBox" style="width: 100px;">
 																<div class="member-selected" id="member-selected">
 																	<div class="member-selected-value">전체</div>
@@ -551,19 +552,7 @@
 															</tr>
 														</thead>
 														<tbody id="membertbl2">
-															<th:block th:each="memberList : ${memberList}">
-																<tr th:id="memId" th:value="${memberList.membId}">
-																	<td><img
-																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
-																		height="50px" width="50px" alt="프로필"
-																		th:if="${memberList.membPhtPath != null}" /></td>
-																	<td th:text="${memberList.membDept}" />
-																	<td th:text="${memberList.membWkgd}" />
-																	<td th:text="${memberList.membNm}" />
-																	<!-- 버튼 수정하기 -->
-																	<td><i class="fa-solid fa-plus"></i></td>
-																</tr>
-															</th:block>
+
 														</tbody>
 													</table>
 												</div>
@@ -608,12 +597,14 @@
 									<label class="col-lg-4 col-form-label" for="val-username">진척도
 									</label>
 									<div class="col-lg-6">
-										<div style="padding-top: 10px; padding-bottom: 10px;">
-											<div class="progress" style="height: 10px">
-												<div class="progress-bar gradient-1" th:style="0"
-													role="progressbar"></div>
-											</div>
+
+
+										<div class="stepping-slider">
+											<div id="slider-step"></div>
+											<span class="example-val" id="slider-step-value"></span>
 										</div>
+
+
 									</div>
 								</div>
 								<div class="form-group row">
@@ -671,7 +662,7 @@
 		<script th:inline="javascript">
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
-			$('#keyword').on('click', searchMember )
+			$('#keyword').on('click', searchMember)
 			$('.dropdown-import').on('click', dropdown)
 			$('.dropdown-relation').on('click', dropdown)
 			$('.dropdown-business').on('click', dropdown)
@@ -812,6 +803,8 @@
 				})
 				.fail(err =>  console.log(err));
 			}
+			
+			
 			function insertBusiness(){
 				
 				let formData = $('#insertform').serializeArray();
@@ -826,10 +819,9 @@
 						memberArray.push({membId : obj.value});
 				    }
 				});
-				
 			
 				let obj = {};
-				console.log(obj);
+			
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
 				
@@ -848,16 +840,15 @@
 				e.preventDefault();
 				//let bussNm = $(this).find('a').text();
 				let bussNo = $(this).find('input').val();
-				//let prjtNo = 세션값;
-				console.log(bussNo);
+				let prjtNo = $('input[name=prjtNo]').val();
+				//membId 세션값 넣어주기 let membId
 				
 				 $.ajax('/bussInfoAjax',{
 					type : 'post',
-					data : {bussNo : bussNo}	
+					data : {bussNo : bussNo , prjtNo : prjtNo}	
 				})
 				.done(function(data){
-					console.log(data);
-					console.log(data.businessVO.bussNm);
+					
 					let bussSt = '';
 					$('#infoModal #bussNm').val(data.businessVO.bussNm);
 					$('#infoModal input[id=bussFrdt]').attr('value',data.businessVO.bussFrdt);
@@ -877,16 +868,89 @@
 					}
 					$('#infoModal input[id=bussSt]').attr('value',bussSt);
 					
-					
 					//업무 참여자 리스트 보여주기 
-					let tbody = $('updatemembertbl');
+					let tbody = $('#updatemembertbl');
+			 	 	$.each(data.businessMemberList, function(idx, data){
+					 	let trTag = $('<tr/>');
+					 	let tdTag = $('<td/>');
 					
+						trTag.attr('id', data.membId);
+						
+						if(data.membPhtPath != null){
+						let imgTag = $('<img>',{
+							src:"/images/profile/" +data.membPhtPath,
+							height:"50px", 
+							width:"50px",
+							})
+							tdTag.append(imgTag);
+						}
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.membDept);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.membWkgd);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.membNm);
+					 	trTag.append(tdTag);
+					
+					 	tdTag = $('<td/>');
+					 	tdTag.append('<i class="fa-solid fa-minus"></i>');
+					 	trTag.append(tdTag);
+					 	
+					 	tbody.append(trTag);
+			 	
+					}) 
+					
+					let memberbody = $('#membertbl2');
+			 	 	$.each(data.memberList, function(idx, data){
+					 	let trTag = $('<tr/>');
+					 	let tdTag = $('<td/>');
+					
+						trTag.attr('id', data.membId);
+						
+						if(data.membPhtPath != null){
+						let imgTag = $('<img>',{
+							src:"/images/profile/" +data.membPhtPath,
+							height:"50px", 
+							width:"50px",
+							})
+							tdTag.append(imgTag);
+						}
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.membDept);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.membWkgd);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.membNm);
+					 	trTag.append(tdTag);
+					
+					 	tdTag = $('<td/>');
+					 	tdTag.append('<i class="fa-solid fa-plus"></i>');
+					 	trTag.append(tdTag);
+					 	
+					 	memberbody.append(trTag);
+			
+					}) 
+			 	 	
 					$('#infoModal').modal('show'); 
 					
 				})
 				.fail();
 				
 			}
+		
+		
 		</script>
 	</th:block>
 </body>

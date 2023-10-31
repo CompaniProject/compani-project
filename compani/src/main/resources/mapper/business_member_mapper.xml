@@ -2,32 +2,33 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.yedam.compani.business.member.mapper.BusinessMemberMapper">
-  
-  <insert id="insertBusinessMember" >
-  	<!-- 이슈파일 매퍼  -->
-	INSERT INTO BUSINESS_MEMBER
-			(PRJT_NO,
-			 MEMB_ID,
-			 BUSS_NO
-			)
-	<foreach collection="list" item="member" separator="UNION ALL">
+<mapper
+	namespace="com.yedam.compani.business.member.mapper.BusinessMemberMapper">
+
+	<insert id="insertBusinessMember">
+		<!-- 이슈파일 매퍼 -->
+		INSERT INTO BUSINESS_MEMBER
+		(PRJT_NO,
+		MEMB_ID,
+		BUSS_NO
+		)
+		<foreach collection="list" item="member" separator="UNION ALL">
 			SELECT
 			#{member.prjtNo},
 			#{member.membId},
 			#{member.bussNo}
 			FROM DUAL
-	</foreach>
-			 	
-  </insert>
-  
-  <select id="bussMemberList" resultType="BusinessMemberVO">
-		   SELECT * 
-		   FROM   BUSINESS_MEMBER
-		   WHERE  BUSS_NO = #{bussNo}
-		  <!--  AND    PRJT_NO = #{prjtNo} -->
-		   
-  </select>
-  
-  
-  </mapper>
+		</foreach>
+
+	</insert>
+
+	<select id="bussMemberList" resultType="MemberVO">
+		SELECT m.MEMB_PHT_PATH, m.MEMB_DEPT, m.MEMB_WKGD, m.MEMB_NM , b.MEMB_ID
+		FROM   MEMBER m, BUSINESS_MEMBER b
+		WHERE  m.MEMB_ID = b.MEMB_ID
+		AND    b.BUSS_NO = #{bussNo}
+
+	</select>
+
+
+</mapper>

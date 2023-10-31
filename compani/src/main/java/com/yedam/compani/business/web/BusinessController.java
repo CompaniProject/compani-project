@@ -24,6 +24,13 @@ import com.yedam.compani.member.service.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;;
 
+/*
+ * 
+ * 작성자 : 신대철
+ * 작성일자:
+ * 작업
+ * 
+ * */
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -80,8 +87,9 @@ public class BusinessController {
 
 	@PostMapping("bussInfoAjax")
 	@ResponseBody
-	public Map<String, Object> bussInfo(BusinessVO businessVO) {
+	public Map<String, Object> bussInfo(BusinessVO businessVO, BusinessMemberVO businessMemberVO) {
 
+		System.out.println("null이니" +businessMemberVO);
 		Map<String, Object> map = new HashMap<>();
 		
 		//업무 단건 
@@ -89,14 +97,14 @@ public class BusinessController {
 		System.out.println(bussVO);
 		map.put("businessVO", bussVO);
 		
-		
 		//업무 참여자 list
-		BusinessMemberVO bmVO = new BusinessMemberVO();
-		bmVO.setBussNo(businessVO.getBussNo());
-		bmVO.setPrjtNo(businessVO.getPrjtNo());
-		List<BusinessMemberVO> list = businessMemberService.bussMemberList(bmVO);
-		map.put("bussMemberList", list);
-
+		List<MemberVO> list = businessMemberService.bussMemberList(businessMemberVO); 
+		map.put("businessMemberList", list);
+		
+		//회사 멤버 list
+		List<MemberVO> memberList = memberService.getMemberList();
+		map.put("memberList", memberList);
+		 
 		return map;
 	}
 
