@@ -56,7 +56,7 @@ public class FileServiceImpl implements FileService {
 	
 	// 파일 검색
 	@Override
-	public List<FileVO> fileSearch(Map<String, String> map) {
+	public List<FileVO> fileList(Map<String, String> map) {
 		
 		return filemapper.fileSearch(map);
 	}

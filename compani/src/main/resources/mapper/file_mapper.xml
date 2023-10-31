@@ -73,11 +73,11 @@
 					WHERE 	F.BUSS_NO = B.BUSS_NO
 					AND		B.PRJT_NO = P.PRJT
 					<choose>
-						<when test="keyword == '파일명' and keyword.equals('파일명')">
-							(fileNm like '%' || #{search} || '%')
+						<when test="type == '파일명'">
+							AND (fileNm like '%' || #{keyword} || '%')
 						</when>
-						<when test="keyword == '작성자' and keyword.equals('작성자')">
-							(membId like '%' || #{search) || '%')
+						<when test="type == '작성자'">
+							AND (membId like '%' || #{keyword) || '%')
 						</when>
 					</choose>		
 				</select>

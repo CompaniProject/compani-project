@@ -60,12 +60,6 @@ public class FileUploadController {
 		        
 		        // --- 확장자만 따로 구하기
 		        String fileType = fileName.substring(fileName.lastIndexOf(".") +1);       // 파일명에 붙어있는 확장자명만 빼오기 (타입)
-
-		        
-		       
-		        
-		        System.out.println("fileName : " + fileName);
-		        System.out.println("fileType : " + fileType);
 		    
 		        // --------------------------------------------------
 		        //날짜 폴더 생성 (서버내에 저장됨)
@@ -133,7 +127,7 @@ public class FileUploadController {
 		}
 		
 		// 파일 다운로드
-		@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+		@GetMapping(value="workfile/{fileNo}/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 		@ResponseBody
 		public ResponseEntity<Resource> downloadFile(String fileName){	
 			log.info("download file : " + fileName);
