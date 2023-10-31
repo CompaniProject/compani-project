@@ -91,7 +91,7 @@ public class BusinessController {
 
 	@GetMapping("home/modal")
 	public String projectHome() {
-		return "modal/modal-home";
+		return "modal/modal-main";
 	}
 
 }

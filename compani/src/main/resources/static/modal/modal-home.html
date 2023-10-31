@@ -1,20 +1,3 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/layout}">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<th:block layout:fragment="content">
-
-	<div class="row mx-0">
-        <div class="col p-md-0">
-	        <button type="button" class="btn mb-1 btn-primary float-right" id="insertBtn">modal</button>
-        </div>
-    </div>
-    
     <!-- Modal -->
     <div>
 		<div class="modal fade" id="workModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true">
@@ -61,10 +44,4 @@
             });
     	});
     	
-    	$('#insertBtn').on('click',function(){
-            $('#workModal').modal('toggle');
-    	})
     </script>
-</th:block>
-</body>
-</html>
