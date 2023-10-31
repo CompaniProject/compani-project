@@ -200,10 +200,11 @@ select {
 					<th:block th:each="bussInfo : ${personalCalendarPage}">
 						<div class="businessList">
 							<div class="businessList2" 
-								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
+								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
+								 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
 							</div>
 							<div class="businessList2" 
-								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
+								th:text="${bussInfo.bussNm}">
 							</div>
 						</div>
 					</th:block>
@@ -262,20 +263,22 @@ select {
 		}
 		
 		// 간트에 뿌리기
+		prjtNum = [];
+		for(let j=0; j<calendarData.length; j++){
+			prjtNum.push(calendarData[j].bussNo);
+		}
 		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
-		    for(let i=0; i<calendarData.length; i++){
-		    	if (task.id == calendarData[i].bussNo){
+		    for(let i=0; i<prjtNum.length; i++){
+		    	if (task.id == prjtNum[i]){
 			        return true;
 			    }
 		    }
 		    return false;
 		});
 		gantt.init("personalGanttchart");
-		
-		console.log($(event.target).text());
-		console.log(prjtNum);
-		
+		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
 	}));
+	
 	// 필터링 선택 - 업무리스트에 뿌리기
 	for(let i=0; i<$('.dropdown-item.filter').length; i++){
 		$('.dropdown-item.filter').eq(i).on('click', function(){
@@ -305,8 +308,6 @@ select {
 		
 		$('.calendarEvent_' + targetStr).parent().css('display', 'block');
 		
-		console.log($(event.target).text());
-		
 		// 간트차트에 다시 뿌리기
 		prjtNum = [];
 		for(let j=0; j<calendarData.length; j++){
@@ -323,7 +324,7 @@ select {
 		    return false;
 		});
 		gantt.init("personalGanttchart");
-	console.log(prjtNum);
+		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
 	});
 	
 	/*----------------------------
