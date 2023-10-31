@@ -556,7 +556,7 @@
 			}
 		});
 		
-		$('.completeWriting').on('click', function () {
+		$('.completePISaving').on('click', function () {
 			// "등록" 버튼이 활성화 상태일 때만 실행됨
 			if ($(this).hasClass('registrable')) {
 				savePIssue();
@@ -607,11 +607,11 @@
 			var fileInfo = inputFile.files;
 
 			for (i = 0; i < fileInfo.length; i++) {
-				formData.append("files", fileInfo[i]);
+				formData.append("savefiles", fileInfo[i]);
 			};
 
 			$.ajax({
-				url: '/project/issues/insert',
+				url: '/project/issues/save',
 				type: 'POST',
 				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
 				contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
@@ -637,7 +637,7 @@
 
 		// 파일 업로드 클릭
 		const savePIRealUpload = document.querySelector('.savePIReal-upload');
-		const savePIupload = document.querySelector('.savingPILoadBtn upload');
+		const savePIupload = document.querySelector('.savingPILoadBtn.upload');
 
 		savePIupload.addEventListener('click', () => savePIRealUpload.click());
 
@@ -659,7 +659,7 @@
 
 		// 파일 삭제 버튼 누를 시 ..
 		function saveRemovePIFile(element) {
-			 removeSavePIFileFromDataTransfer(element);
+			removeSavePIFileFromDataTransfer(element);
 			var tr = $(element).closest('tr');
 			tr.remove();
 
@@ -676,9 +676,11 @@
 				// =====DataTransfer 파일 관리========
 				for (var i = 0; i < fileArr.length; i++) {
 					savePIDataTransfer.items.add(fileArr[i])
+					console.log("dataTransfer =>", savePIDataTransfer.files)
+					console.log("input FIles =>", document.getElementById("savePIFiles").files)
 				}
 
-				document.getElementById("savePIFiles").files = savePIDataTransfer.files;
+				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 				// ==========================================
 
 			}
@@ -691,9 +693,40 @@
 		
 			if (index != -1) {
 				savePIDataTransfer.items.remove(index);
-				document.getElementById("savePIFiles").files = savePIDataTransfer.files;
+				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 			}
 		}
+		
+		// 파일 추가
+		function savePIssueFile(element) {
+			const file = element.files[0];
+			// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
+			if (!file) {
+				return false;
+			}
+
+			// 2. 파일 크기가 10MB을 초과하는 경우
+			const fileSize = Math.floor(file.size / 1024 / 1024);
+
+			if (fileSize > 10) {
+				alert('10MB 이하의 파일로 업로드해 주세요.');
+				return false;
+			}
+
+			if (file) {
+				$('.fileEmpty').remove();
+				var trTag = $('<tr/>');
+				var fileNameTag = $('<td/>').text(file.name);
+				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
+				var deleteFileTag = $('<td/>').attr('class', 'deletePISaveFile').attr('onclick', ' saveRemovePIFile(this);');
+				trTag.append(fileNameTag);
+				trTag.append(fileSizeTag);
+				trTag.append(deleteFileTag);
+
+				$('#savePIssueFileList').append(trTag);
+
+			}
+		};
 		</script>
 </th:block>
 </body>

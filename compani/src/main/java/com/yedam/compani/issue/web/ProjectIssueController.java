@@ -1,25 +1,27 @@
 package com.yedam.compani.issue.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yedam.compani.issue.file.service.IssueFileService;
-import com.yedam.compani.issue.file.service.IssueFileVO;
-import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
-
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.yedam.compani.issue.file.service.IssueFileService;
+import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
-import com.yedam.compani.paging.SearchDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +31,7 @@ public class ProjectIssueController {
 
 	private final IssueService issueService;
 	private final IssueFileService issueFileService;
+	private final com.yedam.compani.config.FileUtils fileUtils;
 
 	@GetMapping("/project/issues/{prjtNo}")
 	public String projectIssueList(@PathVariable int prjtNo, String search, String keyword,
@@ -82,21 +85,19 @@ public class ProjectIssueController {
 	}
 	
 	// 프로젝트 게시판 내 이슈 등록
-	@PostMapping("/project/issues/insert")
+	@PostMapping("/project/issues/save")
 	@ResponseBody
-	public void projectIssueSave(MultipartFile[] files, IssueVO issueVO, IssueHashtagVO issuHashtagVO) {
+	public void projectIssueSave(MultipartFile[] savefiles, IssueVO issueVO) {
 		
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
 		
 		// 파일 업로드, 파일 DB에 저장
 		List<IssueFileVO> uploadedFiles = new ArrayList<>();
-		if (files != null && files.length > 0) {
-				//uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
+		if (savefiles != null && savefiles.length > 0) {
+				 uploadedFiles = fileUtils.uploadFiles(Arrays.asList(savefiles)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
-		// 해시태그 저장
-		//issueHashtagService.modalInsertIssueHashtag(issuNo, );
-				
+		
 	}	
 }
