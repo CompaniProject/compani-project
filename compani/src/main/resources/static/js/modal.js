@@ -1018,7 +1018,7 @@ $('.modalIssueEditForm').on('click', '.cancelEditing', function () {
 	});
 
 	// '취소' 버튼 클릭 시
-	$('#cancelCancel').on('click', function () {
+	$('#cancelEditCancel').on('click', function () {
 		$('#cancelEditConfirmationModal').modal('hide');
 	});
 });

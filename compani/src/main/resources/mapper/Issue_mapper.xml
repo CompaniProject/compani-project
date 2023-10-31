@@ -120,7 +120,7 @@
 			  VALUES  
 			            (
 								#{issuNo}
-							  , 1
+							  , #{prjtNo}
 							  , 1
 							  , 'm1'
 							  , #{issuTtl}

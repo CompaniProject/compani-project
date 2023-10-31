@@ -109,6 +109,205 @@
 				th:attr="onclick='projectIssuePaging(\'' + ${projectIssue.nextPage} + '\')'">Next</a>
 		</div>
 	</div>
+	
+	<!--/* 등록폼 모달 START */-->
+	<div class="modal fade" id="piSaveModal" tabindex="-1"
+		aria-labelledby="sidebarModalLabel" aria-hidden="true"
+		style="overflow: auto;">
+		<div class="modal-dialog">
+			<div class="modal-content"
+				style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
+				<!--/* 모달 헤더 부분 */-->
+				<div class="modal-header">
+					<div class="ContentTitleBox">
+						<div class="ContentImg"
+							style="background-image: url(/images/tab_issue.png);"></div>
+						<p class="ContentText">이슈 등록하기</p>
+					</div>
+					<button type="button" class="modalClose" data-dismiss="modal"></button>
+				</div>
+				<div class="modal-content-container">
+				
+				
+					<!--/* 이슈 수정 폼 START */-->
+					<div class="modal-body">
+						<div class="modalPIssueSaveForm">
+
+							<div class="modalPISaveContent">
+								<div class="pIssueSaveContentTopBar">
+									<span class="cancelPISaving"></span>
+									<button type="button" class="completePISaving">등록</button>
+								</div>
+							</div>
+							
+							
+							<div class="savePIssueName">
+								<div class="savePIssueNameBack">
+									<textarea class="modalPIssueNameSave" id="savePIssuTtlVal"
+										maxlength="200" style="height: 34px;"></textarea>
+								</div>
+							</div>
+							
+							<hr
+								style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+								
+							<!--/* 이슈 종류, 중요도 START */-->
+							<div class="savePIssueKnd">
+								<p>종류</p>
+								<div class="dropBoxAreaPI">
+									<div class="basic-dropdown" style="display: inline;">
+										<div class="dropdown">
+											<button type="button" id="savePIssuKndVal"
+												class="badge badge-dark" data-toggle="dropdown">선택</button>
+											<div class="dropdown-menu" style="cursor: pointer;">
+												<a class="dropdown-item"><span
+													class="badge badge-pill badge-warning">개선사항</span></a> <a
+													class="dropdown-item"><span
+													class="badge badge-pill badge-info">새기능</span></a> <a
+													class="dropdown-item"><span
+													class="badge badge-pill badge-light">업무</span></a> <a
+													class="dropdown-item"><span
+													class="badge badge-pill badge-danger">버그</span></a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="savePIssueRank">
+									<p>중요도</p>
+									<div class="dropBoxAreaPI">
+										<div class="basic-dropdown">
+											<div class="dropdown">
+												<button type="button" class="badge badge-dark"
+													data-toggle="dropdown" id="savePIssuRankVal">선택</button>
+												<div class="dropdown-menu" style="cursor: pointer;">
+													<a class="dropdown-item"><span
+														class="badge badge-primary">매우높음</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-secondary">높음</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-success">보통</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-warning">낮음</span></a> <a
+														class="dropdown-item"><span class="badge badge-danger">매우낮음</span></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 이슈 종류, 중요도 END */-->
+							
+							<div class="savingPIContent">
+								<div class="savingPISection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">내용</p>
+									</div>
+									<div id="pieditor" style="width: 630px;"></div>
+								</div>
+
+								<div class="savingPIAttachSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">파일</p>
+										<div class="savingPILoadBtn upload">
+											<span></span>
+											<p>파일 업로드</p>
+											<input type="file" class="savePIReal-upload" id="savePIFiles"
+												name="savePIFiles" multiple onchange="savePIssueFile(this);"
+												style="display: none;">
+										</div>
+									</div>
+									<div class="piFileUpload dz">
+										<div class="dz-message" style="width: 630px;">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>파일명</th>
+														<th>크기</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody id="savePIssueFileList">
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div class="savePIHashtagSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">해시태그</p>
+									</div>
+									<div class="savePIHashtagContent" style="width: 630px;">
+										<div class="savePIHashtagList">
+											<div class="savePITagBox task" title="업무">
+												<p>#</p>
+												<span class="Ready"></span>
+												<p class="savePITextEllipsis">업무</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 프로젝트 이슈 등록폼에서 등록 취소 확인 START */-->
+							<div class="modal fade" id="cancelPISaveConfirmationModal"
+								tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header" style="border-bottom: none;">
+											<button type="button" class="modalClose" data-dismiss="modal"></button>
+										</div>
+										<div class="modal-body" id="cancelPISaveConfirmationModalBody">
+											<img class="cancelWarning"> <span id="modal-meg"
+												class="notice_msg"> 현재 작성중인 글은 저장되지 않습니다.<br> 뒤로
+												가시겠습니까?
+											</span>
+										</div>
+										<div class="modal-footer" style="border-top: none;">
+											<button type="button" class="btn btn-danger btn-sm"
+												id="cancelPISaveCancel">취소</button>
+											<button type="button" class="btn btn-light btn-sm"
+												id="confirmPISaveCancel">확인</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 프로젝트 이슈 등록폼에서 등록 취소 확인 END */-->
+
+							<!--/* 프로젝트 이슈 등록폼에서 제목, 종류, 중요도가 다 입력되지 않았을 때 START */-->
+							<div class="modal fade" id="savePICheckingInput" tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header" style="border-bottom: none;">
+											<button type="button" class="modalClose" data-dismiss="modal"></button>
+										</div>
+										<div class="modal-body" id="savePIConfirmationModalBody">
+											<img class="cancelWarning"> <span id="modal-meg"
+												class="notice_msg">제목, 종류, 중요도를 입력하세요!<br>
+											</span>
+										</div>
+										<div class="modal-footer" style="border-top: none;">
+											<button type="button" class="btn btn-info btn-sm"
+												id="confirmPISaveCheckingInput" style="margin: auto;">확인
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 프로젝트 이슈 등록폼에서 제목, 종류, 중요도가 다 입력되지 않았을 때 END */-->
+						</div>
+						<!--/* 프로젝트 이슈 게시판에서 이슈 등록폼 END */-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script
+		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>	
 	<script>
 			//검색 조건 (제목, 작성자, 전체) 
 			$('.pissue-selectBox').on('click', function () {
@@ -284,7 +483,217 @@
 		function selectIssueInfo(issuNo) {
 				location.href = '/project/issues/1/' + issuNo;
 				}
+		
+		<!-- 이슈 등록 시작 -->
+		// 글쓰기 버튼
+		$('.postWritingBoxP').on('click', function () {
+			$('#piSaveModal').modal('show');
+		});
+		
+		// "등록" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
+		function checkPISaveInput() {
+			var issuKndVal = $('#savePIssuKndVal').text();
+			var issuRankVal = $('#savePIssuRankVal').text();
+			var issuTtlVal = $('#savePIssuTtlVal').val();
 
+			if (issuKndVal !== '선택' && issuRankVal !== '선택' && issuTtlVal !== '') {
+				$('.completePISaving').addClass('registrable');
+			} else {
+				$('.completePISaving').removeClass('registrable');
+			}
+		}
+		
+		$('#savePIssuTtlVal').on('change', function () {
+			checkPISaveInput();
+		});
+		
+		// toastuieditor
+		const pieditor = new toastui.Editor({
+			el: document.querySelector('#pieditor'), // 에디터를 적용할 요소 (컨테이너)
+			height: '600px', // 에디터 영역의 높이 값 (OOOpx || auto)
+			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+		});
+
+		// 글쓰기 취소 버튼
+		$('.modalPIssueSaveForm').on('click', '.cancelPISaving', function () {
+			$('#cancelPISaveConfirmationModal').modal('show');
+
+			// ' 확인' 버튼이 클릭 시
+			$('#confirmPISaveCancel').on('click', function () {
+				// 입력 필드 초기화
+				$('#savePIssuKndVal').text('선택');
+				$('#savePIssuRankVal').text('선택');
+				$('#savePIssuTtlVal').val('');
+				pieditor.setHTML('');
+				$('#savePIssueFileList').empty();
+				checkFile();
+				checkPISaveInput();
+
+				$('#cancelPISaveConfirmationModal').modal('hide');
+				$('#piSaveModal').modal('hide');
+			});
+
+			// '취소' 버튼 클릭 시
+			$('#cancelPISaveCancel').on('click', function () {
+				$('#cancelPISaveConfirmationModal').modal('hide');
+			});
+		});
+		
+		// 제목 입력하는 textarea 클릭시 focus
+		$('.modalPIssueNameSave').on('click', function () {
+			$('.savePIssueNameBack').addClass('focus');
+		});
+		// textarea 벗어날 때 focus 클래스 삭제하기.
+		$('.modalPIssueNameSave').on('blur', function () {
+			$('.savePIssueNameBack').removeClass('focus');
+		});
+		// 엔터 누를 때 줄바꿈 방지하기..
+		$('.modalPIssueNameSave').on('keydown', function (e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+			}
+		});
+		
+		$('.completeWriting').on('click', function () {
+			// "등록" 버튼이 활성화 상태일 때만 실행됨
+			if ($(this).hasClass('registrable')) {
+				savePIssue();
+			} else {
+				$('#savePICheckingInput').modal('show');
+
+				// 확인 버튼 클릭 시
+				$('#confirmPISaveCheckingInput').on('click', function () {
+					$('#savePICheckingInput').modal('hide');
+				});
+			}
+
+		});		
+
+		function savePIssue() {
+
+			var formData = new FormData();
+			formData.append('issuTtl', $('#savePIssuTtlVal').val());
+
+
+			// 중요도 text 값 확인 후 data로 넣기 !
+			if ($('#savePIssuRankVal').text() == '매우높음') {
+				formData.append('issuRank', '0G1');
+			} else if ($('#savePIssuRankVal').text() == '높음') {
+				formData.append('issuRank', '0G2');
+			} else if ($('#savePIssuRankVal').text() == '보통') {
+				formData.append('issuRank', '0G3');
+			} else if ($('#savePIssuRankVal').text() == '낮음') {
+				formData.append('issuRank', '0G4');
+			} else if ($('#savePIssuRankVal').text() == '매우낮음') {
+				formData.append('issuRank', '0G5');
+			}
+			// 종류 text 값 확인 후 data로 넣기 !
+			if ($('#savePIssuKndVal').text() == '버그') {
+				formData.append('issuKnd', '0L1');
+			} else if ($('#savePIssuKndVal').text() == '개선사항') {
+				formData.append('issuKnd', '0L2');
+			} else if ($('#savePIssuKndVal').text() == '새기능') {
+				formData.append('issuKnd', '0L3');
+			} else if ($('#savePIssuKndVal').text() == '업무') {
+				formData.append('issuKnd', '0L4');
+			}
+
+			let content = pieditor.getHTML();
+			formData.append('issuCntn', content);
+
+			var inputFile = document.querySelector('.savePIReal-upload');
+			var fileInfo = inputFile.files;
+
+			for (i = 0; i < fileInfo.length; i++) {
+				formData.append("files", fileInfo[i]);
+			};
+
+			$.ajax({
+				url: '/project/issues/insert',
+				type: 'POST',
+				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+				contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+				data: formData,
+				success: function () {
+					alert("등록에 성공 !!");
+					$('#piSaveModal').modal('hide');
+					location.reload();
+				},
+				error: function (reject) {
+					alert("등록에 실패");
+					console.log(reject);
+				}
+			});
+		};
+		
+		// 드랍다운 
+		$('.dropdown-item').on('click', function () {
+			$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+			$(this).parent().siblings().text($(this).text());
+			checkPISaveInput();
+		});
+
+		// 파일 업로드 클릭
+		const savePIRealUpload = document.querySelector('.savePIReal-upload');
+		const savePIupload = document.querySelector('.savingPILoadBtn upload');
+
+		savePIupload.addEventListener('click', () => savePIRealUpload.click());
+
+		checkPISaveFile();
+		
+		// 업로드 된 파일이 없을 경우 ..
+		function checkPISaveFile() {
+			if ($('#savePIssueFileList tr').length == 0) {
+				var trTag = $('<tr/>').attr('class', 'fileEmpty');
+				var fileEmptyTag = $('<td/>').text('등록된 파일은 여기에 저장됩니다').css('color', '#A8A8A8');
+				var emptyTdTag = $('<td/>');
+				var emptyTdTags = $('<td/>');
+				trTag.append(fileEmptyTag);
+				trTag.append(emptyTdTag);
+				trTag.append(emptyTdTags);
+				$('#savePIssueFileList').append(trTag);
+			};
+		};
+
+		// 파일 삭제 버튼 누를 시 ..
+		function saveRemovePIFile(element) {
+			 removeSavePIFileFromDataTransfer(element);
+			var tr = $(element).closest('tr');
+			tr.remove();
+
+			checkPISaveFile();
+		}
+		const savePIDataTransfer = new DataTransfer();
+		
+		$("#savePIFiles").change(function () {
+
+			let fileArr = document.getElementById("savePIFiles").files
+
+			if (fileArr != null && fileArr.length > 0) {
+
+				// =====DataTransfer 파일 관리========
+				for (var i = 0; i < fileArr.length; i++) {
+					savePIDataTransfer.items.add(fileArr[i])
+				}
+
+				document.getElementById("savePIFiles").files = savePIDataTransfer.files;
+				// ==========================================
+
+			}
+		})
+
+		function removeSavePIFileFromDataTransfer(element) {
+			var parent = $(element).parent().parent();
+			var children = $(parent).children();
+			var index = children.index($(element).parent());
+		
+			if (index != -1) {
+				savePIDataTransfer.items.remove(index);
+				document.getElementById("savePIFiles").files = savePIDataTransfer.files;
+			}
+		}
 		</script>
 </th:block>
 </body>

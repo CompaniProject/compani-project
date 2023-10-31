@@ -1,14 +1,18 @@
 package com.yedam.compani.issue.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
+import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.Page;
@@ -76,4 +80,23 @@ public class ProjectIssueController {
 		issueService.deleteIssue(issuNo);
 		return "project/project-issue";
 	}
+	
+	// 프로젝트 게시판 내 이슈 등록
+	@PostMapping("/project/issues/insert")
+	@ResponseBody
+	public void projectIssueSave(MultipartFile[] files, IssueVO issueVO, IssueHashtagVO issuHashtagVO) {
+		
+		// 이슈를 등록.
+		int issuNo = issueService.modalInsertIssue(issueVO);
+		
+		// 파일 업로드, 파일 DB에 저장
+		List<IssueFileVO> uploadedFiles = new ArrayList<>();
+		if (files != null && files.length > 0) {
+				//uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
+				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
+		}
+		// 해시태그 저장
+		//issueHashtagService.modalInsertIssueHashtag(issuNo, );
+				
+	}	
 }
