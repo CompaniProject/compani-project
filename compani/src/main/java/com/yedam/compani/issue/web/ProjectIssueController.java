@@ -79,9 +79,8 @@ public class ProjectIssueController {
 	// 프로젝트게시판 내 이슈 삭제
 	@PostMapping("/project/issues/del")
 	@ResponseBody
-	public String projectIssueDelete(@RequestParam final int issuNo) {
+	public void projectIssueDelete(@RequestParam final int issuNo) {
 		issueService.deleteIssue(issuNo);
-		return "project/project-issue";
 	}
 	
 	// 프로젝트 게시판 내 이슈 등록

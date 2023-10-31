@@ -73,7 +73,7 @@
 		ORDER BY 	 issu_dt DESC
 	</select>
 	
-	<!-- 프로젝트 이슈 페이지에서 이슈 리스트 조회 -->
+	<!-- 회사이슈 페이지에서 이슈 리스트 조회 -->
 	<select id="findCompanyIssue" resultType="IssueVO">
 		SELECT  	 i.issu_no
 				   , i.prjt_no
@@ -92,6 +92,7 @@
 		WHERE 	  	 i.buss_no = b.buss_no
 		AND 		 b.prjt_no = p.prjt_no
 		AND          p.co_cd   = #{coCd}
+		AND          p.prjt_pubcyn = '0F1'
 		 <choose>
 			<when test="keyword == '작성자'">
 				 AND memb_id  LIKE '%' || #{search} || '%'

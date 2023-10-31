@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout}">
+
+<th:block layout:fragment="content">
+    <!--/* 이슈 상세보기 START */-->
+    <div class="cIssueInfoForm">
+        <div class="cIssueInfoContent">
+            <div class="cIssueInfoContentTopBar">
+                <span class="returnCIssueList" onclick="returnCIssueList()"></span>
+                <button type="button" class="cIssueEditing" onclick="switchCIEditForm()">수정</button>
+                <button type="button" class="cIssueDeleting"
+                        onclick="deleteCIssue()">삭제</button>
+            </div>
+
+            <div class="cIssueNameInfo">
+                <div class="cIssueNames">
+					<textarea class="modalIssueName" maxlength="200"
+                              style="height: 34px;" readonly th:text="${issueInfo.issuTtl}"></textarea>
+                </div>
+            </div>
+            <hr style="margin: 0; height: 2px; background-color: #eaeaea;">
+            <div class="read-content">
+                <div class="media pt-5">
+                    <img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
+                    <div class="media-body" style="margin-right: 50px; flex: 0;">
+                        <h5 class="m-b-3" th:text="${issueInfo.membId}"></h5>
+                        <p class="m-b-2" style="width: 75px;"
+                           th:text="${#dates.format(issueInfo.issuDt, 'yyyy-MM-dd')}"></p>
+
+                    </div>
+                    <div class="cIssueRankInfo"></div>
+                    <div class="cIssueKndInfo"></div>
+                    <div class="cIssueStInfo"></div>
+                </div>
+                <hr style="margin: 0; height: 1px; background-color: #eaeaea;">
+                <div class="card-body">
+                    <div id="civiewer"></div>
+                </div>
+                <h6 class="p-t-15c" style="display: inline-block; padding: 3px;">
+                    <i class="fa fa-download mb-2"></i> 첨부파일 <span id="countFileC"></span>
+                </h6>
+                <h6 class="p-t-16c"
+                    style="display: inline-block; margin-left: 20px; padding: 3px;">
+                    <i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글 <span
+                        id="countReplyC"></span>
+                </h6>
+                <hr style="margin: 0; height: 1px; background-color: #eaeaea;">
+
+                <div class="cIssueInfoFileList" style="display: none;">
+                    <div class="list-message" style="width: 750px;">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>파일명</th>
+                                <th>크기</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="cIssueInfoFiles">
+                            <th:block th:each="issueFile : ${issueFile}">
+                                <tr th:data-fno="${issueFile.issuFileNo}">
+                                    <td th:text="${issueFile.issuFileNm}"></td>
+                                    <td class="cfs" th:text="${issueFile.issuFileSize}"></td>
+                                    <td th:class="downloadFile"
+                                        th:attr="onclick='fileDownloading(\'' + ${issueFile.issuNo} +'\', \'' + ${issueFile.issuFileNo} + '\')'">
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cIssueInfoCommentList" style="display: none;">
+                    <div class="cIssueReviews"></div>
+                    <!--/* 이슈 상세보기에서 댓글 등록 START */-->
+                    <div class="cIssueReply__details__form">
+                        <div class="cIssueReply__section-title">
+                            <h5>
+                                댓글<i id="counter">0/300자</i>
+                            </h5>
+                        </div>
+                        <form action="#">
+							<textarea id="cIssueReplyCntn" name="cIssueReplyCntn"
+                                      onkeyup="countingLengthC(this);" placeholder="댓글을 입력하세요"></textarea>
+
+                            <button type="button" id="issueReplySave" onclick="saveReplyC();">
+                                <i class="fa fa-location-arrow"></i>등록
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/* 이슈 상세보기 END */-->
+    <!--/* 이슈 삭제시 경고창 START */-->
+    <div class="modal fade" id="delCConfirmationModal" tabindex="-1"
+         style="display: none; margin: auto;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: none;">
+                    <button type="button" class="close" data-dismiss="modal"
+                            style="margin: 0; padding: 0;" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delCConfirmationModalBody">
+                    <img class="cancelWarning"> <span id="modal-meg"
+                                                      class="notice_msg"> 정말 삭제하시겠습니까? </span>
+                </div>
+                <div class="modal-footer" style="border-top: none;">
+                    <button type="button" class="btn btn-danger btn-sm" id="delCCancel">취소
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm" id="delCConfirm">확인
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--/* 수정폼 모달 START */-->
+    <div class="modal fade" id="ciEditModal" tabindex="-1"
+         aria-labelledby="sidebarModalLabel" aria-hidden="true"
+         style="overflow: auto;">
+        <div class="modal-dialog">
+            <div class="modal-content"
+                 style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
+                <!--/* 모달 헤더 부분 */-->
+                <div class="modal-header">
+                    <div class="ContentTitleBox">
+                        <div class="ContentImg"
+                             style="background-image: url(/images/tab_issue.png);"></div>
+                        <p class="ContentText">이슈 수정하기</p>
+                    </div>
+                    <button type="button" class="modalClose" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-content-container">
+
+
+                    <!--/* 이슈 수정 폼 START */-->
+                    <div class="modal-body">
+                        <div class="modalCIssueEditForm">
+
+                            <div class="modalCIEditContent">
+                                <div class="cIssueEditContentTopBar">
+                                    <span class="cancelCIEditing"></span>
+                                    <button type="button" class="completeCIEditing">수정</button>
+                                </div>
+                            </div>
+                            <div class="editCIssueName">
+                                <div class="editCIssueNameBack">
+									<textarea class="modalCIssueNameEdit" id="editCIssuTtlVal"
+                                              maxlength="200" style="height: 34px;"></textarea>
+                                </div>
+                            </div>
+                            <hr
+                                    style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+
+                            <!--/* 이슈 종류, 상태, 중요도 START */-->
+                            <div class="editCIssueKnd">
+                                <p>종류</p>
+                                <div class="dropBoxArea">
+                                    <div class="basic-dropdown" style="display: inline;">
+                                        <div class="dropdown">
+                                            <button type="button" id="editCIssuKndVal"
+                                                    class="badge badge-dark" data-toggle="dropdown"></button>
+                                            <div class="dropdown-menu" style="cursor: pointer;">
+                                                <a class="dropdown-item"><span
+                                                        class="badge badge-pill badge-warning">개선사항</span></a> <a
+                                                    class="dropdown-item"><span
+                                                    class="badge badge-pill badge-info">새기능</span></a> <a
+                                                    class="dropdown-item"><span
+                                                    class="badge badge-pill badge-light">업무</span></a> <a
+                                                    class="dropdown-item"><span
+                                                    class="badge badge-pill badge-danger">버그</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="editCIssueSt">
+                                    <p>상태</p>
+                                    <div class="dropBoxArea">
+                                        <div class="basic-dropdown" style="display: inline;">
+                                            <div class="dropdown">
+                                                <button type="button" id="editCIssuStVal"
+                                                        class="badge badge-dark" data-toggle="dropdown"></button>
+                                                <div class="dropdown-menu" style="cursor: pointer;">
+                                                    <a class="dropdown-item"><span
+                                                            class="badge badge-pill badge-warning">해결</span></a> <a
+                                                        class="dropdown-item"><span
+                                                        class="badge badge-pill badge-info">미해결</span></a> <a
+                                                        class="dropdown-item"><span
+                                                        class="badge badge-pill badge-light">해결불가</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="editCIssueRank">
+                                    <p>중요도</p>
+                                    <div class="dropBoxArea">
+                                        <div class="basic-dropdown">
+                                            <div class="dropdown">
+                                                <button type="button" class="badge badge-dark"
+                                                        data-toggle="dropdown" id="editCIssuRankVal"></button>
+                                                <div class="dropdown-menu" style="cursor: pointer;">
+                                                    <a class="dropdown-item"><span
+                                                            class="badge badge-primary">매우높음</span></a> <a
+                                                        class="dropdown-item"><span
+                                                        class="badge badge-secondary">높음</span></a> <a
+                                                        class="dropdown-item"><span
+                                                        class="badge badge-success">보통</span></a> <a
+                                                        class="dropdown-item"><span
+                                                        class="badge badge-warning">낮음</span></a> <a
+                                                        class="dropdown-item"><span class="badge badge-danger">매우낮음</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/* 이슈 종류, 중요도, 상태 END */-->
+                            <div class="editingCIContent">
+                                <div class="editingCISection">
+                                    <div class="sectionTitle">
+                                        <p class="sectionTitleText">내용</p>
+                                    </div>
+
+                                    <div id="editorCIEditing" style="width: 630px;"></div>
+
+                                </div>
+
+                                <div class="editingCIAttachSection">
+                                    <div class="sectionTitle">
+                                        <p class="sectionTitleText">파일</p>
+                                        <div class="editingCILoadBtn upload">
+                                            <span></span>
+                                            <p style="margin: 0;">파일 업로드</p>
+                                            <input type="file" class="editCIReal-upload" id="editCIFiles"
+                                                   name="editCIFiles" multiple onchange="addCIssueFile(this);"
+                                                   style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="ciFileUpload dz">
+                                        <div class="dz-message" style="width: 630px;">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>파일명</th>
+                                                    <th>크기</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="editCIssueFileList">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="editCIHashtagSection">
+                                    <div class="sectionTitle">
+                                        <p class="sectionTitleText">해시태그</p>
+                                    </div>
+                                    <div class="editCIHashtagContent" style="width: 630px;">
+                                        <div class="editCIHashtagList">
+                                            <div class="editCITagBox task" title="업무">
+                                                <p>#</p>
+                                                <span class="Ready"></span>
+                                                <p class="editCITextEllipsis">업무</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
+                            <div class="modal fade" id="cancelCIEditConfirmationModal"
+                                 tabindex="-1"
+                                 style="display: none; margin-top: 200px; margin-left: 200px;"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="border-bottom: none;">
+                                            <button type="button" class="modalClose" data-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body" id="cancelCIEditConfirmationModalBody">
+                                            <img class="cancelWarning"> <span id="modal-meg"
+                                                                              class="notice_msg"> 현재 수정중인 글은 저장되지 않습니다.<br> 뒤로
+												가시겠습니까?
+											</span>
+                                        </div>
+                                        <div class="modal-footer" style="border-top: none;">
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                    id="cancelCIEditCancel">취소</button>
+                                            <button type="button" class="btn btn-light btn-sm"
+                                                    id="confirmCIEditCancel">확인</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/* 이슈 수정폼에서 수정 취소 확인 END */-->
+
+                            <!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 START */-->
+                            <div class="modal fade" id="editCICheckingInput" tabindex="-1"
+                                 style="display: none; margin-top: 200px; margin-left: 200px;"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="border-bottom: none;">
+                                            <button type="button" class="modalClose" data-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body" id="editCIConfirmationModalBody">
+                                            <img class="cancelWarning"> <span id="modal-meg"
+                                                                              class="notice_msg">제목을 입력하세요!<br>
+											</span>
+                                        </div>
+                                        <div class="modal-footer" style="border-top: none;">
+                                            <button type="button" class="btn btn-info btn-sm"
+                                                    id="confirmCIEditCheckingInput" style="margin: auto;">확인
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 END */-->
+                        </div>
+                        <!--/* 이슈 수정폼 END */-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/* 이슈 삭제시 경고창 END */-->
+    <script
+            src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script th:inline="javascript">
+        var coCd = [[${session.loginInfo.coCd}]];
+
+        // 파일 사이즈 변환하기
+        function getFileSize(size) {
+            const byteUnits = ["KB", "MB", "GB", "TB"];
+            for (let i = 0; i < byteUnits.length; i++) {
+                size = Math.floor(size / 1024);
+                if (size < 1024) return size.toFixed(1) + byteUnits[i];
+            }
+        };
+            $('.cfs').each(function(idx, item) {
+                $(item).text(getFileSize($(item).text()));
+            });
+
+            $(document).ready(function () {
+                countReplyC(cIssuNo);
+                countFileC(cIssuNo);
+                checkCIFile();
+            });
+
+            function fileDownloading(issuNo, issuFileNo) {
+                location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
+            }
+            const civiewer = toastui.Editor.factory({
+                el: document.querySelector('#civiewer'),
+                viewer: true,
+                height: '600px'
+            });
+
+            civiewer.setMarkdown([[${ issueInfo.issuCntn }]]);
+
+            // 종류
+            var ciKndVal = $('.cIssueKndInfo');
+            var ciStVal = $('.cIssueStInfo');
+            var ciRankVal = $('.cIssueRankInfo');
+
+            if ([[${ issueInfo.issuKnd }]] == '0L1') {
+                ciKndVal.append('<p>종류</p><div class="label label-danger" style="margin-bottom: 15px; ">버그</div>');
+            } else if ([[${ issueInfo.issuKnd }]] == '0L2') {
+                ciKndVal.append('<p>종류</p><div class="label label-warning" style="margin-bottom: 15px; ">개선사항</div>');
+            } else if ([[${ issueInfo.issuKnd }]] == '0L3') {
+                ciKndVal.append('<p>종류</p><div class="label label-info" style="margin-bottom: 15px; ">새기능</div>');
+            } else if ([[${ issueInfo.issuKnd }]] == '0L4') {
+                ciKndVal.append('<p>종류</p><div class="label label-light" style="margin-bottom: 15px; ">업무</div>');
+            }
+            // 상태
+            if ([[${ issueInfo.issuSt }]] == '0E1') {
+                ciStVal.append('<p>상태</p><div class="label label-success" style="margin-bottom: 15px; ">해결</div>');
+            } else if ([[${ issueInfo.issuSt }]] == '0E2') {
+                ciStVal.append('<p>상태</p><div class="label label-dark" style="margin-bottom: 15px; ">미해결</div>');
+            } else if ([[${ issueInfo.issuSt }]] == '0E3') {
+                ciStVal.append('<p>상태</p><div class="label label-secondary" style="margin-bottom: 15px; ">해결불가</div>');
+            }
+
+            if ([[${ issueInfo.issuRank }]] == '0G1') {
+                ciRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">매우높음</div>');
+            } else if ([[${ issueInfo.issuRank }]] == '0G2') {
+                ciRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">높음</div>');
+            } else if ([[${ issueInfo.issuRank }]] == '0G3') {
+                ciRankVal.append('<p>중요도</p><div class="label label-success" style="margin-bottom: 15px; ">보통</div>');
+            } else if ([[${ issueInfo.issuRank }]] == '0G4') {
+                ciRankVal.append('<p>중요도</p><div class="label label-warning" style="margin-bottom: 15px; ">낮음</div>');
+            } else if ([[${ issueInfo.issuRank }]] == '0G5') {
+                ciRankVal.append('<p>중요도</p><div class="label label-danger" style="margin-bottom: 15px; ">매우낮음</div>');
+            }
+
+            $(document).on('click', '.p-t-15c', function () {
+                if ($('.cIssueInfoFileList').css("display") == "none") {
+                    $('.cIssueInfoFileList').css('display', 'block');
+                } else {
+                    $('.cIssueInfoFileList').css('display', 'none');
+                }
+
+                $('.cIssueInfoCommentList').css('display', 'none');
+            });
+
+            $(document).on('click', '.p-t-16c', function () {
+                if ($('.cIssueInfoCommentList').css("display") == "none") {
+                    $('.cIssueInfoCommentList').css('display', 'block');
+                    findAllReplyC();
+                } else {
+                    $('.cIssueInfoCommentList').css('display', 'none');
+                }
+
+                $('.cIssueInfoFileList').css('display', 'none');
+            });
+
+            // 댓글 카운트
+            var cIssuNo = [[${ issueInfo.issuNo }]];
+
+            function countReplyC(issuNo) {
+                $.ajax({
+                    url: '/issues/' + issuNo + '/reply/count',
+                    type: 'get'
+                })
+                    .done(function (response) {
+                        $('#countReplyC').text('(' + response + ')');
+                    })
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+            }
+
+            // 파일 카운트
+            function countFileC(issuNo) {
+                $.ajax({
+                    url: '/issues/' + issuNo + '/files/count',
+                    type: 'get'
+                })
+                    .done(function (response) {
+                        $('#countFileC').text('(' + response + ')');
+                    })
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+            }
+
+            // 댓글 길이 카운팅
+            function countingLengthC(content) {
+                if (content.value.length > 300) {
+                    alert('댓글을 300자 이하로 입력해 주세요.');
+                    content.value = content.value.substring(0, 300);
+                    content.focus();
+                }
+                document.getElementById('counter').innerText = content.value.length + '/300자';
+            }
+
+            // 날짜 변환
+            function dateFormatting(date) {
+
+                let parseDate = new Date(date);
+
+                let year = parseDate.getFullYear();
+                let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+                let day = ('0' + parseDate.getDate()).slice(-2);
+                return year + '-' + month + '-' + day;
+            }
+
+            // 댓글 저장
+            function saveReplyC() {
+                const issueReplyCntn = document.getElementById('cIssueReplyCntn');
+                const issuNo = cIssuNo;
+                const params = {
+                    issuNo: issuNo,
+                    issuRplyCntn: issueReplyCntn.value,
+                    membId: [[${session.loginInfo.membId}]]
+                }
+
+                $.ajax({
+                    url: '/issues/' + issuNo + '/reply',
+                    type: 'post',
+                    contentType: 'application/json;',
+                    data: JSON.stringify(params)
+                })
+                    .done(function (data) {
+                        findAllReplyC();
+                        countReplyC(issuNo);
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                    })
+            }
+
+            // 전체 댓글 조회
+            function findAllReplyC() {
+                const issuNo = cIssuNo;
+
+                $.ajax({
+                    url: '/issues/' + issuNo + '/reply',
+                    type: 'GET'
+                })
+                    .done(function (response) {
+
+                        // 1. 조회된 데이터가 없는 경우
+                        if (!response.length) {
+                            document.querySelector('.cIssueReviews').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                            return false;
+                        }
+
+                        // 2. 렌더링 할 HTML을 저장할 변수
+                        let commentHtml = '';
+
+                        // 3. 댓글 HTML 추가
+                        response.forEach(row => {
+                            commentHtml += `
+                                        <div class="cIssueReviews">
+                                        <div class="issue__reply__itemC">
+                                            <div class="issue__reply__itemC__pic">
+                                                <img src="/images/users/2.jpg" alt="">
+                                            </div>
+                                            <div class="issue__reply__itemC__text">
+                                                <h6>${row.membId} - <span>${dateFormatting(row.issuRplyDt)}</span>
+                                                <a id="edit_btn" onclick="openReplyCUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
+                                                    src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png"
+                                                    style="margin-left: 345px; ">
+                                                    수정
+                                                </a>
+                                                <a id="del_btn" onclick="deleteReplyC(${row.issuRplyNo});"> <img class="toolsIcon"
+                                                    src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_delete.png">
+                                                    삭제
+                                                </a>
+
+                                                </h6>
+
+                                                <div id="IssueReplyCEditForm_${row.issuRplyNo}" style="display: none;">
+                                                        <textarea id="updateReplyCommentC_${row.issuRplyNo}" class="replyC_edit_text_area" maxlength="300" rows="2"
+                                                            cols="30" placeholder="수정할 내용을 입력"></textarea>
+                                                        <button type="button" class="button condensed save" id="replyCUpdateBtn" onclick="updateReplyC(${row.issuRplyNo})">저장</button>
+                                                        <button type="button" class="button condensed cancel"
+                                                            onclick="closeReplyCUpdateForm(${row.issuRplyNo});">취소</button>
+                                                </div>
+
+
+                                                <p id="replyCText_${row.issuRplyNo}">${row.issuRplyCntn}</p>
+                                            </div>
+                                        </div>
+                                    `;
+
+                            // 4. class가 "IssueReviews"인 요소를 찾아 HTML을 렌더링
+                            document.querySelector('.cIssueReviews').innerHTML = commentHtml;
+
+                        })
+                        countReplyC(issuNo);
+                    })
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+            }
+
+            // 댓글 수정 div open
+            function openReplyCUpdateForm(id) {
+
+                const issuNo = cIssuNo;
+                const issuRplyNo = id;
+                $.ajax({
+                    url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+                    type: 'get'
+                })
+                    .done(function (response) {
+                        var editForm = document.getElementById('IssueReplyCEditForm_' + id);
+                        var replyText = document.getElementById('replyCText_' + id);
+
+                        if (editForm.style.display === 'none') {
+                            editForm.style.display = 'block';
+                            replyText.style.display = 'none';
+                        } else {
+                            editForm.style.display = 'none';
+                            replyText.style.display = 'block';
+                        }
+                        document.getElementById('updateReplyCommentC_' + id).value = response.issuRplyCntn;
+
+                    })
+
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+
+            }
+
+            // 댓글 수정 div close
+            function closeReplyCUpdateForm(id) {
+                document.getElementById('updateReplyCommentC_' + id).value = '';
+                document.getElementById('replyCUpdateBtn').removeAttribute('onclick');
+
+                document.getElementById('IssueReplyCEditForm_' + id).style.display = 'none';
+                document.getElementById('replyCText_' + id).style.display = 'block';
+            }
+
+            // 댓글 수정 ajax
+            function updateReplyC(id) {
+                const issuNo = cIssuNo;
+                const issuRplyNo = id;
+                const writer = [[${session.loginInfo.membId}]];
+                const content = document.getElementById('updateReplyCommentC_' + id);
+
+                const params = {
+                    issuRplyNo: id,
+                    issuNo: issuNo,
+                    issuRplyCntn: content.value,
+                    membId: writer
+                }
+
+                $.ajax({
+                    url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+                    type: 'put',
+                    contentType: 'application/json;',
+                    data: JSON.stringify(params)
+                })
+                    .done(function (response) {
+                        alert('수정되었습니다.');
+                        findAllReplyC();
+                        closeReplyCUpdateForm(id);
+                        countReplyC(issuNo);
+                    })
+
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+            }
+
+            // 댓글 삭제
+            function deleteReplyC(id) {
+
+                if (confirm('선택하신 댓글을 삭제할까요?')) {
+
+                    const issuNo = cIssuNo;
+                    const issuRplyNo = id;
+
+                    $.ajax({
+                        url: '/issues/' + issuNo + '/reply/' + issuRplyNo,
+                        type: 'delete'
+                    })
+                        .done(function (response) {
+                            alert('삭제가 완료되었습니다');
+                            findAllReplyC();
+                            countReplyC(issuNo);
+                        })
+
+                        .fail(function (err) {
+                            console.log(err)
+                        })
+                }
+            }
+            // 프로젝트 이슈 게시판으로 돌아가기
+            function returnCIssueList() {
+                location.href = '/company/issues/' + coCd;
+            }
+
+            // 프로젝트 게시판에서 이슈 삭제
+            function deleteCIssue() {
+                var issuNo = cIssuNo;
+                // 경고창
+                $('#delCConfirmationModal').modal('show');
+
+                $('#delCCancel').on('click', function () {
+                    $('#delCConfirmationModal').modal('hide');
+                })
+
+                $('#delCConfirm').on('click', function () {
+                    $.ajax({
+                        url: '/company/issues/del',
+                        type: 'post',
+                        data: { issuNo: issuNo } // 데이터를 객체 형식으로 전달
+                    })
+                        .done(function (response) {
+                            $('#delCConfirmationModal').modal('hide');
+                            location.href = '/company/issues/' + coCd;
+                        })
+                        .fail(function (err) {
+                            console.log(err)
+                        })
+                })
+            }
+            // 업로드 된 파일이 없을 경우 ..
+            function checkCIFile() {
+                if ($('#cIssueInfoFiles tr').length == 0) {
+                    var trTag = $('<tr/>').attr('class', 'fileEmpty');
+                    var fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+                    var emptyTdTag = $('<td/>');
+                    var emptyTdTags = $('<td/>');
+                    trTag.append(fileEmptyTag);
+                    trTag.append(emptyTdTag);
+                    trTag.append(emptyTdTags);
+                    $('#cIssueInfoFiles').append(trTag);
+                };
+            };
+
+            // 업로드 된 파일이 없을 경우 ..
+            function checkCIEditFile() {
+                if ($('#editCIssueFileList tr').length == 0) {
+                    var trTag = $('<tr/>').attr('class', 'fileEmpty');
+                    var fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+                    var emptyTdTag = $('<td/>');
+                    var emptyTdTags = $('<td/>');
+                    trTag.append(fileEmptyTag);
+                    trTag.append(emptyTdTag);
+                    trTag.append(emptyTdTags);
+                    $('#editCIssueFileList').append(trTag);
+                };
+            };
+
+          // 드랍다운
+            $('.dropdown-item').on('click', function () {
+                $(this).parent().siblings().attr('class', $(this).children().attr('class'));
+                $(this).parent().siblings().text($(this).text());
+                checkCIEditInput();
+            });
+            <!-- 프로젝트 게시판 내 이슈 수정 시작 -->
+            const editorCIEditing = new toastui.Editor({
+                el: document.querySelector('#editorCIEditing'), // 에디터를 적용할 요소 (컨테이너)
+                height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+                initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+                initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+                previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+            });
+
+            // 이슈 수정 폼
+            function switchCIEditForm() {
+
+                const issuNo = cIssuNo;
+
+                $.ajax({
+                    url: '/ModalIssueInfo?issuNo=' + issuNo,
+                    type: 'get'
+                })
+                    .done(function (response) {
+                        var issueEditForm = $('#ciEditModal');
+                            issueEditForm.modal('show');
+                        var kndVal = document.getElementById('editCIssuKndVal');
+                        var stVal = document.getElementById('editCIssuStVal');
+                        var rankVal = document.getElementById('editCIssuRankVal');
+
+                            document.getElementById('editCIssuTtlVal').value = response.issueInfo.issuTtl;
+                            editorCIEditing.setHTML(response.issueInfo.issuCntn);
+
+                            if (response.issueInfo.issuKnd == '0L1') {
+                                kndVal.className = 'badge badge-danger';
+                                kndVal.innerHTML = '버그';
+                            } else if (response.issueInfo.issuKnd == '0L2') {
+                                kndVal.className = 'badge badge-warning';
+                                kndVal.innerHTML = '개선사항';
+                            } else if (response.issueInfo.issuKnd == '0L3') {
+                                kndVal.className = 'badge badge-info';
+                                kndVal.innerHTML = '새기능';
+                            } else if (response.issueInfo.issuKnd == '0L4') {
+                                kndVal.className = 'badge badge-light';
+                                kndVal.innerHTML = '업무';
+                            }
+
+                            if (response.issueInfo.issuSt == '0E1') {
+                                stVal.className = 'badge badge-pill badge-success';
+                                stVal.innerHTML = '해결';
+                            } else if (response.issueInfo.issuSt == '0E2') {
+                                stVal.className = 'badge badge-pill badge-dark';
+                                stVal.innerHTML = '미해결';
+                            } else if (response.issueInfo.issuSt == '0E3') {
+                                stVal.className = 'badge badge-pill badge-secondary';
+                                stVal.innerHTML = '해결불가';
+                            }
+
+                            if (response.issueInfo.issuRank == '0G1') {
+                                rankVal.className = 'badge badge-primary';
+                                rankVal.innerHTML = '매우높음';
+                            } else if (response.issueInfo.issuRank == '0G2') {
+                                rankVal.className = 'badge badge-secondary';
+                                rankVal.innerHTML = '높음';
+                            } else if (response.issueInfo.issuRank == '0G3') {
+                                rankVal.className = 'badge badge-success';
+                                rankVal.innerHTML = '보통';
+                            } else if (response.issueInfo.issuRank == '0G4') {
+                                rankVal.className = 'badge badge-warning';
+                                rankVal.innerHTML = '낮음';
+                            } else if (response.issueInfo.issuRank == '0G5') {
+                                rankVal.className = 'badge badge-danger';
+                                rankVal.innerHTML = '매우낮음';
+                            }
+
+                            checkCIEditInput();
+                            findAllCIFile();
+                    })
+
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+            }
+            // 이슈 수정 창에서 파일 리스트 조회
+            function findAllCIFile() {
+                var issuNo = cIssuNo;
+                $('#editCIssueFileList').empty();
+                $.ajax({
+                    url: '/issues/' + issuNo + '/files',
+                    type: 'get'
+                })
+                    .done(function (response) {
+                        $.each(response, function (idx, item) {
+
+                            var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
+                            var fileNameTag = $('<td/>').text(item.issuFileNm);
+                            var fileSizeTag = $('<td/>').text(getFileSize(item.issuFileSize));
+                            var deleteFileTag = $('<td/>').attr('class', 'deleteCIEditFile').attr('onclick', 'removeCIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
+
+                            trTag.append(fileNameTag);
+                            trTag.append(fileSizeTag);
+                            trTag.append(deleteFileTag);
+
+                            $('#editCIssueFileList').append(trTag);
+                            checkCIEditFile();
+                        })
+                    })
+                    .fail(function (err) {
+                        console.log(err);
+                    })
+            }
+            // "수정" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
+            function checkCIEditInput() {
+                var issuTtlVal = $('#editCIssuTtlVal').val();
+
+                if (issuTtlVal == '') {
+                    $('.completeCIEditing').removeClass('registrable');
+                } else {
+                    $('.completeCIEditing').addClass('registrable');
+                }
+            }
+
+            $('#editCIssuTtlVal').on('change', function () {
+                checkCIEditInput();
+            });
+
+
+
+            // 이슈 수정하기 취소 버튼
+            $('.modalCIssueEditForm').on('click', '.cancelCIEditing', function () {
+                $('#cancelCIEditConfirmationModal').modal('show');
+
+                // ' 확인' 버튼이 클릭 시
+                $('#confirmCIEditCancel').on('click', function () {
+                    // 입력 필드 초기화
+
+                    $('#editCIssuTtlVal').val('');
+                    editorCIEditing.setHTML('');
+                    editCIDataTransfer.clearData();
+                    $('#cancelCIEditConfirmationModal').modal('hide');
+                    $('#ciEditModal').modal('hide');
+
+                });
+
+                // '취소' 버튼 클릭 시
+                $('#cancelCIEditCancel').on('click', function () {
+                    $('#cancelCIEditConfirmationModal').modal('hide');
+                });
+            });
+
+            $('.completeCIEditing').on('click', function () {
+                // "수정" 버튼이 활성화 상태일 때만 실행됨
+                if ($(this).hasClass('registrable')) {
+                    updateCIssue();
+                } else {
+                    $('#editCICheckingInput').css('display', 'block');
+                    // 확인 버튼 클릭 시
+                    $('#confirmCIEditCheckingInput').on('click', function () {
+                        $('#editCICheckingInput').css('display', 'none');
+                    });
+                }
+            });
+
+            // ajax 프로젝트 게시판 내에서 이슈 수정
+            function updateCIssue() {
+                var formData = new FormData();
+
+                var issuNo = cIssuNo;
+                formData.append('issuNo', issuNo);
+
+                var title = $('#editCIssuTtlVal').val();
+                formData.append('issuTtl', title);
+
+                var content = editorCIEditing.getHTML();
+                formData.append('issuCntn', content);
+
+                var kind = $('#editCIssuKndVal').text();
+                var rank = $('#editCIssuRankVal').text();
+                var status = $('#editCIssuStVal').text();
+
+                // 중요도 text 값 확인 후 data로 넣기 !
+                if (rank == '매우높음') {
+                    rank = '0G1';
+                } else if (rank == '높음') {
+                    rank = '0G2';
+                } else if (rank == '보통') {
+                    rank = '0G3';
+                } else if (rank == '낮음') {
+                    rank = '0G4';
+                } else if (rank == '매우낮음') {
+                    rank = '0G5';
+                }
+                // 종류 text 값 확인 후 data로 넣기 !
+                if (kind == '버그') {
+                    kind = '0L1';
+                } else if (kind == '개선사항') {
+                    kind = '0L2';
+                } else if (kind == '새기능') {
+                    kind = '0L3';
+                } else if (kind == '업무') {
+                    kind = '0L4';
+                }
+
+                // 상태 text 값 확인 후 data로 넣기 !
+                if (status == '해결') {
+                    status = '0E1';
+                } else if (status == '미해결') {
+                    status = '0E2';
+                } else if (status == '해결불가') {
+                    status = '0E3';
+                }
+                formData.append('issuRank', rank);
+                formData.append('issuKnd', kind);
+                formData.append('issuSt', status);
+
+                var inputFiles = document.querySelector('.editCIReal-upload');
+                var filesInfo = inputFiles.files;
+
+                for (i = 0; i < filesInfo.length; i++) {
+                    formData.append("editFiles", filesInfo[i]);
+                }
+                formData.append('removeFileIds', removeCIFileId.getAll().join());
+
+                $.ajax({
+                    url: '/ModalIssueUpdate',
+                    type: 'post',
+                    processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+                    contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+                    data: formData
+                })
+                    .done(function (response) {
+                        alert('수정되었습니다');
+                        $('#ciEditModal').modal('hide');
+                        removeCIFileId.removeAll();
+                        editCIDataTransfer.clearData();
+                        location.reload();
+                    })
+                    .fail(function (err) {
+                        console.log(err)
+                    })
+            }
+
+            // 수정 폼에서 파일 추가
+            const editCIRealUpload = document.querySelector('.editCIReal-upload');
+            const editCIUpload = document.querySelector('.editingCILoadBtn.upload');
+            editCIUpload.addEventListener('click', () => editCIRealUpload.click());
+
+            function addCIssueFile(element) {
+                if($('.fileEmpty')){
+                    $('.fileEmpty').remove()
+                };
+                const file = element.files[0];
+
+                // 1. 파일 선택 창에서 취소 버튼이 클릭 되는 경우
+                if (!file) {
+                    return false;
+                }
+                // 2. 파일 크기가 10MB을 초과하는 경우
+                const editFileSize = Math.floor(file.size / 1024 / 1024);
+                if (editFileSize > 10) {
+                    alert('10MB 이하의 파일로 업로드해 주세요.');
+                    return false;
+                }
+
+                if (file) {
+                    var trTag = $('<tr/>').addClass('added');
+                    var fileNameTag = $('<td/>').text(file.name);
+                    var fileSizeTag = $('<td/>').text(getFileSize(file.size));
+                    var deleteFileTag = $('<td/>').attr('class', 'deleteCIEditFile').attr('onclick', 'editRemoveCIFile(this);');
+
+                    trTag.append(fileNameTag);
+                    trTag.append(fileSizeTag);
+                    trTag.append(deleteFileTag);
+
+                    $('#editCIssueFileList').append(trTag);
+                }
+            }
+
+            const editCIDataTransfer = new DataTransfer();
+
+            $("#editCIFiles").change(function () {
+                let fileArr = document.getElementById("editCIFiles").files
+
+                if (fileArr != null && fileArr.length > 0) {
+                    // DataTransfer 파일 관리 //
+                    for (var i = 0; i < fileArr.length; i++) {
+                        editCIDataTransfer.items.add(fileArr[i])
+                        console.log("dataTransfer =>", editCIDataTransfer.files)
+                        console.log("input FIles =>", document.getElementById("editCIFiles").files)
+                    }
+                    document.getElementById('editCIFiles').files = editCIDataTransfer.files;
+                }
+            })
+            // 수정 폼에서 새롭게 추가된 파일 삭제 시
+            function removeEditCIFileFromDataTransfer(element) {
+                var addedFiles = $(".added");
+                var index = addedFiles.index($(element).parent());
+                console.log(index + "입니다");
+                if (index != -1) {
+                    editCIDataTransfer.items.remove(index);
+                    document.getElementById("editCIFiles").files = editCIDataTransfer.files;
+
+                }
+            }
+            // 수정 폼에서 새롭게 추가된 파일 삭제 시
+            function editRemoveCIFile(element) {
+                removeEditCIFileFromDataTransfer(element);
+                var tr = $(element).closest('tr');
+                tr.remove();
+                checkCIEditFile();
+            }
+
+            // 파일 삭제 처리용 익명 함수
+            const removeCIFileId = (function () {
+                const ids = [];
+                return {
+                    add(id) {
+                        if (ids.includes(id)) {
+                            return false;
+                        }
+                        ids.push(id);
+                    },
+                    getAll() {
+                        return ids;
+                    },
+                    removeAll() {
+                        ids.length = 0;
+                    }
+                }
+            }());
+
+            // 수정 폼 기존 파일 삭제
+            function removeCIExistingFile(element, id) {
+                // 1. 삭제할 파일 id 추가
+                if (id) {
+                    removeCIFileId.add(id);
+                }
+                // 2. 파일 영역 삭제
+                var tr = $(element).closest('tr');
+                tr.remove();
+                checkCIEditFile();
+            }
+    </script>
+</th:block>
+</html>

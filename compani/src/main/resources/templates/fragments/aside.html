@@ -23,8 +23,8 @@
 						class="nav-text">회사</span>
 				</a>
 					<ul aria-expanded="false">
-						<li><a href="companyProject.html">회사 프로젝트 게시판</a></li>
-						<li><a href="companyIssue.html">회사 이슈 게시판</a></li>
+						<li><a href="">회사 프로젝트 게시판</a></li>
+						<li><a th:href="@{/company/issues/{coCd}(coCd=${session.loginInfo.coCd})}">회사 이슈 게시판</a></li>
 					</ul></li>
 				<li><a href="support.html" aria-expanded="false"><span
 						class="icon-support"> 고객센터</span> </a></li>

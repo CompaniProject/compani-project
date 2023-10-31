@@ -336,7 +336,15 @@
 				e.stopPropagation();
 
 			});
-			
+			function dateFormatting(date) {
+
+			let parseDate = new Date(date);
+
+			let year = parseDate.getFullYear();
+			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+			let day = ('0' + parseDate.getDate()).slice(-2);
+			return year + '-' + month + '-' + day;
+		  }
 			// ajax 
 			function projectIssuePaging(pageNum) {
 				
