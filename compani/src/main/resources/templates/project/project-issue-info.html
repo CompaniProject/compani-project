@@ -9,8 +9,7 @@
 		<div class="pIssueInfoContent">
 			<div class="pIssueInfoContentTopBar">
 				<span class="returnPIssueList" onclick="returnPIssueList()"></span>
-				<button type="button" class="pIssueEditing"
-					onclick="switchEditForm()">수정</button>
+				<button type="button" class="pIssueEditing" onclick="switchPIEditForm()">수정</button>
 				<button type="button" class="pIssueDeleting"
 					onclick="deletePIssue()">삭제</button>
 			</div>
@@ -119,6 +118,221 @@
 			</div>
 		</div>
 	</div>
+	
+	<!--/* 수정폼 모달 START */-->
+	<div class="modal fade" id="piEditModal" tabindex="-1"
+		aria-labelledby="sidebarModalLabel" aria-hidden="true"
+		style="overflow: auto;">
+		<div class="modal-dialog">
+			<div class="modal-content"
+				style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
+				<!--/* 모달 헤더 부분 */-->
+				<div class="modal-header">
+					<div class="ContentTitleBox">
+						<div class="ContentImg"
+							style="background-image: url(/images/tab_issue.png);"></div>
+						<p class="ContentText">이슈 수정하기</p>
+					</div>
+					<button type="button" class="modalClose" data-dismiss="modal"></button>
+				</div>
+				<div class="modal-content-container">
+				
+				
+					<!--/* 이슈 수정 폼 START */-->
+					<div class="modal-body">
+						<div class="modalPIssueEditForm">
+
+							<div class="modalPIEditContent">
+								<div class="pIssueEditContentTopBar">
+									<span class="cancelPIEditing"></span>
+									<button type="button" class="completePIEditing">수정</button>
+								</div>
+							</div>
+							<div class="editPIssueName">
+								<div class="editPIssueNameBack">
+									<textarea class="modalPIssueNameEdit" id="editPIssuTtlVal"
+										maxlength="200" style="height: 34px;"></textarea>
+								</div>
+							</div>
+							<hr
+								style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+								
+							<!--/* 이슈 종류, 상태, 중요도 START */-->
+							<div class="editPIssueKnd">
+								<p>종류</p>
+								<div class="dropBoxAreaPI">
+									<div class="basic-dropdown" style="display: inline;">
+										<div class="dropdown">
+											<button type="button" id="editPIssuKndVal"
+												class="badge badge-dark" data-toggle="dropdown"></button>
+											<div class="dropdown-menu" style="cursor: pointer;">
+												<a class="dropdown-item"><span
+													class="badge badge-pill badge-warning">개선사항</span></a> <a
+													class="dropdown-item"><span
+													class="badge badge-pill badge-info">새기능</span></a> <a
+													class="dropdown-item"><span
+													class="badge badge-pill badge-light">업무</span></a> <a
+													class="dropdown-item"><span
+													class="badge badge-pill badge-danger">버그</span></a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="editPIssueSt">
+									<p>상태</p>
+									<div class="dropBoxAreaPI">
+										<div class="basic-dropdown" style="display: inline;">
+											<div class="dropdown">
+												<button type="button" id="editPIssuStVal"
+													class="badge badge-dark" data-toggle="dropdown"></button>
+												<div class="dropdown-menu" style="cursor: pointer;">
+													<a class="dropdown-item"><span
+														class="badge badge-pill badge-warning">해결</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-pill badge-info">미해결</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-pill badge-light">해결불가</span></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="editPIssueRank">
+									<p>중요도</p>
+									<div class="dropBoxAreaPI">
+										<div class="basic-dropdown">
+											<div class="dropdown">
+												<button type="button" class="badge badge-dark"
+													data-toggle="dropdown" id="editPIssuRankVal"></button>
+												<div class="dropdown-menu" style="cursor: pointer;">
+													<a class="dropdown-item"><span
+														class="badge badge-primary">매우높음</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-secondary">높음</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-success">보통</span></a> <a
+														class="dropdown-item"><span
+														class="badge badge-warning">낮음</span></a> <a
+														class="dropdown-item"><span class="badge badge-danger">매우낮음</span></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 이슈 종류, 중요도, 상태 END */-->
+							<div class="editingPIContent">
+								<div class="editingPISection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">내용</p>
+									</div>
+
+									<div id="editorPIEditing" style="width: 630px;"></div>
+
+								</div>
+
+								<div class="editingPIAttachSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">파일</p>
+										<div class="editingPILoadBtn upload">
+											<span></span>
+											<p>파일 업로드</p>
+											<input type="file" class="editPIReal-upload" id="editPIFiles"
+												name="editPIFiles" multiple onchange="addPIssueFile(this);"
+												style="display: none;">
+										</div>
+									</div>
+									<div class="piFileUpload dz">
+										<div class="dz-message" style="width: 630px;">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>파일명</th>
+														<th>크기</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody id="editPIssueFileList">
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div class="editPIHashtagSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">해시태그</p>
+									</div>
+									<div class="editPIHashtagContent" style="width: 630px;">
+										<div class="editPIHashtagList">
+											<div class="editPITagBox task" title="업무">
+												<p>#</p>
+												<span class="Ready"></span>
+												<p class="editPITextEllipsis">업무</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
+							<div class="modal fade" id="cancelPIEditConfirmationModal"
+								tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header" style="border-bottom: none;">
+											<button type="button" class="modalClose" data-dismiss="modal"></button>
+										</div>
+										<div class="modal-body" id="cancelPIEditConfirmationModalBody">
+											<img class="cancelWarning"> <span id="modal-meg"
+												class="notice_msg"> 현재 수정중인 글은 저장되지 않습니다.<br> 뒤로
+												가시겠습니까?
+											</span>
+										</div>
+										<div class="modal-footer" style="border-top: none;">
+											<button type="button" class="btn btn-danger btn-sm"
+												id="cancelPIEditCancel">취소</button>
+											<button type="button" class="btn btn-light btn-sm"
+												id="confirmPIEditCancel">확인</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 이슈 수정폼에서 수정 취소 확인 END */-->
+
+							<!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 START */-->
+							<div class="modal fade" id="editPICheckingInput" tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header" style="border-bottom: none;">
+											<button type="button" class="modalClose" data-dismiss="modal"></button>
+										</div>
+										<div class="modal-body" id="editPIConfirmationModalBody">
+											<img class="cancelWarning"> <span id="modal-meg"
+												class="notice_msg">제목 을 입력하세요!<br>
+											</span>
+										</div>
+										<div class="modal-footer" style="border-top: none;">
+											<button type="button" class="btn btn-info btn-sm"
+												id="confirmPIEditCheckingInput" style="margin: auto;">확인
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 END */-->
+						</div>
+						<!--/* 이슈 수정폼 END */-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--/* 이슈 삭제시 경고창 END */-->
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -141,6 +355,7 @@
 		$(document).ready(function () {
 			countReplyP(pIssuNo);
 			countFileP(pIssuNo);
+			checkPIFile();
 		});
 
 		const piviewer = toastui.Editor.factory({
@@ -432,14 +647,6 @@
 		}
 		// 프로젝트 이슈 게시판으로 돌아가기
 		function returnPIssueList() {
-			// 입력 필드 초기화
-/* 			$('#issuReplyCntn').val('');
-			$('#updateReplyComment').val('');
-			$('#issueInfoFiles').empty();
-			$('.modalIssueInfoForm').css('display', 'none');
-			$('.workModalContentBack').css('display', 'block');
-			$('.issueInfoFileList').css('display', 'none');
-			$('.issueInfoCommentList').css('display', 'none'); */
 			location.href = '/project/issues/1';
 		}
 		
@@ -467,7 +674,372 @@
 						console.log(err)
 					})
 			})
-		}		
+		}
+		// 업로드 된 파일이 없을 경우 ..
+		function checkPIFile() {
+			if ($('#pIssueInfoFiles tr').length == 0) {
+				var trTag = $('<tr/>').attr('class', 'fileEmpty');
+				var fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+				var emptyTdTag = $('<td/>');
+				var emptyTdTags = $('<td/>');
+				trTag.append(fileEmptyTag);
+				trTag.append(emptyTdTag);
+				trTag.append(emptyTdTags);
+				$('#pIssueInfoFiles').append(trTag);
+			};
+		};
+		
+		// 업로드 된 파일이 없을 경우 ..
+		function checkPIEditFile() {
+			if ($('#editPIssueFileList tr').length == 0) {
+				var trTag = $('<tr/>').attr('class', 'fileEmpty');
+				var fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+				var emptyTdTag = $('<td/>');
+				var emptyTdTags = $('<td/>');
+				trTag.append(fileEmptyTag);
+				trTag.append(emptyTdTag);
+				trTag.append(emptyTdTags);
+				$('#editPIssueFileList').append(trTag);
+			};
+		};
+		<!-- 프로젝트 게시판 내 이슈 수정 시작 -->
+		const editorPIEditing = new toastui.Editor({
+			el: document.querySelector('#editorPIEditing'), // 에디터를 적용할 요소 (컨테이너)
+			height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+		});
+		
+		// 이슈 수정 폼
+		function switchPIEditForm() {
+
+			const issuNo = pIssuNo;
+
+			$.ajax({
+				url: '/ModalIssueInfo?issuNo=' + issuNo,
+				type: 'get'
+			})
+				.done(function (response) {
+					var issueEditForm = $('#piEditModal');
+						issueEditForm.modal('show');
+					var kndVal = document.getElementById('editPIssuKndVal');
+					var stVal = document.getElementById('editPIssuStVal');
+					var rankVal = document.getElementById('editPIssuRankVal');
+
+						document.getElementById('editPIssuTtlVal').value = response.issueInfo.issuTtl;
+						editorPIEditing.setHTML(response.issueInfo.issuCntn);
+						
+						if (response.issueInfo.issuKnd == '0L1') {
+							kndVal.className = 'badge badge-danger';
+							kndVal.innerHTML = '버그';
+						} else if (response.issueInfo.issuKnd == '0L2') {
+							kndVal.className = 'badge badge-warning';
+							kndVal.innerHTML = '개선사항';
+						} else if (response.issueInfo.issuKnd == '0L3') {
+							kndVal.className = 'badge badge-info';
+							kndVal.innerHTML = '새기능';
+						} else if (response.issueInfo.issuKnd == '0L4') {
+							kndVal.className = 'badge badge-light';
+							kndVal.innerHTML = '업무';
+						}
+
+						if (response.issueInfo.issuSt == '0E1') {
+							stVal.className = 'badge badge-pill badge-success';
+							stVal.innerHTML = '해결';
+						} else if (response.issueInfo.issuSt == '0E2') {
+							stVal.className = 'badge badge-pill badge-dark';
+							stVal.innerHTML = '미해결';
+						} else if (response.issueInfo.issuSt == '0E3') {
+							stVal.className = 'badge badge-pill badge-secondary';
+							stVal.innerHTML = '해결불가';
+						}
+
+						if (response.issueInfo.issuRank == '0G1') {
+							rankVal.className = 'badge badge-primary';
+							rankVal.innerHTML = '매우높음';
+						} else if (response.issueInfo.issuRank == '0G2') {
+							rankVal.className = 'badge badge-secondary';
+							rankVal.innerHTML = '높음';
+						} else if (response.issueInfo.issuRank == '0G3') {
+							rankVal.className = 'badge badge-success';
+							rankVal.innerHTML = '보통';
+						} else if (response.issueInfo.issuRank == '0G4') {
+							rankVal.className = 'badge badge-warning';
+							rankVal.innerHTML = '낮음';
+						} else if (response.issueInfo.issuRank == '0G5') {
+							rankVal.className = 'badge badge-danger';
+							rankVal.innerHTML = '매우낮음';
+						}
+
+						checkPIEditInput();
+						findAllPIFile();
+				})
+
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+		// 이슈 수정 창에서 파일 리스트 조회
+		function findAllPIFile() {
+			var issuNo = pIssuNo;
+			$('#editPIssueFileList').empty();
+			$.ajax({
+				url: '/issues/' + issuNo + '/files',
+				type: 'get'
+			})
+				.done(function (response) {
+					$.each(response, function (idx, item) {
+
+						var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
+						var fileNameTag = $('<td/>').text(item.issuFileNm);
+						var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
+						var deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'removePIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
+
+						trTag.append(fileNameTag);
+						trTag.append(fileSizeTag);
+						trTag.append(deleteFileTag);
+
+						$('#editPIssueFileList').append(trTag);
+						checkPIEditFile();
+
+					})
+				})
+				.fail(function (err) {
+					console.log(err);
+				})
+		}
+		// "수정" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
+		function checkPIEditInput() {
+			var issuTtlVal = $('#editPIssuTtlVal').val();
+
+			if (issuTtlVal == '') {
+				$('.completePIEditing').removeClass('registrable');
+			} else {
+				$('.completePIEditing').addClass('registrable');
+			}
+		}
+
+		$('#editPIssuTtlVal').on('change', function () {
+			checkPIEditInput();
+		});		
+		
+		
+		
+		// 이슈 수정하기 취소 버튼
+		$('.modalPIssueEditForm').on('click', '.cancelPIEditing', function () {
+			$('#cancelPIEditConfirmationModal').modal('show');
+
+			// ' 확인' 버튼이 클릭 시
+			$('#confirmPIEditCancel').on('click', function () {
+				// 입력 필드 초기화
+				
+				$('#editPIssuTtlVal').val('');
+				editorPIEditing.setHTML('');
+		        editPIDataTransfer.clearData();
+				$('#cancelPIEditConfirmationModal').modal('hide');
+				$('#piEditModal').modal('hide');
+
+			});
+
+			// '취소' 버튼 클릭 시
+			$('#cancelPIEditCancel').on('click', function () {
+				$('#cancelPIEditConfirmationModal').modal('hide');
+			});
+		});
+		
+		$('.completePIEditing').on('click', function () {
+			// "수정" 버튼이 활성화 상태일 때만 실행됨
+			if ($(this).hasClass('registrable')) {
+				updatePIssue();
+			} else {
+				$('#editPICheckingInput').css('display', 'block');
+				// 확인 버튼 클릭 시
+				$('#confirmPIEditCheckingInput').on('click', function () {
+					$('#editPICheckingInput').css('display', 'none');
+				});
+			}
+		});
+		
+		// ajax 프로젝트 게시판 내에서 이슈 수정
+		function updatePIssue() {
+			var formData = new FormData();
+
+			var issuNo = pIssuNo;
+			formData.append('issuNo', issuNo);
+
+			var title = $('#editPIssuTtlVal').val();
+			formData.append('issuTtl', title);
+
+			var content = editorPIEditing.getHTML();
+			formData.append('issuCntn', content);
+
+			var kind = $('#editPIssuKndVal').text();
+			var rank = $('#editPIssuRankVal').text();
+			var status = $('#editPIssuStVal').text();
+
+			// 중요도 text 값 확인 후 data로 넣기 !
+			if (rank == '매우높음') {
+				rank = '0G1';
+			} else if (rank == '높음') {
+				rank = '0G2';
+			} else if (rank == '보통') {
+				rank = '0G3';
+			} else if (rank == '낮음') {
+				rank = '0G4';
+			} else if (rank == '매우낮음') {
+				rank = '0G5';
+			}
+			// 종류 text 값 확인 후 data로 넣기 !
+			if (kind == '버그') {
+				kind = '0L1';
+			} else if (kind == '개선사항') {
+				kind = '0L2';
+			} else if (kind == '새기능') {
+				kind = '0L3';
+			} else if (kind == '업무') {
+				kind = '0L4';
+			}
+
+			// 상태 text 값 확인 후 data로 넣기 !
+			if (status == '해결') {
+				status = '0E1';
+			} else if (status == '미해결') {
+				status = '0E2';
+			} else if (status == '해결불가') {
+				status = '0E3';
+			}
+			formData.append('issuRank', rank);
+			formData.append('issuKnd', kind);
+			formData.append('issuSt', status);
+
+			var inputFiles = document.querySelector('.editPIReal-upload');
+			var filesInfo = inputFiles.files;
+
+			for (i = 0; i < filesInfo.length; i++) {
+				formData.append("editFiles", filesInfo[i]);
+			}
+			formData.append('removeFileIds', removePIFileId.getAll().join());
+			
+			$.ajax({
+				url: '/ModalIssueUpdate',
+				type: 'post',
+				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+				contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+				data: formData
+			})
+				.done(function (response) {
+					alert('수정되었습니다');
+					$('#piEditModal').modal('hide');
+					removePIFileId.removeAll();
+					editPIDataTransfer.clearData();
+					location.reload();
+				})
+				.fail(function (err) {
+					console.log(err)
+				})
+		}
+		
+		// 수정 폼에서 파일 추가
+		const editPIRealUpload = document.querySelector('.editPIReal-upload');
+		const editPIUpload = document.querySelector('.editingPILoadBtn.upload');
+		editPIUpload.addEventListener('click', () => editPIRealUpload.click());
+
+		function addPIssueFile(element) {
+			if($('.fileEmpty')){
+				$('.fileEmpty').remove()
+			};
+			const file = element.files[0];
+
+			// 1. 파일 선택 창에서 취소 버튼이 클릭 되는 경우
+			if (!file) {
+				return false;
+			}
+			// 2. 파일 크기가 10MB을 초과하는 경우
+			const editFileSize = Math.floor(file.size / 1024 / 1024);
+			if (editFileSize > 10) {
+				alert('10MB 이하의 파일로 업로드해 주세요.');
+				return false;
+			}
+
+			if (file) {
+				var trTag = $('<tr/>').addClass('added');
+				var fileNameTag = $('<td/>').text(file.name);
+				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
+				var deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'editRemovePIFile(this);');
+
+				trTag.append(fileNameTag);
+				trTag.append(fileSizeTag);
+				trTag.append(deleteFileTag);
+
+				$('#editPIssueFileList').append(trTag);
+			}
+		}
+
+		const editPIDataTransfer = new DataTransfer();
+
+		$("#editPIFiles").change(function () {
+			let fileArr = document.getElementById("editPIFiles").files
+
+			if (fileArr != null && fileArr.length > 0) {
+				// DataTransfer 파일 관리 //
+				for (var i = 0; i < fileArr.length; i++) {
+					editPIDataTransfer.items.add(fileArr[i])
+					console.log("dataTransfer =>", editPIDataTransfer.files)
+					console.log("input FIles =>", document.getElementById("editPIFiles").files)
+				}
+				document.getElementById('editPIFiles').files = editPIDataTransfer.files;
+			}
+		})
+		// 수정 폼에서 새롭게 추가된 파일 삭제 시
+		function removeEditPIFileFromDataTransfer(element) {
+			var addedFiles = $(".added");
+			var index = addedFiles.index($(element).parent());
+			console.log(index + "입니다");
+			if (index != -1) {
+				editPIDataTransfer.items.remove(index);
+				document.getElementById("editPIFiles").files = editPIDataTransfer.files;
+				
+			}
+		}
+		// 수정 폼에서 새롭게 추가된 파일 삭제 시
+		function editRemovePIFile(element) {
+			removeEditPIFileFromDataTransfer(element);
+			var tr = $(element).closest('tr');
+			tr.remove();
+			checkPIEditFile();
+		}
+
+		// 파일 삭제 처리용 익명 함수
+		const removePIFileId = (function () {
+			const ids = [];
+			return {
+				add(id) {
+					if (ids.includes(id)) {
+						return false;
+					}
+					ids.push(id);
+				},
+				getAll() {
+					return ids;
+				},
+				removeAll() {
+					ids.length = 0;
+				}
+			}
+		}());
+
+		// 수정 폼 기존 파일 삭제
+		function removePIExistingFile(element, id) {
+			// 1. 삭제할 파일 id 추가
+			if (id) {
+				removePIFileId.add(id);
+			}
+			// 2. 파일 영역 삭제
+			var tr = $(element).closest('tr');
+			tr.remove();
+			checkPIEditFile();
+		}
 	</script>
 
 </th:block>
