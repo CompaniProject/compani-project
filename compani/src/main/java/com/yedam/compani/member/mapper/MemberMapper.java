@@ -7,9 +7,15 @@ import com.yedam.compani.member.service.MemberVO;
 
 public interface MemberMapper {
 	public MemberVO selectMemberInfo(MemberVO vo);
-	
+
 	public List<MemberVO> getMemberList();
+
 	public int insertMemberInfo(MemberVO vo);
+
 	public List<MemberVO> selectMemberIdList();
 	public List<MemberVO> memberSearchList(Map<String,String> map);
+
+	public int updateMemberInfo(MemberVO vo);
+
+	public int updateMemberPwd(MemberVO vo);
 }
