@@ -436,7 +436,7 @@
 	font-weight: normal;
 }
 
-#delPConfirmationModal {
+#delPConfirmationModal, #cancelPIEditConfirmationModal, #editPICheckingInput, #cancelPISaveConfirmationModal, #savePICheckingInput{
     width: 400px;
     min-height: 245px;
     box-sizing: border-box;
@@ -446,7 +446,504 @@
     display: inline-block;
     z-index: 10000;
 }
-#delPConfirmationModalBody {
+#delPConfirmationModalBody, #cancelPIEditConfirmationModalBody, #editPIConfirmationModalBody, #cancelPISaveConfirmationModalBody, #savePIConfirmationModalBody{
     text-align: center;
     padding: 0 26px 0 26px;
+}
+
+.modalPIEditContent	{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 6px 0 0;
+    box-sizing: border-box;
+}
+
+
+.modalPIEditContent > .pIssueEditContentTopBar {
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    height: 48px;
+    margin-right: 20px;
+    padding: 8px 0;
+    background-color: #FFFFFF;
+}
+
+.pIssueEditContentTopBar > .cancelPIEditing {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    background-image: url(/images/cancel_writing.png);
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pIssueEditContentTopBar > .completePIEditing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #cccccc;
+    background-color: #eaeaea;
+    transition: all 0.2s ease;
+}
+
+.pIssueEditContentTopBar > .completePIEditing.registrable {
+    color: #ffffff;
+    background-color: #0098fe;
+    border-color: #0098fe;
+    cursor: pointer;
+}
+
+.editPIssueName {
+    width: 100%;
+    max-height: 82px;
+}
+
+.editPIssueNameBack {
+    width: 100%;
+    min-height: 48px;
+    height: fit-content;
+    max-height: 82px;
+    padding: 6px 6px 5px 6px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: solid 1px transparent;
+    transition: all 0.2s ease;
+}
+
+.editPIssueNameBack:hover {
+    border: solid 1px #eaeaea;
+}
+
+.editPIssueNameBack.focus {
+    border: solid 1px #0098fe;
+}
+
+.editPIssueNameBack > textarea {
+    width: 100%;
+    max-height: 68px;
+    line-height: 1.7;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    background-color: #ffffff;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    transition: all 0.4s ease;
+    letter-spacing: -0.03em;
+}
+
+.editPIssueKnd {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+ .editPIssueKnd > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 50px;
+
+}
+
+.dropBoxAreaPI {
+    position: relative;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.editPIssueSt {
+    display: flex;
+    align-items: center;
+    height: 100%;
+	margin-left: 150px;
+}
+
+ .editPIssueSt > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 65px;
+}
+
+.editPIssueRank {
+    display: flex;
+    align-items: center;
+    height: 100%;
+	margin-left: 150px;
+}
+
+ .editPIssueRank > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 65px;
+}
+
+.editingPIContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin-right: 22px;
+    padding-bottom: 8px;
+}
+
+.editingPISection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.editingPILoadBtn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 75px;
+}
+
+.editingPILoadBtn > span {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.editingPILoadBtn.upload > span {
+    background-image: url(/images/upload_file.png);
+}
+
+.editingPILoadBtn > p {
+    font-size: 14px;
+    color: #575757;
+    margin: 0;
+}
+piFileUpload.dz {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.editPIHashtagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 4px;
+    width: 100%;
+    padding: 16px 12px;
+    box-sizing: border-box;
+}
+
+.editPIHashtagContent {
+    width: 100%;
+    border: solid 1px #eaeaea;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    position: relative;
+    height: 80px;
+}
+
+.editPITagBox {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+.editPITagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+}
+
+.editPITagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+    margin: 0;
+}
+
+.editPITextEllipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.deletePIFile, .deletePIEditFile, .deletePISaveFile {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-image: url("/images/delete_file.png");
+}
+
+.modalPISaveContent	{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 6px 0 0;
+    box-sizing: border-box;
+}
+
+
+.modalPISaveContent > .pIssueSaveContentTopBar {
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    height: 48px;
+    margin-right: 20px;
+    padding: 8px 0;
+    background-color: #FFFFFF;
+}
+
+.pIssueSaveContentTopBar > .cancelPISaving {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    background-image: url(/images/cancel_writing.png);
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pIssueSaveContentTopBar > .completePISaving {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 26px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #eaeaea;
+    color: #cccccc;
+    background-color: #eaeaea;
+    transition: all 0.2s ease;
+}
+
+.pIssueSaveContentTopBar > .completePISaving.registrable {
+    color: #ffffff;
+    background-color: #0098fe;
+    border-color: #0098fe;
+    cursor: pointer;
+}
+
+.savePIssueName {
+    width: 100%;
+    max-height: 82px;
+}
+
+.savePIssueNameBack {
+    width: 100%;
+    min-height: 48px;
+    height: fit-content;
+    max-height: 82px;
+    padding: 6px 6px 5px 6px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: solid 1px transparent;
+    transition: all 0.2s ease;
+}
+
+.savePIssueNameBack:hover {
+    border: solid 1px #eaeaea;
+}
+
+.savePIssueNameBack.focus {
+    border: solid 1px #0098fe;
+}
+
+.savePIssueNameBack > textarea {
+    width: 100%;
+    max-height: 68px;
+    line-height: 1.7;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    background-color: #ffffff;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    transition: all 0.4s ease;
+    letter-spacing: -0.03em;
+}
+
+.savePIssueKnd {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+ .savePIssueKnd > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 50px;
+
+}
+
+.dropBoxAreaPI {
+    position: relative;
+    height: 100%;
+    margin-bottom: 15px;
+}
+.savePIssueRank {
+    display: flex;
+    align-items: center;
+    height: 100%;
+	margin-left: 150px;
+}
+
+ .savePIssueRank > p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #575757;
+    width: 65px;
+}
+
+.savingPIContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin-right: 22px;
+    padding-bottom: 8px;
+}
+
+.savingPISection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.savingPILoadBtn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 75px;
+}
+
+.savingPILoadBtn > span {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.savingPILoadBtn.upload > span {
+    background-image: url(/images/upload_file.png);
+}
+
+.savingPILoadBtn > p {
+    font-size: 14px;
+    color: #575757;
+    margin: 0;
+}
+
+piFileUpload.dz {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.savePIHashtagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 4px;
+    width: 100%;
+    padding: 16px 12px;
+    box-sizing: border-box;
+}
+
+.savePIHashtagContent {
+    width: 100%;
+    border: solid 1px #eaeaea;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    position: relative;
+    height: 80px;
+}
+
+.savePITagBox {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+.savePITagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+}
+
+.savePITagBox > p {
+    font-size: 12px;
+    color: #a8a8a8;
+    margin: 0;
+}
+
+.savePITextEllipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

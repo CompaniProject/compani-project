@@ -11,12 +11,6 @@
 						    , MEMB_ID
 						   	, FILE_DT
 					FROM   	 PROJECT_FILE
-					<choose>
-						<when test="type != null and tpye == ''">
-						
-						</when>
-					</choose>
-					
 					ORDER BY FILE_NO DESC
 				</select>
 				
@@ -39,14 +33,16 @@
 											 , prjt_no
 											 , file_nm
 											 , file_path
+											 , file_type
 											 , memb_id
 											 , file_size)
 					VALUES (
 							#{fileNo}
-							, #{prjtNo}
+							, 1
 							, #{fileNm}
 							, #{filePath}
-							, #{membId}
+							, #{fileType}
+							, 'm2'
 							, #{fileSize}
 								)
 						
@@ -59,8 +55,9 @@
 					WHERE 		FILE_NO = #{fileNo}
 				</delete>
 				
+				
 				<!-- 검색기능 -->
-				<select id="fileSearch" resultType="FileVO">
+				<select id="fileSearch" resultType="map">
 					SELECT  FILE_NO
 							, PRJT_NO
 							, BUSS_NO
@@ -76,17 +73,15 @@
 					WHERE 	F.BUSS_NO = B.BUSS_NO
 					AND		B.PRJT_NO = P.PRJT
 					<choose>
-						<when test="type == 'name'.toString()">
-							(fileNm like '%' || #{keyword} || '%')
+						<when test="type == '파일명'">
+							AND (fileNm like '%' || #{keyword} || '%')
 						</when>
-						<when test="type == 'writer'.toString()">
-							(membId like '%' || #{keyword) || '%')
+						<when test="type == '작성자'">
+							AND (membId like '%' || #{keyword) || '%')
 						</when>
 					</choose>		
 				</select>
 		
-		
-		
-		
+				
 		
 </mapper>

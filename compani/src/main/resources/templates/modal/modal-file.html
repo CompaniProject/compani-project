@@ -1,3 +1,4 @@
+
 							<div class="workModalContentBack">
 								<div class="workModalContentSlider">
 									<div class="workModalContent scroll issueContent">
@@ -24,43 +25,36 @@
 												<div class="IssueTopBar">
 
 													<!-- 검색 필터 -->
-													<div class="SearchBox"
-														style="margin-right: 20px; margin-left: 20px">
-
-														<label for="SearchToggleCheckBox"></label>
-														
-														<input type="hidden" data-value="type" >
-																<input type="button" id="Searching" value="ㅇ안녕">
-															<div class="SearchInputBox" style="width: 290px;">
-	
-																<div>
-																	<div class="issue-selectBox" style="width: 100px;">
-																		<div class="issue-selected" id="issue-selected">
-																			<div class="issue-selected-value"
-																				id="select-value" data-value="">--</div>
-																			<div class="arrow"></div>
-																		</div>
-																		<ul class="issue-select-ul"
-																			style="width: 100px; top: 20%; display: none;">
-																			<li class="issue-select-option" data-value="name" id="name">파일명</li>
-																			<li class="issue-select-option" data-value="writer" id="writer">작성자</li>
-																		</ul>
+													<div class="SearchBox" style="height: 50%">
+														<label for="SearchToggleCheckBox"
+														></label> <input
+															type="hidden" id="type" value="파일명">
+														<div class="SearchInputBox" style="width: 280px;">
+															<div>
+																<div class="member-selectBox" style="width: 100px;">
+																	<div class="member-selected" id="member-selected">
+																		<div class="member-selected-value">파일명</div>
+																		<div class="arrow"></div>
 																	</div>
+																	<ul class="member-select-ul"
+																		style="width: 100px; top: 20%; display: none;">
+																		<li class="member-select-option" data-value="파일명">파일명</li>
+																		<li class="member-select-option" data-value="작성자">작성자</li>
+																	</ul>
 																</div>
-																<input class="SearchInputModalView" id="keyword"
-																	name="keyword" data-value="keyword" type="text" placeholder="검색어를 입력하세요."
-																	><span
-																	class="DeleteSearchWord"></span>
 															</div>
-													
+															<input class="SearchInputModalView" id="keyword"
+																type="text" placeholder="검색어를 입력하세요.">
+														</div>
+														<button id="test">g</button>
+
 													</div>
-										
+
 													<form id="formdata1">
-														<input type="file" id="selectedFile" style="display: none;"
-															onchange="fileInfo()" multiple="multiple" /> 
+														<input type="file" id="selectedFile"
+															style="display: none;" multiple="multiple" />
 													</form>
-														<input
-														type="button" id="FileUpload" value="업로드"
+													<input type="button" id="FileUpload" value="업로드"
 														onclick="document.getElementById('selectedFile').click();"
 														class="btn mb-1 btn-info" />
 													<button id="FileDelete" type="submit"
@@ -68,7 +62,7 @@
 												</div>
 												<hr>
 												<br> <br>
-												<button id="sibal"> ㅋㅋ</button>
+
 												<div class="ModalInfoArea IssueInfoArea">
 
 													<div class="col-lg-6" style="width: 100%; max-width: 100%;">
@@ -77,34 +71,39 @@
 															<table class="table table-hover">
 																<thead>
 																	<tr>
-																		<th><input type="checkbox" id="kingBox"></th>
+																		<th><input type="checkbox" id="kingBox"
+																			name="kingBox"></th>
 																		<th style="font-weight: normal;">파일명</th>
 																		<th style="font-weight: normal;">크기</th>
 																		<th style="font-weight: normal;">작성자</th>
 																		<th style="font-weight: normal;">등록일자</th>
 																	</tr>
-																	
+
 																</thead>
 																<form id="checkBoxForm">
-																<tbody id="newTrTd">
-																	<th:block th:each="file : ${fileList}">
-																		<tr id="tdData" th:data-fileno="${file.fileNo}">
-																			<td class="newCKB"><input type="checkbox"
-																				name="files" th:value="${file.fileNo}"></td>
-																			<td th:text="${file.fileNm}"/>
-																			<td th:text="${file.fileSize}" />
-																			<td th:text="${file.membId}" />
-																			<td th:text="${#temporals.format(file.fileDt, 'yyyy-MM-dd HH:mm')}" />
-																			<!-- 다운로드 아이콘 -->
-																			<td class="downIcon"><i
-																				class="fa-solid fa-download"></i></td>
-																			<!-- 쓰레기 아이콘 -->
-																			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
-																		</tr>
-																	</th:block>
-																</tbody>
+																	<tbody id="newTrTd">
+																		<th:block th:each="file : ${fileList}">
+																			<tr id="tdData" th:data-fileno="${file.fileNo}">
+																				<td class="newCKB"><input type="checkbox"
+																					name="files" th:value="${file.fileNo}"></td>
+																				<td th:text="${file.fileNm}" />
+																				<td class="fSize" th:text="${file.fileSize}" />
+																				<td th:text="${file.membId}" />
+																				<td
+																					th:text="${#temporals.format(file.fileDt, 'yyyy-MM-dd')}" />
+																				<!-- 다운로드 아이콘 -->
+																				<td class="downIcon"><i
+																					class="fa-solid fa-download"></i></td>
+																				<!-- 쓰레기 아이콘 -->
+																				<td class="trashIcon"><i
+																					class="fa-solid fa-trash"
+																					 th:attr="onclick='fileDown(FileNo)'"></i></td>
+																			</tr>
+																		</th:block>
+																	</tbody>
 																</form>
 															</table>
+
 														</div>
 													</div>
 												</div>
@@ -113,9 +112,11 @@
 									</div>
 								</div>
 							</div>
-
+							
 	<script>
-	// ======== 모달 ========
+
+	
+		// ======== 모달 ========
 		$('.issue-selectBox').on('click', function() {
 			$('.issue-select-ul').css('display', 'block');
 		});
@@ -127,157 +128,171 @@
 			$('.issue-select-ul').css('display', 'none');
 			e.stopPropagation();
 		});
-		
-	// ======== 파일 바이트 계산 ========
+
+		// ======== 파일 바이트 계산 ========
 		function ByteSize(size) {
-			const byteUnits = ["KB", "MB", "GB", "TB"];
+			const byteUnits = [ "KB", "MB", "GB", "TB" ];
 			for (let i = 0; i < byteUnits.length; i++) {
 				size = Math.floor(size / 1024);
-				if (size < 1024) return size.toFixed(1) + byteUnits[i];
+				if (size < 1024)
+					return size.toFixed(1) + byteUnits[i];
 			}
 		};
-	
-	// ======== 파일 업로드시 등록 ========
-	 	function fileInfo() {
-				
-				var fileInfo = document.querySelector('input[type=file]').files;
-				
-				var file = fileInfo[0];
-				
-				if (file) {
-					var checkTd = $('<td/>').attr('class', 'newCKB');
-					var trTag = $('<tr/>').attr('id','tdData');
-					fileCheckTag = $('<input/>').attr('type', 'checkbox').attr('name','files');
-					var fileNameTag = $('<td/>').text(file.name);
-					var fileSizeTag = $('<td/>').text(ByteSize(file.size));
-					// 작성자 들어갈 곳
-					// 날짜 들어갈 곳
-					
-					var fileDownTag = $('<td/>').attr('class', 'downIcon');
-					 fileDown = $('<i/>').attr('class', 'fa-solid fa-download');
-					var fileDelTag = $('<td/>').attr('class', 'trashIcon');
-					 fileDel = $('<i/>').attr('class', 'fa-solid fa-trash');
-					
-					checkTd.append(fileCheckTag);
-					fileDownTag.append(fileDown);
-					fileDelTag.append(fileDel);
-					
-					
-					trTag.append(checkTd);
-					trTag.append(fileNameTag);
-					trTag.append(fileSizeTag);
-					trTag.append(fileDownTag);
-					trTag.append(fileDelTag);
-						
-					$('#newTrTd').append(trTag);
-				}
-			} 
-    
-	// ======== 체크박스 전체선택 ========
+
+		// ======== 파일 리스트에서 size를 byte로 계산하여 출력 ========
+		$('.fSize').each(function(idx, node) {
+			$(node).text(ByteSize($(node).text()));
+		})
+
+		// ======== 체크박스 전체선택 ========
 		$('#kingBox').on('click', boxCK);
-	
-		function boxCK(){
-			if($('#kingBox').is(':checked')){ // 아디 KIngBox 상태가 체크됐다면
+
+		function boxCK() {
+			if ($('#kingBox').is(':checked')) { // 아디 KIngBox 상태가 체크됐다면
 				$('input[name="files"]').prop("checked", true); // td에 있는 인풋들에게 체크 부여
-			}else{
+			} else {
 				$('input[name="files"]').prop("checked", false); // 아니라면 해제
-			};
-			return "workFile"; // 리턴
+			}
+			;
+			return "modal/modal-file"; // 리턴
 		};
-	
-		// ======== 쓰레기통 아이콘 클릭시 삭제 ========
-			$('#newTrTd').on('click', '.trashIcon', function(){
-				let fileDel = $(event.target).closest('#tdData').data('fileno');
-				// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
-			
-				let delTarget = $(event.target)
-			
-				$.ajax({
-					type : "get",
-					url : "fileOneDelete",
-					dataType : "text",
-					data : {fileNo:fileDel},
-					success : function(){
-						if(confirm("해당 파일을 삭제 하시겠습니까?")){
-							alert("삭제가 완료되었습니다.");
-							delTarget.closest('#tdData').remove();
-						}
-					},
-					error : function(){
-						alert("AJAX 오류");
+
+		// ======== 쓰레기통 아이콘 클릭시 삭제 AJAX ========
+		$('#newTrTd').on('click', '.trashIcon', function() {
+			let fileDel = $(event.target).closest('#tdData').data('fileno');
+			// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
+
+			let delTarget = $(event.target)
+
+			$.ajax({
+				type : "get",
+				url : "fileOneDelete",
+				dataType : "text",
+				data : {
+					fileNo : fileDel
+				},
+				success : function() {
+					if (confirm("해당 파일을 삭제 하시겠습니까?")) {
+						alert("삭제가 완료되었습니다.");
+						delTarget.closest('#tdData').remove();
 					}
-				});
+				},
+				error : function() {
+					alert("AJAX 오류");
+				}
 			});
-		
-		// ======== 체크박스 여러개 선택시 삭제 ========
-			
-			$('#FileDelete').on('click', selectCkbDel);
-		
-			function selectCkbDel(){
-			
-				let tdBox = $('input[name="files"]:checked') // 인풋 속성이 체크된 애들만 담음
-			
-				// ajax
-				$.ajax({
-					type : "get",
-					url : "fileSelectDel",
-					dataType : "text",
-					data : $('#checkBoxForm').serialize(),
-					success : function(){
-						if(confirm("해당 파일들을 삭제 하시겠습니까?")){
-							alert("삭제가 완료 되었습니다.")
-							tdBox.closest('tr').remove();
-						}						
-					},
-					error : function(){
-						alert("선택된 파일이 존재하지 않습니다.");
-					}	
-				});
-			}  
-		
-		// ======== 파일 업로드 ========
-			$('#selectedFile').on('change', function(){
-				
-				var formData = $('#formData1').serialize();
-				
-				
-				$.ajax({
-					url: '/AjaxFileInsert',
-					type: 'POST',
-					processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
-					contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
-					data: formData,
-					success: function (fileUp) {
-						alert("성공");
-						console.log();
-					},
-					error: function (reject) {
-						alert("벌레컷");
-						console.log(reject);			
+		});
+
+		// ======== 체크박스 여러개 선택시 삭제 AJAX ========
+
+		$('#FileDelete').on('click', selectCkbDel);
+
+		function selectCkbDel() {
+
+			let tdBox = $('input[name="files"]:checked') // 인풋 속성이 체크된 애들만 담음
+
+			// ajax
+			$.ajax({
+				type : "get",
+				url : "fileSelectDel",
+				dataType : "text",
+				data : $('#checkBoxForm').serialize(),
+				success : function() {
+					if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
+						alert("삭제가 완료 되었습니다.")
+						tdBox.closest('tr').remove();
 					}
-				});
-			})
-			
-			// ======== 검색 기능 ========			
-		    $('#Searching').on('click', function() {
-		        var keyword = $('#keyword').val();
-		        var type = $('#type').val();
-		
-		        $.ajax({
-		            type: 'GET',
-		            url: '/api/files/ajaxSearch',
-		            data: {
-		                type: type,
-		                keyword: keyword
-		            },
-		            success: function(response) {
-		                console.log(response);
-		            },
-		            error: function(error) {
-		                console.log(error);
-		            }
-		        });
-		    });
+				},
+				error : function() {
+					alert("선택된 파일이 존재하지 않습니다.");
+				}
+			});
+		};
+
 
 		
+		
+		
+		
+		
+		// ======== 파일 업로드 AJAX ========
+
+		$('#selectedFile').on(
+				'change',
+				function() {
+					var formData = new FormData(); //FormData 객체 생성
+					var inputFile = $("input[type='file']");
+
+					var files = inputFile[0].files;
+					//files : 선택한 모든 파일을 나열하는 FileList 객체입니다.
+					//multiple 특성을 지정하지 않닸다면 두 개 이상의 파일을 포함하지 않습니다.
+
+					for (var i = 0; i < files.length; i++) {
+						console.log(files[i]);
+						formData.append("uploadFiles", files[i]);//키,값으로 append 
+					}
+
+					$.ajax({
+						url : 'uploadsAjax',
+						type : 'post',
+						processData : false, //기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+						contentType : false, // multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+						data : formData,
+						success : function(result) {
+
+							var fileInfo = document
+									.querySelector('input[type=file]').files;
+
+							var file = fileInfo[0];
+
+							if (file) {
+								var checkTd = $('<td/>')
+										.attr('class', 'newCKB');
+								var trTag = $('<tr/>').attr('id', 'tdData');
+								fileCheckTag = $('<input/>').attr('type',
+										'checkbox').attr('name', 'files');
+								var fileNameTag = $('<td/>').text(file.name);
+								var fileSizeTag = $('<td/>').text(
+										ByteSize(file.size));
+								// 작성자 들어갈 곳
+								// 날짜 들어갈 곳
+
+								var fileDownTag = $('<td/>').attr('class',
+										'downIcon');
+								fileDown = $('<i/>').attr('class',
+										'fa-solid fa-download');
+								var fileDelTag = $('<td/>').attr('class',
+										'trashIcon');
+								fileDel = $('<i/>').attr('class',
+										'fa-solid fa-trash');
+
+								checkTd.append(fileCheckTag);
+								fileDownTag.append(fileDown);
+								fileDelTag.append(fileDel);
+
+								trTag.append(checkTd);
+								trTag.append(fileNameTag);
+								trTag.append(fileSizeTag);
+								trTag.append(fileDownTag);
+								trTag.append(fileDelTag);
+
+								$('#newTrTd').append(trTag);
+							}
+							console.log(result.fList);
+							console.log(result.fileVO);
+						},
+						error : function(reject) {
+							console.log(reject.fList);
+							console.log(reject.fileVO)
+						}
+					});
+				});
+				
+		
+		// 파일 다운로드
+		function fileDown(FileNo) {
+		location.href = '/workFile/' + FileNo + '/download';
+	}
+				
+	 	
 	</script>
