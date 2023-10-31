@@ -57,7 +57,7 @@
 				
 				
 				<!-- 검색기능 -->
-				<select id="fileSearch" resultType="map">
+				<select id="findFile" resultType="FileVO">
 					SELECT  FILE_NO
 							, PRJT_NO
 							, BUSS_NO
@@ -71,13 +71,13 @@
 							
 					FROM	PROJECT_FILE F, BUSINESS B, PROJECT P
 					WHERE 	F.BUSS_NO = B.BUSS_NO
-					AND		B.PRJT_NO = P.PRJT
+					AND		B.PRJT_NO = P.PRJT_NO
 					<choose>
 						<when test="type == '파일명'">
-							AND (fileNm like '%' || #{keyword} || '%')
+							AND (file_nm like '%' || #{keyword} || '%')
 						</when>
 						<when test="type == '작성자'">
-							AND (membId like '%' || #{keyword) || '%')
+							AND (memb_id like '%' || #{keyword) || '%')
 						</when>
 					</choose>		
 				</select>

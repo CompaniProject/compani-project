@@ -36,87 +36,9 @@ ul li {
 	
 	
 	
+	
 </body>
 <script>
 
-	// 파일 바이트 계산
-	function ByteSize(size) {
-		const byteUnits = [ "KB", "MB", "GB", "TB" ];
-		for (let i = 0; i < byteUnits.length; i++) {
-			size = Math.floor(size / 1024);
-			if (size < 1024)
-				return size.toFixed(1) + byteUnits[i];
-		}
-	};
-
-	function test() {
-		
-		var fileInfo = document.querySelector('input[type=file]').files;
-		
-		var file = fileInfo[0];
-		
-		if (file) {
-			var trTag = $('<tr/>');
-			var fileNameTag = $('<td/>').text(file.name);
-			var fileSizeTag = $('<td/>').text(ByteSize(file.size));
-			var deleteFileTag = $('<td/>').attr('class', 'deleteFile');
-			var fileInputType = $('<input/>').attr('type', 'file').attr('name',
-					'files').css('display', 'none');
-			trTag.append(fileNameTag);
-			trTag.append(fileSizeTag);
-			trTag.append(deleteFileTag);
-			trTag.append(fileInputType);
-
-			$('#wow').append(trTag);
-		}
-	}
-	
-	/* ¿// ======== 파일 업로드 ========
-	$('#hi').on('change', function(){
-		
-		var formData = $('#hi').serialize();
-		
-		
-		$.ajax({
-			url: '/AjaxFileInsert',
-			type: 'POST',
-			processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
-			contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
-			data: formData,
-			success: function (fileUp) {
-				alert("성공");
-				console.log(UploadedFiles);
-			},
-			error: function (reject) {
-				alert("벌레컷");
-				console.log(reject);			
-			}
-		});
-	}) */
-	
-	 $('#tq').on('click', function() {
-		      
-		        var keyword = $('[name="keyword"]').val();
-		        var type = $('[name="type"]').val();
-		
-		   
-		        $.ajax({
-		            type: 'GET',
-		            url: 'ajaxSearch',
-		            data: {
-		                type: type,
-		                keyword: keyword
-		            },
-		            success: function(response) {
-		                console.log(response);
-	
-		            },
-		            error: function(error) {
-		                console.log(error);
-		            }
-		        });
-		    });
-		
-	
 </script>
 </html>

@@ -43,7 +43,7 @@ public class FileUploadController {
 		@Value("${file.upload.path}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 		private String uploadPath;
 		
-		@PostMapping("uploadsAjax")
+		@PostMapping("/uploadsAjax")
 		@ResponseBody
 		public Map<String, Object> uploadFile(@RequestPart MultipartFile[] uploadFiles, FileVO fileVO) {
 		    										// 화면에 Multipart 유무에 따라 배열 넣냐 안넣냐 차이
@@ -88,6 +88,7 @@ public class FileUploadController {
 		        
 			      // 로그인한 멤버 세션 불러와서 지정하면 작성자 가능? String id=(String)request.getSession().getAttribute("id"); 
 			      //fileVO.setmembId(id); //세션에서 읽어낸 파일 업로더의 아이디지정 (작성자)
+		          String name
 			      fileVO.setFileNm(originalName); // 파일명 저장
 			      fileVO.setFilePath(uploadFileName); // 경로
 			      fileVO.setFileType(fileType); // 확장자
@@ -96,7 +97,7 @@ public class FileUploadController {
 			      // DB 에 저장하기
 			      fileservice.fileInsert(fileVO); // 등록과 동시에 DB에 저장 
 			      
-		        fList.add(setImagePath(uploadFileName));     
+		        fList.add(setFilePath(uploadFileName));     
 		     } 
 		    
 	        Map<String, Object> map = new HashMap<>();
@@ -122,18 +123,18 @@ public class FileUploadController {
 			return folderPath;
 		}
 		
-		private String setImagePath(String uploadFileName) {
+		private String setFilePath(String uploadFileName) {
 			return uploadFileName.replace(File.separator, "/");
 		}
 		
 		// 파일 다운로드
-		@GetMapping(value="workfile/{fileNo}/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+		@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 		@ResponseBody
-		public ResponseEntity<Resource> downloadFile(String fileName){	
-			log.info("download file : " + fileName);
+		public ResponseEntity<Resource> downloadFile(String FileName, String FilePath){	
+			log.info("download file : " + FilePath + FileName);
 			
 			// 존재하는 파일 찾아감
-			FileSystemResource resource = new FileSystemResource("c:\\Temp\\" + fileName);
+			FileSystemResource resource = new FileSystemResource(uploadPath + FilePath + FileName);
 			
 			log.info("resource : " + resource);
 			

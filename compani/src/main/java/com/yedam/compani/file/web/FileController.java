@@ -2,7 +2,7 @@ package com.yedam.compani.file.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.yedam.compani.config.BusinessFileUtils;
+import com.yedam.compani.file.service.FileSearchDTO;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -36,33 +40,54 @@ public class FileController {
 	BusinessFileUtils businessfileutils;
 
 	// 프로젝트 자료함 확인
-	@GetMapping("projectFile")
+	@GetMapping("/projectFile")
 	public String prjtF() {
 		return "projectFile";
 	}
-
-	// 업무 파일함 전체조회
-	@GetMapping("workFile")
-	public String workFile(Model model) {
-		List<FileVO> lFile = fileservice.fileList();
-		model.addAttribute("fileList", lFile);
+	
+	// 페이징 및 검색 AJAX
+	@GetMapping("/searchFile")
+	public String searchAjax(@ModelAttribute FileSearchDTO search,
+			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model){
+		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 7);
+		Page<FileVO> vo = fileservice.fileList(pageNum, search);
+		
+		model.addAttribute("file", file);
+		model.addAttribute("files", vo);
+		model.addAttribute("search", search);
+		
 		return "modal/modal-file";
+	}
+	
+	// 페이징 및 검색 AJAX
+	@GetMapping("/searchAjax")
+	@ResponseBody
+	public Map<String, Object> searchAjax(@ModelAttribute FileSearchDTO search,
+			@RequestParam(required = false, defaultValue = "1") int pageNum){
+		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 7);
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("file", file);
+		map.put("files", fileservice.fileList(pageNum, search));
+		map.put("search", search);
+		
+		return map;
 	}
 
 	// 모달 확인용
-	@GetMapping("modal")
+	@GetMapping("/modal")
 	public String moD() {
 		return "modal";
 	}
 
 	// 등록 모달창 확인용
-	@GetMapping("insertmodal")
+	@GetMapping("/insertmodal")
 	public String insertmodal() {
 		return "insertmodal";
 	}
 
 	// 파일 업로드 다운로드 테스트용
-	@GetMapping("FileTest")
+	@GetMapping("/FileTest")
 	public String FileTest() {
 		return "FileTest";
 	}

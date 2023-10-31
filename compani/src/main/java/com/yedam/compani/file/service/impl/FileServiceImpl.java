@@ -6,7 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.yedam.compani.file.mapper.FileMapper;
+import com.yedam.compani.file.service.FileSearchDTO;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -59,6 +62,12 @@ public class FileServiceImpl implements FileService {
 	public List<FileVO> fileList(Map<String, String> map) {
 		
 		return filemapper.fileSearch(map);
+	}
+
+	@Override
+	public Page<FileVO> fileList(int pageNo, FileSearchDTO search) {
+		PageHelper.startPage(pageNo, 7);
+		return filemapper.findFile(search);
 	}
 	
 
