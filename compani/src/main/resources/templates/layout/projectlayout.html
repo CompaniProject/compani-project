@@ -46,10 +46,13 @@ integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9
 <link href="/css/modal.css" rel="stylesheet">
 <link href="/css/issue.css" rel="stylesheet">
 <!-- TUI 에디터 CSS CDN -->
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />	
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />	
 <link href="/css/body.css" rel="stylesheet">
-
+<!-- Tagify CSS-->
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 <body class="scroll-set">
+
     <div id="main-wrapper" style="overflow: auto;">
 		<div class="body-container">
 			<header th:replace="fragments/header :: header"></header>
@@ -71,6 +74,7 @@ integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9
 <script src="/js/settings.js"></script>
 <script src="/js/gleek.js"></script>
 <script src="/js/styleSwitcher.js"></script>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script src="/js/modal.js"></script>
 <!-- Chartjs -->
 <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
@@ -89,7 +93,9 @@ integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9
 <!-- ChartistJS -->
 <script src="/plugins/chartist/js/chartist.min.js"></script>
 <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
+<!-- Tagify -->
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 <!-- Nestable -->
 <script src="/plugins/nestable/js/jquery.nestable.js"></script>
 
