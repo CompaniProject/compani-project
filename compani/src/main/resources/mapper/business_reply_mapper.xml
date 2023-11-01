@@ -72,11 +72,8 @@
 			<if test="replyCntn != null">
 				reply_cntn = #{replyCntn},
 			</if>
-			<if test="replyShow != null">
-				reply_show = #{replyShow},
-			</if>
 			reply_dt = #{replyDt}
 		</set>
-		WHERE reply_no = #{prjtFdbkNo}
+		WHERE reply_no = #{replyNo}
 	</update>
   </mapper>
