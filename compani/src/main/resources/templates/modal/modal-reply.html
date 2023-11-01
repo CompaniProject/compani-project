@@ -131,6 +131,38 @@
 	
 	$(document).on('click','#insertBtn',insertComment);
 	
+    // get comment, content, editBtn, submitBtn to Toggle
+    // update textarea - copy to content text
+    function toggleTags(event){
+        let comment = $(event.target).closest('.media');
+        let content = comment.find('.media-body p');
+        let edit = comment.find('.edit-area');
+        let submitBtn = comment.find('.submitBtn');
+        
+        content.text(comment.find('textarea').val());
+        
+        content.toggle();
+        edit.toggle();
+        submitBtn.toggle();
+    }
+    
+    function editSubmit(event){
+        let comment = $(event.target).closest('.media');
+        let textCntn = comment.find("textarea");
+        
+        let obj = {};
+        obj["replyCntn"] = textCntn.val();
+        obj["bussNo"] = comment.data('no');
+        
+        
+        toggleTags(event);
+    }
+    
+    // -------------------------------onclick Event
+    $(document).on('click','.editBtn',toggleTags);
+    $(document).on('click','.submitBtn',editSubmit);
+    // ------------------------------onclick Event End
+    
 	
     //------------ Date formatting
     function timestamp(convertDate){
