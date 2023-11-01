@@ -22,6 +22,7 @@ import com.yedam.compani.member.service.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;;
+;
 
 /*
  * 
@@ -129,4 +130,34 @@ public class BusinessController {
 		return "modal/modal-business";
 	}
 
+	
+	// 김연규, 2023-10-22, 개인달력 업무리스트
+	@GetMapping("personalCalendarPage")
+	public String personalCalendarList(Model model) {
+		List<BusinessVO> list = businessService.getPersonalCalendarBusinessList();
+		model.addAttribute("personalCalendarPage", list);
+		return "calendar/personalCalendarPage";
+	}
+	
+	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
+	@GetMapping("projectCalendarPage")
+	public String projectCalendarList(Model model) {
+		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
+		model.addAttribute("projectCalendarPage", list);
+		return "calendar/projectCalendarPage";
+	}
+	
+	// 김연규, 2023-10-31, 캘린더 업무바 수정
+	@PostMapping("/updatePersonalCalendarBuss")
+	@ResponseBody
+	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
+		businessService.updatePersonalCalendarBuss(vo);
+		return "calendar/personalCalendarPage";
+	}
+	@PostMapping("/updateProjectCalendarBuss")
+	@ResponseBody
+	public String updateProjectCalendarBuss(@RequestBody BusinessVO vo) {
+		businessService.updateProjectCalendarBuss(vo);
+		return "calendar/projectCalendarPage";
+	}
 }

@@ -23,10 +23,11 @@
 	margin: 10px;
 	background-color: white;
 	height: 100%;
+	min-height: 1000px;
 }
 
 .calendarBusinessInfo {
-	min-height: 700px;
+	min-height: 1000px;
 	height: 100%;
 	width: 30%;
 	padding: 10px;
@@ -134,6 +135,10 @@ select {
 	text-overflow: ellipsis;
 }
 
+.gantt_link_control.task_left.task_start_date {
+	display: none;
+}
+
 </style>
 
 </head>
@@ -178,10 +183,11 @@ select {
 					<th:block th:each="bussInfo : ${projectCalendarPage}">
 						<div class="businessList">
 							<div class="businessList2" 
-								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
+								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
+								 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
 							</div>
 							<div class="businessList2" 
-								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
+								th:text="${bussInfo.bussNm}">
 							</div>
 						</div>
 					</th:block>
@@ -206,6 +212,7 @@ select {
 	
 	<script th:inline="javascript">
     let calendarData = [[${projectCalendarPage}]];
+    console.log([[${session.loginInfo}]]);
     
     /*----------------------------
 	Calendar&Gantt switch
@@ -274,19 +281,59 @@ select {
    	document.addEventListener('DOMContentLoaded', function() {
        	var calendarEl = document.getElementById('projectCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
-       		initialView: 'dayGridMonth',
-       		headerToolbar: {
+       		height: "1000px",
+       		expandRows: true,
+       		initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
+       		dayMaxEvents: 5,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+       		locale: 'ko',			// 한국어 설정
+       		editable: true,			// 수정 가능
+       		selectable: true,			// 달력 일자 드래그 기능
+       		eventChange: function(data) { // 이벤트가 수정되면 발생하는 이벤트
+            	//console.log(data.event.startStr);
+       			//console.log(data.event.endStr);
+       			var obj = new Object();
+       			var end = new Date(data.event.endStr);
+       			end.setDate(end.getDate() - 1);
+       			var year = end.getFullYear();
+       			var month = end.getMonth()+1;
+       			var date = (String)(end.getDate());
+       			if(date<10){
+       				date = '0' + date;
+       			}
+       			
+       			obj.bussNo = data.event.id;
+       			obj.bussFrdt = data.event.startStr;
+       			obj.bussTodt = year + '-' + month + '-' + date;
+       			
+       			$.ajax({
+       				type: 'post',
+       				url: '/updateProjectCalendarBuss',
+       				contentType: 'application/json',
+          			data: JSON.stringify(obj),
+          			success: function(){
+          				console.log("수정성공!");
+          				console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+          			},
+          			error: function(error){
+          				console.log(error);
+          			}
+       			})
+            },
+       		headerToolbar: {		// 헤더 꾸미기
 				left: 'today',
 				center: 'prev title next',
 				right: ''
 			},
-			titleFormat: function (date) {
+			titleFormat: function (date) {		// 타이틀 날짜 형식 설정
 	    		// YYYY년 MM월
 	    		return `${date.date.year}년 ${date.date.month + 1}월`;
 	    	},
-	    	events: projectCalendarArr(),
+	    	events: projectCalendarArr(),		// 내용 데이터
        	});
        	calendar.render();
+       	
+       	//console.log(calendar.getEventById(15).startStr);
+       	//console.log(calendar.getEventById(15).endStr);
    	});
    	
    	/*----------------------------
@@ -294,13 +341,25 @@ select {
    	------------------------------*/
    	function projectCalendarArr(){
    		let arr = [];
-   		
+   		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
+			'blueviolet', 'purple', 'chocolate', 'deeppink'];
+		
    		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
-   			obj.title = calendarData[i].bussNm;
-   			obj.start = calendarData[i].bussFrdt;
-   			obj.end = calendarData[i].bussTodt;
+   			var todt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
+   			var todtDate = (String)(todt.getDate());
+   			if(todtDate < 10){
+   				todtDate = '0' + todtDate;
+   			}
+   			var newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
+   			
+   			obj.id = calendarData[i].bussNo; // id
+   			obj.title = calendarData[i].bussNm;		// 제목
+   			obj.start = calendarData[i].bussFrdt;	// 시작 날짜
+   			obj.end = newTodt;		// 종료 날짜
+   			obj.color = color[i%12]; 	// 바 색깔
+   			
    			arr.push(obj);
    		}
    		return arr;
@@ -324,17 +383,32 @@ select {
    	/*----------------------------
 		Gantt Chart 구현
 	------------------------------*/
-	gantt.scales = [
-	    { unit: "year", step: 1, format: "%Y" }
-	];
-	gantt.init("projectGanttchart");
-	gantt.parse({
-	    data: projectGanttData(),
-	    links: projectGanttLink()
+	document.addEventListener('DOMContentLoaded', function() {
+		gantt.config.scales = [
+		    {unit: "month", step: 1, format: "<Strong style='font-size:16px'>%Y / %m</Strong>"},
+		    {unit: "day", step: 1, format: "%j"}
+		];
+		
+		gantt.config.min_column_width = 50;
+		gantt.config.scale_height = 60;
+		
+		gantt.config.columns = [
+			{name: "text", label: "업무명", tree: true, width: '*'},
+			{name: "start_date", label: "시작일", align: "center", width: 100},
+			{name: "duration", label: "기간", align: "center", width: 50}
+		];
+		
+		gantt.init("projectGanttchart");
+		
+		if(calendarData.length != 0){
+			gantt.parse({
+			    data: projectGanttData(),
+			    links: projectGanttLink()
+			});
+		}
+		console.log(gantt.getTask(15).start_date);
+		//console.log(gantt.getTask(15).end_date);
 	});
-	gantt.templates.grid_header_class = function(columnName, column){
-	    return "";
-	};
 	
 	/*----------------------------
 		Gantt Chart - data 출력
@@ -351,7 +425,7 @@ select {
 			obj.id = calendarData[i].bussNo;
 			obj.text = calendarData[i].bussNm;
 			obj.start_date = getddmmyyyy(frdt);
-			obj.duration = (getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000);
+			obj.duration = ((getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000)) + 1;
 			obj.progress = calendarData[i].bussPrgre/100;
 			/* if(calendarData[i].bussUpcd != null){
 				obj.parent = calendarData[i].bussUpcd;
