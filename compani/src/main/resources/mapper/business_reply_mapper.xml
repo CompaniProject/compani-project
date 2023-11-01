@@ -36,19 +36,27 @@
 			, buss_no
 			, reply_cntn
 			, reply_dt
+			<if test="pubcyn != null">
 			, pubcyn
+			</if>
 			, memb_id
+			<if test="replyUpno != null">
 			, reply_upno
+			</if>
 			)
 		VALUES
 			(
 			#{replyNo}
 			, #{bussNo}
 			, #{replyCntn}
-			, #{reply_dt}
+			, #{replyDt}
+			<if test="pubcyn != null">
 			, #{pubcyn}
-			, memb_id
-			, reply_upno
+			</if>
+			, #{membId}
+			<if test="replyUpno != null">
+			, #{replyUpno}
+			</if>
 			)
 		
 	</insert>
