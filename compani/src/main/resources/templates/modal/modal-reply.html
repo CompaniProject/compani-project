@@ -22,10 +22,13 @@
             	<!-- Comment List Area Start -->
                 <div class="reply-body" id="reply-body-div">
                 	<th:block th:each="reply : ${replyList}">
-                        <div class="media border-bottom-1 pt-3 pb-3">
+                        <div class="media border-bottom-1 pt-3 pb-3" data-no="${reply.replyNo}">
                             <div class="media-body">
                                 <h5 th:text="${reply.membNm}"></h5>
                                 <p class="mb-0" th:text="${reply.replyCntn}"></p>
+								<div class="edit-area" style="display:none;">
+									<textarea class="form-control" id="editCntn"></textarea>
+								</div>
                             </div>
                             <ul>
                            		<li>
@@ -44,14 +47,34 @@
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn"/>
-					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right"
-					style="margin-top:0.88em">Send</button>
+					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
             </div>
 		</div>
 	</div>
 </div>
+
+<!-- Hidden Reply Insert Area -->
+<div class="media border-bottom-1 pt-3 pb-3" style="display:hidden;" id="insertBody">
+    <div class="media-body">
+        <h5></h5>
+        <p class="mb-0"></p>
+		<div class="edit-area" style="display:none;">
+			<textarea class="form-control" id="editCntn"></textarea>
+		</div>
+    </div>
+    <ul>
+   		<li>
+   			<span class="text-muted" id="date-area"></span>
+   		</li>
+   		<li>
+   			<span>수정</span>
+   			<span>삭제</span>
+   		</li>
+    </ul>
+</div>
+<!-- Hidden Reply Insert Area End -->
 
 <script>
 	$(function(){
