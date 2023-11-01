@@ -4,7 +4,7 @@
 		<div class="issueNameEdit">
 			<div class="issueNameBack">
 				<textarea class="modalIssueNameUpdate" id="bussNm" name='bussNm'
-					maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요."></textarea>
+					maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요." th:text="${businessVO.bussNm}"></textarea>
 			</div>
 		</div>
 		<div>
@@ -108,7 +108,7 @@
 			<label class="col-lg-4 col-form-label">일정 </label>
 			<div class="col-lg-3">
 				<input type="date" class="form-control" id="bussFrdt"
-					name="bussFrdt">
+					name="bussFrdt" >
 			</div>
 			<div class="col-lg-1">
 				<label class="col-lg-4 col-form-label">~ </label>
@@ -116,7 +116,7 @@
 			</div>
 			<div class="col-lg-3">
 				<input type="date" class="form-control" id="bussTodt"
-					name="bussTodt">
+					name="bussTodt" >
 			</div>
 		</div>
 
@@ -125,10 +125,10 @@
 			</label>
 			<div class="col-lg-6">
 				<div class="dropdown custom-dropdown">
-					<select class="dropdown-import" id="bussImp" name="bussImp">
-						<option class="dropdown-import" value="0J1">상</option>
-						<option class="dropdown-import" value="0J2">중</option>
-						<option class="dropdown-import" value="0J3">하</option>
+					<select class="dropdown-import" id="bussImp" name="bussImp" th:value = "${businessVO.bussImpNm}">
+						<option class="dropdown-import" value="0J1" th:selected="${businessVO.bussImpNm}">상</option>
+						<option class="dropdown-import" value="0J2" th:selected="${businessVO.bussImpNm}">중</option>
+						<option class="dropdown-import" value="0J3" th:selected="${businessVO.bussImpNm}">하</option>
 
 					</select>
 
@@ -151,7 +151,7 @@
 			<label class="col-lg-4 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-				<input type="text" id="bussSt" value="" readonly="readonly" />
+				<input type="text" id="bussSt" th:value = "${businessVO.bussStNm}" readonly="readonly" />
 			</div>
 
 		</div>
@@ -161,7 +161,7 @@
 			<div class="col-lg-6">
 				<div class="dropdown custom-dropdown">
 					<div>
-						<select class="dropdown-relation" name="bussDep">
+						<select class="dropdown-relation" name="bussDep" >
 							<option class="dropdown-relation" value="">선택</option>
 							<option class="dropdown-relation" value="up">선행 작업</option>
 							<option class="dropdown-relation" value="down">후속 작업</option>

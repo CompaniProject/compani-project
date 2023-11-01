@@ -195,7 +195,8 @@
 			BUSS_TODT,
 			BUSS_CMPLTDT,
 			BUSS_ST,
-			FIND_CODENM(BUSS_ST) as bussStNm
+			FIND_CODENM(BUSS_ST) as bussStNm,
+			FIND_CODENM(BUSS_IMP) as bussImpNm
 		FROM BUSINESS
 		WHERE BUSS_NO = #{bussNo}
 	</select>
