@@ -95,6 +95,11 @@ public class IssueServiceImpl implements IssueService {
 		issueMapper.update(params);
 		return params.getIssuNo();
 	}
+	@Override
+	public List<IssueVO> getProjectFeedbackIssueList() {
+		return issueMapper.selectProjectFeedbackIssueList();
+	}
+
 
 	/**
 	 * 게시글 삭제

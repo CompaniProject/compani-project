@@ -23,10 +23,11 @@
 	margin: 10px;
 	background-color: white;
 	height: 100%;
+	min-height: 1000px;
 }
 
 .calendarBusinessInfo {
-	min-height: 700px;
+	min-height: 1000px;
 	height: 100%;
 	width: 30%;
 	padding: 10px;
@@ -126,6 +127,18 @@ select {
 	float: left;
 	display: none;
 }
+
+.gantt_tree_content {
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.gantt_link_control.task_left.task_start_date {
+	display: none;
+}
+
 </style>
 
 </head>
@@ -172,8 +185,9 @@ select {
 							프로젝트
 						</button>
 						<div class="dropdown-menu">
+							<a class="dropdown-item selectAll">전체</a>
 							<th:block th:each="info : ${personalCalendarPage}">
-								<a class="dropdown-item filter"
+								<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
 									th:text="${info.prjtNm}"></a>
 							</th:block>
 						</div>
@@ -187,10 +201,11 @@ select {
 					<th:block th:each="bussInfo : ${personalCalendarPage}">
 						<div class="businessList">
 							<div class="businessList2" 
-								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} + ' | 중요도 ' + ${bussInfo.bussImp}">
+								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
+								 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
 							</div>
 							<div class="businessList2" 
-								th:text="${bussInfo.bussNm} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
+								th:text="${bussInfo.bussNm}">
 							</div>
 						</div>
 					</th:block>
@@ -215,36 +230,103 @@ select {
 	
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]];
+	let prjtNum = [];
 	
 	/*----------------------------
-		필터링 중복제거
+		필터링
 	------------------------------*/
-	for(let i=0; i<calendarData.length; i++){
-		for(let j=1; j<calendarData.length; j++){
-			if(calendarData[i].prjtNm == calendarData[j].prjtNm){
-				$('.dropdown-item.filter').eq(i).remove();
+	// 필터링 - 중복제거
+	for(let i=0; i<$('.dropdown-item.filter').length; i++){
+		for(let j=i+1; j<$('.dropdown-item.filter').length; j++){
+			if($('.dropdown-item.filter').eq(i).text() == $('.dropdown-item.filter').eq(j).text()){
+				$('.dropdown-item.filter').eq(j).remove();
+				i=0;
+				j=0;
 			}
 		}
 	}
-	// 필터링 화면에 다시 뿌리기
-	for(let j=0; j<$('.dropdown-item.filter').length; j++){
-		$('.dropdown-item.filter').eq(j).on('click', function(){
+	// 필터링 전체 - 화면에 다시 뿌리기
+	if($('.dropdown-item.selectAll').on('click', function(){
+		// 캘린더에 뿌리기
+		$('.fc-daygrid-event-harness').css('display', 'block');
+		
+		// 업무리스트에 뿌리기
+		$('.businessList').remove();
+		for(let i=0; i<calendarData.length; i++){
+			$('.businessListBox').append($('<div class="businessList"></div>'));
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
+					+ ' | 중요도 ' + calendarData[i].bussImp);
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+		}
+		
+		// 간트에 뿌리기
+		prjtNum = [];
+		for(let j=0; j<calendarData.length; j++){
+			prjtNum.push(calendarData[j].bussNo);
+		}
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		    for(let i=0; i<prjtNum.length; i++){
+		    	if (task.id == prjtNum[i]){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
+		gantt.init("personalGanttchart");
+		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
+	}));
+	
+	// 필터링 선택 - 업무리스트에 뿌리기
+	for(let i=0; i<$('.dropdown-item.filter').length; i++){
+		$('.dropdown-item.filter').eq(i).on('click', function(){
 			$('.businessList').remove();
-			for(let i=0; i<calendarData.length; i++){
-				if(calendarData[i].prjtNm == $('.dropdown-item.filter').eq(j).text()){
+			for(let j=0; j<calendarData.length; j++){
+				if(calendarData[j].prjtNm == $('.dropdown-item.filter').eq(i).text()){
 					$('.businessListBox').append($('<div class="businessList"></div>'));
 					
 					$('.businessList:last').append($('<div class="businessList2"></div>'));
-					$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
-							+ ' | 중요도 ' + calendarData[i].bussImp);
+					$('.businessList2:last').append(formatDate(calendarData[j].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[j].bussTodt).substr(2)
+							+ ' | 중요도 ' + calendarData[j].bussImp);
 					
 					$('.businessList:last').append($('<div class="businessList2"></div>'));
-					$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+					$('.businessList2:last').append(calendarData[j].bussNm + ' | 진척도 ' + calendarData[j].bussPrgre + '%');
 				}
 			}
 		});
 	}
-	
+	// 필터링 선택 - 캘린더&간트에 다시 뿌리기
+	$('.dropdown-item.filter').on('click', function(){
+		// 캘린더에 다시 뿌리기
+		$('.fc-daygrid-event-harness').css('display', 'none');
+		let target = event.target.dataset.prjtnm;
+		
+		let regexFor = / /gi;
+		let targetStr = target.replace(regexFor, '.');
+		
+		$('.calendarEvent_' + targetStr).parent().css('display', 'block');
+		
+		// 간트차트에 다시 뿌리기
+		prjtNum = [];
+		for(let j=0; j<calendarData.length; j++){
+			if(calendarData[j].prjtNm == $(event.target).text()){
+				prjtNum.push(calendarData[j].bussNo);
+			}
+		}
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		    for(let i=0; i<prjtNum.length; i++){
+		    	if (task.id == prjtNum[i]){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
+		gantt.init("personalGanttchart");
+		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
+	});
 	
 	/*----------------------------
 		업무리스트 정렬
@@ -301,17 +383,54 @@ select {
    	document.addEventListener('DOMContentLoaded', function() {
        	var calendarEl = document.getElementById('personalCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView: 'dayGridMonth',
-       		headerToolbar: {
+       		height: "1000px",
+       		expandRows: true,
+			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
+       		dayMaxEvents: 5,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+       		locale: 'ko',			// 한국어 설정
+       		editable: true,			// 수정 가능
+       		selectable: true,			// 달력 일자 드래그 기능
+       		eventChange: function(data) { // 이벤트가 수정되면 발생하는 이벤트
+            	//console.log(data.event.startStr);
+       			//console.log(data.event.endStr);
+       			var obj = new Object();
+       			var end = new Date(data.event.endStr);
+       			end.setDate(end.getDate() - 1);
+       			var year = end.getFullYear();
+       			var month = end.getMonth()+1;
+       			var date = (String)(end.getDate());
+       			if(date<10){
+       				date = '0' + date;
+       			}
+       			
+       			obj.bussNo = data.event.id;
+       			obj.bussFrdt = data.event.startStr;
+       			obj.bussTodt = year + '-' + month + '-' + date;
+       			
+       			$.ajax({
+       				type: 'post',
+       				url: '/updatePersonalCalendarBuss',
+       				contentType: 'application/json',
+          			data: JSON.stringify(obj),
+          			success: function(){
+          				console.log("수정성공!");
+          				console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+          			},
+          			error: function(error){
+          				console.log(error);
+          			}
+       			})
+            },
+       		headerToolbar: {		// 헤더 꾸미기
 				left: 'today',
 				center: 'prev title next',
 				right: ''
 			},
-			titleFormat: function (date) {
+			titleFormat: function (date) {		// 타이틀 날짜 형식 설정
 	    		// YYYY년 MM월
 	    		return `${date.date.year}년 ${date.date.month + 1}월`;
 	    	},
-	    	events: personalCalendarArr()
+	    	events: personalCalendarArr()		// 내용 데이터
        	});
        	calendar.render();
    	});
@@ -321,13 +440,26 @@ select {
 	------------------------------*/
 	function personalCalendarArr(){
 		let arr = [];
+		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
+				'blueviolet', 'purple', 'chocolate', 'deeppink'];
 		
 		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
-   			obj.title = calendarData[i].bussNm;
-   			obj.start = calendarData[i].bussFrdt;
-   			obj.end = calendarData[i].bussTodt;
+   			var todt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
+   			var todtDate = (String)(todt.getDate());
+   			if(todtDate < 10){
+   				todtDate = '0' + todtDate;
+   			}
+   			var newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
+   			
+   			obj.id = calendarData[i].bussNo; // id
+   			obj.title = calendarData[i].bussNm;		// 제목
+   			obj.start = calendarData[i].bussFrdt;	// 시작 날짜
+   			obj.end = newTodt;		// 종료 날짜
+   			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
+   			obj.color = color[i%12];
+   			
    			arr.push(obj);
    		}
    		return arr;
@@ -349,44 +481,90 @@ select {
 	}
 	
 	/*----------------------------
-		Gantt Chart
+		Gantt Chart 구현
 	------------------------------*/
-	gantt.scales = [
-	    { unit: "year", step: 1, format: "%Y" }
-	];
-	gantt.init("personalGanttchart");
-	gantt.parse({
-	    data: [
-	      { id:1, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:2, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:3, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:4, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:5, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:6, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	   	  { id:7, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:8, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:9, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:10, text:"Project #2", start_date:"01-04-2018", 
-	        duration:18, progress:0.4, parent:0 },
-	      { id:11, text:"Task #1", start_date:"02-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	      { id:12, text:"Task #2", start_date:"11-04-2018", 
-	        duration:8, progress:0.6, parent:0 },
-	    ],
-	    links: [
-	      { id:1, source:1, target:2, type:"1" },
-	      { id:2, source:2, target:3, type:"0" }
-	    ]
+	document.addEventListener('DOMContentLoaded', function() {
+		gantt.config.scales = [
+		    {unit: "month", step: 1, format: "<Strong style='font-size:16px'>%Y / %m</Strong>"},
+		    {unit: "day", step: 1, format: "%j"}
+		];
+		
+		gantt.config.min_column_width = 50;
+		gantt.config.scale_height = 60;
+		
+		gantt.config.columns = [
+			{name: "text", label: "업무명", tree: true, width: '*'},
+			{name: "start_date", label: "시작일", align: "center", width: 100},
+			{name: "duration", label: "기간", align: "center", width: 50}
+		];
+		
+		gantt.init("personalGanttchart");
+		
+		if(calendarData.length != 0){
+			gantt.parse({
+			    data: personalGanttData(),
+			    links: personalGanttLink()
+			});
+		}
 	});
+	
+	/*----------------------------
+		Gantt Chart - data 출력
+	------------------------------*/
+	// 간트차트 내용 구현
+	function personalGanttData(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+			let obj = new Object();
+			let frdt = calendarData[i].bussFrdt;
+			let todt = calendarData[i].bussTodt;
+			
+			obj.id = calendarData[i].bussNo;
+			obj.text = calendarData[i].bussNm;
+			obj.start_date = getddmmyyyy(frdt);
+			obj.duration = ((getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000)) + 1;
+			obj.progress = calendarData[i].bussPrgre/100;
+			/* if(calendarData[i].bussUpcd != null){
+				obj.parent = calendarData[i].bussUpcd;
+			} */
+			arr.push(obj);
+		}
+		return arr;
+	}
+	// 간트차트 상위업무 구현
+	function personalGanttLink(){
+		let arr = [];
+		
+		for(let i=0; i<calendarData.length; i++){
+			let obj = new Object();
+			if(calendarData[i].bussUpcd != null){
+				obj.id = calendarData[i].bussNo;
+				obj.source = calendarData[i].bussUpcd;
+				obj.target = calendarData[i].bussNo;
+				obj.type = "0";
+			}
+				arr.push(obj);
+		}
+		return arr;
+	}
+	
+	// 간트차트 날짜 형식 포맷
+	function getddmmyyyy(dt){
+		var date = new Date(dt);
+		var year = date.getFullYear();
+		var month = ('0' + (date.getMonth() + 1)).slice(-2);
+		var day = ('0' + date.getDate()).slice(-2);
+		
+		return day + '-' + month + '-' + year;
+	}
+	
+	// 간트차트 날짜 초단위 포맷
+	function getMilliseconds(dt){
+		var date = new Date(dt);
+		var milli = date.getTime();
+		return milli;
+	}
 	
 	/*----------------------------
 		Calendar&Gantt switch

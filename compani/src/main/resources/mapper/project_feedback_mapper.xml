@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.compani.project.feedback.mapper.ProjectFeedbackMapper">
+<mapper namespace="com.yedam.compani.issue.mapper.IssueMapper">
 	<!-- 프로젝트 이슈 피드백 -->
-	<select id="selectProjectFeedbackIssueList" resultType="ProjectFeedbackVO">
+	<select id="selectProjectFeedbackIssueList" resultType="IssueVO">
 		SELECT issu_no
 			   , prjt_no
 			   , memb_nm
@@ -20,7 +20,7 @@
 		FROM issue i LEFT JOIN member m
 						   ON i.memb_id = m.memb_id
 		<!-- WHERE prjt_no = {prjtNo} -->
-		ORDER BY issu_no
+		ORDER BY issu_no DESC
 	</select>
 
 	<select id="selectListForLevel" resultType="CamelHashMap">
