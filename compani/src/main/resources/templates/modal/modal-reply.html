@@ -19,10 +19,27 @@
                 </div>
             </div>
             <div class="ModalInfo" >
-            	<!-- Comemnt Area Start -->
-				<textarea class="form-control" name="inputCntn" id="inputCntn">
-				</textarea>
-			    <!-- Comment Area End -->
+            	<!-- Comment List Area Start -->
+                <div class="reply-body" id="reply-body-div">
+                	<th:block th:each="reply : ${replyList}">
+                        <div class="media border-bottom-1 pt-3 pb-3">
+                            <div class="media-body">
+                                <h5 th:text="${reply.membNm}"></h5>
+                                <p class="mb-0" th:text="${reply.replyCntn}"></p>
+                            </div>
+                            <span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>	
+                        </div>
+                	</th:block>
+                </div>
+                <!-- Comment List Area End -->
+                   
+	            <!-- Comemnt Input Area Start -->
+            	<div class="reply-body">
+					<textarea class="form-control" name="inputCntn" id="inputCntn"/>
+					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right"
+					style="margin-top:0.88em">Send</button>
+			    </div>
+				<!-- Comment Input Area End -->
             </div>
 		</div>
 	</div>
