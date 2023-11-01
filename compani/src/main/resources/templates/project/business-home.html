@@ -469,9 +469,7 @@
 		<div data-include1="showModalMain"></div>
 
 		<script th:inline="javascript">
-		
-			var bussNo  = 1;
-			
+	
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember)
@@ -508,7 +506,6 @@
     		
     		function infoBusiness(){
 				bussNo = $(this).find('input').val();
-				console.log('칸반 누름 ' +bussNo);
 				$('#workModal').modal('toggle');
 			}
 			
