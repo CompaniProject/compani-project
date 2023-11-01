@@ -33,20 +33,6 @@ import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
 import lombok.RequiredArgsConstructor;
-@Controller
-public class IssueController {
-	@Autowired
-	IssueService issueService;
-	@Autowired
-	IssueFileService issueFileService;
-	@Autowired
-	IssueHashtagService issueHashtagService;
-	@Autowired
-	FileUtils fileUtils;
-	@Autowired
-	ProjectFeedbackService projectFeedbackService;
-	@Autowired
-	ProjectStatusService projectStatusService;
 
 @Controller
 @RequiredArgsConstructor
