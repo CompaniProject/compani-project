@@ -15,9 +15,9 @@
 			, reply_cntn
 			, reply_dt
 			, pubcyn
-			, memb_id
+			, m.memb_id
 			, reply_upno
-			, memb_nm
+			, m.memb_nm
 		FROM business_reply br LEFT JOIN member m ON(br.memb_id = m.memb_id)
 		WHERE buss_no = #{bussNo}
 		START WITH reply_upno IS NULL
