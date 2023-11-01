@@ -120,13 +120,13 @@ public class BusinessController {
 	@PostMapping("/updatePersonalCalendarBuss")
 	@ResponseBody
 	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updatePersonalCalendarBuss(vo);
+		businessService.updateCalendarBuss(vo);
 		return "calendar/personalCalendarPage";
 	}
 	@PostMapping("/updateProjectCalendarBuss")
 	@ResponseBody
 	public String updateProjectCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updateProjectCalendarBuss(vo);
+		businessService.updateCalendarBuss(vo);
 		return "calendar/projectCalendarPage";
 	}
 }

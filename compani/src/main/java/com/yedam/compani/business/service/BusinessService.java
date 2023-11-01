@@ -22,6 +22,5 @@ public interface BusinessService {
 	public BusinessVO businessSelect(BusinessVO businessVO);
 	
 	// 캘린더 업무바 수정
-	public int updatePersonalCalendarBuss(BusinessVO vo);
-	public int updateProjectCalendarBuss(BusinessVO vo);
+	public int updateCalendarBuss(BusinessVO vo);
 }

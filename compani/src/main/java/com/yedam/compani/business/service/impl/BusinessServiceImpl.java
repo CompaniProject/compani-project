@@ -88,12 +88,7 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.businessSelect(businessVO);
 	}
 
-	public int updatePersonalCalendarBuss(BusinessVO vo) {
-		return businessMapper.updatePersonalCalendarBuss(vo);
-	}
-	
-	@Override
-	public int updateProjectCalendarBuss(BusinessVO vo) {
-		return businessMapper.updateProjectCalendarBuss(vo);
+	public int updateCalendarBuss(BusinessVO vo) {
+		return businessMapper.updateCalendarBuss(vo);
 	}
 }

@@ -38,7 +38,7 @@ class BusinessServiceImplTest {
     @Test
     // 개인 캘린더 테스트
     void personalCalendarList() {
-    	List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList();
+    	List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList(null);
     	System.out.println(list.get(0).get("bussNo"));
     }
 }
