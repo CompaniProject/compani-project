@@ -1,4 +1,8 @@
+
+
 <head>
+
+
 <style>
 hr {
 	width: 100%;
@@ -50,6 +54,44 @@ input[type="checkbox"]:checked::after {
 	color: red;
 	border-color: black;
 }
+
+.file-selectBox {
+	display: inline-block;
+	width: 60px;
+	background: url(../images/arrow.png) no-repeat 97% 50%;
+	background-size: 16px 16px;
+}
+
+.file-selected {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 5px;
+	cursor: pointer;
+}
+
+.file-select-ul {
+	list-style-type: none;
+	padding-left: 0px;
+	width: 100px;
+	border-radius: 4px;
+	border: 1px solid #0098fe;
+	position: absolute;
+	background: #fff;
+	margin: 1px 0 0 -1px;
+	z-index: 300;
+	display: none;
+	cursor: pointer;
+}
+
+.file-select-option.active {
+	background: url(/images/arrow_active.png) no-repeat 97% 50%;
+	background-size: 16px 16px;
+}
+
+.file-select-option {
+	padding: 8px 5px;
+	cursor: pointer;
+}
 </style>
 
 </head>
@@ -82,27 +124,26 @@ input[type="checkbox"]:checked::after {
 
 						<!-- 검색 필터 -->
 						<div class="SearchBox" style="height: 50%">
-							<label for="SearchToggleCheckBox"></label> <input type="hidden"
+							<label for="SearchToggleCheckBox"
+								th:attr="onclick='filePaging(1)'"></label> <input type="hidden"
 								id="type" name="type" value="파일명">
 							<div class="SearchInputBox" style="width: 280px;">
 								<div>
-									<div class="member-selectBox" style="width: 100px;">
-										<div class="member-selected" id="member-selected">
-											<div class="member-selected-value">파일명</div>
+									<div class="file-selectBox" style="width: 100px;">
+										<div class="file-selected" id="file-selected">
+											<div class="file-selected-value">파일명</div>
 											<div class="arrow"></div>
 										</div>
-										<ul class="member-select-ul"
+										<ul class="file-select-ul"
 											style="width: 100px; top: 20%; display: none;">
-											<li class="member-select-option" data-value="파일명">파일명</li>
-											<li class="member-select-option" data-value="작성자">작성자</li>
+											<li class="file-select-option" data-value="파일명">파일명</li>
+											<li class="file-select-option" data-value="작성자">작성자</li>
 										</ul>
 									</div>
 								</div>
 								<input class="SearchInputModalView" id="keyword" name="keyword"
 									type="text" placeholder="검색어를 입력하세요.">
 							</div>
-							<button id="test">g</button>
-
 						</div>
 
 						<form id="formdata1">
@@ -122,7 +163,7 @@ input[type="checkbox"]:checked::after {
 						<div class="col-lg-6" style="width: 100%; max-width: 100%;">
 
 							<div class="table-responsive">
-								<table class="table table-hover">
+								<table class="table table-hover" style="overflow: auto;">
 									<thead>
 										<tr>
 											<th><input type="checkbox" id="kingBox" name="kingBox"></th>
@@ -130,47 +171,50 @@ input[type="checkbox"]:checked::after {
 											<th style="font-weight: normal;">크기</th>
 											<th style="font-weight: normal;">작성자</th>
 											<th style="font-weight: normal;">등록일자</th>
+											<th style="font-weight: normal;"></th>
+											<th style="font-weight: normal;"></th>
 										</tr>
 
 									</thead>
 									<form id="checkBoxForm">
-										<tbody id="newTrTd">
-											<th:block th:each="file : ${files}">
-												<tr id="tdData" th:data-fileno="${file.fileNo}">
-													<td class="newCKB"><input type="checkbox" name="files"
-														th:value="${file.fileNo}"></td>
-													<td th:text="${file.fileNm}" />
-													<td class="fSize" th:text="${file.fileSize}" />
-													<td th:text="${file.membId}" />
-													<td
-														th:text="${#temporals.format(file.fileDt, 'yyyy-MM-dd')}" />
-													<!-- 다운로드 아이콘 -->
-													<td class="downIcon"><i class="fa-solid fa-download"></i></td>
-													<!-- 쓰레기 아이콘 -->
-													<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
-								
-												</tr>
-											</th:block>
-										</tbody>
+									<tbody id="newTrTd">
+										<th:block th:each="fileList : ${fileList}">
+											<tr id="tdData" th:data-fileno="${fileList.fileNo}">
+												<td class="newCKB"><input type="checkbox" name="files"
+													th:value="${fileList.fileNo}"></td>
+												<td th:text="${fileList.fileNm}" />
+												<td class="fSize" th:text="${fileList.fileSize}" />
+												<td th:text="${fileList.membNm}" />
+												<td
+													th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
+												<!-- 다운로드 아이콘 -->
+												<td class="downIcon"><i class="fa-solid fa-download"></i></td>
+												<!-- 쓰레기 아이콘 -->
+												<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
+											</tr>
+										</th:block>
+									</tbody>
 									</form>
 								</table>
 							</div>
+							<div
+								class="paginate-container d-none d-sm-flex flex-sm-justify-center">
+								<div role="navigation" aria-label="Pagination"
+									class="pagination">
+									<a id="previous_page"
+										th:classappend="${file.prePage == 0} ? 'disabled'"
+										th:attr="onclick='filePaging(\'' + ${file.prePage} + '\')'">Previous</a>
+									<a class="cur_page"
+										th:each="page: ${#numbers.sequence(file.navigateFirstPage, file.navigateLastPage)}"
+										th:text="${page}"
+										th:attr="onclick='filePaging(\'' + ${page} + '\')'"></a> <a
+										id="next_page"
+										th:classappend="${file.nextPage == 0} ? 'disabled'"
+										th:attr="onclick='filePaging(\'' + ${file.nextPage} + '\')'">Next</a>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div
-				class="paginate-container d-none d-sm-flex flex-sm-justify-center">
-				<div role="navigation" aria-label="Pagination" class="pagination">
-					<a id="previous_page"
-						th:classappend="${file.prePage == 0} ? 'disabled'"
-						th:attr="onclick='filePaging(\'' + ${file.prePage} + '\')'">Previous</a>
-					<a class="cur_page"
-						th:each="page: ${#numbers.sequence(file.navigateFirstPage, file.navigateLastPage)}"
-						th:text="${page}"
-						th:attr="onclick='filePaging(\'' + ${page} + '\')'"></a> <a
-						id="next_page" th:classappend="${file.nextPage == 0} ? 'disabled'"
-						th:attr="onclick='filePaging(\'' + ${file.nextPage} + '\')'">Next</a>
 				</div>
 			</div>
 		</div>
@@ -178,19 +222,32 @@ input[type="checkbox"]:checked::after {
 </div>
 
 <script>
+	var fileMembNm = "[[${session.loginInfo.membNm}]]";
 	// ======== 모달 ========
-	$('.issue-selectBox').on('click', function() {
-		$('.issue-select-ul').css('display', 'block');
+	$('.file-selectBox').on('click', function() {
+		$('.file-select-ul').css('display', 'block');
 	});
-
-	$('.issue-select-option').on('click', function(e) {
+	
+	//검색 조건 (제목, 작성자, 전체) 
+	$('.file-selectBox').on('click', function () {
+		$('.file-select-ul').css('display', 'block');
+	});
+	
+	$('.file-select-option').on('click', function(e) {
 		const selectValue = e.currentTarget.textContent.trim();
 
-		$('.issue-selected-value').text(selectValue);
-		$('.issue-select-ul').css('display', 'none');
+		$('.file-selected-value').text(selectValue);
+		$('.file-select-ul').css('display', 'none');
 		e.stopPropagation();
 	});
 	
+	$('.file-select-option').on('click', function (e) {
+		var selectValue = e.currentTarget.textContent;
+		$('.file-selected-value').text(selectValue);
+		$('#type').val(selectValue);
+		$('.file-select-ul').css('display', 'none');
+		e.stopPropagation();
+	});
 	// ajax 
 	function filePaging(pageNum) {
 		var typeVal = $('#type').val(); // keyword
@@ -203,7 +260,12 @@ input[type="checkbox"]:checked::after {
 			{
 				type: 'GET'
 			}).done(function (data) {
-		
+				fileList.empty();
+				$.each(data.files, function(idx, item) {
+					
+					fileList.append(makeTrTd(item));
+				})
+				
 				updatePagingFile(data.file);
 
 				var prePageNum = data.file.prePage;
@@ -248,6 +310,7 @@ input[type="checkbox"]:checked::after {
 				alert('실패');
 			});
 	};
+		
 
 	function updatePagingFile(paging) {
 		var pagination = $('.pagination');
@@ -302,6 +365,21 @@ input[type="checkbox"]:checked::after {
 	$('.fSize').each(function(idx, node) {
 		$(node).text(ByteSize($(node).text()));
 	})
+	
+	// ======== 파일 검색 or 페이징 시 나오는 리스트 함수로 제작 ========
+	function makeTrTd(item){
+		var trTag = `<tr id="tdData" data-fileno="${item.fileNo}">
+			<td class="newCKB"><input type="checkbox" name="files" value="${item.fileNo}"></td>
+			<td>${item.fileNm}</td>
+			<td class="fSize">${(ByteSize(item.fileSize))}</td>
+			<td>${item.membNm}</td>
+			<td>${item.fileDt}</td>
+			<td class="downIcon"><i class="fa-solid fa-download"></i></td>
+			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
+			</tr>`
+			
+			return trTag;
+	}
 
 	// ======== 체크박스 전체선택 ========
 	$('#kingBox').on('click', boxCK);
@@ -375,6 +453,7 @@ input[type="checkbox"]:checked::after {
 			'change',
 			function() {
 				var formData = new FormData(); //FormData 객체 생성
+				formData.append('membId', fileMembNm);
 				var inputFile = $("input[type='file']");
 
 				var files = inputFile[0].files;
@@ -393,23 +472,45 @@ input[type="checkbox"]:checked::after {
 					contentType : false, // multipart/form-data타입을 사용하기위해 false 로 지정합니다.
 					data : formData,
 					success : function(result) {
-
+						console.log(result.fileVO.membId);
+						console.log(result.fileVO.fileDT);
+						console.log(result.fileVO.fileNo);
+						console.log(result.fileVO.fileType);
 						var fileInfo = document
 								.querySelector('input[type=file]').files;
 
 						var file = fileInfo[0];
 
 						if (file) {
+							
+							// tr태그 
+							var trTag = $('<tr/>').attr('id', 'tdData').data('fileno', result.fileVO.fileNo);
+							
+							// 체크박스
 							var checkTd = $('<td/>').attr('class', 'newCKB');
-							var trTag = $('<tr/>').attr('id', 'tdData');
-							fileCheckTag = $('<input/>').attr('type',
-									'checkbox').attr('name', 'files');
+							fileCheckTag = $('<input/>').attr('type','checkbox').attr('name', 'files').attr('value', result.fileVO.fileNo );
+							
+							// 파일명
 							var fileNameTag = $('<td/>').text(file.name);
-							var fileSizeTag = $('<td/>').text(
-									ByteSize(file.size));
-							// 작성자 들어갈 곳
-							// 날짜 들어갈 곳
+							
+							// 사이즈
+							var fileSizeTag = $('<td/>').text(ByteSize(file.size));
+							
+							// 작성자
+							var member = $('<td/>').text("[[${session.loginInfo.membNm}]]");
+							
+							// 날짜
+							var today = new Date();
 
+							var year = today.getFullYear();
+							var month = ('0' + (today.getMonth() + 1)).slice(-2);
+							var day = ('0' + today.getDate()).slice(-2);
+							
+							var dateString = year + '-' + month  + '-' + day;
+						
+							var fileDate = $('<td/>').text(dateString); // SYSDATE
+							
+							
 							var fileDownTag = $('<td/>').attr('class',
 									'downIcon');
 							fileDown = $('<i/>').attr('class',
@@ -426,6 +527,8 @@ input[type="checkbox"]:checked::after {
 							trTag.append(checkTd);
 							trTag.append(fileNameTag);
 							trTag.append(fileSizeTag);
+							trTag.append(member);
+							trTag.append(fileDate);
 							trTag.append(fileDownTag);
 							trTag.append(fileDelTag);
 

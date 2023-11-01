@@ -55,18 +55,11 @@ public class FileServiceImpl implements FileService {
 		}
 		return files.size();
 	}
-	
-	
-	// 파일 검색
-	@Override
-	public List<FileVO> fileList(Map<String, String> map) {
-		
-		return filemapper.fileSearch(map);
-	}
+
 
 	@Override
 	public Page<FileVO> fileList(int pageNo, FileSearchDTO search) {
-		PageHelper.startPage(pageNo, 7);
+		PageHelper.startPage(pageNo, 5);
 		return filemapper.findFile(search);
 	}
 	

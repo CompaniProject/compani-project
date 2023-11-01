@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -88,7 +91,6 @@ public class FileUploadController {
 		        
 			      // 로그인한 멤버 세션 불러와서 지정하면 작성자 가능? String id=(String)request.getSession().getAttribute("id"); 
 			      //fileVO.setmembId(id); //세션에서 읽어낸 파일 업로더의 아이디지정 (작성자)
-		          String name
 			      fileVO.setFileNm(originalName); // 파일명 저장
 			      fileVO.setFilePath(uploadFileName); // 경로
 			      fileVO.setFileType(fileType); // 확장자

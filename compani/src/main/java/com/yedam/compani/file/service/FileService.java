@@ -23,8 +23,6 @@ public interface FileService {
 	public int fileSelDel(List<Integer> FileNo);
 	
 	// 업무 모달 파일함 검색기능
-	public List<FileVO> fileList(Map<String, String> map);
-	
 	public Page<FileVO> fileList(int pageNo, FileSearchDTO search);
 	
 }

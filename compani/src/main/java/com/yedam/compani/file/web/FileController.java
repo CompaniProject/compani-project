@@ -3,6 +3,7 @@ package com.yedam.compani.file.web;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class FileController {
 
 	@Autowired
 	FileService fileservice;
+	@Autowired
 	BusinessFileUtils businessfileutils;
 
 	// 프로젝트 자료함 확인
@@ -45,26 +47,30 @@ public class FileController {
 		return "projectFile";
 	}
 	
-	// 페이징 및 검색 AJAX
+	// 파일 리스트
 	@GetMapping("/searchFile")
-	public String searchAjax(@ModelAttribute FileSearchDTO search,
-			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model){
-		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 7);
+	public String fileList(@ModelAttribute FileSearchDTO search, FileVO fileVO,
+			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
+		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 5);
 		Page<FileVO> vo = fileservice.fileList(pageNum, search);
 		
 		model.addAttribute("file", file);
-		model.addAttribute("files", vo);
+		model.addAttribute("fileList", vo);
 		model.addAttribute("search", search);
+		System.out.println(file);
+		System.out.println(vo);
 		
 		return "modal/modal-file";
 	}
 	
+
+	
 	// 페이징 및 검색 AJAX
 	@GetMapping("/searchAjax")
 	@ResponseBody
-	public Map<String, Object> searchAjax(@ModelAttribute FileSearchDTO search,
+	public Map<String, Object> fileList(@ModelAttribute FileSearchDTO search,
 			@RequestParam(required = false, defaultValue = "1") int pageNum){
-		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 7);
+		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 5);
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("file", file);
