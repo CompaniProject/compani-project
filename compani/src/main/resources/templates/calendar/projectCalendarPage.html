@@ -212,6 +212,7 @@ select {
 	
 	<script th:inline="javascript">
     let calendarData = [[${projectCalendarPage}]];
+    console.log([[$(session.loginInfo)]]);
     
     /*----------------------------
 	Calendar&Gantt switch
@@ -406,7 +407,7 @@ select {
 			});
 		}
 		console.log(gantt.getTask(15).start_date);
-		console.log(gantt.getTask(15).end_date);
+		//console.log(gantt.getTask(15).end_date);
 	});
 	
 	/*----------------------------
