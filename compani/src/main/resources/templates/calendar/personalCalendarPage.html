@@ -325,8 +325,8 @@ select {
 		    }
 		    return false;
 		});
+		
 		gantt.init("personalGanttchart");
-		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
 	});
 	
 	/*----------------------------
@@ -498,6 +498,39 @@ select {
 			{name: "start_date", label: "시작일", align: "center", width: 100},
 			{name: "duration", label: "기간", align: "center", width: 50}
 		];
+		// 업무바 수정 ajax
+		gantt.attachEvent("onAfterTaskupdate", function(id, item){
+			var obj = new Object();
+			var end = new Date(item.end_date);
+			end.setDate(end.getDate() - 1);
+			end = end.getDate();
+			if(end<10) end = '0' + end;
+			
+			var startDate = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
+			var endDate = item.end_date.getFullYear() + "-" + (item.end_date.getMonth() + 1) + "-" + end;
+			
+			obj.bussNo = item.id;
+			obj.bussFrdt = startDate;
+			obj.bussTodt = endDate;
+			obj.bussPrgre = Math.floor(item.progress * 100);
+			
+			$.ajax({
+				type: 'post',
+				url: '/updatePersonalCalendarBuss',
+				contentType: 'application/json',
+				data: JSON.stringify(obj),
+				success: function(){
+					console.log("수정성공!");
+					console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+					console.log("수정된 진척도: " + obj.bussPrgre);
+				},
+				error: function(error){
+					console.lof(error);
+				}
+			})
+			
+		    return true;
+		});
 		
 		gantt.init("personalGanttchart");
 		

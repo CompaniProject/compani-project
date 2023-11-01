@@ -189,6 +189,9 @@
 	<update id="updateCalendarBuss" parameterType="BusinessVO">
 		UPDATE business
 		SET buss_frdt = #{bussFrdt}, buss_todt = #{bussTodt}
+		<if test="#{bussPrgre} != null"> <!-- 간트 업무바 추가데이터 -->
+			, buss_prgre = #{bussPrgre}
+		</if>
 		WHERE buss_no = #{bussNo}
 	</update>
 </mapper>

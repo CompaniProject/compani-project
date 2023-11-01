@@ -215,18 +215,6 @@ select {
     //console.log([[${session.loginInfo}]]);
     //console.log([[${session.projectList}]]);
     
-    /*----------------------------
-	Calendar&Gantt switch
-	------------------------------*/
-	$('.btn.btn-primary.calendar').on('click', function(){
-		$('#projectCalendar').css("display","flex");
-		$('#projectGanttchart').css("display","none");
-	});
-	$('.btn.btn-primary.gantt').on('click', function(){
-		$('#projectGanttchart').css("display","flex");
-		$('#projectCalendar').css("display","none");
-	});
-    
    	/*----------------------------
 		업무리스트 정렬
 	------------------------------*/
@@ -298,9 +286,7 @@ select {
        			var year = end.getFullYear();
        			var month = end.getMonth()+1;
        			var date = (String)(end.getDate());
-       			if(date<10){
-       				date = '0' + date;
-       			}
+       			if(date<10) date = '0' + date;
        			
        			obj.bussNo = data.event.id;
        			obj.bussFrdt = data.event.startStr;
@@ -398,6 +384,39 @@ select {
 			{name: "start_date", label: "시작일", align: "center", width: 100},
 			{name: "duration", label: "기간", align: "center", width: 50}
 		];
+		// 업무바 수정 ajax
+		gantt.attachEvent("onAfterTaskupdate", function(id, item){
+			var obj = new Object();
+			var end = new Date(item.end_date);
+			end.setDate(end.getDate() - 1);
+			end = end.getDate();
+			if(end<10) end = '0' + end;
+			
+			var startDate = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
+			var endDate = item.end_date.getFullYear() + "-" + (item.end_date.getMonth() + 1) + "-" + end;
+			
+			obj.bussNo = item.id;
+			obj.bussFrdt = startDate;
+			obj.bussTodt = endDate;
+			obj.bussPrgre = Math.floor(item.progress * 100);
+			
+			$.ajax({
+				type: 'post',
+				url: '/updateProjectCalendarBuss',
+				contentType: 'application/json',
+				data: JSON.stringify(obj),
+				success: function(){
+					console.log("수정성공!");
+					console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+					console.log("수정된 진척도: " + obj.bussPrgre);
+				},
+				error: function(error){
+					console.lof(error);
+				}
+			})
+			
+		    return true;
+		});
 		
 		gantt.init("projectGanttchart");
 		
@@ -467,6 +486,18 @@ select {
 		var milli = date.getTime();
 		return milli;
 	}
+
+    /*----------------------------
+		Calendar&Gantt switch
+	------------------------------*/
+	$('.btn.btn-primary.calendar').on('click', function(){
+		$('#projectCalendar').css("display","flex");
+		$('#projectGanttchart').css("display","none");
+	});
+	$('.btn.btn-primary.gantt').on('click', function(){
+		$('#projectGanttchart').css("display","flex");
+		$('#projectCalendar').css("display","none");
+	});
 	
     </script>
 	

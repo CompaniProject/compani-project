@@ -87,7 +87,9 @@ public class BusinessServiceImpl implements BusinessService {
 		
 		return businessMapper.businessSelect(businessVO);
 	}
-
+	
+	// 캘린더&간트 업무바 수정
+	@Override
 	public int updateCalendarBuss(BusinessVO vo) {
 		return businessMapper.updateCalendarBuss(vo);
 	}

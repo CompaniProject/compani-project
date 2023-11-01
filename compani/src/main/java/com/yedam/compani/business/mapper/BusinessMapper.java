@@ -22,6 +22,6 @@ public interface BusinessMapper {
 	public BusinessVO businessSelect(BusinessVO businessVO);
 	
 	
-	// 캘린더 업무바 수정
+	// 캘린더&간트 업무바 수정
 	public int updateCalendarBuss(BusinessVO vo);
 }

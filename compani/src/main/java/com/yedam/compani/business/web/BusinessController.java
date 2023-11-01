@@ -116,7 +116,7 @@ public class BusinessController {
 		return "calendar/projectCalendarPage";
 	}
 	
-	// 김연규, 2023-10-31, 캘린더 업무바 수정
+	// 김연규, 2023-10-31, 캘린더&간트 업무바 수정
 	@PostMapping("/updatePersonalCalendarBuss")
 	@ResponseBody
 	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
