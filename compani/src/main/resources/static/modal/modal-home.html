@@ -8,8 +8,8 @@
 					<div class="modal-header">
 						<div class="ContentTitleBox">
 							<div class="ContentImg"
-								style="background-image: url(/images/tab_issue.png);"></div>
-							<p class="ContentText">업무</p>
+								style="background-image: url(/images/tab_basic.png);"></div>
+							<p class="ContentText">기본정보</p>
 						</div>
 						<button type="button" class="modalClose" data-dismiss="modal"
 							aria-label="Close"></button>
@@ -61,11 +61,19 @@
     	 	$('.card-body.p-3').on('click', function(){
     			includes1.load('/businessInfo/' + bussNo);
     		})	
-    		
+
+    		$('.openBM').on('click', function() {
+    			includes1.load('/businessInfo/' + bussNo);
+    		})
+
+    		$('.openBMINC').on('click', function() {
+    			includes1.load('/businessInfo/' + bussNo);
+    		})
+
     		$('#tab_log').on('click',function(){
     			includes1.load('/modal/reply/' + bussNo);
     			$('.ContentText').text($(this).text());
-    			$('.ContentImg').css('background-image', 'url(/images/tab_issue.png)');
+    			$('.ContentImg').css('background-image', 'url(/images/tab_log.png)');
     		})
     	});
     	

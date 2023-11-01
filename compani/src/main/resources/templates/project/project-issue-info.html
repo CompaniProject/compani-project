@@ -81,14 +81,12 @@
 								댓글<i id="counter">0/300자</i>
 							</h5>
 						</div>
-						<form action="#">
 							<textarea id="pIssueReplyCntn" name="pIssueReplyCntn"
 								onkeyup="countingLengthP(this);" placeholder="댓글을 입력하세요"></textarea>
 
 							<button type="button" id="issueReplySave" onclick="saveReplyP();">
 								<i class="fa fa-location-arrow"></i>등록
 							</button>
-						</form>
 					</div>
 
 				</div>
@@ -333,6 +331,10 @@
 			</div>
 		</div>
 	</div>
+	<th:block th:if ="${issueInfo.bussNo > 0}">
+		<button type="button" class="openBM" onclick="theBusinessModal()">해당 업무로 이동</button>
+	</th:block>
+	<div data-include1="showModalMain"></div>
 	<!--/* 이슈 삭제시 경고창 END */-->
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -1056,6 +1058,20 @@
 			var tr = $(element).closest('tr');
 			tr.remove();
 			checkPIEditFile();
+		}
+		var bussNo = [[${issueInfo.bussNo}]];
+
+		// Modal Open
+		$(function(){
+            var includes1 = $('[data-include1="showModalMain"]');
+            jQuery.each(includes1, function(){
+               $(this).load('/modal/modal-home.html');
+            });
+    	})
+
+    	function theBusinessModal() {
+			bussNo = [[${issueInfo.bussNo}]];
+			$('#workModal').modal('toggle');
 		}
 	</script>
 

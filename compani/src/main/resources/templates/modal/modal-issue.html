@@ -586,16 +586,16 @@
 	<script th:inline="javascript">
 	
 	var miMemberId = [[${session.loginInfo.membId}]];
-	
-	//검색 조건 (제목, 작성자, 전체) 
-	$('.issue-selectBox').on('click', function () {
-		$('.issue-select-ul').css('display', 'block');
-	});
-	//검색 조건 (제목, 작성자, 전체) 
-	$('.member-selectBox').on('click', function () {
-		$('.member-select-ul').css('display', 'block');
-	});
 
+	//검색 조건 ( 제목, 작성자, 전체)
+	$('.issue-selectBox').on('click', function () {
+		var issueSelectUl = $('.issue-select-ul');
+		if (issueSelectUl.css('display') === 'block') {
+			issueSelectUl.css('display', 'none');
+		} else {
+			issueSelectUl.css('display', 'block');
+		}
+	});
 	// 현재 페이지에 current 클래스 붙이기!
 	$('.cur_page').each(function () {
 		var page = $(this).text();
@@ -617,15 +617,6 @@
 		$('.issue-select-ul').css('display', 'none');
 		e.stopPropagation();
 	});
-
-	$('.member-select-option').on('click', function (e) {
-		var selectValue = e.currentTarget.textContent;
-		$('.member-selected-value').text(selectValue);
-		$('#keyword').val(selectValue);
-		$('.member-select-ul').css('display', 'none');
-		e.stopPropagation();
-	});
-
 
 	// ajax 
 	function issuePaging(pageNum) {
