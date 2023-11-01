@@ -291,10 +291,10 @@ select {
 					
 					$('.businessList:last').append($('<div class="businessList2"></div>'));
 					$('.businessList2:last').append(formatDate(calendarData[j].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[j].bussTodt).substr(2)
-							+ ' | 중요도 ' + calendarData[j].bussImp);
+							+ ' | 중요도 ' + calendarData[j].bussImp + ' | 진척도 ' + calendarData[j].bussPrgre + '%');
 					
 					$('.businessList:last').append($('<div class="businessList2"></div>'));
-					$('.businessList2:last').append(calendarData[j].bussNm + ' | 진척도 ' + calendarData[j].bussPrgre + '%');
+					$('.businessList2:last').append(calendarData[j].bussNm);
 				}
 			}
 		});
@@ -332,7 +332,7 @@ select {
 	/*----------------------------
 		업무리스트 정렬
 	------------------------------*/
-	$('.dropdown-item.sort').eq(0).on('click', function(){
+	$('.dropdown-item.sort').eq(0).on('click', function(){ // 날짜
 		calendarData.sort(function(a, b){
 			if(a.bussFrdt<b.bussFrdt) return -1;
 			if(a.bussFrdt>b.bussFrdt) return 1;
@@ -340,7 +340,7 @@ select {
 		});
 		resetBussList();
 	});
-	$('.dropdown-item.sort').eq(1).on('click', function(){
+	$('.dropdown-item.sort').eq(1).on('click', function(){ // 진척도
 		calendarData.sort(function(a, b){
 			if(a.bussPrgre>b.bussPrgre) return -1;
 			if(a.bussPrgre<b.bussPrgre) return 1;
@@ -348,17 +348,22 @@ select {
 		});
 		resetBussList();
 	});
-	$('.dropdown-item.sort').eq(2).on('click', function(){
-		calendarData.sort(function(a, b){
-			if(a.bussFrdt<b.bussFrdt) return -1;
-			if(a.bussFrdt>b.bussFrdt) return 1;
-			if(a.bussFrdt===b.bussFrdt) return 0;
+	$('.dropdown-item.sort').eq(2).on('click', function(){ // 중요도
+   		for(let i=0; i<calendarData.length; i++){
+   			if(calendarData[i].bussImp == "상") calendarData[i].bussImp == 1;
+   			if(calendarData[i].bussImp == "중") calendarData[i].bussImp == 2;
+   			if(calendarData[i].bussImp == "하") calendarData[i].bussImp == 3;
+   		}
+   		calendarData.sort(function(a, b){
+			if(a.bussImp<b.bussImp) return -1;
+			if(a.bussImp<b.bussImp) return 0;
+			if(a.bussImp<b.bussImp) return 1;
 		});
-		calendarData.sort(function(a){
-			if(a.bussImp=="상") return -1;
-			if(a.bussImp=="중") return 0;
-			if(a.bussImp=="하") return 1;
-		});
+   		for(let i=0; i<calendarData.length; i++){
+   			if(calendarData[i].bussImp == 1) calendarData[i].bussImp == "상";
+   			if(calendarData[i].bussImp == 2) calendarData[i].bussImp == "중";
+   			if(calendarData[i].bussImp == 3) calendarData[i].bussImp == "하";
+   		}
 		resetBussList();
 	});
 	
@@ -371,10 +376,10 @@ select {
 			
 			$('.businessList:last').append($('<div class="businessList2"></div>'));
 			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
-					+ ' | 중요도 ' + calendarData[i].bussImp);
+					+ ' | 중요도 ' + calendarData[i].bussImp + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
 			
 			$('.businessList:last').append($('<div class="businessList2"></div>'));
-			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+			$('.businessList2:last').append(calendarData[i].bussNm);
 		}
 	}
 	
