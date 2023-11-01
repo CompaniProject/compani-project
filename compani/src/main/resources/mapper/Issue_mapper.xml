@@ -17,19 +17,22 @@
 				   , i.issu_dt
 				   , p.prjt_nm
 				   , b.buss_nm
-		FROM 	  	 issue i, project p, business b
+				   , memb.memb_nm
+		FROM 	  	 issue  i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no
 		AND 		 b.prjt_no = p.prjt_no
+		AND			 memb.memb_id = i.memb_id
+		AND          i.buss_no = #{bussNo}
 		<choose>
 			<when test="keyword == '작성자'">
-				 AND memb_id  LIKE '%' || #{search} || '%'
+				 AND memb_nm  LIKE '%' || #{searchBI} || '%'
 			</when>
 			<when test="keyword == '제목'">
-				 AND issu_ttl LIKE '%' || #{search} || '%'
+				 AND issu_ttl LIKE '%' || #{searchBI} || '%'
 			</when>
 			<when test="keyword == '전체'">
-				 AND (memb_id LIKE '%' || #{search} || '%'
-				 OR issu_ttl LIKE '%' || #{search} || '%'
+				 AND (memb_nm LIKE '%' || #{searchBI} || '%'
+				 OR issu_ttl LIKE '%' || #{searchBI} || '%'
 				 )
 			</when>
 		</choose>
@@ -50,13 +53,15 @@
 				   , i.issu_dt
 				   , p.prjt_nm
 				   , b.buss_nm
-		FROM 	  	 issue i, project p, business b
-		WHERE 	  	 i.buss_no = b.buss_no
-		AND 		 b.prjt_no = p.prjt_no
+				   , memb.memb_nm
+		FROM 	  	 issue i, project p, business b, member memb
+		WHERE 	  	 i.buss_no = b.buss_no(+)
+		AND 		 b.prjt_no = p.prjt_no(+)
+		AND			 memb.memb_id = i.memb_id
 		AND          i.prjt_no = #{prjtNo}
 		 <choose>
 			<when test="keyword == '작성자'">
-				 AND memb_id  LIKE '%' || #{search} || '%'
+				 AND memb_nm  LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '제목'">
 				 AND issu_ttl LIKE '%' || #{search} || '%'
@@ -65,9 +70,9 @@
 				 AND buss_nm LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '전체'">
-				 AND (memb_id LIKE '%' || #{search} || '%'
+				 AND (memb_nm LIKE '%' || #{search} || '%'
 				 OR  issu_ttl LIKE '%' || #{search} || '%'
-				 OR  buss_nm  LIKE  '%'  || #{search} || '%')
+				 OR  buss_nm  LIKE '%'  || #{search} || '%')
 			</when>
 		</choose> 
 		ORDER BY 	 issu_dt DESC
@@ -88,14 +93,16 @@
 				   , p.prjt_nm
 				   , b.buss_nm
 				   , p.co_cd
-		FROM 	  	 issue i, project p, business b
+				   , memb.memb_nm
+		FROM 	  	 issue i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no
 		AND 		 b.prjt_no = p.prjt_no
+		AND			 i.memb_id = memb.memb_id
 		AND          p.co_cd   = #{coCd}
 		AND          p.prjt_pubcyn = '0F1'
 		 <choose>
 			<when test="keyword == '작성자'">
-				 AND memb_id  LIKE '%' || #{search} || '%'
+				 AND memb_nm  LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '제목'">
 				 AND issu_ttl LIKE '%' || #{search} || '%'
@@ -107,7 +114,7 @@
 				 AND prjt_nm LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '전체'">
-				 AND (memb_id LIKE '%' || #{search} || '%'
+				 AND (memb_nm LIKE '%' || #{search} || '%'
 				 OR  issu_ttl LIKE '%' || #{search} || '%'
 				 OR  buss_nm  LIKE '%' || #{search} || '%'
 				 OR  prjt_nm  LIKE '%' || #{search} || '%')
@@ -128,18 +135,20 @@
 	
 	<!-- 단건 조회 -->
 	<select id="findById" resultType="IssueVO">
-		SELECT 	  issu_no
-				, prjt_no
-				, buss_no
-				, memb_id
-				, issu_ttl
-				, issu_cntn
-				, issu_knd
-				, issu_rank
-				, issu_st
-				, issu_dt
-		FROM	  issue
-		WHERE 	  issu_no = #{issuNo}	
+		SELECT 	  i.issu_no
+				, i.prjt_no
+				, i.buss_no
+				, i.memb_id
+				, i.issu_ttl
+				, i.issu_cntn
+				, i.issu_knd
+				, i.issu_rank
+				, i.issu_st
+				, i.issu_dt
+				, m.memb_nm
+		FROM	  issue i, member m
+		WHERE     i.memb_id = m.memb_id
+		AND 	  issu_no = #{issuNo}	
 	</select>
 
 	<insert id="modalInsertIssue" parameterType="IssueVO">
@@ -148,38 +157,45 @@
 				FROM   issue
 		</selectKey>
 		INSERT INTO		 issue
-						(   
-								 issu_no
-							   , prjt_no
-							   , buss_no
-							   , memb_id
-							   , issu_ttl
-							   , issu_cntn
-							   , issu_knd
-							   , issu_rank
-							   , issu_st
-							   , issu_dt																			 
-						)
+					(   
+						 issu_no
+					   , prjt_no
+					   , buss_no
+					   , memb_id
+					   , issu_ttl
+					   , issu_cntn
+					   , issu_knd
+					   , issu_rank
+					   , issu_st
+				       , issu_dt																			 
+					 )
 			  VALUES  
-			            (
-								#{issuNo}
-							  , 1
-							  , 1
-							  , 'm1'
-							  , #{issuTtl}
+			         (
+						 #{issuNo}
+					   , 1
 			<choose>
-				<when test="issuCntn != null and !issuCntn.equals('')">
-							  , #{issuCntn}
+				<when test="bussNo > 0">
+					   , #{bussNo}
 				</when>
 				<otherwise>
-				 			 ,  'No Contents'
+					   , NULL	
+				</otherwise>
+			</choose>				  
+					   , #{membId}
+					   , #{issuTtl}
+			<choose>
+				<when test="issuCntn != null and !issuCntn.equals('')">
+					   , #{issuCntn}
+				</when>
+				<otherwise>
+				 	   ,  'No Contents'
 				</otherwise>
 			</choose>
-						     ,  #{issuKnd}
-						     ,  #{issuRank}
-						     ,  '0E2'
-					 	     ,  SYSDATE					
-			 		    )								 
+					   ,  #{issuKnd}
+					   ,  #{issuRank}
+					   ,  '0E2'
+					   ,  SYSDATE					
+			 		   )								 
 	</insert>
 	
 	<update id="update" parameterType="IssueVO">

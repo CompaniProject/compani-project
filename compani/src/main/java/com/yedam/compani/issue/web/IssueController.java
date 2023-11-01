@@ -10,10 +10,9 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,8 +26,7 @@ import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
-import com.yedam.compani.paging.SearchDto;
-import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
+
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
@@ -43,31 +41,33 @@ public class IssueController {
 	private final ProjectStatusService projectStatusService;
 	private final IssueHashtagService issueHashtagService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
+	
 	// 모달에서 이슈리스트 나오기
-	@GetMapping("/ModalIssueList")
-	public String modalIssueList(@ModelAttribute SearchDto search, IssueVO issueVO,
+	@GetMapping("/ModalIssueList/{bussNo}")
+	public String modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword, IssueVO issueVO,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
-		Page<IssueVO> vo = issueService.getIssueList(pageNum, search);
-
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
+		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo);
+		System.out.println(issues);
+		System.out.println(vo);
 		model.addAttribute("issue", issues);
 		model.addAttribute("issueList", vo);
-		model.addAttribute("search", search);
+		model.addAttribute("search", searchBI);
 
 		return "modal/modal-issue";
 	}
 
 	// 페이징 또는 검색 시 ajax 처리
-	@GetMapping("/ModalAjaxIssueList")
+	@GetMapping("/ModalAjaxIssueList/{bussNo}")
 	@ResponseBody
-	public Map<String, Object> modalIssueList(@ModelAttribute SearchDto search,
+	public Map<String, Object> modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, search), 8);
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
 		Map<String, Object> map = new HashMap<>();
 
 		map.put("issue", issues);
-		map.put("issues", issueService.getIssueList(pageNum, search));
-		map.put("search", search);
+		map.put("issues", issueService.getIssueList(pageNum, searchBI, keyword, bussNo));
+		map.put("search", searchBI);
 
 		return map;
 	}

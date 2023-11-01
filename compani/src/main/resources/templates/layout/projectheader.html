@@ -119,7 +119,7 @@
 								<li class="nav-item"><a class="nav-link" data-toggle="tab"
 									href="business/1">업무</a></li>
 								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#message">이슈</a></li>
+									th:href="@{/project/issues/{prjtNo}}">이슈</a></li>
 								<li class="nav-item"><a class="nav-link" data-toggle="tab"
 									href="#message">드라이브</a></li>
 								<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -155,5 +155,10 @@
 			</div>
 <!-- 		</div>
 	</div> -->
+	
+<script>
+		var myPrjtList = $('#myPrjtList').children().find('.active');
+		console.log(myPrjtList);
+	</script>
 </th:block>
 </html>

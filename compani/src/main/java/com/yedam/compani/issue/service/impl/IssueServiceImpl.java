@@ -26,9 +26,9 @@ public class IssueServiceImpl implements IssueService {
 	 * @return list & pagination information
 	 */
 	@Override
-	public Page<IssueVO> getIssueList(int pageNo, SearchDto search) {
+	public Page<IssueVO> getIssueList(int pageNo, String search, String keyword, int bussNo) {
 		PageHelper.startPage(pageNo, 6);
-		return issueMapper.findIssue(search);
+		return issueMapper.findIssue(search, keyword, bussNo);
 	}
 
 	/**

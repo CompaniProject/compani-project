@@ -39,7 +39,7 @@
     <script>
     	$(function(){
             var includes1 = $('[data-include1="showModal"]');
-            console.log(bussNo);
+            console.log("불러들인 bussNo는 " + bussNo);
     		$('#tab_issue').on('click',function(){
     			includes1.load('/ModalIssueList/' + bussNo)
     			$('.ContentText').text($(this).text());

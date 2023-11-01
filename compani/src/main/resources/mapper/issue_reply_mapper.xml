@@ -30,50 +30,52 @@
 		</insert> 
 		
 		 <!-- 댓글 상세정보 조회 -->
-		 	<select id="findById" resultType="IssueReplyVO">
-		 		  SELECT			 	 issu_rply_no
-									   ,     issu_no
-									   ,     memb_id
-									   ,     issu_rply_cntn
-									   ,     issu_rply_dt
-									   ,     issu_rply_del					
-				 FROM               	 issue_reply
-				 WHERE           		 issu_rply_no = #{issuRplyNo}		 			 			 	
-		 	</select>
+		 <select id="findById" resultType="IssueReplyVO">
+		 	SELECT		issu_rply_no
+					  , issu_no
+					  , memb_id
+					  , issu_rply_cntn
+					  , issu_rply_dt
+					  , issu_rply_del					
+			FROM   		issue_reply
+			WHERE  		issu_rply_no = #{issuRplyNo}		 			 			 	
+		 </select>
 		 	
-		 <!-- 댓글 수정 -->
-			  <update id="update" parameterType="IssueReplyVO">
-				   UPDATE 			issue_reply
-				   SET				issu_rply_dt    = SYSDATE
-									 ,  issu_rply_cntn  = #{issuRplyCntn}
-				   WHERE         	issu_rply_no    = #{issuRplyNo}
-			  </update>
+		<!-- 댓글 수정 -->
+		<update id="update" parameterType="IssueReplyVO">
+			UPDATE 		issue_reply
+			SET			issu_rply_dt    = SYSDATE
+					 ,  issu_rply_cntn  = #{issuRplyCntn}
+			WHERE       issu_rply_no    = #{issuRplyNo}
+		 </update>
 		
-		  <!-- 댓글 삭제 -->
-			  <delete id="deleteById" parameterType="int">
+		<!-- 댓글 삭제 -->
+		<delete id="deleteById" parameterType="int">
 			        UPDATE		 issue_reply
 				    SET			 issu_rply_del   = 1
 				   WHERE         issu_rply_no    = #{issuRplyNo}
 			  </delete>
-		 <!-- 댓글 리스트 조회 -->
-			 <select id="findAll" parameterType="int" resultType="issueReplyVO">
-			 	SELECT			 issu_rply_no
-								   ,     issu_no
-								   ,     memb_id
-								   ,     issu_rply_cntn
-								   ,     issu_rply_dt
-								   ,     issu_rply_del					
-				 FROM               issue_reply
-				 WHERE            issu_rply_del = 0
-				 AND                 issu_no  = #{issuNo}	 	
-				 ORDER BY        issu_rply_no  DESC			 			 			 
-			 </select>
-		 <!--  댓글 수 카운팅 -->
-		   	<select id="count" resultType="int">
-		        SELECT	 COUNT(*)
-		        FROM	   	 issue_reply
-		        WHERE	     issu_rply_del = 0
-		        AND 	     issu_no = #{issuNo}
-    		</select>
+		<!-- 댓글 리스트 조회 -->
+		<select id="findAll" parameterType="int" resultType="issueReplyVO">
+			SELECT			ir.issu_rply_no
+				      ,  	ir.issu_no
+					  ,  	ir.memb_id
+					  ,  	ir.issu_rply_cntn
+					  ,  	ir.issu_rply_dt
+					  ,  	ir.issu_rply_del
+					  ,		m.memb_nm					
+			FROM   			issue_reply ir, member m
+			WHERE			ir.memb_id 		 = m.memb_id
+			AND  			ir.issu_rply_del = 0
+			AND        		ir.issu_no 		 = #{issuNo}	 	
+			ORDER BY   		issu_rply_dt  DESC			 			 			 
+		</select>
+		<!--  댓글 수 카운팅 -->
+		<select id="count" resultType="int">
+		    SELECT	 COUNT(*)
+		    FROM	 issue_reply
+		    WHERE	 issu_rply_del = 0
+		    AND 	 issu_no = #{issuNo}
+    	</select>
 		 	
 </mapper>
