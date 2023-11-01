@@ -130,7 +130,15 @@
 	}
 	
 	$(document).on('click','#insertBtn',insertComment);
+
+	//----------------------- Business Reply (Comment) Insert End
 	
+	    // date, content change
+    function changeComment(data, comment){
+        comment.find(".media-body p").text(data.replyCntn);
+        comment.find("#date-area").text(timestamp(data.replyDt));
+    }
+    
     // get comment, content, editBtn, submitBtn to Toggle
     // update textarea - copy to content text
     function toggleTags(event){
@@ -152,11 +160,26 @@
         
         let obj = {};
         obj["replyCntn"] = textCntn.val();
-        obj["bussNo"] = comment.data('no');
+        obj["replyNo"] = comment.data('no');
         
+        updateAjax(obj, comment);
         
         toggleTags(event);
     }
+    
+    // ----------------------------------Update Ajax
+    // update - using edit, delete
+    function updateAjax(obj, comment){
+        $.ajax({
+            url:'/business/reply',
+            type: 'put',
+            contentType: "application/json",
+            data:JSON.stringify(obj)
+        })
+        .done(data => {changeComment(data, comment)})
+        .fail(err => {});
+    }
+    // -------------------------------Update Ajax End
     
     // -------------------------------onclick Event
     $(document).on('click','.editBtn',toggleTags);
