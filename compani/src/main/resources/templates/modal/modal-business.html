@@ -217,7 +217,6 @@
 		const bussNo = $(this).find('input').val();
 		let prjtNo = $('input[name=prjtNo]').val();
 		//membId 세션값 넣어주기 let membId
-		console.log(bussNo);
 		$.ajax('/bussInfoAjax', {
 			type : 'post',
 			data : {
