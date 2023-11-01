@@ -233,7 +233,7 @@
 		const cpnStatForCurrDt = [[${cpnStatForCurrDt}]];
 		const cpnStatForPrjtDt = [[${cpnStatForPrjtDt}]];
 		const prjtNo = [[${prjtNo}]];
-		const membNm = 'm1';
+		const membNm = [[${session.loginInfo.membNm}]];
 		// -------------------- Status Data End
 	</script>
 	
@@ -293,7 +293,9 @@
 				comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
 			} else {
 				comment.find(".content-area").text('삭제된 내용입니다.');
+				comment.find(".content-area").show();
 				comment.find(".btn-area").remove();
+				comment.find("textarea").css('display','none');
 			}
 		}
 		
