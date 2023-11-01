@@ -255,7 +255,7 @@
 		
 		function insertAjax(obj){
             $.ajax({
-                url:'/project/feedback/insert',
+                url:'/project/feedback',
                 type: 'post',
                 contentType: "application/json",
                 data:JSON.stringify(obj)
@@ -340,8 +340,8 @@
 		// update - using edit, delete
 		function updateAjax(obj, comment){
 			$.ajax({
-				url:'/project/feedback/update',
-                type: 'post',
+				url:'/project/feedback',
+                type: 'put',
                 contentType: "application/json",
                 data:JSON.stringify(obj)
 			})
