@@ -30,7 +30,7 @@
 									<textarea class="form-control" id="editCntn" th:text="${reply.replyCntn}"></textarea>
 								</div>
                             </div>
-                            <ul>
+                            <ul class="btn-area">
                            		<li>
                            			<span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>
                            		</li>
@@ -133,10 +133,17 @@
 
 	//----------------------- Business Reply (Comment) Insert End
 	
-	    // date, content change
+	// date, content change
     function changeComment(data, comment){
-        comment.find(".media-body p").text(data.replyCntn);
-        comment.find("#date-area").text(timestamp(data.replyDt));
+        if (data.replyShow == null){
+	        comment.find(".media-body p").text(data.replyCntn);
+	        comment.find("#date-area").text(timestamp(data.replyDt));
+	    } else {
+	        comment.find(".media-body p").text('삭제된 내용입니다.');
+	        comment.find(".media-body p").show();
+	        comment.find(".btn-area").remove();
+	        comment.find("textarea").css('display','none');
+	    }
     }
     
     // get comment, content, editBtn, submitBtn to Toggle
@@ -166,6 +173,18 @@
         
         toggleTags(event);
     }
+
+    // ----------------------------------Delete Comment
+    function deleteComment(event){
+        let comment = $(event.target).closest('.media');
+        
+        let obj = {};
+        obj["replyShow"] = '0N2';		// Delete State Change
+        obj["replyNo"] = comment.data('no');
+        
+        updateAjax(obj,comment);
+    }
+    // ----------------------------------Delete Comment 
     
     // ----------------------------------Update Ajax
     // update - using edit, delete
@@ -182,6 +201,7 @@
     // -------------------------------Update Ajax End
     
     // -------------------------------onclick Event
+    $(document).on('click','.delBtn',deleteComment);
     $(document).on('click','.editBtn',toggleTags);
     $(document).on('click','.submitBtn',editSubmit);
     // ------------------------------onclick Event End
