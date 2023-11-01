@@ -469,6 +469,7 @@
 		<div data-include1="showModalMain"></div>
 
 		<script th:inline="javascript">
+		
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember)
@@ -510,7 +511,6 @@
 			function dropdown(){
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
-				//$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
 			}
 			function insertMember(event){
 	
@@ -660,9 +660,7 @@
 				.fail(err => {});
 					
 			}
-			function infoBusiness(e){
-				$('#workModal').modal('toggle');
-			}
+			
 		
 	
 		</script>

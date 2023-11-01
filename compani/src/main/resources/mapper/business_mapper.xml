@@ -119,7 +119,8 @@
 	</select>
 
 	<insert id="insertBusiness" parameterType="BusinessVO">
-		<selectKey keyProperty="bussNo" resultType="BusinessVO" order="BEFORE">
+		<selectKey keyProperty="bussNo" resultType="BusinessVO"
+			order="BEFORE">
 			SELECT NVL(MAX(BUSS_NO),0)+1 AS BUSS_NO FROM BUSINESS
 		</selectKey>
 		INSERT INTO BUSINESS
@@ -143,7 +144,7 @@
 		#{bussTodt},
 		NULL
 		)
-		
+
 
 	</insert>
 
@@ -153,17 +154,20 @@
 		max_no NUMBER(10) := 0;
 		p_buss_no NUMBER(10) := 0;
 		BEGIN
-		SELECT MAX(BUSS_NO)
+		SELECT
+		MAX(BUSS_NO)
 		INTO max_no
 		FROM BUSINESS;
 
 		SELECT BUSS_NO
 		INTO p_buss_no
-		FROM BUSINESS
+		FROM
+		BUSINESS
 		WHERE BUSS_NM = #{bussUpNm}
 		AND PRJT_NO = #{prjtNo};
 
-		UPDATE BUSINESS
+		UPDATE
+		BUSINESS
 		<set>
 			<if test="bussDep.equals('up')">
 				BUSS_UPCD = p_buss_no
@@ -181,10 +185,20 @@
 	</update>
 
 	<select id="businessSelect" resultType="BusinessVO">
-		SELECT *
+		SELECT BUSS_NO,
+			PRJT_NO,
+			BUSS_UPCD,
+			BUSS_NM,
+			BUSS_IMP,
+			BUSS_PRGRE,
+			BUSS_FRDT,
+			BUSS_TODT,
+			BUSS_CMPLTDT,
+			BUSS_ST,
+			FIND_CODENM(BUSS_ST) as bussStNm
 		FROM BUSINESS
 		WHERE BUSS_NO = #{bussNo}
 	</select>
 
-	
+
 </mapper>

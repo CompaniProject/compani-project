@@ -112,9 +112,10 @@ public class BusinessController {
 	@GetMapping("/businessInfo")
 	public String businessInfo(Model model, BusinessVO businessVO, BusinessMemberVO businessMemberVO) {
 
+		//업무 번호만 넘겨서 
+		
 		// 업무 단건
 		BusinessVO bussVO = businessService.businessSelect(businessVO);
-		System.out.println(bussVO);
 		model.addAttribute("businessVO", bussVO);
 
 		// 업무 참여자 list
