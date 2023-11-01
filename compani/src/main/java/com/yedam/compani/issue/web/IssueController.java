@@ -39,7 +39,8 @@ import lombok.RequiredArgsConstructor;
 public class IssueController {
 	
 	private final IssueService issueService;
-	private final IssueFileService issueFileService;	
+	private final IssueFileService issueFileService;
+	private final ProjectStatusService projectStatusService;
 	private final IssueHashtagService issueHashtagService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
 	// 모달에서 이슈리스트 나오기
