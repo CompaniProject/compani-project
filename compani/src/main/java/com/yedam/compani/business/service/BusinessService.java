@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface BusinessService {
 	// 개인 캘린더 업무리스트
-	public List<BusinessVO> getPersonalCalendarBusinessList();
+	public List<Map<Object,Object>> getPersonalCalendarBusinessList(String membId);
 	
 	// 프로젝트 캘린더 업무리스트
 	public List<BusinessVO> getProjectCalenderBusinessList();

@@ -50,7 +50,7 @@ public class ProjectFeedbackController {
 		return "project/feedback-home";
 	}
 
-	@RequestMapping("/project/feedback/insert")
+	@RequestMapping("/project/feedback/insert") //post
 	@ResponseBody
 	public ProjectFeedbackVO insertProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk, HttpSession session){
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
@@ -59,7 +59,7 @@ public class ProjectFeedbackController {
 		return prjtFdbk;
 	}
 
-	@RequestMapping("/project/feedback/update")
+	@RequestMapping("/project/feedback/update") // put
 	@ResponseBody
 	public ProjectFeedbackVO updateProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk) {
 		projectFeedbackService.update(prjtFdbk);

@@ -5,8 +5,7 @@
 <mapper
 	namespace="com.yedam.compani.business.mapper.BusinessMapper">
 	<!-- 개인캘린더 업무 목록 -->
-	<select id="selectPersonalCalendarAllBusiness"
-		resultType="BusinessVO">
+	<select id="selectPersonalCalendarAllBusiness" resultType="CamelHashMap">
 		SELECT b.buss_no
 		, b.prjt_no
 		, p.prjt_nm
@@ -27,9 +26,9 @@
 		LEFT JOIN business_member m
 		ON b.buss_no =
 		m.buss_no
-		WHERE buss_st = '0K1'
-		OR buss_st = '0K3'
-		<!-- AND memb_id = #{sessionId} -->
+		WHERE (buss_st = '0K1'
+		OR buss_st = '0K3')
+		AND memb_id = #{membId}
 		ORDER BY buss_no
 	</select>
 

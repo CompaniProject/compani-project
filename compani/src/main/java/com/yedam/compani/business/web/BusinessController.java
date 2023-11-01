@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,10 +98,12 @@ public class BusinessController {
 	}
 
 	
-	// 김연규, 2023-10-22, 개인달력 업무리스트
+	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
 	@GetMapping("personalCalendarPage")
-	public String personalCalendarList(Model model) {
-		List<BusinessVO> list = businessService.getPersonalCalendarBusinessList();
+	public String personalCalendarList(Model model, HttpSession session) {
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		String membId = memberVO.getMembId();
+		List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList(membId);
 		model.addAttribute("personalCalendarPage", list);
 		return "calendar/personalCalendarPage";
 	}

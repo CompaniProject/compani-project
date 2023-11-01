@@ -20,8 +20,8 @@ public class BusinessServiceImpl implements BusinessService {
 	
 	// 개인캘린더 업무리스트
 	@Override
-	public List<BusinessVO> getPersonalCalendarBusinessList() {
-		return businessMapper.selectPersonalCalendarAllBusiness();
+	public List<Map<Object,Object>> getPersonalCalendarBusinessList(String membId) {
+		return businessMapper.selectPersonalCalendarAllBusiness(membId);
 	}
 	
 	// 프로젝트 캘린더 업무리스트

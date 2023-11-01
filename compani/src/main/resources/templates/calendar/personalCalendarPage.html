@@ -230,8 +230,9 @@ select {
 	
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]];
-	let prjtNum = [];
 	
+	let prjtNum = [];
+	//console.log([[${session.loginInfo}]]);
 	/*----------------------------
 		필터링
 	------------------------------*/
@@ -386,7 +387,7 @@ select {
        		height: "1000px",
        		expandRows: true,
 			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
-       		dayMaxEvents: 5,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+       		dayMaxEvents: 3,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
        		locale: 'ko',			// 한국어 설정
        		editable: true,			// 수정 가능
        		selectable: true,			// 달력 일자 드래그 기능
