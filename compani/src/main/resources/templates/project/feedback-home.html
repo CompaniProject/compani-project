@@ -227,143 +227,44 @@
 		</div>
 	</div>
 	
+	<!-- Hidden Insert Comment Body -->
+	<div class="card" style="display:none;" id="insertBody">
+		<div class="card-body">
+			<div class="media">
+				<div class="media-body">
+					<div class="comment-content">
+						<h5 class="mt-0"></h5>
+						<div class="content-area">
+						</div>
+						<div class="edit-area" style="display:none;">
+							<textarea class="form-control" id="editCntn"></textarea>
+						</div>
+						<div class="float-left" id="date-area"></div>
+						<div class="float-right editBtn">수정</div>
+						<div class="float-right delBtn">삭제</div>
+						<div class="float-right submitBtn">확인</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Hidden Insert Comment Body -->
+	
+	
 	<script th:inline="javascript">
 		// -------------------- Status Data Start
 		const projectStatus = [[${projectStatus}]];
 		const cpnStatForCurrDt = [[${cpnStatForCurrDt}]];
 		const cpnStatForPrjtDt = [[${cpnStatForPrjtDt}]];
 		const prjtNo = [[${prjtNo}]];
-		const membNm = 'm1';
+		const membNm = [[${session.loginInfo.membNm}]];
 		// -------------------- Status Data End
 	</script>
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
+	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
 	
-	<script th:inline="javascript">
-	
-	//----------------------- Project Feedback(Comment) Insert Start
-		function insertComment(){
-			let value = $('#inputCntn').val();
-			let obj = {};
-			obj["prjtFdbkCntn"] = value;
-			obj["prjtNo"] = prjtNo;
-			
-			insertAjax(obj);
-			
-			$('#inputCntn').val('');
-		}
-		
-		function insertAjax(obj){
-            $.ajax({
-                url:'/project/feedback/insert',
-                type: 'post',
-                contentType: "application/json",
-                data:JSON.stringify(obj)
-            })
-            .done(data => {insertCommentHTML(data)})
-            .fail(err => {});
-		}
-		
-		function insertCommentHTML(data){
-			// create tag
-			let body = $('#commentBody');
-			let card = body.find('.card').first().clone();
-			
-			// input content values
-			card.find('comment-content').data('no',data.prjtFdbkNo);
-			card.find('.mt-0').text(membNm);
-			card.find('.content-area').text(data.prjtFdbkCntn);
-			card.find('textarea').text(data.prjtFdbkCntn);
-			card.find('#date-area').text(timestamp(data.prjtFdbkDt));
-			
-			// insert comment tag to comment body
-			body.append(card);
-		}
-		
-		$('#insertBtn').on('click', insertComment);
-		
-		// ---------------------------------------Project Feedback(Comment) Insert End
-		
-		// date, content change
-		function changeComment(data, comment){
-			let text = (data.prjtFdbkShow == null) ? data.prjtFdbkCntn : '삭제되었습니다.'; 
-
-			if (data.prjtFdbkShow == null){
-				comment.find(".content-area").text(data.prjtFdbkCntn);
-				comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
-			} else {
-				comment.find(".content-area").text('삭제된 내용입니다.');
-				comment.find(".btn-area").remove();
-			}
-		}
-		
-		// get comment, content, editBtn, submitBtn to Toggle
-		// update textarea - copy to content text
-		function toggleTags(event){
-			let comment = $(event.target).closest('.comment-content');
-			let content = comment.find('.content-area');
-			let edit = comment.find('.edit-area');
-			let submitBtn = comment.find('.submitBtn');
-			
-			content.val(comment.find('textarea').val());
-			
-			content.toggle();
-			edit.toggle();
-			submitBtn.toggle();
-		}
-		
-		function editSubmit(event){
-			let comment = $(event.target).closest('.comment-content');
-			let textCntn = comment.find("textarea");
-			
-			let obj = {};
-			obj["prjtFdbkCntn"] = textCntn.val();
-			obj["prjtFdbkNo"] = comment.data('no');
-			updateAjax(obj, comment);
-			
-			toggleTags(event);
-		}
-		
-		// ----------------------------------Delete Comment
-		function deleteComment(event){
-			let comment = $(event.target).closest('.comment-content');
-			
-			let obj = {};
-			obj["prjtFdbkShow"] = '0N2';		// Delete State Change
-			obj["prjtFdbkNo"] = comment.data('no');
-			
-			updateAjax(obj,comment);
-		}
-		// ----------------------------------Delete Comment 
-		
-		// ----------------------------------Update Ajax
-		// update - using edit, delete
-		function updateAjax(obj, comment){
-			$.ajax({
-				url:'/project/feedback/update',
-                type: 'post',
-                contentType: "application/json",
-                data:JSON.stringify(obj)
-			})
-            .done(data => {changeComment(data, comment)})
-            .fail(err => {});
-		}
-		// -------------------------------Update Ajax End
-		
-		// -------------------------------onclick Event
-		$(document).on('click','.delBtn',deleteComment);
-		$(document).on('click','.editBtn',toggleTags);
-		$(document).on('click','.submitBtn',editSubmit);
-		// ------------------------------onclick Event End
-		
-		//------------ Date formatting
-		function timestamp(convertDate){
-		    let today = new Date(convertDate);
-		    today.setHours(today.getHours() + 9);
-		    return today.toISOString().replace('T', ' ').substring(0, 16);
-		}
-		
-	</script>
 </th:block>
 </body>
 </html>

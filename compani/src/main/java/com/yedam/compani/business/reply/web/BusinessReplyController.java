@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +34,7 @@ public class BusinessReplyController {
 		return "modal/modal-reply";
 	}
 	
-	@RequestMapping("/business/reply/insert")
+	@PostMapping("/business/reply")
 	@ResponseBody
 	public BusinessReplyVO insertBusinessReply(@RequestBody BusinessReplyVO bussReply, HttpSession session){
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
@@ -41,7 +43,7 @@ public class BusinessReplyController {
 		return bussReply;
 	}
 
-	@RequestMapping("/business/reply/update")
+	@PutMapping("/business/reply")
 	@ResponseBody
 	public BusinessReplyVO updateBusinessReply(@RequestBody BusinessReplyVO bussReply) {
 		businessReplyService.update(bussReply);

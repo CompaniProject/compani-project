@@ -39,7 +39,7 @@
     <script>
     	$(function(){
             var includes1 = $('[data-include1="showModal"]');
-            console.log(bussNo);
+            
     		$('#tab_issue').on('click',function(){
     			includes1.load('/ModalIssueList/' + bussNo)
     			$('.ContentText').text($(this).text());
@@ -51,6 +51,7 @@
     			$('.ContentText').text($(this).text());
     			$('.ContentImg').css('background-image', 'url(/images/tab_file.png)');
     		})
+    		
     		$('#tab_info').on('click',function(){
     			includes1.load('/businessInfo/' + bussNo)
     			$('.ContentText').text($(this).text());
@@ -62,7 +63,9 @@
     		})	
     		
     		$('#tab_log').on('click',function(){
-    			includes1.load('/modal/reply/3');
+    			includes1.load('/modal/reply/' + bussNo);
+    			$('.ContentText').text($(this).text());
+    			$('.ContentImg').css('background-image', 'url(/images/tab_issue.png)');
     		})
     	});
     	

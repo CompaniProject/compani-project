@@ -12,5 +12,5 @@ public class BusinessReplyVO {
 	private Date replyDt;
 	private String pubcyn;
 	private String membId;
-	private int replyUpno;
+	private Integer replyUpno;
 }
