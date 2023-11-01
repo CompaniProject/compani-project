@@ -82,46 +82,48 @@ public class BusinessController {
 
 	}
 
-	@PostMapping("bussInfoAjax")
-	@ResponseBody
-	public Map<String, Object> bussInfo(BusinessVO businessVO, BusinessMemberVO businessMemberVO) {
-
-		System.out.println("null이니" + businessMemberVO);
-		Map<String, Object> map = new HashMap<>();
-
-		// 업무 단건
-		BusinessVO bussVO = businessService.businessSelect(businessVO);
-		System.out.println(bussVO);
-		map.put("businessVO", bussVO);
-
-		// 업무 참여자 list
-		List<MemberVO> list = businessMemberService.bussMemberList(businessMemberVO);
-		map.put("businessMemberList", list);
-
-		// 회사 멤버 list
-		List<MemberVO> memberList = memberService.getMemberList();
-		map.put("memberList", memberList);
-
-		return map;
-	}
+	/*
+	 * @PostMapping("bussInfoAjax")
+	 * 
+	 * @ResponseBody public Map<String, Object> bussInfo(BusinessVO businessVO,
+	 * BusinessMemberVO businessMemberVO) {
+	 * 
+	 * System.out.println("null이니" + businessMemberVO); Map<String, Object> map =
+	 * new HashMap<>();
+	 * 
+	 * // 업무 단건 BusinessVO bussVO = businessService.businessSelect(businessVO);
+	 * System.out.println(bussVO); map.put("businessVO", bussVO);
+	 * 
+	 * // 업무 참여자 list List<MemberVO> list =
+	 * businessMemberService.bussMemberList(businessMemberVO);
+	 * map.put("businessMemberList", list);
+	 * 
+	 * // 회사 멤버 list List<MemberVO> memberList = memberService.getMemberList();
+	 * map.put("memberList", memberList);
+	 * 
+	 * return map; }
+	 */
 
 	@GetMapping("home/modal")
 	public String projectHome() {
 		return "modal/modal-main";
 	}
 
-	@GetMapping("/businessInfo")
-	public String businessInfo(Model model, BusinessVO businessVO, BusinessMemberVO businessMemberVO) {
+	@GetMapping("/businessInfo/{bussNo}")
+	public String businessInfo(@PathVariable Integer bussNo ,Model model) {
 
-		//업무 번호만 넘겨서 
-		
+
 		// 업무 단건
-		BusinessVO bussVO = businessService.businessSelect(businessVO);
+		BusinessVO bussVO = businessService.businessSelect(bussNo);
 		model.addAttribute("businessVO", bussVO);
+		System.out.println(bussVO);
 
 		// 업무 참여자 list
-		List<MemberVO> list = businessMemberService.bussMemberList(businessMemberVO);
+		
+		
+		List<MemberVO> list = businessMemberService.bussMemberList(bussNo);
 		model.addAttribute("businessMemberList", list);
+		System.out.println(list);
 
 		// 회사 멤버 list
 		List<MemberVO> memberList = memberService.getMemberList();

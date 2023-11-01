@@ -395,7 +395,8 @@
 									<label class="col-lg-4 col-form-label">일정 </label>
 									<div class="col-lg-3">
 										<input type="date" class="form-control" id="bussFrdt"
-											name="bussFrdt">
+											name="bussFrdt" />
+											<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" --> 
 									</div>
 									<div class="col-lg-1">
 										<label class="col-lg-4 col-form-label">~ </label>
@@ -403,7 +404,7 @@
 									</div>
 									<div class="col-lg-3">
 										<input type="date" class="form-control" id="bussTodt"
-											name="bussTodt">
+											name="bussTodt" >
 									</div>
 								</div>
 
@@ -470,6 +471,7 @@
 
 		<script th:inline="javascript">
 		
+		
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember)
@@ -503,6 +505,15 @@
                $(this).load('/modal/modal-home.html');
             	});
     		})
+    		
+    		function infoBusiness(){
+				var bussNo = $(this).find('input').val();
+				console.log('칸반 누를때 마다 ' +bussNo);
+				$('#workModal').modal('toggle');
+				
+				return bussNo;
+			}
+			
 			
 			function businessModal(){
 				$('#insertbuss').modal('show');

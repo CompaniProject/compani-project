@@ -83,9 +83,9 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public BusinessVO businessSelect(BusinessVO businessVO) {
+	public BusinessVO businessSelect(Integer bussNo) {
 		
-		return businessMapper.businessSelect(businessVO);
+		return businessMapper.businessSelect(bussNo);
 	}
 
 	public int updatePersonalCalendarBuss(BusinessVO vo) {
@@ -96,4 +96,5 @@ public class BusinessServiceImpl implements BusinessService {
 	public int updateProjectCalendarBuss(BusinessVO vo) {
 		return businessMapper.updateProjectCalendarBuss(vo);
 	}
+
 }

@@ -29,9 +29,9 @@ public class BusinessMemberServiceImpl implements BusinessMemberService{
 	}
 
 	@Override
-	public List<MemberVO> bussMemberList(BusinessMemberVO bmVO) {
+	public List<MemberVO> bussMemberList(Integer bussNo) {
 		
-		return businessMemberMapper.bussMemberList(bmVO);
+		return businessMemberMapper.bussMemberList(bussNo);
 	}
 
 	

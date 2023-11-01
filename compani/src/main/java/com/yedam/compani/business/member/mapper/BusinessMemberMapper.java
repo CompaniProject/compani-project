@@ -7,5 +7,5 @@ import com.yedam.compani.member.service.MemberVO;
 
 public interface BusinessMemberMapper {
 	public int insertBusinessMember(List<BusinessMemberVO> list);
-	public List<MemberVO> bussMemberList(BusinessMemberVO businessMemberVO);
+	public List<MemberVO> bussMemberList(Integer bussNo);
 }
