@@ -234,6 +234,25 @@
 									</div>
 								</div>
 
+
+									<div class="savingFindBNSection">
+										<div class="sectionBN">
+											<p class="sectionTitleText">업무 찾기</p>
+											<div class="bussNm-selectBox">
+												<div class="bussNm-selected" id="bussNm-selected">
+													<div class="bussNm-selected-value" data-bno="0">이슈가 발생한 업무를 선택하세요.</div>
+													<div class="arrow"></div>
+												</div>
+												<ul class="bussNm-select-ul" style="display: none;">
+													<li class="bussNm-select-option" data-bno="0">(없음)</li>
+													<th:block th:each="bussNmList : ${bussNmList}">
+														<li th:class="bussNm-select-option" th:text="${bussNmList.bussNm}" th:value="${bussNmList.bussNo}"></li>
+													</th:block>
+												</ul>
+											</div>
+										</div>
+									</div>
+
 								<div class="savePIHashtagSection">
 									<div class="sectionTitle">
 										<p class="sectionTitleText">해시태그</p>
@@ -538,7 +557,7 @@
 				$('#savePIssuTtlVal').val('');
 				pieditor.setHTML('');
 				$('#savePIssueFileList').empty();
-				checkFile();
+				checkPISaveFile();
 				checkPISaveInput();
 
 				$('#cancelPISaveConfirmationModal').modal('hide');
@@ -586,6 +605,7 @@
 			var formData = new FormData();
 			formData.append('issuTtl', $('#savePIssuTtlVal').val());
 			formData.append('membId', piMemberId);
+			formData.append('bussNo', $('.bussNm-selected-value').data('bno'));
 
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#savePIssuRankVal').text() == '매우높음') {
@@ -745,6 +765,21 @@
 
 			}
 		};
+
+		//업무 찾기 ( 업무 리스트 나오게 )
+		$('.bussNm-selectBox').on('click', function () {
+			$('.bussNm-select-ul').css('display', 'block');
+		});
+
+		$('.bussNm-select-option').on('click', function (e) {
+			var selectValue = e.currentTarget.textContent;
+			$('.bussNm-selected-value').text(selectValue);
+			console.log($(this).val());
+			$('.bussNm-selected-value').data('bno', $(this).val());
+			$('.bussNm-select-ul').css('display', 'none');
+
+			e.stopPropagation();
+		});
 		</script>
 </th:block>
 </body>

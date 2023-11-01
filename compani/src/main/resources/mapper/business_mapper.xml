@@ -118,6 +118,12 @@
 
 	</select>
 
+	<select id="businessNameNoList" resultType="BusinessVO">
+		SELECT 	buss_nm, buss_no
+		FROM    business
+		WHERE   prjt_no = #{prjtNo}
+	</select>
+
 	<insert id="insertBusiness" parameterType="BusinessVO">
 		<selectKey keyProperty="bussNo" resultType="BusinessVO"
 			order="BEFORE">

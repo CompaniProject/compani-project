@@ -54,6 +54,12 @@
 	background: url(../images/arrow.png) no-repeat 97% 50%;
 	background-size: 18px 18px;
 }
+.bussNm-selectBox {
+	display: inline-block;
+	width: 250px;
+	background: url(../images/arrow.png) no-repeat 97% 50%;
+	background-size: 18px 18px;
+}
 
 .pissue-selected, .cissue-selected {
 	display: flex;
@@ -61,7 +67,12 @@
 	padding: 8px 5px;
 	cursor: pointer;
 }
-
+.bussNm-selected {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 5px;
+    cursor: pointer;
+}
 .pissue-select-ul, .cissue-select-ul {
 	list-style-type: none;
 	padding-left: 0px;
@@ -76,12 +87,26 @@
 	cursor: pointer;
 }
 
-.pissue-select-option.active, .cissue-select-option.active {
+.bussNm-select-ul {
+	list-style-type: none;
+	padding-left: 0px;
+	width: 248px;
+	border-radius: 4px;
+	border: 1px solid #0098fe;
+	position: absolute;
+	background: #fff;
+	margin: 1px 0 0 -1px;
+	z-index: 300;
+	display: none;
+	cursor: pointer;
+}
+
+.pissue-select-option.active, .cissue-select-option.active, .bussNm-select-option.active {
 	background: url(/images/arrow_active.png) no-repeat 97% 50%;
 	background-size: 16px 16px;
 }
 
-.pissue-select-option, .cissue-select-option {
+.pissue-select-option, .cissue-select-option, .bussNm-select-option {
 	padding: 8px 5px;
 	cursor: pointer;
 }
@@ -483,6 +508,18 @@
 	border: none;
 	padding: 10px 15px;
 	border-radius: 2px;
+}
+.sectionBN {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 20px;
+    width: 60%;
+}
+
+.savingFindBNSection {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .cIssueReply__details__form form button {

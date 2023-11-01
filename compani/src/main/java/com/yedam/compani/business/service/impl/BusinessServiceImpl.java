@@ -69,6 +69,10 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.businessNameList(prjtNo);
 	}
 
+	public List<BusinessVO> businessNameNoList(Integer prjtNo) {
+		return businessMapper.businessNameNoList(prjtNo);
+	}
+
 	@Override
 	public int insertBusiness(BusinessVO businessVO) {
 		

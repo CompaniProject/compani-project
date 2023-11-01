@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.compani.business.service.BusinessService;
+import com.yedam.compani.business.service.BusinessVO;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,7 @@ public class ProjectIssueController {
 	private final IssueService issueService;
 	private final IssueFileService issueFileService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
+	private final BusinessService businessService;
 
 	@GetMapping("/project/issues/{prjtNo}")
 	public String projectIssueList(@PathVariable int prjtNo, String search, String keyword,
@@ -40,6 +43,9 @@ public class ProjectIssueController {
 				8);
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
 
+		List<BusinessVO> findBuss = businessService.businessNameNoList(prjtNo);
+
+		model.addAttribute("bussNmList", findBuss);
 		model.addAttribute("projectIssue", issues);
 		model.addAttribute("projectIssueList", vo);
 		model.addAttribute("search", search);
@@ -56,7 +62,9 @@ public class ProjectIssueController {
 				8);
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
 		Map<String, Object> map = new HashMap<>();
+		List<BusinessVO> findBuss = businessService.businessNameNoList(prjtNo);
 
+		map.put("bussNmList", findBuss);
 		map.put("pissue", issues);
 		map.put("projectIssueList", vo);
 
