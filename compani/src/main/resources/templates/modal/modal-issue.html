@@ -44,9 +44,9 @@
 												</ul>
 											</div>
 										</div>
-										<input class="SearchInputModalView" id="search" name="search"
+										<input class="SearchInputModalView" id="searchBI" name="searchBI"
 											type="text" placeholder="검색어를 입력하세요."><span
-											class="DeleteSearchWord"></span>
+											class="DeleteSearchWord" onclick="delVal()"></span>
 									</div>
 								</div>
 
@@ -85,7 +85,7 @@
 												<th th:if="${issueList.issuKnd == '0L4'}"><span
 													class="badge badge-light" th:text="업무"></span></th>
 												<td th:text="${issueList.issuTtl}"></td>
-												<td th:text="${issueList.membId}"></td>
+												<td th:text="${issueList.membNm}"></td>
 												<th th:if="${issueList.issuSt == '0E1'}"><span
 													class="badge badge-pill badge-success" th:text="해결"></span></th>
 												<th th:if="${issueList.issuSt == '0E2'}"><span
@@ -422,7 +422,7 @@
 								data-toggle="dropdown"></button>
 							<div class="dropdown-menu" style="cursor: pointer;">
 								<a class="dropdown-item"><span
-									class="badge badge-pill badge-warning">해결</span></a> <a
+									class="badge badge-pill badge-success">해결</span></a> <a
 									class="dropdown-item"><span
 									class="badge badge-pill badge-info">미해결</span></a> <a
 									class="dropdown-item"><span
@@ -583,7 +583,10 @@
 		</div>
 	</div>
 	<!--/* 이슈 삭제시 경고창 END */-->
-	<script>
+	<script th:inline="javascript">
+	
+	var miMemberId = [[${session.loginInfo.membId}]];
+	
 	//검색 조건 (제목, 작성자, 전체) 
 	$('.issue-selectBox').on('click', function () {
 		$('.issue-select-ul').css('display', 'block');
@@ -627,12 +630,12 @@
 	// ajax 
 	function issuePaging(pageNum) {
 		var keywordVal = $('#keyword').val();
-		var searchVal = $('#search').val();
+		var searchVal = $('#searchBI').val();
 		var issueLists = $('#issueLists');
 		var pagination = $('.pagination');
 
-		$.ajax('/ModalAjaxIssueList?pageNum=' + pageNum + '&keyword='
-			+ keywordVal + '&search=' + searchVal,
+		$.ajax('/ModalAjaxIssueList/' + bussNo  + '?pageNum=' + pageNum + '&keyword='
+			+ keywordVal + '&searchBI=' + searchVal,
 			{
 				type: 'GET'
 			}).done(function (data) {
@@ -650,7 +653,7 @@
 						trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
 					}
 					trTag.append('<td>' + item.issuTtl + '</td>');
-					trTag.append('<td>' + item.membId + '</td>');
+					trTag.append('<td>' + item.membNm + '</td>');
 
 					if (item.issuSt == '0E1') {
 						trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
@@ -760,6 +763,10 @@
 			pagination.append(nextTag);
 		};
 	};
+	
+		function delVal() {
+			$('.SearchInputModalView').val('');
+		}
 
 	/* 페이징 끝 */
 
@@ -854,7 +861,8 @@
 
 		var formData = new FormData();
 		formData.append('issuTtl', $('#issuTtlVal').val());
-
+		formData.append('bussNo', bussNo);
+		formData.append('membId', miMemberId);
 
 		// 중요도 text 값 확인 후 data로 넣기 !
 		if ($('#issuRankVal').text() == '매우높음') {
@@ -1089,7 +1097,7 @@
 				};
 
 				$('.modalIssueName').val(issueInfo.issuTtl).data('issuNo', issuNo);
-				$('.m-b-3').text(issueInfo.membId);
+				$('.m-b-3').text(issueInfo.membNm);
 
 				$('.m-b-2').text(dateFormatting(issueInfo.issuDt));
 				viewer.setMarkdown(issueInfo.issuCntn);
@@ -1173,7 +1181,7 @@
 		const params = {
 			issuNo: issuNo,
 			issuRplyCntn: issueReplyCntn.value,
-			membId: 'ojunkwon'
+			membId: miMemberId
 		}
 
 		$.ajax({
@@ -1221,7 +1229,7 @@
 										<img src="/images/users/2.jpg" alt="">
 									</div>
 									<div class="issue__reply__item__text">
-										<h6>${row.membId} - <span>${dateFormatting(row.issuRplyDt)}</span>
+										<h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>
 										<a id="edit_btn" onclick="openReplyUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
 											src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png" 
 											style="margin-left: 170px; ">
@@ -1302,7 +1310,7 @@
 	function updateReply(id) {
 		const issuNo = $('.modalIssueName').data('issuNo');
 		const issuRplyNo = id;
-		const writer = 'ojunkwon';
+		const writer = miMemberId;
 		const content = document.getElementById('updateReplyComment_' + id);
 
 		const params = {

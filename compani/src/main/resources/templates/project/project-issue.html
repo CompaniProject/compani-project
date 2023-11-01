@@ -65,7 +65,7 @@
 								<th th:if="${projectIssueList.issuKnd == '0L4'}"><span
 									class="badge badge-light" th:text="업무"></span></th>
 								<td th:text="${projectIssueList.issuTtl}"></td>
-								<td th:text="${projectIssueList.membId}"></td>
+								<td th:text="${projectIssueList.membNm}"></td>
 								<th th:if="${projectIssueList.issuSt == '0E1'}"><span
 									class="badge badge-pill badge-success" th:text="해결"></span></th>
 								<th th:if="${projectIssueList.issuSt == '0E2'}"><span
@@ -308,7 +308,9 @@
 	</div>
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>	
-	<script>
+	<script th:inline="javascript">
+			var piMemberId = [[${session.loginInfo.membId}]];
+			
 			//검색 조건 (제목, 작성자, 전체) 
 			$('.pissue-selectBox').on('click', function () {
 				$('.pissue-select-ul').css('display', 'block');
@@ -372,7 +374,7 @@
 								trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
 							}
 							trTag.append('<td>' + item.issuTtl + '</td>');
-							trTag.append('<td>' + item.membId + '</td>');
+							trTag.append('<td>' + item.membNm + '</td>');
 
 							if (item.issuSt == '0E1') {
 								trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
@@ -583,7 +585,7 @@
 
 			var formData = new FormData();
 			formData.append('issuTtl', $('#savePIssuTtlVal').val());
-
+			formData.append('membId', piMemberId);
 
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#savePIssuRankVal').text() == '매우높음') {
@@ -704,6 +706,14 @@
 				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 			}
 		}
+		
+		function getByteSize(size) {
+			const byteUnits = ["KB", "MB", "GB", "TB"];
+			for (let i = 0; i < byteUnits.length; i++) {
+				size = Math.floor(size / 1024);
+				if (size < 1024) return size.toFixed(1) + byteUnits[i];
+			}
+		};
 		
 		// 파일 추가
 		function savePIssueFile(element) {

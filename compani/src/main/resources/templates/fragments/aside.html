@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="aside">
-	<div class="nk-sidebar" style="height:100%;">
+	<div class="nk-sidebar" style="height: 100%;">
 		<div class="nk-nav-scroll">
 			<ul class="metismenu" id="menu">
 				<li><a href="home.html" aria-expanded="false"><span
 						class="icon-home"> 홈</span> </a></li>
 				<li><a href="myCalendar.html" aria-expanded="false"><span
 						class="icon-calender"> 내 캘린더</span> </a></li>
-				<li>
-					<a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="icon-docs">
-						</i><span class="nav-text">프로젝트</span>&nbsp;&nbsp;&nbsp;<i class="icon-plus"></i>
-					</a>
-					<ul aria-expanded="false">
-						<li th:each="project : ${session.projectList}">
-							<a th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}" th:text="${project.prjtNm}"></a>
-						</li>
-					</ul>
-				</li>
+				<li><a class="has-arrow" href="javascript:void()"
+					aria-expanded="false"><i class="icon-docs"> </i><span
+						class="nav-text">프로젝트</span>&nbsp;&nbsp;&nbsp;<i class="icon-plus"></i>
+				</a>
+					<ul aria-expanded="false" id="myPrjtList">
+						<li th:each="project : ${session.projectList}" th:attr="data-prjtNo=${project.prjtNo}"><a
+							th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}"
+							th:text="${project.prjtNm}"
+							></a></li>
+					</ul></li>
 				<li><a class="has-arrow" href="javascript:void()"
 					aria-expanded="false"> <i class="icon-screen-tablet menu-icon"></i><span
 						class="nav-text">회사</span>
 				</a>
 					<ul aria-expanded="false">
 						<li><a href="">회사 프로젝트 게시판</a></li>
-						<li><a th:href="@{/company/issues/{coCd}(coCd=${session.loginInfo.coCd})}">회사 이슈 게시판</a></li>
+						<li><a
+							th:href="@{/company/issues/{coCd}(coCd=${session.loginInfo.coCd})}">회사
+								이슈 게시판</a></li>
 					</ul></li>
 				<li><a href="support.html" aria-expanded="false"><span
 						class="icon-support"> 고객센터</span> </a></li>
@@ -32,5 +34,8 @@
 			</ul>
 		</div>
 	</div>
+	
+
+
 </th:block>
 </html>

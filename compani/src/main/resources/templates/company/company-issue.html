@@ -62,7 +62,7 @@
                             <th th:if="${ci.issuKnd == '0L4'}"><span
                                     class="badge badge-light" th:text="업무"></span></th>
                             <td th:text="${ci.issuTtl}"></td>
-                            <td th:text="${ci.membId}"></td>
+                            <td th:text="${ci.membNm}"></td>
                             <th th:if="${ci.issuSt == '0E1'}"><span
                                     class="badge badge-pill badge-success" th:text="해결"></span></th>
                             <th th:if="${ci.issuSt == '0E2'}"><span
@@ -106,15 +106,10 @@
                 th:attr="onclick='companyIssuePaging(\'' + ${companyIssue.nextPage} + '\')'">Next</a>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
     <script
             src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <script>
-        var coCd = "[[${session.loginInfo.coCd}]]";
+    <script th:inlne="javascript">
+        var coCd = [[${session.loginInfo.coCd}]];
 
           //검색 조건 (제목, 작성자, 전체)
           $('.cissue-selectBox').on('click', function () {
@@ -181,7 +176,7 @@
                               trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
                           }
                           trTag.append('<td>' + item.issuTtl + '</td>');
-                          trTag.append('<td>' + item.membId + '</td>');
+                          trTag.append('<td>' + item.membNm + '</td>');
 
                           if (item.issuSt == '0E1') {
                               trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');

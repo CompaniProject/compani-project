@@ -6,11 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.github.pagehelper.Page;
 import com.yedam.compani.issue.service.IssueVO;
-import com.yedam.compani.paging.SearchDto;
 
 public interface IssueMapper {
 	
-	Page<IssueVO> findIssue(SearchDto search);
+	Page<IssueVO> findIssue(@Param("searchBI")String search, @Param("keyword") String keyword, @Param("bussNo") int bussNo);
 	
 	Page<IssueVO> findProjectIssue(@Param("search")String search, @Param("keyword") String keyword, @Param("prjtNo") int prjtNo);
 	
