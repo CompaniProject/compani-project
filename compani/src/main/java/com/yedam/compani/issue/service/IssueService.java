@@ -10,7 +10,9 @@ public interface IssueService {
 	public Page<IssueVO> getIssueList(int pageNo, SearchDto search);
 	
 	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, final int prjtNo);
-
+	
+	public Page<IssueVO> getCompanyIssueList(int pageNo, String search, String keyword, final String coCd);
+	
 	// 이슈 단건 조회
 	public IssueVO findIssueById(final int issuNo);
 

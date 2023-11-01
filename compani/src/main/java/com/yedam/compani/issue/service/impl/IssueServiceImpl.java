@@ -42,7 +42,18 @@ public class IssueServiceImpl implements IssueService {
 		PageHelper.startPage(pageNo, 10);
 		return issueMapper.findProjectIssue(search, keyword, prjtNo);
 	}
-
+	/**
+	 * 회사 내 이슈 리스트 조회
+	 * 
+	 * @param pageNo, search conditions, coCd
+	 * @return list & pagination information
+	 */
+	@Override
+	public Page<IssueVO> getCompanyIssueList(int pageNo, String search, String keyword, String coCd) {
+		PageHelper.startPage(pageNo, 10);
+		return issueMapper.findCompanyIssue(search, keyword, coCd);
+	}
+	
 	/**
 	 * 이슈 상세정보 조회
 	 * 

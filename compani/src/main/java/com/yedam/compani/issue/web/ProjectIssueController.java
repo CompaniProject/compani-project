@@ -41,7 +41,7 @@ public class ProjectIssueController {
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
 
 		model.addAttribute("projectIssue", issues);
-		model.addAttribute("prjoectIssueList", vo);
+		model.addAttribute("projectIssueList", vo);
 		model.addAttribute("search", search);
 
 		return "project/project-issue";
@@ -79,9 +79,8 @@ public class ProjectIssueController {
 	// 프로젝트게시판 내 이슈 삭제
 	@PostMapping("/project/issues/del")
 	@ResponseBody
-	public String projectIssueDelete(@RequestParam final int issuNo) {
+	public void projectIssueDelete(@RequestParam final int issuNo) {
 		issueService.deleteIssue(issuNo);
-		return "project/project-issue";
 	}
 	
 	// 프로젝트 게시판 내 이슈 등록

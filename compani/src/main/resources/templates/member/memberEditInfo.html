@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="h-100" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="ko" xmlns:th="http://www.thymeleaf.org"	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
 
 <head>
 <meta charset="utf-8">
@@ -12,16 +13,7 @@
 <!-- Custom Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
 <style>
-.autocomplete>div.active {
-	background: #58ACFA;
-	color: #000000;
-}
 
-mark, .mark {
-	padding: 0.2em;
-	font-weight: 900;
-	background-color: transparent;
-}
 
 [id^="condition"] {
 	display: none;
@@ -32,13 +24,21 @@ mark, .mark {
 	display: none;
 	color: red;
 }
+#nokPw {
+	display: none;
+	color: red;
+}
+#okPw {
+	display: none;
+	color: green;
+}
 </style>
 </head>
 
 <body>
 
 
-
+	<th:block layout:fragment="content">
 
 	<!--**********************************
             Content body start
@@ -51,32 +51,54 @@ mark, .mark {
 
 		<div class="container-fluid">
 			<div class="row justify-content-center">
-				<div class="col-lg-4">
+				<div class="col-lg-8">
 					<div class="card">
 						<div class="card-body">
 							<div class="form-validation">
-								<form class="form-valide" id="formSignUp" method="post">
-									<img class="form-group" width="200" height="200" />
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="coNm">소속기관
-										</label>
+								<img class="form-group" id="membPhtPath" width="200"
+									height="200" style="border-radius: 70%"
+									src="images/member/1.jpg" /> <img src="images/member/plus.png"
+									onclick="#" width="40" height="30"
+									style="vertical-align: bottom;">
+								<!-- 									<input type="file"
+									name="imgFile" id="imgFile" accept=".jpg, .png"
+									class="form-control"> -->
 
-										<div class="col-lg-6">
-											<span class="" id="coNm"></span>
-										</div>
 
+								<!-- 								<form id="upload-file-form">
+									<input type="text" name="extra"> <label
+										for="upload-file-input">Upload your file:</label> 
+										<input
+										id="upload-file-input" type="file" name="uploadfile"
+										accept="image/png, image/jpeg" />
+									<button type="button" onclick="uploadFile();">업로드</button>
+								</form> -->
+
+
+								<div class="form-group row">
+									<label class="col-lg-4 col-form-label" for="coNm">소속기관
+									</label>
+									<div class="col-lg-6">
+										<input class="form-control" id="coNm" name="coNm"
+											placeholder="" readonly="readonly"></input>
 									</div>
+
+								</div>
+								<form class="form-valide" id="formEditInfo" method="post"
+									action="memberEditInfo">
+
 									<div class="form-group row">
 										<label class="col-lg-4 col-form-label" for="membId">아이디
 										</label>
 										<div class="col-lg-6">
-											<span class="" id="membId" sec:authentication="name"></span>
+											<input class="form-control" id="membId" name="membId"
+												placeholder="" readonly="readonly"></input>
 
 										</div>
 
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membNm">성명
+										<label class="col-lg-4 col-form-labell" for="membNm">성명
 										</label>
 										<div class="col-lg-6">
 											<input class="form-control" id="membNm" name="membNm"
@@ -98,6 +120,126 @@ mark, .mark {
 										<div class="col-lg-6">
 											<input type="text" class="form-control" id="membWkgd"
 												name="membWkgd" placeholder="">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membMsg">상태메세지
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" id="membMsg"
+												name="membMsg" placeholder="">
+										</div>
+									</div>
+
+
+
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membBirthDt">생년월일
+
+										</label>
+										<div class="col-lg-6">
+											<input type="date" class="form-control" id="membBirthDt"
+												name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}"
+												th:value="${#dates.format(session.loginInfo.membBirthDt, 'yyyy-MM-dd')}" />
+											<span id="conditionBd">생년월일을 확인하시오.</span> <span
+												id="formsMembBd">생년월일을 입력하시오.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membEmail">이메일
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" id="membEmail"
+												name="membEmail" placeholder="ex) abc@example.com"
+												hidden="true"> 
+												<input type="text" id="email_id"
+												class="form-control col-lg-4" value="" title="이메일 아이디" placeholder=""
+												style="display: inline-block;" /> @
+											<input class="form-control col-lg-3" type="text" name="str_email02"
+												id="str_email02"
+												style="display: inline-block;" disabled
+												value="naver.com"> 
+												<select 
+												style="display: inline-block;"
+												name="selectEmail" id="selectEmail" class="form-control col-lg-4">
+												<option value="1">직접입력</option>
+												<option value="naver.com" selected>naver.com</option>
+												<option value="hanmail.net">hanmail.net</option>
+												<option value="hotmail.com">hotmail.com</option>
+												<option value="nate.com">nate.com</option>
+												<option value="yahoo.co.kr">yahoo.co.kr</option>
+												<option value="empas.com">empas.com</option>
+												<option value="dreamwiz.com">dreamwiz.com</option>
+												<option value="freechal.com">freechal.com</option>
+												<option value="lycos.co.kr">lycos.co.kr</option>
+												<option value="korea.com">korea.com</option>
+												<option value="gmail.com">gmail.com</option>
+												<option value="hanmir.com">hanmir.com</option>
+												<option value="paran.com">paran.com</option>
+											</select> <span id="conditionEid">이메일 아이디를 입력하시오.</span><span
+												id="conditionEmail">잘못된 이메일 주소입니다.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="membTelno">전화번호
+										</label>
+										<div class="col-lg-6">
+											<input type="tel" class="form-control" id="membTelno"
+												name="membTelno" hidden="true"> <select
+												style="display: inline-block; text-align: right; font-weight: 900;"
+												name="selectTel" id="selectTel" class="form-control col-lg-3">
+
+												<option value="">선택 &nbsp;&nbsp;</option>
+												<option value="010" selected>010 &nbsp;&nbsp;</option>
+												<option value="070">070 &nbsp;&nbsp;</option>
+												<option value="02">02 &nbsp;&nbsp;</option>
+												<option value="031">031&nbsp;&nbsp;</option>
+												<option value="032">032&nbsp;&nbsp;</option>
+												<option value="033">033 &nbsp;&nbsp;</option>
+												<option value="041">041 &nbsp;&nbsp;</option>
+												<option value="042">042 &nbsp;&nbsp;</option>
+												<option value="043">043 &nbsp;&nbsp;</option>
+												<option value="051">051 &nbsp;&nbsp;</option>
+												<option value="052">052 &nbsp;&nbsp;</option>
+												<option value="053">053 &nbsp;&nbsp;</option>
+												<option value="054">054 &nbsp;&nbsp;</option>
+												<option value="054">054 &nbsp;&nbsp;</option>
+												<option value="055">055 &nbsp;&nbsp;</option>
+												<option value="061">061 &nbsp;&nbsp;</option>
+												<option value="062">062 &nbsp;&nbsp;</option>
+												<option value="063">063 &nbsp;&nbsp;</option>
+												<option value="064">064 &nbsp;&nbsp;</option>
+
+
+											</select>&nbsp;<b>ㅡ</b> <input type="text" class="form-control col-lg-3"
+												id="tel1" name="tel1"
+												style=" display: inline-block;"> <b>ㅡ</b>
+
+											<input type="text" id="tel2" class="form-control col-lg-3"
+												style="display: inline-block;" /> <span
+												id="conditionTel">전화번호를 학인하시오.</span>
+										</div>
+									</div>
+
+
+
+
+
+									<div class="form-group row">
+										<div class="col-lg-8 ml-auto">
+											<button type="button" 
+												class="btn btn-primary" id="save">저장</button>
+
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-lg-4 col-form-label" for="checkPwd">현재 비밀번호
+										</label>
+										<div class="col-lg-6">
+											<input type="password" class="form-control" id="checkPw"
+												name="checkPw" >
+											<span id="nokPw">잘못된 비밀번호입니다.</span> <span
+												id="okPw" >정상적인 비밀번호입니다.</span>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -123,102 +265,10 @@ mark, .mark {
 											<span id="formsMembPw2">비밀번호확인을 하시오.</span>
 										</div>
 									</div>
-
-
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membBirthDt">생년월일
-
-										</label>
-										<div class="col-lg-6">
-											<input type="date" class="form-control" id="membBirthDt"
-												name="membBirthDt" pattern="\d{4}-\d{2}-\d{2}" /> <span
-												id="conditionBd">생년월일을 확인하시오.</span> <span id="formsMembBd">생년월일을
-												입력하시오.</span>
-										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membEmail">이메일
-										</label>
-										<div class="col-lg-6">
-											<input type="email" class="form-control" id="membEmail"
-												name="membEmail" placeholder="ex) abc@example.com"
-												hidden="true"> <input type="text" id="email_id"
-												class="form-control" value="" title="이메일 아이디" placeholder=""
-												style="width: 206px; display: inline-block;" /> <b>&nbsp;@&nbsp;&nbsp;</b>
-											<input class="form-control" type="text" name="str_email02"
-												id="str_email02"
-												style="width: 206px; display: inline-block;" disabled
-												value="naver.com"> <select
-												style="width: 206px; margin-left: 10px; display: inline-block;"
-												name="selectEmail" id="selectEmail" class="form-control">
-												<option value="1">직접입력</option>
-												<option value="naver.com" selected>naver.com</option>
-												<option value="hanmail.net">hanmail.net</option>
-												<option value="hotmail.com">hotmail.com</option>
-												<option value="nate.com">nate.com</option>
-												<option value="yahoo.co.kr">yahoo.co.kr</option>
-												<option value="empas.com">empas.com</option>
-												<option value="dreamwiz.com">dreamwiz.com</option>
-												<option value="freechal.com">freechal.com</option>
-												<option value="lycos.co.kr">lycos.co.kr</option>
-												<option value="korea.com">korea.com</option>
-												<option value="gmail.com">gmail.com</option>
-												<option value="hanmir.com">hanmir.com</option>
-												<option value="paran.com">paran.com</option>
-											</select> <span id="conditionEid">이메일 아이디를 입력하시오.</span><span
-												id="conditionEmail">잘못된 이메일 주소입니다.</span>
-										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membTelno">전화번호
-										</label>
-										<div class="col-lg-6">
-											<input type="tel" class="form-control" id="membTelno"
-												name="membTelno" hidden="true"> <select
-												style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
-												name="selectTel" id="selectTel" class="form-control">
-
-												<option value="">선택 &nbsp;&nbsp;</option>
-												<option value="010" selected>010 &nbsp;&nbsp;</option>
-												<option value="070">070 &nbsp;&nbsp;</option>
-												<option value="02">02 &nbsp;&nbsp;</option>
-												<option value="031">031&nbsp;&nbsp;</option>
-												<option value="032">032&nbsp;&nbsp;</option>
-												<option value="033">033 &nbsp;&nbsp;</option>
-												<option value="041">041 &nbsp;&nbsp;</option>
-												<option value="042">042 &nbsp;&nbsp;</option>
-												<option value="043">043 &nbsp;&nbsp;</option>
-												<option value="051">051 &nbsp;&nbsp;</option>
-												<option value="052">052 &nbsp;&nbsp;</option>
-												<option value="053">053 &nbsp;&nbsp;</option>
-												<option value="054">054 &nbsp;&nbsp;</option>
-												<option value="054">054 &nbsp;&nbsp;</option>
-												<option value="055">055 &nbsp;&nbsp;</option>
-												<option value="061">061 &nbsp;&nbsp;</option>
-												<option value="062">062 &nbsp;&nbsp;</option>
-												<option value="063">063 &nbsp;&nbsp;</option>
-												<option value="064">064 &nbsp;&nbsp;</option>
-
-
-											</select>&nbsp;&nbsp;<b>ㅡ</b> <input type="text" class="form-control"
-												id="tel1" name="tel1"
-												style="width: 205px; display: inline-block;"> <b>ㅡ</b>
-
-											<input type="text" id="tel2" class="form-control"
-												style="width: 205px; display: inline-block;" /> <span
-												id="conditionTel">전화번호를 학인하시오.</span>
-										</div>
-									</div>
-
-
-
-
-
 									<div class="form-group row">
 										<div class="col-lg-8 ml-auto">
-											<button type="submit" class="btn btn-primary">가입신청</button>
-											<button type="button" class="btn btn-primary"
-												onclick="location.href='loginForm';">메인으로</button>
+											<button type="button" class="btn btn-primary" id="edit">변경</button>
+
 										</div>
 									</div>
 								</form>
@@ -229,44 +279,7 @@ mark, .mark {
 			</div>
 		</div>
 		<!-- #/ container -->
-[[${session.loginInfo.coCd}]]
-		<!-- Modal -->
-		<div class="modal fade" id="modalGrid">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content" id="sea">
-					<div class="modal-header">
-						<h5 class="modal-title">소속기관 찾기</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							onclick="removeValue()">
-							<span>&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
 
-
-						<div class="container-fluid">
-							<div class="case">
-								<!-- 검색어 입력 폼 -->
-								<input type="text" id="search" placeholder="상호명을 입력하시오.">
-								<span id="notice"
-									style="display: none; color: red; border: 900px; font-size: 12px">존재하지
-									않는 상호명입니다.</span>
-								<!-- 자동완성 단어 리스트 -->
-								<div class="autocomplete" style="width: 163px"></div>
-							</div>
-						</div>
-
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal" onclick="removeValue()">취소</button>
-						<button type="button" id="addBtn" class="btn btn-primary"
-							data-dismiss="modal" onclick="entryValue()">등록</button>
-					</div>
-				</div>
-			</div>
-		</div>
 
 	</div>
 
@@ -290,44 +303,456 @@ mark, .mark {
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
 
 	<script>
-/* 	let loginInfo = {};
 	let companyInfo = {};
-	let cocd = "";
-	let sess =  {};
+	let memberInfo = {};
+	let emails=[];
+	let tels=[];
+	
+	let year;
+	let month;
+	let date;
+	
 	 $(function(){
-	 	$.ajax('http://localhost/memberInfo', {
-	 	type : 'post',
-	 	async: false
-		 })
-		 .done(result => {
-				 loginInfo = result;
-		 })
-		 .fail(err =>console.log("err"));
-	 	console.log("시작");
-	 	console.log(loginInfo.coCd);
-	 	cocd = loginInfo.coCd;
-	 	console.log(cocd);
-
-	 	
+		$.ajax('http://localhost/memberInfo', {
+			type : 'post',
+			async: false
+		})
+		.done(result => {
+			 memberInfo = result;
+			 console.log(memberInfo);
+		})
+		.fail(err =>console.log("err"));
+		 
 	 	$.ajax('http://localhost/companyInfo', {
 		 	type : 'post',
 		 	dataType : 'json', 
-		 	data : {coCd : cocd},
+		 	data : {coCd : "[[${session.loginInfo.coCd}]]"},
 		 	async: false
-			 })
-			 .done(result => {
+			})
+			.done(result => {
 				 companyInfo = result;
 				 console.log(companyInfo);
-			 })
-			 .fail(err =>console.log("err"));
-	 	sess = sessionStorage.getItem('loginInfo');
-	 	console.log(sess);
-	 }); */
+			})
+			.fail(err =>console.log("err"));
+	 	
+	 	$('#coNm').val(companyInfo.coNm);
+	 	$('#membId').val(memberInfo.membId);
+	 	$('#membNm').val(memberInfo.membNm);
+	 	$('#membDept').val(memberInfo.membDept);
+	 	$('#membWkgd').val(memberInfo.membWkgd);
+	 	
+	 	year = new Date(memberInfo.membBirthDt).getFullYear();
+	 	month = new Date(memberInfo.membBirthDt).getMonth()+1;
+	 	date = new Date(memberInfo.membBirthDt).getDate();
+	 	if(month<10 && date<10){
+	 		$('#membBirthDt').val(year+"-0"+month+"-0"+ date);
+	 	}else if(month<10){
+	 		$('#membBirthDt').val(year+"-0"+month+"-"+ date);
+	 	}else if(date<10){
+	 		$('#membBirthDt').val(year+"-"+month+"-0"+ date);
+	 	}else{
+	 		$('#membBirthDt').val(year+"-"+month+"-"+ date);
+	 	}
+	 	
+	 	//이메일 동강
+	 	$('#membEmail').val(memberInfo.membEmail);
+	 	$.each($('#membEmail').val().split('@'), function(index, element){
+	 		emails.push(element);
+	 	});
+	 	
+	 	$('#email_id').val(emails[0]);
+	 	$('#str_email02').val(emails[1]);
+	 	
+	 	 $("select#selectEmail option").each(function(){
+	         if($(this).val()==emails[1]){ 
+	        	 $("#selectEmail").val(emails[1]).attr("selected", "selected");
+	          	return false;
+	         } else if($(this).val() != $('#str_email02').val(emails[1])){
+	        	 $("#selectEmail").val("1").attr("selected", "selected");
+	         }
+	  	});
+	 	
+	 	 //전화번호 동강
+	 	$('#membTelno').val(memberInfo.membTelno);
+	 	 
+		if($('#membTelno').val().length == 10 && $('#membTelno').val().substring(0, 2) == "02"){
+		 	$('#tel1').val($('#membTelno').val().substring(2, 6));
+		 	$('#tel2').val($('#membTelno').val().substring(6, 10));
+		 	 $("select#selectTel option").each(function(){
+		 		 
+		         if($(this).val() == $('#membTelno').val().substring(0, 2)){ 
+		        	 
+		        	 $("#selectTel").val($('#membTelno').val().substring(0, 2)).attr("selected", "selected");
+		        	 
+		          	return false;
+		         }
+		  	});//서울2-4-4
+		 	 
+		}else if($('#membTelno').val().length == 10 && $('#membTelno').val().substring(0, 2) != "02"){
+			
+		 	$('#tel1').val($('#membTelno').val().substring(3, 6));
+		 	$('#tel2').val($('#membTelno').val().substring(6, 10));
+		 	
+		 	 $("select#selectTel option").each(function(){
+		         if($(this).val() == $('#membTelno').val().substring(0, 3)){ 
+		        	 
+		        	 $("#selectTel").val($('#membTelno').val().substring(0, 3)).attr("selected", "selected");
+		        	 
+		          	return false;
+		         }
+		     });//3-3-4
+		 	 
+		}else{
+		 	$('#tel1').val($('#membTelno').val().substring(3, 7));
+		 	$('#tel2').val($('#membTelno').val().substring(7, 11));
+		 	 $("select#selectTel option").each(function(){
+		         if($(this).val() == $('#membTelno').val().substring(0, 3)){ 
+		        	 
+		        	 $("#selectTel").val($('#membTelno').val().substring(0, 3)).attr("selected", "selected");
+		        	 
+		          	return false;
+		         }
+		  	});//3-4-4
+		}
+		 	 
+		 	
+		 	
+		 	/* $('#membPhtPath').prop("src", memberInfo.membPhtPath); */
+		 	$('#membMsg').val(memberInfo.membMsg);
+	 	
+	 }); //end of ready
 	 
+	 
+	 
+	 
+	 
+
+
+
+//이름확인
+$('#membNm').on("input", function(event){
+	
+	let inputVal = $(this).val();
+	
+	if(inputVal.length > 15){
+		$(this).val(inputVal.substr(0, 15)); 
+	}
+	
+	if($(this).val() != null && $(this).val() != ''){
+		$('#conditionNm').hide();
+		
+	}
+});
+//생년월일확인
+$('#membBirthDt').on("input", function(event){
+	$('#formsMembBd').hide();
+	let inputVal = $(this).val();
+	
+	if($(this).val() != null && $(this).val() != ''){
+		$('#conditionBd').hide();
+		
+	}else{
+		$('#conditionBd').show();
+	}
+});
+
+//이메일형식 확인
+
+let testEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+//이메일아이디 입력하시오.
+$('#email_id').on("input", function(event){
+	$('#conditionEmail').hide();
+	let inputVal = $(this).val();
 	
 
-	</script>
+	
+	$(this).val(inputVal.replace(/[^a-zA-Z0-9]/gi,''));
+	
+	if(inputVal.length > 20){
+		$('#email_id').val(inputVal.substr(0, 20)); 
+	}
+	
+	if(testEmail.test($('#str_email02').val()) == false){
+		$('#conditionEmail').css('display', 'block');
+	}
+});
+//이메일 입력방식 선택
+$('#selectEmail').change(function(){
 
+  $("#selectEmail option:selected").each(function () {
+		
+		if($(this).val()== '1'){ //직접입력일 경우
+			 $("#str_email02").val('');                        //값 초기화
+			 $("#str_email02").attr("disabled",false); //활성화
+		}else{ //직접입력이 아닐경우
+			 $("#str_email02").val($(this).text());      //선택값 입력
+			 $("#str_email02").attr("disabled",true); //비활성화
+		}
+  });
+});
+
+//이메일 형식 검사
+$('#selectEmail').change(function(){
+	
+	if($('#str_email02').val() == null || $('#str_email02').val() == ''){
+		$('#conditionEmail').css('display', 'block');
+		$('#conditionEid').hide();
+	}else{
+		$('#conditionEmail').hide();
+	}
+	
+});
+
+$('#str_email02').on("input", function(event){
+	let inputVal = $(this).val();
+	if(inputVal.length > 20){
+		$('#str_email02').val(inputVal.substr(0, 20)); 
+	}
+	$('#conditionEid').hide();
+	if(testEmail.test(inputVal) == false){
+		$('#conditionEmail').css('display', 'block');
+		if(inputVal.length == 0){
+			$('#conditionEmail').hide();
+		}
+	}else{
+		$('#conditionEmail').hide();
+	}
+	
+});
+
+
+//휴대폰 형식 검사
+$('#tel1').on("input", function(event){ 
+	let inputVal = $(this).val();
+	
+	$(this).val(inputVal.replace(/[^0-9]/gi,''));
+	
+	if(inputVal.length > 4){
+		$('#tel1').val(inputVal.substr(0, 4)); 
+	}
+	
+	if(inputVal.length < 3 && inputVal.length > 0){
+		$('#conditionTel').css('display', 'block');
+	}else if(inputVal.length == 0 && $('#tel2').val().length == 0){
+		$('#conditionTel').css('display', 'none');
+	}else if(inputVal.length >= 3 && $('#tel2').val().length == 4){
+		$('#conditionTel').css('display', 'none');
+	}
+});
+
+$('#tel2').on("input", function(event){ 
+	let inputVal = $(this).val();
+	
+	$(this).val(inputVal.replace(/[^0-9]/gi,''));
+	
+	if(inputVal.length > 4){
+		$('#tel2').val(inputVal.substr(0, 4)); 
+	}
+	
+	if(inputVal.length < 4 && inputVal.length > 0){
+		$('#conditionTel').css('display', 'block');
+	}else if(inputVal.length == 0 && $('#tel1').val().length==0){
+		$('#conditionTel').css('display', 'none');
+	}else if(inputVal.length == 4 && $('#tel1').val().length >=3){
+		$('#conditionTel').css('display', 'none');
+	}
+});
+
+//부서
+$('#membDept').on("input", function(event){
+
+let inputVal = $(this).val();
+
+if(inputVal.length > 15){
+	$(this).val(inputVal.substr(0, 15)); 
+}
+});
+
+//직급 
+$('#membWkgd').on("input", function(event){
+
+	let inputVal = $(this).val();
+
+	if(inputVal.length > 15){
+		$(this).val(inputVal.substr(0, 15)); 
+	}
+
+});
+
+//저장클릭
+   $('#save').on("click", function(e) {
+		if($('#conditionId').css("display") != 'inline' && $('#conditionId2').css("display") != 'inline' && $('#conditionNm').css("display") != 'inline' && $('#conditionBd').css("display") != 'inline' && $('#conditionEid').css("display") != 'inline' && $('#conditionEmail').css("display") != 'inline' && $('#conditionTel').css("display") != 'inline' 
+			&& $('#membNm').val().length != 0 && $('#membBirthDt').val().length != 0){
+			if(($('#email_id').val().length > 0 && $('#str_email02').val().length > 2)||($('#email_id').val().length == 0 && $('#str_email02').val().length == 0)){
+				$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
+				$("#conditionEmail").hide();
+			}else{
+				$("#conditionEmail").show();
+				e.preventDefault();
+			}
+			if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length > 9||$('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 0){
+				if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 10 && ($('#selectTel').val() == '010' || $('#selectTel').val() == '070')){
+					$("#conditionTel").show();
+					e.preventDefault();
+				}else if(  $('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 11 
+						&& ($('#selectTel').val() != '010' && $('#selectTel').val() != '070')){
+					$("#conditionTel").show();
+					e.preventDefault();
+				}
+				$("#conditionTel").hide();
+				$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
+			}else{
+				$("#conditionTel").show();
+				e.preventDefault();
+			}
+			$('form').attr('action','memberEditInfo').submit();
+		}else if($('#membNm').val().length == 0 && $('#membBirthDt').val().length != 10){
+			$("#formsMembBd").show();
+			$("#conditionNm").show();
+			e.preventDefault();
+		}else if($('#membNm').val().length == 0){
+			$("#conditionNm").show();
+			e.preventDefault();
+		}else if($('#membBirthDt').val().length != 10){
+			$("#conditionBd").show();
+			e.preventDefault();
+		}else{
+			alert("정확한 정보를 입력하시오.");
+			e.preventDefault();
+		}
+   });
+   
+   
+//비밀번호 확인
+$('#checkPw').on("input", function(event){
+	let inputVal = $(this).val();
+	
+	if(inputVal.length > 20){
+		$(this).val(inputVal.substr(0, 20)); 
+	}
+	
+	if($(this).val() != memberInfo.membPwd.substr(6,25)){
+		$('#okPw').hide();
+		$('#nokPw').show();
+		if($(this).val().length == 0){
+			$('#okPw').hide();
+			$('#nokPw').hide();
+		}
+	}else{
+		$('#okPw').show();
+		$('#nokPw').hide();
+	}
+});
+//비밀번호 조건검사
+
+let testPw1 = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/;
+let testPw2 = /[^A-Za-z\d#?!@$%^&*-]/; 
+$('#membPwd').on("input", function(event){ 
+	$('#formsMembPw').hide();
+	let inputVal = $(this).val();
+	
+	if(inputVal.length > 20){
+		$(this).val(inputVal.substr(0, 20)); 
+	}
+	
+	if(testPw1.test(inputVal) != false && testPw2.test(inputVal) == false){
+		$('#conditionPw').hide();
+		$('#conditionPw2').show();
+	}else{
+		$('#conditionPw').show();
+		$('#conditionPw2').hide();
+		if(inputVal.length == 0){
+			$('#conditionPw').hide();
+			$('#conditionPw2').hide();
+		}
+	}
+	if($('#membPwd2').val() != $('#membPwd').val()){
+		$('#conditionPw4').hide();
+		$('#conditionPw3').show();
+		if($('#membPwd2').val().length == 0){
+			$('#conditionPw3').hide();
+			$('#conditionPw4').hide();
+		}
+	}else{
+		$('#conditionPw4').show();
+		$('#conditionPw3').hide();
+		if($('#membPwd2').val().length == 0){
+			$('#conditionPw3').hide();
+			$('#conditionPw4').hide();
+		}
+	}
+});
+
+//비밀번호 조건확인
+$('#membPwd2').on("input", function(event){
+	$('#formsMembPw2').hide();
+	let inputVal = $(this).val();
+	
+	if(inputVal.length > 20){
+		$(this).val(inputVal.substr(0, 20)); 
+	}
+	
+	if($(this).val() != $('#membPwd').val()){
+		$('#conditionPw4').hide();
+		$('#conditionPw3').show();
+		if($(this).val().length == 0){
+			$('#conditionPw3').hide();
+			$('#conditionPw4').hide();
+		}
+	}else{
+		$('#conditionPw4').show();
+		$('#conditionPw3').hide();
+		if($(this).val().length == 0){
+			$('#conditionPw3').hide();
+			$('#conditionPw4').hide();
+		}
+	}
+});
+
+
+
+
+//가입클릭
+
+   $('#edit').on("click", function(e) {
+		if($('#okPw').css('display') == 'inline'
+		&& $('#conditionPw2').css('display') == 'inline'
+		&& $('#conditionPw4').css('display') == 'inline'){
+			return $('form').attr('action','memberEditPwd').submit();
+		}else{
+			alert("비밀번호를 다시 확인하시오.");
+			e.preventDefault();
+		}
+   });
+ 
+
+
+
+/* 
+function uploadFile() {
+	  $.ajax({
+	    url: "/uploadFile",
+	    type: "POST",
+	    data: new FormData($("#upload-file-form")[0]),
+	    enctype: 'multipart/form-data',
+	    processData: false,
+	    contentType: false,
+	    cache: false,
+	    success: function () {
+	      // Handle upload success
+	      // ...
+	    },
+	    error: function () {
+	      // Handle upload error
+	      // ...
+	    }
+	  });
+	} */
+
+
+	</script>
+</th:block>
 </body>
 
 </html>

@@ -160,7 +160,7 @@
 							<!--/* 이슈 종류, 상태, 중요도 START */-->
 							<div class="editPIssueKnd">
 								<p>종류</p>
-								<div class="dropBoxAreaPI">
+								<div class="dropBoxArea">
 									<div class="basic-dropdown" style="display: inline;">
 										<div class="dropdown">
 											<button type="button" id="editPIssuKndVal"
@@ -181,7 +181,7 @@
 
 								<div class="editPIssueSt">
 									<p>상태</p>
-									<div class="dropBoxAreaPI">
+									<div class="dropBoxArea">
 										<div class="basic-dropdown" style="display: inline;">
 											<div class="dropdown">
 												<button type="button" id="editPIssuStVal"
@@ -201,7 +201,7 @@
 
 								<div class="editPIssueRank">
 									<p>중요도</p>
-									<div class="dropBoxAreaPI">
+									<div class="dropBoxArea">
 										<div class="basic-dropdown">
 											<div class="dropdown">
 												<button type="button" class="badge badge-dark"
@@ -349,15 +349,16 @@
 		$('.fs').each(function(idx, item) {
 			$(item).text(getFileSize($(item).text()));
 		});	
-	
-	
-	
+
 		$(document).ready(function () {
 			countReplyP(pIssuNo);
 			countFileP(pIssuNo);
 			checkPIFile();
 		});
 
+		function fileDownloading(issuNo, issuFileNo) {
+		location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
+	}
 		const piviewer = toastui.Editor.factory({
 			el: document.querySelector('#piviewer'),
 			viewer: true,
@@ -449,6 +450,7 @@
 					console.log(err)
 				})
 		}
+
 		
 		// 댓글 길이 카운팅
 		function countingLengthP(content) {
@@ -459,6 +461,15 @@
 			}
 			document.getElementById('counter').innerText = content.value.length + '/300자';
 		}
+        // 날짜 변환
+        function dateFormatting(date) {
+          let parseDate = new Date(date);
+
+          let year = parseDate.getFullYear();
+          let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+          let day = ('0' + parseDate.getDate()).slice(-2);
+             return year + '-' + month + '-' + day;
+            }
 
 		// 댓글 저장
 		function saveReplyP() {
@@ -550,7 +561,12 @@
 					console.log(err)
 				})
 		}
-
+		// 드랍다운
+		$('.dropdown-item').on('click', function () {
+			$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+			$(this).parent().siblings().text($(this).text());
+			checkPIEditInput();
+		});
 		// 댓글 수정 div open
 		function openReplyPUpdateForm(id) {
 
@@ -614,7 +630,7 @@
 					alert('수정되었습니다.');
 					findAllReplyP();
 					closeReplyPUpdateForm(id);
-					countReply(issuNo);
+					countReplyP(issuNo);
 				})
 
 				.fail(function (err) {
@@ -637,7 +653,7 @@
 					.done(function (response) {
 						alert('삭제가 완료되었습니다');
 						findAllReplyP();
-						countReply(issuNo);
+						countReplyP(issuNo);
 					})
 
 					.fail(function (err) {
@@ -662,7 +678,7 @@
 
 			$('#delPConfirm').on('click', function () {
 				$.ajax({
-					url: '/ModalIssueDelete',
+					url: '/project/issues/del',
 					type: 'post',
 					data: { issuNo: issuNo } // 데이터를 객체 형식으로 전달
 				})
@@ -793,7 +809,7 @@
 
 						var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
 						var fileNameTag = $('<td/>').text(item.issuFileNm);
-						var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
+						var fileSizeTag = $('<td/>').text(getFileSize(item.issuFileSize));
 						var deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'removePIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
 
 						trTag.append(fileNameTag);
@@ -965,7 +981,7 @@
 			if (file) {
 				var trTag = $('<tr/>').addClass('added');
 				var fileNameTag = $('<td/>').text(file.name);
-				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
+				var fileSizeTag = $('<td/>').text(getFileSize(file.size));
 				var deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'editRemovePIFile(this);');
 
 				trTag.append(fileNameTag);

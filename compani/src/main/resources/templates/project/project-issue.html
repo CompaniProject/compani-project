@@ -54,7 +54,7 @@
 						</tr>
 					</thead>
 					<tbody class="projectIssueLists" style="text-align: center;">
-						<th:block th:each="projectIssueList : ${prjoectIssueList}">
+						<th:block th:each="projectIssueList : ${projectIssueList}">
 							<tr th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
 								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span
 									class="badge badge-danger" th:text="버그"></span></th>
@@ -336,7 +336,15 @@
 				e.stopPropagation();
 
 			});
-			
+			function dateFormatting(date) {
+
+			let parseDate = new Date(date);
+
+			let year = parseDate.getFullYear();
+			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+			let day = ('0' + parseDate.getDate()).slice(-2);
+			return year + '-' + month + '-' + day;
+		  }
 			// ajax 
 			function projectIssuePaging(pageNum) {
 				

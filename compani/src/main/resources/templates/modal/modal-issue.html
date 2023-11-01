@@ -789,14 +789,6 @@
 		$('.workModalContentBack').css('display', 'none');
 	});
 
-	// toastuieditor
-	const editor = new toastui.Editor({
-		el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
-		height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
-		initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-		initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-		previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
-	});
 
 	// 글쓰기 취소 버튼
 	$('.modalIssueInsertForm').on('click', '.cancelWriting', function () {
@@ -927,10 +919,6 @@
 
 
 	// 파일 업로드 클릭
-	const realUpload = document.querySelector('.real-upload');
-	const upload = document.querySelector('.LoadBtn.upload');
-
-	upload.addEventListener('click', () => realUpload.click());
 
 	checkFile();
 
@@ -997,8 +985,6 @@
 		}
 	};
 
-	const dataTransfer = new DataTransfer();
-
 	$("#files").change(function () {
 
 		let fileArr = document.getElementById("files").files
@@ -1042,7 +1028,7 @@
 	}
 
 
-	$(document).on('click', '.p-t-16', function() {
+	$('.read-content').on('click', '.p-t-16', function() {
 				if ($('.issueInfoCommentList').css("display") == "none") {
 					$('.issueInfoCommentList').css('display', 'block');
 					findAllReply();
@@ -1053,7 +1039,7 @@
 				$('.issueInfoFileList').css('display', 'none');
 			});
 
-	$(document).on('click', '.p-t-15', function() {
+	$('.read-content').on('click', '.p-t-15', function() {
 			if ($('.issueInfoFileList').css("display") == "none") {
 				$('.issueInfoFileList').css('display', 'block');
 			} else {
@@ -1074,12 +1060,7 @@
 		$('.issueInfoCommentList').css('display', 'none');
 		issuePaging(1);
 	}
-	// toastuiviewer
-		const viewer = toastui.Editor.factory({
-			el : document.querySelector('#viewer'),
-			viewer : true,
-			height : '600px'
-			});
+
 	function viewIssueInfo(id) {
 
 		var issuNo = id;
@@ -1203,7 +1184,9 @@
 		})
 			.done(function (data) {
 				findAllReply();
+				$('#issueReplyCntn').val('');
 				countReply(issuNo);
+				countingLength(document.getElementById('issueReplyCntn'));
 			})
 			.fail(function (error) {
 				console.log(error);
@@ -1402,14 +1385,7 @@
 
 	/* 이슈 수정 FORM */
 
-	// toastuieditor
-	const editorEditing = new toastui.Editor({
-		el: document.querySelector('#editorEditing'), // 에디터를 적용할 요소 (컨테이너)
-		height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
-		initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-		initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-		previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
-	});
+
 
 
 	// 이슈 수정 폼
@@ -1679,12 +1655,6 @@
 			})
 	}
 
-
-	// 수정 폼에서 파일 추가
-	const editRealUpload = document.querySelector('.editReal-upload');
-	const editUpload = document.querySelector('.editingLoadBtn.upload');
-	editUpload.addEventListener('click', () => editRealUpload.click());
-
 	function addIssueFileE(element) {
 		const file = element.files[0];
 
@@ -1712,8 +1682,6 @@
 			$('#editIssueFileList').append(trTag);
 		}
 	}
-
-	const editDataTransfer = new DataTransfer();
 
 	$("#editFiles").change(function () {
 		let fileArr = document.getElementById("editFiles").files
@@ -1744,25 +1712,6 @@
 		var tr = $(element).closest('tr');
 		tr.remove();
 	}
-
-	// 파일 삭제 처리용 익명 함수
-	const removeFileId = (function () {
-		const ids = [];
-		return {
-			add(id) {
-				if (ids.includes(id)) {
-					return false;
-				}
-				ids.push(id);
-			},
-			getAll() {
-				return ids;
-			},
-			removeAll() {
-				ids.length = 0;
-			}
-		}
-	}());
 
 	// 수정 폼 기존 파일 삭제
 	function removeExistingFile(element, id) {
@@ -1798,7 +1747,64 @@
 			return tagObj;
 			console.log(tagObj);
 		}
+	
+	<!-- dddd-->
 
-		
+	// toastuieditor
+	var editor = new toastui.Editor({
+		el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
+		height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+		initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+		initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+		previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+	});
+	
+	var realUpload = document.querySelector('.real-upload');
+	var upload = document.querySelector('.LoadBtn.upload');
+	upload.addEventListener('click', () => realUpload.click());
+	
+	var dataTransfer = new DataTransfer();
+	
+	// toastuiviewer
+	var viewer = toastui.Editor.factory({
+		el : document.querySelector('#viewer'),
+		viewer : true,
+		height : '600px'
+	});
+	
+	// toastuieditor
+	var editorEditing = new toastui.Editor({
+		el: document.querySelector('#editorEditing'), // 에디터를 적용할 요소 (컨테이너)
+		height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
+		initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+		initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+		previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
+	});
+	
+	// 수정 폼에서 파일 추가
+	var editRealUpload = document.querySelector('.editReal-upload');
+	var editUpload = document.querySelector('.editingLoadBtn.upload');
+	editUpload.addEventListener('click', () => editRealUpload.click());
+	
+	var editDataTransfer = new DataTransfer();
+	
+		// 파일 삭제 처리용 익명 함수
+	var removeFileId = (function () {
+		const ids = [];
+		return {
+			add(id) {
+				if (ids.includes(id)) {
+					return false;
+				}
+				ids.push(id);
+			},
+			getAll() {
+				return ids;
+			},
+			removeAll() {
+				ids.length = 0;
+			}
+		}
+	}());
 	</script>
 

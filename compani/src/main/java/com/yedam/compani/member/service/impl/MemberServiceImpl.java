@@ -43,4 +43,15 @@ public class MemberServiceImpl implements MemberService {
 		return map.memberSearchList(list);
 	}
 
+	public int editMemberInfo(MemberVO vo) {
+		return map.updateMemberInfo(vo);
+	}
+
+	@Override
+	public int editMemberPwd(MemberVO vo) {
+		return map.updateMemberPwd(vo);
+	}
+	
+	
+	
 }

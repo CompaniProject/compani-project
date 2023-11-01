@@ -72,6 +72,49 @@
 		</choose> 
 		ORDER BY 	 issu_dt DESC
 	</select>
+	
+	<!-- 회사이슈 페이지에서 이슈 리스트 조회 -->
+	<select id="findCompanyIssue" resultType="IssueVO">
+		SELECT  	 i.issu_no
+				   , i.prjt_no
+				   , i.buss_no
+				   , i.memb_id
+				   , i.issu_ttl
+				   , i.issu_cntn
+				   , i.issu_knd
+				   , i.issu_rank
+				   , i.issu_st
+				   , i.issu_dt
+				   , p.prjt_nm
+				   , b.buss_nm
+				   , p.co_cd
+		FROM 	  	 issue i, project p, business b
+		WHERE 	  	 i.buss_no = b.buss_no
+		AND 		 b.prjt_no = p.prjt_no
+		AND          p.co_cd   = #{coCd}
+		AND          p.prjt_pubcyn = '0F1'
+		 <choose>
+			<when test="keyword == '작성자'">
+				 AND memb_id  LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '제목'">
+				 AND issu_ttl LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '업무명'">
+				 AND buss_nm LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '프로젝트명'">
+				 AND prjt_nm LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '전체'">
+				 AND (memb_id LIKE '%' || #{search} || '%'
+				 OR  issu_ttl LIKE '%' || #{search} || '%'
+				 OR  buss_nm  LIKE '%' || #{search} || '%'
+				 OR  prjt_nm  LIKE '%' || #{search} || '%')
+			</when>
+		</choose> 
+		ORDER BY 	 issu_dt DESC
+	</select>
 
 	<select id="getIssueList" resultType="IssueVO">
 		SELECT  p.prjt_nm, 
