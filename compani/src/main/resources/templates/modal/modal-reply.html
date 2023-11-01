@@ -83,4 +83,58 @@
 	    });
 	})
 </script>
+
+<script th:inline="javascript">
+	//----------------------- Project Feedback(Comment) Insert Start
+	function insertComment(){
+	    let value = $('#inputCntn').val();
+	    let obj = {};
+	    obj["replyCntn"] = value;
+	    obj["bussNo"] = bussNo;
+	    
+	    insertAjax(obj);
+	    
+	    $('#inputCntn').val('');
+	}
+	
+	function insertAjax(obj){
+	    $.ajax({
+	        url:'/business/reply',
+	        type: 'post',
+	        contentType: "application/json",
+	        data:JSON.stringify(obj)
+	    })
+	    .done(data => {insertCommentHTML(data)})
+	    .fail(err => {});
+	}
+	
+	function insertCommentHTML(data){
+	    // create tag
+	    let body = $('#reply-body-div');
+	    let insertBody = $('#insertBody').clone();
+	    
+	    let membNm = [[${session.loginInfo.membNm}]];
+	    
+	    // input content values
+	    insertBody.data('no',data.replyNo);
+	    insertBody.find('.media-body h5').text(membNm);
+	    insertBody.find('.media-body p').text(data.replyCntn);
+	    insertBody.find('textarea').text(data.replyCntn);
+	    insertBody.find('#date-area').text(timestamp(data.replyDt));
+	    insertBody.css('display','');
+	    
+	    // insert comment tag to comment body
+	    body.append(insertBody);
+	}
+	
+	$(document).on('click','#insertBtn',insertComment);
+	
+	
+    //------------ Date formatting
+    function timestamp(convertDate){
+        let today = new Date(convertDate);
+        today.setHours(today.getHours() + 9);
+        return today.toISOString().replace('T', ' ').substring(0, 16);
+    }
+</script>
             
