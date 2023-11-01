@@ -535,19 +535,34 @@ select {
 			obj.bussNo = item.target;
 			obj.bussUpcd = item.source;
 			
-			$.ajax({
-				type: 'post',
-				url: '/updatePersonalGanttUpcd',
-				contentType: 'application/json',
-				data: JSON.stringify(obj),
-				success: function(){
-					console.log("수정성공!");
-					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
-				},
-				error: function(error){
-					console.lof(error);
+			// 중복 상위업무에 대한 처리
+			for(let i=0; i<calendarData.length; i++){
+				if(obj.bussNo == calendarData[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
+					if(calendarData[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
+						$.ajax({
+							type: 'post',
+							url: '/updatePersonalGanttUpcd',
+							contentType: 'application/json',
+							data: JSON.stringify(obj),
+							success: function(){
+								console.log("수정성공!");
+								console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
+							},
+							error: function(error){
+								console.lof(error);
+							}
+						})
+						calendarData[i].bussUpcd = obj.bussUpcd;
+						return false; 
+					} // 업무번호의 상위업무가 0이 아니면
+					// 경고창 띄워주기
+					alert('해당 업무는 이미 상위업무가 존재합니다.');
+					// 방금 만든 간트 링크 없애기
+					let thisId = item.id;
+					gantt.deleteLink(thisId);
+					return false;
 				}
-			})
+			}
 		});
 		// 더블클릭 했을 때 - 수정 버튼 가리기
 		gantt.attachEvent("onLightbox", function (task_id){
