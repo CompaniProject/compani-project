@@ -62,7 +62,9 @@
     		})	
     		
     		$('#tab_log').on('click',function(){
-    			includes1.load('/modal/reply/3');
+    			includes1.load('/modal/reply/' + bussNo);
+    			$('.ContentText').text($(this).text());
+    			$('.ContentImg').css('background-image', 'url(/images/tab_issue.png)');
     		})
     	});
     	
