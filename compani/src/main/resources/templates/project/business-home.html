@@ -469,7 +469,9 @@
 		<div data-include1="showModalMain"></div>
 
 		<script th:inline="javascript">
-	
+			// 권오준 추가
+			var miPrjtNo = [[${prjtNo}]];
+
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember)

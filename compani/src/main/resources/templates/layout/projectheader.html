@@ -12,7 +12,7 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 prjtNM-->
-								<p class="m-1">프로젝트명</p>
+								<p class="m-1">prjtNo>[[${prjtNo}]]</p>
 							</div>
 						</div>
 						<div class="col-2  border-right">
@@ -112,20 +112,13 @@
 					<div class="card-body"> -->
 						<div class="default-tab">
 							<ul class="nav nav-tabs mb-3" role="tablist">
-								<li class="nav-item"><a class="nav-link active"
-									data-toggle="tab" href="">홈</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#calendar">캘린더</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="business/1">업무</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									th:href="@{/project/issues/{prjtNo}}">이슈</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#message">드라이브</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#message">내코멘트</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#message">피드백</a></li>
+								<li class="nav-item"><a class="nav-link active" th:href="@{/project/home/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>
+								<li class="nav-item"><a class="nav-link" href="#calendar">캘린더</a></li>
+								<li class="nav-item"><a class="nav-link" th:href="@{/project/business/{prjtNo}(prjtNo=${prjtNo})}">업무</a></li>
+								<li class="nav-item"><a class="nav-link" th:href="@{/project/issues/{prjtNo}(prjtNo=${prjtNo})}">이슈</a></li>
+								<li class="nav-item"><a class="nav-link" href="#message">드라이브</a></li>
+								<li class="nav-item"><a class="nav-link" href="#message">내코멘트</a></li>
+								<li class="nav-item"><a class="nav-link" href="#message">피드백</a></li>
 							</ul>
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="" role="tabpanel">
@@ -157,8 +150,12 @@
 	</div> -->
 	
 <script>
-		var myPrjtList = $('#myPrjtList').children().find('.active');
-		console.log(myPrjtList);
-	</script>
+	var navItemList = $('nav-link');
+	navItemList.click(function() {
+		navItemList.removeClass('active');
+		debugger;
+		$(this).addClass('active');
+	})
+</script>
 </th:block>
 </html>

@@ -584,7 +584,6 @@
 	</div>
 	<!--/* 이슈 삭제시 경고창 END */-->
 	<script th:inline="javascript">
-	
 	var miMemberId = [[${session.loginInfo.membId}]];
 
 	//검색 조건 ( 제목, 작성자, 전체)
@@ -854,6 +853,7 @@
 		formData.append('issuTtl', $('#issuTtlVal').val());
 		formData.append('bussNo', bussNo);
 		formData.append('membId', miMemberId);
+		formData.append('prjtNo', miPrjtNo);
 
 		// 중요도 text 값 확인 후 data로 넣기 !
 		if ($('#issuRankVal').text() == '매우높음') {

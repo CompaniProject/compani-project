@@ -329,7 +329,7 @@
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>	
 	<script th:inline="javascript">
 			var piMemberId = [[${session.loginInfo.membId}]];
-			
+			var piprjtNo = [[${prjtNo}]];
 			//검색 조건 (제목, 작성자, 전체) 
 			$('.pissue-selectBox').on('click', function () {
 				$('.pissue-select-ul').css('display', 'block');
@@ -607,6 +607,7 @@
 			formData.append('issuTtl', $('#savePIssuTtlVal').val());
 			formData.append('membId', piMemberId);
 			formData.append('bussNo', $('.bussNm-selected-value').data('bno'));
+			formData.append('prjtNo', piprjtNo);
 
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#savePIssuRankVal').text() == '매우높음') {

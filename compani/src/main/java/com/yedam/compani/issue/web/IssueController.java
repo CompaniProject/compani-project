@@ -48,8 +48,6 @@ public class IssueController {
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
 		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo);
-		System.out.println(issues);
-		System.out.println(vo);
 		model.addAttribute("issue", issues);
 		model.addAttribute("issueList", vo);
 		model.addAttribute("search", searchBI);

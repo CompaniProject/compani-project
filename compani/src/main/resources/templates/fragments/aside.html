@@ -13,7 +13,7 @@
 						class="nav-text">프로젝트</span>&nbsp;&nbsp;&nbsp;<i class="icon-plus"></i>
 				</a>
 					<ul aria-expanded="false" id="myPrjtList">
-						<li th:each="project : ${session.projectList}" th:attr="data-prjtNo=${project.prjtNo}"><a
+						<li th:each="project : ${session.projectList}"><a
 							th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}"
 							th:text="${project.prjtNm}"
 							></a></li>

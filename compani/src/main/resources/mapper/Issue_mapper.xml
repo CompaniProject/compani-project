@@ -172,7 +172,7 @@
 			  VALUES  
 			         (
 						 #{issuNo}
-					   , 1
+					   , #{prjtNo}
 			<choose>
 				<when test="bussNo > 0">
 					   , #{bussNo}
@@ -221,7 +221,7 @@
 	
 	<!-- 프로젝트 이슈 피드백 -->
 	<select id="selectProjectFeedbackIssueList" resultType="IssueVO">
-		SELECT issu_no
+		SELECT 	 issu_no
 			   , prjt_no
 			   , memb_nm
 			   , issu_ttl
