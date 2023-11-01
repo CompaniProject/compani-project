@@ -194,4 +194,10 @@
 		</if>
 		WHERE buss_no = #{bussNo}
 	</update>
+	<!-- 간트 상위업무 수정 -->
+	<update id="updateGanttUpcd" parameterType="BusinessVO">
+		UPDATE business
+		SET buss_upcd = #{bussUpcd}
+		WHERE buss_no = #{bussNo}
+	</update>
 </mapper>

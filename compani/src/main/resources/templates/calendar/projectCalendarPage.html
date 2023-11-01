@@ -414,8 +414,30 @@ select {
 					console.lof(error);
 				}
 			})
+		});
+		// 상위업무 수정 ajax
+		gantt.attachEvent("onAfterLinkAdd", function(id,item){
+			var obj = new Object();
+			obj.bussNo = item.target;
+			obj.bussUpcd = item.source;
 			
-		    return true;
+			$.ajax({
+				type: 'post',
+				url: '/updateProjectGanttUpcd',
+				contentType: 'application/json',
+				data: JSON.stringify(obj),
+				success: function(){
+					console.log("수정성공!");
+					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
+				},
+				error: function(error){
+					console.lof(error);
+				}
+			})
+		});
+		// 더블클릭 했을 때 - 수정 버튼 가리기
+		gantt.attachEvent("onLightbox", function (task_id){
+			gantt.hideLightbox();
 		});
 		
 		gantt.init("projectGanttchart");
@@ -426,8 +448,6 @@ select {
 			    links: projectGanttLink()
 			});
 		}
-		console.log(gantt.getTask(15).start_date);
-		//console.log(gantt.getTask(15).end_date);
 	});
 	
 	/*----------------------------
@@ -460,13 +480,13 @@ select {
 		
 		for(let i=0; i<calendarData.length; i++){
 			let obj = new Object();
-			if(calendarData[i].bussUpcd != null){
-				obj.id = calendarData[i].bussNo;
-				obj.source = calendarData[i].bussUpcd;
-				obj.target = calendarData[i].bussNo;
+			if(calendarData[i].bussUpcd != '0'){
+				//obj.id = calendarData[i].bussNo; // id
+				obj.source = calendarData[i].bussUpcd; // 상위업무
+				obj.target = calendarData[i].bussNo; // 해당업무
 				obj.type = "0";
-			}
 				arr.push(obj);
+			}
 		}
 		return arr;
 	}

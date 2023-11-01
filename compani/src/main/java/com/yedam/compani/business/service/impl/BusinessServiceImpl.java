@@ -93,4 +93,10 @@ public class BusinessServiceImpl implements BusinessService {
 	public int updateCalendarBuss(BusinessVO vo) {
 		return businessMapper.updateCalendarBuss(vo);
 	}
+	
+	// 간트 상위업무 수정
+	@Override
+	public int updateGanttUpcd(BusinessVO vo) {
+		return businessMapper.updateGanttUpcd(vo);
+	}
 }
