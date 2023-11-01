@@ -227,6 +227,31 @@
 		</div>
 	</div>
 	
+	<!-- Hidden Insert Comment Body -->
+	<div class="card" style="display:none;" id="insertBody">
+		<div class="card-body">
+			<div class="media">
+				<div class="media-body">
+					<div class="comment-content">
+						<h5 class="mt-0"></h5>
+						<div class="content-area">
+						</div>
+						<div class="edit-area" style="display:none;">
+							<textarea class="form-control" id="editCntn"></textarea>
+						</div>
+						<div class="float-left" id="date-area"></div>
+						<div class="float-right editBtn">수정</div>
+						<div class="float-right delBtn">삭제</div>
+						<div class="float-right submitBtn">확인</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Hidden Insert Comment Body -->
+	
+	
 	<script th:inline="javascript">
 		// -------------------- Status Data Start
 		const projectStatus = [[${projectStatus}]];
@@ -267,7 +292,7 @@
 		function insertCommentHTML(data){
 			// create tag
 			let body = $('#commentBody');
-			let card = body.find('.card').first().clone();
+			let card = $('#insertBody').clone();
 			
 			// input content values
 			card.find('comment-content').data('no',data.prjtFdbkNo);
@@ -275,6 +300,7 @@
 			card.find('.content-area').text(data.prjtFdbkCntn);
 			card.find('textarea').text(data.prjtFdbkCntn);
 			card.find('#date-area').text(timestamp(data.prjtFdbkDt));
+			card.css('display','block');
 			
 			// insert comment tag to comment body
 			body.append(card);
