@@ -22,12 +22,12 @@
             	<!-- Comment List Area Start -->
                 <div class="reply-body" id="reply-body-div">
                 	<th:block th:each="reply : ${replyList}">
-                        <div class="media border-bottom-1 pt-3 pb-3" data-no="${reply.replyNo}">
+                        <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}">
                             <div class="media-body">
                                 <h5 th:text="${reply.membNm}"></h5>
                                 <p class="mb-0" th:text="${reply.replyCntn}"></p>
 								<div class="edit-area" style="display:none;">
-									<textarea class="form-control" id="editCntn"></textarea>
+									<textarea class="form-control" id="editCntn" th:text="${reply.replyCntn}"></textarea>
 								</div>
                             </div>
                             <ul>
@@ -87,7 +87,7 @@
 </script>
 
 <script th:inline="javascript">
-	//----------------------- Project Feedback(Comment) Insert Start
+	//----------------------- Business Reply (Comment) Insert Start
 	function insertComment(){
 	    let value = $('#inputCntn').val();
 	    let obj = {};
