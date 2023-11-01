@@ -310,25 +310,7 @@ input[type="checkbox"]:checked::after {
 				}
 			});
 		};
-
-		 // ======== 파일 검색 AJAX ========
-		 function search(){
-			let selected = $('.member-selected-value').first().text();
-			let keyword  = $('#keyword').val();
-			console.log(selected);
-			console.log(search);
-		
-			$.ajax('/AjaxFileSearch?&key='+selected + '&value=' + search)
-			.done(function(data){
-				console.log(data)
-				alert("성공");
-			}
-			.fail(err =>  console.log(err));
-		} 
-		
-		
-		
-		
+	
 		
 		// ======== 파일 업로드 AJAX ========
 
@@ -402,12 +384,6 @@ input[type="checkbox"]:checked::after {
 						}
 					});
 				});
-				
-		
-		// 파일 다운로드
-		function fileDown(FileNo) {
-		location.href = '/workFile/' + FileNo + '/download';
-	}
 				
 	 	
 	</script>

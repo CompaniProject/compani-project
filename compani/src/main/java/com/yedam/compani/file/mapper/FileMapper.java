@@ -3,6 +3,8 @@ package com.yedam.compani.file.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.github.pagehelper.Page;
+import com.yedam.compani.file.service.FileSearchDTO;
 import com.yedam.compani.file.service.FileVO;
 
 public interface FileMapper {
@@ -24,5 +26,7 @@ public interface FileMapper {
 		
 		// 업무 모달 파일함 검색기능
 		public List<FileVO> fileSearch(Map<String, String> map);
-	
+		
+		// 검색 + 페이징
+		public Page<FileVO> findFile(FileSearchDTO search);
 }

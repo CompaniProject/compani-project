@@ -31,6 +31,7 @@
 					</selectKey>
 					INSERT INTO project_file(file_no
 											 , prjt_no
+											 , buss_no
 											 , file_nm
 											 , file_path
 											 , file_type
@@ -39,10 +40,11 @@
 					VALUES (
 							#{fileNo}
 							, 1
+							, 1
 							, #{fileNm}
 							, #{filePath}
 							, #{fileType}
-							, 'm2'
+							, #{membId}
 							, #{fileSize}
 								)
 						
@@ -56,32 +58,30 @@
 				</delete>
 				
 				
-				<!-- 검색기능 -->
-				<select id="fileSearch" resultType="map">
-					SELECT  FILE_NO
-							, PRJT_NO
-							, BUSS_NO
-							, FILE_NM
-							, FILE_PATH
-							, FILE_TYPE
-							, FILE_DESCT
-							, FILE_DT
-							, MEMB_ID
-							, FILE_SIZE
-							
-					FROM	PROJECT_FILE F, BUSINESS B, PROJECT P
-					WHERE 	F.BUSS_NO = B.BUSS_NO
-					AND		B.PRJT_NO = P.PRJT
+				<!-- 검색기능 + 리스트 -->
+				<select id="findFile" resultType="FileVO">
+					SELECT 	  f.file_no
+							, p.prjt_no
+							, b.buss_no
+							, f.file_nm
+							, f.file_path
+							, f.file_type
+							, f.file_desct
+							, f.file_dt
+							, m.memb_nm
+							, f.file_size
+				    FROM 	project_file f, project p, business b, member m
+					WHERE	f.memb_id = m.memb_id
+					AND		f.buss_no = b.buss_no
+					AND		f.prjt_no = p.prjt_no
 					<choose>
 						<when test="type == '파일명'">
-							AND (fileNm like '%' || #{keyword} || '%')
+							AND file_nm LIKE '%' || #{keyword} || '%'
 						</when>
 						<when test="type == '작성자'">
-							AND (membId like '%' || #{keyword) || '%')
+							AND memb_id LIKE '%' || #{keyword} || '%'
 						</when>
 					</choose>		
 				</select>
-		
-				
 		
 </mapper>

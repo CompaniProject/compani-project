@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -43,7 +46,7 @@ public class FileUploadController {
 		@Value("${file.upload.path}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 		private String uploadPath;
 		
-		@PostMapping("uploadsAjax")
+		@PostMapping("/uploadsAjax")
 		@ResponseBody
 		public Map<String, Object> uploadFile(@RequestPart MultipartFile[] uploadFiles, FileVO fileVO) {
 		    										// 화면에 Multipart 유무에 따라 배열 넣냐 안넣냐 차이
@@ -96,7 +99,7 @@ public class FileUploadController {
 			      // DB 에 저장하기
 			      fileservice.fileInsert(fileVO); // 등록과 동시에 DB에 저장 
 			      
-		        fList.add(setImagePath(uploadFileName));     
+		        fList.add(setFilePath(uploadFileName));     
 		     } 
 		    
 	        Map<String, Object> map = new HashMap<>();
@@ -122,18 +125,18 @@ public class FileUploadController {
 			return folderPath;
 		}
 		
-		private String setImagePath(String uploadFileName) {
+		private String setFilePath(String uploadFileName) {
 			return uploadFileName.replace(File.separator, "/");
 		}
 		
 		// 파일 다운로드
-		@GetMapping(value="workfile/{fileNo}/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+		@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 		@ResponseBody
-		public ResponseEntity<Resource> downloadFile(String fileName){	
-			log.info("download file : " + fileName);
+		public ResponseEntity<Resource> downloadFile(String FileName, String FilePath){	
+			log.info("download file : " + FilePath + FileName);
 			
 			// 존재하는 파일 찾아감
-			FileSystemResource resource = new FileSystemResource("c:\\Temp\\" + fileName);
+			FileSystemResource resource = new FileSystemResource(uploadPath + FilePath + FileName);
 			
 			log.info("resource : " + resource);
 			
