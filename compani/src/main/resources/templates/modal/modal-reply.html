@@ -22,22 +22,24 @@
             	<!-- Comment List Area Start -->
                 <div class="reply-body" id="reply-body-div">
                 	<th:block th:each="reply : ${replyList}">
-                        <div class="media border-bottom-1 pt-3 pb-3">
+                        <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}">
                             <div class="media-body">
                                 <h5 th:text="${reply.membNm}"></h5>
                                 <p class="mb-0" th:text="${reply.replyCntn}"></p>
+								<div class="edit-area" style="display:none;">
+									<textarea class="form-control" id="editCntn" th:text="${reply.replyCntn}"></textarea>
+								</div>
                             </div>
-                            
                             <ul>
                            		<li>
                            			<span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>
                            		</li>
                            		<li>
-                           			<span>수정</span>
-                           			<span>삭제</span>
+                           			<span class="editBtn">수정</span>
+                           			<span class="delBtn">삭제</span>
+                           			<span class="submitBtn">확인</span>
                            		</li>
                             </ul>
-                            	
                         </div>
                 	</th:block>
                 </div>
@@ -46,8 +48,7 @@
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn"/>
-					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right"
-					style="margin-top:0.88em">Send</button>
+					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
             </div>
@@ -55,11 +56,142 @@
 	</div>
 </div>
 
+<!-- Hidden Reply Insert Area -->
+<div class="media border-bottom-1 pt-3 pb-3" style="display:hidden;" id="insertBody">
+    <div class="media-body">
+        <h5></h5>
+        <p class="mb-0"></p>
+		<div class="edit-area" style="display:none;">
+			<textarea class="form-control" id="editCntn"></textarea>
+		</div>
+    </div>
+    <ul>
+   		<li>
+   			<span class="text-muted" id="date-area"></span>
+   		</li>
+   		<li>
+            <span class="editBtn">수정</span>
+            <span class="delBtn">삭제</span>
+            <span class="submitBtn">확인</span>
+   		</li>
+    </ul>
+</div>
+<!-- Hidden Reply Insert Area End -->
+
 <script>
 	$(function(){
 	    $('#reply-body-div').slimScroll({
 	        height: '250px'
 	    });
 	})
+</script>
+
+<script th:inline="javascript">
+	//----------------------- Business Reply (Comment) Insert Start
+	function insertComment(){
+	    let value = $('#inputCntn').val();
+	    let obj = {};
+	    obj["replyCntn"] = value;
+	    obj["bussNo"] = bussNo;
+	    
+	    insertAjax(obj);
+	    
+	    $('#inputCntn').val('');
+	}
+	
+	function insertAjax(obj){
+	    $.ajax({
+	        url:'/business/reply',
+	        type: 'post',
+	        contentType: "application/json",
+	        data:JSON.stringify(obj)
+	    })
+	    .done(data => {insertCommentHTML(data)})
+	    .fail(err => {});
+	}
+	
+	function insertCommentHTML(data){
+	    // create tag
+	    let body = $('#reply-body-div');
+	    let insertBody = $('#insertBody').clone();
+	    
+	    let membNm = [[${session.loginInfo.membNm}]];
+	    
+	    // input content values
+	    insertBody.data('no',data.replyNo);
+	    insertBody.find('.media-body h5').text(membNm);
+	    insertBody.find('.media-body p').text(data.replyCntn);
+	    insertBody.find('textarea').text(data.replyCntn);
+	    insertBody.find('#date-area').text(timestamp(data.replyDt));
+	    insertBody.css('display','');
+	    
+	    // insert comment tag to comment body
+	    body.append(insertBody);
+	}
+	
+	$(document).on('click','#insertBtn',insertComment);
+
+	//----------------------- Business Reply (Comment) Insert End
+	
+	    // date, content change
+    function changeComment(data, comment){
+        comment.find(".media-body p").text(data.replyCntn);
+        comment.find("#date-area").text(timestamp(data.replyDt));
+    }
+    
+    // get comment, content, editBtn, submitBtn to Toggle
+    // update textarea - copy to content text
+    function toggleTags(event){
+        let comment = $(event.target).closest('.media');
+        let content = comment.find('.media-body p');
+        let edit = comment.find('.edit-area');
+        let submitBtn = comment.find('.submitBtn');
+        
+        content.text(comment.find('textarea').val());
+        
+        content.toggle();
+        edit.toggle();
+        submitBtn.toggle();
+    }
+    
+    function editSubmit(event){
+        let comment = $(event.target).closest('.media');
+        let textCntn = comment.find("textarea");
+        
+        let obj = {};
+        obj["replyCntn"] = textCntn.val();
+        obj["replyNo"] = comment.data('no');
+        
+        updateAjax(obj, comment);
+        
+        toggleTags(event);
+    }
+    
+    // ----------------------------------Update Ajax
+    // update - using edit, delete
+    function updateAjax(obj, comment){
+        $.ajax({
+            url:'/business/reply',
+            type: 'put',
+            contentType: "application/json",
+            data:JSON.stringify(obj)
+        })
+        .done(data => {changeComment(data, comment)})
+        .fail(err => {});
+    }
+    // -------------------------------Update Ajax End
+    
+    // -------------------------------onclick Event
+    $(document).on('click','.editBtn',toggleTags);
+    $(document).on('click','.submitBtn',editSubmit);
+    // ------------------------------onclick Event End
+    
+	
+    //------------ Date formatting
+    function timestamp(convertDate){
+        let today = new Date(convertDate);
+        today.setHours(today.getHours() + 9);
+        return today.toISOString().replace('T', ' ').substring(0, 16);
+    }
 </script>
             
