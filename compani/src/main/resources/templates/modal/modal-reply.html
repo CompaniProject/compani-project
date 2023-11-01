@@ -27,7 +27,17 @@
                                 <h5 th:text="${reply.membNm}"></h5>
                                 <p class="mb-0" th:text="${reply.replyCntn}"></p>
                             </div>
-                            <span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>	
+                            
+                            <ul>
+                           		<li>
+                           			<span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>
+                           		</li>
+                           		<li>
+                           			<span>수정</span>
+                           			<span>삭제</span>
+                           		</li>
+                            </ul>
+                            	
                         </div>
                 	</th:block>
                 </div>
