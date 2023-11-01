@@ -10,7 +10,6 @@
 <body>
 	<th:block layout:fragment="content">
 		<div>
-			[[${session.loginInfo}]]
 			<!-- Bussiness Header -->
 			<div class="row mx-0">
 				<ul class="nav nav-pills mb-3">
@@ -471,7 +470,8 @@
 
 		<script th:inline="javascript">
 		
-		
+			var bussNo  = 1;
+			
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember)
@@ -507,11 +507,9 @@
     		})
     		
     		function infoBusiness(){
-				var bussNo = $(this).find('input').val();
-				console.log('칸반 누를때 마다 ' +bussNo);
+				bussNo = $(this).find('input').val();
+				console.log('칸반 누름 ' +bussNo);
 				$('#workModal').modal('toggle');
-				
-				return bussNo;
 			}
 			
 			

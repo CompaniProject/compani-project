@@ -20,4 +20,5 @@ public class BusinessVO {
 	private String bussDep;
 	private String bussUpNm;
 	private String bussStNm;
+	private String bussImpNm;
 }
