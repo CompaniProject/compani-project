@@ -395,7 +395,7 @@
 									<div class="col-lg-3">
 										<input type="date" class="form-control" id="bussFrdt"
 											name="bussFrdt" />
-											<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" --> 
+										<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
 									</div>
 									<div class="col-lg-1">
 										<label class="col-lg-4 col-form-label">~ </label>
@@ -403,7 +403,7 @@
 									</div>
 									<div class="col-lg-3">
 										<input type="date" class="form-control" id="bussTodt"
-											name="bussTodt" >
+											name="bussTodt">
 									</div>
 								</div>
 
@@ -473,6 +473,8 @@
 			var miPrjtNo = [[${prjtNo}]];
 
 			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
+			let tbody = $('#insertmembertbl');
+			$('#membertbl').on('click', 'td:nth-child(5)',  function(){insertMember(tbody)})
 			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
 			$('#keyword').on('click', searchMember)
 		 	$('.dropdown-import').on('click', dropdown)
@@ -519,18 +521,17 @@
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
 			}
-			function insertMember(event){
-	
+			function insertMember(tbl){
 				//tr의 ID -중복체크를 위한 값 
-				let id = $(this).parent().attr('id');
+				let id = $(event.target).closest('tr').attr('id');
 				
-				let image = $(this).siblings().eq(0).children().attr('src');
-				let dept = $(this).siblings().eq(1).text();
-				let position = $(this).siblings().eq(2).text();
-				let name = $(this).siblings().eq(3).text();
+				let image = $(event.target).closest('tr').children().eq(0).children().attr('src');
+				let dept = $(event.target).closest('tr').children().eq(1).text();
+				let position = $(event.target).closest('tr').children().eq(2).text();
+				let name = $(event.target).closest('tr').children().eq(3).text();
 				
 				let isDup = true;				
-				$('#insertmembertbl tr').each(function(){
+				tbl.find('tr').each(function(){
 					 let checkId = $(this).attr('id');
 					 if(checkId == id){
 						 isDup = false;
@@ -539,8 +540,6 @@
 				
 				if (isDup){
 					
-				 	let insertmemtbl = $('#insertmembertbl');
-				
 					let trTag = $('<tr/>');
 					let tdTag= $('<td/>');
 					
@@ -579,7 +578,7 @@
 					inputTag.attr('value', id);
 					trTag.append(inputTag);
 					
-					insertmemtbl.append(trTag); 
+					tbl.append(trTag); 
 				}
 			}
 			
@@ -671,6 +670,9 @@
 		
 	
 		</script>
+		<script src="/plugins/nouislider/nouislider.min.js"></script>
+		<script src="/plugins/wnumb/wNumb.js"></script>
+		<script src="/js/plugins-init/nouislider-init.js"></script>
 	</th:block>
 </body>
 </html>

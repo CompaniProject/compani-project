@@ -4,7 +4,8 @@
 		<div class="issueNameEdit">
 			<div class="issueNameBack">
 				<textarea class="modalIssueNameUpdate" id="bussNm" name='bussNm'
-					maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요." th:text="${businessVO.bussNm}"></textarea>
+					maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요."
+					th:text="${businessVO.bussNm}"></textarea>
 			</div>
 		</div>
 		<div>
@@ -22,7 +23,7 @@
 									<th>삭제</th>
 								</tr>
 							</thead>
-							<tbody id="insertmembertbl">
+							<tbody id="updatemembertbl">
 								<th:block th:each="bussMemList : ${businessMemberList}">
 									<tr th:id="${bussMemList.membId}">
 										<td><img
@@ -81,7 +82,7 @@
 										<th>추가</th>
 									</tr>
 								</thead>
-								<tbody id="membertbl">
+								<tbody id="infomembertbl">
 									<th:block th:each="memberList : ${memberList}">
 										<tr th:id="${memberList.membId}">
 											<td><img
@@ -108,7 +109,8 @@
 			<label class="col-lg-4 col-form-label">일정 </label>
 			<div class="col-lg-3">
 				<input type="date" class="form-control" id="bussFrdt"
-					name="bussFrdt" th:value = "${#dates.format(businessVO.bussFrdt, 'yyyy-MM-dd')}">
+					name="bussFrdt"
+					th:value="${#dates.format(businessVO.bussFrdt, 'yyyy-MM-dd')}">
 			</div>
 			<div class="col-lg-1">
 				<label class="col-lg-4 col-form-label">~ </label>
@@ -116,7 +118,8 @@
 			</div>
 			<div class="col-lg-3">
 				<input type="date" class="form-control" id="bussTodt"
-					name="bussTodt" th:value = "${#dates.format(businessVO.bussTodt, 'yyyy-MM-dd')}" >
+					name="bussTodt"
+					th:value="${#dates.format(businessVO.bussTodt, 'yyyy-MM-dd')}">
 			</div>
 		</div>
 
@@ -125,10 +128,14 @@
 			</label>
 			<div class="col-lg-6">
 				<div class="dropdown custom-dropdown">
-					<select class="dropdown-import" id="bussImp" name="bussImp" th:value = "${businessVO.bussImpNm}">
-						<option class="dropdown-import" value="0J1" th:selected="${businessVO.bussImpNm}=='상'">상</option>
-						<option class="dropdown-import" value="0J2" th:selected="${businessVO.bussImpNm}=='중'">중</option>
-						<option class="dropdown-import" value="0J3" th:selected="${businessVO.bussImpNm}=='하'">하</option>
+					<select class="dropdown-import" id="bussImp" name="bussImp"
+						th:value="${businessVO.bussImpNm}">
+						<option class="dropdown-import" value="0J1"
+							th:selected="${businessVO.bussImpNm}=='상'">상</option>
+						<option class="dropdown-import" value="0J2"
+							th:selected="${businessVO.bussImpNm}=='중'">중</option>
+						<option class="dropdown-import" value="0J3"
+							th:selected="${businessVO.bussImpNm}=='하'">하</option>
 
 					</select>
 
@@ -139,22 +146,21 @@
 			<label class="col-lg-4 col-form-label" for="val-username">진척도
 			</label>
 			<div class="col-lg-5">
-				<div style="padding-top: 10px; padding-bottom: 10px;">
-					<div class="progress" style="height: 10px">
-						<div class="progress-bar gradient-1" th:style="0"
-							role="progressbar"></div>
-					</div>
+				<div class="snap">
+					<div id="hover"></div>
+					<span class="example-val mt-4 d-inline-block" id="hover-val"></span>
 				</div>
 			</div>
 			<div class="col-lg-2">
-				<input  type="text" id="bussPrgre" th:value = "${businessVO.bussPrgre}"/>
+				<input type="text" id="bussPrgre" th:value="${businessVO.bussPrgre}" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-lg-4 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-				<input type="text" id="bussSt" th:value ="${businessVO.bussStNm}" readonly="readonly" />
+				<input type="text" id="bussSt" th:value="${businessVO.bussStNm}"
+					readonly="readonly" />
 			</div>
 
 		</div>
@@ -164,10 +170,10 @@
 			<div class="col-lg-6">
 				<div class="dropdown custom-dropdown">
 					<div>
-						<select class="dropdown-relation" name="bussDep" >
-							<option class="dropdown-relation" value=""   >선택</option>
-							<option class="dropdown-relation" value="up"   >선행 작업</option>
-							<option class="dropdown-relation" value="down"    >후속 작업</option>
+						<select class="dropdown-relation" name="bussDep">
+							<option class="dropdown-relation" value="">선택</option>
+							<option class="dropdown-relation" value="up">선행 작업</option>
+							<option class="dropdown-relation" value="down">후속 작업</option>
 
 						</select>
 					</div>
@@ -193,10 +199,27 @@
 		<input type="hidden" name="prjtNo" th:value="1" />
 	</div>
 	<div class="modal-footer">
-		<button id="insertBtn" type="button" class="btn btn-primary">수정</button>
+		<button id="updateBtn" type="button" class="btn btn-primary">수정</button>
 	</div>
 </form>
 <script>
+	var slider = document.getElementById('hover');
+	var bussPrgre = $('#bussPrgre').val();
+	noUiSlider.create(slider, {
+		start : bussPrgre,
+		connect : 'lower',
+		range : {
+			'min' : 0,
+			'max' : 100
+		}
+	});
+	slider.noUiSlider.on('slide', function(value, handle) {
+		$('#bussPrgre').val(Math.round(value[handle], 0));
+
+	})
+	$('#bussPrgre').on('change', function() {
+		slider.noUiSlider.set($(this).val());
+	})
 
 	$('.member-selectBox').on('click', function() {
 		$('.member-select-ul').css('display', 'block');
@@ -207,7 +230,18 @@
 		$('.member-selected-value').text(selectValue);
 		$('#keyword').val(selectValue);
 		$('.member-select-ul').css('display', 'none');
+		console.log(slider.noUiSlider.get());
 		e.stopPropagation();
 	})
 
+	$('#infomembertbl').on('click', 'td:nth-child(5)', function() {insertMember($('#updatemembertbl'))})
+	$('#updatemembertbl').on('click', 'td:nth-child(5)', deleteMember)
+	
+	$('#updateBtn').on('click', function(){
+			
+	})
+	
+	
+	
+	
 </script>
