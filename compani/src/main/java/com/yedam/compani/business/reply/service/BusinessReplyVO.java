@@ -13,4 +13,5 @@ public class BusinessReplyVO {
 	private String pubcyn;
 	private String membId;
 	private Integer replyUpno;
+	private String replyShow;
 }

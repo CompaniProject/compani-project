@@ -18,6 +18,7 @@
 			, m.memb_id
 			, reply_upno
 			, m.memb_nm
+			, reply_show
 		FROM business_reply br LEFT JOIN member m ON(br.memb_id = m.memb_id)
 		WHERE buss_no = #{bussNo}
 		START WITH reply_upno IS NULL
@@ -72,6 +73,9 @@
 			<if test="replyCntn != null">
 				reply_cntn = #{replyCntn},
 			</if>
+			<if test="replyShow != null">
+                reply_show = #{replyShow},
+            </if>
 			reply_dt = #{replyDt}
 		</set>
 		WHERE reply_no = #{replyNo}
