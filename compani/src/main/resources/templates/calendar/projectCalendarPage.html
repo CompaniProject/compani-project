@@ -212,24 +212,13 @@ select {
 	
 	<script th:inline="javascript">
     let calendarData = [[${projectCalendarPage}]];
-    console.log([[${session.loginInfo}]]);
-    
-    /*----------------------------
-	Calendar&Gantt switch
-	------------------------------*/
-	$('.btn.btn-primary.calendar').on('click', function(){
-		$('#projectCalendar').css("display","flex");
-		$('#projectGanttchart').css("display","none");
-	});
-	$('.btn.btn-primary.gantt').on('click', function(){
-		$('#projectGanttchart').css("display","flex");
-		$('#projectCalendar').css("display","none");
-	});
+    //console.log([[${session.loginInfo}]]);
+    //console.log([[${session.projectList}]]);
     
    	/*----------------------------
 		업무리스트 정렬
 	------------------------------*/
-   	$('.dropdown-item').eq(0).on('click', function(){
+   	$('.dropdown-item').eq(0).on('click', function(){ // 날짜
    		calendarData.sort(function(a, b){
 			if(a.bussFrdt<b.bussFrdt) return -1;
 			if(a.bussFrdt>b.bussFrdt) return 1;
@@ -237,7 +226,7 @@ select {
 		});
    		resetBussList();
    	});
-   	$('.dropdown-item').eq(1).on('click', function(){
+   	$('.dropdown-item').eq(1).on('click', function(){ // 진척도
    		calendarData.sort(function(a, b){
 			if(a.bussPrgre>b.bussPrgre) return -1;
 			if(a.bussPrgre<b.bussPrgre) return 1;
@@ -245,17 +234,22 @@ select {
 		});
    		resetBussList();
    	});
-   	$('.dropdown-item').eq(2).on('click', function(){
+   	$('.dropdown-item').eq(2).on('click', function(){ // 중요도
+   		for(let i=0; i<calendarData.length; i++){
+   			if(calendarData[i].bussImp == "상") calendarData[i].bussImp == 1;
+   			if(calendarData[i].bussImp == "중") calendarData[i].bussImp == 2;
+   			if(calendarData[i].bussImp == "하") calendarData[i].bussImp == 3;
+   		}
    		calendarData.sort(function(a, b){
-			if(a.bussFrdt<b.bussFrdt) return -1;
-			if(a.bussFrdt>b.bussFrdt) return 1;
-			if(a.bussFrdt===b.bussFrdt) return 0;
+			if(a.bussImp<b.bussImp) return -1;
+			if(a.bussImp<b.bussImp) return 0;
+			if(a.bussImp<b.bussImp) return 1;
 		});
-		calendarData.sort(function(a){
-			if(a.bussImp=="상") return -1;
-			if(a.bussImp=="중") return 0;
-			if(a.bussImp=="하") return 1;
-		});
+   		for(let i=0; i<calendarData.length; i++){
+   			if(calendarData[i].bussImp == 1) calendarData[i].bussImp == "상";
+   			if(calendarData[i].bussImp == 2) calendarData[i].bussImp == "중";
+   			if(calendarData[i].bussImp == 3) calendarData[i].bussImp == "하";
+   		}
 		resetBussList();
    	});
    	
@@ -268,10 +262,10 @@ select {
    			
    			$('.businessList:last').append($('<div class="businessList2"></div>'));
    			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
-   					+ ' | 중요도 ' + calendarData[i].bussImp);
+   					+ ' | 중요도 ' + calendarData[i].bussImp + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
    			
    			$('.businessList:last').append($('<div class="businessList2"></div>'));
-   			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+   			$('.businessList2:last').append(calendarData[i].bussNm);
    		}
    	}
     
@@ -297,9 +291,7 @@ select {
        			var year = end.getFullYear();
        			var month = end.getMonth()+1;
        			var date = (String)(end.getDate());
-       			if(date<10){
-       				date = '0' + date;
-       			}
+       			if(date<10) date = '0' + date;
        			
        			obj.bussNo = data.event.id;
        			obj.bussFrdt = data.event.startStr;
@@ -397,17 +389,112 @@ select {
 			{name: "start_date", label: "시작일", align: "center", width: 100},
 			{name: "duration", label: "기간", align: "center", width: 50}
 		];
-		
+		// 업무바 수정 ajax
+		gantt.attachEvent("onAfterTaskupdate", function(id, item){
+			var obj = new Object();
+			var end = new Date(item.end_date);
+			end.setDate(end.getDate() - 1);
+			end = end.getDate();
+			if(end<10) end = '0' + end;
+			
+			var startDate = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
+			var endDate = item.end_date.getFullYear() + "-" + (item.end_date.getMonth() + 1) + "-" + end;
+			
+			obj.bussNo = item.id;
+			obj.bussFrdt = startDate;
+			obj.bussTodt = endDate;
+			obj.bussPrgre = Math.floor(item.progress * 100);
+			
+			$.ajax({
+				type: 'post',
+				url: '/updateProjectCalendarBuss',
+				contentType: 'application/json',
+				data: JSON.stringify(obj),
+				success: function(){
+					console.log("수정성공!");
+					console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+					console.log("수정된 진척도: " + obj.bussPrgre);
+				},
+				error: function(error){
+					console.lof(error);
+				}
+			})
+		});
+		// 상위업무 수정 ajax
+		gantt.attachEvent("onAfterLinkAdd", function(id,item){
+			var obj = new Object();
+			obj.bussNo = item.target;
+			obj.bussUpcd = item.source;
+			
+			// 중복 상위업무에 대한 처리
+			for(let i=0; i<calendarData.length; i++){
+				if(obj.bussNo == calendarData[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
+					if(calendarData[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
+						$.ajax({
+							type: 'post',
+							url: '/updateProjectGanttUpcd',
+							contentType: 'application/json',
+							data: JSON.stringify(obj),
+							success: function(){
+								console.log("수정성공!");
+								console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
+							},
+							error: function(error){
+								console.lof(error);
+							}
+						})
+						// 캘린더 배열의 상위업무 정보 업데이트.
+						calendarData[i].bussUpcd = obj.bussUpcd;
+						return false; 
+					} // 업무번호의 상위업무가 0이 아니면
+					// 경고창 띄워주기
+					alert('해당 업무는 이미 상위업무가 존재합니다.');
+					// 방금 만든 간트 링크 없애기
+					let thisId = item.id;
+					gantt.deleteLink(thisId);
+					return false;
+				}
+			}
+		});
+		// 상위업무 삭제 ajax
+		gantt.attachEvent("onAfterLinkDelete", function(id,item){
+			var obj = new Object();
+			obj.bussNo = item.target;
+			obj.bussUpcd = null;
+			
+			$.ajax({
+				type: 'post',
+				url: '/updateProjectGanttUpcd',
+				contentType: 'application/json',
+				data: JSON.stringify(obj),
+				success: function(){
+					console.log("삭제성공!");
+					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
+				},
+				error: function(error){
+					console.lof(error);
+				}
+			})
+			for(let i=0; i<calendarData.length; i++){
+				if(obj.bussNo == calendarData[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
+					calendarData[i].bussUpcd = 0;	// 캘린더 배열의 상위업무 0으로 업데이트.
+					return false;
+				}
+			}
+		});
+		// 더블클릭 했을 때 - 수정 버튼 가리기
+		gantt.attachEvent("onLightbox", function (task_id){
+			gantt.hideLightbox();
+		});
+		// 간트 실행 코드
 		gantt.init("projectGanttchart");
-		
+		// 데이터+상위업무 데이터 구현
 		if(calendarData.length != 0){
 			gantt.parse({
 			    data: projectGanttData(),
 			    links: projectGanttLink()
 			});
 		}
-		console.log(gantt.getTask(15).start_date);
-		//console.log(gantt.getTask(15).end_date);
 	});
 	
 	/*----------------------------
@@ -440,13 +527,13 @@ select {
 		
 		for(let i=0; i<calendarData.length; i++){
 			let obj = new Object();
-			if(calendarData[i].bussUpcd != null){
-				obj.id = calendarData[i].bussNo;
-				obj.source = calendarData[i].bussUpcd;
-				obj.target = calendarData[i].bussNo;
+			if(calendarData[i].bussUpcd != '0'){
+				//obj.id = calendarData[i].bussNo; // id
+				obj.source = calendarData[i].bussUpcd; // 상위업무
+				obj.target = calendarData[i].bussNo; // 해당업무
 				obj.type = "0";
-			}
 				arr.push(obj);
+			}
 		}
 		return arr;
 	}
@@ -466,6 +553,18 @@ select {
 		var milli = date.getTime();
 		return milli;
 	}
+
+    /*----------------------------
+		Calendar&Gantt switch
+	------------------------------*/
+	$('.btn.btn-primary.calendar').on('click', function(){
+		$('#projectCalendar').css("display","flex");
+		$('#projectGanttchart').css("display","none");
+	});
+	$('.btn.btn-primary.gantt').on('click', function(){
+		$('#projectGanttchart').css("display","flex");
+		$('#projectCalendar').css("display","none");
+	});
 	
     </script>
 	

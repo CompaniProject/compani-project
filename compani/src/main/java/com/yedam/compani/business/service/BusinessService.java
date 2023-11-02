@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface BusinessService {
 	// 개인 캘린더 업무리스트
-	public List<BusinessVO> getPersonalCalendarBusinessList();
+	public List<Map<Object,Object>> getPersonalCalendarBusinessList(String membId);
 	
 	// 프로젝트 캘린더 업무리스트
 	public List<BusinessVO> getProjectCalenderBusinessList();
@@ -22,9 +22,8 @@ public interface BusinessService {
 	public int updateBusiness(BusinessVO businessVO);
 	public BusinessVO businessSelect(Integer bussNo);
 	
-	// 캘린더 업무바 수정
-	public int updatePersonalCalendarBuss(BusinessVO vo);
-	public int updateProjectCalendarBuss(BusinessVO vo);
-
-	//public BusinessVO businessSelect(BusinessVO businessVO);
+	// 캘린더&간트 업무바 수정
+	public int updateCalendarBuss(BusinessVO vo);
+	// 간트 상위업무 수정
+	public int updateGanttUpcd(BusinessVO vo);
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 public class BusinessVO {
 	private int bussNo;
 	private int prjtNo;
-	private int bussUpcd;
+	private Integer bussUpcd;
 	private String bussNm;
 	private String bussImp;
 	private int bussPrgre;
