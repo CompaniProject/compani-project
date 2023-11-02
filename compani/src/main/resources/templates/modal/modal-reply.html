@@ -3,16 +3,10 @@
         <div class="workModalContent issueContent">
             <div class="workModalBussTitle">
                 <div class="ModalTitle">
-                    <div class="ModalProjectNameBox">
-                        <div id="ProjectLink">
-                            #<span></span>
-                            <p class="textEllipsis">프로젝트 이름</p>
-                        </div>
-                    </div>
                     <div class="ModalBussNameBox Edit">
 						<div class="ModalBussNameBack">
 							<textarea id="ModalUpdateBussName" readonly
-								maxlength="200" style="height: 34px;">업무명</textarea>
+								maxlength="200" style="height: 34px;" th:text="${business.bussNm}"></textarea>
 							<hr style="border-bottom: solid 1px">
 						</div>
 					</div>
