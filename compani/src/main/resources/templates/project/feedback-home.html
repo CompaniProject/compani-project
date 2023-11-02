@@ -191,7 +191,8 @@
 	            <div class="card-body comment-body" style="background-color:#FAFAFA;" id="commentBody">
 					<th:block th:each="feedback : ${projectFeedbackList}">
 						<div class="media border-bottom-1 pt-3 pb-3 hover-overlay" th:data-no="${feedback.prjtFdbkNo}"
-						th:style="${feedback.level} >= 2 ? |margin-left:${feedback.level-1}rem;| : ''">
+						th:style="${feedback.level} >= 2 ? |margin-left:${feedback.level-1}rem;| : ''"
+						th:data-level="${feedback.level}">
                             <div class="media-body">
                                 <h5 th:text="${feedback.membNm}"></h5>
 								<th:block th:switch="${feedback.prjtFdbkShow}">

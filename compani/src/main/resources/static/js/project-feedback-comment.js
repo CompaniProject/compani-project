@@ -33,6 +33,7 @@
         
         // input content values
         insertBody.data('no',data.prjtFdbkNo);
+        insertBody.data('level',1);
         insertBody.find('.media-body h5').text(membNm);
         insertBody.find('.media-body p').text(data.prjtFdbkCntn);
         insertBody.find('textarea').text(data.prjtFdbkCntn);
