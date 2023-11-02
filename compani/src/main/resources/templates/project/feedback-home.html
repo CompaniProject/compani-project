@@ -213,6 +213,9 @@
                            			<span class="delBtn">삭제</span>
                            			<span class="submitBtn">확인</span>
                            		</li>
+                           		<li>
+                           			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+                           		</li>
                             </ul>
                             </th:block>
                         </div>
@@ -245,7 +248,7 @@
 				<textarea class="form-control" id="editCntn"></textarea>
 			</div>
 	    </div>
-	    <ul>
+	    <ul class="btn-area">
 	   		<li>
 	   			<span class="text-muted" id="date-area"></span>
 	   		</li>
@@ -277,6 +280,11 @@
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
 	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
+	<script th:inline="javascript">
+		function replyInsert(event){
+	
+    	$(document).on('click','.replyBtn',replyInsert);
+	</script>
 	
 </th:block>
 </body>
