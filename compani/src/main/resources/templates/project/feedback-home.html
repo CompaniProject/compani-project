@@ -315,11 +315,24 @@
 		
 		function replyInsert(event){
 			let curBody = $(event.target).closest('.media');
+			// call Ajax
+			// curBody clone, insert after
 			
+			// hide insert area
+			replyDeleteHTML();
+		}
+		
+		function replyDeleteHTML(){
+			let curBody = $(event.target).closest('.media');
+			
+			curBody.find('.replyInsertBtn').remove();
+			curBody.find('.replyDeleteBtn').remove();
+			curBody.css('display','none');
 		}
 	
     	$(document).on('click','.replyBtn',replyInsertAreaHTML);
     	$(document).on('click','.replyInsertBtn',replyInsert);
+    	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
 	</script>
 	
 </th:block>
