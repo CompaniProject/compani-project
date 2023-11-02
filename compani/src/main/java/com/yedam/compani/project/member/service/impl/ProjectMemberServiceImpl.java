@@ -35,9 +35,12 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 	public int insertProjectMember(ProjectFormVO formVO) {
 		
 		for(int i =0 ; i< formVO.getProjectMember().size(); i++) {
-			formVO.getProjectMember().get(i).setPrjtNo(formVO.getProject().getPrjtNo());
 			
+			//프로젝트 생성자는 CRTR , 참여자는 PARTICIR
+			formVO.getProjectMember().get(i).setPrjtNo(formVO.getProject().getPrjtNo());
 		}
+		System.out.println(formVO.getProjectMember());
+		
 		return projectMemberMapper.insertProjectMember(formVO.getProjectMember());
 	}
 
