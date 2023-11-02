@@ -26,3 +26,12 @@
 	display:none;
 	color:blue;
 }
+
+.replyInsertBtn{
+	margin-right:3%;
+	cursor:pointer;
+}
+
+.replyDeleteBtn{
+	cursor:pointer;
+}

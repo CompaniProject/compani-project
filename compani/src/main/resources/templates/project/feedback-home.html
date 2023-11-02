@@ -260,6 +260,12 @@
 	   		</li>
 	    </ul>
 	</div>
+	
+	<div id="insert-reply-area" style="display:none;">
+    	<span class="replyInsertBtn">등록</span>
+    	<span class="replyDeleteBtn">취소</span>
+	</div>
+	
 	<!-- Hidden Insert Comment Body -->
 	
 	<script th:inline="javascript">
@@ -282,7 +288,7 @@
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
 	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
 	<script th:inline="javascript">
-		function replyInsert(event){
+		function replyInsertAreaHTML(event){
 	        // create tag
 			let curBody = $(event.target).closest('.media');
 	        let insertBody = $('#insertBody');
@@ -299,11 +305,21 @@
 	        insertBody.find('.btn-area').css('display','none');
 	        insertBody.css('display','');
 	        
+	        
+	        insertBody.append($('.replyInsertBtn').first().clone());
+	        insertBody.append($('.replyDeleteBtn').first().clone());
+	        
 	        // insert comment tag to comment body
 	        curBody.after(insertBody);
 		}
+		
+		function replyInsert(event){
+			let curBody = $(event.target).closest('.media');
+			
+		}
 	
-    	$(document).on('click','.replyBtn',replyInsert);
+    	$(document).on('click','.replyBtn',replyInsertAreaHTML);
+    	$(document).on('click','.replyInsertBtn',replyInsert);
 	</script>
 	
 </th:block>
