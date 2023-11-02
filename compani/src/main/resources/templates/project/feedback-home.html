@@ -24,6 +24,10 @@
 	color:blue;
 }
 
+.media:hover{
+    background: white !important;
+}
+
 </style>
 
 </head>
@@ -199,12 +203,11 @@
 	    <div class="col-lg-4">
 	        <div class="card"  style="height:80vh;">
 	        	<div class="card-header bg-white">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <h5 class="card-title">코멘트</h5>
                 </div>
-	            <div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;" id="commentBody">
+	            <div class="card-body" style="background-color:#FAFAFA;" id="commentBody">
 					<th:block th:each="feedback : ${projectFeedbackList}">
-						<div class="media border-bottom-1 pt-3 pb-3" th:data-no="${feedback.prjtFdbkNo}">
+						<div class="media border-bottom-1 pt-3 pb-3 hover-overlay" th:data-no="${feedback.prjtFdbkNo}">
                             <div class="media-body">
                                 <h5 th:text="${feedback.membNm}"></h5>
 								<th:block th:switch="${feedback.prjtFdbkShow}">
@@ -233,8 +236,8 @@
 	            </div>
 				<!-- 댓글 등록 영역 -->
 	            <div class="card-footer">
-					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" placeholder="Post a new message" style="height: 56px;"></textarea>
-		            <button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;"></textarea>
+		            <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
 	            </div>
 				<!-- 댓글 등록 영역 End -->
 	        </div>
@@ -244,13 +247,13 @@
 
 	<div id="replyArea" style="display:none;">
 		<div class="media mt-3">
-			<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" placeholder="Post a new message" style="height: 56px;"></textarea>
-		    <button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+			<textarea class="form-control" name="inputCntn" id="inputCntn"></textarea>
+		    <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 		</div>
 	</div>
 	
 	<!-- Hidden Insert Comment Body -->
-	<div class="media border-bottom-1 pt-3 pb-3" style="display:none;" id="insertBody">
+	<div class="media border-bottom-1 pt-3 pb-3" id="insertBody" style="display:none;">
 	    <div class="media-body">
 	        <h5></h5>
 	        <p class="mb-0"></p>
@@ -271,7 +274,6 @@
 	</div>
 	<!-- Hidden Insert Comment Body -->
 	
-	
 	<script th:inline="javascript">
 		// -------------------- Status Data Start
 		const projectStatus = [[${projectStatus}]];
@@ -280,6 +282,13 @@
 		const prjtNo = [[${prjtNo}]];
 		const membNm = [[${session.loginInfo.membNm}]];
 		// -------------------- Status Data End
+		
+		$(function(){
+			$('#commentBody').slimScroll({
+		    	height: '35rem'
+		    })
+		})
+
 	</script>
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
