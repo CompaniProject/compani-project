@@ -9,7 +9,6 @@ import com.yedam.compani.member.service.MemberVO;
 public interface BusinessMemberMapper {
 	public int insertBusinessMember(List<BusinessMemberVO> list);
 	public List<MemberVO> bussMemberList(Integer bussNo);
-	public BusinessMemberVO insertBusinessMember(FormVO formVO);
 
 	// 이것은 개인피드백에서 총 업무갯수를 찾는 SQL문 입니다.
 	public int selectMemberBusinessCnt(BusinessMemberVO vo);

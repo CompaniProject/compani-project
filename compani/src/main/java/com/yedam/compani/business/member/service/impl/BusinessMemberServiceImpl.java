@@ -35,9 +35,6 @@ public class BusinessMemberServiceImpl implements BusinessMemberService {
 	public List<MemberVO> bussMemberList(Integer bussNo) {
 		
 		return businessMemberMapper.bussMemberList(bussNo);
-	public BusinessMemberVO insertBusinessMember(FormVO formVO) {
-
-		return businessMemberMapper.insertBusinessMember(formVO);
 	}
 
 	// 이것은 개인피드백에서 총 업무갯수를 찾는 SQL문 입니다.
