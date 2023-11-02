@@ -111,7 +111,7 @@ public class BusinessController {
 
 	
 	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
-	@GetMapping("personalCalendarPage")
+	@GetMapping("myCalendar")
 	public String personalCalendarList(Model model, HttpSession session) {
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
 		String membId = memberVO.getMembId();
@@ -121,7 +121,7 @@ public class BusinessController {
 	}
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
-	@GetMapping("projectCalendarPage")
+	@GetMapping("projectCalendar")
 	public String projectCalendarList(Model model, HttpSession session) {
 		int prjtNo = (Integer) session.getAttribute("prjtNo");
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
