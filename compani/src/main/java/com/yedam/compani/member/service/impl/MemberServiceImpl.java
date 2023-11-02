@@ -57,6 +57,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo) {
 		return map.selectProjectFeedbackMemberList(vo);
+	public List<MemberVO> memberList(MemberVO vo) {
+		
+		return map.memberList(vo);
 	}
 	
 	

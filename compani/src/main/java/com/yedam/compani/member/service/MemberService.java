@@ -20,4 +20,6 @@ public interface MemberService {
 	public int editMemberPwd(MemberVO vo);
 	
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo);
+	public List<MemberVO> memberList(MemberVO vo);
+	
 }

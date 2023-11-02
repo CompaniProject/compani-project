@@ -21,4 +21,5 @@ public interface MemberMapper {
 	public int updateMemberPwd(MemberVO vo);
 	
 	public  List<String> selectProjectFeedbackMemberList(ProjectMemberVO vo);
+	public List<MemberVO> memberList(MemberVO vo);
 }

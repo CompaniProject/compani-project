@@ -6,7 +6,7 @@
 	<!-- 로그인 -->
 	<select id="selectMemberInfo" resultType="MemberVO">
 		SELECT MEMB_ID
-		,'{noop}'||MEMB_PWD  MEMB_PWD
+		,'{noop}'||MEMB_PWD MEMB_PWD
 		,MEMB_NM
 		,MEMB_BIRTH_DT
 		,MEMB_EMAIL
@@ -19,13 +19,15 @@
 		,MEMB_ACCP
 		,'ROLE_'|| PERM_NO as PERM_NO
 		FROM member
-		WHERE memb_id = #{membId}
+		WHERE memb_id =
+		#{membId}
 	</select>
-	
+
 	<!-- 중복체크 -->
 	<select id="selectMemberIdList" resultType="Map">
 		SELECT MEMB_ID
-		FROM member
+		FROM
+		member
 	</select>
 	<!-- 사원 회원가입 -->
 	<insert id="insertMemberInfo" parameterType="MemberVO">
@@ -56,7 +58,7 @@
 		,#{permNo}
 		)
 	</insert>
-
+	<!-- 밑에 select로 나중에 통합 -->
 	<select id="getMemberList" resultType="MemberVO">
 		SELECT *
 		FROM MEMBER
@@ -66,12 +68,12 @@
 	<select id="memberSearchList" resultType="map">
 		SELECT *
 		FROM MEMBER
-	
+
 		<if test="key == '전체'">
 			WHERE MEMB_NM LIKE '%' || #{value} || '%'
-			   OR MEMB_DEPT LIKE '%' || #{value} || '%'
-			   OR MEMB_WKGD LIKE '%' || #{value} || '%'
-			   
+			OR MEMB_DEPT LIKE '%' || #{value} || '%'
+			OR MEMB_WKGD LIKE '%' || #{value} || '%'
+
 		</if>
 		<if test="key == '이름'">
 			WHERE MEMB_NM LIKE '%' || #{value} || '%'
@@ -85,21 +87,23 @@
 
 
 	</select>
-	
+
 	<update id="updateMemberInfo" parameterType="MemberVO">
-		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm},</if>
-                          <if test="membDept != null and !membDept.equals('')">memb_dept = #{membDept},</if>
-                          <if test="membWkgd != null and !membWkgd.equals('')">memb_wkgd = #{membWkgd},</if>
-                          <if test="membMsg != null and !membMsg.equals('')">memb_msg = #{membMsg},</if>
-                          <if test="membBirthDt != null and !membBirthDt.equals('')">memb_birth_dt = #{membBirthDt},</if>
-                          <if test="membEmail != null and !membEmail.equals('')">memb_email = #{membEmail},</if>
-                          <if test="membTelno != null and !membTelno.equals('')">memb_telno = #{membTelno},</if>
-                          <if test="membPwd != null and !membPwd.equals('')">memb_pwd = #{membPwd}</if>
-                      WHERE memb_id = #{membId}
+		UPDATE member SET
+		<if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm},</if>
+		<if test="membDept != null and !membDept.equals('')">memb_dept = #{membDept},</if>
+		<if test="membWkgd != null and !membWkgd.equals('')">memb_wkgd = #{membWkgd},</if>
+		<if test="membMsg != null and !membMsg.equals('')">memb_msg = #{membMsg},</if>
+		<if test="membBirthDt != null and !membBirthDt.equals('')">memb_birth_dt = #{membBirthDt},</if>
+		<if test="membEmail != null and !membEmail.equals('')">memb_email = #{membEmail},</if>
+		<if test="membTelno != null and !membTelno.equals('')">memb_telno = #{membTelno},</if>
+		<if test="membPwd != null and !membPwd.equals('')">memb_pwd = #{membPwd}</if>
+		WHERE memb_id = #{membId}
 	</update>
-		<update id="updateMemberPwd" parameterType="MemberVO">
-		UPDATE member SET 	memb_pwd = #{membPwd}
-                      WHERE memb_id = #{membId}
+	<update id="updateMemberPwd" parameterType="MemberVO">
+		UPDATE member SET
+		memb_pwd = #{membPwd}
+		WHERE memb_id = #{membId}
 	</update>
 	
 	<!-- 프로젝트 멤버목록 -->
@@ -107,6 +111,17 @@
 		SELECT m.memb_nm
 		FROM member m JOIN project_member p ON m.memb_id = p.memb_id
 		WHERE p.prjt_no = #{prjtNo}
+	</select>
+
+	<select id="memberList" resultType="MemberVO">
+		SELECT 
+			MEMB_ID,
+			MEMB_NM,
+			MEMB_DEPT,
+			MEMB_WKGD,
+			MEMB_PHT_PATH
+		FROM MEMBER
+		WHERE CO_CD = #{coCd}
 	</select>
 
 </mapper>
