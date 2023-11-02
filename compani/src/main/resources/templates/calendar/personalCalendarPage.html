@@ -405,9 +405,7 @@ select {
        			var year = end.getFullYear();
        			var month = end.getMonth()+1;
        			var date = (String)(end.getDate());
-       			if(date<10){
-       				date = '0' + date;
-       			}
+       			if(date<10) date = '0' + date;
        			
        			obj.bussNo = data.event.id;
        			obj.bussFrdt = data.event.startStr;
@@ -447,26 +445,33 @@ select {
 	function personalCalendarArr(){
 		let arr = [];
 		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
-				'blueviolet', 'purple', 'chocolate', 'deeppink'];
+			'blueviolet', 'purple', 'chocolate', 'deeppink'];
 		
 		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
    			var todt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
    			var todtDate = (String)(todt.getDate());
-   			if(todtDate < 10){
-   				todtDate = '0' + todtDate;
-   			}
+   			if(todtDate < 10) todtDate = '0' + todtDate;
    			var newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
+   			
+   			var frdt = new Date(calendarData[i].bussFrdt);
+   			var frdtDate = (String)(frdt.getDate());
+   			if(frdtDate < 10) frdtDate = '0' + frdtDate;
+   			var newFrdt = frdt.getFullYear() + '-' + (frdt.getMonth() + 1) + '-' + frdtDate;
    			
    			obj.id = calendarData[i].bussNo; // id
    			obj.title = calendarData[i].bussNm;		// 제목
-   			obj.start = calendarData[i].bussFrdt;	// 시작 날짜
+   			obj.start = newFrdt;	// 시작 날짜
    			obj.end = newTodt;		// 종료 날짜
    			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
    			obj.color = color[i%12];
-   			
+   			console.log(obj.start);
+   			console.log(obj.end);
    			arr.push(obj);
+   			
+   			calendarData[i].bussFrdt = newFrdt;
+   			calendarData[i].bussTodt = newTodt;
    		}
    		return arr;
    	}
