@@ -420,7 +420,7 @@ select {
        			
        			$.ajax({
        				type: 'post',
-       				url: '/updatePersonalCalendarBuss',
+       				url: '/updateCalendarBuss',
        				contentType: 'application/json',
           			data: JSON.stringify(obj),
           			success: function(){
@@ -533,7 +533,7 @@ select {
 			
 			$.ajax({
 				type: 'post',
-				url: '/updatePersonalCalendarBuss',
+				url: '/updateCalendarBuss',
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
@@ -558,7 +558,7 @@ select {
 					if(calendarData[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
 						$.ajax({
 							type: 'post',
-							url: '/updatePersonalGanttUpcd',
+							url: '/updateGanttUpcd',
 							contentType: 'application/json',
 							data: JSON.stringify(obj),
 							success: function(){

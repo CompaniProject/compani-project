@@ -129,29 +129,17 @@ public class BusinessController {
 	}
 	
 	// 김연규, 2023-10-31, 캘린더&간트 업무바 수정
-	@PostMapping("/updatePersonalCalendarBuss")
+	@PostMapping("/updateCalendarBuss")
 	@ResponseBody
 	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
 		businessService.updateCalendarBuss(vo);
-		return "calendar/personalCalendarPage";
-	}
-	@PostMapping("/updateProjectCalendarBuss")
-	@ResponseBody
-	public String updateProjectCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updateCalendarBuss(vo);
-		return "calendar/projectCalendarPage";
+		return "";
 	}
 	// 김연규, 2023-11-01, 간트 상위업무 수정
-	@PostMapping("/updatePersonalGanttUpcd")
+	@PostMapping("/updateGanttUpcd")
 	@ResponseBody
 	public String updatePersonalGanttUpcd(@RequestBody BusinessVO vo) {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
-	}
-	@PostMapping("/updateProjectGanttUpcd")
-	@ResponseBody
-	public String updateProjectGanttUpcd(@RequestBody BusinessVO vo) {
-		businessService.updateGanttUpcd(vo);
-		return "calendar/projectCalendarPage";
 	}
 }

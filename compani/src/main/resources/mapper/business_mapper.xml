@@ -206,7 +206,7 @@
 		WHERE BUSS_NO = #{bussNo}
 	</select>
 	
-	<!-- 캘린더 업무바 수정 -->
+	<!-- 캘린더&간트 업무바 수정 -->
 	<update id="updateCalendarBuss" parameterType="BusinessVO">
 		UPDATE business
 		SET buss_frdt = #{bussFrdt}, buss_todt = #{bussTodt}
