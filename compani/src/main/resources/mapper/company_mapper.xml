@@ -40,4 +40,10 @@
 		,#{coDt}
 		)
 	</insert>
+	
+	<!-- 회사리스트 -->
+	<select id="companyAllList" resultType="CompanyVO">
+		SEELCT *
+		FROM company
+	</select>
 </mapper>

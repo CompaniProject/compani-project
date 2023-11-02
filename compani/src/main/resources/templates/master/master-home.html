@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>마스터 관리</title>
+<!-- 전체 css -->
+<link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+	<div id="main-wrapper">
+		<header th:replace="fragments/header :: header"></header>
+		
+		<div class="content-body">
+			<h1>마스터 관리</h1>
+			<hr>
+			<button type="button" class="btn mb-1 btn-outline-secondary" style="margin:5px;">회사</button>
+			<button type="button" class="btn mb-1 btn-outline-secondary" style="margin:5px;">회원</button>
+			<hr>
+			<div class="card">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered zero-configuration">
+							<thead>
+								<tr>
+									<th>상호명</th>
+									<th>대표자명</th>
+									<th>사업자 등록번호</th>
+									<th>법인 설립일</th>
+									<th>가입</th>
+									<th>승인</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- <tr th:each="info : ${companyAllList}">
+									<td th:text="${info.coNm}"></td>
+									<td th:text="${info.rpstr}"></td>
+									<td th:text="${info.coBizno}"></td>
+									<td th:text="${info.coDt}"></td>
+									<td th:text="${info.coAccp}"></td>
+									<td>
+										<button type="button" class="btn mb-1 btn-success">
+											<span class="btn-icon-right">
+												<i class="fa fa-check"></i>
+											</span>
+										</button>
+										<button type="button" class="btn mb-1 btn-danger">
+											<span class="btn-icon-right">
+												<i class="fa fa-close"></i>
+											</span>
+										</button>
+									</td>
+								</tr> -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<script src="plugins/common/common.min.js"></script>
+	<script src="js/custom.min.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/gleek.js"></script>
+	<script src="js/styleSwitcher.js"></script>
+</body>
+</html>
