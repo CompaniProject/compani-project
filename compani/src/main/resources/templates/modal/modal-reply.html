@@ -54,7 +54,7 @@
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn"/>
-					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
+					<button id="replyInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
             </div>
@@ -135,7 +135,7 @@
 	    body.append(insertBody);
 	}
 	
-	$(document).on('click','#insertBtn',insertComment);
+	$(document).on('click','#replyInsertBtn',insertComment);
 
 	//----------------------- Business Reply (Comment) Insert End
 	
