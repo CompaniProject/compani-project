@@ -286,6 +286,10 @@
 			let curBody = $(event.target).closest('.media');
 	        let insertBody = $('#insertBody');
 	        
+	        // remove Btn
+			insertBody.find('.replyInsertBtn').remove();
+			insertBody.find('.replyDeleteBtn').remove();
+	        
 	        let level = curBody.data('level') + 1;
 	        let emval = level + 'em';
 	        
