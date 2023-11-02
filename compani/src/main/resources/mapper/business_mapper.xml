@@ -110,17 +110,10 @@
 	</select>
 
 	<select id="businessNameList" resultType="BusinessVO">
-		SELECT BUSS_NM
+		SELECT 		buss_nm, buss_no
 		FROM
 		BUSINESS
-		WHERE PRJT_NO = #{prjtNo}
-
-	</select>
-
-	<select id="businessNameNoList" resultType="BusinessVO">
-		SELECT 	buss_nm, buss_no
-		FROM    business
-		WHERE   prjt_no = #{prjtNo}
+		WHERE	    prjt_no = #{prjtNo}
 	</select>
 
 	<insert id="insertBusiness" parameterType="BusinessVO">
@@ -190,20 +183,22 @@
 	</update>
 
 	<select id="businessSelect" resultType="BusinessVO">
-		SELECT BUSS_NO,
-			PRJT_NO,
-			BUSS_UPCD,
-			BUSS_NM,
-			BUSS_IMP,
-			BUSS_PRGRE,
-			BUSS_FRDT,
-			BUSS_TODT,
-			BUSS_CMPLTDT,
-			BUSS_ST,
-			FIND_CODENM(BUSS_ST) as bussStNm,
-			FIND_CODENM(BUSS_IMP) as bussImpNm
-		FROM BUSINESS
-		WHERE BUSS_NO = #{bussNo}
+		SELECT 	b.buss_no,
+				b.prjt_no,
+				p.prjt_nm,
+				b.buss_upcd,
+				b.buss_nm,
+				b.buss_imp,
+				b.buss_prgre,
+				b.buss_frdt,
+				b.buss_todt,
+				b.buss_cmpltdt,
+				b.buss_st,
+				FIND_CODENM(BUSS_ST) as bussStNm,
+				FIND_CODENM(BUSS_IMP) as bussImpNm
+		FROM 	BUSINESS b , PROJECT p
+		WHERE   b.prjt_no = p.prjt_no 
+		AND 	b.buss_no = #{bussNo}
 	</select>
 	
 	<!-- 캘린더 업무바 수정 -->

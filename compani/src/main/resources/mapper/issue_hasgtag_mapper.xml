@@ -4,18 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.issue.hashtag.mapper.IssueHashtagMapper">
 	<insert id="insert" parameterType="list">
-		INSERT INTO issue_hashtag
-				(   issu_ht_no
-				  , issu_no
-				  , issu_ht_nm																 
-				)
-		SELECT issue_hashtag_seq.nextval, A.*
-		FROM (
-		<foreach collection="list" item="hashtag" separator="UNION ALL ">
-			SELECT  	#{hashtag.issuNo}
-			      	,	#{hashtag.issuHtNm}
+		INSERT INTO 	issue_hashtag
+				(   	issu_ht_no
+				  	  , issu_no
+				  	  , issu_ht_nm																 
+				 )
+		SELECT 			issue_hashtag_seq.nextval, A.*
+		FROM 	 (
+		<foreach collection="hashtags" item="hashtags" separator="UNION ALL ">
+			SELECT  	#{issuNo}
+			      	,	#{hashtags}
 			FROM        DUAL
 		</foreach>
 			) A
-</insert>
+	</insert>
+	
+	<select id="select" resultType="IssueHashtagVO">
+		SELECT		issu_ht_no
+				  , issu_no
+				  , issu_ht_nm
+		FROM        issue_hashtag
+		WHERE       issu_no = #{issuNo}
+		ORDER BY    issu_ht_no		  
+	</select>
 </mapper>
