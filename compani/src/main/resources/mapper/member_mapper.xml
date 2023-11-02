@@ -101,5 +101,12 @@
 		UPDATE member SET 	memb_pwd = #{membPwd}
                       WHERE memb_id = #{membId}
 	</update>
+	
+	<!-- 프로젝트 멤버목록 -->
+	<select id="selectProjectFeedbackMemberList" resultType="list">
+		SELECT m.memb_nm
+		FROM member m JOIN project_member p ON m.memb_id = p.memb_id
+		WHERE p.prjt_no = #{prjtNo}
+	</select>
 
 </mapper>

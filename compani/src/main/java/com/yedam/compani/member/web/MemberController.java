@@ -23,7 +23,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,11 +32,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.company.service.CompanyVO;
-import com.yedam.compani.company.status.service.CompanyStatusVO;
 import com.yedam.compani.member.service.MemberAuthVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
-import com.yedam.compani.project.status.service.ProjectStatusVO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -123,7 +120,7 @@ public class MemberController {
 		return "member/memberEditInfo";
 	}
 
-
+	//대철's
 	@GetMapping("memSearchAjax")
 	@ResponseBody
 	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,String> map) {
@@ -134,7 +131,7 @@ public class MemberController {
 	}
 
 	
-	// 세션 로그인 정보
+	// set 세션 로그인 정보
 	@PostMapping("/memberInfo")
 	@ResponseBody
 	public MemberVO memberInfo(@AuthenticationPrincipal MemberAuthVO vo) {
@@ -182,11 +179,5 @@ public class MemberController {
 	} // method uploadFile
 	/////////////////////////////////////////////////////////
 	
-	//피드백
-	@GetMapping("/fbpsn")
-	public String projectFeedbackHome() {
-
-
-		return "member/feedbackPers";
-	}
+	
 }

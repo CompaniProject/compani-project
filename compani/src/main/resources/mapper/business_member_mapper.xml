@@ -21,4 +21,18 @@
   </insert>
   
   
+  <!-- 이것은 개인피드백에서 총 업무갯수를 찾는 SQL문 입니다. -->
+  <select id="selectMemberBusinessCnt" parameterType="BusinessMemberVO" resultType="int">
+	SELECT COUNT(distinct(buss_no))
+	FROM business_member
+	WHERE prjt_no = #{prjtNo} <!-- 임시 프로젝트 번호 -->
+  </select>
+  
+  
+  <select id="selectMemberBusinessStateCnt">
+	SELECT count (*)
+	FROM business_member m JOIN business b ON m.buss_no = b.buss_no
+	WHERE m.prjt_no = #{prjtNo}
+	AND b.buss_st = #{bussSt}
+  </select>
   </mapper>
