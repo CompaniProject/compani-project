@@ -17,7 +17,6 @@ public interface BusinessMapper {
 	public int updateProceedToDelay();
 	public List<BusinessVO> getBusinessList();
 	public List<BusinessVO> businessNameList(Integer prjtNo);
-	public List<BusinessVO> businessNameNoList(Integer prjtNo);
 	public int insertBusiness(BusinessVO businessVO);
 	public int updateBusiness(BusinessVO businessVO);
 	public BusinessVO businessSelect(Integer bussNo);

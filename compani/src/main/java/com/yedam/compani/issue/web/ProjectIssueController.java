@@ -43,7 +43,7 @@ public class ProjectIssueController {
 				8);
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
 
-		List<BusinessVO> findBuss = businessService.businessNameNoList(prjtNo);
+		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 
 		model.addAttribute("bussNmList", findBuss);
 		model.addAttribute("projectIssue", issues);
@@ -62,7 +62,7 @@ public class ProjectIssueController {
 				8);
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
 		Map<String, Object> map = new HashMap<>();
-		List<BusinessVO> findBuss = businessService.businessNameNoList(prjtNo);
+		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 
 		map.put("bussNmList", findBuss);
 		map.put("pissue", issues);

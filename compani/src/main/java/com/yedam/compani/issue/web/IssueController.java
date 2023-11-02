@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
@@ -41,6 +42,7 @@ public class IssueController {
 	private final ProjectStatusService projectStatusService;
 	private final IssueHashtagService issueHashtagService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
+	private final BusinessService businessService;
 	
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList/{bussNo}")
@@ -48,10 +50,11 @@ public class IssueController {
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
 		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo);
+		
 		model.addAttribute("issue", issues);
 		model.addAttribute("issueList", vo);
 		model.addAttribute("search", searchBI);
-
+		model.addAttribute("buss", businessService.businessSelect(bussNo));
 		return "modal/modal-issue";
 	}
 
@@ -66,11 +69,11 @@ public class IssueController {
 		map.put("issue", issues);
 		map.put("issues", issueService.getIssueList(pageNum, searchBI, keyword, bussNo));
 		map.put("search", searchBI);
-
+		map.put("buss", businessService.businessSelect(bussNo));
 		return map;
 	}
 	
-	// 모달 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회
+	// 모달 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회 + 해당 이슈에 대한 모든 해시태그 조회
 	@RequestMapping("/ModalIssueInfo")
 	@ResponseBody
 	public Map<String, Object> modalIssueSelect(final int issuNo) {
@@ -81,6 +84,8 @@ public class IssueController {
 			List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);			
 			map.put("issueFile", list);
 			
+			List<IssueHashtagVO> hash = issueHashtagService.findAllHashtagsByIssuNo(issuNo);
+			map.put("issueHash", hash);
 			return map;
 	}
 	
@@ -88,7 +93,7 @@ public class IssueController {
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
 	@ResponseBody
-	public void modalIssueInsert(MultipartFile[] files, IssueVO issueVO, IssueHashtagVO issuHashtagVO) {
+	public void modalIssueInsert(MultipartFile[] files, final IssueVO issueVO, String[] inserthashtags) {
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
 		
@@ -99,7 +104,8 @@ public class IssueController {
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
 		// 해시태그 저장
-		//issueHashtagService.modalInsertIssueHashtag(issuNo, );
+
+		issueHashtagService.modalInsertIssueHashtag(issuNo, Arrays.asList(inserthashtags));
 				
 	}
 	
