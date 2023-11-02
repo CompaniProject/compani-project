@@ -7,23 +7,6 @@
 <title>Insert title here</title>
 
 <style>
-.editBtn{
-	cursor:pointer;
-}
-
-.delBtn{
-	cursor:pointer;
-	margin-right:3%;
-
-}
-
-.submitBtn{
-	margin-right:3%;
-	cursor:pointer;
-	display:none;
-	color:blue;
-}
-
 .media:hover{
     background: white !important;
 }
@@ -205,7 +188,7 @@
 	        	<div class="card-header bg-white">
                     <h5 class="card-title">코멘트</h5>
                 </div>
-	            <div class="card-body" style="background-color:#FAFAFA;" id="commentBody">
+	            <div class="card-body comment-body" style="background-color:#FAFAFA;" id="commentBody">
 					<th:block th:each="feedback : ${projectFeedbackList}">
 						<div class="media border-bottom-1 pt-3 pb-3 hover-overlay" th:data-no="${feedback.prjtFdbkNo}"
 						th:style="${feedback.level} >= 2 ? |margin-left:${feedback.level-1}rem;| : ''">
