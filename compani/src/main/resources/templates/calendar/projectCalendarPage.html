@@ -14,6 +14,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <style type="text/css">
+#main-wrapper {
+	height: 100%;
+}
+
 #projectCalendarBox {
 	width: 70%;
 	float: right;
@@ -98,6 +102,10 @@ select {
 	min-width: 3em;
 }
 
+.businessListBox {
+	float: right;
+}
+
 .businessList {
 	background-color: white;
 	width: 100%;
@@ -148,30 +156,31 @@ select {
 		<aside th:replace="fragments/aside:: aside"></aside>
 		
 		<div class="content-body">
-			
-			<!-- -------------------
-				업무 목록 - 버튼
-			-------------------- -->
 			<div class='calendarBusinessInfo'>
-				<!-- 달력 간트 스위치 -->
-				<div class="button-group">
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary calendar">달력</button>
-						<button type="button" class="btn btn-primary gantt">차트</button>
+				<!-- -------------------
+					업무 목록 - 버튼
+				-------------------- -->
+				<div>
+					<!-- 달력 간트 스위치 -->
+					<div class="button-group">
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary calendar">달력</button>
+							<button type="button" class="btn btn-primary gantt">차트</button>
+						</div>
 					</div>
-				</div>
-			
-				<!-- 정렬 버튼 -->
-				<div class="basic-dropdown">
-					<div class="dropdown">
-						<button type="button" class="btn btn-primary dropdown-toggle" 
-							data-toggle="dropdown" aria-expanded="true">
-							정렬
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item">날짜순</a>
-							<a class="dropdown-item">진척도</a>
-							<a class="dropdown-item">중요도</a>
+				
+					<!-- 정렬 버튼 -->
+					<div class="basic-dropdown">
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary dropdown-toggle" 
+								data-toggle="dropdown" aria-expanded="true">
+								정렬
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item">날짜순</a>
+								<a class="dropdown-item">진척도</a>
+								<a class="dropdown-item">중요도</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -192,11 +201,9 @@ select {
 						</div>
 					</th:block>
 				</div>
-				
 				<!-- -----------------
 					업무 목록 - 페이징
 				------------------ -->
-				
 			</div>
 				
 			<!-- --------------
@@ -567,7 +574,17 @@ select {
 		$('#projectCalendar').css("display","none");
 	});
 	
-    </script>
+    /*----------------------------
+		업무리스트 스크롤바
+	------------------------------*/
+	$(function(){
+		$('.businessListBox').slimScroll({
+			height: '940px',
+		});
+		
+		$('.businessListBox').parent().css('float', 'right');
+	})
+	</script>
 	
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
