@@ -5,12 +5,14 @@
 	
 				<!-- 파일 리스트 (업무 파일함)-->
 				<select id="fileList" resultType="FileVO">
-					SELECT	  FILE_NO
-						    , FILE_NM
-						    , FILE_SIZE
-						    , MEMB_ID
-						   	, FILE_DT
-					FROM   	 PROJECT_FILE
+					SELECT	  f.FILE_NO
+						    , f.FILE_NM
+						    , f.FILE_SIZE
+						    , mem.memb_nm
+						   	, f.FILE_DT
+						   	, f.file_type
+					FROM   	project_file f, member mem
+					WHERE	f.memb_id = mem.memb_id
 					ORDER BY FILE_NO DESC
 				</select>
 				
@@ -39,8 +41,8 @@
 											 , file_size)
 					VALUES (
 							#{fileNo}
-							, 1
-							, 1
+							, #{prjtNo}
+							, #{bussNo}
 							, #{fileNm}
 							, #{filePath}
 							, #{fileType}
@@ -61,27 +63,32 @@
 				<!-- 검색기능 + 리스트 -->
 				<select id="findFile" resultType="FileVO">
 					SELECT 	  f.file_no
-							, p.prjt_no
-							, b.buss_no
+							, f.prjt_no
+							, f.buss_no
 							, f.file_nm
 							, f.file_path
 							, f.file_type
 							, f.file_desct
 							, f.file_dt
-							, m.memb_nm
+							, mem.memb_nm
 							, f.file_size
-				    FROM 	project_file f, project p, business b, member m
-					WHERE	f.memb_id = m.memb_id
-					AND		f.buss_no = b.buss_no
-					AND		f.prjt_no = p.prjt_no
+							, b.buss_nm
+							, p.prjt_nm
+							
+				    FROM 	project_file f, project p, business b, member mem
+					WHERE	f.buss_no = b.buss_no
+					AND		b.prjt_no = p.prjt_no
+					AND		f.memb_id = mem.memb_id
+					AND		f.buss_no = #{bussNo}
 					<choose>
 						<when test="type == '파일명'">
-							AND file_nm LIKE '%' || #{keyword} || '%'
+							AND f.file_nm LIKE '%' || #{keywordFile} || '%'
 						</when>
 						<when test="type == '작성자'">
-							AND memb_id LIKE '%' || #{keyword} || '%'
+							AND mem.memb_nm LIKE '%' || #{keywordFile} || '%'
 						</when>
-					</choose>		
+					</choose>
+					ORDER BY f.file_no DESC	
 				</select>
 		
 </mapper>

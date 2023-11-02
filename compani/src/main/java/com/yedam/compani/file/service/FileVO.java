@@ -22,15 +22,8 @@ public class FileVO {
 	private String membId;
 	private String membNm;
 	private Long fileSize;
-	
-	private String type;
-	private String keyword;
-	
-	@Builder
-	public FileVO(String fileNm, String filePath, long fileSize) {
-		this.fileNm = fileNm;
-		this.filePath = filePath;
-		this.fileSize = fileSize;
-	}
+	private String bussNm;
+	private String prjtNm;
+
 
 }
