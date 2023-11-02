@@ -25,11 +25,16 @@
                         <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}">
                             <div class="media-body">
                                 <h5 th:text="${reply.membNm}"></h5>
-                                <p class="mb-0" th:text="${reply.replyCntn}"></p>
+								<th:block th:switch="${reply.replyShow}">
+                                	<p class="mb-0" th:case="0N1" th:text="${reply.replyCntn}"></p>
+                                	<p class="mb-0" th:case="0N2">삭제되었습니다.</p>
+                                </th:block>
 								<div class="edit-area" style="display:none;">
 									<textarea class="form-control" id="editCntn" th:text="${reply.replyCntn}"></textarea>
+								
 								</div>
                             </div>
+                            <th:block th:if="${reply.replyShow} == '0N1'">
                             <ul class="btn-area">
                            		<li>
                            			<span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>
@@ -40,6 +45,7 @@
                            			<span class="submitBtn">확인</span>
                            		</li>
                             </ul>
+                            </th:block>
                         </div>
                 	</th:block>
                 </div>
