@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.member.service.ProjectMemberVO;
 
 public interface MemberMapper {
 	public MemberVO selectMemberInfo(MemberVO vo);
@@ -18,4 +19,6 @@ public interface MemberMapper {
 	public int updateMemberInfo(MemberVO vo);
 
 	public int updateMemberPwd(MemberVO vo);
+	
+	public  List<String> selectProjectFeedbackMemberList(ProjectMemberVO vo);
 }

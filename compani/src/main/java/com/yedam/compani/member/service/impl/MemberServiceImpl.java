@@ -1,5 +1,6 @@
 package com.yedam.compani.member.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.compani.member.mapper.MemberMapper;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.member.service.ProjectMemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -27,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
 		return map.getMemberList();
 
 	}
-
+	
 	public int setMemberInfo(MemberVO vo) {
 		return map.insertMemberInfo(vo);
 	}
@@ -50,6 +52,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int editMemberPwd(MemberVO vo) {
 		return map.updateMemberPwd(vo);
+	}
+
+	@Override
+	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo) {
+		return map.selectProjectFeedbackMemberList(vo);
 	}
 	
 	
