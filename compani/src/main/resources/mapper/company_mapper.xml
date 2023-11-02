@@ -43,7 +43,8 @@
 	
 	<!-- 회사리스트 -->
 	<select id="companyAllList" resultType="CompanyVO">
-		SEELCT *
+		SELECT *
 		FROM company
 	</select>
+	
 </mapper>
