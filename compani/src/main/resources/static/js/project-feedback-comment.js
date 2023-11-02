@@ -34,9 +34,13 @@
         // input content values
         insertBody.data('no',data.prjtFdbkNo);
         insertBody.data('level',1);
+        insertBody.css('margin-left','');
         insertBody.find('.media-body h5').text(membNm);
+        insertBody.find('.media-body p').css('display','');
         insertBody.find('.media-body p').text(data.prjtFdbkCntn);
         insertBody.find('textarea').text(data.prjtFdbkCntn);
+        insertBody.find('.edit-area').css('display','none');
+        insertBody.find('.btn-area').css('display','');
         insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
         insertBody.css('display','');
         
