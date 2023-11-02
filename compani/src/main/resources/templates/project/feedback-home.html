@@ -283,6 +283,25 @@
 	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
 	<script th:inline="javascript">
 		function replyInsert(event){
+	        // create tag
+			let curBody = $(event.target).closest('.media');
+	        let insertBody = $('#insertBody');
+	        
+	        let level = curBody.data('level') + 1;
+	        let emval = level + 'em';
+	        
+	        // input content values
+	        insertBody.data('level',level);
+	        insertBody.css('margin-left',emval);
+	        insertBody.find('.media-body h5').text(membNm);
+	        insertBody.find('.media-body p').css('display','none');
+	        insertBody.find('.edit-area').css('display','');
+	        insertBody.find('.btn-area').css('display','none');
+	        insertBody.css('display','');
+	        
+	        // insert comment tag to comment body
+	        curBody.after(insertBody);
+		}
 	
     	$(document).on('click','.replyBtn',replyInsert);
 	</script>
