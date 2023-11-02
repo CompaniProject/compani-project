@@ -29,18 +29,18 @@
     function insertCommentHTML(data){
         // create tag
         let body = $('#commentBody');
-        let card = $('#insertBody').clone();
+        let insertBody = $('#insertBody').clone();
         
         // input content values
-        card.find('comment-content').data('no',data.prjtFdbkNo);
-        card.find('.mt-0').text(membNm);
-        card.find('.content-area').text(data.prjtFdbkCntn);
-        card.find('textarea').text(data.prjtFdbkCntn);
-        card.find('#date-area').text(timestamp(data.prjtFdbkDt));
-        card.css('display','block');
+        insertBody.data('no',data.prjtFdbkNo);
+        insertBody.find('.media-body h5').text(membNm);
+        insertBody.find('.media-body p').text(data.prjtFdbkCntn);
+        insertBody.find('textarea').text(data.prjtFdbkCntn);
+        insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
+        insertBody.css('display','');
         
         // insert comment tag to comment body
-        body.append(card);
+        body.append(insertBody);
     }
     
     $('#insertBtn').on('click', insertComment);
@@ -50,11 +50,11 @@
     // date, content change
     function changeComment(data, comment){
         if (data.prjtFdbkShow == null){
-            comment.find(".content-area").text(data.prjtFdbkCntn);
+            comment.find(".media-body p").text(data.prjtFdbkCntn);
             comment.find("#date-area").text(timestamp(data.prjtFdbkDt));
         } else {
-            comment.find(".content-area").text('삭제된 내용입니다.');
-            comment.find(".content-area").show();
+            comment.find(".media-body p").text('삭제된 내용입니다.');
+            comment.find(".media-body p").show();
             comment.find(".btn-area").remove();
             comment.find("textarea").css('display','none');
         }
@@ -63,8 +63,8 @@
     // get comment, content, editBtn, submitBtn to Toggle
     // update textarea - copy to content text
     function toggleTags(event){
-        let comment = $(event.target).closest('.comment-content');
-        let content = comment.find('.content-area');
+        let comment = $(event.target).closest('.media');
+        let content = comment.find('.media-body p');
         let edit = comment.find('.edit-area');
         let submitBtn = comment.find('.submitBtn');
         
@@ -76,7 +76,7 @@
     }
     
     function editSubmit(event){
-        let comment = $(event.target).closest('.comment-content');
+        let comment = $(event.target).closest('.media');
         let textCntn = comment.find("textarea");
         
         let obj = {};
@@ -89,7 +89,7 @@
     
     // ----------------------------------Delete Comment
     function deleteComment(event){
-        let comment = $(event.target).closest('.comment-content');
+        let comment = $(event.target).closest('.media');
         
         let obj = {};
         obj["prjtFdbkShow"] = '0N2';		// Delete State Change
