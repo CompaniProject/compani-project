@@ -26,8 +26,8 @@ public class BusinessServiceImpl implements BusinessService {
 	
 	// 프로젝트 캘린더 업무리스트
 	@Override
-	public List<BusinessVO> getProjectCalenderBusinessList() {
-		return businessMapper.selectProjectCalendarAllBusiness();
+	public List<BusinessVO> getProjectCalenderBusinessList(Integer prjtNo) {
+		return businessMapper.selectProjectCalendarAllBusiness(prjtNo);
 	}
 
 	@Override

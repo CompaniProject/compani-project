@@ -49,9 +49,11 @@
 		, buss_todt
 		, buss_st
 		FROM business
-		WHERE buss_st = '0K1'
-		OR buss_st = '0K3'
-		<!-- AND prjt_no = #{prjt_no} -->
+		WHERE (buss_st = '0K1'
+		OR buss_st = '0K3')
+		<if test="prjtNo != null and prjtNo > 0">
+			AND prjt_no = #{prjtNo}
+		</if>
 		ORDER BY buss_no
 	</select>
 

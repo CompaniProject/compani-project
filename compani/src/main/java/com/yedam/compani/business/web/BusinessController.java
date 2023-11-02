@@ -122,8 +122,9 @@ public class BusinessController {
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
 	@GetMapping("projectCalendarPage")
-	public String projectCalendarList(Model model) {
-		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
+	public String projectCalendarList(Model model, HttpSession session) {
+		int prjtNo = (Integer) session.getAttribute("prjtNo");
+		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);
 		return "calendar/projectCalendarPage";
 	}

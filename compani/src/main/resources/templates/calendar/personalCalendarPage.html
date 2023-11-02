@@ -285,7 +285,7 @@ select {
 		    return false;
 		});
 		gantt.init("personalGanttchart");
-		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
+		//console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
 	}));
 	
 	// 필터링 선택 - 업무리스트에 뿌리기
@@ -473,8 +473,6 @@ select {
    			obj.end = newTodt;		// 종료 날짜
    			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
    			obj.color = color[i%12];
-   			console.log(obj.start);
-   			console.log(obj.end);
    			arr.push(obj);
    			
    			calendarData[i].bussFrdt = newFrdt;
@@ -542,7 +540,7 @@ select {
 					console.log("수정된 진척도: " + obj.bussPrgre);
 				},
 				error: function(error){
-					console.lof(error);
+					console.log(error);
 				}
 			})
 		});
@@ -566,7 +564,7 @@ select {
 								console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
 							},
 							error: function(error){
-								console.lof(error);
+								console.log(error);
 							}
 						})
 						// 캘린더 배열의 상위업무 정보 업데이트.
@@ -598,7 +596,7 @@ select {
 					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
 				},
 				error: function(error){
-					console.lof(error);
+					console.log(error);
 				}
 			})
 			for(let i=0; i<calendarData.length; i++){

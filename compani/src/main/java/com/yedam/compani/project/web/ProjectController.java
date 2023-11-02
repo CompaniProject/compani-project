@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +35,12 @@ public class ProjectController {
 	private final IssueService issueService;
 
 	@GetMapping("/project/home/{prjtNo}")
-	public String projectHome(@PathVariable Integer prjtNo, Model model) {
+	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
+		
+		request.getSession().setAttribute("prjtNo", prjtNo);
 
 		model.addAttribute("businessStateList", businessStateList);
 		model.addAttribute("businessLevelList", businessLevelList);
