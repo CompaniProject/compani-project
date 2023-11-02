@@ -177,16 +177,16 @@ public class MemberController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	} // method uploadFile
+	} 
+	// method uploadFile
 	/////////////////////////////////////////////////////////
 	
 	//피드백
-	@GetMapping("/fbpsn")
-	public String projectFeedbackHome() {
-
-
-		return "member/feedbackPers";
-	}
+	/*
+	 * @GetMapping("/fbpsn") public String projectFeedbackHome() { return
+	 * "member/feedbackPers"; }
+	 */
+	
 	//사이드 프로젝트 등록 모달 ajax
 	@PostMapping("/prjtInsert")
 	@ResponseBody
