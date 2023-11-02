@@ -1,24 +1,25 @@
 package com.yedam.compani.issue.hashtag.web;
 
-import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
-import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 
-@Controller
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
+import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
 @RequiredArgsConstructor
 public class IssueHashtagController {
-
-    private final IssueHashtagService issueHashtagService;
-
-    @PostMapping("/ModalAjaxHashtagInsert")
-    @ResponseBody
-    public void modalHashtagInsert(@RequestBody List<IssueHashtagVO> hashtags, final int issuNo) {
-       issueHashtagService.modalInsertIssueHashtag(issuNo,hashtags);
-    }
+	
+	private final IssueHashtagService issueHashtagService;
+	
+	// 해시태그 리스트 조회
+	@GetMapping("/issues/{issuNo}/hashtags")
+	public List<IssueHashtagVO> findAllHashtagByIssuNo(@PathVariable final int issuNo) {
+		return issueHashtagService.findAllHashtagsByIssuNo(issuNo);
+	}
 }

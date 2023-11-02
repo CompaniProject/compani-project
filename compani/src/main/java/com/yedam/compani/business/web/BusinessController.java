@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,10 +110,12 @@ public class BusinessController {
 	}
 
 	
-	// 김연규, 2023-10-22, 개인달력 업무리스트
+	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
 	@GetMapping("personalCalendarPage")
-	public String personalCalendarList(Model model) {
-		List<BusinessVO> list = businessService.getPersonalCalendarBusinessList();
+	public String personalCalendarList(Model model, HttpSession session) {
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		String membId = memberVO.getMembId();
+		List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList(membId);
 		model.addAttribute("personalCalendarPage", list);
 		return "calendar/personalCalendarPage";
 	}
@@ -123,17 +128,30 @@ public class BusinessController {
 		return "calendar/projectCalendarPage";
 	}
 	
-	// 김연규, 2023-10-31, 캘린더 업무바 수정
+	// 김연규, 2023-10-31, 캘린더&간트 업무바 수정
 	@PostMapping("/updatePersonalCalendarBuss")
 	@ResponseBody
 	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updatePersonalCalendarBuss(vo);
+		businessService.updateCalendarBuss(vo);
 		return "calendar/personalCalendarPage";
 	}
 	@PostMapping("/updateProjectCalendarBuss")
 	@ResponseBody
 	public String updateProjectCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updateProjectCalendarBuss(vo);
+		businessService.updateCalendarBuss(vo);
+		return "calendar/projectCalendarPage";
+	}
+	// 김연규, 2023-11-01, 간트 상위업무 수정
+	@PostMapping("/updatePersonalGanttUpcd")
+	@ResponseBody
+	public String updatePersonalGanttUpcd(@RequestBody BusinessVO vo) {
+		businessService.updateGanttUpcd(vo);
+		return "calendar/personalCalendarPage";
+	}
+	@PostMapping("/updateProjectGanttUpcd")
+	@ResponseBody
+	public String updateProjectGanttUpcd(@RequestBody BusinessVO vo) {
+		businessService.updateGanttUpcd(vo);
 		return "calendar/projectCalendarPage";
 	}
 }

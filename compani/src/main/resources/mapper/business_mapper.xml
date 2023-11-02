@@ -5,8 +5,7 @@
 <mapper
 	namespace="com.yedam.compani.business.mapper.BusinessMapper">
 	<!-- 개인캘린더 업무 목록 -->
-	<select id="selectPersonalCalendarAllBusiness"
-		resultType="BusinessVO">
+	<select id="selectPersonalCalendarAllBusiness" resultType="CamelHashMap">
 		SELECT b.buss_no
 		, b.prjt_no
 		, p.prjt_nm
@@ -27,9 +26,9 @@
 		LEFT JOIN business_member m
 		ON b.buss_no =
 		m.buss_no
-		WHERE buss_st = '0K1'
-		OR buss_st = '0K3'
-		<!-- AND memb_id = #{sessionId} -->
+		WHERE (buss_st = '0K1'
+		OR buss_st = '0K3')
+		AND memb_id = #{membId}
 		ORDER BY buss_no
 	</select>
 
@@ -111,17 +110,10 @@
 	</select>
 
 	<select id="businessNameList" resultType="BusinessVO">
-		SELECT BUSS_NM
+		SELECT 		buss_nm, buss_no
 		FROM
 		BUSINESS
-		WHERE PRJT_NO = #{prjtNo}
-
-	</select>
-
-	<select id="businessNameNoList" resultType="BusinessVO">
-		SELECT 	buss_nm, buss_no
-		FROM    business
-		WHERE   prjt_no = #{prjtNo}
+		WHERE	    prjt_no = #{prjtNo}
 	</select>
 
 	<insert id="insertBusiness" parameterType="BusinessVO">
@@ -191,31 +183,37 @@
 	</update>
 
 	<select id="businessSelect" resultType="BusinessVO">
-		SELECT BUSS_NO,
-			PRJT_NO,
-			BUSS_UPCD,
-			BUSS_NM,
-			BUSS_IMP,
-			BUSS_PRGRE,
-			BUSS_FRDT,
-			BUSS_TODT,
-			BUSS_CMPLTDT,
-			BUSS_ST,
-			FIND_CODENM(BUSS_ST) as bussStNm,
-			FIND_CODENM(BUSS_IMP) as bussImpNm
-		FROM BUSINESS
-		WHERE BUSS_NO = #{bussNo}
+		SELECT 	b.buss_no,
+				b.prjt_no,
+				p.prjt_nm,
+				b.buss_upcd,
+				b.buss_nm,
+				b.buss_imp,
+				b.buss_prgre,
+				b.buss_frdt,
+				b.buss_todt,
+				b.buss_cmpltdt,
+				b.buss_st,
+				FIND_CODENM(BUSS_ST) as bussStNm,
+				FIND_CODENM(BUSS_IMP) as bussImpNm
+		FROM 	BUSINESS b , PROJECT p
+		WHERE   b.prjt_no = p.prjt_no 
+		AND 	b.buss_no = #{bussNo}
 	</select>
 	
 	<!-- 캘린더 업무바 수정 -->
-	<update id="updatePersonalCalendarBuss" parameterType="BusinessVO">
+	<update id="updateCalendarBuss" parameterType="BusinessVO">
 		UPDATE business
 		SET buss_frdt = #{bussFrdt}, buss_todt = #{bussTodt}
+		<if test="#{bussPrgre} != null"> <!-- 간트 업무바 추가데이터 -->
+			, buss_prgre = #{bussPrgre}
+		</if>
 		WHERE buss_no = #{bussNo}
 	</update>
-	<update id="updateProjectCalendarBuss" parameterType="BusinessVO">
+	<!-- 간트 상위업무 수정 -->
+	<update id="updateGanttUpcd" parameterType="BusinessVO">
 		UPDATE business
-		SET buss_frdt = #{bussFrdt}, buss_todt = #{bussTodt}
+		SET buss_upcd = #{bussUpcd}
 		WHERE buss_no = #{bussNo}
 	</update>
 </mapper>

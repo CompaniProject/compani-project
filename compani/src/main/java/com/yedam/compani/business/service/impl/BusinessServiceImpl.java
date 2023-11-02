@@ -20,8 +20,8 @@ public class BusinessServiceImpl implements BusinessService {
 	
 	// 개인캘린더 업무리스트
 	@Override
-	public List<BusinessVO> getPersonalCalendarBusinessList() {
-		return businessMapper.selectPersonalCalendarAllBusiness();
+	public List<Map<Object,Object>> getPersonalCalendarBusinessList(String membId) {
+		return businessMapper.selectPersonalCalendarAllBusiness(membId);
 	}
 	
 	// 프로젝트 캘린더 업무리스트
@@ -69,10 +69,6 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.businessNameList(prjtNo);
 	}
 
-	public List<BusinessVO> businessNameNoList(Integer prjtNo) {
-		return businessMapper.businessNameNoList(prjtNo);
-	}
-
 	@Override
 	public int insertBusiness(BusinessVO businessVO) {
 		
@@ -91,14 +87,17 @@ public class BusinessServiceImpl implements BusinessService {
 		
 		return businessMapper.businessSelect(bussNo);
 	}
-
-	public int updatePersonalCalendarBuss(BusinessVO vo) {
-		return businessMapper.updatePersonalCalendarBuss(vo);
+	
+	// 캘린더&간트 업무바 수정
+	@Override
+	public int updateCalendarBuss(BusinessVO vo) {
+		return businessMapper.updateCalendarBuss(vo);
 	}
 	
+	// 간트 상위업무 수정
 	@Override
-	public int updateProjectCalendarBuss(BusinessVO vo) {
-		return businessMapper.updateProjectCalendarBuss(vo);
+	public int updateGanttUpcd(BusinessVO vo) {
+		return businessMapper.updateGanttUpcd(vo);
 	}
 
 }

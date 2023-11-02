@@ -3,16 +3,10 @@
         <div class="workModalContent issueContent">
             <div class="workModalBussTitle">
                 <div class="ModalTitle">
-                    <div class="ModalProjectNameBox">
-                        <div id="ProjectLink">
-                            #<span></span>
-                            <p class="textEllipsis">프로젝트 이름</p>
-                        </div>
-                    </div>
                     <div class="ModalBussNameBox Edit">
 						<div class="ModalBussNameBack">
 							<textarea id="ModalUpdateBussName" readonly
-								maxlength="200" style="height: 34px;">업무명</textarea>
+								maxlength="200" style="height: 34px;" th:text="${business.bussNm}"></textarea>
 							<hr style="border-bottom: solid 1px">
 						</div>
 					</div>
@@ -25,11 +19,16 @@
                         <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}">
                             <div class="media-body">
                                 <h5 th:text="${reply.membNm}"></h5>
-                                <p class="mb-0" th:text="${reply.replyCntn}"></p>
+								<th:block th:switch="${reply.replyShow}">
+                                	<p class="mb-0" th:case="0N1" th:text="${reply.replyCntn}"></p>
+                                	<p class="mb-0" th:case="0N2">삭제되었습니다.</p>
+                                </th:block>
 								<div class="edit-area" style="display:none;">
 									<textarea class="form-control" id="editCntn" th:text="${reply.replyCntn}"></textarea>
+								
 								</div>
                             </div>
+                            <th:block th:if="${reply.replyShow} == '0N1'">
                             <ul class="btn-area">
                            		<li>
                            			<span class="text-muted" th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></span>
@@ -40,6 +39,7 @@
                            			<span class="submitBtn">확인</span>
                            		</li>
                             </ul>
+                            </th:block>
                         </div>
                 	</th:block>
                 </div>
@@ -48,7 +48,7 @@
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn"/>
-					<button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
+					<button id="replyInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
             </div>
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Hidden Reply Insert Area -->
-<div class="media border-bottom-1 pt-3 pb-3" style="display:hidden;" id="insertBody">
+<div class="media border-bottom-1 pt-3 pb-3" style="display:none;" id="insertBody">
     <div class="media-body">
         <h5></h5>
         <p class="mb-0"></p>
@@ -129,7 +129,7 @@
 	    body.append(insertBody);
 	}
 	
-	$(document).on('click','#insertBtn',insertComment);
+	$(document).on('click','#replyInsertBtn',insertComment);
 
 	//----------------------- Business Reply (Comment) Insert End
 	

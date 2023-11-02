@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.business.reply.service.BusinessReplyService;
 import com.yedam.compani.business.reply.service.BusinessReplyVO;
+import com.yedam.compani.business.service.BusinessService;
+import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.member.service.MemberVO;
 
 import lombok.RequiredArgsConstructor;
@@ -26,11 +28,15 @@ import lombok.RequiredArgsConstructor;
 public class BusinessReplyController {
 	
 	private final BusinessReplyService businessReplyService;
+	private final BusinessService businessService;
 	
 	@GetMapping("modal/reply/{bussNo}")
 	public String modalReply(@PathVariable Integer bussNo, Model model) {
 		List<Map<Object,Object>> replyList = businessReplyService.getListForLevel(bussNo);
+		BusinessVO businessVO = businessService.businessSelect(bussNo);
+		
 		model.addAttribute("replyList",replyList);
+		model.addAttribute("business",businessVO);
 		return "modal/modal-reply";
 	}
 	

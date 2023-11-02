@@ -10,4 +10,5 @@ public interface ProjectMemberMapper {
 	public List<ProjectMemberVO> selectAllProjectMemberCount();
 	public List<Map<Object,Object>> selectProjectMemberList(Integer prjtNo);
 	public List<Map<Object,Object>> selectBusinessCompleteStatus(Integer prjtNo);
+	public int insertProjectMember(List<ProjectMemberVO> list);
 }

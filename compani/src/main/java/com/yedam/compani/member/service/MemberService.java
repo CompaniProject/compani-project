@@ -3,6 +3,8 @@ package com.yedam.compani.member.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.compani.project.member.service.ProjectMemberVO;
+
 public interface MemberService {
 	public List<MemberVO> getMemberList();
 
@@ -16,4 +18,8 @@ public interface MemberService {
 	public int editMemberInfo(MemberVO vo);
 	
 	public int editMemberPwd(MemberVO vo);
+	
+	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo);
+	public List<MemberVO> memberList(MemberVO vo);
+	
 }

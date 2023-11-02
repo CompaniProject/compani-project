@@ -6,6 +6,10 @@
 	padding-bottom:1.0rem;
 }
 
+.comment-body li:not(last-child){
+	padding-bottom:0.5rem;
+}
+
 .editBtn{
 	cursor:pointer;
 }
@@ -21,4 +25,13 @@
 	cursor:pointer;
 	display:none;
 	color:blue;
+}
+
+.replyInsertBtn{
+	margin-right:3%;
+	cursor:pointer;
+}
+
+.replyDeleteBtn{
+	cursor:pointer;
 }

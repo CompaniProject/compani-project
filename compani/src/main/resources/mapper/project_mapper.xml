@@ -8,18 +8,14 @@
 	<select id="selectAllProject" resultType="ProjectVO">
 
 		SELECT PM.PRJT_FAV,
-			   P.PRJT_NO ,
-			   COUNT(P.PRJT_NO) AS count,
-			   P.PRJT_NM,P.PRJT_TDT,
-			   P.PRJT_FDT,
-			   P.PRJT_ST
+		P.PRJT_NO ,
+		COUNT(P.PRJT_NO) AS count,
+		P.PRJT_NM,P.PRJT_TDT,
+		P.PRJT_FDT,
+		P.PRJT_ST
 		FROM PROJECT_MEMBER PM, PROJECT P
 		WHERE PM.PRJT_NO = P.PRJT_NO
-	<!-- 	<where>
-			<if test="prjtSt != null">
-				PRJT_ST = #{prjtSt}
-			</if>		
-		</where> -->
+		<!-- <where> <if test="prjtSt != null"> PRJT_ST = #{prjtSt} </if> </where> -->
 
 		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT,
 		P.PRJT_ST
@@ -33,11 +29,13 @@
 		, prjt_memb_perm
 		, prjt_nm
 		, prjt_pubcyn
-		, prjt_fdt
+		,
+		prjt_fdt
 		, prjt_tdt
 		, prjt_cmpltdt
 		, prjt_st
-		FROM project_member pm LEFT JOIN project p ON(pm.prjt_no =
+		FROM project_member pm LEFT
+		JOIN project p ON(pm.prjt_no =
 		p.prjt_no)
 		<where>
 			<if test="memberId != null">
@@ -56,15 +54,13 @@
 		P.PRJT_NM,P.PRJT_TDT,
 		P.PRJT_FDT,
 		P.PRJT_ST
-		FROM PROJECT_MEMBER PM, PROJECT P
+		FROM PROJECT_MEMBER PM,
+		PROJECT P
 		WHERE PM.PRJT_NO = P.PRJT_NO
 		AND PRJT_ST = #{prjtSt}
-	<!-- 	<where>
-			<if test="prjtSt != null">
-				PRJT_ST = #{prjtSt}
-			</if>		
-		</where>  -->
-		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+		<!-- <where> <if test="prjtSt != null"> PRJT_ST = #{prjtSt} </if> </where> -->
+		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT,
+		P.PRJT_ST
 		ORDER BY PRJT_FAV DESC
 
 	</select>
@@ -73,4 +69,44 @@
 		SET PRJT_FAV = #{prjtFav}
 		WHERE PRJT_NO = #{prjtNo}
 	</update>
+
+	<insert id="insertProject" parameterType="ProjectVO">
+		<selectKey keyProperty="prjtNo" resultType="ProjectVO"
+			order="BEFORE">
+			SELECT NVL(MAX(PRJT_NO),0) +1 AS PRJT_NO FROM PROJECT
+		</selectKey>
+		INSERT INTO PROJECT(
+		PRJT_NO,
+		CO_CD,
+		PRJT_NM,
+		PRJT_PUBCYN,
+		PRJT_FDT,
+		PRJT_TDT
+		)
+		VALUES(
+		#{prjtNo},
+		#{coCd},
+		#{prjtNm},
+		#{prjtPubcyn},
+		#{prjtFdt},
+		#{prjtTdt}
+		)
+	</insert>
+
+	<select id="projectSelect" resultType="CamelHashMap">
+		SELECT 	 p.PRJT_NO AS PRJT_NO,
+				 p.PRJT_NM AS PRJT_NM,
+			  	 'D-'||FLOOR(p.prjt_Tdt -SYSDATE) AS "DATE",
+			     FIND_CODENM(p.PRJT_ST) AS PRJT_ST,
+			     FIND_CODENM(p.PRJT_PUBCYN) AS PRJT_PUBCYN ,
+			     COUNT(b.BUSS_NO) AS COUNT,
+			     p.PRJT_FDT,
+			     p.PRJT_TDT
+	
+		FROM     PROJECT p, BUSINESS b
+		WHERE    p.prjt_NO = b.PRJT_NO
+		AND      p.PRJT_NO = #{prjtNo}
+		GROUP BY p.PRJT_NO, p.PRJT_NM ,p.PRJT_TDT, p.PRJT_ST, p.PRJT_PUBCYN, p.PRJT_FDT, p.PRJT_TDT
+
+	</select>
 </mapper>

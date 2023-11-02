@@ -7,13 +7,13 @@
 						<div class="ModalProjectNameBox">
 							<div id="ProjectLink">
 								#<span></span>
-								<p class="textEllipsis" th:text="${issueList[0].prjtNm}" />
+								<p class="textEllipsis" th:text="${buss.prjtNm}" />
 							</div>
 						</div>
 						<div class="ModalBussNameBox Edit">
 							<div class="ModalBussNameBack">
 								<textarea id="ModalUpdateBussName"
-									th:text="${issueList[0].bussNm}" readonly maxlength="200"
+									th:text="${buss.bussNm}" readonly maxlength="200"
 									style="height: 34px;"></textarea>
 							</div>
 						</div>
@@ -231,8 +231,7 @@
 				<div class="sectionTitle">
 					<p class="sectionTitleText">해시태그</p>
 				</div>
-				<input name='input-custom-dropdown' class='tagify__dropdown__item'
-					placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+				<input name='input-custom-dropdown' class='tagify__dropdown__item' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
 			</div>
 		</div>
 		<!--/* 취소 확인하는 모달 START */-->
@@ -307,7 +306,11 @@
 			<hr
 				style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
 			<div class="read-content">
-				<div class="media pt-5">
+				<div class="showHashtagList">
+				
+				</div>
+
+				<div class="media pt-5" style="padding-top: 20px !important;">
 					<img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
 					<div class="media-body" style="margin-right: 50px; flex: 0;">
 						<h5 class="m-b-3"></h5>
@@ -491,19 +494,11 @@
 				</div>
 			</div>
 
-			<div class="editHashtagSection">
+			<div class="editHashtagSection"> 
 				<div class="sectionTitle">
 					<p class="sectionTitleText">해시태그</p>
 				</div>
-				<div class="editHashtagContent" style="width: 630px;">
-					<div class="editHashtagList">
-						<div class="editTagBox task" title="업무">
-							<p>#</p>
-							<span class="Ready"></span>
-							<p class="editTextEllipsis">업무</p>
-						</div>
-					</div>
-				</div>
+				<input name='input-custom-dropdownE' class='tagify__dropdown__itemE' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
 			</div>
 		</div>
 		<!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
@@ -585,7 +580,9 @@
 	<!--/* 이슈 삭제시 경고창 END */-->
 	<script th:inline="javascript">
 	var miMemberId = [[${session.loginInfo.membId}]];
-
+	var miBussNm = [[${buss.bussNm}]];
+	var miPrjtNm = [[${buss.prjtNm}]];
+	
 	//검색 조건 ( 제목, 작성자, 전체)
 	$('.issue-selectBox').on('click', function () {
 		var issueSelectUl = $('.issue-select-ul');
@@ -784,6 +781,8 @@
 	$('.postWritingBox').on('click', function () {
 		$('.modalIssueInsertForm').css('display', 'block');
 		$('.workModalContentBack').css('display', 'none');
+
+		inputHash.value = miPrjtNm + ', ' + miBussNm;
 	});
 
 
@@ -799,6 +798,7 @@
 			$('#issuTtlVal').val('');
 			editor.setHTML('');
 			$('#issueFileList').empty();
+			$('.tagify__tag').remove();
 			checkFile();
 			checkInput();
 
@@ -854,7 +854,11 @@
 		formData.append('bussNo', bussNo);
 		formData.append('membId', miMemberId);
 		formData.append('prjtNo', miPrjtNo);
-
+		
+		var htobj = tagify.value;
+		var htobjVal = htobj.map(row=>row.value);
+		formData.append('inserthashtags', htobjVal);
+		
 		// 중요도 text 값 확인 후 data로 넣기 !
 		if ($('#issuRankVal').text() == '매우높음') {
 			formData.append('issuRank', '0G1');
@@ -1070,11 +1074,14 @@
 		modals.find('.issueRankInfo').empty();
 		modals.find('.issueKndInfo').empty();
 		modals.find('.issueStInfo').empty();
+		modals.find('.showHashtagList').empty();
 
 		$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
 			.done(function (data) {
 				var issueInfo = data.issueInfo;
 				var issueFile = data.issueFile;
+				var issueHash = data.issueHash;
+				
 				var issueInfoFiles = $('#issueInfoFiles');
 
 				if (issueFile.length != 0) {
@@ -1139,6 +1146,21 @@
 
 					issueInfoFiles.append(trTag);
 				});
+				
+				// 해시 태그 리스트
+				$.each(issueHash, function (idx, item) {
+					var showList = $('.showHashtagList');
+					var TagBox = $('<div/>').attr('class', 'showTagBox task').attr('title', item.issuHtNm);
+					var Hash = $('<p/>').text('#');
+					var spans = $('<span/>').attr('class', 'ready');
+					var hashNm = $('<p/>').attr('class', 'showTextEllipsis').text(item.issuHtNm);
+
+					TagBox.append(Hash);
+					TagBox.append(spans);
+					TagBox.append(hashNm);
+					showList.append(TagBox);
+				});
+				
 				countFile(issuNo);
 
 			})
@@ -1453,6 +1475,15 @@
 
 					checkEditInput();
 					findAllFile();
+					
+	 				let hasharr = findAllHashtag();
+					console.log(hasharr);
+					console.log(typeof hasharr);
+					console.log(hasharr.length);
+					
+					for(i = 0; i < hasharr.length; i++) {
+					$('.tagify__tag__removeBtn').eq(i).attr('data-htno',hasharr[i]);
+					}  
 				} else {
 					issueEditForm.style.display = 'none';
 					infoForm.style.display = 'block';
@@ -1653,6 +1684,31 @@
 				console.log(err);
 			})
 	}
+	
+	// 이슈 수정 창에서 해시태그 리스트 조회
+	function findAllHashtag() {
+		var issuNo = $('.modalIssueName').data('issuNo');
+		$('.tagify__tag').remove();
+		
+		let htNo =[];
+		$.ajax({
+			url: '/issues/' + issuNo + '/hashtags',
+			type: 'get',
+			success: function (response) {
+				let hts = [];
+				$.each(response, function (idx, item) {
+					hts.push(item.issuHtNm);
+					htNo.push(item.issuHtNo);					
+				})
+				inputHashE.value = hts.join(',');		
+			},
+			error: function (err) {
+				console.log(err);
+			}
+			
+		});
+			return htNo;
+	}
 
 	function addIssueFileE(element) {
 		const file = element.files[0];
@@ -1735,18 +1791,20 @@
 			// always opens dropdown when input gets focus
 			}
 		})
+		
+		// 수정 폼에서 HashTag 폼.
+		var inputHashE = document.querySelector('input[name="input-custom-dropdownE"]');
 
-		// tagNm 구하는 함수.
-		function getTagNm() {
-			var tagObj = {};
-			for (i = 0; i < tagify.value.length; i++) {
-				var tagNm = $('.tagify__tag-text')[i].innerHTML;
-				tagObj['issuHtNm'] = tagNm;
+		var tagifyE = new Tagify(inputHashE, {
+			maxTags : 10, // 최대 허용 태그 개수
+			dropdown : {
+				position : "input",
+				classname : "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+				enabled : 0
+			// always opens dropdown when input gets focus
 			}
-			return tagObj;
-			console.log(tagObj);
-		}
-	
+		})
+		
 	<!-- dddd-->
 
 	// toastuieditor
