@@ -1686,18 +1686,11 @@
 			type: 'get'
 		})
 			.done(function (response) {
+				let hts = [];
 				$.each(response, function (idx, item) {
-					console.log(tagifyList);
-					var TagBox = $('<div/>').attr('class', 'showTagBox task').attr('title', item.issuHtNm);
-					var Hash = $('<p/>').text('#');
-					var spans = $('<span/>').attr('class', 'ready');
-					var hashNm = $('<p/>').attr('class', 'showTextEllipsis').text(item.issuHtNm);
-
-					TagBox.append(Hash);
-					TagBox.append(spans);
-					TagBox.append(hashNm);
-					inputHashE.append(TagBox);
+					hts.push(item.issuHtNm);
 				})
+				inputHashE.value = hts.join(',');
 			})
 			.fail(function (err) {
 				console.log(err);
