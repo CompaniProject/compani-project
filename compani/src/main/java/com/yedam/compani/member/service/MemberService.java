@@ -16,4 +16,6 @@ public interface MemberService {
 	public int editMemberInfo(MemberVO vo);
 	
 	public int editMemberPwd(MemberVO vo);
+	public List<MemberVO> memberList(MemberVO vo);
+	
 }

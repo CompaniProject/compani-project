@@ -24,7 +24,7 @@ public class BusinessMemberServiceImpl implements BusinessMemberService{
 			formVO.getBusinessMember().get(i).setPrjtNo(formVO.getBusiness().getPrjtNo());
 			formVO.getBusinessMember().get(i).setBussNo(formVO.getBusiness().getBussNo());
 		}
-		System.out.println(formVO.getBusinessMember());
+	
 		return businessMemberMapper.insertBusinessMember(formVO.getBusinessMember());
 	}
 

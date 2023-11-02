@@ -9,5 +9,6 @@ public interface ProjectService {
 	public List<Map<Object,Object>> getProjectAndMemberList(String membId);
 	public List<ProjectVO> getProjectStateList(ProjectVO projectVO);
 	public int updateFavorite(ProjectVO projectVO); 
-	
+	public int insertProject(ProjectVO projectVO);
+	public List<Map<Object,Object>> projectSelect(Integer prjtNo);
 }

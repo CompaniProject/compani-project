@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.compani.project.member.mapper.ProjectMemberMapper;
 import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.member.service.ProjectMemberVO;
+import com.yedam.compani.project.service.ProjectFormVO;
 
 @Service
 public class ProjectMemberServiceImpl implements ProjectMemberService {
@@ -28,6 +29,16 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 	@Override
 	public List<Map<Object, Object>> getBusinessCompleteStatus(Integer prjtNo) {
 		return projectMemberMapper.selectBusinessCompleteStatus(prjtNo);
+	}
+
+	@Override
+	public int insertProjectMember(ProjectFormVO formVO) {
+		
+		for(int i =0 ; i< formVO.getProjectMember().size(); i++) {
+			formVO.getProjectMember().get(i).setPrjtNo(formVO.getProject().getPrjtNo());
+			
+		}
+		return projectMemberMapper.insertProjectMember(formVO.getProjectMember());
 	}
 
 }

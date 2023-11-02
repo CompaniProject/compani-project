@@ -18,4 +18,5 @@ public interface MemberMapper {
 	public int updateMemberInfo(MemberVO vo);
 
 	public int updateMemberPwd(MemberVO vo);
+	public List<MemberVO> memberList(MemberVO vo);
 }

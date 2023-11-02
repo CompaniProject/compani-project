@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="aside">
+
 	<div class="nk-sidebar" style="height: 100%;">
 		<div class="nk-nav-scroll">
 			<ul class="metismenu" id="menu">
@@ -15,8 +16,7 @@
 					<ul aria-expanded="false" id="myPrjtList">
 						<li th:each="project : ${session.projectList}"><a
 							th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}"
-							th:text="${project.prjtNm}"
-							></a></li>
+							th:text="${project.prjtNm}"></a></li>
 					</ul></li>
 				<li><a class="has-arrow" href="javascript:void()"
 					aria-expanded="false"> <i class="icon-screen-tablet menu-icon"></i><span
@@ -34,7 +34,416 @@
 			</ul>
 		</div>
 	</div>
+	<div class="modal fade bd-example-modal-lg" id="insertProject"
+		tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<form id="insertform" class="form-valide" action="#" method="post">
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
+							<div class="col-lg-6">
+								<div class="issueNameEdit">
+									<div class="issueNameBack">
+										<textarea class="modalIssueNameUpdate" id="prjtNm"
+											name='prjtNm' maxlength="200" style="height: 34px;"
+											placeholder="프로젝트명 입력하세요"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label" for="val-username">공개여부
+							</label>
+							<div class="col-lg-6">
+
+								<label class="radio-inline mr-3"> <input type="radio"
+									name="prjtPubcyn" value="0F1" > 공개
+								</label> <i class="fa-solid fa-lock-open fa-lg"></i> <label
+									class="radio-inline mr-3"> <input type="radio"
+									name="prjtPubcyn" value="0F2"> 비공개
+								</label><i class="fa-solid fa-lock fa-lg"></i>
+
+
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label">일정 </label>
+							<div class="col-lg-3">
+								<input type="date" class="form-control" id="prjtFdt"
+									name="prjtFdt" />
+								<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
+							</div>
+							<div class="col-lg-1">
+								<label class="col-lg-4 col-form-label">~ </label>
+
+							</div>
+							<div class="col-lg-3">
+								<input type="date" class="form-control" id="prjtTdt"
+									name="prjtTdt">
+							</div>
+						</div>
+						<div>
+							<label class="col-lg-4 col-form-label" for="val-username">참여자
+							</label>
+							<div class="card" style="height: 200px;">
+								<div class="card-body" style="overflow: auto;">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>프로필</th>
+													<th>부서</th>
+													<th>직책</th>
+													<th>이름</th>
+													<th>삭제</th>
+												</tr>
+											</thead>
+											<tbody id="insertmembertbl">
+
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+							</div>
+
+							<div>
+								<div class="card" style="height: 200px;">
+									<div class="card-body" style="overflow: auto;">
+										<div class="SearchBox" style="height: 50%">
+											<label for="SearchToggleCheckBox"
+												th:attr="onclick='searchMember()'"></label> <input
+												type="hidden" id="keyword" value="전체">
+											<div class="SearchInputBox" style="width: 270px;">
+												<div>
+													<div class="member-selectBox" style="width: 100px;">
+														<div class="member-selected" id="member-selected">
+															<div class="member-selected-value">전체</div>
+															<div class="arrow"></div>
+														</div>
+														<ul class="member-select-ul"
+															style="width: 100px; top: 20%; display: none;">
+															<li class="member-select-option" data-value="전체">전체</li>
+															<li class="member-select-option" data-value="부서">부서</li>
+															<li class="member-select-option" data-value="직책">직책</li>
+															<li class="member-select-option" data-value="이름">이름</li>
+														</ul>
+													</div>
+
+												</div>
+												<input class="SearchInputModalView" id="search" type="text"
+													placeholder="검색어를 입력하세요." />
+											</div>
+
+										</div>
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>프로필</th>
+														<th>부서</th>
+														<th>직책</th>
+														<th>이름</th>
+														<th>추가</th>
+													</tr>
+												</thead>
+												<tbody id="membertbl">
+
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div></div>
+						<div class="modal-footer">
+							<button id="prjtInsertBtn" type="button" class="btn btn-primary">등록</button>
+
+						</div>
+						<input type="hidden" id="coCd" name= "coCd" th:value="${session.loginInfo.coCd}"/>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		$('.icon-plus').on('click', function(){
+		  let membId =[[${session.loginInfo.membId}]];
+		  let coCd =[[${session.loginInfo.coCd}]];
+		  
+		  console.log(coCd);
+		  
+		  $.ajax('/prjtInsert',{
+			  type : 'post',
+			  data : {membId : membId, coCd : coCd}
+		  })
+		  .done(function(data){  //member  , memberList
+			  console.log(data);
+			 	let tbl = $('#insertmembertbl');
+		  		tbl.empty();
+				let trTag = $('<tr/>');
+				let tdTag= $('<td/>');
+				
+				trTag.attr('id', data.member.membId);
+				
+				let image = data.member.membPhtPath;
+				console.log(image);
+				if(image != null){
+					let imgTag = $('<img>',{
+						src:image,
+						height:"50px", 
+						width:"50px"
+					})
+					
+					tdTag.append(imgTag);
+				}
+				trTag.append(tdTag);
+				
+				tdTag= $('<td/>');
+				tdTag.append(data.member.membDept);
+				trTag.append(tdTag);
+				
+				tdTag= $('<td/>');
+				tdTag.append(data.member.membWkgd);
+				trTag.append(tdTag);
+			
+				tdTag= $('<td/>');
+				tdTag.append(data.member.membNm);
+				trTag.append(tdTag);
+				
+				tdTag= $('<td/>');
+				tdTag.append('<i class="fa-solid fa-minus"></i>');
+				trTag.append(tdTag);
+				
+				let inputTag = $('<input/>');
+				inputTag.attr('type', 'hidden');
+				inputTag.attr('name', 'membId');
+				inputTag.attr('value', data.member.membId);
+				trTag.append(inputTag);
+				
+				tbl.append(trTag); 
+				
+				$.each(data.memberList, function(idx,data){
+					let tbl = $('#membertbl');
+					
+					let trTag = $('<tr/>');
+					let tdTag= $('<td/>');
+					
+					trTag.attr('id', data.membId);
+					
+					let image = data.membPhtPath;
+					
+					if(image != null){
+						let imgTag = $('<img>',{
+							src:image,
+							height:"50px", 
+							width:"50px"
+						})
+						
+						tdTag.append(imgTag);
+					}
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append(data.membDept);
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append(data.membWkgd);
+					trTag.append(tdTag);
+				
+					tdTag= $('<td/>');
+					tdTag.append(data.membNm);
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append('<i class="fa-solid fa-plus"></i>');
+					trTag.append(tdTag);
+							
+					tbl.append(trTag); 
+					
+				})
+		  })
+		  .fail();
+			$('#insertProject').modal('show');		
+		})
+		$('#membertbl').on('click', 'td:nth-child(5)',  function(){insertMember($('#insertmembertbl'))})
+		$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
+		
+		function insertMember(tbl){
+				//tr의 ID -중복체크를 위한 값 
+				let id = $(event.target).closest('tr').attr('id');
+				
+				let image = $(event.target).closest('tr').children().eq(0).children().attr('src');
+				let dept = $(event.target).closest('tr').children().eq(1).text();
+				let position = $(event.target).closest('tr').children().eq(2).text();
+				let name = $(event.target).closest('tr').children().eq(3).text();
+				
+				let isDup = true;				
+				tbl.find('tr').each(function(){
+					 let checkId = $(this).attr('id');
+					 if(checkId == id){
+						 isDup = false;
+					 }
+				})
+				
+				if (isDup){
+					
+					let trTag = $('<tr/>');
+					let tdTag= $('<td/>');
+					
+					trTag.attr('id', id);
+					
+					if(image != null){
+						let imgTag = $('<img>',{
+							src:image,
+							height:"50px", 
+							width:"50px"
+						})
+						
+						tdTag.append(imgTag);
+					}
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append(dept);
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append(position);
+					trTag.append(tdTag);
+				
+					tdTag= $('<td/>');
+					tdTag.append(name);
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append('<i class="fa-solid fa-minus"></i>');
+					trTag.append(tdTag);
+					
+					let inputTag = $('<input/>');
+					inputTag.attr('type', 'hidden');
+					inputTag.attr('name', 'membId');
+					inputTag.attr('value', id);
+					trTag.append(inputTag);
+					
+					tbl.append(trTag); 
+				}
+			}
+		
+		function deleteMember(event){
+			$(this).parent().remove();
+		}
+		$('#keyword').on('click', searchMember)
+		
+			$('.member-selectBox').on('click', function () {
+				$('.member-select-ul').css('display', 'block');
+			})
+			
+			$('.member-select-option').on('click', function (e) {
+				
+				var selectValue = e.currentTarget.textContent;
+				$('.member-selected-value').text(selectValue);
+				$('#keyword').val(selectValue);
+				$('.member-select-ul').css('display', 'none');
+				e.stopPropagation();
+		})
+		function dropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+		}	
+
+		function searchMember(){
+				let selected = $('.member-selected-value').first().text();
+				let search  = $('#search').val();
+		
+				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
+				.done(function(data){
+					let tbody = $('#membertbl');
+					tbody.empty();
+					$.each( data, function(idx,data){
 	
+					 	let trTag = $('<tr/>');
+					 	let tdTag = $('<td/>');
+					 	
+						trTag.attr('id', data.MEMB_ID);
+				
+						if(data.MEMB_PHT_PATH != null){
+						let imgTag = $('<img>',{
+							src:"/images/profile/" +data.MEMB_PHT_PATH,
+							height:"50px", 
+							width:"50px",
+						})
+			
+					 		tdTag.append(imgTag);
+						}
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_DEPT);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_WKGD);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_NM);
+					 	trTag.append(tdTag);
+					
+					 	tdTag = $('<td/>');
+					 	tdTag.append('<i class="fa-solid fa-plus"></i>');
+					 	trTag.append(tdTag);
+					 	
+					 	tbody.append(trTag);
+					})
+				})
+				.fail(err =>  console.log(err));
+		}
+		$('#prjtInsertBtn').on('click',function(){
+			let formData = $('#insertform').serializeArray();
+
+		 	let formObj = {};
+		 	let memberArray = [];
+			$.each(formData, function(idx,obj){
+	 		  	if(obj.name != "membId"){
+					formObj[obj.name] = obj.value;
+				}  
+	 		  	else{
+					memberArray.push({membId : obj.value});
+			    }
+			});
+		
+			let obj = {};
+		
+			obj["project"] = formObj;
+			obj["projectMember"] = memberArray;
+			
+			$.ajax('/insertProject' ,{
+				type : 'post',
+				contentType : 'application/json',
+				data : JSON.stringify(obj)
+			})
+			.done(data => {
+				console.log(data);
+			})
+			.fail(err => {});
+				
+		})
+			
+	</script>
 
 
 </th:block>
