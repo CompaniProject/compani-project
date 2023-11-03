@@ -15,15 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import com.yedam.compani.config.BusinessFileUtils;
-import com.yedam.compani.file.service.FileSearchDTO;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -38,46 +35,40 @@ public class FileController {
 
 	@Autowired
 	FileService fileservice;
-	@Autowired
-	BusinessFileUtils businessfileutils;
 
-	// 프로젝트 자료함 확인
-	@GetMapping("/projectFile")
-	public String prjtF() {
-		return "projectFile";
-	}
 	
 	// 파일 리스트
-	@GetMapping("/searchFile")
-	public String fileList(@ModelAttribute FileSearchDTO search, FileVO fileVO,
+	@GetMapping("/searchFile/{bussNo}")
+	public String fileList(@PathVariable int bussNo, String type, String keywordFile, FileVO fileVO,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
-		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 5);
-		Page<FileVO> vo = fileservice.fileList(pageNum, search);
+		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, type, keywordFile, bussNo), 5);
+		Page<FileVO> vo = fileservice.fileList(pageNum, type, keywordFile, bussNo);
 		
 		model.addAttribute("file", file);
 		model.addAttribute("fileList", vo);
-		model.addAttribute("search", search);
-		System.out.println(file);
-		System.out.println(vo);
-		
+		model.addAttribute("search", type);
+
 		return "modal/modal-file";
 	}
 	
-
-	
 	// 페이징 및 검색 AJAX
-	@GetMapping("/searchAjax")
+	@GetMapping("/searchAjax/{bussNo}")
 	@ResponseBody
-	public Map<String, Object> fileList(@ModelAttribute FileSearchDTO search,
+	public Map<String, Object> fileList(@PathVariable int bussNo, String type, String keywordFile,
 			@RequestParam(required = false, defaultValue = "1") int pageNum){
-		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, search), 5);
+		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, type, keywordFile, bussNo), 5);
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("file", file);
-		map.put("files", fileservice.fileList(pageNum, search));
-		map.put("search", search);
-		
+		map.put("files", fileservice.fileList(pageNum, type, keywordFile, bussNo));
+		map.put("search", type);
 		return map;
+	}
+	
+	@GetMapping("projectFile")
+	public String fList(Model model){
+		model.addAttribute("fList", fileservice.fileList());
+		return "projectFile";
 	}
 
 	// 모달 확인용

@@ -58,9 +58,9 @@ public class FileServiceImpl implements FileService {
 
 
 	@Override
-	public Page<FileVO> fileList(int pageNo, FileSearchDTO search) {
+	public Page<FileVO> fileList(int pageNo, String search, String keywordFile, int bussNo ) {
 		PageHelper.startPage(pageNo, 5);
-		return filemapper.findFile(search);
+		return filemapper.findFile(search, keywordFile, bussNo);
 	}
 	
 

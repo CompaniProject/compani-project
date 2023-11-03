@@ -3,7 +3,6 @@
 
 <th:block th:fragment="projectHeader">
 	<div class="container-fluid">
-
 		<div class="row">
 			<div class="col-lg-2 col-sm-6">
 				<div class="card">
@@ -12,14 +11,15 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 prjtNM-->
-								<p class="m-1">prjtNo>[[${prjtNo}]]</p>
+								<h4 class="m-1">[[${session.projectVO[0].prjtNm}]]</h4>
+								<p class="m-1">프로젝트번호.[[${prjtNo}]]</p>
 							</div>
 						</div>
 						<div class="col-2  border-right">
 							<div class="pt-3 pb-3 pl-5 pr-0 text-center">
 								<!-- 데이터 -->
 								<h4 class="m-1">
-									<i class="fa-solid fa-pen-to-square fa-2xl"></i>
+									<i id="prjtIcon" class="fa-solid fa-pen-to-square fa-2xl"></i>
 								</h4>
 
 							</div>
@@ -39,7 +39,8 @@
 						</div>
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<!-- 데이터 -->
+								<h4 class="m-1">[[${session.projectVO[0].count}]]</h4>
+
 							</div>
 						</div>
 					</div>
@@ -58,7 +59,7 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 -->
-								<h4 class="m-1"></h4>
+								<h4 class="m-1">[[${session.projectVO[0].date}]]</h4>
 								<p class="m-0"></p>
 							</div>
 						</div>
@@ -77,7 +78,7 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 -->
-								<h4 class="m-1"></h4>
+								<h4 class="m-1">[[${session.projectVO[0].prjtSt}]]</h4>
 								<p class="m-0"></p>
 							</div>
 						</div>
@@ -95,7 +96,7 @@
 						</div>
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<!-- 데이터 -->
+								<h4 class="m-1">[[${session.projectVO[0].prjtPubcyn}]]</h4>
 							</div>
 						</div>
 					</div>
@@ -108,12 +109,12 @@
 
 		<div class="row">
 			<div class="col-md-12">
-			<!-- 	<div class="card">
+				<!-- 	<div class="card">
 					<div class="card-body"> -->
 						<div class="default-tab">
 							<ul class="nav nav-tabs mb-3" role="tablist">
 								<li class="nav-item"><a class="nav-link active" th:href="@{/project/home/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>
-								<li class="nav-item"><a class="nav-link" href="#calendar">캘린더</a></li>
+								<li class="nav-item"><a class="nav-link" href="/projectCalendar">캘린더</a></li>
 								<li class="nav-item"><a class="nav-link" th:href="@{/project/business/{prjtNo}(prjtNo=${prjtNo})}">업무</a></li>
 								<li class="nav-item"><a class="nav-link" th:href="@{/project/issues/{prjtNo}(prjtNo=${prjtNo})}">이슈</a></li>
 								<li class="nav-item"><a class="nav-link" href="#message">드라이브</a></li>
@@ -142,20 +143,214 @@
 									<div class="p-t-15"></div>
 								</div>
 							</div>
+
+						</div>
+
+						<div class="tab-pane fade" id="">
+							<div class="p-t-15"></div>
+
+						</div>
+						<div class="tab-pane fade" id="">
+							<div class="p-t-15"></div>
+						</div>
+						<div class="tab-pane fade" id="">
+							<div class="p-t-15"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-<!-- 		</div>
-	</div> -->
-	
-<script>
-	var navItemList = $('nav-link');
-	navItemList.click(function() {
-		navItemList.removeClass('active');
-		debugger;
-		$(this).addClass('active');
-	})
-</script>
+		</div>
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="updateProject"
+		tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+
+				</div>
+				<div class="modal-body">
+
+					<form id="updateform" class="form-valide" action="#" method="post">
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
+							<div class="col-lg-5">
+								<div class="issueNameEdit">
+									<div class="issueNameBack">
+										<textarea class="modalIssueNameUpdate" id="prjtNm"
+											name='prjtNm' maxlength="200" style="height: 34px;"
+											th:text="${session.projectVO[0].prjtNm}"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="dropdown custom-dropdown">
+									<select class="dropdown-import" id="prjtImp" name="prjtImp"
+										th:value="${session.projectVO[0].prjtSt}">
+										<option class="dropdown-import" value="0D1" 
+											th:selected="${session.projectVO[0].prjtSt}=='진행중'">진행중</option>
+											
+										<option class="dropdown-import" value="0D2"
+											th:selected="${session.projectVO[0].prjtSt}=='완료'">완료</option>
+										<option class="dropdown-import" value="0D3"
+											th:selected="${session.projectVO[0].prjtSt}=='초과'">초과</option>
+
+									</select>
+
+								</div>
+							</div>
+
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label" for="val-username">공개여부
+							</label>
+							<div class="col-lg-6">
+								<label class="radio-inline mr-3"> <input type="radio"
+									name="optradio"
+									th:attr="checked=${session.projectVO[0].prjtPubcyn == '공개' ? 'true' : 'false'}">
+									공개
+								</label> <i class="fa-solid fa-lock-open fa-lg"></i> <label
+									class="radio-inline mr-3"> <input type="radio"
+									name="optradio"
+									th:attr="checked=${session.projectVO[0].prjtPubcyn == '비공개' ? 'true' : 'false'}">
+									비공개
+								</label><i class="fa-solid fa-lock fa-lg"></i>
+
+
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label">일정 </label>
+							<div class="col-lg-3">
+								<input type="date" class="form-control" id="prjtFdt"
+									name="prjtFdt"
+									th:value="${#dates.format(session.projectVO[0].prjtFdt, 'yyyy-MM-dd')}" />
+								<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
+							</div>
+							<div class="col-lg-1">
+								<label class="col-lg-4 col-form-label">~ </label>
+
+							</div>
+							<div class="col-lg-3">
+								<input type="date" class="form-control" id="prjtTdt"
+									name="prjtTdt"
+									th:value="${#dates.format(session.projectVO[0].prjtTdt, 'yyyy-MM-dd')}">
+							</div>
+						</div>
+						<div>
+							<label class="col-lg-4 col-form-label" for="val-username">참여자
+							</label>
+							<div class="card" style="height: 200px;">
+								<div class="card-body" style="overflow: auto;">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>프로필</th>
+													<th>부서</th>
+													<th>직책</th>
+													<th>이름</th>
+													<th>삭제</th>
+												</tr>
+											</thead>
+											<tbody id="insertmembertbl">
+													<!-- 요기다 project_멤바 넣어 주기  -->
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+							</div>
+							<div>
+								<div class="card" style="height: 200px;">
+									<div class="card-body" style="overflow: auto;">
+										<div class="SearchBox" style="height: 50%">
+											<label for="SearchToggleCheckBox"
+												th:attr="onclick='searchMember()'"></label> <input
+												type="hidden" id="keyword" value="전체">
+											<div class="SearchInputBox" style="width: 270px;">
+												<div>
+													<div class="member-selectBox" style="width: 100px;">
+														<div class="member-selected" id="member-selected">
+															<div class="member-selected-value">전체</div>
+															<div class="arrow"></div>
+														</div>
+														<ul class="member-select-ul"
+															style="width: 100px; top: 20%; display: none;">
+															<li class="member-select-option" data-value="전체">전체</li>
+															<li class="member-select-option" data-value="부서">부서</li>
+															<li class="member-select-option" data-value="직책">직책</li>
+															<li class="member-select-option" data-value="이름">이름</li>
+														</ul>
+													</div>
+
+												</div>
+												<input class="SearchInputModalView" id="search" type="text"
+													placeholder="검색어를 입력하세요." />
+											</div>
+
+										</div>
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>프로필</th>
+														<th>부서</th>
+														<th>직책</th>
+														<th>이름</th>
+														<th>추가</th>
+													</tr>
+												</thead>
+												<tbody id="membertbl">
+													<th:block th:each="memberList : ${memberList}">
+														<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
+														<tr th:id="${memberList.membId}">
+															<td><img
+																th:src="@{/images/profile/}+${memberList.membPhtPath}"
+																height="50px" width="50px" alt="프로필"
+																th:if="${memberList.membPhtPath != null}" /></td>
+															<td th:text="${memberList.membDept}" />
+															<td th:text="${memberList.membWkgd}" />
+															<td th:text="${memberList.membNm}" />
+															<td><i class="fa-solid fa-plus"></i></td>
+														</tr>
+													</th:block>
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<input type="hidden" name="prjtNo" th:value="1" />
+						</div>
+						<div class="modal-footer">
+							<button id="prjtInsertBtn" type="button" class="btn btn-primary">등록</button>
+
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var navItemList = $('nav-link');
+		navItemList.click(function() {
+			navItemList.removeClass('active');
+			debugger;
+			$(this).addClass('active');
+		})
+
+		$('#prjtIcon').on('click', function() {
+			$('#updateProject').modal('show');
+		})
+	</script>
 </th:block>
 </html>

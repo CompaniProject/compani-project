@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -176,8 +177,24 @@ public class MemberController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	} // method uploadFile
+	} 
+	// method uploadFile
 	/////////////////////////////////////////////////////////
-	
+
+	//사이드 프로젝트 등록 모달 ajax
+	@PostMapping("/prjtInsert")
+	@ResponseBody
+	public Map<String,Object> prjtModalAjax(MemberVO memberVO){
+
+		Map<String, Object> map = new HashMap<>();
+		
+		//로그인 한 멤버 단건 조회 
+		MemberVO membVO = service.getMemberInfo(memberVO);
+		map.put("member", membVO);
+		//cocd 회사 멤버 리스트 
+		List<MemberVO> list = service.memberList(membVO);
+		map.put("memberList", list);
+		return map;
+	}
 	
 }

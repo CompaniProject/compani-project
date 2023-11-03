@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
 		return map.getMemberList();
 
 	}
-	
+	@Override
 	public int setMemberInfo(MemberVO vo) {
 		return map.insertMemberInfo(vo);
 	}
@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 
 		return map.memberSearchList(list);
 	}
-
+	@Override
 	public int editMemberInfo(MemberVO vo) {
 		return map.updateMemberInfo(vo);
 	}
@@ -57,6 +57,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo) {
 		return map.selectProjectFeedbackMemberList(vo);
+	}
+	@Override
+	public List<MemberVO> memberList(MemberVO vo) {
+		
+		return map.memberList(vo);
 	}
 	
 	

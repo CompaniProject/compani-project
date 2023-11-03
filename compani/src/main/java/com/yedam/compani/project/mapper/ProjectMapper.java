@@ -13,4 +13,6 @@ public interface ProjectMapper {
 	public List<ProjectVO> getProjectStateList(ProjectVO projectVO);
 	public int updateFavorite(ProjectVO projectVO); 
 	public int updateBusiness(BusinessVO businessVO);
+	public int insertProject(ProjectVO projectVO);
+	public List<Map<Object,Object>> projectSelect(Integer prjtNo);
 }

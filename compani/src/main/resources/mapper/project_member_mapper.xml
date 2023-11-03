@@ -70,4 +70,19 @@
 		</where>
 		ORDER BY pm.memb_id
 	</select>
+	
+	<insert id="insertProjectMember">
+		INSERT INTO PROJECT_MEMBER(
+			PRJT_NO,
+			MEMB_ID
+		
+		)
+		<foreach collection="list" item="project" separator="UNION ALL">
+			SELECT
+			#{project.prjtNo},
+			#{project.membId}
+		
+			FROM DUAL
+		</foreach>
+	</insert>
 </mapper>

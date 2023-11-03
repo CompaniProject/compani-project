@@ -32,5 +32,9 @@ public class CompanyServiceImpl implements CompanyService {
 	public CompanyVO getCompanyInfo(CompanyVO vo) {
 		return map.selectCompanyinfo(vo);
 	}
+	@Override
+	public List<CompanyVO> companyAllList() {
+		return map.companyAllList();
+	}
 
 }

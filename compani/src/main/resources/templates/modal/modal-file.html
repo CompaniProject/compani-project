@@ -92,6 +92,10 @@ input[type="checkbox"]:checked::after {
 	padding: 8px 5px;
 	cursor: pointer;
 }
+
+#tab_file {
+	z-index: 2;
+}
 </style>
 
 </head>
@@ -104,14 +108,16 @@ input[type="checkbox"]:checked::after {
 				<div class="ModalTitle">
 					<div class="ModalProjectNameBox">
 						<div id="ProjectLink">
-							<span></span>
-							<p class="textEllipsis">프로젝트3</p>
+							#<span></span>
+							<p class="textEllipsis" th:text="${fileList[0].prjtNm}"></p>
 						</div>
 					</div>
 					<div class="ModalBussNameBox Edit">
 						<div class="ModalBussNameBack">
-							<textarea id="ModalUpdateBussName" readonly maxlength="200"
-								style="height: 34px;">업무명</textarea>
+							<textarea id="ModalUpdateBussName" 
+							th:text="${fileList[0].bussNm}"
+							readonly maxlength="200"
+								style="height: 34px;"></textarea>
 							<hr style="border-bottom: solid 1px">
 						</div>
 					</div>
@@ -141,7 +147,7 @@ input[type="checkbox"]:checked::after {
 										</ul>
 									</div>
 								</div>
-								<input class="SearchInputModalView" id="keyword" name="keyword"
+								<input class="SearchInputModalView" id="keywordFile" name="keywordFile"
 									type="text" placeholder="검색어를 입력하세요.">
 							</div>
 						</div>
@@ -222,7 +228,8 @@ input[type="checkbox"]:checked::after {
 </div>
 
 <script>
-	var fileMembNm = "[[${session.loginInfo.membNm}]]";
+	var fileMembId = "[[${session.loginInfo.membId}]]";
+
 	// ======== 모달 ========
 	$('.file-selectBox').on('click', function() {
 		$('.file-select-ul').css('display', 'block');
@@ -251,12 +258,12 @@ input[type="checkbox"]:checked::after {
 	// ajax 
 	function filePaging(pageNum) {
 		var typeVal = $('#type').val(); // keyword
-		var keywordVal = $('#keyword').val(); // search
+		var keywordVal = $('#keywordFile').val(); // search
 		var fileList = $('#newTrTd'); // issueLists
 		var pagination = $('.pagination');
 
-		$.ajax('/searchAjax?pageNum=' + pageNum + '&type='
-			+ typeVal + '&keyword=' + keywordVal,
+		$.ajax('/searchAjax/' + bussNo +'?pageNum=' + pageNum + '&type='
+			+ typeVal + '&keywordFile=' + keywordVal,
 			{
 				type: 'GET'
 			}).done(function (data) {
@@ -453,7 +460,11 @@ input[type="checkbox"]:checked::after {
 			'change',
 			function() {
 				var formData = new FormData(); //FormData 객체 생성
-				formData.append('membId', fileMembNm);
+				formData.append('membId', fileMembId);
+				formData.append('prjtNo', miPrjtNo);
+				formData.append('bussNo', bussNo);
+				
+				
 				var inputFile = $("input[type='file']");
 
 				var files = inputFile[0].files;
@@ -473,9 +484,11 @@ input[type="checkbox"]:checked::after {
 					data : formData,
 					success : function(result) {
 						console.log(result.fileVO.membId);
-						console.log(result.fileVO.fileDT);
 						console.log(result.fileVO.fileNo);
 						console.log(result.fileVO.fileType);
+						console.log(fileMembId);
+						console.log(miPrjtNo);
+						console.log(bussNo);
 						var fileInfo = document
 								.querySelector('input[type=file]').files;
 

@@ -14,16 +14,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <style type="text/css">
+#main-wrapper {
+	overflow-y: hidden;
+}
+
 #projectCalendarBox {
 	width: 70%;
 	float: right;
+	min-height: 1000px;
 }
 
 #projectCalendar {
 	margin: 10px;
 	background-color: white;
 	height: 100%;
-	min-height: 1000px;
 }
 
 .calendarBusinessInfo {
@@ -98,6 +102,10 @@ select {
 	min-width: 3em;
 }
 
+.businessListBox {
+	float: right;
+}
+
 .businessList {
 	background-color: white;
 	width: 100%;
@@ -148,30 +156,31 @@ select {
 		<aside th:replace="fragments/aside:: aside"></aside>
 		
 		<div class="content-body">
-			
-			<!-- -------------------
-				업무 목록 - 버튼
-			-------------------- -->
 			<div class='calendarBusinessInfo'>
-				<!-- 달력 간트 스위치 -->
-				<div class="button-group">
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary calendar">달력</button>
-						<button type="button" class="btn btn-primary gantt">차트</button>
+				<!-- -------------------
+					업무 목록 - 버튼
+				-------------------- -->
+				<div>
+					<!-- 달력 간트 스위치 -->
+					<div class="button-group">
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary calendar">달력</button>
+							<button type="button" class="btn btn-primary gantt">차트</button>
+						</div>
 					</div>
-				</div>
-			
-				<!-- 정렬 버튼 -->
-				<div class="basic-dropdown">
-					<div class="dropdown">
-						<button type="button" class="btn btn-primary dropdown-toggle" 
-							data-toggle="dropdown" aria-expanded="true">
-							정렬
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item">날짜순</a>
-							<a class="dropdown-item">진척도</a>
-							<a class="dropdown-item">중요도</a>
+				
+					<!-- 정렬 버튼 -->
+					<div class="basic-dropdown">
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary dropdown-toggle" 
+								data-toggle="dropdown" aria-expanded="true">
+								정렬
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item">날짜순</a>
+								<a class="dropdown-item">진척도</a>
+								<a class="dropdown-item">중요도</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -192,11 +201,9 @@ select {
 						</div>
 					</th:block>
 				</div>
-				
 				<!-- -----------------
 					업무 목록 - 페이징
 				------------------ -->
-				
 			</div>
 				
 			<!-- --------------
@@ -299,7 +306,7 @@ select {
        			
        			$.ajax({
        				type: 'post',
-       				url: '/updateProjectCalendarBuss',
+       				url: '/updateCalendarBuss',
        				contentType: 'application/json',
           			data: JSON.stringify(obj),
           			success: function(){
@@ -407,7 +414,7 @@ select {
 			
 			$.ajax({
 				type: 'post',
-				url: '/updateProjectCalendarBuss',
+				url: '/updateCalendarBuss',
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
@@ -416,7 +423,7 @@ select {
 					console.log("수정된 진척도: " + obj.bussPrgre);
 				},
 				error: function(error){
-					console.lof(error);
+					console.log(error);
 				}
 			})
 		});
@@ -432,7 +439,7 @@ select {
 					if(calendarData[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
 						$.ajax({
 							type: 'post',
-							url: '/updateProjectGanttUpcd',
+							url: '/updateGanttUpcd',
 							contentType: 'application/json',
 							data: JSON.stringify(obj),
 							success: function(){
@@ -440,7 +447,7 @@ select {
 								console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
 							},
 							error: function(error){
-								console.lof(error);
+								console.log(error);
 							}
 						})
 						// 캘린더 배열의 상위업무 정보 업데이트.
@@ -472,7 +479,7 @@ select {
 					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
 				},
 				error: function(error){
-					console.lof(error);
+					console.log(error);
 				}
 			})
 			for(let i=0; i<calendarData.length; i++){
@@ -547,6 +554,7 @@ select {
 		
 		return day + '-' + month + '-' + year;
 	}
+	
 	// 간트차트 날짜 초단위 포맷
 	function getMilliseconds(dt){
 		var date = new Date(dt);
@@ -566,7 +574,17 @@ select {
 		$('#projectCalendar').css("display","none");
 	});
 	
-    </script>
+    /*----------------------------
+		업무리스트 스크롤바
+	------------------------------*/
+	$(function(){
+		$('.businessListBox').slimScroll({
+			height: '940px',
+		});
+		
+		$('.businessListBox').parent().css('float', 'right');
+	})
+	</script>
 	
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>

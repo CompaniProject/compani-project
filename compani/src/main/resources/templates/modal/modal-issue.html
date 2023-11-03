@@ -1475,7 +1475,15 @@
 
 					checkEditInput();
 					findAllFile();
-					findAllHashtag();
+					
+	 				let hasharr = findAllHashtag();
+					console.log(hasharr);
+					console.log(typeof hasharr);
+					console.log(hasharr.length);
+					
+					for(i = 0; i < hasharr.length; i++) {
+					$('.tagify__tag__removeBtn').eq(i).attr('data-htno',hasharr[i]);
+					}  
 				} else {
 					issueEditForm.style.display = 'none';
 					infoForm.style.display = 'block';
@@ -1681,20 +1689,25 @@
 	function findAllHashtag() {
 		var issuNo = $('.modalIssueName').data('issuNo');
 		$('.tagify__tag').remove();
+		
+		let htNo =[];
 		$.ajax({
 			url: '/issues/' + issuNo + '/hashtags',
-			type: 'get'
-		})
-			.done(function (response) {
+			type: 'get',
+			success: function (response) {
 				let hts = [];
 				$.each(response, function (idx, item) {
 					hts.push(item.issuHtNm);
+					htNo.push(item.issuHtNo);					
 				})
-				inputHashE.value = hts.join(',');
-			})
-			.fail(function (err) {
+				inputHashE.value = hts.join(',');		
+			},
+			error: function (err) {
 				console.log(err);
-			})
+			}
+			
+		});
+			return htNo;
 	}
 
 	function addIssueFileE(element) {

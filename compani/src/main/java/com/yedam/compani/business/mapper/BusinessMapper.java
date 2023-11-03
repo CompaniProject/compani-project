@@ -10,7 +10,7 @@ public interface BusinessMapper {
 	public List<Map<Object,Object>> selectPersonalCalendarAllBusiness(String membId);
 	
 	// 프로젝트 캘린더 업무리스트
-	public List<BusinessVO>	selectProjectCalendarAllBusiness();
+	public List<BusinessVO>	selectProjectCalendarAllBusiness(Integer prjtNo);
 	
 	public List<Map<Object,Object>> selectBusinessStateList(Integer prjtNo);
 	public List<Map<Object,Object>> selectBusinessAndLevelList(Integer prjtNo);

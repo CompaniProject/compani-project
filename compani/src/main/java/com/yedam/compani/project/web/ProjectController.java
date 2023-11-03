@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.business.service.BusinessService;
@@ -19,8 +22,11 @@ import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.feedback.service.MemberFeedbackService;
 import com.yedam.compani.member.feedback.service.MemberFeedbackVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
+import com.yedam.compani.project.service.ProjectFormVO;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,14 +39,20 @@ public class ProjectController {
 	private final IssueService issueService;
 
 	@GetMapping("/project/home/{prjtNo}")
-	public String projectHome(@PathVariable Integer prjtNo, Model model) {
+	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
+		
+		request.getSession().setAttribute("prjtNo", prjtNo);
 
 		model.addAttribute("businessStateList", businessStateList);
 		model.addAttribute("businessLevelList", businessLevelList);
 		model.addAttribute("memberStatusList", memberStatusList);
+
+		// 헤더 단건 조회
+		List<Map<Object, Object>> projectVO = projectService.projectSelect(prjtNo);
+		request.getSession().setAttribute("projectVO", projectVO);
 
 		return "project/project-home";
 	}
@@ -93,10 +105,22 @@ public class ProjectController {
 		return map;
 	}
 
-	@GetMapping("projectlayout")
+	@GetMapping("/projectlayout")
 	public String projectHeader(Model model) {
 
 		return "layout/projectlayout";
 	}
 
+	@PostMapping("/insertProject")
+	@ResponseBody
+	public Map<String, Object> insertBusiness(@RequestBody ProjectFormVO formVO) {
+
+		Map<String, Object> map = new HashMap<>();
+
+		projectService.insertProject(formVO.getProject());
+		projectMemberService.insertProjectMember(formVO);
+		
+		return map;
+
+	}
 }
