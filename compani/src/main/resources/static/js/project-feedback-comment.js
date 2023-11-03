@@ -2,50 +2,75 @@
  *  porject feedback(comment) - Insert, Delete(Change Delete State), Update
  */
 
-	
+	function toggleBodyDisplay(insertBody, isComment){
+        insertBody.css('display','');
+        insertBody.find('.media-body p').css('display',(isComment) ? '' :'none');
+        insertBody.find('.edit-area').css('display',(isComment) ? 'none' :'');
+        insertBody.find('.btn-area').css('display',(isComment) ? '' :'none');
+	}
+		
 	//----------------------- Project Feedback(Comment) Insert Start
-    function insertComment(){
-        let value = $('#inputCntn').val();
+	function createInsertObj(isComment = true){
+		let curBody = $(event.target).closest('.media');
+        
+        let cntn = (isComment) ? $('#inputCntn') : curBody.find("textarea");
+        
+        let value = cntn.val();
         let obj = {};
         obj["prjtFdbkCntn"] = value;
         obj["prjtNo"] = prjtNo;
+        obj["prjtFdbkUpno"] = curBody.data('parentNo');
         
+        cntn.val('');
+        
+        return obj;
+	}
+	
+    function insertComment(){
+    	let obj = createInsertObj();
         insertAjax(obj);
-        
-        $('#inputCntn').val('');
     }
     
-    function insertAjax(obj){
+    function insertAjax(obj,isComment = true){
         $.ajax({
             url:'/project/feedback',
             type: 'post',
             contentType: "application/json",
             data:JSON.stringify(obj)
         })
-        .done(data => {insertCommentHTML(data)})
+        .done(data => {insertCommentHTML(data,isComment)})
         .fail(err => {});
     }
     
-    function insertCommentHTML(data){
+    function insertCommentHTML(data, isComment){
         // create tag
-        let body = $('#commentBody');
+        let body = (isComment) ? $('#commentBody') : $('#insertBody');
         let insertBody = $('#insertBody').clone();
-        
+
+        let parLevel = (isComment) ? 0 : body.data('level');
+	    let emval = (parLevel) + 'em';
+
         // input content values
+        let level = parLevel + 1;
+        insertBody.data('level',level);
+        insertBody.css('margin-left',emval);
+
         insertBody.data('no',data.prjtFdbkNo);
-        insertBody.data('level',1);
-        insertBody.css('margin-left','');
         insertBody.find('.media-body h5').text(membNm);
-        insertBody.find('.media-body p').css('display','');
         insertBody.find('.media-body p').text(data.prjtFdbkCntn);
         insertBody.find('textarea').text(data.prjtFdbkCntn);
-        insertBody.find('.edit-area').css('display','none');
-        insertBody.find('.btn-area').css('display','');
         insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
-        insertBody.css('display','');
+		insertBody.attr('id','');
+		
+		toggleBodyDisplay(insertBody,true);
         
         // insert comment tag to comment body
-        body.append(insertBody);
+        if (isComment){
+            body.append(insertBody);
+        } else {
+            body.after(insertBody);
+        }
+
     }
     
     $('#insertBtn').on('click', insertComment);
