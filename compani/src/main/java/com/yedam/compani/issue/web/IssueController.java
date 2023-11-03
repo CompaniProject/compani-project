@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -104,7 +105,6 @@ public class IssueController {
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
 		// 해시태그 저장
-
 		issueHashtagService.modalInsertIssueHashtag(issuNo, Arrays.asList(inserthashtags));
 				
 	}
@@ -112,10 +112,10 @@ public class IssueController {
 	// 모달에서 이슈 수정
 	@PostMapping("/ModalIssueUpdate")
 	@ResponseBody
-	public IssueVO modalIssueUpdate(final IssueVO issueVO, MultipartFile[] editFiles) {
+	public IssueVO modalIssueUpdate(final IssueVO issueVO, MultipartFile[] editFiles, String[] edithashtags) {
 
 		// 1. 이슈글 정보 수정
-		issueService.updateIssue(issueVO);
+		int issuNo = issueService.updateIssue(issueVO);
 
 		// 2. 파일 업로드 (to disk & to database)
 		List<IssueFileVO> uploadedFiles = new ArrayList<>();
@@ -132,8 +132,16 @@ public class IssueController {
 
 		// 5. 파일 삭제 (from database)
 		issueFileService.deleteAllFileByIds(issueVO.getRemoveFileIds());
-
+		
+		// 6. 해시태그 수정 ( db에서 해당 이슈에 있는 모든 해시태그를 삭제 후 새로 등록 )
+		if(CollectionUtils.isEmpty(Arrays.asList(edithashtags))) {
+			issueHashtagService.deleteHashtagbyId(issuNo);
+		} else {
+		issueHashtagService.modalEditIssueHashtag(issuNo, Arrays.asList(edithashtags));
+		}
 		return issueService.findIssueById(issueVO.getIssuNo());
+		
+		
 	}
 	
 	// 모달에서 이슈 삭제

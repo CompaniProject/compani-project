@@ -469,6 +469,10 @@
 		<div data-include1="showModalMain"></div>
 
 		<script th:inline="javascript">
+		    window.onload = function () {
+		        var navItemHome = $('.nav-link').eq(2);
+		        navItemHome.addClass('active');
+		    }
 			// 권오준 추가
 			var miPrjtNo = [[${prjtNo}]];
 
