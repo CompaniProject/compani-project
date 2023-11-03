@@ -215,7 +215,6 @@
 .pIssueInfoContent > .pIssueInfoContentTopBar {
     position: sticky;
     top: 0;
-    z-index: 5000;
     width: 100%;
     height: 48px;
     margin-right: 20px;
@@ -225,7 +224,6 @@
 .cIssueInfoContent > .cIssueInfoContentTopBar {
     position: sticky;
     top: 0;
-    z-index: 5000;
     width: 100%;
     height: 48px;
     margin-right: 20px;
@@ -674,7 +672,9 @@
 	font-weight: normal;
 }
 
-#delPConfirmationModal, #cancelPIEditConfirmationModal, #editPICheckingInput, #cancelPISaveConfirmationModal, #savePICheckingInput, #delCConfirmationModal{
+#delPConfirmationModal, #cancelPIEditConfirmationModal, 
+#editPICheckingInput, #cancelPISaveConfirmationModal, #editCICheckingInput,
+#savePICheckingInput, #delCConfirmationModal, #cancelCIEditConfirmationModal{
     width: 400px;
     min-height: 245px;
     box-sizing: border-box;
@@ -684,7 +684,9 @@
     display: inline-block;
     z-index: 10000;
 }
-#delPConfirmationModalBody, #cancelPIEditConfirmationModalBody, #editPIConfirmationModalBody, #cancelPISaveConfirmationModalBody, #savePIConfirmationModalBody, #delCConfirmationModalBody{
+#delPConfirmationModalBody, #cancelPIEditConfirmationModalBody, #editPIConfirmationModalBody, 
+#cancelPISaveConfirmationModalBody, #savePIConfirmationModalBody, #delCConfirmationModalBody,
+#cancelCIEditConfirmationModal, #editCIConfirmationModalBody {
     text-align: center;
     padding: 0 26px 0 26px;
 }
@@ -714,7 +716,6 @@
 .modalCIEditContent > .cIssueEditContentTopBar {
     position: sticky;
     top: 0;
-    z-index: 5000;
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -1269,16 +1270,16 @@ piFileUpload.dz {
     margin-bottom: 1.5rem;
 }
 
-.savePIHashtagList {
+.showPIHashtagList, .showCIHashtagList {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 4px;
     width: 100%;
-    padding: 16px 12px;
+    padding: 16px 0 12px;
     box-sizing: border-box;
 }
 
-.savePIHashtagContent {
+.showPIHashtagContent, .showCIHashtagContent {
     width: 100%;
     border: solid 1px #eaeaea;
     border-radius: 4px;
@@ -1287,7 +1288,8 @@ piFileUpload.dz {
     height: 80px;
 }
 
-.savePITagBox {
+
+.showTagBoxPI, .showTagBoxCI {
     display: flex;
     align-items: center;
     gap: 2px;
@@ -1295,21 +1297,28 @@ piFileUpload.dz {
     padding: 0 4px;
     box-sizing: border-box;
     border-radius: 4px;
-    background-color: #f5f5f5;
+    background-color: #458EFF;
 }
 
-.savePITagBox > p {
+.showTagBoxPI > p {
     font-size: 12px;
-    color: #a8a8a8;
-}
-
-.savePITagBox > p {
-    font-size: 12px;
-    color: #a8a8a8;
+    color: #fff;
     margin: 0;
 }
 
-.savePITextEllipsis {
+.showTagBoxCI > p {
+    font-size: 12px;
+    color: #fff;
+    margin: 0;
+}
+
+.showTextEllipsisPI {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.showTextEllipsisCI {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -27,4 +27,35 @@
 		WHERE       issu_no = #{issuNo}
 		ORDER BY    issu_ht_no		  
 	</select>
+	
+	<insert id="edit" parameterType="list">
+		BEGIN
+		
+		DELETE 		
+		FROM		issue_hashtag		
+		WHERE		issu_no = #{issuNo};
+		
+		INSERT INTO 	issue_hashtag
+				(   	issu_ht_no
+				  	  , issu_no
+				  	  , issu_ht_nm																 
+				 )
+		SELECT 			issue_hashtag_seq.nextval, A.*
+		FROM 	 (
+		<foreach collection="hashtags" item="hashtags" separator="UNION ALL ">
+			SELECT  	#{issuNo}
+			      	,	#{hashtags}
+			FROM        DUAL
+		</foreach>
+			) A;
+			
+		END;
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE
+		FROM	issue_hashtag
+		WHERE
+				issu_no = #{issuNo}
+	</delete> 
 </mapper>

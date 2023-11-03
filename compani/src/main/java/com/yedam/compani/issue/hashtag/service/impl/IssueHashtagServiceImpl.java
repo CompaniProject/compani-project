@@ -38,8 +38,27 @@ public class IssueHashtagServiceImpl implements IssueHashtagService {
 	 * @return 해시태그 리스트
 	 */	
 	@Override
-	public List<IssueHashtagVO> findAllHashtagsByIssuNo(int issuNo) {
+	public List<IssueHashtagVO> findAllHashtagsByIssuNo(final int issuNo) {
 		return issueHashtagMapper.select(issuNo);
 	}
+	
+	/**
+	 * 해시태그 수정 ( 이슈에 해당하는 모든 해시태그 db에서 삭제 후 새로 등록)
+	 *
+	 * @param issuNo - 이슈글 번호 (FK), HtNm 리스트
+	 *
+	 */
+	@Override
+	public void modalEditIssueHashtag(final int issuNo, List<String> hashtags) {
+		if(CollectionUtils.isEmpty(hashtags)) {
+			return ;
+		}
+		issueHashtagMapper.edit(issuNo, hashtags);
+		
+	}
 
+	@Override
+	public void deleteHashtagbyId(final int issuNo) {
+		issueHashtagMapper.delete(issuNo);		
+	}	
 }

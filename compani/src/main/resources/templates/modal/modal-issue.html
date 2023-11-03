@@ -578,7 +578,8 @@
 		</div>
 	</div>
 	<!--/* 이슈 삭제시 경고창 END */-->
-	<script th:inline="javascript">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script th:inline="javascript">	
 	var miMemberId = [[${session.loginInfo.membId}]];
 	var miBussNm = [[${buss.bussNm}]];
 	var miPrjtNm = [[${buss.prjtNm}]];
@@ -781,8 +782,6 @@
 	$('.postWritingBox').on('click', function () {
 		$('.modalIssueInsertForm').css('display', 'block');
 		$('.workModalContentBack').css('display', 'none');
-
-		inputHash.value = miPrjtNm + ', ' + miBussNm;
 	});
 
 
@@ -900,7 +899,6 @@
 			contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
 			data: formData,
 			success: function () {
-				alert("등록에 성공 !!");
 				$('.modalIssueInsertForm').css('display', 'none');
 				$('.workModalContentBack').css('display', 'block');
 				issuePaging(1);
@@ -969,7 +967,10 @@
 		const fileSize = Math.floor(file.size / 1024 / 1024);
 
 		if (fileSize > 10) {
-			alert('10MB 이하의 파일로 업로드해 주세요.');
+			Swal.fire({
+	            icon: 'error',                         // Alert 타입
+	            text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
+	        });
 			return false;
 		}
 
@@ -1179,7 +1180,10 @@
 	// 댓글 길이 카운팅
 	function countingLength(content) {
 		if (content.value.length > 300) {
-			alert('댓글을 300자 이하로 입력해 주세요.');
+			Swal.fire({
+	            icon: 'error',                         // Alert 타입
+	            text: '댓글을 300자 이하로 입력해 주세요.',  // Alert 내용
+	        });
 			content.value = content.value.substring(0, 300);
 			content.focus();
 		}
@@ -1340,7 +1344,6 @@
 			data: JSON.stringify(params)
 		})
 			.done(function (response) {
-				alert('수정되었습니다.');
 				findAllReply();
 				closeReplyUpdateForm(id);
 				countReply(issuNo);
@@ -1353,9 +1356,15 @@
 
 	// 댓글 삭제
 	function deleteReply(id) {
-
-		if (confirm('선택하신 댓글을 삭제할까요?')) {
-
+				
+		 $('#delConfirmationModal').modal('show');
+		
+		 $('#delCancel').on('click', function () {
+             $('#delConfirmationModal').modal('hide');
+         })
+		
+         $('#delConfirm').on('click', function () {
+        	 
 			const issuNo = $('.modalIssueName').data('issuNo');
 			const issuRplyNo = id;
 
@@ -1364,7 +1373,6 @@
 				type: 'delete'
 			})
 				.done(function (response) {
-					alert('삭제가 완료되었습니다');
 					findAllReply();
 					countReply(issuNo);
 				})
@@ -1372,7 +1380,7 @@
 				.fail(function (err) {
 					console.log(err)
 				})
-		}
+		})
 	}
 
 	// 댓글 카운트
@@ -1471,19 +1479,11 @@
 					} else if (response.issueInfo.issuRank == '0G5') {
 						rankVal.className = 'badge badge-danger';
 						rankVal.innerHTML = '매우낮음';
-					}
-
+					}					
+	 				findAllHashtag();
+					
 					checkEditInput();
-					findAllFile();
-					
-	 				let hasharr = findAllHashtag();
-					console.log(hasharr);
-					console.log(typeof hasharr);
-					console.log(hasharr.length);
-					
-					for(i = 0; i < hasharr.length; i++) {
-					$('.tagify__tag__removeBtn').eq(i).attr('data-htno',hasharr[i]);
-					}  
+					findAllFile();					
 				} else {
 					issueEditForm.style.display = 'none';
 					infoForm.style.display = 'block';
@@ -1522,6 +1522,10 @@
 
 		var content = editorEditing.getHTML();
 		formData.append('issuCntn', content);
+		
+		var htupdateobj = tagifyE.value;
+		var htupdateobjVal = htupdateobj.map(row=>row.value);
+		formData.append('edithashtags', htupdateobjVal);
 
 		var kind = $('#editIssuKndVal').text();
 		var rank = $('#editIssuRankVal').text();
@@ -1578,7 +1582,6 @@
 			data: formData
 		})
 			.done(function (response) {
-				alert('수정되었습니다');
 				$('.modalIssueEditForm').css('display', 'none');
 				$('.modalIssueInfoForm').css('display', 'block');
 				viewIssueInfo(response.issuNo);
@@ -1689,25 +1692,22 @@
 	function findAllHashtag() {
 		var issuNo = $('.modalIssueName').data('issuNo');
 		$('.tagify__tag').remove();
-		
-		let htNo =[];
+
 		$.ajax({
 			url: '/issues/' + issuNo + '/hashtags',
 			type: 'get',
 			success: function (response) {
 				let hts = [];
 				$.each(response, function (idx, item) {
-					hts.push(item.issuHtNm);
-					htNo.push(item.issuHtNo);					
+					hts.push(item.issuHtNm);				
 				})
-				inputHashE.value = hts.join(',');		
+				inputHashE.value = hts.join(',');	
 			},
 			error: function (err) {
 				console.log(err);
 			}
 			
 		});
-			return htNo;
 	}
 
 	function addIssueFileE(element) {
@@ -1720,7 +1720,10 @@
 		// 2. 파일 크기가 10MB을 초과하는 경우
 		const editFileSize = Math.floor(file.size / 1024 / 1024);
 		if (editFileSize > 10) {
-			alert('10MB 이하의 파일로 업로드해 주세요.');
+			Swal.fire({
+	            icon: 'error',                         // Alert 타입
+	            text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
+	        });
 			return false;
 		}
 
