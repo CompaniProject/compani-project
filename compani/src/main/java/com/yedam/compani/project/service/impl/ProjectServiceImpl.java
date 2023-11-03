@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Map<Object, Object>> projectSelect(Integer prjtNo) {
+	public Map<Object, Object> projectSelect(Integer prjtNo) {
 		
 		return projectMapper.projectSelect(prjtNo);
 	}

@@ -104,7 +104,7 @@
 			     p.PRJT_TDT
 	
 		FROM     PROJECT p, BUSINESS b
-		WHERE    p.prjt_NO = b.PRJT_NO
+		WHERE    p.prjt_NO = b.PRJT_NO(+)
 		AND      p.PRJT_NO = #{prjtNo}
 		GROUP BY p.PRJT_NO, p.PRJT_NM ,p.PRJT_TDT, p.PRJT_ST, p.PRJT_PUBCYN, p.PRJT_FDT, p.PRJT_TDT
 

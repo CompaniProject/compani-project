@@ -48,9 +48,8 @@ public class ProjectController {
 		model.addAttribute("memberStatusList", memberStatusList);
 
 		// 헤더 단건 조회
-		List<Map<Object, Object>> projectVO = projectService.projectSelect(prjtNo);
+		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", projectVO);
-
 		return "project/project-home";
 	}
 

@@ -38,25 +38,14 @@
 		tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<form id="insertform" class="form-valide" action="#" method="post">
-					<div class="modal-header">
-						<div class="col-lg-4">
-							<table class="table">
-								<thead id="crtr">
-									<tr>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
-							</table>
-						</div>
 
-						<button type="button" class="close" data-dismiss="modal">
-							<span>&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="insertform" class="form-valide" action="#" method="post">
 
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
@@ -184,10 +173,8 @@
 						</div>
 						<input type="hidden" id="coCd" name="coCd"
 							th:value="${session.loginInfo.coCd}" />
-
-					</div>
-				</form>
-
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -205,7 +192,7 @@
 		  })
 		  .done(function(data){  //member  , memberList
 			  console.log(data);
-			 	let tbl = $('#crtr');
+			 	let tbl = $('#insertmembertbl');
 		  		tbl.empty();
 				let trTag = $('<tr/>');
 				let tdTag= $('<td/>');
@@ -225,13 +212,13 @@
 				}
 				trTag.append(tdTag);
 				
-			/* 	tdTag= $('<td/>');
+			 	tdTag= $('<td/>');
 				tdTag.append(data.member.membDept);
 				trTag.append(tdTag);
 				
 				tdTag= $('<td/>');
 				tdTag.append(data.member.membWkgd);
-				trTag.append(tdTag); */
+				trTag.append(tdTag); 
 			
 				tdTag= $('<td/>');
 				tdTag.append(data.member.membNm);
@@ -418,6 +405,7 @@
 					 	trTag.append(tdTag);
 					 	
 					 	tbody.append(trTag);
+					 	
 					})
 				})
 				.fail(err =>  console.log(err));

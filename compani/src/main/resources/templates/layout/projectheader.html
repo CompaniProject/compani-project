@@ -11,7 +11,7 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 prjtNM-->
-								<h4 class="m-1">[[${session.projectVO[0].prjtNm}]]</h4>
+								<h4 class="m-1">[[${session.projectVO.prjtNm}]]</h4>
 								<p class="m-1">프로젝트번호.[[${prjtNo}]]</p>
 							</div>
 						</div>
@@ -39,7 +39,7 @@
 						</div>
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<h4 class="m-1">[[${session.projectVO[0].count}]]</h4>
+								<h4 class="m-1">[[${session.projectVO.count}]]</h4>
 
 							</div>
 						</div>
@@ -59,7 +59,7 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 -->
-								<h4 class="m-1">[[${session.projectVO[0].date}]]</h4>
+								<h4 class="m-1">[[${session.projectVO.date}]]</h4>
 								<p class="m-0"></p>
 							</div>
 						</div>
@@ -78,7 +78,7 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 -->
-								<h4 class="m-1">[[${session.projectVO[0].prjtSt}]]</h4>
+								<h4 class="m-1">[[${session.projectVO.prjtSt}]]</h4>
 								<p class="m-0"></p>
 							</div>
 						</div>
@@ -96,7 +96,7 @@
 						</div>
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<h4 class="m-1">[[${session.projectVO[0].prjtPubcyn}]]</h4>
+								<h4 class="m-1">[[${session.projectVO.prjtPubcyn}]]</h4>
 							</div>
 						</div>
 					</div>
@@ -168,21 +168,21 @@
 									<div class="issueNameBack">
 										<textarea class="modalIssueNameUpdate" id="prjtNm"
 											name='prjtNm' maxlength="200" style="height: 34px;"
-											th:text="${session.projectVO[0].prjtNm}"></textarea>
+											th:text="${session.projectVO.prjtNm}"></textarea>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-3">
 								<div class="dropdown custom-dropdown">
 									<select class="dropdown-import" id="prjtImp" name="prjtImp"
-										th:value="${session.projectVO[0].prjtSt}">
-										<option class="dropdown-import" value="0D1" 
-											th:selected="${session.projectVO[0].prjtSt}=='진행중'">진행중</option>
-											
+										th:value="${session.projectVO.prjtSt}">
+										<option class="dropdown-import" value="0D1"
+											th:selected="${session.projectVO.prjtSt}=='진행중'">진행중</option>
+
 										<option class="dropdown-import" value="0D2"
-											th:selected="${session.projectVO[0].prjtSt}=='완료'">완료</option>
+											th:selected="${session.projectVO.prjtSt}=='완료'">완료</option>
 										<option class="dropdown-import" value="0D3"
-											th:selected="${session.projectVO[0].prjtSt}=='초과'">초과</option>
+											th:selected="${session.projectVO.prjtSt}=='초과'">초과</option>
 
 									</select>
 
@@ -196,12 +196,12 @@
 							<div class="col-lg-6">
 								<label class="radio-inline mr-3"> <input type="radio"
 									name="optradio"
-									th:attr="checked=${session.projectVO[0].prjtPubcyn == '공개' ? 'true' : 'false'}">
+									th:attr="checked=${session.projectVO.prjtPubcyn == '공개' ? 'true' : 'false'}">
 									공개
 								</label> <i class="fa-solid fa-lock-open fa-lg"></i> <label
 									class="radio-inline mr-3"> <input type="radio"
 									name="optradio"
-									th:attr="checked=${session.projectVO[0].prjtPubcyn == '비공개' ? 'true' : 'false'}">
+									th:attr="checked=${session.projectVO.prjtPubcyn == '비공개' ? 'true' : 'false'}">
 									비공개
 								</label><i class="fa-solid fa-lock fa-lg"></i>
 
@@ -214,7 +214,7 @@
 							<div class="col-lg-3">
 								<input type="date" class="form-control" id="prjtFdt"
 									name="prjtFdt"
-									th:value="${#dates.format(session.projectVO[0].prjtFdt, 'yyyy-MM-dd')}" />
+									th:value="${#dates.format(session.projectVO.prjtFdt, 'yyyy-MM-dd')}" />
 								<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
 							</div>
 							<div class="col-lg-1">
@@ -224,7 +224,7 @@
 							<div class="col-lg-3">
 								<input type="date" class="form-control" id="prjtTdt"
 									name="prjtTdt"
-									th:value="${#dates.format(session.projectVO[0].prjtTdt, 'yyyy-MM-dd')}">
+									th:value="${#dates.format(session.projectVO.prjtTdt, 'yyyy-MM-dd')}">
 							</div>
 						</div>
 						<div>
@@ -244,7 +244,19 @@
 												</tr>
 											</thead>
 											<tbody id="insertmembertbl">
-													<!-- 요기다 project_멤바 넣어 주기  -->
+												<th:block th:each="prjtMember : ${projectMemberList}">
+												
+													<tr th:id="${prjtMember.membId}">
+														<td><img
+															th:src="@{/images/profile/}+${prjtMember.membPhtPath}"
+															height="50px" width="50px" alt="프로필"
+															th:if="${prjtMember.membPhtPath != null}" /></td>
+														<td th:text="${prjtMember.membDept}" />
+														<td th:text="${prjtMember.membWkgd}" />
+														<td th:text="${prjtMember.membNm}" />
+														<td><i class="fa-solid fa-minus"></i></td>
+													</tr>
+												</th:block>
 											</tbody>
 										</table>
 									</div>
@@ -317,7 +329,7 @@
 							<input type="hidden" name="prjtNo" th:value="1" />
 						</div>
 						<div class="modal-footer">
-							<button id="prjtInsertBtn" type="button" class="btn btn-primary">등록</button>
+							<button id="prjtInsertBtn" type="button" class="btn btn-primary">수정</button>
 
 						</div>
 					</form>
