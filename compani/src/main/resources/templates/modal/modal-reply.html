@@ -58,7 +58,7 @@
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn"></textarea>
-					<button id="replyInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
+					<button id="commentInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
             </div>
@@ -98,7 +98,7 @@
 <!-- Hidden Reply Insert Area End -->
 
 <script>
-	let membNm = "[[${session.loginInfo.membNm}]]";
+	var membNm = "[[${session.loginInfo.membNm}]]";
 	$(function(){
 	    $('#reply-body-div').slimScroll({
 	        height: '250px'
@@ -179,7 +179,7 @@
 	    
 	}
 	
-	$(document).on('click','#replyInsertBtn',insertComment);
+	$(document).on('click','#commentInsertBtn',insertComment);
 
 	//----------------------- Business Reply (Comment) Insert End
 	
