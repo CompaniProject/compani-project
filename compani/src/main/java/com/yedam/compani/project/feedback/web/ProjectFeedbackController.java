@@ -32,9 +32,10 @@ public class ProjectFeedbackController {
 	private final ProjectFeedbackService projectFeedbackService;
 	
 	@GetMapping("/project/feedback/{prjtNo}")
-	public String projectFeedbackHome(@PathVariable int prjtNo, Model model) {
+	public String projectFeedbackHome(@PathVariable int prjtNo, Model model, HttpSession session) {
 		// get session users company data
-		String coCd = "CPN001";
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
 
 		ProjectStatusVO projectStatus = projectStatusService.getProjectStatus(prjtNo);
 		CompanyStatusVO cpnStatForCurrDt = companyStatusService.getStatusForCurrentDate(coCd);
