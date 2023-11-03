@@ -17,22 +17,9 @@
 
 <body>
 <th:block layout:fragment="content">
-	<div class="row mx-0">
-		<ul class="nav nav-pills mb-3">
-			<li class="nav-item"><a href="#businessStatus"
-				class="nav-link active" data-toggle="tab" aria-expanded="false">업무</a>
-			</li>
-			<li class="nav-item"><a href="#issueStatus" class="nav-link"
-				data-toggle="tab" aria-expanded="false">이슈</a></li>
-		</ul>
-	</div>
 	<div class="row">
 		<div class="col-lg-8">
 		<div class="column">
-			
-			<div class="tab-content br-n pn">
-				<div id="businessStatus" class="tab-pane active show">
-	
 					<!-- Business Count Info Start -->
 					<div>
 						<div class="row">
@@ -90,36 +77,7 @@
 					                </div>
 					            </div>
 					        </div>
-						</div>
-					</div>
-					<!-- Business Count Info End -->
-					<!-- Project Status Chart Area -->
-					<div>
-					    <div class="col-lg-12">
-				            <div class="card">
-				                <div class="card-body">
-				                    <h4 class="card-title">업무 통계</h4>
-				                    <div class="row">
-				        				<div class="col-lg-7">
-				                    	<canvas id="bussDonutChart" width="300" height="250"></canvas>
-				                    	</div>
-				        				<div class="col-lg-5">
-				                    	<canvas id="bussStBar" width="200" height="300"></canvas>
-				                    	</div>    
-				                    </div> 
-				                </div>
-				            </div>
-				        </div>
-					</div>
-					<!-- Project Status Chart Area End -->
-				
-				</div>
-				
-				<div id="issueStatus" class="tab-pane">
-					<!-- Issue Count Info Start -->
-					<div>
-						<div class="row">
-					        <div class="col-lg-3">
+					        					        <div class="col-lg-3">
 					            <div class="card">
 					                <div class="card-body">
 										<h4 class="card-title">총 이슈 개수</h4>
@@ -157,19 +115,37 @@
 					        </div>
 						</div>
 					</div>
-					<!-- Issue Count Info End -->
-					<!-- Issue Status Chart Area -->
+					<!-- Business Count Info End -->
+					<!-- Project Status Chart Area -->
+					<div>
+					    <div class="col-lg-12">
+				            <div class="card">
+				                <div class="card-body" style="margin-left:3rem;">
+					            	<h4 class="card-title">업무 통계</h4>
+				                	<div class="row">
+				                		<div class="col-lg-3">
+				                    		<canvas id="bussDonutChart" width="200rem" height="200rem"></canvas>
+				                    	</div>
+				                    	<div class="col-lg-9">
+				                    		<canvas id="bussStBar" width="650rem" height="200rem"></canvas>
+				                    	</div>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+					</div>
+										<!-- Issue Status Chart Area -->
 					<div>
 					    <div class="col-lg-12">
 					        <div class="card">
-					            <div class="card-body">
+					            <div class="card-body" style="margin-left:3rem;">
 					            	<h4 class="card-title">이슈 통계</h4>
 				                    <div class="row">
-				        				<div class="col-lg-7">
-				                    	<canvas id="issuDonutChart" width="300" height="250"></canvas>
+				        				<div class="col-lg-3">
+				                    	<canvas id="issuDonutChart" width="200rem" height="200rem"></canvas>
 				                    	</div>
-				        				<div class="col-lg-5">
-				                    	<canvas id="issuStBar" width="200" height="300"></canvas>
+				        				<div class="col-lg-9">
+				                    	<canvas id="issuStBar" width="650rem" height="200rem"></canvas>
 				                    	</div>    
 				                    </div>              
 					            </div>
@@ -177,8 +153,8 @@
 					    </div>
 					</div>
 					<!-- Issue Status Chart Area End -->
-				</div>
-			</div>
+					<!-- Project Status Chart Area End -->
+				
 			
 		</div>
 		</div>
