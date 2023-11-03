@@ -292,17 +292,14 @@
 	        
 	        let level = curBody.data('level') + 1;
 	        let emval = level + 'em';
-	        
+
 	        // input content values
 	        insertBody.data('level',level);
+	        insertBody.data('parentNo',curBody.data('no'));
 	        insertBody.css('margin-left',emval);
 	        insertBody.find('.media-body h5').text(membNm);
-	        insertBody.find('.media-body p').css('display','none');
-	        insertBody.find('.edit-area').css('display','');
-	        insertBody.find('.btn-area').css('display','none');
-	        insertBody.css('display','');
-	        
-	        
+	        toggleBodyDisplay(insertBody,false);
+
 	        insertBody.append($('.replyInsertBtn').first().clone());
 	        insertBody.append($('.replyDeleteBtn').first().clone());
 	        

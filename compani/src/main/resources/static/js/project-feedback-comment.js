@@ -2,7 +2,13 @@
  *  porject feedback(comment) - Insert, Delete(Change Delete State), Update
  */
 
-	
+	function toggleBodyDisplay(insertBody, isComment){
+        insertBody.css('display','');
+        insertBody.find('.media-body p').css('display',(isComment) ? '' :'none');
+        insertBody.find('.edit-area').css('display',(isComment) ? 'none' :'');
+        insertBody.find('.btn-area').css('display',(isComment) ? '' :'none');
+	}
+		
 	//----------------------- Project Feedback(Comment) Insert Start
     function insertComment(){
         let value = $('#inputCntn').val();
@@ -32,17 +38,16 @@
         let insertBody = $('#insertBody').clone();
         
         // input content values
-        insertBody.data('no',data.prjtFdbkNo);
         insertBody.data('level',1);
         insertBody.css('margin-left','');
+
+        insertBody.data('no',data.prjtFdbkNo);
         insertBody.find('.media-body h5').text(membNm);
-        insertBody.find('.media-body p').css('display','');
         insertBody.find('.media-body p').text(data.prjtFdbkCntn);
         insertBody.find('textarea').text(data.prjtFdbkCntn);
-        insertBody.find('.edit-area').css('display','none');
-        insertBody.find('.btn-area').css('display','');
         insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
-        insertBody.css('display','');
+		
+		toggleBodyDisplay(insertBody,true);
         
         // insert comment tag to comment body
         body.append(insertBody);
