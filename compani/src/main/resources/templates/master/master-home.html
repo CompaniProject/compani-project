@@ -13,8 +13,8 @@
 		<div class="content-body">
 			<h1>마스터 관리</h1>
 			<hr>
-			<button type="button" class="btn mb-1 btn-outline-secondary" style="margin:5px;">회사</button>
-			<button type="button" class="btn mb-1 btn-outline-secondary" style="margin:5px;">회원</button>
+			<button type="button" class="btn mx-2 btn-outline-secondary" name="company">회사</button>
+			<button type="button" class="btn mx-2 btn-outline-secondary" name="member">회원</button>
 			<hr>
 			<div class="card">
 				<div class="card-body">
@@ -35,7 +35,7 @@
 									<td th:text="${info.coNm}"></td>
 									<td th:text="${info.coRpstr}"></td>
 									<td th:text="${info.coBizno}"></td>
-									<td th:text="${info.coDt}"></td>
+									<td th:text="${#dates.format(info.coDt, 'yyyy-MM-dd')}"></td>
 									<td th:text="${info.coAccp}"></td>
 									<td>
 										<button type="button" class="btn mb-1 btn-success">
@@ -54,10 +54,17 @@
 						</table>
 					</div>
 				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						
+					</div>
+				</div>
 			</div>
 			
 		</div>
 	</div>
+	<script th:inline="javascript">
+	</script>
 	
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
