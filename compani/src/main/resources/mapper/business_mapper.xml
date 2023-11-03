@@ -7,24 +7,22 @@
 	<!-- 개인캘린더 업무 목록 -->
 	<select id="selectPersonalCalendarAllBusiness" resultType="CamelHashMap">
 		SELECT b.buss_no
-		, b.prjt_no
-		, p.prjt_nm
-		, NVL(b.buss_upcd, 0) AS
-		buss_upcd
-		, b.buss_nm
-		, m.memb_id
-		, CASE b.buss_imp WHEN '0J1' THEN '상'
-		WHEN '0J2' THEN '중'
-		WHEN '0J3' THEN '하' END AS buss_imp
-		, b.buss_prgre
-		, b.buss_frdt
-		, b.buss_todt
-		, b.buss_st
+			   , b.prjt_no
+			   , p.prjt_nm
+			   , NVL(b.buss_upcd, 0) AS buss_upcd
+			   , b.buss_nm
+			   , m.memb_id
+			   , CASE b.buss_imp WHEN '0J1' THEN '상'
+						  		 WHEN '0J2' THEN '중'
+						  		 WHEN '0J3' THEN '하' END AS buss_imp
+			   , b.buss_prgre
+			   , b.buss_frdt
+			   , b.buss_todt
+			   , b.buss_st
 		FROM business b LEFT JOIN project p
-		ON b.prjt_no = p.prjt_no
-		LEFT JOIN business_member m
-		ON b.buss_no =
-		m.buss_no
+						ON b.prjt_no = p.prjt_no
+						LEFT JOIN business_member m
+						ON b.buss_no = m.buss_no
 		WHERE (buss_st = '0K1'
 		OR buss_st = '0K3')
 		AND memb_id = #{membId}
@@ -35,18 +33,16 @@
 	<select id="selectProjectCalendarAllBusiness"
 		resultType="BusinessVO">
 		SELECT buss_no
-		, prjt_no
-		, NVL(buss_upcd, 0) AS buss_upcd
-		, buss_nm
-		, CASE
-		buss_imp WHEN '0J1' THEN '상'
-		WHEN '0J2' THEN '중'
-		WHEN '0J3' THEN '하' END
-		AS buss_imp
-		, buss_prgre
-		, buss_frdt
-		, buss_todt
-		, buss_st
+			   , prjt_no
+			   , NVL(buss_upcd, 0) AS buss_upcd
+			   , buss_nm
+			   , CASE buss_imp WHEN '0J1' THEN '상'
+				 			   WHEN '0J2' THEN '중'
+				 			   WHEN '0J3' THEN '하' END AS buss_imp
+			   , buss_prgre
+			   , buss_frdt
+			   , buss_todt
+			   , buss_st
 		FROM business
 		WHERE (buss_st = '0K1'
 		OR buss_st = '0K3')

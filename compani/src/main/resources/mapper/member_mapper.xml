@@ -126,17 +126,18 @@
 	
 	<!-- 마스터 멤버리스트 -->
 	<select id="masterMemberList" resultType="CamelHashMap">
-		SELECT 
-				m.co_cd
-				, co_nm 
-				, memb_id
-				, memb_nm
-				, memb_birth_dt
-				, memb_email
-				, memb_telno
-				, memb_accp
+		SELECT m.co_cd
+			   , co_nm 
+			   , memb_id
+			   , memb_nm
+			   , memb_birth_dt
+			   , NVL(memb_email, '-') AS memb_email
+			   , NVL(memb_telno, '-') AS memb_telno
+			   , CASE memb_accp	WHEN '0C1' THEN '승인'
+							    WHEN '0C2' THEN '대기' END AS memb_accp
 		FROM	member m	LEFT JOIN	company c 
 							ON			m.co_cd = c.co_cd
+		ORDER BY memb_accp, co_cd DESC
 	</select>
 
 </mapper>
