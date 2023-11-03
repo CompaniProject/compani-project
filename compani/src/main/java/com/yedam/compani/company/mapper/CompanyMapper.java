@@ -16,4 +16,7 @@ public interface CompanyMapper {
 	
 	//회사정보
 	public CompanyVO selectCompanyinfo(CompanyVO vo);
+	
+	// 회사리스트
+	public List<CompanyVO> companyAllList();
 }

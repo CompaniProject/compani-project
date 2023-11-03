@@ -111,7 +111,7 @@ public class BusinessController {
 
 	
 	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
-	@GetMapping("personalCalendarPage")
+	@GetMapping("myCalendar")
 	public String personalCalendarList(Model model, HttpSession session) {
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
 		String membId = memberVO.getMembId();
@@ -121,37 +121,26 @@ public class BusinessController {
 	}
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
-	@GetMapping("projectCalendarPage")
-	public String projectCalendarList(Model model) {
-		List<BusinessVO> list = businessService.getProjectCalenderBusinessList();
+	@GetMapping("projectCalendar")
+	public String projectCalendarList(Model model, HttpSession session) {
+		int prjtNo = (Integer) session.getAttribute("prjtNo");
+		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);
 		return "calendar/projectCalendarPage";
 	}
 	
 	// 김연규, 2023-10-31, 캘린더&간트 업무바 수정
-	@PostMapping("/updatePersonalCalendarBuss")
+	@PostMapping("/updateCalendarBuss")
 	@ResponseBody
 	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
 		businessService.updateCalendarBuss(vo);
-		return "calendar/personalCalendarPage";
-	}
-	@PostMapping("/updateProjectCalendarBuss")
-	@ResponseBody
-	public String updateProjectCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updateCalendarBuss(vo);
-		return "calendar/projectCalendarPage";
+		return "";
 	}
 	// 김연규, 2023-11-01, 간트 상위업무 수정
-	@PostMapping("/updatePersonalGanttUpcd")
+	@PostMapping("/updateGanttUpcd")
 	@ResponseBody
 	public String updatePersonalGanttUpcd(@RequestBody BusinessVO vo) {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
-	}
-	@PostMapping("/updateProjectGanttUpcd")
-	@ResponseBody
-	public String updateProjectGanttUpcd(@RequestBody BusinessVO vo) {
-		businessService.updateGanttUpcd(vo);
-		return "calendar/projectCalendarPage";
 	}
 }
