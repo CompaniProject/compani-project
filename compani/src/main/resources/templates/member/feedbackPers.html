@@ -39,9 +39,9 @@
 									<div class="stat-widget-one">
 										<div class="stat-content">
 											<div class="stat-digit gradient-3-text" id="bussCnt"
-												style="font-size: 50px"></div>
-											<div class="stat-text" style="padding-top: 30px;font-size: 17px">총 업무
-												수</div>
+												style="font-size: 50px" th:text="${projectStatus.bussCnt}"></div>
+											<div class="stat-text"
+												style="padding-top: 30px; font-size: 17px">총 업무 수</div>
 										</div>
 									</div>
 								</div>
@@ -51,11 +51,11 @@
 									<div class="stat-widget-one" style="padding-bottom: 5px">
 										<div class="stat-content">
 											<div class="stat-digit gradient-3-text"
-												style="padding-bottom: 10px; font-size: 25px">
-												완료한 업무</div>
+												style="padding-bottom: 10px; font-size: 25px">완료한 업무</div>
 											<div class="stat-text"
 												style="padding-top: 20px; padding-bottom: 0px;"
-												id="bussComp">1</div>
+												id="bussComp"
+												th:text="${projectStatus.bussCmplCnt}+'/'+${projectStatus.bussCnt}"></div>
 										</div>
 										<div class="progress mb-3"
 											style="margin: 10px; margin-bottom: 0;">
@@ -71,11 +71,11 @@
 									<div class="stat-widget-one" style="padding-bottom: 5px">
 										<div class="stat-content">
 											<div class="stat-digit gradient-3-text"
-												style="padding-bottom: 10px; font-size: 25px">
-												초과된 업무</div>
+												style="padding-bottom: 10px; font-size: 25px">초과된 업무</div>
 											<div class="stat-text"
 												style="padding-top: 20px; padding-bottom: 0px;"
-												id="bussFair">1</div>
+												id="bussFair"
+												th:text="${projectStatus.bussExceCnt}+'/'+${projectStatus.bussCnt}"></div>
 										</div>
 										<div class="progress mb-3"
 											style="margin: 10px; margin-bottom: 0;">
@@ -91,16 +91,16 @@
 									<div class="stat-widget-one" style="padding-bottom: 5px">
 										<div class="stat-content">
 											<div class="stat-digit gradient-3-text"
-												style="padding-bottom: 10px; font-size: 25px">
-												미완료 업무</div>
+												style="padding-bottom: 10px; font-size: 25px">미완료 업무</div>
 											<div class="stat-text"
 												style="padding-top: 20px; padding-bottom: 0px;"
-												id="bussFair">1</div>
+												id="bussUncomp"
+												th:text="${projectStatus.bussUncmplCnt}+'/'+${projectStatus.bussCnt}"></div>
 										</div>
 										<div class="progress mb-3"
 											style="margin: 10px; margin-bottom: 0;">
 											<div class="progress-bar gradient-3"
-												style="width: 50%; margin-bottom: 0;" id="bussFairBar"
+												style="width: 50%; margin-bottom: 0;" id="bussUncompBar"
 												role="progressbar"></div>
 										</div>
 									</div>
@@ -108,30 +108,40 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-6" style="padding-right: 0px">
+							<div class="col-lg-6" style="padding-right: 0px;">
 								<div class="card">
-									<div class="card-body">
+									<div class="card-body" id="chartCardBody">
+										<div>
+											<span id="cho"
+												style="display: inline; font-size: 10px; margin: 0px">초과완료</span>
+											<div
+												style="width: 10px; display: inline; background-color: #6fd96f; font-size: 7px; color: #6fd96f; margin: 0px">ㅡㅡㅡㅡㅡ</div>
+											<span style="display: inline; font-size: 10px; margin: 0px">미완료</span>
+											<div
+												style="width: 10px; display: inline; background-color: #ff5e5e; font-size: 7px;; color: #ff5e5e; margin: 0px">ㅡㅡㅡㅡㅡ</div>
+											<span style="display: inline; font-size: 10px; margin: 0px">완료</span>
+											<div
+												style="height: 1px; width: 20px; background-color: #7571f9; display: inline; font-size: 7px; color: #7571f9; margin: 0px">ㅡㅡㅡㅡㅡ</div>
+										</div>
 										<div id="horizontal-bar-chart"
-											class="ct-chart ct-golden-section">
-											<canvas id="bussBarChart" width="300" height="250"></canvas>
-											</div>
+											class="ct-chart ct-golden-section" style="width: 100%"></div>
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6" style="padding-left: 0px">
+							<div class="col-lg-6" style="padding-left: 0px" id="chartCardBody2">
 								<div class="card">
-									<div class="card-body"
-										th:switch="${session.loginInfo.membWkgd}">
-										<th:block th:case="''">
-											<h4 class="card-title">[[${session.loginInfo.membNm}]]</h4>
-										</th:block>
-										<th:block th:case=null>
-											<h4 class="card-title">[[${session.loginInfo.membNm}]]</h4>
-										</th:block>
-										<th:block th:case="*">
-											<h4 class="card-title">[[${session.loginInfo.membWkgd}]]
-												[[${session.loginInfo.membNm}]]</h4>
-										</th:block>
+									<div class="card-body" style="padding-bottom: 0px;padding-top: 20px">
+										<h4 class="card-title" id="chartPsn"
+											style="margin-bottom: 0px;display:inline;"></h4>
+									</div>
+									<div class="card-body" style="padding-top: 10px">
+										<div>
+											<span style="display: inline;">진척도</span>&nbsp;
+											<div
+												style="width: 10px; display: inline; background-color: #81BEF7; font-size: 7px; color: #81BEF7">ㅡㅡㅡㅡㅡ</div>
+										</div>
+										<div id="horizontal-bar-chart2"
+											class="ct-chart ct-golden-section" style="width: 100%"></div>
 									</div>
 								</div>
 							</div>
@@ -140,30 +150,68 @@
 				</div>
 			</div>
 
+			<!-- Issue Status Chart Area End -->
 			<!-- Comemnt Area -->
 			<div class="col-lg-4">
 				<div class="card" style="height: 80vh;">
 					<div class="card-header bg-white">
-						<h5 class="card-title">Card title</h5>
-						<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+						<h5 class="card-title">
+							<b id="feedtarget"></b>님의 개인 피드백 공간
+						</h5>
+						<h6 class="card-subtitle mb-2 text-muted"></h6>
 					</div>
+
+
 					<div class="card-body"
 						style="overflow-y: auto; background-color: #FAFAFA;"
 						id="commentBody">
-						<div class="card">
-							<div class="card-body">
-								<div class="media">
-									<div class="media-body"></div>
+						
+						
+						
+						
+						
+						
+						<th:block th:each="feedback : ${feedbacklist}">
+							<div class="card">
+								<div class="card-body">
+									<div class="media">
+										<div class="media-body">
+											<!-- Comment Area Start -->
+											<div class="comment-content">
+												<h5 class="mt-0" th:text="${feedback.membFdbkWriter}"></h5>
+
+												<div class="content-area" th:text="${feedback.membFdbkCntn}">
+												</div>
+												<div class="edit-area" style="display: none;">
+													<textarea class="form-control" id="editCntn"
+														th:text="${feedback.membFdbkCntn}"></textarea>
+												</div>
+												<div style="margin-top: 3%" class="btn-area">
+													<div class="float-left" id="date-area"
+														th:text="${#dates.format(feedback.membFdbkDt,'yyyy-MM-dd HH:mm')}"></div>
+													<div th:text="수정" class="float-right editBtn"></div>
+													<div th:text="삭제" class="float-right delBtn"></div>
+													<div th:text="확인" class="float-right submitBtn"></div>
+												</div>
+											</div>
+											<!-- Comment Area End -->
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
+						</th:block>
+						
+						
+						
+						
+
 					</div>
 					<!-- 댓글 등록 영역 -->
 					<div class="card-footer">
 						<textarea class="form-control" name="inputCntn" id="inputCntn"
 							cols="30" rows="2" placeholder="Post a new message"
 							style="height: 56px;"></textarea>
-						<button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+						<button id="input2" class="btn btn-primary px-3 ml-4">Send</button>
 					</div>
 					<!-- 댓글 등록 영역 End -->
 				</div>
@@ -176,87 +224,208 @@
 				<textarea class="form-control" name="inputCntn" id="inputCntn"
 					cols="30" rows="2" placeholder="Post a new message"
 					style="height: 56px;"></textarea>
-				<button id="insertBtn" class="btn btn-primary px-3 ml-4">Send</button>
+				<button id="input1" class="btn btn-primary px-3 ml-4">Send</button>
+			</div>
+		</div>
+
+		<!-- Hidden Insert Comment Body -->
+		<div class="card" style="display: none;" id="insertBody">
+			<div class="card-body">
+				<div class="media">
+					<div class="media-body">
+						<div class="comment-content">
+							<h5 class="mt-0"></h5>
+							<div class="content-area"></div>
+							<div class="edit-area" style="display: none;">
+								<textarea class="form-control" id="editCntn"></textarea>
+							</div>
+							<div class="float-left" id="date-area"></div>
+							<div class="float-right editBtn">수정</div>
+							<div class="float-right delBtn">삭제</div>
+							<div class="float-right submitBtn">확인</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
-	let prjtml = [];
-		
-		
- 	$(function(){
- 		$.ajax('http://localhost/BussCnt', {
- 		 	type : 'post',
- 		 	dataType : 'json', 
- 		 	data : {prjtNo : 1},
- 		 	async: false
- 			})
- 			.done(result => {
- 				$('#bussCnt').text(result);
- 			})
- 			.fail(err =>console.log("err")
- 		);
- 		
- 		$.ajax('http://localhost/BussStCnt', {
- 		 	type : 'post',
- 		 	contentType: 'application/json',
- 		 	dataType : 'json', 
- 		 	data : JSON.stringify([{
- 			 		prjtNo : 1,
- 					bussSt : "0K2"
- 		 			},
- 		 			{
- 			 		prjtNo : 1,
- 					bussSt : "0K4"
- 		 			}]),
- 		 	async: false
- 			})
- 			.done(result => {
- 				$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
+
+		let prjtInfo = [];
+
+		let memb = [];
+		let cmpl = [];
+		let uncmpl = [];
+		let cmpllate = [];
+ 		$(function(){
+ 			
+				$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
  				$('#bussFairBar').css('width', ((parseInt($('#bussFair').text())*100)/parseInt($('#bussCnt').text()))+'%');
- 				$('#bussComp').text(result["0K2"] +" / "+ $('#bussCnt').text());
-				$('#bussFair').text(result["0K4"] +" / "+ $('#bussCnt').text());
- 			})
- 			.fail(err =>console.log("err")
- 		);
+ 				$('#bussUncompBar').css('width', ((parseInt($('#bussUncomp').text())*100)/parseInt($('#bussCnt').text()))+'%');
+ 			
+ 				
+ 				
+ 				prjtInfo = [[${pfst}]];
 
 
+ 				
+				for(i = 0; i < prjtInfo.length; i++){
+					memb.push(prjtInfo[i].MEMB_NM);
+					cmpl.push(prjtInfo[i].K2);
+					uncmpl.push(prjtInfo[i].K3);
+					cmpllate.push(prjtInfo[i].K4);
+				}
+			
+				$('#chartCardBody').css('height', memb.length*60+"px")
+ 				
+ 			  new Chartist.Bar('#horizontal-bar-chart', {
+ 				    labels: memb,
+ 				    series: [
+ 				    	cmpllate,
+ 				    	uncmpl,
+ 				    	cmpl
+ 				    ]
+ 				  }, {
+ 				    seriesBarDistance: 10,
+ 				    reverseData: true,
+ 				    horizontalBars: true,
+ 				   	height:memb.length*50,
+ 				    axisY: {
+ 				      offset: 70
+ 				    },
+ 				    plugins: [
+ 				      Chartist.plugins.tooltip()
+ 				    ]
+ 				  });
+				
+ 		});
  		
- 		$.ajax("http://localhost/pfml", {
- 		 	type : 'post',
- 		 	contentType: 'application/json',
- 		 	dataType : 'json', 
- 		 	data : {prjtNo : 1},
- 		 	async: false
+ 		
+ 		
+ 		
+		
+			let buss = [];
+			let prgre = [];
+			
+ 		
+
+ 		setTimeout(() => {$('.ct-label.ct-vertical.ct-start').click(function (event) {
+ 			
+ 			
+ 			
+ 			$.ajax('http://localhost/selectBusinessPersonal', {
+ 				type : 'post',
+ 				dateType : 'json',
+ 				contentType : 'application/json',
+ 				data : JSON.stringify({
+ 						membNm : $(this).text(),
+ 						prjtNo : 1
+ 						}),
+ 				async: false
  			})
  			.done(result => {
- 				$.each(result, function(i, item){
- 					console.log(item[i]);
- 				});
+ 				 for(i = 0; i < result.length; i++){
+ 					 buss.push(result[i].BUSS_NM);
+ 					prgre.push(result[i].BUSS_PRGRE);
+ 					console.log('업무: '+result[i].BUSS_NM);
+ 					console.log('퍼센트: '+result[i].BUSS_PRGRE);
+ 				 }
+ 				 console.log(prgre);
  			})
- 			.fail(err =>console.log("err")
- 		);
+ 			.fail(err =>console.log("err"));
+ 			
+ 			
+ 			
+ 				
+ 				$('#feedtarget').text($(this).text());
+ 				$('#chartPsn').text($(this).text());
+ 				
+ 				
+ 				
+ 		
+ 				$('#chartCardBody2').css('height', buss.length*100+"px") ///////////////////////////////////////////
+ 				
+ 				  new Chartist.Bar('#horizontal-bar-chart2', {
+ 	 				    labels: buss,
+ 	 				    series: [prgre]
+ 	 				  }, {
+ 	 				    seriesBarDistance: 10,
+ 	 				    reverseData: true,
+ 	 				    horizontalBars: true,
+ 	 				   	height:buss.length*30,
+ 	 				    axisY: {
+ 	 				      offset: 70
+ 	 				    },
+ 	 				    plugins: [
+ 	 				      Chartist.plugins.tooltip()
+ 	 				    ]
+ 				 });
 
+ 		});}, 1000);
+ 		
+ 	 	
  		
  		
  		
- 		  new Chartist.Bar('#horizontal-bar-chart', {
- 			    labels: prjtml,
- 			    series: [
- 			      [5, 4, 3, 7, 5, 10, 3],
- 			      [3, 2, 9, 5, 4, 6, 4]
- 			    ]
- 			  }, {
- 			    seriesBarDistance: 10,
- 			    reverseData: true,
- 			    horizontalBars: true,
- 			    axisY: {
- 			      offset: 70
- 			    },
- 			    plugins: [
- 			      Chartist.plugins.tooltip()
- 			    ]
- 			  });
- 	});
+ 		
+ 		
+ 		
+  		
+ 			
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		$('#input2').on('click', function(){
+ 			let today = new Date();   
+ 			let year = today.getFullYear(); // 년도
+
+ 			let month = today.getMonth() + 1;  // 월
+ 			if(month.toString().length < 2){
+ 				month = "0" + month;
+ 			}
+ 			let date = today.getDate();  // 날짜
+ 			if(date.toString().length < 2){
+ 				date = "0" + date;
+ 			}
+ 			let hours = today.getHours(); // 시
+ 			if(hours.toString().length < 2){
+ 				hours = "0" + hours;
+ 			}
+ 			let minutes = today.getMinutes();  // 분
+ 			if(minutes.toString().length < 2){
+ 				minutes = "0" + minutes;
+ 			}
+ 			
+ 			$('#commentBody').append("<div class='card'><div class='card-body'><div class='media'><div class='media-body'><div class='comment-content'><h5 class='mt-0'>" + [[${session.loginInfo.membId}]] + "</h5><div class='content-area'>" + $('#inputCntn').val() + "</div><div class='edit-area' style='display:none;'><textarea class='form-control' id='editCntn'>" + $('#inputCntn').val() + "</textarea></div><div style='margin-top:3%' class='btn-area'><div class='float-left' id='date-area'>"+ year + "-" + month + "-" + date +" "+ hours + ":" + minutes + "</div><div th:text='수정' class='float-right editBtn'></div><div th:text='삭제' class='float-right delBtn'></div><div th:text='확인' class='float-right submitBtn'></div>	</div></div></div></div></div></div>");
+ 			
+ 			$.ajax('http://localhost/insertFeedBackPersonal', {
+ 				type : 'post',
+ 				contentType : 'application/json',
+ 				dateType : 'json',
+ 				data : JSON.stringify({
+ 						membFdbkWriter : [[${session.loginInfo.membId}]],
+ 						membFdbkCntn : $('#inputCntn').val(),
+ 						membFdbkDt : year + "-" + month + "-" + date,
+ 						membFdbkObj : [[${session.loginInfo.membId}]],
+ 						prjtNo : 1
+ 						}),
+ 				async: false
+ 			})
+ 			.done(result => {
+ 				 console.log(result);
+ 			})
+ 			.fail(err =>console.log("err"));
+ 			
+ 		});
+ 		
+ 		
 
 	</script>
 		<script src="plugins/common/common.min.js"></script>

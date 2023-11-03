@@ -1,6 +1,5 @@
 package com.yedam.compani.member.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +55,14 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo) {
+	
 		return map.selectProjectFeedbackMemberList(vo);
 	}
 	
+	@Override
+	public List<Map<String, String>> getPersonalFeedbackStatusCnt(int one){
+		return map.selectPersonalFeedbackStatusCnt(one);
+	}
 	
 	
 }

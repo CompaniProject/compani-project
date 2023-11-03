@@ -103,10 +103,35 @@
 	</update>
 	
 	<!-- 프로젝트 멤버목록 -->
-	<select id="selectProjectFeedbackMemberList" resultType="list">
+	<select id="selectProjectFeedbackMemberList" resultType="String">
 		SELECT m.memb_nm
 		FROM member m JOIN project_member p ON m.memb_id = p.memb_id
 		WHERE p.prjt_no = #{prjtNo}
+	</select>
+	
+	<select id="selectPersonalFeedbackStatusCnt" resultType="map">
+<!-- 		SELECT  M.memb_nm, 
+		SUM(CASE WHEN buss_st = '0K4' THEN 1 ELSE 0 END) "K4", 
+		SUM(CASE WHEN buss_st = '0K2' THEN 1 ELSE 0 END) "K2",
+		SUM(CASE WHEN buss_st = '0K3' THEN 1 ELSE 0 END) "K3"
+		FROM business B 
+		JOIN business_member bm ON (B.buss_no = bm.buss_no)
+		JOIN MEMBER M ON (bm.memb_id = M.memb_id)
+		WHERE B.prjt_no = #{prjtNo}
+		GROUP BY memb_nm -->
+		
+		SELECT  M.memb_nm, 
+		SUM(CASE WHEN buss_st = '0K4' THEN 1 ELSE 0 END) "K4", 
+		SUM(CASE WHEN buss_st = '0K2' THEN 1 ELSE 0 END) "K2",
+		SUM(CASE WHEN buss_st = '0K3' THEN 1 ELSE 0 END) "K3"
+		FROM project_member pm
+		LEFT JOIN MEMBER M ON (pm.memb_id = M.memb_id)
+		LEFT JOIN (SELECT  bm.memb_id, b.buss_st, bm.buss_no
+		FROM business B 
+		JOIN business_member bm ON (B.buss_no = bm.buss_no)        
+        WHERE b.prjt_no = 1) bl ON pm.memb_id = bl.memb_id
+		WHERE prjt_no = #{prjtNo}
+		GROUP BY memb_nm
 	</select>
 
 </mapper>

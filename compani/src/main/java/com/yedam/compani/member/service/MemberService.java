@@ -12,12 +12,14 @@ public interface MemberService {
 
 	public int setMemberInfo(MemberVO vo);
 
-	public List<MemberVO> getMemberIdList();
-	public List<MemberVO> getMemberList(Map<String,String> map);
+	public List<MemberVO> getMemberIdList();	
+	public List<MemberVO> getMemberList(Map<String,String> list);
 
 	public int editMemberInfo(MemberVO vo);
 	
 	public int editMemberPwd(MemberVO vo);
 	
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo);
+	
+	public List<Map<String, String>> getPersonalFeedbackStatusCnt(int one);
 }

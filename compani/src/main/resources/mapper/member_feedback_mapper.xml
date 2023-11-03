@@ -9,4 +9,46 @@
 		FROM PROJECT P, MEMBER_FEEDBACK F
 		WHERE P.PRJT_NO = F.PRJT_NO
 	</select>
+	
+	<select id="selectFeedbackList" resultType="MemberFeedbackVO">
+		SELECT *
+		FROM member_feedback
+		WHERE MEMB_FDBK_OBJ = #{membFdbkObj}
+		AND prjt_no = #{prjtNo}
+	</select>
+	
+	<insert id="insertFeedbackPersonal">
+		<selectKey order="BEFORE" resultType="int" keyProperty="membFdbkNo">
+		SELECT NVL(MAX(memb_fdbk_no), 0) + 1 "MEMB_FDBK_NO"
+		FROM MEMBER_FEEDBACK
+		</selectKey>
+			INSERT INTO MEMBER_FEEDBACK
+			(
+			 memb_fdbk_no
+			,memb_fdbk_writer
+			,memb_fdbk_cntn
+			,memb_fdbk_dt   
+			,memb_fdbk_obj
+			,prjt_no
+			)
+			VALUES
+			(
+			 #{membFdbkNo}
+			,#{membFdbkWriter}
+			,#{membFdbkCntn}
+			,#{membFdbkDt}
+			,#{membFdbkObj}
+			,#{prjtNo}
+			)
+	</insert>
+	<select id="selectBusinessPersonal" resultType="map">
+		SELECT b.buss_prgre, b.buss_nm
+		FROM member m 
+		JOIN business_member bm
+		ON (m.memb_id = bm.memb_id)
+		JOIN business b
+		ON (b.buss_no = bm.buss_no)
+		WHERE m.memb_nm = #{membNm}
+		AND b.prjt_no = #{prjtNo}
+	</select>
 </mapper>

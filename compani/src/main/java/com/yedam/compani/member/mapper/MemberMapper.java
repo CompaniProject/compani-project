@@ -14,11 +14,14 @@ public interface MemberMapper {
 	public int insertMemberInfo(MemberVO vo);
 
 	public List<MemberVO> selectMemberIdList();
-	public List<MemberVO> memberSearchList(Map<String,String> map);
+	public List<MemberVO> memberSearchList(Map<String,String> list);
 
 	public int updateMemberInfo(MemberVO vo);
 
 	public int updateMemberPwd(MemberVO vo);
 	
 	public  List<String> selectProjectFeedbackMemberList(ProjectMemberVO vo);
+	
+	public List<Map<String, String>> selectPersonalFeedbackStatusCnt(int one);
+		
 }
