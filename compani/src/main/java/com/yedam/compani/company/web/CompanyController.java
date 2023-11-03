@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.company.service.CompanyService;
@@ -58,5 +59,13 @@ public class CompanyController {
 	public CompanyVO companyInfo(CompanyVO vo){
 		vo = service.getCompanyInfo(vo);
 		return vo;
+	}
+	
+	// 김연규, 2023-11-03
+	@PostMapping("/updateCompanyAccp")
+	@ResponseBody
+	public String updateCompanyAccp(@RequestBody CompanyVO vo) {
+		service.updateCompanyAccp(vo);
+		return "master/master-home";
 	}
 }

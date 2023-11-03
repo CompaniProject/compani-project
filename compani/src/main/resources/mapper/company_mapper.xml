@@ -54,4 +54,17 @@
 		ORDER BY co_accp, co_cd DESC
 	</select>
 	
+	<!-- 마스터 회사 승인 -->
+	<update id="updateCompanyAccp" parameterType="CompanyVO">
+		UPDATE company
+		SET
+			<if test="#{coAccp} == '승인'">
+				co_accp = '0O2'
+			</if>
+			<if test="#{coAccp} == '대기'">
+				co_accp = '0O1'
+			</if>
+		WHERE co_cd = #{coCd}
+	</update>
+	
 </mapper>

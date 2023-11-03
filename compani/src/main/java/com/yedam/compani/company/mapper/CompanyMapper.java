@@ -19,4 +19,7 @@ public interface CompanyMapper {
 	
 	// 마스터 회사리스트
 	public List<CompanyVO> companyAllList();
+	
+	// 마스터 회사 승인
+	public int updateCompanyAccp(CompanyVO vo);
 }
