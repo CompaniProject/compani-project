@@ -13,4 +13,7 @@ public interface CompanyService {
 	public int setCompanyInfo(CompanyVO vo);
 	
 	public CompanyVO getCompanyInfo(CompanyVO vo);
+	
+	// 회사리스트
+	public List<CompanyVO> companyAllList();
 }

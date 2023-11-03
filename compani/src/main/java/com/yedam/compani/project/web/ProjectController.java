@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,8 @@ public class ProjectController {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
+		
+		request.getSession().setAttribute("prjtNo", prjtNo);
 
 		model.addAttribute("businessStateList", businessStateList);
 		model.addAttribute("businessLevelList", businessLevelList);

@@ -14,4 +14,5 @@ public class CompanyVO {
 	private String coBizno;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date coDt;
+	private String coAccp;
 }

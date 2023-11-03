@@ -14,16 +14,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
 <style type="text/css">
+#main-wrapper {
+	overflow-y: hidden;
+}
+
 #personalCalendarBox {
 	width: 70%;
 	float: right;
+	min-height: 1000px;
 }
 
 #personalCalendar {
 	margin: 10px;
 	background-color: white;
 	height: 100%;
-	min-height: 1000px;
 }
 
 .calendarBusinessInfo {
@@ -98,6 +102,10 @@ select {
 	min-width: 3em;
 }
 
+.businessListBox {
+	float: right;
+}
+
 .businessList {
 	background-color: white;
 	width: 100%;
@@ -148,48 +156,49 @@ select {
 		<aside th:replace="fragments/aside:: aside"></aside>
 		
 		<div class="content-body">
-			
-			<!-- -------------------
-				업무 목록 - 버튼
-			-------------------- -->
 			<div class='calendarBusinessInfo'>
-				<!-- 달력 간트 스위치 -->
-				<div class="button-group">
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary calendar">달력</button>
-						<button type="button" class="btn btn-primary gantt">차트</button>
-					</div>
-				</div>
-				
-				<!-- 정렬 버튼 -->
-				<div class="basic-dropdown">
-					<div class="dropdown">
-						<button type="button" class="btn btn-primary dropdown-toggle sort" 
-							data-toggle="dropdown" aria-expanded="true">
-							정렬
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item sort">날짜순</a>
-							<a class="dropdown-item sort">진척도</a>
-							<a class="dropdown-item sort">중요도</a>
+				<!-- -------------------
+					업무 목록 - 버튼
+				-------------------- -->
+				<div>
+					<!-- 달력 간트 스위치 -->
+					<div class="button-group">
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary calendar">달력</button>
+							<button type="button" class="btn btn-primary gantt">차트</button>
 						</div>
 					</div>
-				</div>
+					
+					<!-- 정렬 버튼 -->
+					<div class="basic-dropdown">
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary dropdown-toggle sort" 
+								data-toggle="dropdown" aria-expanded="true">
+								정렬
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item sort">날짜순</a>
+								<a class="dropdown-item sort">진척도</a>
+								<a class="dropdown-item sort">중요도</a>
+							</div>
+						</div>
+					</div>
 				
-				<!-- 필터링 버튼 -->
-				<div class="basic-dropdown">
-					<div class="dropdown">
-						<button type="button" class="btn btn-primary dropdown-toggle filter" 
-							data-toggle="dropdown" aria-expanded="true"
-							style="margin-right: 10px;">
-							프로젝트
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item selectAll">전체</a>
-							<th:block th:each="info : ${personalCalendarPage}">
-								<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
-									th:text="${info.prjtNm}"></a>
-							</th:block>
+					<!-- 필터링 버튼 -->
+					<div class="basic-dropdown">
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary dropdown-toggle filter" 
+								data-toggle="dropdown" aria-expanded="true"
+								style="margin-right: 10px;">
+								프로젝트
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item selectAll">전체</a>
+								<th:block th:each="info : ${personalCalendarPage}">
+									<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
+										th:text="${info.prjtNm}"></a>
+								</th:block>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -210,11 +219,9 @@ select {
 						</div>
 					</th:block>
 				</div>
-				
 				<!-- -----------------
 					업무 목록 - 페이징
 				------------------ -->
-				
 			</div>
 			
 			<!-- --------------
@@ -278,7 +285,7 @@ select {
 		    return false;
 		});
 		gantt.init("personalGanttchart");
-		console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
+		//console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
 	}));
 	
 	// 필터링 선택 - 업무리스트에 뿌리기
@@ -405,9 +412,7 @@ select {
        			var year = end.getFullYear();
        			var month = end.getMonth()+1;
        			var date = (String)(end.getDate());
-       			if(date<10){
-       				date = '0' + date;
-       			}
+       			if(date<10) date = '0' + date;
        			
        			obj.bussNo = data.event.id;
        			obj.bussFrdt = data.event.startStr;
@@ -415,7 +420,7 @@ select {
        			
        			$.ajax({
        				type: 'post',
-       				url: '/updatePersonalCalendarBuss',
+       				url: '/updateCalendarBuss',
        				contentType: 'application/json',
           			data: JSON.stringify(obj),
           			success: function(){
@@ -447,26 +452,31 @@ select {
 	function personalCalendarArr(){
 		let arr = [];
 		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
-				'blueviolet', 'purple', 'chocolate', 'deeppink'];
+			'blueviolet', 'purple', 'chocolate', 'deeppink'];
 		
 		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
    			var todt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
    			var todtDate = (String)(todt.getDate());
-   			if(todtDate < 10){
-   				todtDate = '0' + todtDate;
-   			}
+   			if(todtDate < 10) todtDate = '0' + todtDate;
    			var newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
+   			
+   			var frdt = new Date(calendarData[i].bussFrdt);
+   			var frdtDate = (String)(frdt.getDate());
+   			if(frdtDate < 10) frdtDate = '0' + frdtDate;
+   			var newFrdt = frdt.getFullYear() + '-' + (frdt.getMonth() + 1) + '-' + frdtDate;
    			
    			obj.id = calendarData[i].bussNo; // id
    			obj.title = calendarData[i].bussNm;		// 제목
-   			obj.start = calendarData[i].bussFrdt;	// 시작 날짜
+   			obj.start = newFrdt;	// 시작 날짜
    			obj.end = newTodt;		// 종료 날짜
    			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
    			obj.color = color[i%12];
-   			
    			arr.push(obj);
+   			
+   			calendarData[i].bussFrdt = newFrdt;
+   			calendarData[i].bussTodt = newTodt;
    		}
    		return arr;
    	}
@@ -521,7 +531,7 @@ select {
 			
 			$.ajax({
 				type: 'post',
-				url: '/updatePersonalCalendarBuss',
+				url: '/updateCalendarBuss',
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
@@ -530,7 +540,7 @@ select {
 					console.log("수정된 진척도: " + obj.bussPrgre);
 				},
 				error: function(error){
-					console.lof(error);
+					console.log(error);
 				}
 			})
 		});
@@ -546,7 +556,7 @@ select {
 					if(calendarData[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
 						$.ajax({
 							type: 'post',
-							url: '/updatePersonalGanttUpcd',
+							url: '/updateGanttUpcd',
 							contentType: 'application/json',
 							data: JSON.stringify(obj),
 							success: function(){
@@ -554,7 +564,7 @@ select {
 								console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
 							},
 							error: function(error){
-								console.lof(error);
+								console.log(error);
 							}
 						})
 						// 캘린더 배열의 상위업무 정보 업데이트.
@@ -586,7 +596,7 @@ select {
 					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
 				},
 				error: function(error){
-					console.lof(error);
+					console.log(error);
 				}
 			})
 			for(let i=0; i<calendarData.length; i++){
@@ -680,6 +690,17 @@ select {
 		$('#personalGanttchart').css("display","flex");
 		$('#personalCalendar').css("display","none");
 	});
+	
+    /*----------------------------
+		업무리스트 스크롤바
+	------------------------------*/
+	$(function(){
+		$('.businessListBox').slimScroll({
+			height: '940px'
+		});
+		
+		$('.businessListBox').parent().css('float', 'right');
+	})
     </script>
 	
 	<script src="plugins/common/common.min.js"></script>
