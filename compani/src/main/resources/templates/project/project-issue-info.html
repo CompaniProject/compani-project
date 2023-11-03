@@ -22,7 +22,17 @@
 			</div>
 			<hr style="margin: 0; height: 2px; background-color: #eaeaea;">
 			<div class="read-content">
-				<div class="media pt-5">
+				<div class="showPIHashtagList">
+					<th:block th:each="hash : ${hash}">
+					<div class="showTagBoxPI task" th:attr="title=${hash.issuHtNm}">
+						<p>#</p>
+						<span class="ready"></span>
+						<p class="showTextEllipsisPI" th:text="${hash.issuHtNm}"></p>
+					</div>	
+					</th:block>
+				</div>
+				
+				<div class="media pt-5" style="padding-top: 20px !important;">
 					<img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
 					<div class="media-body" style="margin-right: 50px; flex: 0;">
 						<h5 class="m-b-3" th:text="${issueInfo.membNm}"></h5>
@@ -100,8 +110,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: none;">
-					<button type="button" class="close" data-dismiss="modal"
-						style="margin: 0; padding: 0;" aria-label="Close"></button>
+				
 				</div>
 				<div class="modal-body" id="delPConfirmationModalBody">
 					<img class="cancelWarning"> <span id="modal-meg"
@@ -259,19 +268,11 @@
 									</div>
 								</div>
 
-								<div class="editPIHashtagSection">
+								<div class="editPIHashtagSection"> 
 									<div class="sectionTitle">
 										<p class="sectionTitleText">해시태그</p>
 									</div>
-									<div class="editPIHashtagContent" style="width: 630px;">
-										<div class="editPIHashtagList">
-											<div class="editPITagBox task" title="업무">
-												<p>#</p>
-												<span class="Ready"></span>
-												<p class="editPITextEllipsis">업무</p>
-											</div>
-										</div>
-									</div>
+									<input name='input-custom-dropdownPIE' class='tagify__dropdown__itemPIE' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
 								</div>
 							</div>
 							<!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
@@ -282,7 +283,7 @@
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header" style="border-bottom: none;">
-											<button type="button" class="modalClose" data-dismiss="modal"></button>
+											
 										</div>
 										<div class="modal-body" id="cancelPIEditConfirmationModalBody">
 											<img class="cancelWarning"> <span id="modal-meg"
@@ -308,7 +309,7 @@
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header" style="border-bottom: none;">
-											<button type="button" class="modalClose" data-dismiss="modal"></button>
+											
 										</div>
 										<div class="modal-body" id="editPIConfirmationModalBody">
 											<img class="cancelWarning"> <span id="modal-meg"
@@ -338,7 +339,15 @@
 	<!--/* 이슈 삭제시 경고창 END */-->
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script th:inline="javascript">
+    window.onload = function () {
+        var navItemHome = $('.nav-link').eq(3);
+        navItemHome.addClass('active');
+    }
+	
 	var piMemberId = [[${session.loginInfo.membId}]];
 	
 	// 파일 사이즈 변환하기
@@ -458,7 +467,10 @@
 		// 댓글 길이 카운팅
 		function countingLengthP(content) {
 			if (content.value.length > 300) {
-				alert('댓글을 300자 이하로 입력해 주세요.');
+				Swal.fire({
+		            icon: 'error',                         // Alert 타입
+		            text: '댓글을 300자 이하로 입력해 주세요.',  // Alert 내용
+		        });
 				content.value = content.value.substring(0, 300);
 				content.focus();
 			}
@@ -630,7 +642,6 @@
 				data: JSON.stringify(params)
 			})
 				.done(function (response) {
-					alert('수정되었습니다.');
 					findAllReplyP();
 					closeReplyPUpdateForm(id);
 					countReplyP(issuNo);
@@ -644,8 +655,13 @@
 		// 댓글 삭제
 		function deleteReplyP(id) {
 
-			if (confirm('선택하신 댓글을 삭제할까요?')) {
+			$('#delPConfirmationModal').modal('show');
 
+            $('#delPCancel').on('click', function () {
+                $('#delPConfirmationModal').modal('hide');
+            })
+            
+			$('#delPConfirm').on('click', function () {
 				const issuNo = pIssuNo;
 				const issuRplyNo = id;
 
@@ -654,7 +670,6 @@
 					type: 'delete'
 				})
 					.done(function (response) {
-						alert('삭제가 완료되었습니다');
 						findAllReplyP();
 						countReplyP(issuNo);
 					})
@@ -662,7 +677,7 @@
 					.fail(function (err) {
 						console.log(err)
 					})
-			}
+			})
 		}
 		// 프로젝트 이슈 게시판으로 돌아가기
 		function returnPIssueList() {
@@ -722,6 +737,41 @@
 			};
 		};
 		<!-- 프로젝트 게시판 내 이슈 수정 시작 -->
+		
+		// 수정 폼에서 HashTag 폼.
+		var inputHashPIE = document.querySelector('input[name="input-custom-dropdownPIE"]');
+
+		var tagifyPIE = new Tagify(inputHashPIE, {
+			maxTags : 10, // 최대 허용 태그 개수
+			dropdown : {
+				position : "input",
+				classname : "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+				enabled : 0
+			// always opens dropdown when input gets focus
+			}
+		})
+		
+		// 이슈 수정 창에서 해시태그 리스트 조회
+		function findAllPIHashtag() {
+			var issuNo = pIssuNo;
+			$('.tagify__tag').remove();
+
+			$.ajax({
+				url: '/issues/' + issuNo + '/hashtags',
+				type: 'get',
+				success: function (response) {
+					let hts = [];
+					$.each(response, function (idx, item) {
+						hts.push(item.issuHtNm);				
+					})
+					inputHashPIE.value = hts.join(',');	
+				},
+				error: function (err) {
+					console.log(err);
+				}
+				
+			});
+		}
 		const editorPIEditing = new toastui.Editor({
 			el: document.querySelector('#editorPIEditing'), // 에디터를 적용할 요소 (컨테이너)
 			height: '400px', // 에디터 영역의 높이 값 (OOOpx || auto)
@@ -790,7 +840,8 @@
 							rankVal.className = 'badge badge-danger';
 							rankVal.innerHTML = '매우낮음';
 						}
-
+						findAllPIHashtag();
+						
 						checkPIEditInput();
 						findAllPIFile();
 				})
@@ -872,10 +923,10 @@
 			if ($(this).hasClass('registrable')) {
 				updatePIssue();
 			} else {
-				$('#editPICheckingInput').css('display', 'block');
+				$('#editPICheckingInput').modal('show');
 				// 확인 버튼 클릭 시
 				$('#confirmPIEditCheckingInput').on('click', function () {
-					$('#editPICheckingInput').css('display', 'none');
+					$('#editPICheckingInput').modal('hide');
 				});
 			}
 		});
@@ -892,6 +943,10 @@
 
 			var content = editorPIEditing.getHTML();
 			formData.append('issuCntn', content);
+			
+			var pihtupdateobj = tagifyPIE.value;
+			var pihtupdateobjVal = pihtupdateobj.map(row=>row.value);
+			formData.append('edithashtags', pihtupdateobjVal);
 
 			var kind = $('#editPIssuKndVal').text();
 			var rank = $('#editPIssuRankVal').text();
@@ -948,7 +1003,6 @@
 				data: formData
 			})
 				.done(function (response) {
-					alert('수정되었습니다');
 					$('#piEditModal').modal('hide');
 					removePIFileId.removeAll();
 					editPIDataTransfer.clearData();
@@ -977,7 +1031,10 @@
 			// 2. 파일 크기가 10MB을 초과하는 경우
 			const editFileSize = Math.floor(file.size / 1024 / 1024);
 			if (editFileSize > 10) {
-				alert('10MB 이하의 파일로 업로드해 주세요.');
+				Swal.fire({
+		            icon: 'error',                         // Alert 타입
+		            text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
+		        });
 				return false;
 			}
 

@@ -27,7 +27,11 @@ let donutBussChartDraw = function() {
         type: 'doughnut',
         data: pieBussChartData,
         options: {
-            responsive: false
+            responsive: false,
+	        legend : {
+	        	display:false,
+	        	position:'right'
+	        }
         }
     });
 };
@@ -48,6 +52,10 @@ let barOption = {
                 stacked: true
             }]
         },
+        legend : {
+        	display:true,
+        	position:'right'
+        }
     }
 
 // ----------------------Business Bar Chart Start -------
@@ -55,7 +63,7 @@ let stackBussChartDraw = function(){
 	
 	var stctx = document.getElementById("bussStBar");
     window.stBar = new Chart(stctx, { 
-        type: 'bar', 
+		type: 'horizontalBar',
         data: { 
             labels: ["프로젝트", "회사(프로젝트 완료시점)","회사(현재)"],
             datasets: [{ 
@@ -101,7 +109,11 @@ let donutIssueChartDraw = function() {
         type: 'doughnut',
         data: pieIssuChartData,
         options: {
-            responsive: false
+            responsive: false,
+	        legend : {
+	        	display:false,
+	        	position:'right'
+	        }
         }
     });
 };
@@ -113,7 +125,7 @@ let stackIssueChartDraw = function(){
 	
 	var stctx = document.getElementById("issuStBar");
     window.stBar = new Chart(stctx, { 
-        type: 'bar', 
+		type: 'horizontalBar',
         data: { 
             labels: ["프로젝트", "회사(프로젝트 완료시점)","회사(현재)"],
             datasets: [{ 

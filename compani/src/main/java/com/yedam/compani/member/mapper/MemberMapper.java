@@ -24,4 +24,7 @@ public interface MemberMapper {
 	public  List<String> selectProjectFeedbackMemberList(ProjectMemberVO vo);
 	public List<MemberVO> memberList(MemberVO vo);
 	public List<MemberVO> prjtMemberList(@Param("prjtNo") Integer prjtNo, @Param("coCd") String coCd);
+	
+	// 마스터 회원리스트
+	public List<Map<Object, Object>> masterMemberList();
 }

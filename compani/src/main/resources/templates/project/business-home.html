@@ -20,11 +20,6 @@
 						data-toggle="tab" aria-expanded="false">리스트</a></li>
 				</ul>
 				<div class="col p-md-0">
-					<!-- 	<button type="button" class="btn mb-1 btn-primary float-right"
-						data-toggle="modal" id="insertBtn">업무 추가</button> -->
-					<!-- <button type="button" id="insertModal"
-						class="btn mb-1 btn-primary float-right" data-toggle="modal"
-						data-target=".bd-example-modal-lg">업무추가</button> -->
 					<button type="button" id="insertModal"
 						class="btn mb-1 btn-primary float-right">업무추가</button>
 				</div>
@@ -469,6 +464,10 @@
 		<div data-include1="showModalMain"></div>
 
 		<script th:inline="javascript">
+		    window.onload = function () {
+		        var navItemHome = $('.nav-link').eq(2);
+		        navItemHome.addClass('active');
+		    }
 			// 권오준 추가
 			var miPrjtNo = [[${prjtNo}]];
 

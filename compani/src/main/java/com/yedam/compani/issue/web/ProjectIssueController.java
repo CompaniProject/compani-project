@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yedam.compani.business.service.BusinessService;
-import com.yedam.compani.business.service.BusinessVO;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.yedam.compani.business.service.BusinessService;
+import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
+import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
+import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 
@@ -35,6 +36,7 @@ public class ProjectIssueController {
 	private final IssueFileService issueFileService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
 	private final BusinessService businessService;
+	private final IssueHashtagService issueHashtagService;
 
 	@GetMapping("/project/issues/{prjtNo}")
 	public String projectIssueList(@PathVariable int prjtNo, String search, String keyword,
@@ -71,7 +73,7 @@ public class ProjectIssueController {
 		return map;
 	}
 
-	// 프로젝트 내 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회
+	// 프로젝트 내 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회 + 해시태그 조회
 	@GetMapping("/project/issues/{prjtNo}/{issuNo}")
 	public String projectIssueSelect(@PathVariable final int prjtNo, @PathVariable final int issuNo, Model model) {
 
@@ -81,7 +83,9 @@ public class ProjectIssueController {
 
 		List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);
 		model.addAttribute("issueFile", list);
-
+		
+		List<IssueHashtagVO> hash = issueHashtagService.findAllHashtagsByIssuNo(issuNo);
+		model.addAttribute("hash", hash);
 		return "project/project-issue-info";
 	}
 
@@ -95,7 +99,7 @@ public class ProjectIssueController {
 	// 프로젝트 게시판 내 이슈 등록
 	@PostMapping("/project/issues/save")
 	@ResponseBody
-	public void projectIssueSave(MultipartFile[] savefiles, IssueVO issueVO) {
+	public void projectIssueSave(MultipartFile[] savefiles, IssueVO issueVO, String[] inserthashtagsp) {
 		
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
@@ -106,6 +110,9 @@ public class ProjectIssueController {
 				 uploadedFiles = fileUtils.uploadFiles(Arrays.asList(savefiles)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
 		}
+		
+		// 해시태그 저장
+		issueHashtagService.modalInsertIssueHashtag(issuNo, Arrays.asList(inserthashtagsp));
 		
 	}	
 }

@@ -253,20 +253,12 @@
 										</div>
 									</div>
 
-								<div class="savePIHashtagSection">
-									<div class="sectionTitle">
-										<p class="sectionTitleText">해시태그</p>
-									</div>
-									<div class="savePIHashtagContent" style="width: 630px;">
-										<div class="savePIHashtagList">
-											<div class="savePITagBox task" title="업무">
-												<p>#</p>
-												<span class="Ready"></span>
-												<p class="savePITextEllipsis">업무</p>
-											</div>
+									<div class="hashtagSection">
+										<div class="sectionTitle">
+											<p class="sectionTitleText">해시태그</p>
 										</div>
+										<input name='input-custom-dropdownPI' class='tagify__dropdown__itemPI' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
 									</div>
-								</div>
 							</div>
 							<!--/* 프로젝트 이슈 등록폼에서 등록 취소 확인 START */-->
 							<div class="modal fade" id="cancelPISaveConfirmationModal"
@@ -275,8 +267,7 @@
 								aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
-										<div class="modal-header" style="border-bottom: none;">
-											<button type="button" class="modalClose" data-dismiss="modal"></button>
+										<div class="modal-header" style="border-bottom: none;">						
 										</div>
 										<div class="modal-body" id="cancelPISaveConfirmationModalBody">
 											<img class="cancelWarning"> <span id="modal-meg"
@@ -326,10 +317,19 @@
 		</div>
 	</div>
 	<script
-		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>	
+		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+		<!-- Tagify -->
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>	
 	<script th:inline="javascript">
+	
+		    window.onload = function () {
+		        var navItemHome = $('.nav-link').eq(3);
+		        navItemHome.addClass('active');
+		    }
+		    
 			var piMemberId = [[${session.loginInfo.membId}]];
-			var piprjtNo = [[${prjtNo}]];
+			var piprjtNo =   [[${prjtNo}]];
 			//검색 조건 (제목, 작성자, 전체) 
 			$('.pissue-selectBox').on('click', function () {
 				$('.pissue-select-ul').css('display', 'block');
@@ -514,6 +514,18 @@
 				}
 		
 		<!-- 이슈 등록 시작 -->
+		
+		var inputHashPI = document.querySelector('input[name="input-custom-dropdownPI"]');
+
+		var tagifyPI = new Tagify(inputHashPI, {
+			maxTags : 10, // 최대 허용 태그 개수
+			dropdown : {
+				position : "input",
+				classname : "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+				enabled : 0
+			// always opens dropdown when input gets focus
+			}
+		})
 		// 글쓰기 버튼
 		$('.postWritingBoxP').on('click', function () {
 			$('#piSaveModal').modal('show');
@@ -558,6 +570,7 @@
 				pieditor.setHTML('');
 				$('#savePIssueFileList').empty();
 				$('.bussNm-selected-value').text('이슈가 발생한 업무를 선택하세요.');
+				$('.tagify__tag').remove();
 				checkPISaveFile();
 				checkPISaveInput();
 
@@ -608,7 +621,11 @@
 			formData.append('membId', piMemberId);
 			formData.append('bussNo', $('.bussNm-selected-value').data('bno'));
 			formData.append('prjtNo', piprjtNo);
-
+			
+			var htPIobj = tagifyPI.value;
+			var htPIobjVal = htPIobj.map(row=>row.value);
+			formData.append('inserthashtagsp', htPIobjVal);
+			
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#savePIssuRankVal').text() == '매우높음') {
 				formData.append('issuRank', '0G1');
@@ -649,7 +666,6 @@
 				contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
 				data: formData,
 				success: function () {
-					alert("등록에 성공 !!");
 					$('#piSaveModal').modal('hide');
 					location.reload();
 				},
@@ -708,8 +724,6 @@
 				// =====DataTransfer 파일 관리========
 				for (var i = 0; i < fileArr.length; i++) {
 					savePIDataTransfer.items.add(fileArr[i])
-					console.log("dataTransfer =>", savePIDataTransfer.files)
-					console.log("input FIles =>", document.getElementById("savePIFiles").files)
 				}
 
 				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
@@ -749,7 +763,10 @@
 			const fileSize = Math.floor(file.size / 1024 / 1024);
 
 			if (fileSize > 10) {
-				alert('10MB 이하의 파일로 업로드해 주세요.');
+				Swal.fire({
+		            icon: 'error',                         // Alert 타입
+		            text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
+		        });
 				return false;
 			}
 
@@ -781,12 +798,12 @@
 		$('.bussNm-select-option').on('click', function (e) {
 			var selectValue = e.currentTarget.textContent;
 			$('.bussNm-selected-value').text(selectValue);
-			console.log($(this).val());
 			$('.bussNm-selected-value').data('bno', $(this).val());
 			$('.bussNm-select-ul').css('display', 'none');
 
 			e.stopPropagation();
 		});
+
 		</script>
 </th:block>
 </body>

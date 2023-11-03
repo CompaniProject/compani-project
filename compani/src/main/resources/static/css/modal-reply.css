@@ -2,7 +2,7 @@
 	padding: 1.88rem 1.81rem;
 }
 
-.reply-body  li:first-child{
+#reply-body-div li:first-child{
 	padding-bottom:1.0rem;
 }
 

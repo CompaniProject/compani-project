@@ -2,50 +2,75 @@
  *  porject feedback(comment) - Insert, Delete(Change Delete State), Update
  */
 
-	
+	function toggleBodyDisplay(insertBody, isComment){
+        insertBody.css('display','');
+        insertBody.find('.media-body p').css('display',(isComment) ? '' :'none');
+        insertBody.find('.edit-area').css('display',(isComment) ? 'none' :'');
+        insertBody.find('.btn-area').css('display',(isComment) ? '' :'none');
+	}
+		
 	//----------------------- Project Feedback(Comment) Insert Start
-    function insertComment(){
-        let value = $('#inputCntn').val();
+	function createInsertObj(isComment = true){
+		let curBody = $(event.target).closest('.media');
+        
+        let cntn = (isComment) ? $('#inputCntn') : curBody.find("textarea");
+        
+        let value = cntn.val();
         let obj = {};
         obj["prjtFdbkCntn"] = value;
         obj["prjtNo"] = prjtNo;
+        obj["prjtFdbkUpno"] = curBody.data('parentNo');
         
+        cntn.val('');
+        
+        return obj;
+	}
+	
+    function insertComment(){
+    	let obj = createInsertObj();
         insertAjax(obj);
-        
-        $('#inputCntn').val('');
     }
     
-    function insertAjax(obj){
+    function insertAjax(obj,isComment = true){
         $.ajax({
             url:'/project/feedback',
             type: 'post',
             contentType: "application/json",
             data:JSON.stringify(obj)
         })
-        .done(data => {insertCommentHTML(data)})
+        .done(data => {insertCommentHTML(data,isComment)})
         .fail(err => {});
     }
     
-    function insertCommentHTML(data){
+    function insertCommentHTML(data, isComment){
         // create tag
-        let body = $('#commentBody');
+        let body = (isComment) ? $('#commentBody') : $('#insertBody');
         let insertBody = $('#insertBody').clone();
-        
+
+        let parLevel = (isComment) ? 0 : body.data('level');
+	    let emval = (parLevel) + 'em';
+
         // input content values
+        let level = parLevel + 1;
+        insertBody.data('level',level);
+        insertBody.css('margin-left',emval);
+
         insertBody.data('no',data.prjtFdbkNo);
-        insertBody.data('level',1);
-        insertBody.css('margin-left','');
         insertBody.find('.media-body h5').text(membNm);
-        insertBody.find('.media-body p').css('display','');
         insertBody.find('.media-body p').text(data.prjtFdbkCntn);
         insertBody.find('textarea').text(data.prjtFdbkCntn);
-        insertBody.find('.edit-area').css('display','none');
-        insertBody.find('.btn-area').css('display','');
         insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
-        insertBody.css('display','');
+		insertBody.attr('id','');
+		
+		toggleBodyDisplay(insertBody,true);
         
         // insert comment tag to comment body
-        body.append(insertBody);
+        if (isComment){
+            body.append(insertBody);
+        } else {
+            body.after(insertBody);
+        }
+
     }
     
     $('#insertBtn').on('click', insertComment);
@@ -130,4 +155,56 @@
         today.setHours(today.getHours() + 9);
         return today.toISOString().replace('T', ' ').substring(0, 16);
     }
+    
+    // ------------------------------------------------
+    
+	function replyInsertAreaHTML(event){
+	    // create tag
+		let curBody = $(event.target).closest('.media');
+	    let insertBody = $('#insertBody');
+	    
+	    // remove Btn
+		insertBody.find('.replyInsertBtn').remove();
+		insertBody.find('.replyDeleteBtn').remove();
+	    
+		// level = 부모의 level 값 : after로 insert 하기 때문
+	    let level = curBody.data('level');
+	    let emval = level + 'em';
+	
+	    // input content values
+	    insertBody.data('level',level);
+	    insertBody.data('parentNo',curBody.data('no'));
+	    insertBody.css('margin-left',emval);
+	    insertBody.find('.media-body h5').text(membNm);
+	    toggleBodyDisplay(insertBody,false);
+	
+	    insertBody.find("textarea").val('');
+	    insertBody.append($('.replyInsertBtn').first().clone());
+	    insertBody.append($('.replyDeleteBtn').first().clone());
+	    
+	    // insert comment tag to comment body
+	    curBody.after(insertBody);
+	}
+
+	function replyInsert(event){
+		let curBody = $(event.target).closest('.media');
+		obj = createInsertObj(false);
+		
+		insertAjax(obj,false);
+		
+		// hide insert area
+		replyDeleteHTML();
+	}
+
+	function replyDeleteHTML(){
+		let curBody = $(event.target).closest('.media');
+		
+		curBody.find('.replyInsertBtn').remove();
+		curBody.find('.replyDeleteBtn').remove();
+		curBody.css('display','none');
+	}
+	
+	$(document).on('click','.replyBtn',replyInsertAreaHTML);
+	$(document).on('click','.replyInsertBtn',replyInsert);
+	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
     

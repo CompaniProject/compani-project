@@ -71,4 +71,13 @@ public class MemberServiceImpl implements MemberService {
 		return map.prjtMemberList(prjtNo, coCd);
 	}
 		
+	
+	// 마스터 멤버리스트
+	@Override
+	public List<Map<Object, Object>> masterMemberList() {
+		return map.masterMemberList();
+	}
+	
+	
+	
 }

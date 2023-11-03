@@ -28,4 +28,6 @@ public interface MemberService {
 	// 프로젝트 모달 수정 - 회사 멤버 리스트(생성자 제외)
 	public List<MemberVO> prjtMemberList(Integer prjtNo, String coCd);
 
+	// 마스터 회원리스트
+	public List<Map<Object, Object>> masterMemberList();
 }

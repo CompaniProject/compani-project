@@ -41,10 +41,30 @@
 		)
 	</insert>
 	
-	<!-- 회사리스트 -->
+	<!-- 마스터 회사리스트 -->
 	<select id="companyAllList" resultType="CompanyVO">
-		SELECT *
+		SELECT co_cd
+			   , co_nm
+			   , co_rpstr
+			   , co_bizno
+			   , co_dt
+			   , CASE co_accp	WHEN '0O1' THEN '승인'
+							    WHEN '0O2' THEN '대기' END AS co_accp
 		FROM company
+		ORDER BY co_accp, co_cd DESC
 	</select>
+	
+	<!-- 마스터 회사 승인 -->
+	<update id="updateCompanyAccp" parameterType="CompanyVO">
+		UPDATE company
+		SET
+			<if test="#{coAccp} == '승인'">
+				co_accp = '0O2'
+			</if>
+			<if test="#{coAccp} == '대기'">
+				co_accp = '0O1'
+			</if>
+		WHERE co_cd = #{coCd}
+	</update>
 	
 </mapper>
