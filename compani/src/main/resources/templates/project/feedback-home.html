@@ -17,76 +17,50 @@
 
 <body>
 <th:block layout:fragment="content">
-	<div class="row mx-0">
-		<ul class="nav nav-pills mb-3">
-			<li class="nav-item"><a href="#businessStatus"
-				class="nav-link active" data-toggle="tab" aria-expanded="false">업무</a>
-			</li>
-			<li class="nav-item"><a href="#issueStatus" class="nav-link"
-				data-toggle="tab" aria-expanded="false">이슈</a></li>
-		</ul>
-	</div>
 	<div class="row">
 		<div class="col-lg-8">
 		<div class="column">
-			
-			<div class="tab-content br-n pn">
-				<div id="businessStatus" class="tab-pane active show">
-	
 					<!-- Business Count Info Start -->
 					<div>
 						<div class="row">
-					        <div class="col-lg-2">
+					        <div class="col-lg-12">
 					            <div class="card">
 					                <div class="card-body">
-										<h4 class="card-title">총 소요일수</h4>
-										<span th:text="${projectStatus.prjtStatDtCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-2">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">참여자</h4>
-										<span th:text="${projectStatus.prjtMembCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-2">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">총 업무개수</h4>
-										<span th:text="${projectStatus.bussCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-2">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">완료한 업무</h4>
-										<span th:text="${projectStatus.bussCmplCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-2">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">초과완료한 업무</h4>
-										<span th:text="${projectStatus.bussExceCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-2">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">미완료한 업무</h4>
-										<span th:text="${projectStatus.bussUncmplCnt}">
-										</span>
+					                	
+				                       <div class="table-responsive">
+				                           <table class="table table-xs mb-0">
+			                                   <tr>
+			                                       <th>총 소요일수</th>
+                              							<td th:text="${projectStatus.prjtStatDtCnt}"></td>
+			                                       <th>참여자</th>
+                              							<td th:text="${projectStatus.prjtMembCnt}"></td>
+			                                       <th>업무 총 개수</th>
+                              							<td th:text="${projectStatus.bussCmplCnt}"></td>
+			                                       <th>업무 초과완료</th>
+                              							<td th:text="${projectStatus.bussExceCnt}"></td>
+			                                       <th>업무 미완료</th>
+                              							<td th:text="${projectStatus.bussUncmplCnt}"></td>
+			                                       <th>업무 총합</th>
+                              							<td th:text="${projectStatus.bussCnt}"></td>
+			                                   </tr>
+					                		</table>
+					                	</div>
+					                	
+				                       <div class="table-responsive">
+				                           <table class="table table-xs mb-0">
+			                                   <tr>
+			                                       <th>해결</th>
+                              							<td th:text="${projectStatus.issuSolveCnt}"></td>
+			                                       <th>미해결</th>
+                              							<td th:text="${projectStatus.issuUnsolveCnt}"></td>
+			                                       <th>해결불가</th>
+                              							<td th:text="${projectStatus.issuUnsolvableCnt}"></td>
+			                                       <th>총계</th>
+                              							<td th:text="${projectStatus.issuCnt}"></td>
+			                                   </tr>
+					                		</table>
+					                	</div>
+					                	
 					                </div>
 					            </div>
 					        </div>
@@ -97,79 +71,32 @@
 					<div>
 					    <div class="col-lg-12">
 				            <div class="card">
-				                <div class="card-body">
-				                    <h4 class="card-title">업무 통계</h4>
-				                    <div class="row">
-				        				<div class="col-lg-7">
-				                    	<canvas id="bussDonutChart" width="300" height="250"></canvas>
+				                <div class="card-body" style="margin-left:3rem;">
+					            	<h4 class="card-title">업무 통계</h4>
+				                	<div class="row">
+				                		<div class="col-lg-3">
+				                    		<canvas id="bussDonutChart" width="200rem" height="200rem"></canvas>
 				                    	</div>
-				        				<div class="col-lg-5">
-				                    	<canvas id="bussStBar" width="200" height="300"></canvas>
-				                    	</div>    
-				                    </div> 
+				                    	<div class="col-lg-9">
+				                    		<canvas id="bussStBar" width="650rem" height="200rem"></canvas>
+				                    	</div>
+				                    </div>
 				                </div>
 				            </div>
 				        </div>
 					</div>
-					<!-- Project Status Chart Area End -->
-				
-				</div>
-				
-				<div id="issueStatus" class="tab-pane">
-					<!-- Issue Count Info Start -->
-					<div>
-						<div class="row">
-					        <div class="col-lg-3">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">총 이슈 개수</h4>
-										<span th:text="${projectStatus.issuCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-3">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">해결 이슈</h4>
-										<span th:text="${projectStatus.issuSolveCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-3">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">미해결 이슈</h4>
-										<span th:text="${projectStatus.issuUnsolveCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-					        <div class="col-lg-3">
-					            <div class="card">
-					                <div class="card-body">
-										<h4 class="card-title">해결불가 이슈</h4>
-										<span th:text="${projectStatus.issuUnsolvableCnt}">
-										</span>
-					                </div>
-					            </div>
-					        </div>
-						</div>
-					</div>
-					<!-- Issue Count Info End -->
-					<!-- Issue Status Chart Area -->
+										<!-- Issue Status Chart Area -->
 					<div>
 					    <div class="col-lg-12">
 					        <div class="card">
-					            <div class="card-body">
+					            <div class="card-body" style="margin-left:3rem;">
 					            	<h4 class="card-title">이슈 통계</h4>
 				                    <div class="row">
-				        				<div class="col-lg-7">
-				                    	<canvas id="issuDonutChart" width="300" height="250"></canvas>
+				        				<div class="col-lg-3">
+				                    	<canvas id="issuDonutChart" width="200rem" height="200rem"></canvas>
 				                    	</div>
-				        				<div class="col-lg-5">
-				                    	<canvas id="issuStBar" width="200" height="300"></canvas>
+				        				<div class="col-lg-9">
+				                    	<canvas id="issuStBar" width="650rem" height="200rem"></canvas>
 				                    	</div>    
 				                    </div>              
 					            </div>
@@ -177,8 +104,8 @@
 					    </div>
 					</div>
 					<!-- Issue Status Chart Area End -->
-				</div>
-			</div>
+					<!-- Project Status Chart Area End -->
+				
 			
 		</div>
 		</div>
@@ -283,58 +210,7 @@
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
 	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
-	<script th:inline="javascript">
-		function replyInsertAreaHTML(event){
-	        // create tag
-			let curBody = $(event.target).closest('.media');
-	        let insertBody = $('#insertBody');
-	        
-	        // remove Btn
-			insertBody.find('.replyInsertBtn').remove();
-			insertBody.find('.replyDeleteBtn').remove();
-	        
-			// level = 부모의 level 값 : after로 insert 하기 때문
-	        let level = curBody.data('level');
-	        let emval = level + 'em';
 
-	        // input content values
-	        insertBody.data('level',level);
-	        insertBody.data('parentNo',curBody.data('no'));
-	        insertBody.css('margin-left',emval);
-	        insertBody.find('.media-body h5').text(membNm);
-	        toggleBodyDisplay(insertBody,false);
-
-	        insertBody.find("textarea").val('');
-	        insertBody.append($('.replyInsertBtn').first().clone());
-	        insertBody.append($('.replyDeleteBtn').first().clone());
-	        
-	        // insert comment tag to comment body
-	        curBody.after(insertBody);
-		}
-		
-		function replyInsert(event){
-			let curBody = $(event.target).closest('.media');
-			obj = createInsertObj(false);
-			
-			insertAjax(obj,false);
-			
-			// hide insert area
-			replyDeleteHTML();
-		}
-		
-		function replyDeleteHTML(){
-			let curBody = $(event.target).closest('.media');
-			
-			curBody.find('.replyInsertBtn').remove();
-			curBody.find('.replyDeleteBtn').remove();
-			curBody.css('display','none');
-		}
-	
-    	$(document).on('click','.replyBtn',replyInsertAreaHTML);
-    	$(document).on('click','.replyInsertBtn',replyInsert);
-    	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
-	</script>
-	
 </th:block>
 </body>
 </html>

@@ -1,3 +1,8 @@
+<head>
+<link href="/css/modal-reply.css" rel="stylesheet" />
+</head>
+
+
 <div class="workModalContentBack">
     <div class="workModalContentSlider">
         <div class="workModalContent issueContent">
@@ -16,7 +21,9 @@
             	<!-- Comment List Area Start -->
                 <div class="reply-body" id="reply-body-div">
                 	<th:block th:each="reply : ${replyList}">
-                        <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}">
+                        <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}"
+                        th:style="${reply.level} >= 2 ? |margin-left:${reply.level-1}rem;| : ''"
+						th:data-level="${reply.level}">
                             <div class="media-body">
                                 <h5 th:text="${reply.membNm}"></h5>
 								<th:block th:switch="${reply.replyShow}">
@@ -38,6 +45,9 @@
                            			<span class="delBtn">삭제</span>
                            			<span class="submitBtn">확인</span>
                            		</li>
+					       		<li>
+					       			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+					       		</li>
                             </ul>
                             </th:block>
                         </div>
@@ -47,8 +57,8 @@
                    
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
-					<textarea class="form-control" name="inputCntn" id="inputCntn"/>
-					<button id="replyInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
+					<textarea class="form-control" name="inputCntn" id="inputCntn"></textarea>
+					<button id="commentInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
             </div>
@@ -65,7 +75,7 @@
 			<textarea class="form-control" id="editCntn"></textarea>
 		</div>
     </div>
-    <ul>
+    <ul class="btn-area">
    		<li>
    			<span class="text-muted" id="date-area"></span>
    		</li>
@@ -74,11 +84,21 @@
             <span class="delBtn">삭제</span>
             <span class="submitBtn">확인</span>
    		</li>
+   		<li>
+   			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+   		</li>
     </ul>
 </div>
+
+<div id="insert-reply-area" style="display:none;">
+   	<span class="replyInsertBtn">등록</span>
+   	<span class="replyDeleteBtn">취소</span>
+</div>
+	
 <!-- Hidden Reply Insert Area End -->
 
 <script>
+	var membNm = "[[${session.loginInfo.membNm}]]";
 	$(function(){
 	    $('#reply-body-div').slimScroll({
 	        height: '250px'
@@ -87,49 +107,79 @@
 </script>
 
 <script th:inline="javascript">
+
+	function toggleBodyDisplay(insertBody, isComment){
+	    insertBody.css('display','');
+	    insertBody.find('.media-body p').css('display',(isComment) ? '' :'none');
+	    insertBody.find('.edit-area').css('display',(isComment) ? 'none' :'');
+	    insertBody.find('.btn-area').css('display',(isComment) ? '' :'none');
+	}
+	
 	//----------------------- Business Reply (Comment) Insert Start
-	function insertComment(){
-	    let value = $('#inputCntn').val();
+	function createInsertObj(isComment = true){
+		let curBody = $(event.target).closest('.media');
+		let cntn = (isComment) ? $('#inputCntn') : curBody.find("textarea");
+		
+		let value = cntn.val();
 	    let obj = {};
 	    obj["replyCntn"] = value;
 	    obj["bussNo"] = bussNo;
+	    obj["replyUpno"] = curBody.data('parentNo');
+
+	    cntn.val('');
 	    
-	    insertAjax(obj);
-	    
-	    $('#inputCntn').val('');
+	    return obj;
 	}
 	
-	function insertAjax(obj){
+	function insertComment(){
+		let obj = createInsertObj();
+	    insertAjax(obj);
+	}
+	
+	function insertAjax(obj, isComment = true){
 	    $.ajax({
 	        url:'/business/reply',
 	        type: 'post',
 	        contentType: "application/json",
 	        data:JSON.stringify(obj)
 	    })
-	    .done(data => {insertCommentHTML(data)})
+	    .done(data => {insertCommentHTML(data, isComment)})
 	    .fail(err => {});
 	}
 	
-	function insertCommentHTML(data){
+	function insertCommentHTML(data, isComment){
 	    // create tag
-	    let body = $('#reply-body-div');
+	    let body = (isComment) ? $('#reply-body-div') : $('#insertBody');
 	    let insertBody = $('#insertBody').clone();
 	    
-	    let membNm = [[${session.loginInfo.membNm}]];
+	    let parLevel = (isComment) ? 0 : body.data('level');
+	    let emval = (parLevel) + 'em';
 	    
+	    // 대댓글 css
+	    let level = parLevel + 1;
+        insertBody.data('level',level);
+        insertBody.css('margin-left',emval);
+        
 	    // input content values
 	    insertBody.data('no',data.replyNo);
 	    insertBody.find('.media-body h5').text(membNm);
 	    insertBody.find('.media-body p').text(data.replyCntn);
 	    insertBody.find('textarea').text(data.replyCntn);
 	    insertBody.find('#date-area').text(timestamp(data.replyDt));
-	    insertBody.css('display','');
+	    insertBody.attr('id','');
+	    
+	    toggleBodyDisplay(insertBody,true);
 	    
 	    // insert comment tag to comment body
-	    body.append(insertBody);
+	    if (isComment){
+	    	body.append(insertBody);	
+	    } else {
+	    	body.after(insertBody);
+	    }
+	    
 	}
 	
-	$(document).on('click','#replyInsertBtn',insertComment);
+	$(document).on('click','#commentInsertBtn',insertComment);
 
 	//----------------------- Business Reply (Comment) Insert End
 	
@@ -213,5 +263,58 @@
         today.setHours(today.getHours() + 9);
         return today.toISOString().replace('T', ' ').substring(0, 16);
     }
+    
+    // ------------------------------------------------
+    
+	function replyInsertAreaHTML(event){
+	    // create tag
+		let curBody = $(event.target).closest('.media');
+	    let insertBody = $('#insertBody');
+	    
+	    // remove Btn
+		insertBody.find('.replyInsertBtn').remove();
+		insertBody.find('.replyDeleteBtn').remove();
+	    
+		// level = 부모의 level 값 : after로 insert 하기 때문
+	    let level = curBody.data('level');
+	    let emval = level + 'em';
+	
+	    // input content values
+	    insertBody.data('level',level);
+	    insertBody.data('parentNo',curBody.data('no'));
+	    insertBody.css('margin-left',emval);
+	    insertBody.find('.media-body h5').text(membNm);
+	    toggleBodyDisplay(insertBody,false);
+	
+	    insertBody.find("textarea").val('');
+	    insertBody.append($('.replyInsertBtn').first().clone());
+	    insertBody.append($('.replyDeleteBtn').first().clone());
+	    
+	    // insert comment tag to comment body
+	    curBody.after(insertBody);
+	}
+
+	function replyInsert(event){
+		let curBody = $(event.target).closest('.media');
+		obj = createInsertObj(false);
+		
+		insertAjax(obj,false);
+		
+		// hide insert area
+		replyDeleteHTML();
+	}
+
+	function replyDeleteHTML(){
+		let curBody = $(event.target).closest('.media');
+		
+		curBody.find('.replyInsertBtn').remove();
+		curBody.find('.replyDeleteBtn').remove();
+		curBody.css('display','none');
+	}
+	
+	$(document).on('click','.replyBtn',replyInsertAreaHTML);
+	$(document).on('click','.replyInsertBtn',replyInsert);
+	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
+    
 </script>
             

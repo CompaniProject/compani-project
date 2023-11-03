@@ -156,3 +156,55 @@
         return today.toISOString().replace('T', ' ').substring(0, 16);
     }
     
+    // ------------------------------------------------
+    
+	function replyInsertAreaHTML(event){
+	    // create tag
+		let curBody = $(event.target).closest('.media');
+	    let insertBody = $('#insertBody');
+	    
+	    // remove Btn
+		insertBody.find('.replyInsertBtn').remove();
+		insertBody.find('.replyDeleteBtn').remove();
+	    
+		// level = 부모의 level 값 : after로 insert 하기 때문
+	    let level = curBody.data('level');
+	    let emval = level + 'em';
+	
+	    // input content values
+	    insertBody.data('level',level);
+	    insertBody.data('parentNo',curBody.data('no'));
+	    insertBody.css('margin-left',emval);
+	    insertBody.find('.media-body h5').text(membNm);
+	    toggleBodyDisplay(insertBody,false);
+	
+	    insertBody.find("textarea").val('');
+	    insertBody.append($('.replyInsertBtn').first().clone());
+	    insertBody.append($('.replyDeleteBtn').first().clone());
+	    
+	    // insert comment tag to comment body
+	    curBody.after(insertBody);
+	}
+
+	function replyInsert(event){
+		let curBody = $(event.target).closest('.media');
+		obj = createInsertObj(false);
+		
+		insertAjax(obj,false);
+		
+		// hide insert area
+		replyDeleteHTML();
+	}
+
+	function replyDeleteHTML(){
+		let curBody = $(event.target).closest('.media');
+		
+		curBody.find('.replyInsertBtn').remove();
+		curBody.find('.replyDeleteBtn').remove();
+		curBody.css('display','none');
+	}
+	
+	$(document).on('click','.replyBtn',replyInsertAreaHTML);
+	$(document).on('click','.replyInsertBtn',replyInsert);
+	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
+    

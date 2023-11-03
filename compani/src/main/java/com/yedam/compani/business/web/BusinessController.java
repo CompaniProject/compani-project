@@ -95,8 +95,7 @@ public class BusinessController {
 		// 업무 단건
 		BusinessVO bussVO = businessService.businessSelect(bussNo);
 		model.addAttribute("businessVO", bussVO);
-		System.out.println(bussVO);
-
+		
 		// 업무 참여자 list
 		List<MemberVO> list = businessMemberService.bussMemberList(bussNo);
 		model.addAttribute("businessMemberList", list);
