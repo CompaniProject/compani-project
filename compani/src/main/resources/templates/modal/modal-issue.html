@@ -886,7 +886,6 @@
 
 		var inputFile = document.querySelector('.real-upload');
 		var fileInfo = inputFile.files;
-		console.log(fileInfo.length + "길이는 !!!!!");
 
 		for (i = 0; i < fileInfo.length; i++) {
 			formData.append("files", fileInfo[i]);
@@ -999,8 +998,6 @@
 			for (var i = 0; i < fileArr.length; i++) {
 				dataTransfer.items.add(fileArr[i])
 			}
-			/*	console.log("dataTransfer =>",dataTransfer.files)
-			   console.log("input FIles =>", document.getElementById("files").files)*/
 			document.getElementById("files").files = dataTransfer.files;
 			// ==========================================
 
@@ -1671,7 +1668,6 @@
 				$.each(response, function (idx, item) {
 
 					var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
-					console.log(item.issuFileNo + '입니다');
 					var fileNameTag = $('<td/>').text(item.issuFileNm);
 					var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
 					var deleteFileTag = $('<td/>').attr('class', 'deleteEditFile').attr('onclick', 'removeExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
@@ -1748,8 +1744,6 @@
 			// DataTransfer 파일 관리 //
 			for (var i = 0; i < fileArr.length; i++) {
 				editDataTransfer.items.add(fileArr[i])
-				console.log("dataTransfer =>", editDataTransfer.files)
-				console.log("input FIles =>", document.getElementById("editFiles").files)
 			}
 			document.getElementById('editFiles').files = editDataTransfer.files;
 		}
@@ -1758,7 +1752,6 @@
 	function removeEditFileFromDataTransfer(element) {
 		var addedFiles = $(".added");
 		var index = addedFiles.index($(element).parent());
-		console.log(index + "입니다");
 		if (index != -1) {
 			editDataTransfer.items.remove(index);
 			document.getElementById("editFiles").files = editDataTransfer.files;

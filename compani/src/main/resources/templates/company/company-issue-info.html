@@ -1058,8 +1058,6 @@
                     // DataTransfer 파일 관리 //
                     for (var i = 0; i < fileArr.length; i++) {
                         editCIDataTransfer.items.add(fileArr[i])
-                        console.log("dataTransfer =>", editCIDataTransfer.files)
-                        console.log("input FIles =>", document.getElementById("editCIFiles").files)
                     }
                     document.getElementById('editCIFiles').files = editCIDataTransfer.files;
                 }
@@ -1068,7 +1066,6 @@
             function removeEditCIFileFromDataTransfer(element) {
                 var addedFiles = $(".added");
                 var index = addedFiles.index($(element).parent());
-                console.log(index + "입니다");
                 if (index != -1) {
                     editCIDataTransfer.items.remove(index);
                     document.getElementById("editCIFiles").files = editCIDataTransfer.files;

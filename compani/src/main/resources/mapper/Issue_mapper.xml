@@ -3,7 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.issue.mapper.IssueMapper">
-
 	<select id="findIssue" resultType="IssueVO">
 		SELECT  	 i.issu_no
 				   , i.prjt_no
@@ -19,8 +18,8 @@
 				   , b.buss_nm
 				   , memb.memb_nm
 		FROM 	  	 issue  i, project p, business b, member memb
-		WHERE 	  	 i.buss_no = b.buss_no
-		AND 		 b.prjt_no = p.prjt_no
+		WHERE 	  	 i.buss_no = b.buss_no(+)
+		AND 		 b.prjt_no = p.prjt_no(+)
 		AND			 memb.memb_id = i.memb_id
 		AND          i.buss_no = #{bussNo}
 		<choose>
@@ -95,8 +94,8 @@
 				   , p.co_cd
 				   , memb.memb_nm
 		FROM 	  	 issue i, project p, business b, member memb
-		WHERE 	  	 i.buss_no = b.buss_no
-		AND 		 b.prjt_no = p.prjt_no
+		WHERE 	  	 i.buss_no = b.buss_no(+)
+		AND 		 b.prjt_no = p.prjt_no(+)
 		AND			 i.memb_id = memb.memb_id
 		AND          p.co_cd   = #{coCd}
 		AND          p.prjt_pubcyn = '0F1'
