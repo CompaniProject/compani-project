@@ -251,6 +251,9 @@
 	            <span class="delBtn">삭제</span>
 	            <span class="submitBtn">확인</span>
 	   		</li>
+       		<li>
+       			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+       		</li>
 	    </ul>
 	</div>
 	
@@ -301,6 +304,7 @@
 	        insertBody.find('.media-body h5').text(membNm);
 	        toggleBodyDisplay(insertBody,false);
 
+	        insertBody.find("textarea").val('');
 	        insertBody.append($('.replyInsertBtn').first().clone());
 	        insertBody.append($('.replyDeleteBtn').first().clone());
 	        
