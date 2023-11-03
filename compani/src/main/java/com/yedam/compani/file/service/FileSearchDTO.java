@@ -6,4 +6,5 @@ import lombok.Data;
 public class FileSearchDTO {
 	private String type;
 	private String keyword;
+	private String pType;
 }

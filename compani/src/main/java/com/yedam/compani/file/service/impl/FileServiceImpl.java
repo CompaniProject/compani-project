@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -18,14 +19,7 @@ public class FileServiceImpl implements FileService {
 	
 	@Autowired
 	FileMapper filemapper;
-	
-	// 파일 리스트 확인
-	@Override
-	public List<FileVO> fileList() {
-	
-		return filemapper.fileList();
-	}
-	
+
 	// 조회??;
 	@Override
 	public FileVO fileInfo(Integer FileNo) {
@@ -61,6 +55,20 @@ public class FileServiceImpl implements FileService {
 	public Page<FileVO> fileList(int pageNo, String search, String keywordFile, int bussNo ) {
 		PageHelper.startPage(pageNo, 5);
 		return filemapper.findFile(search, keywordFile, bussNo);
+	}
+
+	@Override
+	public List<FileVO> fileList(String pSearch, String pKeyword, int prjtNo) {
+	
+		return filemapper.fileList(pSearch, pKeyword, prjtNo);
+	}
+
+	@Override
+	public void driveFileInsert(List<FileVO> files) {
+        if (CollectionUtils.isEmpty(files)) {
+            return;
+        }
+		filemapper.driveFileInsert(files);
 	}
 	
 

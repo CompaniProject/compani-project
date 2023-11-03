@@ -132,11 +132,11 @@ public class FileUploadController {
 		// 파일 다운로드
 		@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 		@ResponseBody
-		public ResponseEntity<Resource> downloadFile(String FileName, String FilePath){	
-			log.info("download file : " + FilePath + FileName);
+		public ResponseEntity<Resource> downloadFile(String saveName){	
+			log.info("download file : " + saveName);
 			
 			// 존재하는 파일 찾아감
-			FileSystemResource resource = new FileSystemResource(uploadPath + FilePath + FileName);
+			FileSystemResource resource = new FileSystemResource(saveName);
 			
 			log.info("resource : " + resource);
 			

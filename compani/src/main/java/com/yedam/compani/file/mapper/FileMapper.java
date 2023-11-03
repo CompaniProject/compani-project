@@ -12,7 +12,7 @@ import com.yedam.compani.file.service.FileVO;
 public interface FileMapper {
 
 		// 전체보기
-		public List<FileVO> fileList();
+		public List<FileVO> fileList(@Param("pType")String pSearch, @Param("pKeyword") String pKeyword, @Param("prjtNo") int prjtNo);
 		
 		// 다운로드할 파일 조회
 		public FileVO fileInfo(Integer FileNo);
@@ -31,4 +31,7 @@ public interface FileMapper {
 
 		// 검색 + 페이징
 		public Page<FileVO> findFile(@Param("type")String search, @Param("keywordFile") String keywordFile, @Param("bussNo") int bussNo);
+		
+		// 드라이브 업로드
+		void driveFileInsert(List<FileVO> files);
 }

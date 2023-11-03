@@ -109,13 +109,13 @@ input[type="checkbox"]:checked::after {
 					<div class="ModalProjectNameBox">
 						<div id="ProjectLink">
 							#<span></span>
-							<p class="textEllipsis" th:text="${fileList[0].prjtNm}"></p>
+							<p class="textEllipsis" th:text="${bVO.prjtNm}"></p>
 						</div>
 					</div>
 					<div class="ModalBussNameBox Edit">
 						<div class="ModalBussNameBack">
 							<textarea id="ModalUpdateBussName" 
-							th:text="${fileList[0].bussNm}"
+							th:text="${bVO.bussNm}"
 							readonly maxlength="200"
 								style="height: 34px;"></textarea>
 							<hr style="border-bottom: solid 1px">
@@ -164,7 +164,7 @@ input[type="checkbox"]:checked::after {
 					<hr>
 					<br> <br>
 
-					<div class="ModalInfoArea IssueInfoArea">
+					<div class="ModalInfoArea IssueInfoArea" style="overflow: auto;">
 
 						<div class="col-lg-6" style="width: 100%; max-width: 100%;">
 
@@ -255,6 +255,7 @@ input[type="checkbox"]:checked::after {
 		$('.file-select-ul').css('display', 'none');
 		e.stopPropagation();
 	});
+	
 	// ajax 
 	function filePaging(pageNum) {
 		var typeVal = $('#type').val(); // keyword
@@ -428,7 +429,6 @@ input[type="checkbox"]:checked::after {
 	});
 
 	// ======== 체크박스 여러개 선택시 삭제 AJAX ========
-
 	$('#FileDelete').on('click', selectCkbDel);
 
 	function selectCkbDel() {

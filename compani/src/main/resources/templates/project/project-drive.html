@@ -4,6 +4,10 @@
 	layout:decorate="~{/layout/layout}">
 <head>
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+	
+</script>
 
 <style>
 .content-body {
@@ -174,6 +178,10 @@ hr {
 		</div>
 	</div>
 	<script>
+	
+		var prjtNo = "[[${prjtNo}]]";
+		var membId = "[[${session.loginInfo.membId}]]";
+		
 		// ======== 파일 바이트 계산 ========
 		function ByteSize(size) {
 			const byteUnits = [ "KB", "MB", "GB", "TB" ];
@@ -251,33 +259,41 @@ hr {
 
 		function selectCkbDel() {
 
-			let fNum = $('input[name="files"]').closest('#tdData.active');
-
+			let fNum = $('input[name="files"]')
+			let id = $('#tdData.active');
+			let dd = id.append(fNum);
+			
+			let ww = $('#tdData.active').append(fNum);
+			
+			console.log(fNum);
+			console.log(id);
+			console.log(dd);
+			console.log(ww);
+			
 			// ajax
 			$.ajax({
 				type : "get",
 				url : "/fileSelectDel",
-				data : fNum.serialize(),
+				data : ww.serialize(),
 				success : function() {
 					if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
 						alert("삭제가 완료 되었습니다.")
-
 					}
 				},
 				error : function(err) {
-					console.log(fNum);
+
 					alert("선택된 파일이 존재하지 않습니다.");
 				}
 			});
 		};
-		
+
 		// ======== 검색 AJAX ========
 		function fileSearch() {
 		var typeVal = $('#pType').val(); // type
 		var keywordVal = $('#pKeyword').val(); // keyword
 		var fileList = $('#newTrTd'); // tBody 비우고 새로 만들기
 
-		$.ajax('/project/driveAjax/' + prjtNo + '?pType=' + typeVal + 
+		$.ajax('/project/driveAjax/' + prjtNo +'?pType=' + typeVal + 
 			'&pKeyword=' + keywordVal,
 			{
 				type: 'GET'

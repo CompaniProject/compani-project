@@ -117,16 +117,14 @@ hr {
 						<div class="modal-body"></div>
 					</div>
 					<div id="modal">
-						<button id="FileInsert" type="button" class="btn mb-1 btn-info">등록</button>
+						<button id="FileInsert" type="button" class="btn mb-1 btn-info" onclick="saveFiles()">등록</button>
 						<br> <br> <br> <br> <br> <br> <br>
 						<ul id="ulLeft">
 							<li class="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
 							<li><input type="file" id="selectedFile"
-								style="display: none;" onchange="fileInfo()" multiple="multiple" />
+								style="display: none;" multiple="multiple" onchange="saveRealRealFile(this)"/>
 								<input type="button" id="FileUpload" value="업로드"
-								onclick="document.getElementById('selectedFile').click();"
-								class="btn mb-1 btn-info" />
-							</li>
+								class="btn mb-1 btn-info" /></li>
 						</ul>
 
 						<!-- 데이터 들어갈 박스 -->
@@ -187,32 +185,111 @@ hr {
 			}
 		};
 
-		// ======== 파일 업로드시 등록 ========
-		function fileInfo() {
+		
+		// 파일 업로드 클릭
+		const RealFile = document.querySelector('#selectedFile');
+		const secondFile = document.querySelector('#FileUpload');
 
-			var fileInfo = document.querySelector('input[type=file]').files;
+		secondFile.addEventListener('click', () => RealFile.click());
 
-			var file = fileInfo[0];
+		// 파일 삭제 버튼 누를 시 ..
+		function saveFileRemove(element) {
+			removeFileTransFer(element);
+			var tr = $(element).closest('tr');
+			tr.remove();
+		}
+		
+		const saveFileDataTransFer = new DataTransfer();
+		
+		$("#selectedFile").change(function () {
+
+			let fileArr = document.getElementById("selectedFile").files
+
+			if (fileArr != null && fileArr.length > 0) {
+
+				// =====DataTransfer 파일 관리========
+				for (var i = 0; i < fileArr.length; i++) {
+					saveFileDataTransFer.items.add(fileArr[i])
+					console.log("dataTransfer =>", saveFileDataTransFer.files)
+					console.log("input FIles =>", document.getElementById("selectedFile").files)
+				}
+
+				document.getElementById('selectedFile').files = saveFileDataTransFer.files;
+				// ==========================================
+
+			}
+		})
+
+		function removeFileTransFer(element) {
+			var parent = $(element).parent().parent();
+			var children = $(parent).children();
+			var index = children.index($(element).parent());
+		
+			if (index != -1) {
+				saveFileDataTransFer.items.remove(index);
+				document.getElementById('selectedFile').files = saveFileDataTransFer.files;
+			}
+		}
+		
+		// 파일 추가
+		function saveRealRealFile(element) {
+			const file = element.files[0];
+			// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
+			if (!file) {
+				return false;
+			}
+
+			// 2. 파일 크기가 10MB을 초과하는 경우
+			const fileSize = Math.floor(file.size / 1024 / 1024);
+
+			if (fileSize > 10) {
+				alert('10MB 이하의 파일로 업로드해 주세요.');
+				return false;
+			}
 
 			if (file) {
-				var trTag = $('<tr/>').attr('id', 'tdData'); // tr 생성
+				$('.fileEmpty').remove();
+				var trTag = $('<tr/>').attr('id', 'tdData');
 				var fileNameTag = $('<td/>').attr('id', 'fileBoxName').text(
 						file.name); // li 파일이름
 				var fileSizeTag = $('<td/>').attr('id', 'fileBoxSize').text(
 						ByteSize(file.size)); // li 파일크기
-				var tdClose = $('<td/>').attr('id', 'closeBtn'); // 
-				var xIcon = $('<i/>').attr('class', 'fa-solid fa-xmark');
-				var hrTag = $('<br/>')
-
-				tdClose.append(xIcon);
+				var deleteFileTag = $('<td/>').attr('id', 'closeBtn').attr('class', 'deletePISaveFile').attr('onclick', ' saveFileRemove(this);');
 				trTag.append(fileNameTag);
 				trTag.append(fileSizeTag);
-				trTag.append(tdClose);
-				trTag.append(hrTag);
-				$('#newTrTd').append(trTag);
-			}
+				trTag.append(deleteFileTag);
 
-		}
+				$('#newTrTd').append(trTag);
+
+			}
+		};
+		
+		function saveFiles() {
+
+			var formData = new FormData();			
+			var inputFile = document.querySelector('#selectedFile');
+			var fileInfo = inputFile.files;
+
+			for (i = 0; i < fileInfo.length; i++) {
+				formData.append("drivefile", fileInfo[i]);
+			};
+
+			$.ajax({
+				url: '/project/drive/save',
+				type: 'POST',
+				processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+				contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+				data: formData,
+				success: function () {
+					alert("등록에 성공 !!");
+					location.reload();
+				},
+				error: function (reject) {
+					alert("등록에 실패");
+					console.log(reject);
+				}
+			});
+		};
 	</script>
 </th:block>
 </html>

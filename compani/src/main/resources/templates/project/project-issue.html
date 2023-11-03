@@ -25,8 +25,8 @@
 						</ul>
 					</div>
 				</div>
-				<input class="piSearchInput" id="search" name="search" type="text"
-					placeholder="검색어를 입력하세요."><span class="piDeleteSearchWord" onclick="delSearchVal()"></span>
+				<input class="SearchInputModalView" id="keywordFile"
+					name="keywordFile" type="text" placeholder="검색어를 입력하세요.">
 			</div>
 		</div>
 		<button class="postWritingBoxP">
@@ -55,7 +55,8 @@
 					</thead>
 					<tbody class="projectIssueLists" style="text-align: center;">
 						<th:block th:each="projectIssueList : ${projectIssueList}">
-							<tr th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
+							<tr
+								th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
 								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span
 									class="badge badge-danger" th:text="버그"></span></th>
 								<th th:if="${projectIssueList.issuKnd == '0L2'}"><span
@@ -109,7 +110,7 @@
 				th:attr="onclick='projectIssuePaging(\'' + ${projectIssue.nextPage} + '\')'">Next</a>
 		</div>
 	</div>
-	
+
 	<!--/* 등록폼 모달 START */-->
 	<div class="modal fade" id="piSaveModal" tabindex="-1"
 		aria-labelledby="sidebarModalLabel" aria-hidden="true"
@@ -127,8 +128,8 @@
 					<button type="button" class="modalClose" data-dismiss="modal"></button>
 				</div>
 				<div class="modal-content-container">
-				
-				
+
+
 					<!--/* 이슈 수정 폼 START */-->
 					<div class="modal-body">
 						<div class="modalPIssueSaveForm">
@@ -139,18 +140,18 @@
 									<button type="button" class="completePISaving">등록</button>
 								</div>
 							</div>
-							
-							
+
+
 							<div class="savePIssueName">
 								<div class="savePIssueNameBack">
 									<textarea class="modalPIssueNameSave" id="savePIssuTtlVal"
 										maxlength="200" style="height: 34px;"></textarea>
 								</div>
 							</div>
-							
+
 							<hr
 								style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
-								
+
 							<!--/* 이슈 종류, 중요도 START */-->
 							<div class="savePIssueKnd">
 								<p>종류</p>
@@ -197,7 +198,7 @@
 								</div>
 							</div>
 							<!--/* 이슈 종류, 중요도 END */-->
-							
+
 							<div class="savingPIContent">
 								<div class="savingPISection">
 									<div class="sectionTitle">
@@ -235,23 +236,26 @@
 								</div>
 
 
-									<div class="savingFindBNSection">
-										<div class="sectionBN">
-											<p class="sectionTitleText">업무 찾기</p>
-											<div class="bussNm-selectBox">
-												<div class="bussNm-selected" id="bussNm-selected">
-													<div class="bussNm-selected-value" data-bno="0">이슈가 발생한 업무를 선택하세요.</div>
-													<div class="arrow"></div>
-												</div>
-												<ul class="bussNm-select-ul" style="display: none;">
-													<li class="bussNm-select-option" data-bno="0">(없음)</li>
-													<th:block th:each="bussNmList : ${bussNmList}">
-														<li th:class="bussNm-select-option" th:text="${bussNmList.bussNm}" th:value="${bussNmList.bussNo}"></li>
-													</th:block>
-												</ul>
+								<div class="savingFindBNSection">
+									<div class="sectionBN">
+										<p class="sectionTitleText">업무 찾기</p>
+										<div class="bussNm-selectBox">
+											<div class="bussNm-selected" id="bussNm-selected">
+												<div class="bussNm-selected-value" data-bno="0">이슈가
+													발생한 업무를 선택하세요.</div>
+												<div class="arrow"></div>
 											</div>
+											<ul class="bussNm-select-ul" style="display: none;">
+												<li class="bussNm-select-option" data-bno="0">(없음)</li>
+												<th:block th:each="bussNmList : ${bussNmList}">
+													<li th:class="bussNm-select-option"
+														th:text="${bussNmList.bussNm}"
+														th:value="${bussNmList.bussNo}"></li>
+												</th:block>
+											</ul>
 										</div>
 									</div>
+								</div>
 
 									<div class="hashtagSection">
 										<div class="sectionTitle">
