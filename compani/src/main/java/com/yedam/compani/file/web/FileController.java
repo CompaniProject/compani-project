@@ -3,7 +3,6 @@ package com.yedam.compani.file.web;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -35,6 +35,9 @@ public class FileController {
 
 	@Autowired
 	FileService fileservice;
+	
+	@Autowired
+	BusinessService business;
 
 	
 	// 파일 리스트
@@ -47,6 +50,7 @@ public class FileController {
 		model.addAttribute("file", file);
 		model.addAttribute("fileList", vo);
 		model.addAttribute("search", type);
+		model.addAttribute("bVO", business.businessSelect(bussNo));
 
 		return "modal/modal-file";
 	}
@@ -63,12 +67,6 @@ public class FileController {
 		map.put("files", fileservice.fileList(pageNum, type, keywordFile, bussNo));
 		map.put("search", type);
 		return map;
-	}
-	
-	@GetMapping("projectFile")
-	public String fList(Model model){
-		model.addAttribute("fList", fileservice.fileList());
-		return "projectFile";
 	}
 
 	// 모달 확인용
@@ -90,7 +88,6 @@ public class FileController {
 	}
 
 
-
 	// 첨부 파일 다운로드
 
 	@GetMapping("/workFile/{FileNo}/download")
@@ -107,5 +104,6 @@ public class FileController {
 			throw new RuntimeException("filename encoding failed : " + file.getFileNm());
 		}
 	}
+	
 
 }

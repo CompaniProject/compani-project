@@ -25,5 +25,11 @@ public class FileVO {
 	private String bussNm;
 	private String prjtNm;
 
-
+	
+	@Builder
+	public FileVO(String fileNm, String filePath, long fileSize) {
+		this.fileNm = fileNm;
+		this.filePath = filePath;
+		this.fileSize = fileSize;
+	}
 }

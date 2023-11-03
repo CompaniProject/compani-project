@@ -5,22 +5,31 @@
 	
 				<!-- 파일 리스트 (업무 파일함)-->
 				<select id="fileList" resultType="FileVO">
-					SELECT	  f.FILE_NO
-						    , f.FILE_NM
-						    , f.FILE_SIZE
-						    , mem.memb_nm
-						   	, f.FILE_DT
-						   	, f.file_type
-					FROM   	project_file f, member mem
-					WHERE	f.memb_id = mem.memb_id
-					ORDER BY FILE_NO DESC
+					SELECT	f.file_no
+							, f.prjt_no
+							, f.buss_no
+							, f.file_nm
+							, f.file_path
+							, f.file_type
+							, f.file_desct
+							, f.file_dt
+							, mem.memb_nm
+							, f.file_size
+					FROM   	project_file f, project p, business b, member mem
+					WHERE	f.buss_no = b.buss_no
+					AND		b.prjt_no = p.prjt_no
+					AND		f.memb_id = mem.memb_id
+					AND		f.prjt_no = #{prjtNo}
+					<choose>
+						<when test="pType == '파일명'">
+							AND f.file_nm LIKE '%' || #{pKeyword} || '%'
+						</when>
+						<when test="pType == '작성자'">
+							AND mem.memb_nm LIKE '%' || #{pKeyword} || '%'
+						</when>
+					</choose>
+					ORDER BY file_no DESC
 				</select>
-				
-				
-				<!-- 파일 리스트 (프로젝트 자료함) -->
-				<select id="fileInfo" resultType="FileVO">
-				
-				</select>	
 				
 				
 				<!-- 파일 업로드 (업무 파일함) -->
@@ -37,6 +46,7 @@
 											 , file_nm
 											 , file_path
 											 , file_type
+											 , file_desct
 											 , memb_id
 											 , file_size)
 					VALUES (
@@ -46,6 +56,7 @@
 							, #{fileNm}
 							, #{filePath}
 							, #{fileType}
+							, #{fileDesct}
 							, #{membId}
 							, #{fileSize}
 								)
@@ -90,5 +101,36 @@
 					</choose>
 					ORDER BY f.file_no DESC	
 				</select>
-		
+				
+				<insert id="driveFileInsert" parameterType="list">
+			        INSERT INTO   project_file
+			                  (   file_no
+			                  	, prjt_no
+			                  	, buss_no
+			                    , file_nm
+			                    , file_path
+			                    , file_type
+			                    , file_desct
+			                    , file_dt
+			                    , memb_id
+			                    , file_size		                    
+			                  )
+			        SELECT file_seq.nextval, A.*
+			        FROM (
+			        <foreach item="file" collection="list" separator="UNION ALL ">
+			            SELECT 		1
+			                    , 	1
+			                    , 	#{file.fileNm}
+			                    , 	#{file.filePath}
+			                    ,   'text'
+			                    ,   'dd'
+			                    ,   SYSDATE
+			                    ,   'ojunkwon'
+			                    ,   #{file.fileSize}  
+			            FROM       DUAL
+			        </foreach>
+			             ) A
+				</insert>
+				
+				
 </mapper>
