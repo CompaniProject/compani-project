@@ -21,6 +21,7 @@ public class MemberVO{
 	private String membMsg;
 	private String membAccp;
 	private String permNo;
+	private String prjtMembPerm;
 
 	
 }

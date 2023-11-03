@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +20,8 @@ import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.feedback.service.MemberFeedbackService;
 import com.yedam.compani.member.feedback.service.MemberFeedbackVO;
+import com.yedam.compani.member.service.MemberService;
+import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.service.ProjectFormVO;
 import com.yedam.compani.project.service.ProjectService;
@@ -37,9 +38,10 @@ public class ProjectController {
 	private final ProjectMemberService projectMemberService;
 	private final MemberFeedbackService memberFeedbackService;
 	private final IssueService issueService;
+	private final MemberService memberService;
 
-	@GetMapping("/project/home/{prjtNo}")
-	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
+	@GetMapping("/project/home/{prjtNo}/{coCd}")
+	public String projectHome(@PathVariable Integer prjtNo, @PathVariable String coCd, Model model, HttpServletRequest request) {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
@@ -53,6 +55,13 @@ public class ProjectController {
 		// 헤더 단건 조회
 		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", projectVO);
+		
+		// 프로젝트 모달 수정 - 참여자 리스트
+		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
+		model.addAttribute("projectMemberList", prjtMemberList);
+		// 프로젝트 모달 수정 - 회사 멤버 리스트
+		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
+		model.addAttribute("memberList", memberList);
 		return "project/project-home";
 	}
 
@@ -75,7 +84,6 @@ public class ProjectController {
 	public Map<String, Object> ProjectStateAjax(ProjectVO projectVO) {
 
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(projectVO.getPrjtSt());
 		List<ProjectVO> List = projectService.getProjectStateList(projectVO);
 		map.put("result", true);
 		map.put("projectStateList", List);
@@ -110,12 +118,13 @@ public class ProjectController {
 		return "layout/projectlayout";
 	}
 
+	//프로젝트 등록 - 실행시 
 	@PostMapping("/insertProject")
 	@ResponseBody
 	public Map<String, Object> insertBusiness(@RequestBody ProjectFormVO formVO) {
 
 		Map<String, Object> map = new HashMap<>();
-
+		System.out.println(formVO);
 		projectService.insertProject(formVO.getProject());
 		projectMemberService.insertProjectMember(formVO);
 		

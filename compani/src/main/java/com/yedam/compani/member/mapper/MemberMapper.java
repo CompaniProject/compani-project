@@ -3,6 +3,8 @@ package com.yedam.compani.member.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.member.service.ProjectMemberVO;
 
@@ -17,9 +19,9 @@ public interface MemberMapper {
 	public List<MemberVO> memberSearchList(Map<String,String> map);
 
 	public int updateMemberInfo(MemberVO vo);
-
 	public int updateMemberPwd(MemberVO vo);
 	
 	public  List<String> selectProjectFeedbackMemberList(ProjectMemberVO vo);
 	public List<MemberVO> memberList(MemberVO vo);
+	public List<MemberVO> prjtMemberList(@Param("prjtNo") Integer prjtNo, @Param("coCd") String coCd);
 }

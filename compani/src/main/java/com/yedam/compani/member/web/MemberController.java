@@ -125,8 +125,12 @@ public class MemberController {
 	@GetMapping("memSearchAjax")
 	@ResponseBody
 	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,String> map) {
-	
-		List<MemberVO> List = service.getMemberList(map);
+		
+		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
+		List<MemberVO> List = service.prjtMemberList(prjtNo, coCd);
+		
 	
 		return List;
 	}

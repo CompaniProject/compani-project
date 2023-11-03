@@ -60,18 +60,7 @@ public class BusinessController {
 	@ResponseBody
 	public Map<String, Object> insertBusiness(@RequestBody FormVO formVO) {
 
-		// ServiceImpl 로 옮기기**********************
-
 		Map<String, Object> map = new HashMap<>();
-
-		/*
-		 * if (businessService.insertBusiness(formVO.getBusiness()) >= 1) {
-		 * map.put("insertResult", true); if
-		 * (!formVO.getBusiness().getBussDep().equals("")) { if
-		 * (businessService.updateBusiness(formVO.getBusiness()) >= 1) {
-		 * map.put("updateResult", true); } else { map.put("updateResult", false); } } }
-		 * else { map.put("insertResult", false); }
-		 */
 
 		businessService.insertBusiness(formVO.getBusiness());
 		businessMemberService.insertBusinessMember(formVO);
@@ -101,7 +90,6 @@ public class BusinessController {
 		List<MemberVO> list = businessMemberService.bussMemberList(bussNo);
 		model.addAttribute("businessMemberList", list);
 	
-
 		// 회사 멤버 list
 		List<MemberVO> memberList = memberService.getMemberList();
 		model.addAttribute("memberList", memberList);

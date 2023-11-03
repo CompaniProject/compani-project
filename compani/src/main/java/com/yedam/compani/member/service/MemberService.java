@@ -3,6 +3,8 @@ package com.yedam.compani.member.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yedam.compani.project.member.service.ProjectMemberVO;
 
 public interface MemberService {
@@ -20,6 +22,10 @@ public interface MemberService {
 	public int editMemberPwd(MemberVO vo);
 	
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo);
-	public List<MemberVO> memberList(MemberVO vo);
 	
+	// 프로젝트 모달 등록 - 회사 멤버 리스트
+	public List<MemberVO> memberList(MemberVO vo);
+	// 프로젝트 모달 수정 - 회사 멤버 리스트(생성자 제외)
+	public List<MemberVO> prjtMemberList(Integer prjtNo, String coCd);
+
 }

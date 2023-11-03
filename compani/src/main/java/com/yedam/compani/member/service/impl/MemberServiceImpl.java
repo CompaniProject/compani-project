@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberVO> getMemberList(Map<String, String> list) {
+	public List<MemberVO> getMemberList(Map<String, String> list ){
 
 		return map.memberSearchList(list);
 	}
@@ -63,7 +64,11 @@ public class MemberServiceImpl implements MemberService {
 		
 		return map.memberList(vo);
 	}
-	
-	
-	
+
+	@Override
+	public List<MemberVO> prjtMemberList(Integer prjtNo, String coCd) {
+		
+		return map.prjtMemberList(prjtNo, coCd);
+	}
+		
 }

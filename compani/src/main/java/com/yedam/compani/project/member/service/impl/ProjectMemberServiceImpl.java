@@ -16,11 +16,12 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
 	@Autowired
 	ProjectMemberMapper projectMemberMapper;
+
 	@Override
 	public List<ProjectMemberVO> getProjectMemberCountList() {
 		return projectMemberMapper.selectAllProjectMemberCount();
 	}
-	
+
 	@Override
 	public List<Map<Object, Object>> getProjectMemberList(Integer prjtNo) {
 		return projectMemberMapper.selectProjectMemberList(prjtNo);
@@ -33,15 +34,26 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
 	@Override
 	public int insertProjectMember(ProjectFormVO formVO) {
-		
-		for(int i =0 ; i< formVO.getProjectMember().size(); i++) {
-			
-			//프로젝트 생성자는 CRTR , 참여자는 PARTICIR
+
+		for (int i = 0; i < formVO.getProjectMember().size(); i++) {
+
+			// 프로젝트 생성자는 CRTR , 참여자는 PARTICIR
 			formVO.getProjectMember().get(i).setPrjtNo(formVO.getProject().getPrjtNo());
+			if (i == 0) {
+				formVO.getProjectMember().get(i).setPrjtmembPerm("CRTR");
+			} else {
+				formVO.getProjectMember().get(i).setPrjtmembPerm("PARTICIR");
+			}
 		}
-		System.out.println(formVO.getProjectMember());
-		
 		return projectMemberMapper.insertProjectMember(formVO.getProjectMember());
 	}
+
+	@Override
+	public List<Map<String,String>> projectMemberList(Integer prjtNo) {
+		
+		return projectMemberMapper.projectMemberList(prjtNo);
+	}
+
+	
 
 }

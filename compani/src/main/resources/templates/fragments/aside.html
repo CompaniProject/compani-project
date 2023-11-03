@@ -15,7 +15,7 @@
 				</a>
 					<ul aria-expanded="false" id="myPrjtList">
 						<li th:each="project : ${session.projectList}"><a
-							th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}"
+							th:href="@{/project/home/{prjtNo}/{coCd}(prjtNo=${project.prjtNo} , coCd=${session.loginInfo.coCd})}"
 							th:text="${project.prjtNm}"></a></li>
 					</ul></li>
 				<li><a class="has-arrow" href="javascript:void()"
@@ -143,7 +143,7 @@
 													</div>
 
 												</div>
-												<input class="SearchInputModalView" id="search" type="text"
+												<input class="SearchInputModalView" id="insertsearch" type="text"
 													placeholder="검색어를 입력하세요." />
 											</div>
 
@@ -160,7 +160,7 @@
 													</tr>
 												</thead>
 												<tbody id="membertbl">
-
+													
 												</tbody>
 											</table>
 										</div>
@@ -187,14 +187,11 @@
 		  let membId =[[${session.loginInfo.membId}]];
 		  let coCd =[[${session.loginInfo.coCd}]];
 		  
-		  console.log(coCd);
-		  
 		  $.ajax('/prjtInsert',{
 			  type : 'post',
 			  data : {membId : membId, coCd : coCd}
 		  })
 		  .done(function(data){  //member  , memberList
-			  console.log(data);
 			 	let tbl = $('#insertmembertbl');
 		  		tbl.empty();
 				let trTag = $('<tr/>');
@@ -203,7 +200,6 @@
 				trTag.attr('id', data.member.membId);
 				
 				let image = data.member.membPhtPath;
-				console.log(image);
 				if(image != null){
 					let imgTag = $('<img>',{
 						src:'/images/profile/'+image,
@@ -367,8 +363,8 @@
 
 		function searchMember(){
 				let selected = $('.member-selected-value').first().text();
-				let search  = $('#search').val();
-		
+				let search  = $('#insertsearch').val();
+				
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
 				.done(function(data){
 					let tbody = $('#membertbl');
@@ -379,7 +375,7 @@
 					 	let tdTag = $('<td/>');
 					 	
 						trTag.attr('id', data.MEMB_ID);
-				
+						debugger
 						if(data.MEMB_PHT_PATH != null){
 						let imgTag = $('<img>',{
 							src:"/images/profile/" +data.MEMB_PHT_PATH,
@@ -437,15 +433,11 @@
 				contentType : 'application/json',
 				data : JSON.stringify(obj)
 			})
-			.done(data => {
-				console.log(data);
-			})
+			.done(data => {})
 			.fail(err => {});
 				
 		})
-			
-
-		console.log([[${session.loginInfo.permNo}]]);
+		
 		// 회사관리자, 회사부관리자만 '회사 관리'메뉴 보임
 		if([[${session.loginInfo.permNo}]] == 'ROLE_0A2' ||
 				[[${session.loginInfo.permNo}]] == 'ROLE_0A3'){
