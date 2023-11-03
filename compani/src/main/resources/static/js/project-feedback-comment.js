@@ -48,10 +48,11 @@
         let insertBody = $('#insertBody').clone();
 
         let parLevel = (isComment) ? 0 : body.data('level');
-	    let emval = (parLevel + 1) + 'em';
+	    let emval = (parLevel) + 'em';
 
         // input content values
-        insertBody.data('level',parLevel + 1);
+        let level = parLevel + 1;
+        insertBody.data('level',level);
         insertBody.css('margin-left',emval);
 
         insertBody.data('no',data.prjtFdbkNo);

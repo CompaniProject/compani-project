@@ -290,7 +290,8 @@
 			insertBody.find('.replyInsertBtn').remove();
 			insertBody.find('.replyDeleteBtn').remove();
 	        
-	        let level = curBody.data('level') + 1;
+			// level = 부모의 level 값 : after로 insert 하기 때문
+	        let level = curBody.data('level');
 	        let emval = level + 'em';
 
 	        // input content values
