@@ -10,16 +10,18 @@
 	}
 		
 	//----------------------- Project Feedback(Comment) Insert Start
-	function createInsertObj(){
+	function createInsertObj(isComment = true){
 		let curBody = $(event.target).closest('.media');
         
-        let value = $('#inputCntn').val();
+        let cntn = (isComment) ? $('#inputCntn') : curBody.find("textarea");
+        
+        let value = cntn.val();
         let obj = {};
         obj["prjtFdbkCntn"] = value;
         obj["prjtNo"] = prjtNo;
         obj["prjtFdbkUpno"] = curBody.data('parentNo');
         
-        $('#inputCntn').val('');
+        cntn.val('');
         
         return obj;
 	}
@@ -29,36 +31,45 @@
         insertAjax(obj);
     }
     
-    function insertAjax(obj){
+    function insertAjax(obj,isComment = true){
         $.ajax({
             url:'/project/feedback',
             type: 'post',
             contentType: "application/json",
             data:JSON.stringify(obj)
         })
-        .done(data => {insertCommentHTML(data)})
+        .done(data => {insertCommentHTML(data,isComment)})
         .fail(err => {});
     }
     
-    function insertCommentHTML(data){
+    function insertCommentHTML(data, isComment){
         // create tag
-        let body = $('#commentBody');
+        let body = (isComment) ? $('#commentBody') : $('#insertBody');
         let insertBody = $('#insertBody').clone();
-        
+
+        let parLevel = (isComment) ? 0 : body.data('level');
+	    let emval = (parLevel + 1) + 'em';
+
         // input content values
-        insertBody.data('level',1);
-        insertBody.css('margin-left','');
+        insertBody.data('level',parLevel + 1);
+        insertBody.css('margin-left',emval);
 
         insertBody.data('no',data.prjtFdbkNo);
         insertBody.find('.media-body h5').text(membNm);
         insertBody.find('.media-body p').text(data.prjtFdbkCntn);
         insertBody.find('textarea').text(data.prjtFdbkCntn);
         insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
+		insertBody.attr('id','');
 		
 		toggleBodyDisplay(insertBody,true);
         
         // insert comment tag to comment body
-        body.append(insertBody);
+        if (isComment){
+            body.append(insertBody);
+        } else {
+            body.after(insertBody);
+        }
+
     }
     
     $('#insertBtn').on('click', insertComment);
