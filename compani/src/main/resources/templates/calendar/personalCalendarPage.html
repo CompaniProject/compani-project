@@ -12,7 +12,12 @@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
 <!-- ajax -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
+<!-- 모달 -->
+<link href="/css/modal.css" rel="stylesheet">
+<link href="/css/modal-reply.css" rel="stylesheet" />
+<!-- noUiSlider -->
+<link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
+
 <style type="text/css">
 #main-wrapper {
 	overflow-y: hidden;
@@ -216,6 +221,7 @@ select {
 							<div class="businessList2" 
 								th:text="${bussInfo.bussNm}">
 							</div>
+							<input type="hidden" id="bussNo" th:value="${bussInfo.bussNo}" />
 						</div>
 					</th:block>
 				</div>
@@ -234,6 +240,11 @@ select {
 			</div>
 		</div>
 	</div>
+	
+	<!-- -----------------
+		업무 상세보기 모달
+	------------------ -->
+	<div data-include1="showModalMain"></div>
 	
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]];
@@ -701,6 +712,23 @@ select {
 		
 		$('.businessListBox').parent().css('float', 'right');
 	})
+	
+	/*----------------------------
+		업무 상세보기 모달
+	------------------------------*/
+	$('.businessList').on('click', infoBusiness);
+    
+	$(function(){
+		var includes1 = $('[data-include1="showModalMain"]');
+		jQuery.each(includes1, function(){
+			$(this).load('/modal/modal-home.html');
+		});
+	})
+    
+    function infoBusiness(){
+    	bussNo = $(this).find('input').val();
+    	$('#workModal').modal('toggle');
+    }
     </script>
 	
 	<script src="plugins/common/common.min.js"></script>

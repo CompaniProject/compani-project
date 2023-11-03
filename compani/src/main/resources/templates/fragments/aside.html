@@ -440,8 +440,7 @@
 			.fail(err => {});
 				
 		})
-			
-
+		
 		// 회사관리자, 회사부관리자만 '회사 관리'메뉴 보임
 		if([[${session.loginInfo.permNo}]] == 'ROLE_0A2' ||
 				[[${session.loginInfo.permNo}]] == 'ROLE_0A3'){
