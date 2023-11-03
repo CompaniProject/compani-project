@@ -10,15 +10,23 @@
 	}
 		
 	//----------------------- Project Feedback(Comment) Insert Start
-    function insertComment(){
+	function createInsertObj(){
+		let curBody = $(event.target).closest('.media');
+        
         let value = $('#inputCntn').val();
         let obj = {};
         obj["prjtFdbkCntn"] = value;
         obj["prjtNo"] = prjtNo;
-        
-        insertAjax(obj);
+        obj["prjtFdbkUpno"] = curBody.data('parentNo');
         
         $('#inputCntn').val('');
+        
+        return obj;
+	}
+	
+    function insertComment(){
+    	let obj = createInsertObj();
+        insertAjax(obj);
     }
     
     function insertAjax(obj){
