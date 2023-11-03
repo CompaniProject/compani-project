@@ -724,8 +724,6 @@
 				// =====DataTransfer 파일 관리========
 				for (var i = 0; i < fileArr.length; i++) {
 					savePIDataTransfer.items.add(fileArr[i])
-					console.log("dataTransfer =>", savePIDataTransfer.files)
-					console.log("input FIles =>", document.getElementById("savePIFiles").files)
 				}
 
 				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
@@ -800,7 +798,6 @@
 		$('.bussNm-select-option').on('click', function (e) {
 			var selectValue = e.currentTarget.textContent;
 			$('.bussNm-selected-value').text(selectValue);
-			console.log($(this).val());
 			$('.bussNm-selected-value').data('bno', $(this).val());
 			$('.bussNm-select-ul').css('display', 'none');
 
