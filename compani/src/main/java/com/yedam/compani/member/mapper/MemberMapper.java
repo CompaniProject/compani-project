@@ -22,4 +22,7 @@ public interface MemberMapper {
 	
 	public  List<String> selectProjectFeedbackMemberList(ProjectMemberVO vo);
 	public List<MemberVO> memberList(MemberVO vo);
+	
+	// 마스터 회원리스트
+	public List<Map<Object, Object>> masterMemberList();
 }

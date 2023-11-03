@@ -203,4 +203,14 @@ public class MemberController {
 		return map;
 	}
 	
+	// 김연규, 2023-11-03, 마스터 멤버리스트
+	@GetMapping("/masterHome")
+	public String masterList(Model model) {
+		List<CompanyVO> companyList = serviceC.companyAllList();
+		List<Map<Object, Object>> memberList = service.masterMemberList();
+		model.addAttribute("masterCompanyList", companyList);
+		model.addAttribute("masterMemberList", memberList);
+		return "master/master-home";
+	}
+	
 }

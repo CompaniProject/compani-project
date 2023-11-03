@@ -59,13 +59,4 @@ public class CompanyController {
 		vo = service.getCompanyInfo(vo);
 		return vo;
 	}
-	
-	// 김연규, 2023-11-02, 회사리스트
-	@GetMapping("/masterHome")
-	public String companyAllList(Model model) {
-		List<CompanyVO> list = service.companyAllList();
-		model.addAttribute("companyAllList", list);
-		return "master/master-home";
-	}
-	
 }

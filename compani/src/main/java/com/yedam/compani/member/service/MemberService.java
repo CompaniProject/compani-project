@@ -22,4 +22,6 @@ public interface MemberService {
 	public List<String> getProjectFeedbackMemberList(ProjectMemberVO vo);
 	public List<MemberVO> memberList(MemberVO vo);
 	
+	// 마스터 회원리스트
+	public List<Map<Object, Object>> masterMemberList();
 }

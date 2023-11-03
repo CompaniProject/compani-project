@@ -14,6 +14,6 @@ public interface CompanyService {
 	
 	public CompanyVO getCompanyInfo(CompanyVO vo);
 	
-	// 회사리스트
+	// 마스터 회사리스트
 	public List<CompanyVO> companyAllList();
 }

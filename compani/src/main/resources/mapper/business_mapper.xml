@@ -17,8 +17,7 @@
 		WHEN '0J2' THEN '중'
 		WHEN '0J3' THEN '하' END AS buss_imp
 		, b.buss_prgre
-		,
-		b.buss_frdt
+		, b.buss_frdt
 		, b.buss_todt
 		, b.buss_st
 		FROM business b LEFT JOIN project p

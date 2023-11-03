@@ -123,5 +123,20 @@
 		FROM MEMBER
 		WHERE CO_CD = #{coCd}
 	</select>
+	
+	<!-- 마스터 멤버리스트 -->
+	<select id="masterMemberList" resultType="CamelHashMap">
+		SELECT 
+				m.co_cd
+				, co_nm 
+				, memb_id
+				, memb_nm
+				, memb_birth_dt
+				, memb_email
+				, memb_telno
+				, memb_accp
+		FROM	member m	LEFT JOIN	company c 
+							ON			m.co_cd = c.co_cd
+	</select>
 
 </mapper>

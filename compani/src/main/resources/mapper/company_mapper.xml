@@ -41,7 +41,7 @@
 		)
 	</insert>
 	
-	<!-- 회사리스트 -->
+	<!-- 마스터 회사리스트 -->
 	<select id="companyAllList" resultType="CompanyVO">
 		SELECT *
 		FROM company
