@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberVO> getMemberList(Map<String, String> list ){
+	public List<MemberVO> getMemberList(Map<String, Object> list){
 
 		return map.memberSearchList(list);
 	}

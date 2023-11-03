@@ -24,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -124,13 +123,15 @@ public class MemberController {
 	//대철's
 	@GetMapping("memSearchAjax")
 	@ResponseBody
-	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,String> map) {
+	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,Object> map, HttpServletRequest request) {
 		
-		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		int prjtNo = (int) request.getSession().getAttribute("prjtNo"); 
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo"); 
 		String coCd = memberVO.getCoCd();
-		List<MemberVO> List = service.prjtMemberList(prjtNo, coCd);
-		
+		map.put("prjtNo", prjtNo);
+		map.put("coCd", coCd);
+		List<MemberVO> List = service.getMemberList(map);
+	
 	
 		return List;
 	}

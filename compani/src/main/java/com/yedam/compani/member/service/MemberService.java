@@ -15,7 +15,7 @@ public interface MemberService {
 	public int setMemberInfo(MemberVO vo);
 
 	public List<MemberVO> getMemberIdList();
-	public List<MemberVO> getMemberList(Map<String,String> map);
+	public List<MemberVO> getMemberList(Map<String,Object> map);
 
 	public int editMemberInfo(MemberVO vo);
 	

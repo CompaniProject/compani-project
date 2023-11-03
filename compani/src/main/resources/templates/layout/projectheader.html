@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="projectHeader">
-
+	[[${session.loginInfo}]]
+	[[${session.projectVO}]]
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-2 col-sm-6">
@@ -322,7 +323,6 @@
 												</thead>
 												<tbody id="prjtmembertbl">
 													<th:block th:each="memberList : ${memberList}">
-														<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
 														<tr th:id="${memberList.membId}">
 															<td><img
 																th:src="@{/images/profile/}+${memberList.membPhtPath}"

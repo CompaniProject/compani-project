@@ -16,7 +16,7 @@ public interface MemberMapper {
 	public int insertMemberInfo(MemberVO vo);
 
 	public List<MemberVO> selectMemberIdList();
-	public List<MemberVO> memberSearchList(Map<String,String> map);
+	public List<MemberVO> memberSearchList(Map<String,Object> map);
 
 	public int updateMemberInfo(MemberVO vo);
 	public int updateMemberPwd(MemberVO vo);

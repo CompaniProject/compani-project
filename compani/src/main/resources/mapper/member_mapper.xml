@@ -76,24 +76,25 @@
 				MEMB_WKGD,
 				MEMB_PHT_PATH
 		FROM MEMBER
-
-		<if test="key == '전체'">
-			WHERE MEMB_NM LIKE '%' || #{value} || '%'
-			OR MEMB_DEPT LIKE '%' || #{value} || '%'
-			OR MEMB_WKGD LIKE '%' || #{value} || '%'
-
-		</if>
-		<if test="key == '이름'">
-			WHERE MEMB_NM LIKE '%' || #{value} || '%'
-		</if>
-		<if test="key== '부서'">
-			WHERE MEMB_DEPT LIKE '%' || #{value} || '%'
-		</if>
-		<if test="key == '직책'">
-			WHERE MEMB_WKGD LIKE '%' || #{value} || '%'
-		</if>
-
-
+		<choose>
+			<when test="key == '전체'">
+			 WHERE CO_CD = #{coCd}
+			 AND    MEMB_ID NOT IN (SELECT memb_ID
+                                   FROM   PROJECT_MEMBER 
+                                   WHERE  PRJT_MEMB_PERM = 'CRTR'
+                                   AND    PRJT_NO = #{prjtNo} )
+			</when>
+			<when test="key == '이름'">
+			 WHERE MEMB_NM LIKE '%' || #{value} || '%'
+			</when>
+			<when test="key== '부서'">
+			 WHERE MEMB_DEPT LIKE '%' || #{value} || '%'
+			</when>
+			<otherwise>
+			 WHERE MEMB_WKGD LIKE '%' || #{value} || '%'
+			</otherwise>
+			
+		</choose>
 	</select>
 
 	<update id="updateMemberInfo" parameterType="MemberVO">
