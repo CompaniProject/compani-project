@@ -631,7 +631,6 @@ input[type="checkbox" i] {
 .modalInsertContent > .issueInsertContentTopBar {
     position: sticky;
     top: 0;
-    z-index: 5000;
     display: flex;
     justify-content: space-between;
     width: 96%;

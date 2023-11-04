@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/projectlayout}">
 
 <th:block layout:fragment="content">
@@ -10,28 +9,27 @@
 			<div class="pIssueInfoContentTopBar">
 				<span class="returnPIssueList" onclick="returnPIssueList()"></span>
 				<button type="button" class="pIssueEditing" onclick="switchPIEditForm()">수정</button>
-				<button type="button" class="pIssueDeleting"
-					onclick="deletePIssue()">삭제</button>
+				<button type="button" class="pIssueDeleting" onclick="deletePIssue()">삭제</button>
 			</div>
 
 			<div class="pIssueNameInfo">
 				<div class="pIssueNames">
-					<textarea class="modalIssueName" maxlength="200"
-						style="height: 34px;" readonly th:text="${issueInfo.issuTtl}"></textarea>
+					<textarea class="modalIssueName" maxlength="200" style="height: 34px;" readonly
+						th:text="${issueInfo.issuTtl}"></textarea>
 				</div>
 			</div>
 			<hr style="margin: 0; height: 2px; background-color: #eaeaea;">
 			<div class="read-content">
 				<div class="showPIHashtagList">
 					<th:block th:each="hash : ${hash}">
-					<div class="showTagBoxPI task" th:attr="title=${hash.issuHtNm}">
-						<p>#</p>
-						<span class="ready"></span>
-						<p class="showTextEllipsisPI" th:text="${hash.issuHtNm}"></p>
-					</div>	
+						<div class="showTagBoxPI task" th:attr="title=${hash.issuHtNm}">
+							<p>#</p>
+							<span class="ready"></span>
+							<p class="showTextEllipsisPI" th:text="${hash.issuHtNm}"></p>
+						</div>
 					</th:block>
 				</div>
-				
+
 				<div class="media pt-5" style="padding-top: 20px !important;">
 					<img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
 					<div class="media-body" style="margin-right: 50px; flex: 0;">
@@ -51,10 +49,8 @@
 				<h6 class="p-t-15p" style="display: inline-block; padding: 3px;">
 					<i class="fa fa-download mb-2"></i> 첨부파일 <span id="countFileP"></span>
 				</h6>
-				<h6 class="p-t-16p"
-					style="display: inline-block; margin-left: 20px; padding: 3px;">
-					<i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글 <span
-						id="countReplyP"></span>
+				<h6 class="p-t-16p" style="display: inline-block; margin-left: 20px; padding: 3px;">
+					<i class="fa fa-comment mb-2" style="margin-right: 5px;"></i>댓글 <span id="countReplyP"></span>
 				</h6>
 				<hr style="margin: 0; height: 1px; background-color: #eaeaea;">
 
@@ -91,12 +87,12 @@
 								댓글<i id="counter">0/300자</i>
 							</h5>
 						</div>
-							<textarea id="pIssueReplyCntn" name="pIssueReplyCntn"
-								onkeyup="countingLengthP(this);" placeholder="댓글을 입력하세요"></textarea>
+						<textarea id="pIssueReplyCntn" name="pIssueReplyCntn" onkeyup="countingLengthP(this);"
+							placeholder="댓글을 입력하세요"></textarea>
 
-							<button type="button" id="issueReplySave" onclick="saveReplyP();">
-								<i class="fa fa-location-arrow"></i>등록
-							</button>
+						<button type="button" id="issueReplySave" onclick="saveReplyP();">
+							<i class="fa fa-location-arrow"></i>등록
+						</button>
 					</div>
 
 				</div>
@@ -105,16 +101,15 @@
 	</div>
 	<!--/* 이슈 상세보기 END */-->
 	<!--/* 이슈 삭제시 경고창 START */-->
-	<div class="modal fade" id="delPConfirmationModal" tabindex="-1"
-		style="display: none; margin: auto;" aria-hidden="true">
+	<div class="modal fade" id="delPConfirmationModal" tabindex="-1" style="display: none; margin: auto;"
+		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: none;">
-				
+
 				</div>
 				<div class="modal-body" id="delPConfirmationModalBody">
-					<img class="cancelWarning"> <span id="modal-meg"
-						class="notice_msg"> 정말 삭제하시겠습니까? </span>
+					<img class="cancelWarning"> <span id="modal-meg" class="notice_msg"> 정말 삭제하시겠습니까? </span>
 				</div>
 				<div class="modal-footer" style="border-top: none;">
 					<button type="button" class="btn btn-danger btn-sm" id="delPCancel">취소
@@ -125,10 +120,9 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!--/* 수정폼 모달 START */-->
-	<div class="modal fade" id="piEditModal" tabindex="-1"
-		aria-labelledby="sidebarModalLabel" aria-hidden="true"
+	<div class="modal fade" id="piEditModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true"
 		style="overflow: auto;">
 		<div class="modal-dialog">
 			<div class="modal-content"
@@ -136,15 +130,14 @@
 				<!--/* 모달 헤더 부분 */-->
 				<div class="modal-header">
 					<div class="ContentTitleBox">
-						<div class="ContentImg"
-							style="background-image: url(/images/tab_issue.png);"></div>
+						<div class="ContentImg" style="background-image: url(/images/tab_issue.png);"></div>
 						<p class="ContentText">이슈 수정하기</p>
 					</div>
 					<button type="button" class="modalClose" data-dismiss="modal"></button>
 				</div>
 				<div class="modal-content-container">
-				
-				
+
+
 					<!--/* 이슈 수정 폼 START */-->
 					<div class="modal-body">
 						<div class="modalPIssueEditForm">
@@ -157,30 +150,29 @@
 							</div>
 							<div class="editPIssueName">
 								<div class="editPIssueNameBack">
-									<textarea class="modalPIssueNameEdit" id="editPIssuTtlVal"
-										maxlength="200" style="height: 34px;"></textarea>
+									<textarea class="modalPIssueNameEdit" id="editPIssuTtlVal" maxlength="200"
+										style="height: 34px;"></textarea>
 								</div>
 							</div>
-							<hr
-								style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
-								
+							<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+
 							<!--/* 이슈 종류, 상태, 중요도 START */-->
 							<div class="editPIssueKnd">
 								<p>종류</p>
 								<div class="dropBoxArea">
 									<div class="basic-dropdown" style="display: inline;">
 										<div class="dropdown">
-											<button type="button" id="editPIssuKndVal"
-												class="badge badge-dark" data-toggle="dropdown"></button>
+											<button type="button" id="editPIssuKndVal" class="badge badge-dark"
+												data-toggle="dropdown"></button>
 											<div class="dropdown-menu" style="cursor: pointer;">
 												<a class="dropdown-item"><span
-													class="badge badge-pill badge-warning">개선사항</span></a> <a
+														class="badge badge-pill badge-warning">개선사항</span></a> <a
 													class="dropdown-item"><span
-													class="badge badge-pill badge-info">새기능</span></a> <a
+														class="badge badge-pill badge-info">새기능</span></a> <a
 													class="dropdown-item"><span
-													class="badge badge-pill badge-light">업무</span></a> <a
+														class="badge badge-pill badge-light">업무</span></a> <a
 													class="dropdown-item"><span
-													class="badge badge-pill badge-danger">버그</span></a>
+														class="badge badge-pill badge-danger">버그</span></a>
 											</div>
 										</div>
 									</div>
@@ -191,15 +183,15 @@
 									<div class="dropBoxArea">
 										<div class="basic-dropdown" style="display: inline;">
 											<div class="dropdown">
-												<button type="button" id="editPIssuStVal"
-													class="badge badge-dark" data-toggle="dropdown"></button>
+												<button type="button" id="editPIssuStVal" class="badge badge-dark"
+													data-toggle="dropdown"></button>
 												<div class="dropdown-menu" style="cursor: pointer;">
 													<a class="dropdown-item"><span
-														class="badge badge-pill badge-success">해결</span></a> <a
+															class="badge badge-pill badge-success">해결</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-pill badge-info">미해결</span></a> <a
+															class="badge badge-pill badge-info">미해결</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-pill badge-light">해결불가</span></a>
+															class="badge badge-pill badge-light">해결불가</span></a>
 												</div>
 											</div>
 										</div>
@@ -211,18 +203,19 @@
 									<div class="dropBoxArea">
 										<div class="basic-dropdown">
 											<div class="dropdown">
-												<button type="button" class="badge badge-dark"
-													data-toggle="dropdown" id="editPIssuRankVal"></button>
+												<button type="button" class="badge badge-dark" data-toggle="dropdown"
+													id="editPIssuRankVal"></button>
 												<div class="dropdown-menu" style="cursor: pointer;">
 													<a class="dropdown-item"><span
-														class="badge badge-primary">매우높음</span></a> <a
+															class="badge badge-primary">매우높음</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-secondary">높음</span></a> <a
+															class="badge badge-secondary">높음</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-success">보통</span></a> <a
+															class="badge badge-success">보통</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-warning">낮음</span></a> <a
-														class="dropdown-item"><span class="badge badge-danger">매우낮음</span></a>
+															class="badge badge-warning">낮음</span></a> <a
+														class="dropdown-item"><span
+															class="badge badge-danger">매우낮음</span></a>
 												</div>
 											</div>
 										</div>
@@ -268,26 +261,25 @@
 									</div>
 								</div>
 
-								<div class="editPIHashtagSection"> 
+								<div class="editPIHashtagSection">
 									<div class="sectionTitle">
 										<p class="sectionTitleText">해시태그</p>
 									</div>
-									<input name='input-custom-dropdownPIE' class='tagify__dropdown__itemPIE' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+									<input name='input-custom-dropdownPIE' class='tagify__dropdown__itemPIE'
+										placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
 								</div>
 							</div>
 							<!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
-							<div class="modal fade" id="cancelPIEditConfirmationModal"
-								tabindex="-1"
-								style="display: none; margin-top: 200px; margin-left: 200px;"
-								aria-hidden="true">
+							<div class="modal fade" id="cancelPIEditConfirmationModal" tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header" style="border-bottom: none;">
-											
+
 										</div>
 										<div class="modal-body" id="cancelPIEditConfirmationModalBody">
-											<img class="cancelWarning"> <span id="modal-meg"
-												class="notice_msg"> 현재 수정중인 글은 저장되지 않습니다.<br> 뒤로
+											<img class="cancelWarning"> <span id="modal-meg" class="notice_msg"> 현재 수정중인
+												글은 저장되지 않습니다.<br> 뒤로
 												가시겠습니까?
 											</span>
 										</div>
@@ -304,16 +296,15 @@
 
 							<!--/* 이슈 수정폼에서 제목 입력되지 않았을 때 START */-->
 							<div class="modal fade" id="editPICheckingInput" tabindex="-1"
-								style="display: none; margin-top: 200px; margin-left: 200px;"
-								aria-hidden="true">
+								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header" style="border-bottom: none;">
-											
+
 										</div>
 										<div class="modal-body" id="editPIConfirmationModalBody">
-											<img class="cancelWarning"> <span id="modal-meg"
-												class="notice_msg">제목 을 입력하세요!<br>
+											<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">제목 을
+												입력하세요!<br>
 											</span>
 										</div>
 										<div class="modal-footer" style="border-top: none;">
@@ -332,56 +323,56 @@
 			</div>
 		</div>
 	</div>
-	<th:block th:if ="${issueInfo.bussNo > 0}">
+	<th:block th:if="${issueInfo.bussNo > 0}">
 		<button type="button" class="openBM" onclick="theBusinessModal()">해당 업무로 이동</button>
 	</th:block>
 	<div data-include1="showModalMain"></div>
 	<!--/* 이슈 삭제시 경고창 END */-->
-	<script
-		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script th:inline="javascript">
-    window.onload = function () {
-        var navItemHome = $('.nav-link').eq(3);
-        navItemHome.addClass('active');
-    }
-	
-	var piMemberId = [[${session.loginInfo.membId}]];
-	
-	// 파일 사이즈 변환하기
-	function getFileSize(size) {
-		const byteUnits = ["KB", "MB", "GB", "TB"];
-		for (let i = 0; i < byteUnits.length; i++) {
-			size = Math.floor(size / 1024);
-			if (size < 1024) return size.toFixed(1) + byteUnits[i];
+		window.onload = function () {
+			let navItemHome = $('.nav-link').eq(3);
+			navItemHome.addClass('active');
 		}
-	};
-		$('.fs').each(function(idx, item) {
+
+		let piMemberId = [[${ session.loginInfo.membId }]];
+		let pIssuNo = [[${ issueInfo.issuNo }]];
+		let bussNo = [[${ issueInfo.bussNo }]];
+		// 파일 사이즈 변환하기
+		function getFileSize(size) {
+			const byteUnits = ["KB", "MB", "GB", "TB"];
+			for (let i = 0; i < byteUnits.length; i++) {
+				size = Math.floor(size / 1024);
+				if (size < 1024) return size.toFixed(1) + byteUnits[i];
+			}
+		}
+		$('.fs').each(function (idx, item) {
 			$(item).text(getFileSize($(item).text()));
-		});	
+		});
 
 		$(document).ready(function () {
 			countReplyP(pIssuNo);
 			countFileP(pIssuNo);
 			checkPIFile();
-		});
+		})
 
 		function fileDownloading(issuNo, issuFileNo) {
-		location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
-	}
+			location.href = '/issues/' + issuNo + '/files/' + issuFileNo + '/download';
+		}
 		const piviewer = toastui.Editor.factory({
 			el: document.querySelector('#piviewer'),
 			viewer: true,
 			height: '600px'
-		});
+		})
 
 		piviewer.setMarkdown([[${ issueInfo.issuCntn }]]);
 		// 종류
-		var piKndVal = $('.pIssueKndInfo');
-		var piStVal = $('.pIssueStInfo');
-		var piRankVal = $('.pIssueRankInfo');
+		let piKndVal = $('.pIssueKndInfo');
+		let piStVal = $('.pIssueStInfo');
+		let piRankVal = $('.pIssueRankInfo');
 
 		if ([[${ issueInfo.issuKnd }]] == '0L1') {
 			piKndVal.append('<p>종류</p><div class="label label-danger" style="margin-bottom: 15px; ">버그</div>');
@@ -435,7 +426,7 @@
 		});
 
 		// 댓글 카운트
-		var pIssuNo = [[${ issueInfo.issuNo }]];
+
 		function countReplyP(issuNo) {
 			$.ajax({
 				url: '/issues/' + issuNo + '/reply/count',
@@ -463,28 +454,28 @@
 				})
 		}
 
-		
+
 		// 댓글 길이 카운팅
 		function countingLengthP(content) {
 			if (content.value.length > 300) {
 				Swal.fire({
-		            icon: 'error',                         // Alert 타입
-		            text: '댓글을 300자 이하로 입력해 주세요.',  // Alert 내용
-		        });
+					icon: 'error',                         // Alert 타입
+					text: '댓글을 300자 이하로 입력해 주세요.',  // Alert 내용
+				});
 				content.value = content.value.substring(0, 300);
 				content.focus();
 			}
 			document.getElementById('counter').innerText = content.value.length + '/300자';
 		}
-        // 날짜 변환
-        function dateFormatting(date) {
-          let parseDate = new Date(date);
+		// 날짜 변환
+		function dateFormatting(date) {
+			let parseDate = new Date(date);
 
-          let year = parseDate.getFullYear();
-          let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
-          let day = ('0' + parseDate.getDate()).slice(-2);
-             return year + '-' + month + '-' + day;
-            }
+			let year = parseDate.getFullYear();
+			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+			let day = ('0' + parseDate.getDate()).slice(-2);
+			return year + '-' + month + '-' + day;
+		}
 
 		// 댓글 저장
 		function saveReplyP() {
@@ -502,12 +493,13 @@
 				contentType: 'application/json;',
 				data: JSON.stringify(params)
 			})
-				.done(function (data) {
+				.done(function () {
 					findAllReplyP();
 					countReplyP(issuNo);
+					issueReplyCntn.innerText = '';
 				})
 				.fail(function (error) {
-					console.log(error);
+					console.log(error)
 				})
 		}
 
@@ -592,12 +584,12 @@
 				type: 'get'
 			})
 				.done(function (response) {
-					var editForm = document.getElementById('IssueReplyPEditForm_' + id);
-					var replyText = document.getElementById('replyPText_' + id);
+					let editForm = document.getElementById('IssueReplyPEditForm_' + id);
+					let replyText = document.getElementById('replyPText_' + id);
 
 					if (editForm.style.display === 'none') {
 						editForm.style.display = 'block';
-						replyText.style.display = 'none';					
+						replyText.style.display = 'none';
 					} else {
 						editForm.style.display = 'none';
 						replyText.style.display = 'block';
@@ -657,10 +649,10 @@
 
 			$('#delPConfirmationModal').modal('show');
 
-            $('#delPCancel').on('click', function () {
-                $('#delPConfirmationModal').modal('hide');
-            })
-            
+			$('#delPCancel').on('click', function () {
+				$('#delPConfirmationModal').modal('hide');
+			})
+
 			$('#delPConfirm').on('click', function () {
 				const issuNo = pIssuNo;
 				const issuRplyNo = id;
@@ -672,6 +664,7 @@
 					.done(function (response) {
 						findAllReplyP();
 						countReplyP(issuNo);
+						$('#delPConfirmationModal').modal('hide');
 					})
 
 					.fail(function (err) {
@@ -683,10 +676,10 @@
 		function returnPIssueList() {
 			location.href = '/project/issues/1';
 		}
-		
+
 		// 프로젝트 게시판에서 이슈 삭제
 		function deletePIssue() {
-			var issuNo = pIssuNo;
+			let issuNo = pIssuNo;
 			// 경고창
 			$('#delPConfirmationModal').modal('show');
 
@@ -712,24 +705,24 @@
 		// 업로드 된 파일이 없을 경우 ..
 		function checkPIFile() {
 			if ($('#pIssueInfoFiles tr').length == 0) {
-				var trTag = $('<tr/>').attr('class', 'fileEmpty');
-				var fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
-				var emptyTdTag = $('<td/>');
-				var emptyTdTags = $('<td/>');
+				let trTag = $('<tr/>').attr('class', 'fileEmpty');
+				let fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+				let emptyTdTag = $('<td/>');
+				let emptyTdTags = $('<td/>');
 				trTag.append(fileEmptyTag);
 				trTag.append(emptyTdTag);
 				trTag.append(emptyTdTags);
 				$('#pIssueInfoFiles').append(trTag);
 			};
 		};
-		
+
 		// 업로드 된 파일이 없을 경우 ..
 		function checkPIEditFile() {
 			if ($('#editPIssueFileList tr').length == 0) {
-				var trTag = $('<tr/>').attr('class', 'fileEmpty');
-				var fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
-				var emptyTdTag = $('<td/>');
-				var emptyTdTags = $('<td/>');
+				let trTag = $('<tr/>').attr('class', 'fileEmpty');
+				let fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+				let emptyTdTag = $('<td/>');
+				let emptyTdTags = $('<td/>');
 				trTag.append(fileEmptyTag);
 				trTag.append(emptyTdTag);
 				trTag.append(emptyTdTags);
@@ -737,23 +730,23 @@
 			};
 		};
 		<!-- 프로젝트 게시판 내 이슈 수정 시작 -->
-		
-		// 수정 폼에서 HashTag 폼.
-		var inputHashPIE = document.querySelector('input[name="input-custom-dropdownPIE"]');
 
-		var tagifyPIE = new Tagify(inputHashPIE, {
-			maxTags : 10, // 최대 허용 태그 개수
-			dropdown : {
-				position : "input",
-				classname : "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
-				enabled : 0
-			// always opens dropdown when input gets focus
+		// 수정 폼에서 HashTag 폼.
+		let inputHashPIE = document.querySelector('input[name="input-custom-dropdownPIE"]');
+
+		let tagifyPIE = new Tagify(inputHashPIE, {
+			maxTags: 10, // 최대 허용 태그 개수
+			dropdown: {
+				position: "input",
+				classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+				enabled: 0
+				// always opens dropdown when input gets focus
 			}
 		})
-		
+
 		// 이슈 수정 창에서 해시태그 리스트 조회
 		function findAllPIHashtag() {
-			var issuNo = pIssuNo;
+			let issuNo = pIssuNo;
 			$('.tagify__tag').remove();
 
 			$.ajax({
@@ -762,14 +755,14 @@
 				success: function (response) {
 					let hts = [];
 					$.each(response, function (idx, item) {
-						hts.push(item.issuHtNm);				
+						hts.push(item.issuHtNm);
 					})
-					inputHashPIE.value = hts.join(',');	
+					inputHashPIE.value = hts.join(',');
 				},
 				error: function (err) {
 					console.log(err);
 				}
-				
+
 			});
 		}
 		const editorPIEditing = new toastui.Editor({
@@ -779,7 +772,7 @@
 			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
 		});
-		
+
 		// 이슈 수정 폼
 		function switchPIEditForm() {
 
@@ -790,60 +783,60 @@
 				type: 'get'
 			})
 				.done(function (response) {
-					var issueEditForm = $('#piEditModal');
-						issueEditForm.modal('show');
-					var kndVal = document.getElementById('editPIssuKndVal');
-					var stVal = document.getElementById('editPIssuStVal');
-					var rankVal = document.getElementById('editPIssuRankVal');
+					let issueEditForm = $('#piEditModal');
+					issueEditForm.modal('show');
+					let kndVal = document.getElementById('editPIssuKndVal');
+					let stVal = document.getElementById('editPIssuStVal');
+					let rankVal = document.getElementById('editPIssuRankVal');
 
-						document.getElementById('editPIssuTtlVal').value = response.issueInfo.issuTtl;
-						editorPIEditing.setHTML(response.issueInfo.issuCntn);
-						
-						if (response.issueInfo.issuKnd == '0L1') {
-							kndVal.className = 'badge badge-danger';
-							kndVal.innerHTML = '버그';
-						} else if (response.issueInfo.issuKnd == '0L2') {
-							kndVal.className = 'badge badge-warning';
-							kndVal.innerHTML = '개선사항';
-						} else if (response.issueInfo.issuKnd == '0L3') {
-							kndVal.className = 'badge badge-info';
-							kndVal.innerHTML = '새기능';
-						} else if (response.issueInfo.issuKnd == '0L4') {
-							kndVal.className = 'badge badge-light';
-							kndVal.innerHTML = '업무';
-						}
+					document.getElementById('editPIssuTtlVal').value = response.issueInfo.issuTtl;
+					editorPIEditing.setHTML(response.issueInfo.issuCntn);
 
-						if (response.issueInfo.issuSt == '0E1') {
-							stVal.className = 'badge badge-pill badge-success';
-							stVal.innerHTML = '해결';
-						} else if (response.issueInfo.issuSt == '0E2') {
-							stVal.className = 'badge badge-pill badge-dark';
-							stVal.innerHTML = '미해결';
-						} else if (response.issueInfo.issuSt == '0E3') {
-							stVal.className = 'badge badge-pill badge-secondary';
-							stVal.innerHTML = '해결불가';
-						}
+					if (response.issueInfo.issuKnd == '0L1') {
+						kndVal.className = 'badge badge-danger';
+						kndVal.innerHTML = '버그';
+					} else if (response.issueInfo.issuKnd == '0L2') {
+						kndVal.className = 'badge badge-warning';
+						kndVal.innerHTML = '개선사항';
+					} else if (response.issueInfo.issuKnd == '0L3') {
+						kndVal.className = 'badge badge-info';
+						kndVal.innerHTML = '새기능';
+					} else if (response.issueInfo.issuKnd == '0L4') {
+						kndVal.className = 'badge badge-light';
+						kndVal.innerHTML = '업무';
+					}
 
-						if (response.issueInfo.issuRank == '0G1') {
-							rankVal.className = 'badge badge-primary';
-							rankVal.innerHTML = '매우높음';
-						} else if (response.issueInfo.issuRank == '0G2') {
-							rankVal.className = 'badge badge-secondary';
-							rankVal.innerHTML = '높음';
-						} else if (response.issueInfo.issuRank == '0G3') {
-							rankVal.className = 'badge badge-success';
-							rankVal.innerHTML = '보통';
-						} else if (response.issueInfo.issuRank == '0G4') {
-							rankVal.className = 'badge badge-warning';
-							rankVal.innerHTML = '낮음';
-						} else if (response.issueInfo.issuRank == '0G5') {
-							rankVal.className = 'badge badge-danger';
-							rankVal.innerHTML = '매우낮음';
-						}
-						findAllPIHashtag();
-						
-						checkPIEditInput();
-						findAllPIFile();
+					if (response.issueInfo.issuSt == '0E1') {
+						stVal.className = 'badge badge-pill badge-success';
+						stVal.innerHTML = '해결';
+					} else if (response.issueInfo.issuSt == '0E2') {
+						stVal.className = 'badge badge-pill badge-dark';
+						stVal.innerHTML = '미해결';
+					} else if (response.issueInfo.issuSt == '0E3') {
+						stVal.className = 'badge badge-pill badge-secondary';
+						stVal.innerHTML = '해결불가';
+					}
+
+					if (response.issueInfo.issuRank == '0G1') {
+						rankVal.className = 'badge badge-primary';
+						rankVal.innerHTML = '매우높음';
+					} else if (response.issueInfo.issuRank == '0G2') {
+						rankVal.className = 'badge badge-secondary';
+						rankVal.innerHTML = '높음';
+					} else if (response.issueInfo.issuRank == '0G3') {
+						rankVal.className = 'badge badge-success';
+						rankVal.innerHTML = '보통';
+					} else if (response.issueInfo.issuRank == '0G4') {
+						rankVal.className = 'badge badge-warning';
+						rankVal.innerHTML = '낮음';
+					} else if (response.issueInfo.issuRank == '0G5') {
+						rankVal.className = 'badge badge-danger';
+						rankVal.innerHTML = '매우낮음';
+					}
+					findAllPIHashtag();
+
+					checkPIEditInput();
+					findAllPIFile();
 				})
 
 				.fail(function (err) {
@@ -852,7 +845,7 @@
 		}
 		// 이슈 수정 창에서 파일 리스트 조회
 		function findAllPIFile() {
-			var issuNo = pIssuNo;
+			let issuNo = pIssuNo;
 			$('#editPIssueFileList').empty();
 			$.ajax({
 				url: '/issues/' + issuNo + '/files',
@@ -861,10 +854,10 @@
 				.done(function (response) {
 					$.each(response, function (idx, item) {
 
-						var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
-						var fileNameTag = $('<td/>').text(item.issuFileNm);
-						var fileSizeTag = $('<td/>').text(getFileSize(item.issuFileSize));
-						var deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'removePIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
+						let trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
+						let fileNameTag = $('<td/>').text(item.issuFileNm);
+						let fileSizeTag = $('<td/>').text(getFileSize(item.issuFileSize));
+						let deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'removePIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
 
 						trTag.append(fileNameTag);
 						trTag.append(fileSizeTag);
@@ -881,7 +874,7 @@
 		}
 		// "수정" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
 		function checkPIEditInput() {
-			var issuTtlVal = $('#editPIssuTtlVal').val();
+			let issuTtlVal = $('#editPIssuTtlVal').val();
 
 			if (issuTtlVal == '') {
 				$('.completePIEditing').removeClass('registrable');
@@ -892,10 +885,10 @@
 
 		$('#editPIssuTtlVal').on('change', function () {
 			checkPIEditInput();
-		});		
-		
-		
-		
+		});
+
+
+
 		// 이슈 수정하기 취소 버튼
 		$('.modalPIssueEditForm').on('click', '.cancelPIEditing', function () {
 			$('#cancelPIEditConfirmationModal').modal('show');
@@ -903,10 +896,10 @@
 			// ' 확인' 버튼이 클릭 시
 			$('#confirmPIEditCancel').on('click', function () {
 				// 입력 필드 초기화
-				
+
 				$('#editPIssuTtlVal').val('');
 				editorPIEditing.setHTML('');
-		        editPIDataTransfer.clearData();
+				editPIDataTransfer.clearData();
 				$('#cancelPIEditConfirmationModal').modal('hide');
 				$('#piEditModal').modal('hide');
 
@@ -917,7 +910,7 @@
 				$('#cancelPIEditConfirmationModal').modal('hide');
 			});
 		});
-		
+
 		$('.completePIEditing').on('click', function () {
 			// "수정" 버튼이 활성화 상태일 때만 실행됨
 			if ($(this).hasClass('registrable')) {
@@ -930,27 +923,27 @@
 				});
 			}
 		});
-		
+
 		// ajax 프로젝트 게시판 내에서 이슈 수정
 		function updatePIssue() {
-			var formData = new FormData();
+			let formData = new FormData();
 
-			var issuNo = pIssuNo;
+			let issuNo = pIssuNo;
 			formData.append('issuNo', issuNo);
 
-			var title = $('#editPIssuTtlVal').val();
+			let title = $('#editPIssuTtlVal').val();
 			formData.append('issuTtl', title);
 
-			var content = editorPIEditing.getHTML();
+			let content = editorPIEditing.getHTML();
 			formData.append('issuCntn', content);
-			
-			var pihtupdateobj = tagifyPIE.value;
-			var pihtupdateobjVal = pihtupdateobj.map(row=>row.value);
+
+			let pihtupdateobj = tagifyPIE.value;
+			let pihtupdateobjVal = pihtupdateobj.map(row => row.value);
 			formData.append('edithashtags', pihtupdateobjVal);
 
-			var kind = $('#editPIssuKndVal').text();
-			var rank = $('#editPIssuRankVal').text();
-			var status = $('#editPIssuStVal').text();
+			let kind = $('#editPIssuKndVal').text();
+			let rank = $('#editPIssuRankVal').text();
+			let status = $('#editPIssuStVal').text();
 
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if (rank == '매우높음') {
@@ -987,14 +980,14 @@
 			formData.append('issuKnd', kind);
 			formData.append('issuSt', status);
 
-			var inputFiles = document.querySelector('.editPIReal-upload');
-			var filesInfo = inputFiles.files;
+			let inputFiles = document.querySelector('.editPIReal-upload');
+			let filesInfo = inputFiles.files;
 
 			for (i = 0; i < filesInfo.length; i++) {
 				formData.append("editFiles", filesInfo[i]);
 			}
 			formData.append('removeFileIds', removePIFileId.getAll().join());
-			
+
 			$.ajax({
 				url: '/ModalIssueUpdate',
 				type: 'post',
@@ -1012,14 +1005,14 @@
 					console.log(err)
 				})
 		}
-		
+
 		// 수정 폼에서 파일 추가
 		const editPIRealUpload = document.querySelector('.editPIReal-upload');
 		const editPIUpload = document.querySelector('.editingPILoadBtn.upload');
 		editPIUpload.addEventListener('click', () => editPIRealUpload.click());
 
 		function addPIssueFile(element) {
-			if($('.fileEmpty')){
+			if ($('.fileEmpty')) {
 				$('.fileEmpty').remove()
 			};
 			const file = element.files[0];
@@ -1032,17 +1025,17 @@
 			const editFileSize = Math.floor(file.size / 1024 / 1024);
 			if (editFileSize > 10) {
 				Swal.fire({
-		            icon: 'error',                         // Alert 타입
-		            text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
-		        });
+					icon: 'error',                         // Alert 타입
+					text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
+				});
 				return false;
 			}
 
 			if (file) {
-				var trTag = $('<tr/>').addClass('added');
-				var fileNameTag = $('<td/>').text(file.name);
-				var fileSizeTag = $('<td/>').text(getFileSize(file.size));
-				var deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'editRemovePIFile(this);');
+				let trTag = $('<tr/>').addClass('added');
+				let fileNameTag = $('<td/>').text(file.name);
+				let fileSizeTag = $('<td/>').text(getFileSize(file.size));
+				let deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'editRemovePIFile(this);');
 
 				trTag.append(fileNameTag);
 				trTag.append(fileSizeTag);
@@ -1059,7 +1052,7 @@
 
 			if (fileArr != null && fileArr.length > 0) {
 				// DataTransfer 파일 관리 //
-				for (var i = 0; i < fileArr.length; i++) {
+				for (let i = 0; i < fileArr.length; i++) {
 					editPIDataTransfer.items.add(fileArr[i])
 					console.log("dataTransfer =>", editPIDataTransfer.files)
 					console.log("input FIles =>", document.getElementById("editPIFiles").files)
@@ -1069,19 +1062,19 @@
 		})
 		// 수정 폼에서 새롭게 추가된 파일 삭제 시
 		function removeEditPIFileFromDataTransfer(element) {
-			var addedFiles = $(".added");
-			var index = addedFiles.index($(element).parent());
+			let addedFiles = $(".added");
+			let index = addedFiles.index($(element).parent());
 			console.log(index + "입니다");
 			if (index != -1) {
 				editPIDataTransfer.items.remove(index);
 				document.getElementById("editPIFiles").files = editPIDataTransfer.files;
-				
+
 			}
 		}
 		// 수정 폼에서 새롭게 추가된 파일 삭제 시
 		function editRemovePIFile(element) {
 			removeEditPIFileFromDataTransfer(element);
-			var tr = $(element).closest('tr');
+			let tr = $(element).closest('tr');
 			tr.remove();
 			checkPIEditFile();
 		}
@@ -1112,22 +1105,22 @@
 				removePIFileId.add(id);
 			}
 			// 2. 파일 영역 삭제
-			var tr = $(element).closest('tr');
+			let tr = $(element).closest('tr');
 			tr.remove();
 			checkPIEditFile();
 		}
-		var bussNo = [[${issueInfo.bussNo}]];
+
 
 		// Modal Open
-		$(function(){
-            var includes1 = $('[data-include1="showModalMain"]');
-            jQuery.each(includes1, function(){
-               $(this).load('/modal/modal-home.html');
-            });
-    	})
+		$(function () {
+			let includes1 = $('[data-include1="showModalMain"]');
+			jQuery.each(includes1, function () {
+				$(this).load('/modal/modal-home.html');
+			});
+		})
 
-    	function theBusinessModal() {
-			bussNo = [[${issueInfo.bussNo}]];
+		function theBusinessModal() {
+			bussNo = [[${ issueInfo.bussNo }]];
 			$('#workModal').modal('toggle');
 		}
 	</script>

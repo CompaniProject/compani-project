@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/projectlayout}">
 
 <th:block layout:fragment="content">
 	<!--/* 검색, 글쓰기 버튼 START */-->
 	<div class="TopBarProjectIssueControlArea">
 		<div class="piSearchBox">
-			<label for="SearchToggleCheckBox"
-				th:attr="onclick='projectIssuePaging(1)'"></label> <input
-				type="hidden" id="keyword" name="keyword" value="전체">
+			<label for="SearchToggleCheckBox" th:attr="onclick='projectIssuePaging(1)'"></label> <input type="hidden"
+				id="keyword" name="keyword" value="전체">
 			<div class="piSearchInputBox" style="width: 350px;">
 				<div>
 					<div class="pissue-selectBox" style="width: 100px;">
@@ -25,8 +23,8 @@
 						</ul>
 					</div>
 				</div>
-				<input class="SearchInputModalView" id="keywordFile"
-					name="keywordFile" type="text" placeholder="검색어를 입력하세요.">
+				<input class="SearchInputModalView" id="search" name="search" type="text"
+					placeholder="검색어를 입력하세요.">
 			</div>
 		</div>
 		<button class="postWritingBoxP">
@@ -55,38 +53,36 @@
 					</thead>
 					<tbody class="projectIssueLists" style="text-align: center;">
 						<th:block th:each="projectIssueList : ${projectIssueList}">
-							<tr
-								th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
-								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span
-									class="badge badge-danger" th:text="버그"></span></th>
-								<th th:if="${projectIssueList.issuKnd == '0L2'}"><span
-									class="badge badge-warning" th:text="개선사항"></span></th>
-								<th th:if="${projectIssueList.issuKnd == '0L3'}"><span
-									class="badge badge-info" th:text="새기능"></span></th>
-								<th th:if="${projectIssueList.issuKnd == '0L4'}"><span
-									class="badge badge-light" th:text="업무"></span></th>
+							<tr th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
+								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span class="badge badge-danger"
+										th:text="버그"></span></th>
+								<th th:if="${projectIssueList.issuKnd == '0L2'}"><span class="badge badge-warning"
+										th:text="개선사항"></span></th>
+								<th th:if="${projectIssueList.issuKnd == '0L3'}"><span class="badge badge-info"
+										th:text="새기능"></span></th>
+								<th th:if="${projectIssueList.issuKnd == '0L4'}"><span class="badge badge-light"
+										th:text="업무"></span></th>
 								<td th:text="${projectIssueList.issuTtl}"></td>
 								<td th:text="${projectIssueList.membNm}"></td>
 								<th th:if="${projectIssueList.issuSt == '0E1'}"><span
-									class="badge badge-pill badge-success" th:text="해결"></span></th>
+										class="badge badge-pill badge-success" th:text="해결"></span></th>
 								<th th:if="${projectIssueList.issuSt == '0E2'}"><span
-									class="badge badge-pill badge-dark" th:text="미해결"></span></th>
+										class="badge badge-pill badge-dark" th:text="미해결"></span></th>
 								<th th:if="${projectIssueList.issuSt == '0E3'}"><span
-									class="badge badge-pill badge-secondary" th:text="해결불가"></span></th>
+										class="badge badge-pill badge-secondary" th:text="해결불가"></span></th>
 
-								<th th:if="${projectIssueList.issuRank == '0G1'}"><span
-									class="badge badge-primary" th:text="매우높음"></span></th>
-								<th th:if="${projectIssueList.issuRank == '0G2'}"><span
-									class="badge badge-secondary" th:text="높음"></span></th>
-								<th th:if="${projectIssueList.issuRank == '0G3'}"><span
-									class="badge badge-success" th:text="보통"></span></th>
-								<th th:if="${projectIssueList.issuRank == '0G4'}"><span
-									class="badge badge-warning" th:text="낮음"></span></th>
-								<th th:if="${projectIssueList.issuRank == '0G5'}"><span
-									class="badge badge-danger" th:text="매우낮음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G1'}"><span class="badge badge-primary"
+										th:text="매우높음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G2'}"><span class="badge badge-secondary"
+										th:text="높음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G3'}"><span class="badge badge-success"
+										th:text="보통"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G4'}"><span class="badge badge-warning"
+										th:text="낮음"></span></th>
+								<th th:if="${projectIssueList.issuRank == '0G5'}"><span class="badge badge-danger"
+										th:text="매우낮음"></span></th>
 								<td th:text="${projectIssueList.bussNm}"></td>
-								<td
-									th:text="${#dates.format(projectIssueList.issuDt, 'yyyy-MM-dd')}"></td>
+								<td th:text="${#dates.format(projectIssueList.issuDt, 'yyyy-MM-dd')}"></td>
 							</tr>
 						</th:block>
 					</tbody>
@@ -98,22 +94,18 @@
 	<div class="paginate-container d-none d-sm-flex flex-sm-justify-center">
 		<div role="navigation" aria-label="piPagination" class="piPagination">
 
-			<a id="previous_page"
-				th:classappend="${projectIssue.prePage == 0} ? 'disabled'"
+			<a id="previous_page" th:classappend="${projectIssue.prePage == 0} ? 'disabled'"
 				th:attr="onclick='projectIssuePaging(\'' + ${projectIssue.prePage} + '\')'">Previous</a>
 			<a class="cur_page"
 				th:each="page: ${#numbers.sequence(projectIssue.navigateFirstPage, projectIssue.navigateLastPage)}"
-				th:text="${page}"
-				th:attr="onclick='projectIssuePaging(\'' + ${page} + '\')'"></a> <a
-				id="next_page"
+				th:text="${page}" th:attr="onclick='projectIssuePaging(\'' + ${page} + '\')'"></a> <a id="next_page"
 				th:classappend="${projectIssue.nextPage == 0} ? 'disabled'"
 				th:attr="onclick='projectIssuePaging(\'' + ${projectIssue.nextPage} + '\')'">Next</a>
 		</div>
 	</div>
 
 	<!--/* 등록폼 모달 START */-->
-	<div class="modal fade" id="piSaveModal" tabindex="-1"
-		aria-labelledby="sidebarModalLabel" aria-hidden="true"
+	<div class="modal fade" id="piSaveModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true"
 		style="overflow: auto;">
 		<div class="modal-dialog">
 			<div class="modal-content"
@@ -121,8 +113,7 @@
 				<!--/* 모달 헤더 부분 */-->
 				<div class="modal-header">
 					<div class="ContentTitleBox">
-						<div class="ContentImg"
-							style="background-image: url(/images/tab_issue.png);"></div>
+						<div class="ContentImg" style="background-image: url(/images/tab_issue.png);"></div>
 						<p class="ContentText">이슈 등록하기</p>
 					</div>
 					<button type="button" class="modalClose" data-dismiss="modal"></button>
@@ -144,13 +135,12 @@
 
 							<div class="savePIssueName">
 								<div class="savePIssueNameBack">
-									<textarea class="modalPIssueNameSave" id="savePIssuTtlVal"
-										maxlength="200" style="height: 34px;"></textarea>
+									<textarea class="modalPIssueNameSave" id="savePIssuTtlVal" maxlength="200"
+										style="height: 34px;"></textarea>
 								</div>
 							</div>
 
-							<hr
-								style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
+							<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
 
 							<!--/* 이슈 종류, 중요도 START */-->
 							<div class="savePIssueKnd">
@@ -158,17 +148,17 @@
 								<div class="dropBoxAreaPI">
 									<div class="basic-dropdown" style="display: inline;">
 										<div class="dropdown">
-											<button type="button" id="savePIssuKndVal"
-												class="badge badge-dark" data-toggle="dropdown">선택</button>
+											<button type="button" id="savePIssuKndVal" class="badge badge-dark"
+												data-toggle="dropdown">선택</button>
 											<div class="dropdown-menu" style="cursor: pointer;">
 												<a class="dropdown-item"><span
-													class="badge badge-pill badge-warning">개선사항</span></a> <a
+														class="badge badge-pill badge-warning">개선사항</span></a> <a
 													class="dropdown-item"><span
-													class="badge badge-pill badge-info">새기능</span></a> <a
+														class="badge badge-pill badge-info">새기능</span></a> <a
 													class="dropdown-item"><span
-													class="badge badge-pill badge-light">업무</span></a> <a
+														class="badge badge-pill badge-light">업무</span></a> <a
 													class="dropdown-item"><span
-													class="badge badge-pill badge-danger">버그</span></a>
+														class="badge badge-pill badge-danger">버그</span></a>
 											</div>
 										</div>
 									</div>
@@ -179,18 +169,19 @@
 									<div class="dropBoxAreaPI">
 										<div class="basic-dropdown">
 											<div class="dropdown">
-												<button type="button" class="badge badge-dark"
-													data-toggle="dropdown" id="savePIssuRankVal">선택</button>
+												<button type="button" class="badge badge-dark" data-toggle="dropdown"
+													id="savePIssuRankVal">선택</button>
 												<div class="dropdown-menu" style="cursor: pointer;">
 													<a class="dropdown-item"><span
-														class="badge badge-primary">매우높음</span></a> <a
+															class="badge badge-primary">매우높음</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-secondary">높음</span></a> <a
+															class="badge badge-secondary">높음</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-success">보통</span></a> <a
+															class="badge badge-success">보통</span></a> <a
 														class="dropdown-item"><span
-														class="badge badge-warning">낮음</span></a> <a
-														class="dropdown-item"><span class="badge badge-danger">매우낮음</span></a>
+															class="badge badge-warning">낮음</span></a> <a
+														class="dropdown-item"><span
+															class="badge badge-danger">매우낮음</span></a>
 												</div>
 											</div>
 										</div>
@@ -248,8 +239,7 @@
 											<ul class="bussNm-select-ul" style="display: none;">
 												<li class="bussNm-select-option" data-bno="0">(없음)</li>
 												<th:block th:each="bussNmList : ${bussNmList}">
-													<li th:class="bussNm-select-option"
-														th:text="${bussNmList.bussNm}"
+													<li th:class="bussNm-select-option" th:text="${bussNmList.bussNm}"
 														th:value="${bussNmList.bussNo}"></li>
 												</th:block>
 											</ul>
@@ -257,25 +247,24 @@
 									</div>
 								</div>
 
-									<div class="hashtagSection">
-										<div class="sectionTitle">
-											<p class="sectionTitleText">해시태그</p>
-										</div>
-										<input name='input-custom-dropdownPI' class='tagify__dropdown__itemPI' placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+								<div class="hashtagSection">
+									<div class="sectionTitle">
+										<p class="sectionTitleText">해시태그</p>
 									</div>
+									<input name='input-custom-dropdownPI' class='tagify__dropdown__itemPI'
+										placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+								</div>
 							</div>
 							<!--/* 프로젝트 이슈 등록폼에서 등록 취소 확인 START */-->
-							<div class="modal fade" id="cancelPISaveConfirmationModal"
-								tabindex="-1"
-								style="display: none; margin-top: 200px; margin-left: 200px;"
-								aria-hidden="true">
+							<div class="modal fade" id="cancelPISaveConfirmationModal" tabindex="-1"
+								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
-										<div class="modal-header" style="border-bottom: none;">						
+										<div class="modal-header" style="border-bottom: none;">
 										</div>
 										<div class="modal-body" id="cancelPISaveConfirmationModalBody">
-											<img class="cancelWarning"> <span id="modal-meg"
-												class="notice_msg"> 현재 작성중인 글은 저장되지 않습니다.<br> 뒤로
+											<img class="cancelWarning"> <span id="modal-meg" class="notice_msg"> 현재 작성중인
+												글은 저장되지 않습니다.<br> 뒤로
 												가시겠습니까?
 											</span>
 										</div>
@@ -292,16 +281,15 @@
 
 							<!--/* 프로젝트 이슈 등록폼에서 제목, 종류, 중요도가 다 입력되지 않았을 때 START */-->
 							<div class="modal fade" id="savePICheckingInput" tabindex="-1"
-								style="display: none; margin-top: 200px; margin-left: 200px;"
-								aria-hidden="true">
+								style="display: none; margin-top: 200px; margin-left: 200px;" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header" style="border-bottom: none;">
 											<button type="button" class="modalClose" data-dismiss="modal"></button>
 										</div>
 										<div class="modal-body" id="savePIConfirmationModalBody">
-											<img class="cancelWarning"> <span id="modal-meg"
-												class="notice_msg">제목, 종류, 중요도를 입력하세요!<br>
+											<img class="cancelWarning"> <span id="modal-meg" class="notice_msg">제목, 종류,
+												중요도를 입력하세요!<br>
 											</span>
 										</div>
 										<div class="modal-footer" style="border-top: none;">
@@ -320,48 +308,47 @@
 			</div>
 		</div>
 	</div>
-	<script
-		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-		<!-- Tagify -->
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<!-- Tagify -->
 	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<script th:inline="javascript">
-	
-		    window.onload = function () {
-		        var navItemHome = $('.nav-link').eq(3);
-		        navItemHome.addClass('active');
-		    }
-		    
-			var piMemberId = [[${session.loginInfo.membId}]];
-			var piprjtNo =   [[${prjtNo}]];
-			//검색 조건 (제목, 작성자, 전체) 
-			$('.pissue-selectBox').on('click', function () {
-				$('.pissue-select-ul').css('display', 'block');
-			});
-			
-			// 현재 페이지에 current 클래스 붙이기!
-			$('.cur_page').each(function () {
-				var page = $(this).text();
 
-				if (page == 1) {
-					$(this).addClass('current').css('color', '#ffffff');
-				} else {
-					$(this).removeClass('current').css('color', '#76838F');
-				}
-			});
-			
-			// disabled 일 때 , onclick 지우기
-			$(".disabled").css("color", "#8C959F").removeAttr("onclick");
-			
-			$('.pissue-select-option').on('click', function (e) {
-				var selectValue = e.currentTarget.textContent;
-				$('.pissue-selected-value').text(selectValue);
-				$('#keyword').val(selectValue);
-				$('.pissue-select-ul').css('display', 'none');
-				e.stopPropagation();
+		window.onload = function () {
+			let navItemHome = $('.nav-link').eq(3);
+			navItemHome.addClass('active');
+		}
+		let piMemberId = [[${ session.loginInfo.membId }]];
+		let piprjtNo = [[${ prjtNo }]];
 
-			});
-			function dateFormatting(date) {
+		//검색 조건 (제목, 작성자, 전체) 
+		$('.pissue-selectBox').on('click', function () {
+			$('.pissue-select-ul').css('display', 'block');
+		});
+
+		// 현재 페이지에 current 클래스 붙이기!
+		$('.cur_page').each(function () {
+			let page = $(this).text();
+
+			if (page == 1) {
+				$(this).addClass('current').css('color', '#ffffff');
+			} else {
+				$(this).removeClass('current').css('color', '#76838F');
+			}
+		});
+
+		// disabled 일 때 , onclick 지우기
+		$(".disabled").css("color", "#8C959F").removeAttr("onclick");
+
+		$('.pissue-select-option').on('click', function (e) {
+			let selectValue = e.currentTarget.textContent;
+			$('.pissue-selected-value').text(selectValue);
+			$('#keyword').val(selectValue);
+			$('.pissue-select-ul').css('display', 'none');
+			e.stopPropagation();
+
+		});
+		function dateFormatting(date) {
 
 			let parseDate = new Date(date);
 
@@ -369,177 +356,177 @@
 			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
 			let day = ('0' + parseDate.getDate()).slice(-2);
 			return year + '-' + month + '-' + day;
-		  }
-			// ajax 
-			function projectIssuePaging(pageNum) {
-				
-				var keywordVal = $('#keyword').val();
-				var searchVal = $('#search').val();
-				var issueLists = $('.projectIssueLists');
-				var pagination = $('.piPagination');
+		}
+		// ajax 
+		function projectIssuePaging(pageNum) {
 
-				$.ajax('/project/aissues/1?pageNum=' + pageNum + '&keyword='
-					+ keywordVal + '&search=' + searchVal,
-					{
-						type: 'GET'
-					}).done(function (data) {
-						issueLists.empty();
-						$.each(data.projectIssueList, function (idx, item) {
-							var trTag = $('<tr/>').attr('onclick', 'selectIssueInfo(' + item.issuNo + ')');
+			let keywordVal = $('#keyword').val();
+			let searchVal = $('#search').val();
+			let issueLists = $('.projectIssueLists');
+			let pagination = $('.piPagination');
 
-							if (item.issuKnd == '0L1') {
-								trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
-							} else if (item.issuKnd == '0L2') {
-								trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
-							} else if (item.issuKnd == '0L3') {
-								trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
-							} else if (item.issuKnd == '0L4') {
-								trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
-							}
-							trTag.append('<td>' + item.issuTtl + '</td>');
-							trTag.append('<td>' + item.membNm + '</td>');
+			$.ajax('/project/aissues/' + piprjtNo + '?pageNum=' + pageNum + '&keyword='
+				+ keywordVal + '&search=' + searchVal,
+				{
+					type: 'GET'
+				}).done(function (data) {
+					issueLists.empty();
+					$.each(data.projectIssueList, function (idx, item) {
+						let trTag = $('<tr/>').attr('onclick', 'selectIssueInfo(' + item.issuNo + ')');
 
-							if (item.issuSt == '0E1') {
-								trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
-							} else if (item.issuSt == '0E2') {
-								trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
-							} else if (item.issuSt == '0E3') {
-								trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
-							}
+						if (item.issuKnd == '0L1') {
+							trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
+						} else if (item.issuKnd == '0L2') {
+							trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
+						} else if (item.issuKnd == '0L3') {
+							trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
+						} else if (item.issuKnd == '0L4') {
+							trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
+						}
+						trTag.append('<td>' + item.issuTtl + '</td>');
+						trTag.append('<td>' + item.membNm + '</td>');
 
-							if (item.issuRank == '0G1') {
-								trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
-							} else if (item.issuRank == '0G2') {
-								trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
-							} else if (item.issuRank == '0G3') {
-								trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
-							} else if (item.issuRank == '0G4') {
-								trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
-							} else if (item.issuRank == '0G5') {
-								trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
-							}
-							trTag.append('<td>' + item.bussNm + '</td>');
-							trTag.append('<td>' + dateFormatting(item.issuDt) + '</td>');
-							issueLists.append(trTag);
+						if (item.issuSt == '0E1') {
+							trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
+						} else if (item.issuSt == '0E2') {
+							trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
+						} else if (item.issuSt == '0E3') {
+							trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
+						}
 
-							/* 여기까지 tbody에 데이터 넣는 것 */
+						if (item.issuRank == '0G1') {
+							trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
+						} else if (item.issuRank == '0G2') {
+							trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
+						} else if (item.issuRank == '0G3') {
+							trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
+						} else if (item.issuRank == '0G4') {
+							trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
+						} else if (item.issuRank == '0G5') {
+							trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
+						}
+						trTag.append('<td>' + item.bussNm + '</td>');
+						trTag.append('<td>' + dateFormatting(item.issuDt) + '</td>');
+						issueLists.append(trTag);
 
-						})
-						// 페이징 업데이트..
-						updatePiPaging(data.pissue);
-						
+						/* 여기까지 tbody에 데이터 넣는 것 */
 
-						var prePageNum = data.pissue.prePage;
-						var nextPageNum = data.pissue.nextPage;
-						var curPageNum = data.pissue.pageNum;
-						var navFirstPage = data.pissue.navigateFirstPage;
-						var navLastPage = data.pissue.navigateLastPage;
-						var lastPage = data.pissue.pages;
+					})
+					// 페이징 업데이트..
+					updatePiPaging(data.pissue);
 
-						// 현재 페이지에 current 클래스 붙이기!
-						$('.cur_page').each(function () {
-							var page = $(this).text();
 
-							if (page == curPageNum) {
-								$(this).addClass('current').css('color', '#ffffff');
-							} else {
-								$(this).removeClass('current').css('color', '#76838F');
-							}
-						});
+					let prePageNum = data.pissue.prePage;
+					let nextPageNum = data.pissue.nextPage;
+					let curPageNum = data.pissue.pageNum;
+					let navFirstPage = data.pissue.navigateFirstPage;
+					let navLastPage = data.pissue.navigateLastPage;
+					let lastPage = data.pissue.pages;
 
-						// 현재 페이지 업데이트.
-						$('#previous_page').attr('onclick',
-							'projectIssuePaging(' + prePageNum + ')');
-						$('#next_page').attr('onclick',
-							'projectIssuePaging(' + nextPageNum + ')');
+					// 현재 페이지에 current 클래스 붙이기!
+					$('.cur_page').each(function () {
+						let page = $(this).text();
 
-						// previous, next disabled 설정 + onclick 속성 제거
-						if (prePageNum == 0) {
-							$('#previous_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+						if (page == curPageNum) {
+							$(this).addClass('current').css('color', '#ffffff');
 						} else {
-							$('#previous_page').css("color", "#0969DA");
-						};
-
-						if (nextPageNum == 0) {
-							$('#next_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
-						} else {
-							$('#next_page').css("color", "#0969DA");
-						};
-
-
-					}).fail(function () {
-						alert('실패');
+							$(this).removeClass('current').css('color', '#76838F');
+						}
 					});
+
+					// 현재 페이지 업데이트.
+					$('#previous_page').attr('onclick',
+						'projectIssuePaging(' + prePageNum + ')');
+					$('#next_page').attr('onclick',
+						'projectIssuePaging(' + nextPageNum + ')');
+
+					// previous, next disabled 설정 + onclick 속성 제거
+					if (prePageNum == 0) {
+						$('#previous_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+					} else {
+						$('#previous_page').css("color", "#0969DA");
+					};
+
+					if (nextPageNum == 0) {
+						$('#next_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+					} else {
+						$('#next_page').css("color", "#0969DA");
+					};
+
+
+				}).fail(function () {
+					alert('실패')
+				});
+		}
+
+		function updatePiPaging(paging) {
+			let pagination = $('.piPagination');
+			pagination.empty();
+
+			let pagesPer = 8;  // 한 번에 보이는 페이지 수
+			let endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
+			let realEndPage = paging.pages;
+			let startPage = (endPage - pagesPer) + 1;
+
+			if (endPage > realEndPage) {
+				endPage = realEndPage;
 			};
 
-			function updatePiPaging(paging) {
-				var pagination = $('.piPagination');
-				pagination.empty();
-
-				var pagesPer = 8;  // 한 번에 보이는 페이지 수
-				var endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
-				var realEndPage = paging.pages;
-				var startPage = (endPage - pagesPer) + 1;
-
-				if (endPage > realEndPage) {
-					endPage = realEndPage;
-				};
-
-				for (var i = startPage; i <= endPage; i++) {
-					var aTag = $('<a/>');
-					aTag.addClass('cur_page').text(i);
-					aTag.attr('onclick', 'projectIssuePaging(' + i + ')');
-					pagination.append(aTag);
-				};
-
-				if (startPage >= 1) {
-					var prevTag = $('<a/>');
-					prevTag.attr('id', 'previous_page');
-					prevTag.text('Previous');
-					prevTag.attr('onclick', 'projectIssuePaging(' + (paging.prePage) + ')');
-					pagination.prepend(prevTag);
-				};
-
-				if (endPage <= paging.pages) {
-					var nextTag = $('<a/>');
-					nextTag.attr('id', 'next_page');
-					nextTag.text('Next');
-					nextTag.attr('onclick', 'projectIssuePaging(' + (paging.nextPage) + ')');
-					pagination.append(nextTag);
-				};
+			for (let i = startPage; i <= endPage; i++) {
+				let aTag = $('<a/>');
+				aTag.addClass('cur_page').text(i);
+				aTag.attr('onclick', 'projectIssuePaging(' + i + ')');
+				pagination.append(aTag);
 			};
-		
-			function delSearchVal() {
-				$('.piSearchInput').val('');
-			}
+
+			if (startPage >= 1) {
+				let prevTag = $('<a/>');
+				prevTag.attr('id', 'previous_page');
+				prevTag.text('Previous');
+				prevTag.attr('onclick', 'projectIssuePaging(' + (paging.prePage) + ')');
+				pagination.prepend(prevTag);
+			};
+
+			if (endPage <= paging.pages) {
+				let nextTag = $('<a/>');
+				nextTag.attr('id', 'next_page');
+				nextTag.text('Next');
+				nextTag.attr('onclick', 'projectIssuePaging(' + (paging.nextPage) + ')');
+				pagination.append(nextTag);
+			};
+		};
+
+		function delSearchVal() {
+			$('.piSearchInput').val('');
+		}
 
 		function selectIssueInfo(issuNo) {
-				location.href = '/project/issues/1/' + issuNo;
-				}
-		
-		<!-- 이슈 등록 시작 -->
-		
-		var inputHashPI = document.querySelector('input[name="input-custom-dropdownPI"]');
+			location.href = '/project/issues/1/' + issuNo;
+		}
 
-		var tagifyPI = new Tagify(inputHashPI, {
-			maxTags : 10, // 최대 허용 태그 개수
-			dropdown : {
-				position : "input",
-				classname : "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
-				enabled : 0
-			// always opens dropdown when input gets focus
+		<!-- 이슈 등록 시작 -->
+
+		let inputHashPI = document.querySelector('input[name="input-custom-dropdownPI"]');
+
+		let tagifyPI = new Tagify(inputHashPI, {
+			maxTags: 10, // 최대 허용 태그 개수
+			dropdown: {
+				position: "input",
+				classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
+				enabled: 0
+				// always opens dropdown when input gets focus
 			}
 		})
 		// 글쓰기 버튼
 		$('.postWritingBoxP').on('click', function () {
 			$('#piSaveModal').modal('show');
 		});
-		
+
 		// "등록" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
 		function checkPISaveInput() {
-			var issuKndVal = $('#savePIssuKndVal').text();
-			var issuRankVal = $('#savePIssuRankVal').text();
-			var issuTtlVal = $('#savePIssuTtlVal').val();
+			let issuKndVal = $('#savePIssuKndVal').text();
+			let issuRankVal = $('#savePIssuRankVal').text();
+			let issuTtlVal = $('#savePIssuTtlVal').val();
 
 			if (issuKndVal !== '선택' && issuRankVal !== '선택' && issuTtlVal !== '') {
 				$('.completePISaving').addClass('registrable');
@@ -547,11 +534,11 @@
 				$('.completePISaving').removeClass('registrable');
 			}
 		}
-		
+
 		$('#savePIssuTtlVal').on('change', function () {
 			checkPISaveInput();
 		});
-		
+
 		// toastuieditor
 		const pieditor = new toastui.Editor({
 			el: document.querySelector('#pieditor'), // 에디터를 적용할 요소 (컨테이너)
@@ -587,7 +574,7 @@
 				$('#cancelPISaveConfirmationModal').modal('hide');
 			});
 		});
-		
+
 		// 제목 입력하는 textarea 클릭시 focus
 		$('.modalPIssueNameSave').on('click', function () {
 			$('.savePIssueNameBack').addClass('focus');
@@ -602,7 +589,7 @@
 				e.preventDefault();
 			}
 		});
-		
+
 		$('.completePISaving').on('click', function () {
 			// "등록" 버튼이 활성화 상태일 때만 실행됨
 			if ($(this).hasClass('registrable')) {
@@ -616,20 +603,20 @@
 				});
 			}
 
-		});		
+		});
 
 		function savePIssue() {
 
-			var formData = new FormData();
+			let formData = new FormData();
 			formData.append('issuTtl', $('#savePIssuTtlVal').val());
 			formData.append('membId', piMemberId);
 			formData.append('bussNo', $('.bussNm-selected-value').data('bno'));
 			formData.append('prjtNo', piprjtNo);
-			
-			var htPIobj = tagifyPI.value;
-			var htPIobjVal = htPIobj.map(row=>row.value);
+
+			let htPIobj = tagifyPI.value;
+			let htPIobjVal = htPIobj.map(row => row.value);
 			formData.append('inserthashtagsp', htPIobjVal);
-			
+
 			// 중요도 text 값 확인 후 data로 넣기 !
 			if ($('#savePIssuRankVal').text() == '매우높음') {
 				formData.append('issuRank', '0G1');
@@ -656,8 +643,8 @@
 			let content = pieditor.getHTML();
 			formData.append('issuCntn', content);
 
-			var inputFile = document.querySelector('.savePIReal-upload');
-			var fileInfo = inputFile.files;
+			let inputFile = document.querySelector('.savePIReal-upload');
+			let fileInfo = inputFile.files;
 
 			for (i = 0; i < fileInfo.length; i++) {
 				formData.append("savefiles", fileInfo[i]);
@@ -679,7 +666,7 @@
 				}
 			});
 		};
-		
+
 		// 드랍다운 
 		$('.dropdown-item').on('click', function () {
 			$(this).parent().siblings().attr('class', $(this).children().attr('class'));
@@ -694,14 +681,14 @@
 		savePIupload.addEventListener('click', () => savePIRealUpload.click());
 
 		checkPISaveFile();
-		
+
 		// 업로드 된 파일이 없을 경우 ..
 		function checkPISaveFile() {
 			if ($('#savePIssueFileList tr').length == 0) {
-				var trTag = $('<tr/>').attr('class', 'fileEmpty');
-				var fileEmptyTag = $('<td/>').text('등록된 파일은 여기에 저장됩니다').css('color', '#A8A8A8');
-				var emptyTdTag = $('<td/>');
-				var emptyTdTags = $('<td/>');
+				let trTag = $('<tr/>').attr('class', 'fileEmpty');
+				let fileEmptyTag = $('<td/>').text('등록된 파일은 여기에 저장됩니다').css('color', '#A8A8A8');
+				let emptyTdTag = $('<td/>');
+				let emptyTdTags = $('<td/>');
 				trTag.append(fileEmptyTag);
 				trTag.append(emptyTdTag);
 				trTag.append(emptyTdTags);
@@ -712,13 +699,13 @@
 		// 파일 삭제 버튼 누를 시 ..
 		function saveRemovePIFile(element) {
 			removeSavePIFileFromDataTransfer(element);
-			var tr = $(element).closest('tr');
+			let tr = $(element).closest('tr');
 			tr.remove();
 
 			checkPISaveFile();
 		}
 		const savePIDataTransfer = new DataTransfer();
-		
+
 		$("#savePIFiles").change(function () {
 
 			let fileArr = document.getElementById("savePIFiles").files
@@ -726,7 +713,7 @@
 			if (fileArr != null && fileArr.length > 0) {
 
 				// =====DataTransfer 파일 관리========
-				for (var i = 0; i < fileArr.length; i++) {
+				for (let i = 0; i < fileArr.length; i++) {
 					savePIDataTransfer.items.add(fileArr[i])
 				}
 
@@ -737,16 +724,16 @@
 		})
 
 		function removeSavePIFileFromDataTransfer(element) {
-			var parent = $(element).parent().parent();
-			var children = $(parent).children();
-			var index = children.index($(element).parent());
-		
+			let parent = $(element).parent().parent();
+			let children = $(parent).children();
+			let index = children.index($(element).parent());
+
 			if (index != -1) {
 				savePIDataTransfer.items.remove(index);
 				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 			}
 		}
-		
+
 		function getByteSize(size) {
 			const byteUnits = ["KB", "MB", "GB", "TB"];
 			for (let i = 0; i < byteUnits.length; i++) {
@@ -754,7 +741,7 @@
 				if (size < 1024) return size.toFixed(1) + byteUnits[i];
 			}
 		};
-		
+
 		// 파일 추가
 		function savePIssueFile(element) {
 			const file = element.files[0];
@@ -768,18 +755,18 @@
 
 			if (fileSize > 10) {
 				Swal.fire({
-		            icon: 'error',                         // Alert 타입
-		            text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
-		        });
+					icon: 'error',                         // Alert 타입
+					text: '10MB 이하의 파일을 업로드 해 주세요.',  // Alert 내용
+				});
 				return false;
 			}
 
 			if (file) {
 				$('.fileEmpty').remove();
-				var trTag = $('<tr/>');
-				var fileNameTag = $('<td/>').text(file.name);
-				var fileSizeTag = $('<td/>').text(getByteSize(file.size));
-				var deleteFileTag = $('<td/>').attr('class', 'deletePISaveFile').attr('onclick', ' saveRemovePIFile(this);');
+				let trTag = $('<tr/>');
+				let fileNameTag = $('<td/>').text(file.name);
+				let fileSizeTag = $('<td/>').text(getByteSize(file.size));
+				let deleteFileTag = $('<td/>').attr('class', 'deletePISaveFile').attr('onclick', ' saveRemovePIFile(this);');
 				trTag.append(fileNameTag);
 				trTag.append(fileSizeTag);
 				trTag.append(deleteFileTag);
@@ -791,24 +778,24 @@
 
 		//업무 찾기 ( 업무 리스트 나오게 )
 		$('.bussNm-selectBox').on('click', function () {
-			  var bussNmSelectUl = $('.bussNm-select-ul');
-			  if (bussNmSelectUl.css('display') === 'block') {
-					bussNmSelectUl.css('display', 'none');
-			  } else {
-					bussNmSelectUl.css('display', 'block');
-			  }
-});
+			let bussNmSelectUl = $('.bussNm-select-ul');
+			if (bussNmSelectUl.css('display') === 'block') {
+				bussNmSelectUl.css('display', 'none');
+			} else {
+				bussNmSelectUl.css('display', 'block');
+			}
+		});
 
 		$('.bussNm-select-option').on('click', function (e) {
-			var selectValue = e.currentTarget.textContent;
+			let selectValue = e.currentTarget.textContent;
 			$('.bussNm-selected-value').text(selectValue);
 			$('.bussNm-selected-value').data('bno', $(this).val());
 			$('.bussNm-select-ul').css('display', 'none');
 
 			e.stopPropagation();
-		});
+		})
 
-		</script>
+	</script>
 </th:block>
 </body>
 

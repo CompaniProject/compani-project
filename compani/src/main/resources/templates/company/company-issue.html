@@ -109,7 +109,7 @@
     <script
             src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script th:inline="javascript">
-        var coCd = [[${session.loginInfo.coCd}]];
+        let coCd = [[${session.loginInfo.coCd}]];
 
           //검색 조건 (제목, 작성자, 전체)
           $('.cissue-selectBox').on('click', function () {
@@ -118,7 +118,7 @@
 
           // 현재 페이지에 current 클래스 붙이기!
           $('.cur_page').each(function () {
-              var page = $(this).text();
+              let page = $(this).text();
 
               if (page == 1) {
                   $(this).addClass('current').css('color', '#ffffff');
@@ -131,7 +131,7 @@
           $(".disabled").css("color", "#8C959F").removeAttr("onclick");
 
           $('.cissue-select-option').on('click', function (e) {
-              var selectValue = e.currentTarget.textContent;
+              let selectValue = e.currentTarget.textContent;
               $('.cissue-selected-value').text(selectValue);
               $('#keyword').val(selectValue);
               $('.cissue-select-ul').css('display', 'none');
@@ -151,10 +151,10 @@
           // ajax
           function companyIssuePaging(pageNum) {
 
-              var keywordVal = $('#keyword').val();
-              var searchVal = $('#search').val();
-              var issueLists = $('.companyIssueLists');
-              var pagination = $('.ciPagination');
+              let keywordVal = $('#keyword').val();
+              let searchVal = $('#search').val();
+              let issueLists = $('.companyIssueLists');
+              let pagination = $('.ciPagination');
 
               $.ajax('/company/aissues/' + coCd + '?pageNum=' + pageNum + '&keyword='
                   + keywordVal + '&search=' + searchVal,
@@ -164,7 +164,7 @@
                       $('.ciSearchInput').val('');
                       issueLists.empty();
                       $.each(data.cissueList, function (idx, item) {
-                          var trTag = $('<tr/>').attr('onclick', 'selectCIssueInfo(' + item.issuNo + ')');
+                          let trTag = $('<tr/>').attr('onclick', 'selectCIssueInfo(' + item.issuNo + ')');
 
                           if (item.issuKnd == '0L1') {
                               trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
@@ -208,16 +208,16 @@
                       updateCIPaging(data.cissue);
 
 
-                      var prePageNum = data.cissue.prePage;
-                      var nextPageNum = data.cissue.nextPage;
-                      var curPageNum = data.cissue.pageNum;
-                      var navFirstPage = data.cissue.navigateFirstPage;
-                      var navLastPage = data.cissue.navigateLastPage;
-                      var lastPage = data.cissue.pages;
+                      let prePageNum = data.cissue.prePage;
+                      let nextPageNum = data.cissue.nextPage;
+                      let curPageNum = data.cissue.pageNum;
+                      let navFirstPage = data.cissue.navigateFirstPage;
+                      let navLastPage = data.cissue.navigateLastPage;
+                      let lastPage = data.cissue.pages;
 
                       // 현재 페이지에 current 클래스 붙이기!
                       $('.cur_page').each(function () {
-                          var page = $(this).text();
+                          let page = $(this).text();
 
                           if (page == curPageNum) {
                               $(this).addClass('current').css('color', '#ffffff');
@@ -249,30 +249,30 @@
                   }).fail(function () {
                       alert('실패');
                   });
-          };
+          }
 
           function updateCIPaging(paging) {
-              var pagination = $('.ciPagination');
+              let pagination = $('.ciPagination');
               pagination.empty();
 
-              var pagesPer = 8;  // 한 번에 보이는 페이지 수
-              var endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
-              var realEndPage = paging.pages;
-              var startPage = (endPage - pagesPer) + 1;
+              let pagesPer = 8;  // 한 번에 보이는 페이지 수
+              let endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
+              let realEndPage = paging.pages;
+              let startPage = (endPage - pagesPer) + 1;
 
               if (endPage > realEndPage) {
                   endPage = realEndPage;
               };
 
-              for (var i = startPage; i <= endPage; i++) {
-                  var aTag = $('<a/>');
+              for (let i = startPage; i <= endPage; i++) {
+                  let aTag = $('<a/>');
                   aTag.addClass('cur_page').text(i);
                   aTag.attr('onclick', 'companyIssuePaging(' + i + ')');
                   pagination.append(aTag);
               };
 
               if (startPage >= 1) {
-                  var prevTag = $('<a/>');
+                  let prevTag = $('<a/>');
                   prevTag.attr('id', 'previous_page');
                   prevTag.text('Previous');
                   prevTag.attr('onclick', 'companyIssuePaging(' + (paging.prePage) + ')');
@@ -280,13 +280,13 @@
               };
 
               if (endPage <= paging.pages) {
-                  var nextTag = $('<a/>');
+                  let nextTag = $('<a/>');
                   nextTag.attr('id', 'next_page');
                   nextTag.text('Next');
                   nextTag.attr('onclick', 'companyIssuePaging(' + (paging.nextPage) + ')');
                   pagination.append(nextTag);
               };
-          };
+          }
 
           function delSearchValc() {
               $('.ciSearchInput').val('');

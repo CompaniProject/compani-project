@@ -96,7 +96,7 @@
 		FROM 	  	 issue i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
 		AND 		 b.prjt_no = p.prjt_no(+)
-		AND			 i.memb_id = memb.memb_id
+		AND			 memb.memb_id = i.memb_id
 		AND          p.co_cd   = #{coCd}
 		AND          p.prjt_pubcyn = '0F1'
 		 <choose>

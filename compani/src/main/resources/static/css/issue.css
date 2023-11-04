@@ -38,7 +38,7 @@
 }
 
 .piSearchInputBox>input {
-	width: 150px;
+	width: 250px;
 	height: 100%;
 	padding: 5px 0;
 	font-size: 14px;
@@ -703,7 +703,6 @@
 .modalPIEditContent > .pIssueEditContentTopBar {
     position: sticky;
     top: 0;
-    z-index: 5000;
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -812,7 +811,7 @@
 }
 
 .editPIssueNameBack {
-    width: 100%;
+    width: 85%;
     max-height: 68px;
     line-height: 1.7;
     padding: 0;
@@ -1098,7 +1097,6 @@ ciFileUpload.dz {
 .modalPISaveContent > .pIssueSaveContentTopBar {
     position: sticky;
     top: 0;
-    z-index: 5000;
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -1147,7 +1145,7 @@ ciFileUpload.dz {
 }
 
 .savePIssueNameBack {
-    width: 100%;
+    width: 85%;
     min-height: 48px;
     height: fit-content;
     max-height: 82px;
