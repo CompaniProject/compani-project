@@ -19,7 +19,7 @@
 				   , memb.memb_nm
 		FROM 	  	 issue  i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
-		AND 		 b.prjt_no = p.prjt_no(+)
+		AND 		 i.prjt_no = p.prjt_no(+)
 		AND			 memb.memb_id = i.memb_id
 		AND          i.buss_no = #{bussNo}
 		<choose>
@@ -55,7 +55,7 @@
 				   , memb.memb_nm
 		FROM 	  	 issue i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
-		AND 		 b.prjt_no = p.prjt_no(+)
+		AND 		 i.prjt_no = p.prjt_no(+)
 		AND			 memb.memb_id = i.memb_id
 		AND          i.prjt_no = #{prjtNo}
 		 <choose>
@@ -95,7 +95,7 @@
 				   , memb.memb_nm
 		FROM 	  	 issue i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
-		AND 		 b.prjt_no = p.prjt_no(+)
+		AND 		 i.prjt_no = p.prjt_no(+)
 		AND			 memb.memb_id = i.memb_id
 		AND          p.co_cd   = #{coCd}
 		AND          p.prjt_pubcyn = '0F1'
