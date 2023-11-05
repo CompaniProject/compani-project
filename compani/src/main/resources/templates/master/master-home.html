@@ -94,7 +94,9 @@
 									<td th:text="${#dates.format(m.membBirthDt, 'yyyy-MM-dd')}"></td>
 									<td th:text="${m.membEmail}"></td>
 									<td th:text="${m.membTelno}"></td>
-									<td th:text="${m.membAccp}"></td>
+									<td th:text="${m.membAccp}">
+										
+									</td>
 									<td>
 										<button th:if="${m.membAccp == '대기'}"
 											type="button" class="btn mx-2 px-2 py-0 btn-success">
@@ -142,10 +144,32 @@
 		});
 		
 		// 회사 승인 ajax
-		$('tbody').eq(0).find('button').on('click', function(){
+		$('tbody').eq(0).find('button').on('click', function(event){
 			var obj = new Object();
-			obj.coCd = $(this).closest('tr').find('td').eq(0).text();
-			obj.coAccp = $(this).closest('tr').find('td').eq(5).text();
+			var findTd = $(this).closest('tr').find('td');
+			obj.coCd = findTd.eq(0).text();
+			obj.coAccp = findTd.eq(5).text();
+			
+			$.ajax({
+				type: 'post',
+				url: 'updateCompanyAccp',
+				contentType: 'application/json',
+				data: JSON.stringify(obj),
+				success: function(){
+					location.reload();
+				},
+				error: function(error){
+					console.log(error);
+				}
+			})
+		});
+		
+		// 멤버 승인 ajax
+		$('tbody').eq(1).find('button').on('click', function(event){
+			var obj = new Object();
+			var findTd = $(this).closest('tr').find('td');
+			obj.coCd = findTd.eq(0).text();
+			obj.coAccp = findTd.eq(7).text();
 			
 			$.ajax({
 				type: 'post',
@@ -156,7 +180,7 @@
 					
 				},
 				error: function(error){
-					
+					console.log(error);
 				}
 			})
 		});

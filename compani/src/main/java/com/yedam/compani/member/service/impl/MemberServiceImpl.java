@@ -69,7 +69,11 @@ public class MemberServiceImpl implements MemberService {
 	public List<Map<Object, Object>> masterMemberList() {
 		return map.masterMemberList();
 	}
-	
-	
+
+	// 마스터 멤버 승인
+	@Override
+	public int updateMemberAccp(MemberVO vo) {
+		return map.updateMemberAccp(vo);
+	}
 	
 }

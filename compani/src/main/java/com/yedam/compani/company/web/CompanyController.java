@@ -61,7 +61,7 @@ public class CompanyController {
 		return vo;
 	}
 	
-	// 김연규, 2023-11-03
+	// 김연규, 2023-11-03, 마스터 회사 승인
 	@PostMapping("/updateCompanyAccp")
 	@ResponseBody
 	public String updateCompanyAccp(@RequestBody CompanyVO vo) {

@@ -57,13 +57,16 @@
 	<!-- 마스터 회사 승인 -->
 	<update id="updateCompanyAccp" parameterType="CompanyVO">
 		UPDATE company
-		SET
-			<if test="#{coAccp} == '승인'">
-				co_accp = '0O2'
-			</if>
-			<if test="#{coAccp} == '대기'">
-				co_accp = '0O1'
-			</if>
+		<set>
+			<choose>
+				<when test="coAccp == '승인'">
+					co_accp = '0O2',
+				</when>
+				<when test="coAccp == '대기'">
+					co_accp = '0O1',
+				</when>
+			</choose>
+		</set>
 		WHERE co_cd = #{coCd}
 	</update>
 	

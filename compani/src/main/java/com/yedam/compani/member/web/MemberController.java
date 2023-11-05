@@ -207,4 +207,12 @@ public class MemberController {
 		return "master/master-home";
 	}
 	
+	// 김연규, 2023-11-04, 마스터 멤버 승인
+	@GetMapping("/updateMemberAccp")
+	@ResponseBody
+	public String updateMemberAccp(@RequestBody MemberVO vo){
+		service.updateMemberAccp(vo);
+		return "master/master-home";
+	}
+	
 }
