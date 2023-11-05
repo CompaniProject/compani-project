@@ -10,5 +10,9 @@ public interface MemberFeedbackService {
 
 	public int setFeedbackPersonal(MemberFeedbackVO vo);
 	
-	public List<Map<String, Object>> selectBusinessPersonal(Map<String, String> map);
+	public List<Map<String, Object>> getBusinessPersonal(Map<String, String> map);
+	
+	public MemberFeedbackVO getFeedbackPersonal();
+	
+	public boolean editFeedbackPersonal(MemberFeedbackVO vo);
 }

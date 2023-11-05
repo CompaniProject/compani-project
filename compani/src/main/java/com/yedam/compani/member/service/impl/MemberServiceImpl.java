@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 		return map.getMemberList();
 
 	}
-	
+	@Override
 	public int setMemberInfo(MemberVO vo) {
 		return map.insertMemberInfo(vo);
 	}
@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 
 		return map.memberSearchList(list);
 	}
-
+	@Override
 	public int editMemberInfo(MemberVO vo) {
 		return map.updateMemberInfo(vo);
 	}

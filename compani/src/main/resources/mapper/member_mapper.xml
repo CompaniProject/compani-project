@@ -87,14 +87,14 @@
 	</select>
 	
 	<update id="updateMemberInfo" parameterType="MemberVO">
-		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm},</if>
-                          <if test="membDept != null and !membDept.equals('')">memb_dept = #{membDept},</if>
-                          <if test="membWkgd != null and !membWkgd.equals('')">memb_wkgd = #{membWkgd},</if>
-                          <if test="membMsg != null and !membMsg.equals('')">memb_msg = #{membMsg},</if>
-                          <if test="membBirthDt != null and !membBirthDt.equals('')">memb_birth_dt = #{membBirthDt},</if>
-                          <if test="membEmail != null and !membEmail.equals('')">memb_email = #{membEmail},</if>
-                          <if test="membTelno != null and !membTelno.equals('')">memb_telno = #{membTelno},</if>
-                          <if test="membPwd != null and !membPwd.equals('')">memb_pwd = #{membPwd}</if>
+		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm}</if>
+                          <if test="membDept != null and !membDept.equals('')">,memb_dept = #{membDept}</if>
+                          <if test="membWkgd != null and !membWkgd.equals('')">,memb_wkgd = #{membWkgd}</if>
+                          <if test="membMsg != null and !membMsg.equals('')">,memb_msg = #{membMsg}</if>
+                          <if test="membBirthDt != null and !membBirthDt.equals('')">,memb_birth_dt = #{membBirthDt}</if>
+                          <if test="membEmail != null and !membEmail.equals('')">,memb_email = #{membEmail}</if>
+                          <if test="membTelno != null and !membTelno.equals('')">,memb_telno = #{membTelno}</if>
+                          <if test="membPwd != null and !membPwd.equals('')">,memb_pwd = #{membPwd}</if>
                       WHERE memb_id = #{membId}
 	</update>
 		<update id="updateMemberPwd" parameterType="MemberVO">
@@ -120,7 +120,7 @@
 		WHERE B.prjt_no = #{prjtNo}
 		GROUP BY memb_nm -->
 		
-		SELECT  M.memb_nm, 
+		SELECT  M.memb_nm,  m.memb_id,
 		SUM(CASE WHEN buss_st = '0K4' THEN 1 ELSE 0 END) "K4", 
 		SUM(CASE WHEN buss_st = '0K2' THEN 1 ELSE 0 END) "K2",
 		SUM(CASE WHEN buss_st = '0K3' THEN 1 ELSE 0 END) "K3"
@@ -131,7 +131,7 @@
 		JOIN business_member bm ON (B.buss_no = bm.buss_no)        
         WHERE b.prjt_no = 1) bl ON pm.memb_id = bl.memb_id
 		WHERE prjt_no = #{prjtNo}
-		GROUP BY memb_nm
+		GROUP BY memb_nm, m.memb_id
 	</select>
 
 </mapper>

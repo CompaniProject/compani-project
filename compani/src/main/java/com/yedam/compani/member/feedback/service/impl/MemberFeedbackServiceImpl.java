@@ -29,8 +29,16 @@ public class MemberFeedbackServiceImpl implements MemberFeedbackService {
 		return memberFeedbackMapper.insertFeedbackPersonal(vo);
 	}
 	@Override
-	public List<Map<String, Object>> selectBusinessPersonal(Map<String, String> map) {
+	public List<Map<String, Object>> getBusinessPersonal(Map<String, String> map) {
 		return memberFeedbackMapper.selectBusinessPersonal(map);
+	}
+	@Override
+	public MemberFeedbackVO getFeedbackPersonal() {
+		return memberFeedbackMapper.selectFeedbackPersonal();
+	}
+	@Override
+	public boolean editFeedbackPersonal(MemberFeedbackVO vo) {
+		return (memberFeedbackMapper.updateFeedbackPersonal(vo) == 1);
 	}
 
 }

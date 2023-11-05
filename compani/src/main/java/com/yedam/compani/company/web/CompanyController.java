@@ -51,7 +51,7 @@ public class CompanyController {
 		return "member/memberSignUp";
 	}
 	
-	//회사코드생성
+	//회사정보
 	@PostMapping("/companyInfo")
 	@ResponseBody
 	public CompanyVO companyInfo(CompanyVO vo){

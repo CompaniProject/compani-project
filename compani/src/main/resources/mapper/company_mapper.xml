@@ -9,8 +9,9 @@
 	<select id="selectCompanyList" resultType="Map">
 		SELECT *
 		FROM company
+		WHERE co_accp = '0O1'
 	</select>
-		<!-- 소속회사목록 -->
+		<!-- 소속회사 -->
 	<select id="selectCompanyinfo" resultType="CompanyVO">
 		SELECT *
 		FROM company
@@ -26,11 +27,11 @@
 	<!--회사등록 -->
 	<insert id="insertCompanyInfo" parameterType="CompanyVO">
 		INSERT INTO company(
-		co_cd
-		, co_nm
-		, co_rpstr
-		, co_bizno
-		, co_dt
+		CO_CD
+		, CO_NM
+		, CO_RPSTR
+		, CO_BIZNO
+		, CO_DT
 		)
 		VALUES(
 		#{coCd}

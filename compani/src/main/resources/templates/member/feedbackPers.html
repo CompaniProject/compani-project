@@ -130,15 +130,15 @@
 							</div>
 							<div class="col-lg-6" style="padding-left: 0px" id="chartCardBody2">
 								<div class="card">
-									<div class="card-body" style="padding-bottom: 0px;padding-top: 20px">
+									<div class="card-body" style="padding-bottom: 0px;padding-top: 20px;padding-left: 10px">
 										<h4 class="card-title" id="chartPsn"
 											style="margin-bottom: 0px;display:inline;"></h4>
 									</div>
-									<div class="card-body" style="padding-top: 10px">
+									<div class="card-body" style="padding-top: 10px;padding-left: 10px" id="chartCardBody3">
 										<div>
 											<span style="display: inline;">진척도</span>&nbsp;
 											<div
-												style="width: 10px; display: inline; background-color: #81BEF7; font-size: 7px; color: #81BEF7">ㅡㅡㅡㅡㅡ</div>
+												style="width: 10px; display: inline; background-color: #7571f9; font-size: 7px; color: #7571f9">ㅡㅡㅡㅡㅡ</div>
 										</div>
 										<div id="horizontal-bar-chart2"
 											class="ct-chart ct-golden-section" style="width: 100%"></div>
@@ -165,41 +165,6 @@
 					<div class="card-body"
 						style="overflow-y: auto; background-color: #FAFAFA;"
 						id="commentBody">
-						
-						
-						
-						
-						
-						
-						<th:block th:each="feedback : ${feedbacklist}">
-							<div class="card">
-								<div class="card-body">
-									<div class="media">
-										<div class="media-body">
-											<!-- Comment Area Start -->
-											<div class="comment-content">
-												<h5 class="mt-0" th:text="${feedback.membFdbkWriter}"></h5>
-
-												<div class="content-area" th:text="${feedback.membFdbkCntn}">
-												</div>
-												<div class="edit-area" style="display: none;">
-													<textarea class="form-control" id="editCntn"
-														th:text="${feedback.membFdbkCntn}"></textarea>
-												</div>
-												<div style="margin-top: 3%" class="btn-area">
-													<div class="float-left" id="date-area"
-														th:text="${#dates.format(feedback.membFdbkDt,'yyyy-MM-dd HH:mm')}"></div>
-													<div th:text="수정" class="float-right editBtn"></div>
-													<div th:text="삭제" class="float-right delBtn"></div>
-													<div th:text="확인" class="float-right submitBtn"></div>
-												</div>
-											</div>
-											<!-- Comment Area End -->
-										</div>
-									</div>
-								</div>
-							</div>
-						</th:block>
 						
 						
 						
@@ -241,169 +206,285 @@
 							</div>
 							<div class="float-left" id="date-area"></div>
 							<div class="float-right editBtn">수정</div>
-							<div class="float-right delBtn">삭제</div>
+							<!-- <div class="float-right delBtn">삭제</div> -->
 							<div class="float-right submitBtn">확인</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script th:inline="javascript">
+		<div class="card" style="display: none;" id="insertBody2">
+			<div class="card-body">
+				<div class="media">
+					<div class="media-body">
+						<div class="comment-content">
+							<h5 class="mt-0"></h5>
+							<div class="content-area"></div>
+							<div class="edit-area" style="display: none;">
+							</div>
+							<div class="float-left" id="date-area"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script th:inline="javascript">
 
-		let prjtInfo = [];
+	let prjtInfo = [];
 
-		let memb = [];
-		let cmpl = [];
-		let uncmpl = [];
-		let cmpllate = [];
- 		$(function(){
- 			
-				$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
- 				$('#bussFairBar').css('width', ((parseInt($('#bussFair').text())*100)/parseInt($('#bussCnt').text()))+'%');
- 				$('#bussUncompBar').css('width', ((parseInt($('#bussUncomp').text())*100)/parseInt($('#bussCnt').text()))+'%');
- 			
- 				
- 				
- 				prjtInfo = [[${pfst}]];
+	let memb = [];
+	let cmpl = [];
+	let uncmpl = [];
+	let cmpllate = [];
+	$(function(){
+		
+		$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
+		$('#bussFairBar').css('width', ((parseInt($('#bussFair').text())*100)/parseInt($('#bussCnt').text()))+'%');
+		$('#bussUncompBar').css('width', ((parseInt($('#bussUncomp').text())*100)/parseInt($('#bussCnt').text()))+'%');
+	
+		
+		
+		prjtInfo = [[${pfst}]];
 
 
- 				
-				for(i = 0; i < prjtInfo.length; i++){
-					memb.push(prjtInfo[i].MEMB_NM);
-					cmpl.push(prjtInfo[i].K2);
-					uncmpl.push(prjtInfo[i].K3);
-					cmpllate.push(prjtInfo[i].K4);
-				}
+		
+		for(i = 0; i < prjtInfo.length; i++){
+			memb.push(prjtInfo[i].MEMB_NM);
+			cmpl.push(prjtInfo[i].K2);
+			uncmpl.push(prjtInfo[i].K3);
+			cmpllate.push(prjtInfo[i].K4);
+		}
+	
+		$('#chartCardBody').css('height', memb.length*60+"px")
 			
-				$('#chartCardBody').css('height', memb.length*60+"px")
- 				
- 			  new Chartist.Bar('#horizontal-bar-chart', {
- 				    labels: memb,
- 				    series: [
- 				    	cmpllate,
- 				    	uncmpl,
- 				    	cmpl
- 				    ]
- 				  }, {
- 				    seriesBarDistance: 10,
- 				    reverseData: true,
- 				    horizontalBars: true,
- 				   	height:memb.length*50,
- 				    axisY: {
- 				      offset: 70
- 				    },
- 				    plugins: [
- 				      Chartist.plugins.tooltip()
- 				    ]
- 				  });
-				
- 		});
- 		
+		  new Chartist.Bar('#horizontal-bar-chart', {
+			    labels: memb,
+			    series: [
+			    	cmpllate,
+			    	uncmpl,
+			    	cmpl
+			    ]
+			  }, {
+			    seriesBarDistance: 10,
+			    reverseData: true,
+			    horizontalBars: true,
+			   	height:memb.length*50,
+			    axisY: {
+			      offset: 70
+			    },
+			    plugins: [
+			      Chartist.plugins.tooltip()
+			    ]
+		  });//end of 차트 생성
+		  $('.ct-start').css('width', '100px');
+		});	//end of window(ready)---------------------------------------------------------------------------
+		
  		
  		
  		
 		
-			let buss = [];
-			let prgre = [];
+
 			
- 		
-
- 		setTimeout(() => {$('.ct-label.ct-vertical.ct-start').click(function (event) {
+	var charttarget = "";
+	
+	function feedbacks(result){
+	 	
+		// create tag
+		let body = $('#commentBody');
+		let card = $('#insertBody').clone();
+		
+		// input content values
+		card.find('.comment-content').data('no',result.membFdbkNo);
+		card.find('.mt-0').text(result.membFdbkWriter);
+		card.find('.content-area').text(result.membFdbkCntn);
+		card.find('textarea').text(result.membFdbkCntn);
+		card.find('#date-area').text(timestamp(result.membFdbkDt));
+		card.css('display','block');
+		
+		// insert comment tag to comment body
+		body.append(card);
+	}//end of feedbacks----------------------------------------------------------------------------
+	
+	function feedbackshide(result){
+	 	
+		// create tag
+		let body = $('#commentBody');
+		let card = $('#insertBody2').clone();
+		
+		// input content values
+		card.find('.comment-content').data('no',result.membFdbkNo);
+		card.find('.mt-0').text("익명");
+		card.find('.content-area').text("비공개");
+		card.find('textarea').text("비공개");
+		card.find('#date-area').text(timestamp(result.membFdbkDt));
+		card.css('display','block');
+		
+		// insert comment tag to comment body
+		body.append(card);
+	}//end of feedbackshide-----------------------------------------------------------------------
+	
+	
+	function myfeedbacks(result){
+	 	
+		// create tag
+		let body = $('#commentBody');
+		let card = $('#insertBody2').clone();
+		
+		// input content values
+		card.find('.comment-content').data('no',result.membFdbkNo);
+		card.find('.mt-0').text("익명");
+		card.find('.content-area').text(result.membFdbkCntn);
+		card.find('textarea').text(result.membFdbkCntn);
+		card.find('#date-area').text(timestamp(result.membFdbkDt));
+		card.css('display','block');
+		
+		// insert comment tag to comment body
+		body.append(card);
+		$('#input2').css('display', 'none');
+		$('#inputCntn').css('display', 'none'); 
+	}//end of myfeedbacks-------------------------------------------------------------------
+		 
+		 
+		 
+ 		setTimeout(() => {$('.ct-label.ct-vertical.ct-start').click(
  			
+ 			function (event) {
+	 			$('#inputCntn').val('');	 			
  			
- 			
- 			$.ajax('http://localhost/selectBusinessPersonal', {
- 				type : 'post',
- 				dateType : 'json',
- 				contentType : 'application/json',
- 				data : JSON.stringify({
- 						membNm : $(this).text(),
- 						prjtNo : 1
- 						}),
- 				async: false
- 			})
- 			.done(result => {
- 				 for(i = 0; i < result.length; i++){
- 					 buss.push(result[i].BUSS_NM);
- 					prgre.push(result[i].BUSS_PRGRE);
- 					console.log('업무: '+result[i].BUSS_NM);
- 					console.log('퍼센트: '+result[i].BUSS_PRGRE);
- 				 }
- 				 console.log(prgre);
- 			})
- 			.fail(err =>console.log("err"));
- 			
- 			
- 			
- 				
- 				$('#feedtarget').text($(this).text());
- 				$('#chartPsn').text($(this).text());
- 				
- 				
- 				
- 		
- 				$('#chartCardBody2').css('height', buss.length*100+"px") ///////////////////////////////////////////
- 				
- 				  new Chartist.Bar('#horizontal-bar-chart2', {
- 	 				    labels: buss,
- 	 				    series: [prgre]
- 	 				  }, {
- 	 				    seriesBarDistance: 10,
- 	 				    reverseData: true,
- 	 				    horizontalBars: true,
- 	 				   	height:buss.length*30,
- 	 				    axisY: {
- 	 				      offset: 70
- 	 				    },
- 	 				    plugins: [
- 	 				      Chartist.plugins.tooltip()
- 	 				    ]
- 				 });
-
- 		});}, 1000);
+	 			let targetnm = $(this).text();
+	 			
+	 			
+	 			for(i = 0; i < prjtInfo.length; i++){
+	 				if(prjtInfo[i].MEMB_NM == targetnm){
+	 					charttarget = prjtInfo[i].MEMB_ID;
+	 					break;
+	 				}
+	 			}
+	 			
+	 			
+	 			
+				let buss = [];
+				let prgre = [];
+	 			
+	 			$.ajax('http://localhost/selectBusinessPersonal', {
+	 				type : 'post',
+	 				dateType : 'json',
+	 				contentType : 'application/json',
+	 				data : JSON.stringify({
+	 						membId : charttarget,
+	 						prjtNo : 1
+	 						}),
+	 				async: false
+	 			})
+	 			.done(result => {
+	 				 for(i = 0; i < result.length; i++){
+	 					 buss.push(result[i].BUSS_NM);
+	 					prgre.push(result[i].BUSS_PRGRE);
+	 				 }
+	 			})
+	 			.fail(err =>console.log("err"));
+	 			//end of ajax
+	 			
+	 			
+	 			
+				$('#feedtarget').text(targetnm);
+				$('#chartPsn').text(targetnm);
+		 				
+		 				
+	 			
+				if($('#feedtarget').text().length > 0){
+					
+	 				if(buss.length == 0){
+	 					$('#chartCardBody2').css('height', "400px") 
+	 	 				$('#chartCardBody3').css('height', "400px") 
+	 				}else{
+		 				$('#chartCardBody2').css('height', buss.length*50+"px") 
+		 				$('#chartCardBody3').css('height', buss.length*40+"px") 
+	 				}
+	 				
+	 				
+					 new Chartist.Bar('#horizontal-bar-chart2', {
+						    labels: buss,
+						    series: [prgre]
+						  }, {
+						    seriesBarDistance: 10,
+						    reverseData: true,
+						    horizontalBars: true,
+						   	height:buss.length*30,
+						    axisY: {
+						      offset: 70
+						    },
+						    plugins: [
+						      Chartist.plugins.tooltip()
+						    ]
+					});
+				}else{
+	 				if(buss.length == 0){
+	 					$('#chartCardBody2').css('height', "400px") 
+	 	 				$('#chartCardBody3').css('height', "400px") 
+	 				}else{
+		 				$('#chartCardBody2').css('height', buss.length*50+"px") 
+		 				$('#chartCardBody3').css('height', buss.length*40+"px") 
+	 				}//end of if(busss.length)
+	
+	 				
+					 new Chartist.Bar('#horizontal-bar-chart2', {
+						    labels: buss,
+						    series: [prgre]
+						  }, {
+						    seriesBarDistance: 10,
+						    reverseData: true,
+						    horizontalBars: true,
+						   	height:buss.length*30,
+						    axisY: {
+						      offset: 70
+						    },
+						    plugins: [
+						      Chartist.plugins.tooltip()
+						    ]
+					});//end of new Chartist.Bar('#horizontal-bar-chart2'
+				}//end of if($('#feedtarget').text().
+					
+	 			$.ajax('http://localhost/feedbackList', {
+	 				type : 'post',
+	 				dateType : 'json',
+	 				contentType : 'application/json',
+	 				data : JSON.stringify({
+	 						membFdbkObj : charttarget,
+	 						prjtNo : 1
+	 						}),
+	 				async: false
+	 			})
+	 			.done(result => {
+	 				$('#commentBody').children().remove();
+	 				$('#input2').css('display', 'inline');
+	 				$('#inputCntn').css('display', 'inline'); 
+	 				for(i = 0; i < result.length; i++){
+		 				if(targetnm == [[${session.loginInfo.membNm}]]){
+		 					myfeedbacks(result[i]);
+		 				}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter == [[${session.loginInfo.membId}]]){
+	 						feedbacks(result[i]);
+	 					}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter != [[${session.loginInfo.membId}]]){
+	 						feedbackshide(result[i]);
+	 					}
+	 				}
+	 			})
+	 			.fail(err =>console.log("err"));
+	 			//end of $.ajax('http://localhost/feedbackList',
+ 			});//end of event
+ 		}, 1000);//end of setTimeout-------------------------------------------------------------------
  		
  	 	
  		
  		
  		
- 		
- 		
- 		
-  		
- 			
- 		
- 		
- 		
- 		
- 		
- 		
- 		
- 		
- 		
- 		
- 		
  		$('#input2').on('click', function(){
- 			let today = new Date();   
- 			let year = today.getFullYear(); // 년도
-
- 			let month = today.getMonth() + 1;  // 월
- 			if(month.toString().length < 2){
- 				month = "0" + month;
- 			}
- 			let date = today.getDate();  // 날짜
- 			if(date.toString().length < 2){
- 				date = "0" + date;
- 			}
- 			let hours = today.getHours(); // 시
- 			if(hours.toString().length < 2){
- 				hours = "0" + hours;
- 			}
- 			let minutes = today.getMinutes();  // 분
- 			if(minutes.toString().length < 2){
- 				minutes = "0" + minutes;
- 			}
- 			
- 			$('#commentBody').append("<div class='card'><div class='card-body'><div class='media'><div class='media-body'><div class='comment-content'><h5 class='mt-0'>" + [[${session.loginInfo.membId}]] + "</h5><div class='content-area'>" + $('#inputCntn').val() + "</div><div class='edit-area' style='display:none;'><textarea class='form-control' id='editCntn'>" + $('#inputCntn').val() + "</textarea></div><div style='margin-top:3%' class='btn-area'><div class='float-left' id='date-area'>"+ year + "-" + month + "-" + date +" "+ hours + ":" + minutes + "</div><div th:text='수정' class='float-right editBtn'></div><div th:text='삭제' class='float-right delBtn'></div><div th:text='확인' class='float-right submitBtn'></div>	</div></div></div></div></div></div>");
+			for(i = 0; i < $('#commentBody').children().children().children().children().children().children('h5.mt-0').length; i++){
+				if($('#commentBody').children().children().children().children().children().children('h5.mt-0')[i].innerText == [[${session.loginInfo.membId}]]){
+					fail();
+					return false;
+ 				}
+			}
  			
  			$.ajax('http://localhost/insertFeedBackPersonal', {
  				type : 'post',
@@ -412,21 +493,106 @@
  				data : JSON.stringify({
  						membFdbkWriter : [[${session.loginInfo.membId}]],
  						membFdbkCntn : $('#inputCntn').val(),
- 						membFdbkDt : year + "-" + month + "-" + date,
- 						membFdbkObj : [[${session.loginInfo.membId}]],
+ 						membFdbkObj : charttarget,
  						prjtNo : 1
  						}),
  				async: false
  			})
  			.done(result => {
- 				 console.log(result);
+ 				$.ajax('http://localhost/feedbackPersonal', {
+ 	 				type : 'post',
+ 	 				contentType : 'application/json',
+ 	 				async: false
+ 	 			})
+ 	 			.done(result => {
+ 	 				feedbacks(result);
+ 	 			})
+ 	 			.fail(err =>console.log("err"));
  			})
  			.fail(err =>console.log("err"));
- 			
- 		});
+ 			$('#inputCntn').val('');
+ 		});//end of $('#input2')---------------------------------------------------
  		
+ 	    // -------------------------------onclick Event
+// 	    $(document).on('click','.delBtn',deleteComment);
+ 	    $(document).on('click','.editBtn',toggleTags);
+ 	    $(document).on('click','.submitBtn',editSubmit);
+ 	    // ------------------------------onclick Event End----------------------------------------------
+ 	    
+ 	    
+		// update textarea - copy to content text
+	    function toggleTags(event){
+	        let comment = $(event.target).closest('.comment-content');
+	        let content = comment.find('.content-area');
+	        let edit = comment.find('.edit-area');
+	        let submitBtn = comment.find('.submitBtn');
+	        
+	        content.val(comment.find('textarea').val());
+	        
+	        content.toggle();
+	        edit.toggle();
+	        submitBtn.toggle();
+	    }//-------------------------------------------------------------------------------
+	    
+	    function editSubmit(event){
+	        let comment = $(event.target).closest('.comment-content');
+	        let textCntn = comment.find("textarea");
+	        
+	        let obj = {};
+	        obj["membFdbkCntn"] = textCntn.val();
+	        obj["membFdbkNo"] = comment.data('no');
+	        updateAjax(obj, comment);
+	        
+	        toggleTags(event);
+	    }//-------------------------------------------------------------------------------
+/* 	 	// ----------------------------------Delete Comment
+	    function deleteComment(event){
+	        let comment = $(event.target).closest('.comment-content');
+	        
+	        let obj = {};
+	        obj["prjtFdbkShow"] = '0N2';		// Delete State Change
+	        obj["prjtFdbkNo"] = comment.data('no');
+	        
+	        updateAjax(obj,comment);
+	    }
+	    // ----------------------------------end Delete Comment  */
+	    
+		// update - using edit
+		function updateAjax(obj, comment){
+	        $.ajax('http://localhost/editFeedbackPersonal', {
+	            type: 'put',
+	            contentType: "application/json",
+	            data:JSON.stringify(obj),
+	            async: false
+	        })
+	        .done(data => {changeComment(data, comment)})
+	        .fail(err => {});
+	    }
+		// -------------------------------Update Ajax End
+		 		
+ 		 // date, content change
+    function changeComment(data, comment){
+        if (data.membFdbkShow == null){
+            comment.find(".content-area").text(data.membFdbkCntn);
+            comment.find("#date-area").text(timestamp(data.membFdbkDt));
+        } else {
+            comment.find(".content-area").text('삭제된 내용입니다.');
+            comment.find(".content-area").show();
+            comment.find(".btn-area").remove();
+            comment.find("textarea").css('display','none');
+        }
+    }//-------------------------------------------------------------------------------
  		
-
+ 		//------------ Date formatting
+ 	    function timestamp(convertDate){
+ 	        let today = new Date(convertDate);
+ 	        today.setHours(today.getHours() + 9);
+ 	        return today.toISOString().replace('T', ' ').substring(0, 16);
+ 	    }//-------------------------------------------------------------------------------
+ 		
+	function fail(){
+		alert('이미 작성한 피드백이 존재합니다.');
+	}//-------------------------------------------------------------------------------
 	</script>
 		<script src="plugins/common/common.min.js"></script>
 		<script src="js/custom.min.js"></script>

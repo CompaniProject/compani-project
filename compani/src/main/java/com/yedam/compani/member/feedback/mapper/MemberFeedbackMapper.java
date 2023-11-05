@@ -13,4 +13,8 @@ public interface MemberFeedbackMapper {
 	public int insertFeedbackPersonal(MemberFeedbackVO vo);
 	
 	public List<Map<String, Object>> selectBusinessPersonal(Map<String, String> map);
+	
+	public MemberFeedbackVO selectFeedbackPersonal();
+	
+	public int updateFeedbackPersonal(MemberFeedbackVO vo);
 }
