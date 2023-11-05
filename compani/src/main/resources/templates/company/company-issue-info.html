@@ -9,9 +9,10 @@
         <div class="cIssueInfoContent">
             <div class="cIssueInfoContentTopBar">
                 <span class="returnCIssueList" onclick="returnCIssueList()"></span>
+                <th:block th:if="${session.loginInfo.membId eq issueInfo.membId}">
                 <button type="button" class="cIssueEditing" onclick="switchCIEditForm()">수정</button>
-                <button type="button" class="cIssueDeleting"
-                        onclick="deleteCIssue()">삭제</button>
+                <button type="button" class="cIssueDeleting" onclick="deleteCIssue()">삭제</button>
+                </th:block>
             </div>
 
             <div class="cIssueNameInfo">
@@ -343,7 +344,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script th:inline="javascript">
         var coCd = [[${session.loginInfo.coCd}]];
-
+        var ciMemberId = [[${session.loginInfo.membId}]];
         // 파일 사이즈 변환하기
         function getFileSize(size) {
             const byteUnits = ["KB", "MB", "GB", "TB"];
@@ -537,6 +538,7 @@
                                             </div>
                                             <div class="issue__reply__itemC__text">
                                                 <h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>
+                                                ${row.membId == ciMemberId ? `
                                                 <a id="edit_btn" onclick="openReplyCUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
                                                     src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png"
                                                     style="margin-left: 345px; ">
@@ -545,7 +547,7 @@
                                                 <a id="del_btn" onclick="deleteReplyC(${row.issuRplyNo});"> <img class="toolsIcon"
                                                     src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_delete.png">
                                                     삭제
-                                                </a>
+                                                </a>` : ''}
 
                                                 </h6>
 
@@ -778,7 +780,7 @@
                 initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
                 previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
             });
-
+            editorCIEditing.removeToolbarItem("image");
             // 이슈 수정 폼
             function switchCIEditForm() {
 

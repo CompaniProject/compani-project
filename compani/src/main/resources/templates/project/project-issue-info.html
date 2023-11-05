@@ -8,8 +8,10 @@
 		<div class="pIssueInfoContent">
 			<div class="pIssueInfoContentTopBar">
 				<span class="returnPIssueList" onclick="returnPIssueList()"></span>
+				<th:block th:if="${session.loginInfo.membId eq issueInfo.membId}">
 				<button type="button" class="pIssueEditing" onclick="switchPIEditForm()">수정</button>
 				<button type="button" class="pIssueDeleting" onclick="deletePIssue()">삭제</button>
+				</th:block>
 			</div>
 
 			<div class="pIssueNameInfo">
@@ -532,6 +534,7 @@
 										</div>
 										<div class="issue__reply__itemP__text">
 											<h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>
+											${row.membId == piMemberId ? `
 											<a id="edit_btn" onclick="openReplyPUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
 												src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png" 
 												style="margin-left: 345px; ">
@@ -540,7 +543,7 @@
 											<a id="del_btn" onclick="deleteReplyP(${row.issuRplyNo});"> <img class="toolsIcon"
 												src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_delete.png">
 												삭제
-											</a>
+											</a>` : ''}
 											
 											</h6>
 											
@@ -771,7 +774,9 @@
 			initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
 			initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 			previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
-		});
+		})
+
+		editorPIEditing.removeToolbarItem("image");
 
 		// 이슈 수정 폼
 		function switchPIEditForm() {

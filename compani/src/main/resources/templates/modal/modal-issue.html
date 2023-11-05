@@ -274,8 +274,8 @@
 	<div class="modalIssueInfoContent">
 		<div class="issueInfoContentTopBar">
 			<span class="returnIssueList" onclick="returnIssueList()"></span>
-			<button type="button" class="issueEditing" onclick="switchEditForm()">수정</button>
-			<button type="button" class="issueDeleting" onclick="deleteIssue()">삭제</button>
+				<button type="button" class="issueEditing" onclick="switchEditForm()">수정</button>
+				<button type="button" class="issueDeleting" onclick="deleteIssue()">삭제</button>
 		</div>
 
 		<div class="issueNameInfo">
@@ -1019,7 +1019,6 @@
 	}
 
 	function viewIssueInfo(id) {
-
 		let issuNo = id;
 		let modals = $('.modalIssueInfoForm');
 		modals.find('.modalIssueName').val('');
@@ -1035,7 +1034,13 @@
 				let issueInfo = data.issueInfo;
 				let issueFile = data.issueFile;
 				let issueHash = data.issueHash;
-
+				 if (issueInfo.membId === miMemberId) {
+							$('.issueEditing').show();
+							$('.issueDeleting').show();
+						} else {
+							$('.issueEditing').hide();
+							$('.issueDeleting').hide();
+						}
 				let issueInfoFiles = $('#issueInfoFiles');
 
 				if (issueFile.length != 0) {
@@ -1198,8 +1203,11 @@
 									<div class="issue__reply__item__pic">
 										<img src="/images/users/2.jpg" alt="">
 									</div>
+									
 									<div class="issue__reply__item__text">
+										
 										<h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>
+										${row.membId == miMemberId ? `
 										<a id="edit_btn" onclick="openReplyUpdateForm(${row.issuRplyNo})"> <img class="toolsIcon"
 											src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_edit.png" 
 											style="margin-left: 170px; ">
@@ -1208,7 +1216,7 @@
 										<a id="del_btn" onclick="deleteReply(${row.issuRplyNo});"> <img class="toolsIcon"
 											src="https://community.akamai.steamstatic.com/public/images//sharedfiles/icons/icon_delete.png">
 											삭제
-										</a>
+										</a>` : ''}
 										
 										</h6>
 										
@@ -1767,7 +1775,8 @@
 		initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
 		initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 		previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
-	});
+	})
+	editor.removeToolbarItem("image");
 
 	var realUpload = document.querySelector('.real-upload');
 	var upload = document.querySelector('.LoadBtn.upload');
@@ -1789,7 +1798,9 @@
 		initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
 		initialValue: '내용을 입력해 주세요.', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 		previewStyle: 'vertical' // 마크다운 프리뷰 스타일 (tab || vertical)
-	});
+	})
+
+	 editorEditing.removeToolbarItem("image");
 
 	// 수정 폼에서 파일 추가
 	var editRealUpload = document.querySelector('.editReal-upload');
