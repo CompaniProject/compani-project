@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="projectHeader">
-	[[${session.loginInfo}]]
-	[[${session.projectVO}]]
+	
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-2 col-sm-6">
@@ -180,7 +179,7 @@
 					<form id="updateform" class="form-valide" action="#" method="post">
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
-							<div class="col-lg-5">
+							<div class="col-lg-5 col-form-label">
 								<div class="issueNameEdit">
 									<div class="issueNameBack">
 										<textarea class="modalIssueNameUpdate" id="prjtNm"
@@ -189,17 +188,17 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-3 col-form-label">
 								<div class="dropdown custom-dropdown">
-									<select class="dropdown-import" id="prjtImp" name="prjtImp"
+									<select class="dropdown-import" id="prjtSt" name="prjtSt"
 										th:value="${session.projectVO.prjtSt}">
 										<option class="dropdown-import" value="0D1"
-											th:selected="${session.projectVO.prjtSt}=='진행중'">진행중</option>
+											th:selected="${session.projectVO.prjtSt}=='0D1'">진행중</option>
 
 										<option class="dropdown-import" value="0D2"
-											th:selected="${session.projectVO.prjtSt}=='완료'">완료</option>
+											th:selected="${session.projectVO.prjtSt}=='0D2'">완료</option>
 										<option class="dropdown-import" value="0D3"
-											th:selected="${session.projectVO.prjtSt}=='초과'">초과</option>
+											th:selected="${session.projectVO.prjtSt}=='0D3'">초과</option>
 
 									</select>
 
@@ -211,14 +210,14 @@
 							<label class="col-lg-4 col-form-label" for="val-username">공개여부
 							</label>
 							<div class="col-lg-6">
-								<label class="radio-inline mr-3"> <input type="radio"
-									name="optradio"
-									th:attr="checked=${session.projectVO.prjtPubcyn == '공개' ? 'true' : 'false'}">
+								<label class="radio-inline mr-3"> 
+								<input type="radio"
+									 id="prjtPubcyn" name="prjtPubcyn" th:value="0F1" th:checked="${session.projectVO.prjtPubcyn eq '0F1'}">
 									공개
-								</label> <i class="fa-solid fa-lock-open fa-lg"></i> <label
-									class="radio-inline mr-3"> <input type="radio"
-									name="optradio"
-									th:attr="checked=${session.projectVO.prjtPubcyn == '비공개' ? 'true' : 'false'}">
+								</label> <i class="fa-solid fa-lock-open fa-lg"></i> 
+								<label class="radio-inline mr-3"> 
+								<input type="radio"
+									 id="prjtPubcyn" name="prjtPubcyn" th:value="0F2" th:checked="${session.projectVO.prjtPubcyn eq '0F2'}">
 									비공개
 								</label><i class="fa-solid fa-lock fa-lg"></i>
 
@@ -273,6 +272,7 @@
 														<td th:text="${prjtMember.membWkgd}" />  
 														<td th:text="${prjtMember.membNm}" />  
 														<td th:if="${prjtMember.prjtMembPerm} != 'CRTR'"><i class="fa-solid fa-minus"></i></td>
+														<input type="hidden" name ="membId" th:value="${prjtMember.membId}">
 													</tr> 
 												</th:block>
 											</tbody>
@@ -343,10 +343,10 @@
 							</div>
 						</div>
 						<div>
-							<input type="hidden" name="prjtNo" th:value="1" />
+							<input type="hidden" name="prjtNo" th:value="${prjtNo}" />
 						</div>
 						<div class="modal-footer">
-							<button id="prjtInsertBtn" type="button" class="btn btn-primary">수정</button>
+							<button id="prjtUpdateBtn" type="button" class="btn btn-primary">수정</button>
 
 						</div>
 					</form>
@@ -368,6 +368,35 @@
 
 			$('#updateProject').modal('show');
 		})
+		
+		$('#prjtUpdateBtn').on('click', function(){
+		
+	 		let formData = $('#updateform').serializeArray();
+
+		 	let formObj = {};
+		 	let memberArray = [];
+			$.each(formData, function(idx,obj){
+	 		  	if(obj.name != "membId"){
+					formObj[obj.name] = obj.value;
+				}  
+	 		  	else{
+					memberArray.push({membId : obj.value});
+			    }
+			});
+		
+			let obj = {};
+		
+			obj["project"] = formObj;
+			obj["projectMember"] = memberArray;
+			
+		 	$.ajax('/updateProject' ,{
+				type : 'post',
+				contentType : 'application/json',
+				data : JSON.stringify(obj)
+			})
+			.done(data => {})
+			.fail(err => {}); 
+	 	})
 		
 		$('#prjtmembertbl').on('click', 'td:nth-child(5)',  function(){insertMember($('#updatemembertbl'))})
 		$('#updatemembertbl').on('click','td:nth-child(5)' ,deleteMember)
@@ -456,6 +485,7 @@
 		}	
 
 		function searchMember(){
+			
 				let selected = $('.member-selected-value').first().text();
 				let search  = $('#prjtsearch').val();
 				
@@ -502,7 +532,9 @@
 					})
 				})
 				.fail(err =>  console.log(err));
+	 	
 		}
+		
 	</script>
 </th:block>
 </html>

@@ -5,27 +5,29 @@
 <mapper
 	namespace="com.yedam.compani.business.mapper.BusinessMapper">
 	<!-- 개인캘린더 업무 목록 -->
-	<select id="selectPersonalCalendarAllBusiness" resultType="CamelHashMap">
+	<select id="selectPersonalCalendarAllBusiness"
+		resultType="CamelHashMap">
 		SELECT b.buss_no
-			   , b.prjt_no
-			   , p.prjt_nm
-			   , NVL(b.buss_upcd, 0) AS buss_upcd
-			   , b.buss_nm
-			   , m.memb_id
-			   , CASE b.buss_imp WHEN '0J1' THEN '상'
-						  		 WHEN '0J2' THEN '중'
-						  		 WHEN '0J3' THEN '하' END AS buss_imp
-			   , b.buss_prgre
-			   , b.buss_frdt
-			   , b.buss_todt
-			   , b.buss_st
+		, b.prjt_no
+		, p.prjt_nm
+		, NVL(b.buss_upcd, 0) AS buss_upcd
+		, b.buss_nm
+		, m.memb_id
+		, CASE b.buss_imp WHEN '0J1' THEN '상'
+		WHEN '0J2' THEN '중'
+		WHEN '0J3' THEN '하' END AS buss_imp
+		, b.buss_prgre
+		, b.buss_frdt
+		, b.buss_todt
+		, b.buss_st
 		FROM business b LEFT JOIN project p
-						ON b.prjt_no = p.prjt_no
-						LEFT JOIN business_member m
-						ON b.buss_no = m.buss_no
+		ON b.prjt_no = p.prjt_no
+		LEFT JOIN business_member m
+		ON b.buss_no = m.buss_no
 		WHERE (buss_st = '0K1'
 		OR buss_st = '0K3')
-		AND memb_id = #{membId}
+		AND
+		memb_id = #{membId}
 		ORDER BY buss_no
 	</select>
 
@@ -33,16 +35,16 @@
 	<select id="selectProjectCalendarAllBusiness"
 		resultType="BusinessVO">
 		SELECT buss_no
-			   , prjt_no
-			   , NVL(buss_upcd, 0) AS buss_upcd
-			   , buss_nm
-			   , CASE buss_imp WHEN '0J1' THEN '상'
-				 			   WHEN '0J2' THEN '중'
-				 			   WHEN '0J3' THEN '하' END AS buss_imp
-			   , buss_prgre
-			   , buss_frdt
-			   , buss_todt
-			   , buss_st
+		, prjt_no
+		, NVL(buss_upcd, 0) AS buss_upcd
+		, buss_nm
+		, CASE buss_imp WHEN '0J1' THEN '상'
+		WHEN '0J2' THEN '중'
+		WHEN '0J3' THEN '하' END AS buss_imp
+		, buss_prgre
+		, buss_frdt
+		, buss_todt
+		, buss_st
 		FROM business
 		WHERE (buss_st = '0K1'
 		OR buss_st = '0K3')
@@ -100,17 +102,21 @@
 
 	<select id="getBusinessList" resultType="BusinessVO">
 		SELECT P.PRJT_NM,
-		B.BUSS_NM,B.BUSS_FRDT, B.BUSS_TODT, B.BUSS_IMP
-		FROM PROJECT P, BUSINESS
-		B
-		WHERE P.PRJT_NO = B.PRJT_NO
+		B.BUSS_NM,
+		B.BUSS_FRDT,
+		B.BUSS_TODT,
+		B.BUSS_IMP
+		FROM BUSINESS B, BUSINESS_MEMBER BM, PROJECT P
+		WHERE BM.BUSS_NO =
+		B.BUSS_NO
+		AND P.PRJT_NO = B.PRJT_NO
+		AND BM.MEMB_ID = #{membId}
 	</select>
 
 	<select id="businessNameList" resultType="BusinessVO">
-		SELECT 		buss_nm, buss_no
-		FROM
-		BUSINESS
-		WHERE	    prjt_no = #{prjtNo}
+		SELECT buss_nm, buss_no
+		FROM BUSINESS
+		WHERE prjt_no = #{prjtNo}
 	</select>
 
 	<insert id="insertBusiness" parameterType="BusinessVO">
@@ -180,24 +186,24 @@
 	</update>
 
 	<select id="businessSelect" resultType="BusinessVO">
-		SELECT 	b.buss_no,
-				b.prjt_no,
-				p.prjt_nm,
-				b.buss_upcd,
-				b.buss_nm,
-				b.buss_imp,
-				b.buss_prgre,
-				b.buss_frdt,
-				b.buss_todt,
-				b.buss_cmpltdt,
-				b.buss_st,
-				FIND_CODENM(BUSS_ST) as bussStNm,
-				FIND_CODENM(BUSS_IMP) as bussImpNm
-		FROM 	BUSINESS b , PROJECT p
-		WHERE   b.prjt_no = p.prjt_no 
-		AND 	b.buss_no = #{bussNo}
+		SELECT b.buss_no,
+		b.prjt_no,
+		p.prjt_nm,
+		b.buss_upcd,
+		b.buss_nm,
+		b.buss_imp,
+		b.buss_prgre,
+		b.buss_frdt,
+		b.buss_todt,
+		b.buss_cmpltdt,
+		b.buss_st,
+		FIND_CODENM(BUSS_ST) as bussStNm,
+		FIND_CODENM(BUSS_IMP) as bussImpNm
+		FROM BUSINESS b , PROJECT p
+		WHERE b.prjt_no = p.prjt_no
+		AND b.buss_no = #{bussNo}
 	</select>
-	
+
 	<!-- 캘린더&간트 업무바 수정 -->
 	<update id="updateCalendarBuss" parameterType="BusinessVO">
 		UPDATE business
@@ -210,7 +216,18 @@
 	<!-- 간트 상위업무 수정 -->
 	<update id="updateGanttUpcd" parameterType="BusinessVO">
 		UPDATE business
-		SET buss_upcd = #{bussUpcd}
+		SET
+		buss_upcd = #{bussUpcd}
 		WHERE buss_no = #{bussNo}
+	</update>
+	<update id="modifyBusiness" parameterType="BusinessVO">
+		UPDATE  BUSINESS
+		SET     BUSS_NM   =#{bussNm},
+				BUSS_IMP  =#{bussImp}, 
+				BUSS_PRGRE=#{bissPrgre},
+				BUSS_FRDT =#{bussFrdt},
+				BUSS_TODT =#{bussTodt},
+				BUSS_ST   =#{bussSt}
+		WHERE  BUSS_NO = #{bussNo}
 	</update>
 </mapper>

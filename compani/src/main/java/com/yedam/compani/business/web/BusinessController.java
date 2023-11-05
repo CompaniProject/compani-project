@@ -22,6 +22,7 @@ import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.service.ProjectFormVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;;
@@ -50,7 +51,6 @@ public class BusinessController {
 
 		List<MemberVO> list = memberService.getMemberList();
 		model.addAttribute("memberList", list);
-
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
 		return "project/business-home";
@@ -62,12 +62,12 @@ public class BusinessController {
 
 		Map<String, Object> map = new HashMap<>();
 
-		businessService.insertBusiness(formVO.getBusiness());
+		businessService.insertBusiness(formVO.getBusiness()); 
 		businessMemberService.insertBusinessMember(formVO);
 
 		// 이거 한번 고민 해보자구 mapper 설계
 		if (!formVO.getBusiness().getBussDep().equals("")) {
-			businessService.updateBusiness(formVO.getBusiness());
+			businessService.modifyBusiness(formVO.getBusiness());
 		}
 
 		return map;
@@ -130,4 +130,24 @@ public class BusinessController {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
 	}
+	@PostMapping("/updateBuss")
+	@ResponseBody
+	public Map<String, Object> updateBusiness(@RequestBody FormVO formVO) {
+
+		Map<String, Object> map = new HashMap<>();
+		
+		//새로운 Service 만들기
+		if (!formVO.getBusiness().getBussDep().equals("")) {
+			businessService.updateBusiness(formVO.getBusiness());
+		}
+	
+		businessMemberService.deleteBusinessMember(formVO);
+		businessMemberService.insertBusinessMember(formVO);
+		 
+		
+		return map;
+
+	}
+	
+
 }

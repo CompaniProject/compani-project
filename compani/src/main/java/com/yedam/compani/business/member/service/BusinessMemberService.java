@@ -14,4 +14,5 @@ public interface BusinessMemberService {
 	public int getMemberBusinessCnt(BusinessMemberVO vo);
 
 	public Map<String, Integer> getMemberBusinessStateCnt(List<Map<String, String>> list);
+	public int deleteBusinessMember(FormVO formVO);
 }

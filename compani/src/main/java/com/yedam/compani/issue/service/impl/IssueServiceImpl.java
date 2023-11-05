@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.yedam.compani.issue.mapper.IssueMapper;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
+import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.paging.SearchDto;
 
 import lombok.RequiredArgsConstructor;
@@ -79,9 +80,9 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<IssueVO> getIssueList() {
+	public List<IssueVO> getIssueList(MemberVO memberVO) {
 
-		return issueMapper.getIssueList();
+		return issueMapper.getIssueList(memberVO);
 	}
 
 	/**

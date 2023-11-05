@@ -124,13 +124,13 @@
 									<div class="card-body" style="overflow: auto;">
 										<div class="SearchBox" style="height: 50%">
 											<label for="SearchToggleCheckBox"
-												th:attr="onclick='searchMember()'"></label> <input
-												type="hidden" id="keyword" value="전체">
+												th:attr="onclick='searchMember2()'"></label> <input
+												type="hidden" id="prjtinsertkeyword" value="전체">
 											<div class="SearchInputBox" style="width: 270px;">
 												<div>
 													<div class="member-selectBox" style="width: 100px;">
 														<div class="member-selected" id="member-selected">
-															<div class="member-selected-value">전체</div>
+															<div class="member-selected-valueaside">전체</div>
 															<div class="arrow"></div>
 														</div>
 														<ul class="member-select-ul"
@@ -143,7 +143,7 @@
 													</div>
 
 												</div>
-												<input class="SearchInputModalView" id="insertsearch" type="text"
+												<input class="SearchInputModalView" id="prjtinsertsearch" type="text"
 													placeholder="검색어를 입력하세요." />
 											</div>
 
@@ -342,17 +342,17 @@
 		function deleteMember(event){
 			$(this).parent().remove();
 		}
-		$('#keyword').on('click', searchMember)
+	
 		
-			$('.member-selectBox').on('click', function () {
-				$('.member-select-ul').css('display', 'block');
-			})
+		$('.member-selectBox').on('click', function () {
+			$('.member-select-ul').css('display', 'block');
+		})
 			
-			$('.member-select-option').on('click', function (e) {
+		$('.member-select-option').on('click', function (e) {
 				
 				var selectValue = e.currentTarget.textContent;
-				$('.member-selected-value').text(selectValue);
-				$('#keyword').val(selectValue);
+				$('.member-selected-valueaside').text(selectValue);
+				$('#prjtinsertkeyword').val(selectValue);
 				$('.member-select-ul').css('display', 'none');
 				e.stopPropagation();
 		})
@@ -360,10 +360,13 @@
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
 		}	
+		
+		$('#prjtinsertkeyword').on('click', searchMember2)
 
-		function searchMember(){
-				let selected = $('.member-selected-value').first().text();
-				let search  = $('#insertsearch').val();
+		function searchMember2(){
+
+				let selected = $('.member-selected-valueaside').first().text();
+				let search  = $('#prjtinsertsearch').val();
 				
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
 				.done(function(data){
@@ -375,7 +378,7 @@
 					 	let tdTag = $('<td/>');
 					 	
 						trTag.attr('id', data.MEMB_ID);
-						debugger
+						
 						if(data.MEMB_PHT_PATH != null){
 						let imgTag = $('<img>',{
 							src:"/images/profile/" +data.MEMB_PHT_PATH,

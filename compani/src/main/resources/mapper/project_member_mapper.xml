@@ -104,4 +104,10 @@
 		WHERE   b.MEMB_ID = p.MEMB_ID
 		AND     p.PRJT_NO = #{prjtNo}
 	</select>
+	<delete id="deleteProjectMember" parameterType="ProjectMemberVO">
+		DELETE FROM PROJECT_MEMBER 
+    	WHERE  PRJT_NO = #{prjtNo}
+   	<!-- 	AND    PRJT_MEMB_PERM NOT IN 'CRTR' -->
+	
+	</delete>
 </mapper>

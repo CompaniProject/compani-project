@@ -66,14 +66,16 @@ public class ProjectController {
 	}
 
 	@GetMapping("home")
-	public String mainhomeList(Model model) {
-		List<ProjectVO> list = projectService.getProjectList();
+	public String mainhomeList(Model model, HttpServletRequest request) {
+	
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		List<ProjectVO> list = projectService.getProjectList(memberVO);
 		model.addAttribute("projectList", list);
-		List<MemberFeedbackVO> list2 = memberFeedbackService.getMemberFeedbackList();
+		List<MemberFeedbackVO> list2 = memberFeedbackService.getMemberFeedbackList(memberVO);
 		model.addAttribute("memberFeedbackList", list2);
-		List<BusinessVO> list3 = businessService.getBusinessList();
+		List<BusinessVO> list3 = businessService.getBusinessList(memberVO);
 		model.addAttribute("businessList", list3);
-		List<IssueVO> list4 = issueService.getIssueList();
+		List<IssueVO> list4 = issueService.getIssueList(memberVO);
 		model.addAttribute("issueList", list4);
 
 		return "home";
@@ -96,7 +98,7 @@ public class ProjectController {
 	public Map<String, Object> favAjax(ProjectVO projectVO) {
 
 		int n = projectService.updateFavorite(projectVO);
-
+		
 		if (n >= 0) {
 			System.out.println("성공");
 		} else {
@@ -121,14 +123,28 @@ public class ProjectController {
 	//프로젝트 등록 - 실행시 
 	@PostMapping("/insertProject")
 	@ResponseBody
-	public Map<String, Object> insertBusiness(@RequestBody ProjectFormVO formVO) {
+	public Map<String, Object> insertProject(@RequestBody ProjectFormVO formVO) {
 
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(formVO);
 		projectService.insertProject(formVO.getProject());
 		projectMemberService.insertProjectMember(formVO);
 		
 		return map;
 
 	}
+	@PostMapping("/updateProject")
+	@ResponseBody
+	public Map<String, Object> updateProject(@RequestBody ProjectFormVO formVO) {
+
+		Map<String, Object> map = new HashMap<>();
+		projectService.updateProject(formVO.getProject());
+		
+		projectMemberService.deleteProjectMember(formVO);
+		projectMemberService.insertProjectMember(formVO);
+		 
+		
+		return map;
+
+	}
+	
 }

@@ -44,4 +44,10 @@
 	WHERE m.prjt_no = #{prjtNo}
 	AND b.buss_st = #{bussSt}
   </select>
+  
+  <delete id="deleteBusinessMember" parameterType="BusinessMemberVO">
+  	DELETE FROM BUSINESS_MEMBER
+  	WHERE  BUSS_NO = #{bussNo}
+  
+  </delete>
   </mapper>
