@@ -105,6 +105,9 @@ public class BusinessServiceImpl implements BusinessService {
 	public int modifyBusiness(BusinessVO businessVO) {
 		
 		return businessMapper.modifyBusiness(businessVO);
+	}
+	
+	@Override
 	public List<BusinessVO> businessdriveNameList(Integer prjtNo) {
 		
 		return businessMapper.businessdriveNameList(prjtNo);
