@@ -1,5 +1,5 @@
 
-<form  id="updatebussform"class="form-valide" action="#" method="post">
+<form id="updatebussform" class="form-valide" action="#" method="post">
 
 	<div>
 		<div class="issueNameEdit">
@@ -36,7 +36,7 @@
 										<td th:text="${bussMemList.membNm}" />
 										<!-- 버튼 수정하기 -->
 										<td><i class="fa-solid fa-minus"></i></td>
-										<input type="hidden" name ="membId" th:value="11">
+										<input type="hidden" name="membId" th:value="11">
 									</tr>
 								</th:block>
 							</tbody>
@@ -133,7 +133,7 @@
 					<select class="dropdown-import" id="bussImp" name="bussImp"
 						th:value="${businessVO.bussImpNm}">
 						<option class="dropdown-import" value="0J1"
-							th:selected="${businessVO.bussImpNm}=='상'" >상</option>
+							th:selected="${businessVO.bussImpNm}=='상'">상</option>
 						<option class="dropdown-import" value="0J2"
 							th:selected="${businessVO.bussImpNm}=='중'">중</option>
 						<option class="dropdown-import" value="0J3"
@@ -154,15 +154,16 @@
 				</div>
 			</div>
 			<div class="col-lg-2">
-				<input type="text" id="bussPrgre" name = "bussPrgre"th:value="${businessVO.bussPrgre}" />
+				<input type="text" id="bussPrgre" name="bussPrgre"
+					th:value="${businessVO.bussPrgre}" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-lg-4 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-				<input type="text" id="bussSt" name = "bussSt" th:value="${businessVO.bussSt}"
-					readonly="readonly" />
+				<input type="text" id="bussSt" name="bussSt"
+					th:value="${businessVO.bussSt}" readonly="readonly" />
 			</div>
 
 		</div>
@@ -198,8 +199,9 @@
 		</div>
 	</div>
 	<div>
-		<input type="hidden" name="prjtNo" th:value="${session.projectVO.prjtNo}" />
-		<input type="hidden" name="bussNo" th:value="${businessVO.bussNo}" />
+		<input type="hidden" name="prjtNo"
+			th:value="${session.projectVO.prjtNo}" /> <input type="hidden"
+			name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
 		<button id="updatebussBtn" type="button" class="btn btn-primary">수정</button>
@@ -208,6 +210,7 @@
 <script>
 	var slider = document.getElementById('hover');
 	var bussPrgre = $('#bussPrgre').val();
+
 	noUiSlider.create(slider, {
 		start : bussPrgre,
 		connect : 'lower',
@@ -223,55 +226,177 @@
 	$('#bussPrgre').on('change', function() {
 		slider.noUiSlider.set($(this).val());
 	})
+	
+	if($('#bussSt').val() == '0K1'){
+		$('#bussSt').val('진행중');
+	}else if($('#bussSt').val() == '0K2'){
+		$('#bussSt').val('완료');
+	}else if($('#bussSt').val() == '0K3'){
+		$('#bussSt').val('초과');
+	}else{
+		$('#bussSt').val('초과완료');
+	}
+
+	$('#infomembertbl').on('click', function() {
+
+				let id = $(event.target).closest('tr').attr('id');
+
+				let image = $(event.target).closest('tr').children().eq(0)
+						.children().attr('src');
+				let dept = $(event.target).closest('tr').children().eq(1)
+						.text();
+				let position = $(event.target).closest('tr').children().eq(2)
+						.text();
+				let name = $(event.target).closest('tr').children().eq(3)
+						.text();
+
+				let isDup = true;
+				tbl = $('#updatemembertbl');
+				tbl.find('tr').each(function() {
+					let checkId = $(this).attr('id');
+					if (checkId == id) {
+						isDup = false;
+					}
+				})
+
+				if (isDup) {
+
+					let trTag = $('<tr/>');
+					let tdTag = $('<td/>');
+
+					trTag.attr('id', id);
+
+					if (image != null) {
+						let imgTag = $('<img>', {
+							src : image,
+							height : "50px",
+							width : "50px"
+						})
+
+						tdTag.append(imgTag);
+					}
+					trTag.append(tdTag);
+
+					tdTag = $('<td/>');
+					tdTag.append(dept);
+					trTag.append(tdTag);
+
+					tdTag = $('<td/>');
+					tdTag.append(position);
+					trTag.append(tdTag);
+
+					tdTag = $('<td/>');
+					tdTag.append(name);
+					trTag.append(tdTag);
+
+					tdTag = $('<td/>');
+					tdTag.append('<i class="fa-solid fa-minus"></i>');
+					trTag.append(tdTag);
+
+					let inputTag = $('<input/>');
+					inputTag.attr('type', 'hidden');
+					inputTag.attr('name', 'membId');
+					inputTag.attr('value', id);
+					trTag.append(inputTag);
+
+					tbl.append(trTag);
+				}
+
+	})
+	$('#updatemembertbl').on('click','td:nth-child(5)' ,function(){
+		$(this).parent().remove();
+	})
+
 
 	$('.member-selectBox').on('click', function() {
 		$('.member-select-ul').css('display', 'block');
 	})
 
 	$('.member-select-option').on('click', function(e) {
+
 		var selectValue = e.currentTarget.textContent;
 		$('.member-selected-value').text(selectValue);
 		$('#keyword').val(selectValue);
 		$('.member-select-ul').css('display', 'none');
-		console.log(slider.noUiSlider.get());
 		e.stopPropagation();
 	})
-
-	$('#infomembertbl').on('click', 'td:nth-child(5)', function() {insertMember($('#updatemembertbl'))})
-	$('#updatemembertbl').on('click', 'td:nth-child(5)', deleteMember)
 	
-
-	$('#updatebussBtn').on('click',function(){
-		
-		let formData = $('#updatebussform').serializeArray();
-
-	 	let formObj = {};
-	 	let memberArray = [];
-		$.each(formData, function(idx,obj){
- 		  	if(obj.name != "membId"){
-				formObj[obj.name] = obj.value;
-			}  
- 		  	else{
-				memberArray.push({membId : obj.value});
-		    }
-		});
+	function searchMember(){
+		let selected = $('.member-selected-value').first().text();
+		let search  = $('#infosearch').val();
 	
-		let obj = {};
+		$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
+		.done(function(data){
+			let tbody = $('#infomembertbl');
+			tbody.empty();
+			$.each( data, function(idx,data){
 	
-		obj["business"] = formObj;
-		obj["businessMember"] = memberArray;
-		
-	 	$.ajax('/updateBuss' ,{
-			type : 'post',
-			contentType : 'application/json',
-			data : JSON.stringify(obj)
+			let trTag = $('<tr/>');
+			let tdTag = $('<td/>');
+					 	
+			trTag.attr('id', data.MEMB_ID);
+				
+			if(data.MEMB_PHT_PATH != null){
+				let imgTag = $('<img>',{
+				src:"/images/profile/" +data.MEMB_PHT_PATH,
+				height:"50px", 
+				width:"50px",
+				})
+				
+				tdTag.append(imgTag);
+				}
+				trTag.append(tdTag);
+					 	
+				tdTag = $('<td/>');
+				tdTag.append(data.MEMB_DEPT);
+				trTag.append(tdTag);
+					 	
+			 	tdTag = $('<td/>');
+			 	tdTag.append(data.MEMB_WKGD);				 
+				trTag.append(tdTag);
+					 	
+				tdTag = $('<td/>');
+				tdTag.append(data.MEMB_NM);
+				trTag.append(tdTag);
+					
+				tdTag = $('<td/>');
+			 	tdTag.append('<i class="fa-solid fa-plus"></i>');
+			 	trTag.append(tdTag);
+					 	
+			 	tbody.append(trTag);
+			})
 		})
-		.done(data => {})
-		.fail(err => {}); 
- 	})
-		
-	
-	
-	
-	
+		.fail(err =>  console.log(err));
+	}
+	$('#updatebussBtn').on('click', function(){
+			
+				let formData = $('#updatebussform').serializeArray();
+
+			 	let formObj = {};
+			 	let memberArray = [];
+				$.each(formData, function(idx,obj){
+		 		  	if(obj.name != "membId"){
+						formObj[obj.name] = obj.value;
+					}  
+		 		  	else{
+						memberArray.push({membId : obj.value});
+				    }
+				});
+			
+				let obj = {};
+			
+				obj["business"] = formObj;
+				obj["businessMember"] = memberArray;
+				
+				$.ajax('/updateBusiness' ,{
+					type : 'post',
+					contentType : 'application/json',
+					data : JSON.stringify(obj)
+				})
+				.done(data => {
+				})
+				.fail(err => {});
+					
+	})
 </script>
+

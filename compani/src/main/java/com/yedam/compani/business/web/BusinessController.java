@@ -95,14 +95,9 @@ public class BusinessController {
 		model.addAttribute("memberList", memberList);
 		
 		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
-		System.out.println(prjtNo);
-		/*
-		 * List<BusinessVO> busineesNameList =
-		 * businessService.bussinessNameList(prjtNo);
-		 * model.addAttribute("businessNameList", busineesNameList);
-		 */
-		
-
+		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
+		model.addAttribute("businessNameList", busineesNameList);
+		 
 		return "modal/modal-business";
 	}
 
@@ -140,7 +135,7 @@ public class BusinessController {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
 	}
-	@PostMapping("/updateBuss")
+	@PostMapping("/updateBusiness")
 	@ResponseBody
 	public Map<String, Object> updateBusiness(@RequestBody FormVO formVO) {
 
