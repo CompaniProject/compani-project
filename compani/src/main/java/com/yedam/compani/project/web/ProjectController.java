@@ -46,7 +46,6 @@ public class ProjectController {
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
 		
-		request.getSession().setAttribute("prjtNo", prjtNo);
 
 		model.addAttribute("businessStateList", businessStateList);
 		model.addAttribute("businessLevelList", businessLevelList);
@@ -55,7 +54,13 @@ public class ProjectController {
 		// 헤더 단건 조회
 		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", projectVO);
+		request.getSession().setAttribute("prjtNo", prjtNo);
 		
+		return "project/project-home";
+	}
+	
+	@GetMapping("/project/modal/{prjtNo}")
+	public String projectModal(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		// 프로젝트 모달 수정 - 참여자 리스트
 		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", prjtMemberList);
@@ -64,8 +69,10 @@ public class ProjectController {
 		String coCd = memberVO.getCoCd();
 		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
 		model.addAttribute("memberList", memberList);
-		return "project/project-home";
+		
+		return "modal/modal-project";
 	}
+
 
 	@GetMapping("home")
 	public String mainhomeList(Model model, HttpServletRequest request) {

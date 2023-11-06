@@ -91,13 +91,7 @@ body {
 	opacity: 1;
 }
 
-.workModalTab ul li.active {
-	background-color: #22252E;
-}
 
-.workModalTab ul li.active i {
-	color: #98D7EC;
-}
 
 .ModalTab {
 	position: relative;
