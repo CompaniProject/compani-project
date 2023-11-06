@@ -103,13 +103,13 @@
 
 	<update id="updateMemberInfo" parameterType="MemberVO">
 		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm}</if>
-                          <if test="membDept != null and !membDept.equals('')">,memb_dept = #{membDept}</if>
-                          <if test="membWkgd != null and !membWkgd.equals('')">,memb_wkgd = #{membWkgd}</if>
-                          <if test="membMsg != null and !membMsg.equals('')">,memb_msg = #{membMsg}</if>
+                          ,memb_dept = #{membDept}
+                          ,memb_wkgd = #{membWkgd}
+                          ,memb_msg = #{membMsg}
                           <if test="membBirthDt != null and !membBirthDt.equals('')">,memb_birth_dt = #{membBirthDt}</if>
-                          <if test="membPhtPath != null and !membPhtPath.equals('')">,MEMB_PHT_PATH = #{membPhtPath}</if>
-                          <if test="membEmail != null and !membEmail.equals('')">,memb_email = #{membEmail}</if>
-                          <if test="membTelno != null and !membTelno.equals('')">,memb_telno = #{membTelno}</if>
+                          ,MEMB_PHT_PATH = #{membPhtPath}
+                          ,memb_email = #{membEmail}
+                          ,memb_telno = #{membTelno}
                           <if test="membPwd != null and !membPwd.equals('')">,memb_pwd = #{membPwd}</if>
                       WHERE memb_id = #{membId}
 	</update>
