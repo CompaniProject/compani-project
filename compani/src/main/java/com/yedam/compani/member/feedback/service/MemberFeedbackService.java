@@ -17,4 +17,6 @@ public interface MemberFeedbackService {
 	public MemberFeedbackVO getFeedbackPersonal();
 	
 	public boolean editFeedbackPersonal(MemberFeedbackVO vo);
+	
+	public List<MemberFeedbackVO> getMemberFeedbackList(MemberVO memberVO);
 }
