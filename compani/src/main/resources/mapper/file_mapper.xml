@@ -3,7 +3,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.compani.file.mapper.FileMapper">
 	
-				<!-- 파일 리스트 (업무 파일함)-->
+				<!-- 드라이브 파일 리스트 + 검색 -->
 				<select id="fileList" resultType="FileVO">
 					SELECT	f.file_no
 							, f.prjt_no
@@ -31,8 +31,51 @@
 					ORDER BY file_no DESC
 				</select>
 				
+				<!-- 드라이브 필터링 -->
+				<select id="fileFilter" resultType="FileVO">
+					SELECT	f.file_no
+							, f.prjt_no
+							, f.buss_no
+							, f.file_nm
+							, f.file_path
+							, f.file_type
+							, f.file_desct
+							, f.file_dt
+							, mem.memb_nm
+							, f.file_size
+					FROM   	project_file f, project p, business b, member mem
+					WHERE	f.buss_no = b.buss_no
+					AND		b.prjt_no = p.prjt_no
+					AND		f.memb_id = mem.memb_id
+					AND		f.prjt_no = #{prjtNo}
+					<choose>
+						<when test="filter == 'xls'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+						<when test="filter == 'pptx'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+						<when test="filter == 'pdf'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+						<when test="filter == 'zip'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+						<when test="filter == 'txt'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+						<when test="filter == 'jpg'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+						<when test="filter == 'png'">
+							AND f.file_type LIKE '%' || #{filter} || '%'
+						</when>
+					</choose>
+					ORDER BY file_no DESC
+				</select>
 				
-				<!-- 파일 업로드 (업무 파일함) -->
+				
+				<!-- 파일 업로드 (모달) -->
 				<insert id="fileInsert" parameterType="FileVO">
 					<selectKey keyProperty="fileNo"
 							   resultType="int"
@@ -64,7 +107,7 @@
 				</insert>
 				
 				
-				<!-- 파일 삭제 (업무 파일함, 프로젝트 자료함)-->
+				<!-- 파일 삭제 (모달, 드라이브)-->
 				<delete id="fileDelete" parameterType="FileVO">
 					DELETE FROM PROJECT_FILE
 					WHERE 		FILE_NO = #{fileNo}
@@ -102,6 +145,7 @@
 					ORDER BY f.file_no DESC	
 				</select>
 				
+				<!-- 드라이브 파일 업로드 -->
 				<insert id="driveFileInsert" parameterType="list">
 			        INSERT INTO   project_file
 			                  (   file_no
@@ -115,21 +159,21 @@
 			                    , memb_id
 			                    , file_size		                    
 			                  )
-			        SELECT file_seq.nextval, A.*
+			        SELECT file_seq.nextval, W.*
 			        FROM (
-			        <foreach item="file" collection="list" separator="UNION ALL ">
-			            SELECT 		1
-			                    , 	1
-			                    , 	#{file.fileNm}
-			                    , 	#{file.filePath}
-			                    ,   'text'
-			                    ,   'dd'
-			                    ,   SYSDATE
-			                    ,   'ojunkwon'
-			                    ,   #{file.fileSize}  
+			        <foreach item="files" collection="list" separator="UNION ALL ">
+			            SELECT		1 as prjtNo
+			                    ,	1 as bussNo
+			                    , 	#{files.fileNm} as fileNm
+			                    , 	#{files.filePath} as filePath
+			                    ,   #{files.fileType} as fileType
+			                    ,   '테스트' as fileDesct
+			                    ,   SYSDATE as fileDt
+			                    ,  	'm2' as membId
+			                    ,   #{files.fileSize} as fileSize
 			            FROM       DUAL
 			        </foreach>
-			             ) A
+			             ) W
 				</insert>
 				
 				

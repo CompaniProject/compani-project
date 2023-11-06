@@ -69,18 +69,6 @@ public class FileController {
 		return map;
 	}
 
-	// 모달 확인용
-	@GetMapping("/modal")
-	public String moD() {
-		return "modal";
-	}
-
-	// 등록 모달창 확인용
-	@GetMapping("/insertmodal")
-	public String insertmodal() {
-		return "insertmodal";
-	}
-
 	// 파일 업로드 다운로드 테스트용
 	@GetMapping("/FileTest")
 	public String FileTest() {

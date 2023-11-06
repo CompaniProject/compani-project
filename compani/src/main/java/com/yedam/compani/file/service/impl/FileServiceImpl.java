@@ -27,7 +27,7 @@ public class FileServiceImpl implements FileService {
 		return filemapper.fileInfo(FileNo);
 	}
 	
-	// 파일 등록
+	// 모달 파일 업로드
 	@Override
 	public int fileInsert(final FileVO fileVO) {
 
