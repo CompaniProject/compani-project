@@ -30,4 +30,5 @@ public interface MemberService {
 
 	// 마스터 회원리스트
 	public List<Map<Object, Object>> masterMemberList();
+	public List<Map<String, String>> getPersonalFeedbackStatusCnt(int one);
 }

@@ -65,6 +65,19 @@ public class ProjectFileController {
 				 fileservice.driveFileInsert(uploadedFiles);
 		}				
 	}
-	//
+	
+
+	// 확장자 필터링 AJAX
+		@GetMapping("/project/driveFilterAjax/{prjtNo}")
+		@ResponseBody
+		public Map<String, Object> fileList(@PathVariable int prjtNo, String filter){
+			List<FileVO> file = new ArrayList<> (fileservice.fileList(filter, prjtNo));
+			Map<String, Object> map = new HashMap<>();
+			
+			map.put("file", file);
+			map.put("files", fileservice.fileList(filter, prjtNo));
+			
+			return map;
+		}
 
 }

@@ -215,7 +215,7 @@ mark, .mark {
 											<label class="col-lg-4 col-form-label" for="membEmail">이메일
 											</label>
 											<div class="col-lg-6">
-												<input type="email" class="form-control" id="membEmail"
+												<input type="text" class="form-control" id="membEmail"
 													name="membEmail" placeholder="ex) abc@example.com"
 													hidden="true"> <input type="text" id="email_id"
 													class="form-control" value="" title="이메일 아이디"
@@ -230,8 +230,8 @@ mark, .mark {
 													value="naver.com"> <select
 													style="width: 206px; margin-left: 10px; display: inline-block;"
 													name="selectEmail" id="selectEmail" class="form-control">
-													<option value="1">직접입력</option>
-													<option value="naver.com" selected>naver.com</option>
+													<option value="1" selected>직접입력</option>
+													<option value="naver.com">naver.com</option>
 													<option value="hanmail.net">hanmail.net</option>
 													<option value="hotmail.com">hotmail.com</option>
 													<option value="nate.com">nate.com</option>
@@ -258,8 +258,8 @@ mark, .mark {
 													style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
 													name="selectTel" id="selectTel" class="form-control">
 
-													<option value="">선택 &nbsp;&nbsp;</option>
-													<option value="010" selected>010 &nbsp;&nbsp;</option>
+													<option value="" selected>선택 &nbsp;&nbsp;</option>
+													<option value="010">010 &nbsp;&nbsp;</option>
 													<option value="070">070 &nbsp;&nbsp;</option>
 													<option value="02">02 &nbsp;&nbsp;</option>
 													<option value="031">031&nbsp;&nbsp;</option>
@@ -316,7 +316,7 @@ mark, .mark {
 
 										<div class="form-group row">
 											<div class="col-lg-8 ml-auto">
-												<button type="submit" class="btn btn-primary">가입신청</button>
+												<button type="button" class="btn btn-primary" id="submitBtn">가입신청</button>
 												<button type="button" class="btn btn-primary"
 													onclick="location.href='loginForm';">메인으로</button>
 											</div>
@@ -408,10 +408,11 @@ mark, .mark {
 	<script>
 //@@@@@@@@@@@@@@@회원가입폼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	//아이디 중복체크용 데이터
-	const memberIdList = [];
+	let memberIdList = [];
 
 	
 	$(function(){
+		memberIdList = []
 	    $.ajax('http://localhost/memberIdList', {
 	        type : 'post'
 	    })
@@ -677,7 +678,7 @@ mark, .mark {
 	//가입클릭
 
 	$(document).ready(function() {
-	    $('form').submit(function(e) {
+	    $('#submitBtn').click(function(e) {
 			if($('#conditionCN').css("display") != 'inline' && $('#conditionId').css("display") != 'inline' && $('#conditionId2').css("display") != 'inline' && $('#conditionPw').css("display") != 'inline' && $('#conditionPw3').css("display") != 'inline' && $('#conditionNm').css("display") != 'inline' && $('#conditionBd').css("display") != 'inline' && $('#conditionEid').css("display") != 'inline' && $('#conditionEmail').css("display") != 'inline' && $('#conditionTel').css("display") != 'inline' 
 				&& $('#coNm').val().length != 0 && $('#membId').val().length != 0 && $('#membPwd').val().length != 0 && $('#membPwd2').val().length != 0 && $('#membNm').val().length != 0 && $('#membBirthDt').val().length != 0){
 				if(($('#email_id').val().length > 0 && $('#str_email02').val().length > 2)||($('#email_id').val().length == 0 && $('#str_email02').val().length == 0)){
@@ -686,22 +687,29 @@ mark, .mark {
 					$("#conditionEmail").show();
 					e.preventDefault();
 				}
-				if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length > 9||$('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 0){
+				
+				if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length > 9){
 					if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 10 && ($('#selectTel').val() == '010' || $('#selectTel').val() == '070')){
 						$("#conditionTel").show();
 						e.preventDefault();
 					}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 11 && ($('#selectTel').val() != '010' && $('#selectTel').val() != '070')){
 						$("#conditionTel").show();
 						e.preventDefault();
+					}else{
+						$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
+						$("#formSignUp").attr("action","SignUpped").submit();
 					}
+				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 0){
 					$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
-				}else{
+					$("#formSignUp").attr("action","SignUpped").submit();
+				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length <= 9){
 					$("#conditionTel").show();
 					e.preventDefault();
 				}
-				$("#formSignUp").attr("action","SignUpped").submit();
+				
+
 			}else{
-				alter("정확한 가입정보를 입력하시오.");
+				alert("정확한 가입정보를 입력하시오.");
 				e.preventDefault();
 			}
 	    });
@@ -712,11 +720,14 @@ mark, .mark {
 
 //@@@@@@@@@@@@@@@@소속기관@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	// 검색어 리스트
-	const compList = [];
-	const compNm = [];
-	const myComp = '';
+	let compList = [];
+	let compNm = [];
+	let myComp = '';
 	
 	function selectCompList(){
+		compList = []
+		compNm = []
+		myComp = ''
 	    $.ajax('http://localhost/companyList', {
 	        type : 'post'
 	    })

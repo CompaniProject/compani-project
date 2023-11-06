@@ -10,8 +10,11 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
 
 public interface FileService {
 	
-	// 전체보기
+	// 드라이브 파일 전체보기
 	public List<FileVO> fileList(String pSearch, String pKeyword, int prjtNo);
+	
+	// 드라이브 필터링
+	public List<FileVO> fileList(String Filter, int prjtNo);
 	
 	// 조회
 	public FileVO fileInfo(Integer FileNO);

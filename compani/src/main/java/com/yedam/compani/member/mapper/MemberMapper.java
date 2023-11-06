@@ -27,4 +27,7 @@ public interface MemberMapper {
 	
 	// 마스터 회원리스트
 	public List<Map<Object, Object>> masterMemberList();
+	
+	public List<Map<String, String>> selectPersonalFeedbackStatusCnt(int one);
+		
 }

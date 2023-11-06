@@ -225,11 +225,9 @@
 				let projecttbl = $('#projecttbl');
 				if(projectState == '완료'){
 					projectState = '0D2';
-					console.log(projectState);
 				}
 				else{
 					projectState = '0D1';
-					console.log(projectState);
 				}
 			
 				$.ajax('ProjectStateAjax',{
@@ -286,7 +284,7 @@
 						projecttbl.append(trTag);
 					})
 				})
-				.fail(err =>  console.log(err));
+				.fail(err => );
 				}
 				
 			
@@ -304,7 +302,6 @@
 				
 				if(membFdbkDt=='최신순'){
 					fdList.sort(date_desc);
-					console.log(fdList);
 					replytbl.empty();
 					
 					$.each(fdList, function (idx, data) {
@@ -329,7 +326,6 @@
 					
 				}else{
 					fdList.sort(date_asc);
-					console.log(fdList);
 					
 					replytbl.empty();
 					
@@ -382,9 +378,7 @@
 				let businesstbl = $('#businesstbl');
 				
 				if(membFdbkDt=='상'){
-					console.log(businessList);
 					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J1');
-					console.log(bussImp);
 					businesstbl.empty();
 					
 					$.each(bussImp, function (idx, data) {
@@ -418,7 +412,6 @@
 					
 				}else if(membFdbkDt=='중'){
 					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J2');
-					console.log(bussImp);
 					businesstbl.empty();
 					
 					$.each(bussImp, function (idx, data) {
@@ -452,7 +445,6 @@
 					
 				}else{
 					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J3');
-					console.log(bussImp);
 					businesstbl.empty();
 					
 					$.each(bussImp, function (idx, data) {
@@ -498,7 +490,6 @@
 				let issuetbl = $('#issuetbl');
 				
 				if(membFdbkDt=='해결'){
-					console.log(issueList);
 					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E1');
 					
 					issuetbl.empty();
@@ -528,7 +519,6 @@
 					})
 					
 				}else if(membFdbkDt=='미해결'){
-					console.log(issueList);
 					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E2');
 					
 					issuetbl.empty();
@@ -558,7 +548,6 @@
 					})
 					
 				}else{
-					console.log(issueList);
 					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E3');
 					
 					issuetbl.empty();
@@ -656,7 +645,7 @@
 					})
 					
 				})
-				.fail(err =>  console.log(err));
+				.fail(err => );
 			}
 			
 			function body(data){
