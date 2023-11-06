@@ -105,6 +105,13 @@
 		B
 		WHERE P.PRJT_NO = B.PRJT_NO
 	</select>
+	
+	<select id="businessdriveNameList" resultType="BusinessVO">
+		SELECT 		buss_nm, buss_no
+		FROM
+		BUSINESS
+		WHERE	    prjt_no = #{prjtNo}
+	</select>
 
 	<select id="businessNameList" resultType="BusinessVO">
 		SELECT 		buss_nm, buss_no

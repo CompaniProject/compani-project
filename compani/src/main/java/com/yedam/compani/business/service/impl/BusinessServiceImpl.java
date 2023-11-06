@@ -100,4 +100,10 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.updateGanttUpcd(vo);
 	}
 
+	@Override
+	public List<BusinessVO> businessdriveNameList(Integer prjtNo) {
+		
+		return businessMapper.businessdriveNameList(prjtNo);
+	}
+
 }

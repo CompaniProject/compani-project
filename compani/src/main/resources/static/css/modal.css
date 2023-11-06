@@ -67,6 +67,7 @@ body {
 	visibility: hidden;
 	font-size: 12px;
 	letter-spacing: 0.5px;
+	z-index: 10000;
 }
 
 .workModalTab ul li .tooltip:before {
@@ -327,6 +328,7 @@ body {
 	align-items: center;
 	width: 100%;
 	height: 100%;
+	z-index: 1;
 }
 
 .TobBarIssueControlArea {

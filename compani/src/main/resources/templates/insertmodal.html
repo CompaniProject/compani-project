@@ -142,15 +142,16 @@ hr {
 						</span> <br>
 
 						<!-- 업무선택 드랍다운 -->
-						<div class="form-group">
-							<select class="form-control" id="jobDown">
-								<option>업무~</option>
-								<option>2ㅁ2</option>
-								<option>3ㅁ3</option>
-								<option>4w4</option>
-								<option>5w5</option>
-							</select>
-						</div>
+							<div class="form-group">
+								<select class="form-control" id="jobDown" name="jobDown">
+									<th:block th:each="bussList : ${driveBsNm}">
+										<option 
+										th:value="${bussList.bussNm}"
+										th:text="${bussList.bussNm}"
+										value="${bussList.bussNm}"></option>
+									</th:block>
+								</select>
+							</div>
 						<br> <br> <br>
 
 						<p class="FileText">파일설명</p>

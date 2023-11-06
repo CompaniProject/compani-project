@@ -21,6 +21,8 @@ public interface BusinessMapper {
 	public int updateBusiness(BusinessVO businessVO);
 	public BusinessVO businessSelect(Integer bussNo);
 	
+	public List<BusinessVO> businessdriveNameList(Integer prjtNo);
+	
 	
 	// 캘린더&간트 업무바 수정
 	public int updateCalendarBuss(BusinessVO vo);

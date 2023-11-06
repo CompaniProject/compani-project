@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.business.member.service.BusinessMemberService;
-import com.yedam.compani.business.member.service.BusinessMemberVO;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.business.service.FormVO;
@@ -73,6 +71,7 @@ public class BusinessController {
 		return map;
 
 	}
+	
 	@GetMapping("home/modal")
 	public String projectHome() {
 		return "modal/modal-main";
@@ -96,7 +95,6 @@ public class BusinessController {
 		return "modal/modal-business";
 	}
 
-	
 	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
 	@GetMapping("myCalendar")
 	public String personalCalendarList(Model model, HttpSession session) {
