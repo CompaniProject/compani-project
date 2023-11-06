@@ -113,10 +113,8 @@ public class BusinessController {
 	}
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
-	@GetMapping("projectCalendar")
-	public String projectCalendarList(Model model, HttpSession session, HttpServletRequest request) {
-		int prjtNo = (Integer) session.getAttribute("prjtNo");
-		
+	@GetMapping("project/calendar/{prjtNo}")
+	public String projectCalendarList(Model model, @PathVariable int prjtNo, HttpServletRequest request) {
 		// 캘린더 업무리스트
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);
@@ -131,7 +129,7 @@ public class BusinessController {
 		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
 		model.addAttribute("memberList", memberList);
 		
-		return "calendar/projectCalendarPage";
+		return "calendar/projectCalendar";
 	}
 	
 	// 김연규, 2023-10-31, 캘린더&간트 업무바 수정
