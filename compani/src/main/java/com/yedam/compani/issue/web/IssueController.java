@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -28,7 +30,8 @@ import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
-
+import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
@@ -44,6 +47,7 @@ public class IssueController {
 	private final IssueHashtagService issueHashtagService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
 	private final BusinessService businessService;
+	private final ProjectFeedbackService projectFeedbackService;
 	
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList/{bussNo}")
@@ -153,10 +157,14 @@ public class IssueController {
 	// 김연규, 2023-10-25, 프로젝트 이슈 피드백
 	@GetMapping("/project/feedback/{prjtNo}/issue")
 	public String projectFeedbackIssueList(@PathVariable int prjtNo, Model model) {
+		
 		List<IssueVO> list = issueService.getProjectFeedbackIssueList();
 		ProjectStatusVO projectStatus = projectStatusService.getProjectStatus(prjtNo);
+		List<Map<Object,Object>> feedbackList = projectFeedbackService.getListForLevel(prjtNo);
+		
 		model.addAttribute("projectFeedbackIssueList", list);
 		model.addAttribute("projectStatus",projectStatus);
+		model.addAttribute("projectFeedbackList",feedbackList);
 		return "project/feedback-issue";
 	}
 	
