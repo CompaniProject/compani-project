@@ -629,7 +629,6 @@ input[type="checkbox" i] {
 
 
 .modalInsertContent > .issueInsertContentTopBar {
-    position: sticky;
     top: 0;
     display: flex;
     justify-content: space-between;
@@ -986,7 +985,6 @@ form.fileupload.dz {
 }
 
 .modalIssueInfoContent > .issueInfoContentTopBar {
-    position: sticky;
     top: 0;
     display: flex;
     width: 96%;
@@ -1360,7 +1358,6 @@ form.fileupload.dz {
 
 
 .modalEditContent > .issueEditContentTopBar {
-    position: sticky;
     top: 0;
     display: flex;
     justify-content: space-between;
@@ -1410,7 +1407,7 @@ form.fileupload.dz {
 }
 
 .editIssueNameBack {
-    width: 100%;
+    width: 91.5%;
     min-height: 48px;
     height: fit-content;
     max-height: 82px;

@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="projectHeader">
-	<div class="container-fluid">
+	<div class="container-fluid" style="font: inherit;">
 		<div class="row">
-			<div class="col-lg-2 col-sm-6">
+			<div class="col-lg-4 col-sm-6">
 				<div class="card">
 
 					<div class="row">
@@ -18,7 +18,7 @@
 							<div class="pt-3 pb-3 pl-5 pr-0 text-center">
 								<!-- 데이터 -->
 								<h4 class="m-1">
-									<i id="prjtIcon" class="fa-solid fa-pen-to-square fa-2xl"></i>
+								<i id="prjtIcon" class="fa-solid fa-pen-to-square fa-xl" style="cursor: pointer;"></i>									
 								</h4>
 
 							</div>
@@ -45,13 +45,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-sm-6">
+			<div class="col-lg-2 col-sm-6">
 				<div class="card">
 
 					<div class="row">
 						<div class="col-6 border-right">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<h4 class="m-1">프로젝트일정</h4>
+								<h4 class="m-1">일정</h4>
 								<p class="m-0"></p>
 							</div>
 						</div>
@@ -65,13 +65,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-sm-6">
+			<div class="col-lg-2 col-sm-6">
 				<div class="card">
 
 					<div class="row">
 						<div class="col-6 border-right">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<h4 class="m-1">프로젝트 상태</h4>
+								<h4 class="m-1">상태</h4>
 							</div>
 						</div>
 						<div class="col-6">
@@ -114,14 +114,13 @@
 					<ul class="nav nav-tabs mb-3" role="tablist">
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/home/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>
-						<li class="nav-item"><a class="nav-link" href="/projectCalendarPage">캘린더</a></li>
+						<li class="nav-item"><a class="nav-link" href="/projectCalendar">캘린더</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/business/{prjtNo}(prjtNo=${prjtNo})}">업무</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/issues/{prjtNo}(prjtNo=${prjtNo})}">이슈</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/drive/{prjtNo}(prjtNo=${prjtNo})}">드라이브</a></li>
-						<li class="nav-item"><a class="nav-link" href="#message">내코멘트</a></li>
 						<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">피드백</a></li>
 					</ul>
 					<div class="tab-content">

@@ -498,7 +498,7 @@
 				.done(function () {
 					findAllReplyP();
 					countReplyP(issuNo);
-					issueReplyCntn.innerText = '';
+					$('#pIssueReplyCntn').val('');
 				})
 				.fail(function (error) {
 					console.log(error)
