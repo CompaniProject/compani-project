@@ -25,6 +25,14 @@
 
 
 <style type="text/css">
+body{
+	overflow: auto;
+}
+
+#main-wrapper {
+	overflow: visible;
+}
+
 #projectCalendarBox {
 	width: 70%;
 }
@@ -152,7 +160,7 @@ select {
 
 </head>
 <body class="scroll-set">
-	<div id="main-wrapper" style="overflow: auto;">
+	<div id="main-wrapper">
 		<div class="body-container">
 			<header th:replace="fragments/header :: header"></header>
 			<aside th:replace="fragments/aside:: aside"></aside>

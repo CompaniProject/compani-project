@@ -19,8 +19,12 @@
 <link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
 
 <style type="text/css">
+body{
+	overflow: auto;
+}
+
 #main-wrapper {
-	
+	overflow: visible;
 }
 
 #personalCalendarBox {
@@ -154,26 +158,25 @@ select {
 
 </head>
 <body class="scroll-set">
-	<div id="main-wrapper" style="overflow: auto;">
+	<div id="main-wrapper">
 		<div class="body-container">
 			<header th:replace="fragments/header :: header"></header>
 			<aside th:replace="fragments/aside:: aside"></aside>
 			<div class="content-container">
 				<div class="content-body">
 					<div class='calendarBusinessInfo'>
-						<!-- -------------------
-							업무 목록 - 버튼
-						-------------------- -->
+						<!--  업무 목록 - 버튼 시작 -->
 						<div>
-							<!-- 달력 간트 스위치 -->
+							<!-- 달력 간트 스위치 시작 -->
 							<div class="button-group">
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary calendar">달력</button>
 									<button type="button" class="btn btn-primary gantt">차트</button>
 								</div>
 							</div>
+							<!-- 달력 간트 스위치 끝 -->
 							
-							<!-- 정렬 버튼 -->
+							<!-- 정렬 버튼 시작 -->
 							<div class="basic-dropdown">
 								<div class="dropdown">
 									<button type="button" class="btn btn-primary dropdown-toggle sort" 
@@ -187,8 +190,9 @@ select {
 									</div>
 								</div>
 							</div>
+							<!-- 정렬 버튼 끝-->
 						
-							<!-- 필터링 버튼 -->
+							<!-- 필터링 버튼 시작 -->
 							<div class="basic-dropdown">
 								<div class="dropdown">
 									<button type="button" class="btn btn-primary dropdown-toggle filter" 
@@ -205,11 +209,11 @@ select {
 									</div>
 								</div>
 							</div>
+							<!-- 필터링 버튼 끝 -->
 						</div>
+						<!--  업무 목록 - 버튼 끝 -->
 						
-						<!-- ---------------
-							업무 목록 - 리스트
-						----------------- -->
+						<!-- 업무 목록 - 리스트 시작 -->
 						<div class="businessListBox">
 							<th:block th:each="bussInfo : ${personalCalendarPage}">
 								<div class="businessList">
@@ -224,27 +228,22 @@ select {
 								</div>
 							</th:block>
 						</div>
-						<!-- -----------------
-							업무 목록 - 페이징
-						------------------ -->
+						<!-- 업무 목록 - 리스트 끝 -->
 					</div>
 					
-					<!-- --------------
-						달력&차트 내용
-					--------------- -->
+					<!-- 달력&차트 시작 -->
 					<div id="personalCalendarBox">
 						<div id='personalCalendar' class="tab-pane"></div>
 						
 						<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
 					</div>
+					<!-- 달력&차트 끝 -->
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<!-- -----------------
-		업무 상세보기 모달
-	------------------ -->
+	<!-- 업무 상세보기 모달 -->
 	<div data-include1="showModalMain"></div>
 	
 	<script th:inline="javascript">
