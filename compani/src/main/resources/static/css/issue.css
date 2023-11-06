@@ -701,7 +701,6 @@
 
 
 .modalPIEditContent > .pIssueEditContentTopBar {
-    position: sticky;
     top: 0;
     display: flex;
     justify-content: space-between;
@@ -713,7 +712,6 @@
 }
 
 .modalCIEditContent > .cIssueEditContentTopBar {
-    position: sticky;
     top: 0;
     display: flex;
     justify-content: space-between;
@@ -829,7 +827,7 @@
 }
 
 .editCIssueNameBack {
-    width: 100%;
+    width: 84.8%;
     max-height: 68px;
     line-height: 1.7;
     padding: 0;
@@ -1095,7 +1093,6 @@ ciFileUpload.dz {
 
 
 .modalPISaveContent > .pIssueSaveContentTopBar {
-    position: sticky;
     top: 0;
     display: flex;
     justify-content: space-between;

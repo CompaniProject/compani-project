@@ -19,6 +19,15 @@
 <th:block layout:fragment="content">
 	<div class="row">
 		<div class="col-lg-8">
+		<div class="default-tab">
+					<ul class="nav nav-tabs mb-3" role="tablist">
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/project/feedback/{prjtNo}/issue(prjtNo=${prjtNo})}">이슈</a></li>
+						<li class="nav-item"><a class="nav-link" >개인 피드백</a></li>
+					</ul>
+		</div>
 		<div class="column">
 					<!-- Business Count Info Start -->
 					<div>
@@ -205,7 +214,11 @@
 		    	height: '35rem'
 		    })
 		})
-
+	
+		$(document).ready( function () {
+			let navItemHome = $('.nav-link').eq(0);
+			navItemHome.addClass('active');	
+		})
 	</script>
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>
