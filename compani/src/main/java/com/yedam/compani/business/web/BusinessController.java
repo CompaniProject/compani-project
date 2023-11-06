@@ -81,7 +81,7 @@ public class BusinessController {
 	}
 
 	@GetMapping("/businessInfo/{bussNo}")
-	public String businessInfo(@PathVariable Integer bussNo ,Model model) {
+	public String businessInfo(@PathVariable Integer bussNo ,Model model, HttpServletRequest request) {
 
 		// 업무 단건
 		BusinessVO bussVO = businessService.businessSelect(bussNo);
@@ -94,7 +94,11 @@ public class BusinessController {
 		// 회사 멤버 list
 		List<MemberVO> memberList = memberService.getMemberList();
 		model.addAttribute("memberList", memberList);
-
+		
+		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
+		model.addAttribute("businessNameList", busineesNameList);
+		 
 		return "modal/modal-business";
 	}
 
@@ -144,19 +148,20 @@ public class BusinessController {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
 	}
-	@PostMapping("/updateBuss")
+	@PostMapping("/updateBusiness")
 	@ResponseBody
 	public Map<String, Object> updateBusiness(@RequestBody FormVO formVO) {
 
 		Map<String, Object> map = new HashMap<>();
-		
+		businessService.modifyBusiness(formVO.getBusiness());
 		//새로운 Service 만들기
-		if (!formVO.getBusiness().getBussDep().equals("")) {
-			businessService.updateBusiness(formVO.getBusiness());
-		}
+		/*
+		 * if (!formVO.getBusiness().getBussDep().equals("")) {
+		 * businessService.modifyBusiness(formVO.getBusiness()); }
+		 */
 	
-		businessMemberService.deleteBusinessMember(formVO);
-		businessMemberService.insertBusinessMember(formVO);
+		//businessMemberService.deleteBusinessMember(formVO);
+		//businessMemberService.insertBusinessMember(formVO);
 		 
 		
 		return map;

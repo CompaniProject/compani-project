@@ -231,10 +231,10 @@
 		UPDATE  BUSINESS
 		SET     BUSS_NM   =#{bussNm},
 				BUSS_IMP  =#{bussImp}, 
-				BUSS_PRGRE=#{bissPrgre},
+				BUSS_PRGRE=#{bussPrgre},
 				BUSS_FRDT =#{bussFrdt},
 				BUSS_TODT =#{bussTodt},
 				BUSS_ST   =#{bussSt}
-		WHERE  BUSS_NO = #{bussNo}
+		WHERE   BUSS_NO = #{bussNo}
 	</update>
 </mapper>

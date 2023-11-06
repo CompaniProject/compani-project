@@ -77,8 +77,12 @@
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 								<!-- 데이터 -->
-								<h4 class="m-1">[[${session.projectVO.prjtSt}]]</h4>
-								<p class="m-0"></p>
+								<h4 class="m-1"><span th:if="${session.projectVO.prjtSt == '0D1' }">진행중</span>
+												<span th:if="${session.projectVO.prjtSt == '0D2' }">완료</span>
+												<span th:if="${session.projectVO.prjtSt == '0D3' }">보류</span>
+								
+								</h4>
+								
 							</div>
 						</div>
 					</div>
@@ -95,7 +99,8 @@
 						</div>
 						<div class="col-6">
 							<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-								<h4 class="m-1">[[${session.projectVO.prjtPubcyn}]]</h4>
+								<h4 class="m-1"><span th:if="${session.projectVO.prjtPubcyn == '0F1' }">공개</span>
+												<span th:unless="${session.projectVO.prjtPubcyn == '0F1' }">비공개</span></h4>
 							</div>
 						</div>
 					</div>
