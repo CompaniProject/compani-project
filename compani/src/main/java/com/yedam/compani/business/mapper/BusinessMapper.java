@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.member.service.MemberVO;
 
 public interface BusinessMapper {
 	//개인 캘린더 업무리스트
@@ -15,7 +16,7 @@ public interface BusinessMapper {
 	public List<Map<Object,Object>> selectBusinessStateList(Integer prjtNo);
 	public List<Map<Object,Object>> selectBusinessAndLevelList(Integer prjtNo);
 	public int updateProceedToDelay();
-	public List<BusinessVO> getBusinessList();
+	public List<BusinessVO> getBusinessList(MemberVO memberVO);
 	public List<BusinessVO> businessNameList(Integer prjtNo);
 	public int insertBusiness(BusinessVO businessVO);
 	public int updateBusiness(BusinessVO businessVO);
@@ -26,4 +27,6 @@ public interface BusinessMapper {
 	public int updateCalendarBuss(BusinessVO vo);
 	// 간트 상위업무 수정
 	public int updateGanttUpcd(BusinessVO vo);
+	
+	public int modifyBusiness(BusinessVO businessVO);
 }

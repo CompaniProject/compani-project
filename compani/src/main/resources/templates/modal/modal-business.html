@@ -1,5 +1,7 @@
 
-<form class="form-valide" action="#" method="post">
+<form  id="updatebussform"class="form-valide" action="#" method="post">
+[[${session.loginInfo}]]
+	[[${session.projectVO}]]
 	<div>
 		<div class="issueNameEdit">
 			<div class="issueNameBack">
@@ -35,6 +37,7 @@
 										<td th:text="${bussMemList.membNm}" />
 										<!-- 버튼 수정하기 -->
 										<td><i class="fa-solid fa-minus"></i></td>
+										<input type="hidden" name ="membId" th:value="11">
 									</tr>
 								</th:block>
 							</tbody>
@@ -152,14 +155,14 @@
 				</div>
 			</div>
 			<div class="col-lg-2">
-				<input type="text" id="bussPrgre" th:value="${businessVO.bussPrgre}" />
+				<input type="text" id="bussPrgre" name = "bussPrgre"th:value="${businessVO.bussPrgre}" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-lg-4 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-				<input type="text" id="bussSt" th:value="${businessVO.bussStNm}"
+				<input type="text" id="bussSt" name = "bussSt" th:value="${businessVO.bussStNm}"
 					readonly="readonly" />
 			</div>
 
@@ -196,10 +199,10 @@
 		</div>
 	</div>
 	<div>
-		<input type="hidden" name="prjtNo" th:value="1" />
+		<input type="hidden" name="prjtNo" th:value="${session.projectVO.prjtNo}" />
 	</div>
 	<div class="modal-footer">
-		<button id="updateBtn" type="button" class="btn btn-primary">수정</button>
+		<button id="updatebussBtn" type="button" class="btn btn-primary">수정</button>
 	</div>
 </form>
 <script>
@@ -237,9 +240,36 @@
 	$('#infomembertbl').on('click', 'td:nth-child(5)', function() {insertMember($('#updatemembertbl'))})
 	$('#updatemembertbl').on('click', 'td:nth-child(5)', deleteMember)
 	
-	$('#updateBtn').on('click', function(){
-			
-	})
+
+	$('#updatebussBtn').on('click',function(){
+		
+		let formData = $('#updatebussform').serializeArray();
+
+	 	let formObj = {};
+	 	let memberArray = [];
+		$.each(formData, function(idx,obj){
+ 		  	if(obj.name != "membId"){
+				formObj[obj.name] = obj.value;
+			}  
+ 		  	else{
+				memberArray.push({membId : obj.value});
+		    }
+		});
+	
+		let obj = {};
+	
+		obj["business"] = formObj;
+		obj["businessMember"] = memberArray;
+		
+	 	$.ajax('/updateBuss' ,{
+			type : 'post',
+			contentType : 'application/json',
+			data : JSON.stringify(obj)
+		})
+		.done(data => {})
+		.fail(err => {}); 
+ 	})
+		
 	
 	
 	

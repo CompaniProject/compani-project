@@ -133,10 +133,11 @@ public class MemberController {
 		int prjtNo = (int) request.getSession().getAttribute("prjtNo"); 
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo"); 
 		String coCd = memberVO.getCoCd();
+		System.out.println(prjtNo);
+		System.out.println(coCd);
 		map.put("prjtNo", prjtNo);
 		map.put("coCd", coCd);
 		List<MemberVO> List = service.getMemberList(map);
-	
 	
 		return List;
 	}

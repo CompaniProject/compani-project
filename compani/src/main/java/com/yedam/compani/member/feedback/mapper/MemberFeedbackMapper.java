@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.compani.member.feedback.service.MemberFeedbackVO;
+import com.yedam.compani.member.service.MemberVO;
 
 public interface MemberFeedbackMapper {
 	public List<MemberFeedbackVO> getMemberFeedbackList();

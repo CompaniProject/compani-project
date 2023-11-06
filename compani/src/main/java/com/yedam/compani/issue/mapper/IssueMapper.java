@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.github.pagehelper.Page;
 import com.yedam.compani.issue.service.IssueVO;
+import com.yedam.compani.member.service.MemberVO;
 
 public interface IssueMapper {
 	
@@ -27,7 +28,7 @@ public interface IssueMapper {
 	 * 
 	 * @return 이슈 리스트
 	 */
-	List<IssueVO> getIssueList();
+	List<IssueVO> getIssueList(MemberVO memberVO);
 
 	/**
 	 * 이슈 상세정보 조회

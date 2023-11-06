@@ -3,6 +3,7 @@ package com.yedam.compani.issue.service;
 import java.util.List;
 
 import com.github.pagehelper.Page;
+import com.yedam.compani.member.service.MemberVO;
 
 public interface IssueService {
 	// 이슈 전체 조회(검색)
@@ -18,7 +19,7 @@ public interface IssueService {
 	// 모달 이슈 등록
 	public int modalInsertIssue(final IssueVO issueVO);
 
-	public List<IssueVO> getIssueList();
+	public List<IssueVO> getIssueList(MemberVO memberVO);
 
 	// 이슈 수정
 	public int updateIssue(final IssueVO params);

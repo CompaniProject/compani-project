@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.compani.business.mapper.BusinessMapper;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.member.service.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,8 +60,8 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 	
 	@Override
-	public List<BusinessVO> getBusinessList() {
-		return businessMapper.getBusinessList();
+	public List<BusinessVO> getBusinessList(MemberVO memberVO) {
+		return businessMapper.getBusinessList(memberVO);
 	}
 
 	@Override
@@ -98,6 +99,12 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public int updateGanttUpcd(BusinessVO vo) {
 		return businessMapper.updateGanttUpcd(vo);
+	}
+
+	@Override
+	public int modifyBusiness(BusinessVO businessVO) {
+		
+		return businessMapper.modifyBusiness(businessVO);
 	}
 
 }
