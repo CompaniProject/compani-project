@@ -27,9 +27,10 @@ public class FileVO {
 
 	
 	@Builder
-	public FileVO(String fileNm, String filePath, long fileSize) {
+	public FileVO(String fileNm, String filePath, String fileType, long fileSize) {
 		this.fileNm = fileNm;
 		this.filePath = filePath;
+		this.fileType = fileType;
 		this.fileSize = fileSize;
 	}
 }

@@ -80,6 +80,14 @@ public class FileServiceImpl implements FileService {
 
 		return filemapper.fileFilter(Filter, prjtNo);
 	}
+
+	@Override
+	public int fileDriveDel(List<Integer> driveFile) {
+			for(int i=0; i<driveFile.size(); i++) {
+				filemapper.fileDelete(driveFile.get(i));
+			}
+		return driveFile.size();
+	}
 	
 
 }
