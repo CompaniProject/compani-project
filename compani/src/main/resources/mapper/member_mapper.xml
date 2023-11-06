@@ -103,6 +103,7 @@
                           <if test="membWkgd != null and !membWkgd.equals('')">,memb_wkgd = #{membWkgd}</if>
                           <if test="membMsg != null and !membMsg.equals('')">,memb_msg = #{membMsg}</if>
                           <if test="membBirthDt != null and !membBirthDt.equals('')">,memb_birth_dt = #{membBirthDt}</if>
+                          <if test="membPhtPath != null and !membPhtPath.equals('')">,MEMB_PHT_PATH = #{membPhtPath}</if>
                           <if test="membEmail != null and !membEmail.equals('')">,memb_email = #{membEmail}</if>
                           <if test="membTelno != null and !membTelno.equals('')">,memb_telno = #{membTelno}</if>
                           <if test="membPwd != null and !membPwd.equals('')">,memb_pwd = #{membPwd}</if>
