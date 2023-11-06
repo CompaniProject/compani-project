@@ -168,7 +168,7 @@ select {
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 												<!-- 데이터 prjtNM -->
 												<h4 class="m-1">[[${session.projectVO.prjtNm}]]</h4>
-												<p class="m-1">프로젝트번호.[[${prjtNo}]]</p>
+												<p class="m-1">프로젝트번호.[[${session.prjtNo}]]</p>
 											</div>
 										</div>
 										<div class="col-2  border-right">
@@ -266,15 +266,15 @@ select {
 							<!-- 프로젝트 탭 시작 -->
 							<ul class="nav nav-tabs mb-3" role="tablist">
 								<li class="nav-item"><a class="nav-link"
-									th:href="@{/project/home/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>
+									th:href="@{/project/home/{prjtNo}(prjtNo=${session.prjtNo})}">홈</a></li>
 								<li class="nav-item"><a class="nav-link active" href="/projectCalendar">캘린더</a></li>
 								<li class="nav-item"><a class="nav-link"
-									th:href="@{/project/business/{prjtNo}(prjtNo=${prjtNo})}">업무</a></li>
+									th:href="@{/project/business/{prjtNo}(prjtNo=${session.prjtNo})}">업무</a></li>
 								<li class="nav-item"><a class="nav-link"
-									th:href="@{/project/issues/{prjtNo}(prjtNo=${prjtNo})}">이슈</a></li>
+									th:href="@{/project/issues/{prjtNo}(prjtNo=${session.prjtNo})}">이슈</a></li>
 								<li class="nav-item"><a class="nav-link" href="#message">드라이브</a></li>
 								<li class="nav-item"><a class="nav-link" href="#message">내코멘트</a></li>
-								<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">피드백</a></li>
+								<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}(prjtNo=${session.prjtNo})}">피드백</a></li>
 							</ul>
 							<!-- 프로젝트 탭 끝 -->
 							
