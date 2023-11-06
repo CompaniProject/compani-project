@@ -296,19 +296,17 @@ select {
 							
 							<!-- 업무리스트 박스 시작 -->
 							<div class='calendarBusinessInfo'>
-								<!-- -------------------
-									업무 목록 - 버튼
-								-------------------- -->
 								<div>
-									<!-- 달력 간트 스위치 -->
+									<!-- 달력 간트 스위치 시작 -->
 									<div class="button-group">
 										<div class="btn-group">
 											<button type="button" class="btn btn-primary calendar">달력</button>
 											<button type="button" class="btn btn-primary gantt">차트</button>
 										</div>
 									</div>
+									<!-- 달력 간트 스위치 끝 -->
 								
-									<!-- 정렬 버튼 -->
+									<!-- 정렬 버튼 시작 -->
 									<div class="basic-dropdown">
 										<div class="dropdown">
 											<button type="button" class="btn btn-primary dropdown-toggle" 
@@ -322,11 +320,10 @@ select {
 											</div>
 										</div>
 									</div>
+									<!-- 정렬 버튼 끝 -->
 								</div>
 								
-								<!-- ---------------
-									업무 목록 - 리스트
-								----------------- -->
+								<!-- 업무 목록 - 리스트 시작 -->
 								<div class="businessListBox">
 									<th:block th:each="bussInfo : ${projectCalendarPage}">
 										<div class="businessList">
@@ -341,7 +338,7 @@ select {
 										</div>
 									</th:block>
 								</div>
-			
+								<!-- 업무 목록 - 리스트 끝 -->
 							</div>
 							<!-- 업무리스트 박스 끝 -->
 						</div>
