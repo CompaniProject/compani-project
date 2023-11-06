@@ -34,7 +34,7 @@
 					</div>
                                  
                 <div class="media pt-5" style="padding-top: 20px !important;">
-                    <img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
+                   <img class="mr-3 rounded-circle" th:src="'/images/member/'+${issueInfo.membPhtPath}" style="height:50px; width:50px;">
                     <div class="media-body" style="margin-right: 50px; flex: 0;">
                         <h5 class="m-b-3" th:text="${issueInfo.membNm}"></h5>
                         <p class="m-b-2" style="width: 75px;"
@@ -535,7 +535,7 @@
                                         <div class="cIssueReviews">
                                         <div class="issue__reply__itemC">
                                             <div class="issue__reply__itemC__pic">
-                                                <img src="/images/users/2.jpg" alt="">
+                                            <img src="/images/member/${row.membPhtPath}" alt="">
                                             </div>
                                             <div class="issue__reply__itemC__text">
                                                 <h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>
