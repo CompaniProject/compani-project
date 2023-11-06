@@ -27,6 +27,7 @@ import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.member.service.ProjectMemberVO;
+import com.yedam.compani.project.service.ProjectService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +39,7 @@ public class ProjectIssueController {
 	private final IssueFileService issueFileService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
 	private final BusinessService businessService;
+	private final ProjectService projectService;
 	private final IssueHashtagService issueHashtagService;
 	private final ProjectMemberService projectMemberService;
 
@@ -47,11 +49,11 @@ public class ProjectIssueController {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo),
 				8);
 		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
-
+		Map<Object, Object> pmap = projectService.projectSelect(prjtNo);
 		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 		
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
-		
+		model.addAttribute("projects", pmap);
 		model.addAttribute("memvo", memvo);
 		model.addAttribute("bussNmList", findBuss);
 		model.addAttribute("projectIssue", issues);
