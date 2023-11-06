@@ -42,5 +42,10 @@ public class MemberFeedbackServiceImpl implements MemberFeedbackService {
 	public boolean editFeedbackPersonal(MemberFeedbackVO vo) {
 		return (memberFeedbackMapper.updateFeedbackPersonal(vo) == 1);
 	}
+	@Override
+	public List<MemberFeedbackVO> getMemberFeedbackList() {
+		
+		return memberFeedbackMapper.getMemberFeedbackList();
+	}
 
 }

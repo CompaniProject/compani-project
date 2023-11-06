@@ -18,4 +18,5 @@ public interface MemberFeedbackMapper {
 	public MemberFeedbackVO selectFeedbackPersonal();
 	
 	public int updateFeedbackPersonal(MemberFeedbackVO vo);
+	public List<MemberFeedbackVO> getMemberFeedbackList(MemberVO memberVO);
 }
