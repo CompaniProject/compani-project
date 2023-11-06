@@ -154,7 +154,7 @@ public class BusinessController {
 
 		Map<String, Object> map = new HashMap<>();
 		businessService.modifyBusiness(formVO.getBusiness());
-		//새로운 Service 만들기
+		//종속관계 업데이트 , 사람 읍데이뜨
 		/*
 		 * if (!formVO.getBusiness().getBussDep().equals("")) {
 		 * businessService.modifyBusiness(formVO.getBusiness()); }

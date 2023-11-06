@@ -21,7 +21,7 @@ public class ProjectVO {
 	private String prjtFav;
 	private String membId;
 	
-	public boolean isStateEnd() {
-		return (prjtSt.equals("0D2"));
-	}
+//	public boolean isStateEnd() {
+//		return (prjtSt.equals("0D2"));
+//	}
 }

@@ -40,7 +40,7 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th>즐</th>
+										<th>즐찾</th>
 										<th>프로젝트번호</th>
 										<th>프로젝트명</th>
 										<th>참여인원</th>
@@ -255,7 +255,7 @@
 						if(data.prjtFav == 'N'){
 							tdTag.append('<i class="fa-regular fa-star" style="color: #080808;"></i>');
 						} 
-						
+					
     					trTag.append(tdTag);
 						
     					tdTag= $('<td/>');
@@ -285,6 +285,7 @@
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
+					
 						
 					})
 				})
@@ -606,7 +607,7 @@
 				else{
 					projectFavorite = 'Y';
 				}
-			
+				
 			 	$.ajax('favAjax',{
 					type : 'post',
 					data : { prjtFav : projectFavorite , prjtNo : prjtNo , prjtSt : prjtSt}

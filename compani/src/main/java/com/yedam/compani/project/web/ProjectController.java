@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
@@ -99,10 +100,10 @@ public class ProjectController {
 		Map<String, Object> map = new HashMap<>();
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
 		projectVO.setMembId(memberVO.getMembId());
+		System.out.println(projectVO);
 		List<ProjectVO> List = projectService.getProjectStateList(projectVO);
-		map.put("result", true);
 		map.put("projectStateList", List);
-
+		
 		return map;
 	}
 
@@ -110,15 +111,14 @@ public class ProjectController {
 	@ResponseBody
 	public Map<String, Object> favAjax(ProjectVO projectVO, HttpServletRequest request) {
 
-		int n = projectService.updateFavorite(projectVO);
-		
+		projectService.updateFavorite(projectVO);
 		Map<String, Object> map = new HashMap<>();
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
 		projectVO.setMembId(memberVO.getMembId());
-		List<ProjectVO> projectStateList = projectService.getProjectStateList(projectVO);
-		map.put("result", true);
-		map.put("project", projectStateList);
 
+		List<ProjectVO> projectStateList = projectService.getProjectStateList(projectVO);
+		map.put("project", projectStateList);
+		
 		return map;
 	}
 
@@ -136,21 +136,21 @@ public class ProjectController {
 	
 	@PostMapping("/updateProject")
 	@ResponseBody
-	public Map<String, Object> updateProject(@RequestBody ProjectFormVO formVO) {
+	public void updateProject(@RequestBody ProjectFormVO formVO) {
 		Map<String, Object> map = new HashMap<>();
 		
 		ProjectVO projectVO = formVO.getProject();
 		projectService.updateProject(projectVO);
 		
 		// 프로젝트 완료 시, 통계 측정
-		if (projectVO.isStateEnd()) {
-			projectStatusService.insert(projectVO.getPrjtNo());
-		}
+		/*
+		 * if (projectVO.isStateEnd()) {
+		 * projectStatusService.insert(projectVO.getPrjtNo()); }
+		 */
 		
 		projectMemberService.deleteProjectMember(formVO);
 		projectMemberService.insertProjectMember(formVO);
-		
-		return map;
+	
 	}
 	
 }
