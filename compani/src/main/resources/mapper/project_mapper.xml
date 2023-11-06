@@ -108,14 +108,18 @@
 	</select>
 	
 	<update id="updateProject" parameterType="ProjectVO">
-		UPDATE PROJECT
-		SET    PRJT_NM     = #{prjtNm},
-			   PRJT_PUBCYN = #{prjtPubcyn},
-			   PRJT_FDT    = #{prjtFdt},
-			   PRJT_TDT    = #{prjtTdt},
-			   PRJT_ST     = #{prjtSt}
-			
-		WHERE  PRJT_NO     = #{prjtNo}
+		UPDATE project
+		<set>
+			<if test="prjtSt == '0D2'">
+				prjt_cmpltdt = sysdate,
+			</if>
+			  prjt_nm     = #{prjtNm},
+			  prjt_pubcyn = #{prjtPubcyn},
+			  prjt_fdt    = #{prjtFdt},
+			  prjt_tdt    = #{prjtTdt},
+			  prjt_st    = #{prjtSt}
+		</set>
+		WHERE  prjt_no     = #{prjtNo}
 	
 	</update>
 </mapper>

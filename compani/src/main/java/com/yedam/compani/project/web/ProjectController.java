@@ -136,14 +136,15 @@ public class ProjectController {
 		projectMemberService.insertProjectMember(formVO);
 		
 		return map;
-
 	}
+	
 	@PostMapping("/updateProject")
 	@ResponseBody
 	public Map<String, Object> updateProject(@RequestBody ProjectFormVO formVO) {
-
 		Map<String, Object> map = new HashMap<>();
-		projectService.updateProject(formVO.getProject());
+		
+		ProjectVO projectVO = formVO.getProject();
+		projectService.updateProject(projectVO);
 		
 		projectMemberService.deleteProjectMember(formVO);
 		projectMemberService.insertProjectMember(formVO);
