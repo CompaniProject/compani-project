@@ -22,6 +22,9 @@
 	display: none;
 	color: blue;
 }
+.progress.mb-3 {
+	margin-top: 10px;
+}
 </style>
 
 </head>
@@ -33,91 +36,80 @@
 				<div class="default-tab">
 					<ul class="nav nav-tabs mb-3" role="tablist">
 						<li class="nav-item"><a class="nav-link"
-							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
+							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/feedback/{prjtNo}/issue(prjtNo=${prjtNo})}">이슈</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인 피드백</a></li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인
+								피드백</a></li>
 					</ul>
-			</div>
+				</div>
 				<div class="column">
-					<div>
-						<div class="row">
-
-							<div class="col-lg-3">
-								<div class="card">
-									<div class="stat-widget-one">
-										<div class="stat-content">
-											<div class="stat-digit gradient-3-text" id="bussCnt"
-												style="font-size: 50px" th:text="${projectStatus.bussCnt}"></div>
-											<div class="stat-text"
-												style="padding-top: 30px; font-size: 17px">총 업무 수</div>
-										</div>
-									</div>
+					<div class="row">
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 42px;">
+									<h4 class="card-title">총 업무 수</h4>
+									<span id="bussCnt" th:text="${projectStatus.bussCnt}"></span>
 								</div>
 							</div>
-							<div class="col-lg-3">
-								<div class="card">
-									<div class="stat-widget-one" style="padding-bottom: 5px">
-										<div class="stat-content">
-											<div class="stat-digit gradient-3-text"
-												style="padding-bottom: 10px; font-size: 25px">완료한 업무</div>
-											<div class="stat-text"
-												style="padding-top: 20px; padding-bottom: 0px;"
-												id="bussComp"
-												th:text="${projectStatus.bussCmplCnt}+'/'+${projectStatus.bussCnt}"></div>
-										</div>
-										<div class="progress mb-3"
-											style="margin: 10px; margin-bottom: 0;">
-											<div class="progress-bar gradient-3"
-												style="width: 50%; margin-bottom: 0;" id="bussCompBar"
-												role="progressbar"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3">
-								<div class="card">
-									<div class="stat-widget-one" style="padding-bottom: 5px">
-										<div class="stat-content">
-											<div class="stat-digit gradient-3-text"
-												style="padding-bottom: 10px; font-size: 25px">초과된 업무</div>
-											<div class="stat-text"
-												style="padding-top: 20px; padding-bottom: 0px;"
-												id="bussFair"
-												th:text="${projectStatus.bussExceCnt}+'/'+${projectStatus.bussCnt}"></div>
-										</div>
-										<div class="progress mb-3"
-											style="margin: 10px; margin-bottom: 0;">
-											<div class="progress-bar gradient-3"
-												style="width: 50%; margin-bottom: 0;" id="bussFairBar"
-												role="progressbar"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3">
-								<div class="card">
-									<div class="stat-widget-one" style="padding-bottom: 5px">
-										<div class="stat-content">
-											<div class="stat-digit gradient-3-text"
-												style="padding-bottom: 10px; font-size: 25px">미완료 업무</div>
-											<div class="stat-text"
-												style="padding-top: 20px; padding-bottom: 0px;"
-												id="bussUncomp"
-												th:text="${projectStatus.bussUncmplCnt}+'/'+${projectStatus.bussCnt}"></div>
-										</div>
-										<div class="progress mb-3"
-											style="margin: 10px; margin-bottom: 0;">
-											<div class="progress-bar gradient-3"
-												style="width: 50%; margin-bottom: 0;" id="bussUncompBar"
-												role="progressbar"></div>
+						</div>
+						<!-- mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm -->
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">완료한 업무</h4>
+									<span id="bussComp"
+										th:text="${projectStatus.bussCmplCnt}+'/'+${projectStatus.bussCnt}"></span>
+									<div class="progress mb-3">
+										<div
+											class="progress-bar bg-warning active progress-bar-striped"
+											id="bussCompBar" role="progressbar">
+											<span class="sr-only"></span>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!-- mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm -->
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom:0px;">
+									<h4 class="card-title">초과된 업무</h4>
+									<span id="bussFair"
+										th:text="${projectStatus.bussExceCnt}+'/'+${projectStatus.bussCnt}"></span>
+									<div class="progress mb-3">
+										<div
+											class="progress-bar bg-warning active progress-bar-striped"
+											id="bussFairBar" role="progressbar">
+											<span class="sr-only"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm		mmmmmmmmmmmmmm -->
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">미완료 업무</h4>
+									<span id="bussUncomp"
+										th:text="${projectStatus.bussUncmplCnt}+'/'+${projectStatus.bussCnt}"></span>
+									<div class="progress mb-3">
+										<div
+											class="progress-bar bg-warning active progress-bar-striped"
+											id="bussUncompBar" role="progressbar">
+											<span class="sr-only"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="column">
 						<div class="row">
-							<div class="col-lg-6" style="padding-right: 0px;">
+							<div class="col-lg-6" style="padding-right: 15px;">
 								<div class="card">
 									<div class="card-body" id="chartCardBody">
 										<div>
@@ -137,13 +129,17 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6" style="padding-left: 0px" id="chartCardBody2">
+							<div class="col-lg-6" style="padding-left: 15px"
+								id="chartCardBody2">
 								<div class="card">
-									<div class="card-body" style="padding-bottom: 0px;padding-top: 20px;padding-left: 10px">
+									<div class="card-body"
+										style="padding-bottom: 0px; padding-top: 20px;">
 										<h4 class="card-title" id="chartPsn"
-											style="margin-bottom: 0px;display:inline;"></h4>
+											style="margin-bottom: 0px; display: inline;">&nbsp;</h4>
 									</div>
-									<div class="card-body" style="padding-top: 10px;padding-left: 10px" id="chartCardBody3">
+									<div class="card-body"
+										style="padding-top: 10px; "
+										id="chartCardBody3">
 										<div>
 											<span style="display: inline;">진척도</span>&nbsp;
 											<div
@@ -162,7 +158,7 @@
 			<!-- Issue Status Chart Area End -->
 			<!-- Comemnt Area -->
 			<div class="col-lg-4">
-				<div class="card" style="height: 80vh;">
+				<div class="card" style="margin-top:48px ;height: 75vh;">
 					<div class="card-header bg-white">
 						<h5 class="card-title">
 							<b id="feedtarget"></b>님의 개인 피드백 공간
@@ -173,19 +169,13 @@
 
 					<div class="card-body"
 						style="overflow-y: auto; background-color: #FAFAFA;"
-						id="commentBody">
-						
-						
-						
-						
-
-					</div>
+						id="commentBody"></div>
 					<!-- 댓글 등록 영역 -->
 					<div class="card-footer">
 						<textarea class="form-control" name="inputCntn" id="inputCntn"
-							cols="30" rows="2" placeholder="Post a new message"
+							cols="30" rows="2"
 							style="height: 56px;"></textarea>
-						<button id="input2" class="btn btn-primary px-3 ml-4">Send</button>
+						<button id="input2" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
 					</div>
 					<!-- 댓글 등록 영역 End -->
 				</div>
@@ -193,14 +183,6 @@
 			<!-- Comment Area End -->
 		</div>
 
-		<div id="replyArea" style="display: none;">
-			<div class="media mt-3">
-				<textarea class="form-control" name="inputCntn" id="inputCntn"
-					cols="30" rows="2" placeholder="Post a new message"
-					style="height: 56px;"></textarea>
-				<button id="input1" class="btn btn-primary px-3 ml-4">Send</button>
-			</div>
-		</div>
 
 		<!-- Hidden Insert Comment Body -->
 		<div class="card" style="display: none;" id="insertBody">
@@ -229,15 +211,14 @@
 						<div class="comment-content">
 							<h5 class="mt-0"></h5>
 							<div class="content-area"></div>
-							<div class="edit-area" style="display: none;">
-							</div>
+							<div class="edit-area" style="display: none;"></div>
 							<div class="float-left" id="date-area"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	<script th:inline="javascript">
+		<script th:inline="javascript">
 	$(document).ready( function () {
 		let navItemHome = $('.nav-link').eq(2);
 		navItemHome.addClass('active');	
@@ -268,8 +249,6 @@
 			cmpllate.push(prjtInfo[i].K4);
 		}
 	
-		$('#chartCardBody').css('height', memb.length*60+"px")
-			
 		  new Chartist.Bar('#horizontal-bar-chart', {
 			    labels: memb,
 			    series: [
@@ -281,7 +260,6 @@
 			    seriesBarDistance: 10,
 			    reverseData: true,
 			    horizontalBars: true,
-			   	height:memb.length*50,
 			    axisY: {
 			      offset: 70
 			    },
@@ -357,7 +335,7 @@
 		$('#inputCntn').css('display', 'none'); 
 	}//end of myfeedbacks-------------------------------------------------------------------
 		 
-		 
+	var mycomment = 0;
 		 
  		setTimeout(() => {$('.ct-label.ct-vertical.ct-start').click(
  			
@@ -407,15 +385,6 @@
 	 			
 				if($('#feedtarget').text().length > 0){
 					
-	 				if(buss.length == 0){
-	 					$('#chartCardBody2').css('height', "350px") 
-	 	 				$('#chartCardBody3').css('height', "350px") 
-	 				}else{
-		 				$('#chartCardBody2').css('height', buss.length*50+"px") 
-		 				$('#chartCardBody3').css('height', buss.length*40+"px") 
-	 				}
-	 				
-	 				
 					 new Chartist.Bar('#horizontal-bar-chart2', {
 						    labels: buss,
 						    series: [prgre]
@@ -423,23 +392,15 @@
 						    seriesBarDistance: 10,
 						    reverseData: true,
 						    horizontalBars: true,
-						   	height:buss.length*30,
+						    height:buss.length*30,
 						    axisY: {
-						      offset: 70
+						      offset: 120
 						    },
 						    plugins: [
 						      Chartist.plugins.tooltip()
 						    ]
 					});
 				}else{
-	 				if(buss.length == 0){
-	 					$('#chartCardBody2').css('height', "350px") 
-	 	 				$('#chartCardBody3').css('height', "350px") 
-	 				}else{
-		 				$('#chartCardBody2').css('height', buss.length*50+"px") 
-		 				$('#chartCardBody3').css('height', buss.length*40+"px") 
-	 				}//end of if(busss.length)
-	
 	 				
 					 new Chartist.Bar('#horizontal-bar-chart2', {
 						    labels: buss,
@@ -448,9 +409,9 @@
 						    seriesBarDistance: 10,
 						    reverseData: true,
 						    horizontalBars: true,
-						   	height:buss.length*30,
+						    height:buss.length*30,
 						    axisY: {
-						      offset: 70
+						      offset: 120
 						    },
 						    plugins: [
 						      Chartist.plugins.tooltip()
@@ -472,11 +433,14 @@
 	 				$('#commentBody').children().remove();
 	 				$('#input2').css('display', 'inline');
 	 				$('#inputCntn').css('display', 'inline'); 
+	 				mycomment = 0;
 	 				for(i = 0; i < result.length; i++){
+	 					
 		 				if(targetnm == [[${session.loginInfo.membNm}]]){
 		 					myfeedbacks(result[i]);
 		 				}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter == [[${session.loginInfo.membId}]]){
 	 						feedbacks(result[i]);
+	 						mycomment ++;
 	 					}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter != [[${session.loginInfo.membId}]]){
 	 						feedbackshide(result[i]);
 	 					}
@@ -494,13 +458,17 @@
  		
  		
  		$('#input2').on('click', function(){
-			for(i = 0; i < $('#commentBody').children().children().children().children().children().children('h5.mt-0').length; i++){
+/* 			for(i = 0; i < $('#commentBody').children().children().children().children().children().children('h5.mt-0').length; i++){
 				if($('#commentBody').children().children().children().children().children().children('h5.mt-0')[i].innerText == [[${session.loginInfo.membId}]]){
 					fail();
 					return false;
  				}
+			} */
+			if(mycomment > 0){
+					fail();
+				return false;
 			}
- 			
+			mycomment ++;
  			$.ajax('http://localhost/insertFeedBackPersonal', {
  				type : 'post',
  				contentType : 'application/json',
@@ -608,13 +576,24 @@
 	function fail(){
 		alert('이미 작성한 피드백이 존재합니다.');
 	}//-------------------------------------------------------------------------------
+	
+	$(function(){
+		$('#horizontal-bar-chart').slimScroll({
+	    	height: '30rem'
+	    })
+	});
+	$(function(){
+		$('#horizontal-bar-chart2').slimScroll({
+	    	height: '29rem'
+	    })
+	});
+	
 	</script>
 		<script src="plugins/common/common.min.js"></script>
 		<script src="js/custom.min.js"></script>
 		<script src="js/settings.js"></script>
 		<script src="js/gleek.js"></script>
 		<script src="js/styleSwitcher.js"></script>
-
 	</th:block>
 </body>
 </html>
