@@ -26,6 +26,7 @@ import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.service.ProjectFormVO;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
+import com.yedam.compani.project.status.service.ProjectStatusService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +40,7 @@ public class ProjectController {
 	private final MemberFeedbackService memberFeedbackService;
 	private final IssueService issueService;
 	private final MemberService memberService;
+	private final ProjectStatusService projectStatusService;
 
 	@GetMapping("/project/home/{prjtNo}")
 	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
@@ -146,12 +148,15 @@ public class ProjectController {
 		ProjectVO projectVO = formVO.getProject();
 		projectService.updateProject(projectVO);
 		
+		// 프로젝트 완료 시, 통계 측정
+		if (projectVO.isStateEnd()) {
+			projectStatusService.insert(projectVO.getPrjtNo());
+		}
+		
 		projectMemberService.deleteProjectMember(formVO);
 		projectMemberService.insertProjectMember(formVO);
-		 
 		
 		return map;
-
 	}
 	
 }

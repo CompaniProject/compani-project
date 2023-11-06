@@ -60,12 +60,12 @@
                 , NVL(issu_solve,0)
                 , NVL(issu_unsolve,0)
                 , NVL(issu_unsolvable,0)
-                , NVL(TRUNC(buss_uncmpl_cnt/buss_cnt*100,2) AS buss_cmpl_rate,0)
-                , NVL(TRUNC(buss_cmpl_cnt/buss_cnt*100,2) AS buss_uncmpl_rate,0)
-                , NVL(TRUNC(buss_exce_cnt/buss_cnt*100,2) AS buss_exce_rate,0)
-                , NVL(TRUNC(issu_solve/issu_cnt*100,2) AS issu_solve_rate,0)
-                , NVL(TRUNC(issu_unsolve/issu_cnt*100,2) AS issu_unsolve_rate,0)
-                , NVL(TRUNC(issu_unsolvable/issu_cnt*100,2) AS issu_unsolvable_rate,0)
+                , NVL(TRUNC(buss_uncmpl_cnt/buss_cnt*100,2),0) AS buss_cmpl_rate
+                , NVL(TRUNC(buss_cmpl_cnt/buss_cnt*100,2),0) AS buss_uncmpl_rate
+                , NVL(TRUNC(buss_exce_cnt/buss_cnt*100,2),0) AS buss_exce_rate
+                , NVL(TRUNC(issu_solve/issu_cnt*100,2),0) AS issu_solve_rate
+                , NVL(TRUNC(issu_unsolve/issu_cnt*100,2),0) AS issu_unsolve_rate
+                , NVL(TRUNC(issu_unsolvable/issu_cnt*100,2),0) AS issu_unsolvable_rate
                 , NVL(prjt_dt_cnt,0)
                 , NVL(prjt_memb_cnt,0)
                 , NVL(buss_cnt,0)
@@ -81,8 +81,8 @@
                 ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E3' ) AS issu_unsolvable,
                 ( SELECT prjt_cmpltdt - prjt_fdt FROM project WHERE prjt_no = #{prjtNo}) AS prjt_dt_cnt,
                 ( SELECT COUNT(*) FROM project_member WHERE prjt_no = #{prjtNo}) AS prjt_memb_cnt,
-                ( SELECT COUNT(*) FROM business WHERE prjt_no = #{prjtNo}) AS buss_cnt,
-                ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo}) AS issu_cnt
+                ( SELECT DECODE(COUNT(*),0,NULL) FROM business WHERE prjt_no = #{prjtNo}) AS buss_cnt,
+                ( SELECT DECODE(COUNT(*),0,NULL) FROM issue WHERE prjt_no = #{prjtNo}) AS issu_cnt
             FROM dual
             ) st
 
