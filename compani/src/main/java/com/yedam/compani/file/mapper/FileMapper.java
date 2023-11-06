@@ -11,8 +11,11 @@ import com.yedam.compani.file.service.FileVO;
 
 public interface FileMapper {
 
-		// 전체보기
+		// 드라이브 파일 전체보기
 		public List<FileVO> fileList(@Param("pType")String pSearch, @Param("pKeyword") String pKeyword, @Param("prjtNo") int prjtNo);
+		
+		// 드라이브 필터링
+		public List<FileVO> fileFilter(@Param("filter")String Filter, @Param("prjtNo") int prjtNo);
 		
 		// 다운로드할 파일 조회
 		public FileVO fileInfo(Integer FileNo);

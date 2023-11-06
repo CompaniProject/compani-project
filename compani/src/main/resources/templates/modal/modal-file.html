@@ -258,9 +258,9 @@ input[type="checkbox"]:checked::after {
 	
 	// ajax 
 	function filePaging(pageNum) {
-		var typeVal = $('#type').val(); // keyword
-		var keywordVal = $('#keywordFile').val(); // search
-		var fileList = $('#newTrTd'); // issueLists
+		var typeVal = $('#type').val(); // type
+		var keywordVal = $('#keywordFile').val(); // keyword
+		var fileList = $('#newTrTd'); // tBody
 		var pagination = $('.pagination');
 
 		$.ajax('/searchAjax/' + bussNo +'?pageNum=' + pageNum + '&type='

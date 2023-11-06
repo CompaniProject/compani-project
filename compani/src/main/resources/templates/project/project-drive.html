@@ -73,9 +73,8 @@ hr {
 			<!-- 검색 필터 -->
 
 			<div id="backWidth" class="SearchBox">
-				<label for="SearchToggleCheckBox"
-					th:attr="onclick='fileSearch()'"></label> <input type="hidden"
-					id="pType" name="pType" value="파일명">
+				<label for="SearchToggleCheckBox" th:attr="onclick='fileSearch()'"></label>
+				<input type="hidden" id="pType" name="pType" value="파일명">
 				<div class="SearchInputBox" style="width: 270px;">
 					<div>
 						<div class="file-selectBox"
@@ -93,15 +92,15 @@ hr {
 					</div>
 
 					<!-- 검색 인풋 -->
-					<input class="SearchInputModalView" id="pKeyword"
-						name="pKeyword" type="text" placeholder="검색어를 입력하세요.">
+					<input class="SearchInputModalView" id="pKeyword" name="pKeyword"
+						type="text" placeholder="검색어를 입력하세요.">
 				</div>
 
 				<!-- 파일업로드 및 삭제 -->
 				<div id="upAnddown">
 
 					<!-- 확장자 필터 드랍다운 -->
-					<select id="jobDown"
+					<select id="filter" name="filter" onchange="driveFilter(this)"
 						style="width: 70px; border-radius: 20px; text-align: center; padding: 5px; margin-right: 40px;">
 						<option value="">유형</option>
 						<optgroup label="스프레드시트">
@@ -319,6 +318,26 @@ hr {
 			
 		return trTag;
 	}
+	
+	// ======== 필터링 AJAX ========
+	function driveFilter() {
+	var filterVal = $('#filter').val(); // type
+	var fileList = $('#newTrTd'); // tBody 비우고 새로 만들기
+
+	$.ajax('/project/driveFilterAjax/' + prjtNo +'?filter=' + filterVal,
+		{
+			type: 'GET'
+		}).done(function (data) {
+			fileList.empty();
+			
+			$each(data.files, function(idx, fit){
+				fileList.append(fit);
+			})
+			
+		}).fail(function () {
+			alert('실패');
+		});
+	};
 	
 	</script>
 </th:block>
