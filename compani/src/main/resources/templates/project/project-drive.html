@@ -1,7 +1,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/layout}">
+	layout:decorate="~{/layout/projectlayout}">
 <head>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script
@@ -306,6 +306,11 @@ hr {
 		var drivePrjtNo = "[[${prjtNo}]]";
 		var driveMembId = "[[${session.loginInfo.membId}]]";
 		var driveBussNo = "[[${bussNo}]]";
+		
+	    window.onload = function () {
+	        var navItemHome = $('.nav-link').eq(4);
+	        navItemHome.addClass('active');
+	    }
 		
 		// ======== 파일 바이트 계산 ========
 		function ByteSize(size) {
