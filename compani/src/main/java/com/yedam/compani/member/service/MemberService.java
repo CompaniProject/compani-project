@@ -14,8 +14,8 @@ public interface MemberService {
 
 	public int setMemberInfo(MemberVO vo);
 
-	public List<MemberVO> getMemberIdList();
-	public List<MemberVO> getMemberList(Map<String,Object> map);
+	public List<MemberVO> getMemberIdList();	
+	public List<MemberVO> getMemberList(Map<String,String> list);
 
 	public int editMemberInfo(MemberVO vo);
 	
@@ -30,4 +30,5 @@ public interface MemberService {
 
 	// 마스터 회원리스트
 	public List<Map<Object, Object>> masterMemberList();
+	public List<Map<String, String>> getPersonalFeedbackStatusCnt(int one);
 }

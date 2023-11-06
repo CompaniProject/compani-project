@@ -9,4 +9,63 @@
 		FROM PROJECT P, MEMBER_FEEDBACK F
 		WHERE P.PRJT_NO = F.PRJT_NO
 	</select>
+	
+	<select id="selectFeedbackList" resultType="MemberFeedbackVO">
+		SELECT *
+		FROM member_feedback
+		WHERE MEMB_FDBK_OBJ = #{membFdbkObj}
+		AND prjt_no = #{prjtNo}
+	</select>
+	
+	<select id="selectFeedbackPersonal" resultType="MemberFeedbackVO">
+		SELECT *
+		FROM member_feedback
+		WHERE MEMB_FDBK_NO = (SELECT MAX(memb_fdbk_no) FROM MEMBER_FEEDBACK)
+	</select>
+	
+	<insert id="insertFeedbackPersonal">
+		<selectKey order="BEFORE" resultType="int" keyProperty="membFdbkNo">
+		SELECT NVL(MAX(memb_fdbk_no), 0) + 1 "MEMB_FDBK_NO"
+		FROM MEMBER_FEEDBACK
+		</selectKey>
+			INSERT INTO MEMBER_FEEDBACK
+			(
+			 memb_fdbk_no
+			,memb_fdbk_writer
+			,memb_fdbk_cntn
+			,memb_fdbk_obj
+			,prjt_no
+			)
+			VALUES
+			(
+			 #{membFdbkNo}
+			,#{membFdbkWriter}
+			,#{membFdbkCntn}
+			,#{membFdbkObj}
+			,#{prjtNo}
+			)
+	</insert>
+	<select id="selectBusinessPersonal" resultType="map">
+        SELECT b.buss_prgre, b.buss_nm
+		FROM business_member bm
+		JOIN business b
+		ON (b.buss_no = bm.buss_no)
+		WHERE bm.memb_id = #{membId}
+		AND b.prjt_no = #{prjtNo}
+	</select>
+	
+	
+	<update id="updateFeedbackPersonal" parameterType="MemberFeedbackVO">
+		<selectKey keyProperty="membFdbkDt" resultType="MemberFeedbackVO" order="BEFORE">
+			SELECT SYSDATE AS membFdbkDt
+			FROM dual
+		</selectKey>
+		
+		UPDATE member_feedback
+		<set>
+			memb_fdbk_cntn = #{membFdbkCntn},
+			memb_fdbk_dt = #{membFdbkDt}
+		</set>
+		WHERE memb_fdbk_no = #{membFdbkNo}
+	</update>
 </mapper>

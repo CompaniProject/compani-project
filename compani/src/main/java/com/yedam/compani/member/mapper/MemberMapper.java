@@ -16,7 +16,7 @@ public interface MemberMapper {
 	public int insertMemberInfo(MemberVO vo);
 
 	public List<MemberVO> selectMemberIdList();
-	public List<MemberVO> memberSearchList(Map<String,Object> map);
+	public List<MemberVO> memberSearchList(Map<String,String> list);
 
 	public int updateMemberInfo(MemberVO vo);
 	public int updateMemberPwd(MemberVO vo);
@@ -27,4 +27,7 @@ public interface MemberMapper {
 	
 	// 마스터 회원리스트
 	public List<Map<Object, Object>> masterMemberList();
+	
+	public List<Map<String, String>> selectPersonalFeedbackStatusCnt(int one);
+		
 }
