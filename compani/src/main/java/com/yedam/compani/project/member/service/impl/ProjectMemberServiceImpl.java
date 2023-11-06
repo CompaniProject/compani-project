@@ -54,6 +54,14 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 		return projectMemberMapper.projectMemberList(prjtNo);
 	}
 
+	@Override
+	public int deleteProjectMember(ProjectFormVO formVO) {
+		
+		int prjtNo = formVO.getProject().getPrjtNo();
+		
+		return projectMemberMapper.deleteProjectMember(prjtNo);
+	}
+
 	
 
 }

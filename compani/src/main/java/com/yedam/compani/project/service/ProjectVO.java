@@ -16,6 +16,8 @@ public class ProjectVO {
 	private Date prjtTdt;
 	private Date prjtCmplTdt;
 	private String prjtSt;
+	private String prjtStNm;
 	private int count;
 	private String prjtFav;
+	private String membId;
 }

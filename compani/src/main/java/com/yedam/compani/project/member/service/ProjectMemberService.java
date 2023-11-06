@@ -12,4 +12,5 @@ public interface ProjectMemberService {
 	public List<Map<Object,Object>> getBusinessCompleteStatus(Integer prjtNo);
 	public int insertProjectMember(ProjectFormVO formVO);
 	public List<Map<String,String>> projectMemberList(Integer prjtNo);
+	public int deleteProjectMember(ProjectFormVO formVO);
 }

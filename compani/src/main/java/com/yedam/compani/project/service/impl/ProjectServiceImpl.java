@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.mapper.ProjectMapper;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
@@ -18,9 +19,9 @@ public class ProjectServiceImpl implements ProjectService {
 	private final ProjectMapper projectMapper;
 	
 	@Override
-	public List<ProjectVO> getProjectList() {
+	public List<ProjectVO> getProjectList(MemberVO memberVO) {
 		
-		return projectMapper.selectAllProject();
+		return projectMapper.selectAllProject(memberVO);
 	}
 
 	@Override
@@ -49,6 +50,12 @@ public class ProjectServiceImpl implements ProjectService {
 	public Map<Object, Object> projectSelect(Integer prjtNo) {
 		
 		return projectMapper.projectSelect(prjtNo);
+	}
+
+	@Override
+	public int updateProject(ProjectVO project) {
+		
+		return projectMapper.updateProject(project);
 	}
 	
 	

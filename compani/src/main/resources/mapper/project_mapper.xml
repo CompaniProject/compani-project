@@ -9,14 +9,13 @@
 
 		SELECT PM.PRJT_FAV,
 		P.PRJT_NO ,
-		COUNT(P.PRJT_NO) AS count,
+		COUNT(PM.PRJT_NO) AS count,
 		P.PRJT_NM,P.PRJT_TDT,
 		P.PRJT_FDT,
 		P.PRJT_ST
 		FROM PROJECT_MEMBER PM, PROJECT P
 		WHERE PM.PRJT_NO = P.PRJT_NO
-		<!-- <where> <if test="prjtSt != null"> PRJT_ST = #{prjtSt} </if> </where> -->
-
+		AND   pm.memb_ID = #{membId} 
 		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT,
 		P.PRJT_ST
 		ORDER BY PRJT_FAV DESC
@@ -47,20 +46,18 @@
 	</select>
 
 	<select id="getProjectStateList" resultType="ProjectVO">
-
+		<!-- count membId 카운트 오류수정-->
 		SELECT PM.PRJT_FAV,
-		P.PRJT_NO ,
-		COUNT(P.PRJT_NO) AS count,
-		P.PRJT_NM,P.PRJT_TDT,
-		P.PRJT_FDT,
-		P.PRJT_ST
-		FROM PROJECT_MEMBER PM,
-		PROJECT P
-		WHERE PM.PRJT_NO = P.PRJT_NO
-		AND PRJT_ST = #{prjtSt}
-		<!-- <where> <if test="prjtSt != null"> PRJT_ST = #{prjtSt} </if> </where> -->
-		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT,
-		P.PRJT_ST
+			   P.PRJT_NO ,
+		       COUNT(PM.PRJT_NO) AS count,
+			   P.PRJT_NM,P.PRJT_TDT,
+			   P.PRJT_FDT,
+			   FIND_CODENM(P.PRJT_ST) as prjtStNm
+		FROM   PROJECT_MEMBER PM,  PROJECT P
+		WHERE  PM.PRJT_NO = P.PRJT_NO
+		AND    pm.memb_Id= #{membId}
+		AND    p.PRJT_ST = #{prjtSt}
+		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
 		ORDER BY PRJT_FAV DESC
 
 	</select>
@@ -97,8 +94,8 @@
 		SELECT 	 p.PRJT_NO AS PRJT_NO,
 				 p.PRJT_NM AS PRJT_NM,
 			  	 'D-'||FLOOR(p.prjt_Tdt -SYSDATE) AS "DATE",
-			     FIND_CODENM(p.PRJT_ST) AS PRJT_ST,
-			     FIND_CODENM(p.PRJT_PUBCYN) AS PRJT_PUBCYN ,
+			     p.PRJT_ST ,
+			     p.PRJT_PUBCYN ,
 			     COUNT(b.BUSS_NO) AS COUNT,
 			     p.PRJT_FDT,
 			     p.PRJT_TDT
@@ -109,4 +106,16 @@
 		GROUP BY p.PRJT_NO, p.PRJT_NM ,p.PRJT_TDT, p.PRJT_ST, p.PRJT_PUBCYN, p.PRJT_FDT, p.PRJT_TDT
 
 	</select>
+	
+	<update id="updateProject" parameterType="ProjectVO">
+		UPDATE PROJECT
+		SET    PRJT_NM     = #{prjtNm},
+			   PRJT_PUBCYN = #{prjtPubcyn},
+			   PRJT_FDT    = #{prjtFdt},
+			   PRJT_TDT    = #{prjtTdt},
+			   PRJT_ST     = #{prjtSt}
+			
+		WHERE  PRJT_NO     = #{prjtNo}
+	
+	</update>
 </mapper>
