@@ -161,7 +161,7 @@
 			<label class="col-lg-4 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-				<input type="text" id="bussSt" name = "bussSt" th:value="${businessVO.bussStNm}"
+				<input type="text" id="bussSt" name = "bussSt" th:value="${businessVO.bussSt}"
 					readonly="readonly" />
 			</div>
 
@@ -199,6 +199,7 @@
 	</div>
 	<div>
 		<input type="hidden" name="prjtNo" th:value="${session.projectVO.prjtNo}" />
+		<input type="hidden" name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
 		<button id="updatebussBtn" type="button" class="btn btn-primary">수정</button>
