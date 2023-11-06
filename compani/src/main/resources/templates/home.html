@@ -288,7 +288,7 @@
 						
 					})
 				})
-				.fail(err => );
+				.fail(err => console.log(err));
 				}
 				
 			
@@ -613,7 +613,6 @@
 				})
 				.done(function(data){
 					projecttbl.empty();
-					console.log(data);
 					$.each(data.project, function (idx, data) {
 						
 						let trTag = $('<tr/>');
@@ -659,7 +658,7 @@
 					})
 					
 				})
-				.fail(err => );
+				.fail(err => console.log(err) );
 			}
 			
 			function body(data){

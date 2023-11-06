@@ -6,8 +6,6 @@ import java.util.Map;
 import com.yedam.compani.member.service.MemberVO;
 
 public interface MemberFeedbackService {
-	public List<MemberFeedbackVO> getMemberFeedbackList();
-
 	public List<MemberFeedbackVO> getFeedbackList(MemberFeedbackVO vo);
 
 	public int setFeedbackPersonal(MemberFeedbackVO vo);

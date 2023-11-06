@@ -44,5 +44,4 @@ public class BusinessMemberServiceImpl implements BusinessMemberService {
 		int bussNo = formVO.getBusiness().getBussNo();
 		return businessMemberMapper.deleteBusinessMember(bussNo);
 	}
-
 }
