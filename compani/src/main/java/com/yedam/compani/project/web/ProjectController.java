@@ -112,12 +112,6 @@ public class ProjectController {
 
 		int n = projectService.updateFavorite(projectVO);
 		
-		if (n >= 0) {
-			System.out.println("성공");
-		} else {
-			System.out.println("실패");
-		}
-
 		Map<String, Object> map = new HashMap<>();
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
 		projectVO.setMembId(memberVO.getMembId());
