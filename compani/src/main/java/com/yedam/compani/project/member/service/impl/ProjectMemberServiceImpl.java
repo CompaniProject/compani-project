@@ -61,6 +61,12 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 		
 		return projectMemberMapper.deleteProjectMember(prjtNo);
 	}
+	// 권오준 등록 멤버 한명 선택 (Project_Member 테이블에서)
+	@Override
+	public ProjectMemberVO projectMemberSelect(int prjtNo,String membId) {
+		
+		return projectMemberMapper.projectMemberSelect(prjtNo, membId);
+	}
 
 	
 

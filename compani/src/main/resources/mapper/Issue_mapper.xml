@@ -17,6 +17,7 @@
 				   , p.prjt_nm
 				   , b.buss_nm
 				   , memb.memb_nm
+				   , memb.memb_pht_path
 		FROM 	  	 issue  i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
 		AND 		 i.prjt_no = p.prjt_no(+)
@@ -53,6 +54,7 @@
 				   , p.prjt_nm
 				   , b.buss_nm
 				   , memb.memb_nm
+				   , memb.memb_pht_path
 		FROM 	  	 issue i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
 		AND 		 i.prjt_no = p.prjt_no(+)
@@ -93,6 +95,7 @@
 				   , b.buss_nm
 				   , p.co_cd
 				   , memb.memb_nm
+				   , memb.memb_pht_path
 		FROM 	  	 issue i, project p, business b, member memb
 		WHERE 	  	 i.buss_no = b.buss_no(+)
 		AND 		 i.prjt_no = p.prjt_no(+)
@@ -145,6 +148,7 @@
 				, i.issu_st
 				, i.issu_dt
 				, m.memb_nm
+				, m.memb_pht_path
 		FROM	  issue i, member m
 		WHERE     i.memb_id = m.memb_id
 		AND 	  issu_no = #{issuNo}	

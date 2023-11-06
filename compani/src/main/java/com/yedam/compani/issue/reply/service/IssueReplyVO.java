@@ -14,4 +14,5 @@ public class IssueReplyVO {
 	private int issuRplyDel; // 삭제 여부
 
 	private String membNm;
+	private	String membPhtPath;
 }

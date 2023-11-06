@@ -1,7 +1,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/layout}">
+	layout:decorate="~{/layout/projectlayout}">
 <head>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script
@@ -302,10 +302,13 @@ hr {
 		</div>
 	</div>
 	<script>
-	
-		var drivePrjtNo = "[[${prjtNo}]]";
-		var driveMembId = "[[${session.loginInfo.membId}]]";
-		var driveBussNo = "[[${bussNo}]]";
+		var prjtNo = [[${prjtNo}]];
+		var membId = "[[${session.loginInfo.membId}]]";
+		
+	    window.onload = function () {
+	        var navItemHome = $('.nav-link').eq(4);
+	        navItemHome.addClass('active');
+	    }
 		
 		// ======== 파일 바이트 계산 ========
 		function ByteSize(size) {
@@ -346,8 +349,8 @@ hr {
 				$(this).removeClass('active');
 			} else {
 				let trColor = $(this).addClass("active"); // 클릭한 tr에 액티브 지정
+				trColor.attr('name', 'driveFile');
 				trColor.css("backgroundColor", "#ADD8E6");
-				trColor.css
 			}
 		})
 
@@ -399,13 +402,15 @@ hr {
 			
 			let ww = $('input[name="files"]');
 			
-			console.log(ww);
+			let wow = $('[name="driveFile"].active');
+			
+			console.log(wow);
 
 			// ajax
 			$.ajax({
 				type : "get",
-				url : "/fileSelectDel",
-				data : ww.serialize(),
+				url : "/driveFileDel",
+				data : wow.serialize(),
 				success : function() {
 					if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
 						alert("삭제가 완료 되었습니다.")
@@ -572,9 +577,9 @@ hr {
 	function saveFiles() {
 
 		var formData = new FormData();
-		formData.append('membId', driveMembId);
-		formData.append('prjtNo', drivePrjtNo);
-		formData.append('bussNo', driveBussNo);
+		formData.append('membId', membId);
+		formData.append('prjtNo', prjtNo);
+
 		
 		var inputFile = document.querySelector('#selectedFile');
 		var fileInfo = inputFile.files;

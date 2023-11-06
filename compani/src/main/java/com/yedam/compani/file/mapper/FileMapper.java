@@ -23,11 +23,14 @@ public interface FileMapper {
 		// 파일 등록(업로드)
 		public int fileInsert(FileVO fileVO);
 		
-		// 삭제
+		// 모달 + 자료함 파일 삭제
 		public int fileDelete(Integer fileNo);
 		
-		// 선택삭제
+		// 모달 전체, 선택삭제
 		public int fileSelDel(List<Integer> fileNo);
+		
+		// 드라이브 선택삭제
+		public int fileDriveDel(List<Integer> fileNo);
 		
 		// 업무 모달 파일함 검색기능
 		public List<FileVO> fileSearch(Map<String, String> map);

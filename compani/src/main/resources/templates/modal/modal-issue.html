@@ -41,16 +41,10 @@
 										</div>
 									</div>
 									<input class="SearchInputModalView" id="searchBI" name="searchBI" type="text"
-										placeholder="검색어를 입력하세요."><span class="DeleteSearchWord"
+										placeholder="검색어를 입력하세요."><span class="deleteSearchWord"
 										onclick="delVal()"></span>
 								</div>
 							</div>
-
-							<button class="postWritingBox">
-								<span></span>
-								<p>글쓰기</p>
-							</button>
-
 						</div>
 					</div>
 				</div>
@@ -290,7 +284,7 @@
 			</div>
 
 			<div class="media pt-5" style="padding-top: 20px !important;">
-				<img class="mr-3 rounded-circle" src="/images/avatar/1.jpg">
+				<img class="mr-3 rounded-circle" id="issueWriterImg" style="height:50px; width:50px;">
 				<div class="media-body" style="margin-right: 50px; flex: 0;">
 					<h5 class="m-b-3"></h5>
 					<p class="m-b-2" style="width: 75px;">2023/10/24</p>
@@ -547,13 +541,16 @@
 	var miPrjtNm = [[${ buss.prjtNm }]];
 	
 	// 프로젝트 멤버만 '글쓰기' 버튼 활성화
-	let memvomi = [[${memvomi}]];
+	var memvomi = [[${memvomi}]];
 	for(let i = 0; i < memvomi.length; i++) {
 		if(memvomi[i].membId == miMemberId) {
-			$('.postWritingBox').css('display', 'block');
+			let makebtn = $('<button/>').attr('class', 'postWritingBox');
+			let spans = $('<span/>');
+			let ps = $('<p/>').text('글쓰기');
+			makebtn.append(spans)
+			makebtn.append(ps)
+			$('.TobBarIssueControlArea').append(makebtn)
 			break;
-		} else{
-			$('.postWritingBox').css('display', 'none');
 		}
 	}
 
@@ -1045,21 +1042,28 @@
 		modals.find('.issueKndInfo').empty();
 		modals.find('.issueStInfo').empty();
 		modals.find('.showHashtagList').empty();
+		modals.find('.issueInfoContentTopBar').empty();
 
 		$.ajax('/ModalIssueInfo?issuNo=' + issuNo)
 			.done(function (data) {
 				let issueInfo = data.issueInfo;
 				let issueFile = data.issueFile;
 				let issueHash = data.issueHash;
-				 if (issueInfo.membId === miMemberId) {
-							$('.issueEditing').show();
-							$('.issueDeleting').show();
+				 if (issueInfo.membId == miMemberId) {
+							let btnReturn = $('<span/>').attr('class', 'returnIssueList').attr('onclick', 'returnIssueList()');		 				    let btnEdit = $('<button/>').attr('class', 'issueEditing').attr('onclick', 'switchEditForm()').text('수정');
+							let btnDel =  $('<button/>').attr('class', 'issueDeleting').attr('onclick', 'deleteIssue()').text('삭제');
+							$('.issueInfoContentTopBar').append(btnReturn);
+							$('.issueInfoContentTopBar').append(btnEdit);
+							$('.issueInfoContentTopBar').append(btnDel);
 						} else {
-							$('.issueEditing').hide();
-							$('.issueDeleting').hide();
+							let btnReturn = $('<span/>').attr('class', 'returnIssueList').attr('onclick', 'returnIssueList()');
+							$('.issueInfoContentTopBar').append(btnReturn);
+							
 						}
+				
 				let issueInfoFiles = $('#issueInfoFiles');
-
+				let mr3 = $('#issueWriterImg');
+				mr3.attr('src', '/images/member/' + issueInfo.membPhtPath);
 				if (issueFile.length != 0) {
 					issueInfoFiles.empty();
 				} else {
@@ -1218,7 +1222,7 @@
 	                            <div class="IssueReviews">
 								<div class="issue__reply__item">
 									<div class="issue__reply__item__pic">
-										<img src="/images/users/2.jpg" alt="">
+									<img src="/images/member/${row.membPhtPath}" alt="">
 									</div>
 									
 									<div class="issue__reply__item__text">

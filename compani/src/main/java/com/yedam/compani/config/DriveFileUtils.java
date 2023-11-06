@@ -56,6 +56,7 @@ public class DriveFileUtils {
         }
 
         String saveName = generateSaveFilename(multipartFile.getOriginalFilename());
+        String Type = saveName.substring(saveName.lastIndexOf(".") +1);
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
         String uploadPath = getUploadPath(today) + File.separator + saveName;
         File uploadFile = new File(uploadPath);
@@ -69,6 +70,7 @@ public class DriveFileUtils {
         return FileVO.builder()
                 .fileNm(multipartFile.getOriginalFilename())
                 .filePath(saveName)
+                .fileType(Type)
                 .fileSize(multipartFile.getSize())
                 .build();
     }

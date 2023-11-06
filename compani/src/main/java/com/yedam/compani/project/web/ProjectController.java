@@ -23,6 +23,7 @@ import com.yedam.compani.member.feedback.service.MemberFeedbackVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
+import com.yedam.compani.project.member.service.ProjectMemberVO;
 import com.yedam.compani.project.service.ProjectFormVO;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
@@ -66,9 +67,16 @@ public class ProjectController {
 		// 프로젝트 모달 수정 - 참여자 리스트
 		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", prjtMemberList);
+		
 		// 프로젝트 모달 수정 - 회사 멤버 리스트
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String membId = memberVO.getMembId();
 		String coCd = memberVO.getCoCd();
+		
+		ProjectMemberVO projectMemberVO = projectMemberService.projectMemberSelect(prjtNo, membId);
+	
+		model.addAttribute("projectMemberVO", projectMemberVO);
+		
 		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
 		model.addAttribute("memberList", memberList);
 		
