@@ -163,6 +163,9 @@
                                  FROM   PROJECT_MEMBER 
                                  WHERE  PRJT_MEMB_PERM = 'CRTR'
                                  AND    PRJT_NO = #{prjtNo} )
+                                 
+    </select>
+    
 	<select id="selectPersonalFeedbackStatusCnt" resultType="map">
 <!-- 		SELECT  M.memb_nm, 
 		SUM(CASE WHEN buss_st = '0K4' THEN 1 ELSE 0 END) "K4", 
