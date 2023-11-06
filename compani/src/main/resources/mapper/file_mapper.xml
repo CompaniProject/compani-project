@@ -174,5 +174,24 @@
 			             ) W
 				</insert>
 				
+				<!-- 파일 다운로드 -->
+				<select id="fileDownload" resultType="fileVO"> 
+					SELECT 	  f.file_no
+							, f.prjt_no
+							, f.buss_no
+							, f.file_nm
+							, f.file_path
+							, f.file_type
+							, f.file_desct
+							, f.file_dt
+							, mem.memb_nm
+							, f.file_size
+							
+				    FROM 	project_file f, project p, business b, member mem
+					WHERE	f.buss_no = b.buss_no
+					AND		b.prjt_no = p.prjt_no
+					AND		f.memb_id = mem.memb_id
+					AND		f.file_no = #{fileNo}
+				</select>	
 				
 </mapper>

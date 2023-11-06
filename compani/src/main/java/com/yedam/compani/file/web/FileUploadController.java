@@ -3,6 +3,7 @@ package com.yedam.compani.file.web;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -12,9 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,11 +24,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.compani.config.DriveFileUtils;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
@@ -42,6 +42,9 @@ public class FileUploadController {
 
 		@Autowired
 		FileService fileservice;
+		
+		@Autowired
+		DriveFileUtils dfu;
 		
 		@Value("${file.upload.path}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 		private String uploadPath;
@@ -150,8 +153,25 @@ public class FileUploadController {
 			}catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			
+
 			return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-		}		
-	
+		}
+		
+		//첨부 파일 다운로드
+		  @GetMapping("/searchFile/{fileNo}/download")
+		    public ResponseEntity<Resource> downloadFile(@PathVariable final int fileNo) {
+		        FileVO file = fileservice.fileDownload(fileNo);
+		        Resource resource = dfu.readFileAsResource(file);
+		        try {
+		            String filename = URLEncoder.encode(file.getFileNm(), "UTF-8");
+		            return ResponseEntity.ok()
+		                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+		                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + filename + "\";")
+		                    .header(HttpHeaders.CONTENT_LENGTH, file.getFileSize() + "")
+		                    .body(resource);
+
+		        } catch (UnsupportedEncodingException e) {
+		            throw new RuntimeException("filename encoding failed : " + file.getFileNm());
+		        }
+		    }
 }

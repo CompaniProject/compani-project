@@ -36,4 +36,7 @@ public interface FileService {
 	
 	// 드라이브 업로드
 	public void driveFileInsert(List<FileVO> files);
+	
+	// 파일 다운로드
+	public FileVO fileDownload(Integer fileNo);
 }

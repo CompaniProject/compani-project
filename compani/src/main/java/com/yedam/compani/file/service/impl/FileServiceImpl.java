@@ -88,6 +88,12 @@ public class FileServiceImpl implements FileService {
 			}
 		return driveFile.size();
 	}
+
+	@Override
+	public FileVO fileDownload(Integer fileNo) {
+		
+		return filemapper.fileDownload(fileNo);
+	}
 	
 
 }

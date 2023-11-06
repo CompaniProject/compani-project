@@ -40,4 +40,7 @@ public interface FileMapper {
 		
 		// 드라이브 업로드
 		void driveFileInsert(List<FileVO> files);
+		
+		// 파일 다운로드
+		FileVO fileDownload(Integer fileNo);
 }
