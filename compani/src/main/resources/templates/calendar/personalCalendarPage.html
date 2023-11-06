@@ -20,19 +20,17 @@
 
 <style type="text/css">
 #main-wrapper {
-	overflow-y: hidden;
+	
 }
 
 #personalCalendarBox {
 	width: 70%;
 	float: right;
-	min-height: 1000px;
 }
 
 #personalCalendar {
 	margin: 10px;
 	background-color: white;
-	height: 100%;
 }
 
 .calendarBusinessInfo {
@@ -155,88 +153,91 @@ select {
 </style>
 
 </head>
-<body>
-	<div id="main-wrapper">
-		<header th:replace="fragments/header :: header"></header>
-		<aside th:replace="fragments/aside:: aside"></aside>
-		
-		<div class="content-body">
-			<div class='calendarBusinessInfo'>
-				<!-- -------------------
-					업무 목록 - 버튼
-				-------------------- -->
-				<div>
-					<!-- 달력 간트 스위치 -->
-					<div class="button-group">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary calendar">달력</button>
-							<button type="button" class="btn btn-primary gantt">차트</button>
+<body class="scroll-set">
+	<div id="main-wrapper" style="overflow: auto;">
+		<div class="body-container">
+			<header th:replace="fragments/header :: header"></header>
+			<aside th:replace="fragments/aside:: aside"></aside>
+			<div class="content-container">
+				<div class="content-body">
+					<div class='calendarBusinessInfo'>
+						<!-- -------------------
+							업무 목록 - 버튼
+						-------------------- -->
+						<div>
+							<!-- 달력 간트 스위치 -->
+							<div class="button-group">
+								<div class="btn-group">
+									<button type="button" class="btn btn-primary calendar">달력</button>
+									<button type="button" class="btn btn-primary gantt">차트</button>
+								</div>
+							</div>
+							
+							<!-- 정렬 버튼 -->
+							<div class="basic-dropdown">
+								<div class="dropdown">
+									<button type="button" class="btn btn-primary dropdown-toggle sort" 
+										data-toggle="dropdown" aria-expanded="true">
+										정렬
+									</button>
+									<div class="dropdown-menu">
+										<a class="dropdown-item sort">날짜순</a>
+										<a class="dropdown-item sort">진척도</a>
+										<a class="dropdown-item sort">중요도</a>
+									</div>
+								</div>
+							</div>
+						
+							<!-- 필터링 버튼 -->
+							<div class="basic-dropdown">
+								<div class="dropdown">
+									<button type="button" class="btn btn-primary dropdown-toggle filter" 
+										data-toggle="dropdown" aria-expanded="true"
+										style="margin-right: 10px;">
+										프로젝트
+									</button>
+									<div class="dropdown-menu">
+										<a class="dropdown-item selectAll">전체</a>
+										<th:block th:each="info : ${personalCalendarPage}">
+											<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
+												th:text="${info.prjtNm}"></a>
+										</th:block>
+									</div>
+								</div>
+							</div>
 						</div>
+						
+						<!-- ---------------
+							업무 목록 - 리스트
+						----------------- -->
+						<div class="businessListBox">
+							<th:block th:each="bussInfo : ${personalCalendarPage}">
+								<div class="businessList">
+									<div class="businessList2" 
+										th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
+										 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
+									</div>
+									<div class="businessList2" 
+										th:text="${bussInfo.bussNm}">
+									</div>
+									<input type="hidden" id="bussNo" th:value="${bussInfo.bussNo}" />
+								</div>
+							</th:block>
+						</div>
+						<!-- -----------------
+							업무 목록 - 페이징
+						------------------ -->
 					</div>
 					
-					<!-- 정렬 버튼 -->
-					<div class="basic-dropdown">
-						<div class="dropdown">
-							<button type="button" class="btn btn-primary dropdown-toggle sort" 
-								data-toggle="dropdown" aria-expanded="true">
-								정렬
-							</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item sort">날짜순</a>
-								<a class="dropdown-item sort">진척도</a>
-								<a class="dropdown-item sort">중요도</a>
-							</div>
-						</div>
-					</div>
-				
-					<!-- 필터링 버튼 -->
-					<div class="basic-dropdown">
-						<div class="dropdown">
-							<button type="button" class="btn btn-primary dropdown-toggle filter" 
-								data-toggle="dropdown" aria-expanded="true"
-								style="margin-right: 10px;">
-								프로젝트
-							</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item selectAll">전체</a>
-								<th:block th:each="info : ${personalCalendarPage}">
-									<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
-										th:text="${info.prjtNm}"></a>
-								</th:block>
-							</div>
-						</div>
+					<!-- --------------
+						달력&차트 내용
+					--------------- -->
+					<div id="personalCalendarBox">
+						<div id='personalCalendar' class="tab-pane"></div>
+						
+						<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
 					</div>
 				</div>
-				
-				<!-- ---------------
-					업무 목록 - 리스트
-				----------------- -->
-				<div class="businessListBox">
-					<th:block th:each="bussInfo : ${personalCalendarPage}">
-						<div class="businessList">
-							<div class="businessList2" 
-								th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
-								 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
-							</div>
-							<div class="businessList2" 
-								th:text="${bussInfo.bussNm}">
-							</div>
-							<input type="hidden" id="bussNo" th:value="${bussInfo.bussNo}" />
-						</div>
-					</th:block>
-				</div>
-				<!-- -----------------
-					업무 목록 - 페이징
-				------------------ -->
-			</div>
-			
-			<!-- --------------
-				달력&차트 내용
-			--------------- -->
-			<div id="personalCalendarBox">
-				<div id='personalCalendar' class="tab-pane"></div>
-				
-				<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
 			</div>
 		</div>
 	</div>
