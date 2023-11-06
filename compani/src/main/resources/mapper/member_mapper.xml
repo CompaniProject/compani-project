@@ -194,5 +194,21 @@
 		WHERE prjt_no = #{prjtNo}
 		GROUP BY memb_nm, m.memb_id
 	</select>
+	
+	<!-- 마스터 멤버 승인 -->
+	<update id="updateMemberAccp" parameterType="MemberVO">
+		UPDATE member
+		<set>
+			<choose>
+				<when test="membAccp == '승인'">
+					memb_accp = '0C2',
+				</when>
+				<when test="membAccp == '대기'">
+					memb_accp = '0C1',
+				</when>
+			</choose>
+		</set>
+		WHERE memb_id = #{membId}
+	</update>
 
 </mapper>
