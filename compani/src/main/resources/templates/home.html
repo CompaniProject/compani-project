@@ -30,9 +30,8 @@
 								<a class="dropdown-project" href="#">진행중</a> <a
 									class="dropdown-project" href="#">완료</a>
 									<a
-									class="dropdown-project" href="#">초과</a>
-									<a
-									class="dropdown-project" href="#">초과완료</a>
+									class="dropdown-project" href="#">보류</a>
+								
 
 							</div>
 						</div>
@@ -64,7 +63,7 @@
 												th:text="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" />
 											<td
 												th:text="${#dates.format(projectList.prjtTdt, 'yyyy-MM-dd')}" />
-											<td th:if="${projectList.prjtSt == '0D1'}">참여중</td>
+											<td th:if="${projectList.prjtSt == '0D1'}">진행중</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -221,6 +220,7 @@
 			$('.dropdown-issue').on('click', issueDropdown);
 					
 			function projectDropDown() {
+				
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
 				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
@@ -235,16 +235,13 @@
 					projectState = '0D1';
 				
 				}
-				else if(projectState == '초과'){
+				else{
 					projectState = '0D3';
-					
-				}else{
-					projectState = '0D4';
 				}
-			
+				
 				$.ajax('ProjectStateAjax',{
 					type : 'post',
-					data : { prjtSt : projectState }
+					data : { prjtSt : projectState}
 				})
 				.done(function(data){
 					projecttbl.empty();
@@ -288,6 +285,7 @@
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
+						
 					})
 				})
 				.fail(err =>  console.log(err));
@@ -587,12 +585,19 @@
 				}
 			}
 			
-			function projectFavorite(event) {
+			function projectFavorite() {
 				let favorite = $(this).children().hasClass("fa-solid fa-star");
 				let prjtNo =  $(this).next().text();
 				//td요소 들중 마지막 값 proceed, end 가져오기 
 				let prjtSt = $(this).parent().find('td:last').text();
-			
+				if(prjtSt == '진행중'){
+					prjtSt = '0D1';
+				}else if(prjtSt == '완료'){
+					prjtSt = '0D2';
+				}else{
+					prjtSt = '0D3';
+				}
+				
 				let projecttbl = $('#projecttbl');
 				let projectFavorite;
 				if(favorite){
@@ -601,18 +606,19 @@
 				else{
 					projectFavorite = 'Y';
 				}
-				
+			
 			 	$.ajax('favAjax',{
 					type : 'post',
 					data : { prjtFav : projectFavorite , prjtNo : prjtNo , prjtSt : prjtSt}
 				})
 				.done(function(data){
 					projecttbl.empty();
-				
+					console.log(data);
 					$.each(data.project, function (idx, data) {
+						
 						let trTag = $('<tr/>');
 						let tdTag= $('<td/>');
-			
+						
 			 			if(data.prjtFav == 'Y'){
 							tdTag.append('<i class="fa-solid fa-star" style="color: #dee203;"></i>');
 						}
@@ -645,11 +651,11 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.prjtSt);
+    					tdTag.append(data.prjtStNm);
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
-						
+					
 					})
 					
 				})

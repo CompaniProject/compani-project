@@ -19,4 +19,5 @@ public class ProjectVO {
 	private String prjtStNm;
 	private int count;
 	private String prjtFav;
+	private String membId;
 }

@@ -40,8 +40,8 @@ public class ProjectController {
 	private final IssueService issueService;
 	private final MemberService memberService;
 
-	@GetMapping("/project/home/{prjtNo}/{coCd}")
-	public String projectHome(@PathVariable Integer prjtNo, @PathVariable String coCd, Model model, HttpServletRequest request) {
+	@GetMapping("/project/home/{prjtNo}")
+	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
@@ -60,6 +60,8 @@ public class ProjectController {
 		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", prjtMemberList);
 		// 프로젝트 모달 수정 - 회사 멤버 리스트
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
 		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
 		model.addAttribute("memberList", memberList);
 		return "project/project-home";
@@ -83,9 +85,11 @@ public class ProjectController {
 
 	@PostMapping("ProjectStateAjax")
 	@ResponseBody
-	public Map<String, Object> ProjectStateAjax(ProjectVO projectVO) {
+	public Map<String, Object> ProjectStateAjax(ProjectVO projectVO, HttpServletRequest request) {
 
 		Map<String, Object> map = new HashMap<>();
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		projectVO.setMembId(memberVO.getMembId());
 		List<ProjectVO> List = projectService.getProjectStateList(projectVO);
 		map.put("result", true);
 		map.put("projectStateList", List);
@@ -95,7 +99,7 @@ public class ProjectController {
 
 	@PostMapping("favAjax")
 	@ResponseBody
-	public Map<String, Object> favAjax(ProjectVO projectVO) {
+	public Map<String, Object> favAjax(ProjectVO projectVO, HttpServletRequest request) {
 
 		int n = projectService.updateFavorite(projectVO);
 		
@@ -106,18 +110,13 @@ public class ProjectController {
 		}
 
 		Map<String, Object> map = new HashMap<>();
-
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		projectVO.setMembId(memberVO.getMembId());
 		List<ProjectVO> projectStateList = projectService.getProjectStateList(projectVO);
 		map.put("result", true);
 		map.put("project", projectStateList);
 
 		return map;
-	}
-
-	@GetMapping("/projectlayout")
-	public String projectHeader(Model model) {
-
-		return "layout/projectlayout";
 	}
 
 	//프로젝트 등록 - 실행시 

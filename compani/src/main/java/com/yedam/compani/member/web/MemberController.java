@@ -134,7 +134,6 @@ public class MemberController {
 		map.put("coCd", coCd);
 		List<MemberVO> List = service.getMemberList(map);
 	
-	
 		return List;
 	}
 

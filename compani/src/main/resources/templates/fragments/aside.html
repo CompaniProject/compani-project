@@ -15,7 +15,7 @@
 				</a>
 					<ul aria-expanded="false" id="myPrjtList">
 						<li th:each="project : ${session.projectList}"><a
-							th:href="@{/project/home/{prjtNo}/{coCd}(prjtNo=${project.prjtNo} , coCd=${session.loginInfo.coCd})}"
+							th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}"
 							th:text="${project.prjtNm}"></a></li>
 					</ul></li>
 				<li><a class="has-arrow" href="javascript:void()"
@@ -54,7 +54,7 @@
 							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
 							<div class="col-lg-6">
 								<div class="issueNameEdit">
-									<div class="issueNameBack">
+									<div class="prjtName">
 										<textarea class="modalIssueNameUpdate" id="prjtNm"
 											name='prjtNm' maxlength="200" style="height: 34px;"
 											placeholder="프로젝트명 입력하세요"></textarea>

@@ -9,7 +9,7 @@
 
 		SELECT PM.PRJT_FAV,
 		P.PRJT_NO ,
-		COUNT(P.PRJT_NO) AS count,
+		COUNT(PM.PRJT_NO) AS count,
 		P.PRJT_NM,P.PRJT_TDT,
 		P.PRJT_FDT,
 		P.PRJT_ST
@@ -46,15 +46,16 @@
 	</select>
 
 	<select id="getProjectStateList" resultType="ProjectVO">
-
+		<!-- count membId 카운트 오류수정-->
 		SELECT PM.PRJT_FAV,
 			   P.PRJT_NO ,
-		       COUNT(P.PRJT_NO) AS count,
+		       COUNT(PM.PRJT_NO) AS count,
 			   P.PRJT_NM,P.PRJT_TDT,
 			   P.PRJT_FDT,
 			   FIND_CODENM(P.PRJT_ST) as prjtStNm
-		FROM   PROJECT_MEMBER PM, PROJECT P
+		FROM   PROJECT_MEMBER PM,  PROJECT P
 		WHERE  PM.PRJT_NO = P.PRJT_NO
+		AND    pm.memb_Id= #{membId}
 		AND    p.PRJT_ST = #{prjtSt}
 		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
 		ORDER BY PRJT_FAV DESC
