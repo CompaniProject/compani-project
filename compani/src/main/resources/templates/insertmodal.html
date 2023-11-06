@@ -210,8 +210,6 @@ hr {
 				// =====DataTransfer 파일 관리========
 				for (var i = 0; i < fileArr.length; i++) {
 					saveFileDataTransFer.items.add(fileArr[i])
-					console.log("dataTransfer =>", saveFileDataTransFer.files)
-					console.log("input FIles =>", document.getElementById("selectedFile").files)
 				}
 
 				document.getElementById('selectedFile').files = saveFileDataTransFer.files;
@@ -286,7 +284,6 @@ hr {
 				},
 				error: function (reject) {
 					alert("등록에 실패");
-					console.log(reject);
 				}
 			});
 		};
