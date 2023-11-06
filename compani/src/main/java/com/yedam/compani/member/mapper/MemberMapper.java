@@ -30,4 +30,6 @@ public interface MemberMapper {
 	
 	public List<Map<String, String>> selectPersonalFeedbackStatusCnt(int one);
 		
+	// 마스터 멤버 승인
+	public int updateMemberAccp(MemberVO vo);
 }
