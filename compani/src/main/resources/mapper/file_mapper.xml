@@ -154,7 +154,6 @@
 			                    , file_nm
 			                    , file_path
 			                    , file_type
-			                    , file_desct
 			                    , file_dt
 			                    , memb_id
 			                    , file_size		                    
@@ -167,9 +166,8 @@
 			                    , 	#{files.fileNm} as fileNm
 			                    , 	#{files.filePath} as filePath
 			                    ,   #{files.fileType} as fileType
-			                    ,   '테스트' as fileDesct
 			                    ,   SYSDATE as fileDt
-			                    ,  	'm2' as membId
+			                    ,  	#{files.membId} as membId
 			                    ,   #{files.fileSize} as fileSize
 			            FROM       DUAL
 			        </foreach>
