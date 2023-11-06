@@ -320,7 +320,18 @@
 		}
 		let piMemberId = [[${ session.loginInfo.membId }]];
 		let piprjtNo = [[${ prjtNo }]];
-
+		
+		// 프로젝트 멤버만 '글쓰기' 버튼 활성화
+		let memvo = [[${memvo}]];
+		for(let i=0; i<memvo.length; i++) {
+			if(memvo[i].membId == piMemberId) {
+				$('.postWritingBoxP').css('display', 'block');
+				break;
+			} else{
+				$('.postWritingBoxP').css('display', 'none');
+			}
+		}
+		
 		//검색 조건 (제목, 작성자, 전체) 
 		$('.pissue-selectBox').on('click', function () {
 			$('.pissue-select-ul').css('display', 'block');

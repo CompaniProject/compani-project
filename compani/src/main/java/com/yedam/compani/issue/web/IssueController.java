@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,13 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.yedam.compani.business.service.BusinessService;
+import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
-
+import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
@@ -44,6 +44,7 @@ public class IssueController {
 	private final IssueHashtagService issueHashtagService;
 	private final com.yedam.compani.config.FileUtils fileUtils;
 	private final BusinessService businessService;
+	private final ProjectMemberService projectMemberService;
 	
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList/{bussNo}")
@@ -52,10 +53,15 @@ public class IssueController {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
 		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo);
 		
+		BusinessVO bussvo = businessService.businessSelect(bussNo);
+		int prjtNo = bussvo.getPrjtNo();			
+		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
+		
+		model.addAttribute("memvomi", memvo);
 		model.addAttribute("issue", issues);
 		model.addAttribute("issueList", vo);
 		model.addAttribute("search", searchBI);
-		model.addAttribute("buss", businessService.businessSelect(bussNo));
+		model.addAttribute("buss", bussvo);
 		return "modal/modal-issue";
 	}
 
@@ -66,11 +72,16 @@ public class IssueController {
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
 		Map<String, Object> map = new HashMap<>();
-
+		
+		BusinessVO bussvo = businessService.businessSelect(bussNo);
+		int prjtNo = bussvo.getPrjtNo();			
+		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
+		
+		map.put("memvomi", memvo);
 		map.put("issue", issues);
 		map.put("issues", issueService.getIssueList(pageNum, searchBI, keyword, bussNo));
 		map.put("search", searchBI);
-		map.put("buss", businessService.businessSelect(bussNo));
+		map.put("buss", bussvo);
 		return map;
 	}
 	

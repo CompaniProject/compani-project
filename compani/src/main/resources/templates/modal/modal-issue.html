@@ -4,7 +4,7 @@
 			<div class="workModalBussTitle">
 				<div class="ModalTitle">
 					<div class="ModalProjectNameBox">
-						<div id="ProjectLink">
+						<div id="ProjectLinkI">
 							#<span></span>
 							<p class="textEllipsis" th:text="${buss.prjtNm}" />
 						</div>
@@ -537,9 +537,25 @@
 <!--/* 이슈 삭제시 경고창 END */-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script th:inline="javascript">
+	
+	$('#ProjectLinkI').on('click', function() {
+		location.href = '/project/home/' + miPrjtNo;
+	})
+	
 	var miMemberId = [[${ session.loginInfo.membId }]];
 	var miBussNm = [[${ buss.bussNm }]];
 	var miPrjtNm = [[${ buss.prjtNm }]];
+	
+	// 프로젝트 멤버만 '글쓰기' 버튼 활성화
+	let memvomi = [[${memvomi}]];
+	for(let i = 0; i < memvomi.length; i++) {
+		if(memvomi[i].membId == miMemberId) {
+			$('.postWritingBox').css('display', 'block');
+			break;
+		} else{
+			$('.postWritingBox').css('display', 'none');
+		}
+	}
 
 	//검색 조건 ( 제목, 작성자, 전체)
 	$('.issue-selectBox').on('click', function () {
