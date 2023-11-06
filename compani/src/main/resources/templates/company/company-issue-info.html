@@ -503,6 +503,7 @@
                     .done(function (data) {
                         findAllReplyC();
                         countReplyC(issuNo);
+                        $('#cIssueReplyCntn').val('');
                     })
                     .fail(function (error) {
                         console.log(error);
