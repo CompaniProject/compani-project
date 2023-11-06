@@ -295,7 +295,7 @@
 		
 		// input content values
 		card.find('.comment-content').data('no',result.membFdbkNo);
-		card.find('.mt-0').text(result.membFdbkWriter);
+		card.find('.mt-0').text([[${session.loginInfo.membNm}]]+"(나)");
 		card.find('.content-area').text(result.membFdbkCntn);
 		card.find('textarea').text(result.membFdbkCntn);
 		card.find('#date-area').text(timestamp(result.membFdbkDt));
@@ -395,8 +395,8 @@
 				if($('#feedtarget').text().length > 0){
 					
 	 				if(buss.length == 0){
-	 					$('#chartCardBody2').css('height', "400px") 
-	 	 				$('#chartCardBody3').css('height', "400px") 
+	 					$('#chartCardBody2').css('height', "350px") 
+	 	 				$('#chartCardBody3').css('height', "350px") 
 	 				}else{
 		 				$('#chartCardBody2').css('height', buss.length*50+"px") 
 		 				$('#chartCardBody3').css('height', buss.length*40+"px") 
@@ -420,8 +420,8 @@
 					});
 				}else{
 	 				if(buss.length == 0){
-	 					$('#chartCardBody2').css('height', "400px") 
-	 	 				$('#chartCardBody3').css('height', "400px") 
+	 					$('#chartCardBody2').css('height', "350px") 
+	 	 				$('#chartCardBody3').css('height', "350px") 
 	 				}else{
 		 				$('#chartCardBody2').css('height', buss.length*50+"px") 
 		 				$('#chartCardBody3').css('height', buss.length*40+"px") 
