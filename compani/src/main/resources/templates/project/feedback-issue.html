@@ -26,7 +26,8 @@
 	<th:block layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-8">
-			<div class="default-tab">
+				<!-- 피드백 탭 시작 -->
+				<div class="default-tab">
 					<ul class="nav nav-tabs mb-3" role="tablist">
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
@@ -34,7 +35,8 @@
 							href="#">이슈</a></li>
 						<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인 피드백</a></li>
 					</ul>
-			</div>
+				</div>
+				<!-- 피드백 탭 끝 -->
 				<div class="column">
 					<!-- 이슈 데이터 - 시작 -->
 					<div class="row">
@@ -46,170 +48,168 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="card">
-							<div class="card-body" style="padding-bottom: 0px;">
-								<h4 class="card-title">해결 이슈</h4>
-								<span th:text="|${projectStatus.issuSolveCnt} / ${projectStatus.issuCnt}|"> </span>
-								<div class="progress mb-3">
-									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
-										<span class="sr-only"></span>
-                                   	</div>
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">해결 이슈</h4>
+									<span th:text="|${projectStatus.issuSolveCnt} / ${projectStatus.issuCnt}|"> </span>
+									<div class="progress mb-3">
+										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+											<span class="sr-only"></span>
+	                                   	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">미해결 이슈</h4>
+									<span th:text="|${projectStatus.issuUnsolveCnt} / ${projectStatus.issuCnt}|"> </span>
+									<div class="progress mb-3">
+										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+											<span class="sr-only"></span>
+	                                   	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body" style="padding-bottom: 0px;">
+									<h4 class="card-title">해결불가 이슈</h4>
+									<span th:text="|${projectStatus.issuUnsolvableCnt} / ${projectStatus.issuCnt}|"> </span>
+									<div class="progress mb-3">
+										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+											<span class="sr-only"></span>
+	                                   	</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="card">
-							<div class="card-body" style="padding-bottom: 0px;">
-								<h4 class="card-title">미해결 이슈</h4>
-								<span th:text="|${projectStatus.issuUnsolveCnt} / ${projectStatus.issuCnt}|"> </span>
-								<div class="progress mb-3">
-									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
-										<span class="sr-only"></span>
-                                   	</div>
+					<!-- 이슈 데이터 - 끝 -->
+					<!-- 이슈 리스트 시작 -->
+					<div class="row">
+	                    <div class="col-12">
+		                   	<div class="card">
+		                       	<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered zero-configuration">
+											<thead>
+												<tr>
+													<th style="width: 5%;">#</th>
+													<th>제목</th>
+													<th style="width: 10%;">종류</th>
+													<th style="width: 10%;">상태</th>
+													<th style="width: 10%;">작성자</th>
+													<th style="width: 10%;">작성일</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="info : ${projectFeedbackIssueList}" role="row">
+													<td class="issueListTr"></td>
+													<td th:text="${info.issuTtl}" class="issuTtl"></td>
+													<td class="issuKnd">
+														<span th:text="${info.issuKnd}"></span>
+													</td>
+													<td class="issuSt">
+														<span th:text="${info.issuSt}"></span>
+													</td>
+													<td th:text="${info.membNm}"></td>
+													<td th:text="${#dates.format(info.issuDt, 'yy.MM.dd')}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3">
-						<div class="card">
-							<div class="card-body" style="padding-bottom: 0px;">
-								<h4 class="card-title">해결불가 이슈</h4>
-								<span th:text="|${projectStatus.issuUnsolvableCnt} / ${projectStatus.issuCnt}|"> </span>
-								<div class="progress mb-3">
-									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
-										<span class="sr-only"></span>
-                                   	</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<!-- 이슈 리스트 끝 -->
 				</div>
-				<!-- 이슈 데이터 - 끝 -->
-				
-				<!-- 이슈 리스트 시작 -->
-                  	<div class="row">
-                    <div class="col-12">
-	                   	<div class="card">
-	                       	<div class="card-body">
-								<div class="table-responsive">
-									<table class="table table-striped table-bordered zero-configuration">
-										<thead>
-											<tr>
-												<th style="width: 5%;">#</th>
-												<th>제목</th>
-												<th style="width: 10%;">종류</th>
-												<th style="width: 10%;">상태</th>
-												<th style="width: 10%;">작성자</th>
-												<th style="width: 10%;">작성일</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="info : ${projectFeedbackIssueList}" role="row">
-												<td class="issueListTr"></td>
-												<td th:text="${info.issuTtl}" class="issuTtl"></td>
-												<td class="issuKnd">
-													<span th:text="${info.issuKnd}"></span>
-												</td>
-												<td class="issuSt">
-													<span th:text="${info.issuSt}"></span>
-												</td>
-												<td th:text="${info.membNm}"></td>
-												<td th:text="${#dates.format(info.issuDt, 'yy.MM.dd')}"></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 이슈 리스트 끝 -->
 			</div>
+			<!-- Comment Area -->
+		    <div class="col-lg-4">
+		        <div class="card"  style="height:80vh;">
+		        	<div class="card-header bg-white">
+	                    <h5 class="card-title">코멘트</h5>
+	                </div>
+		            <div class="card-body comment-body" style="background-color:#FAFAFA;" id="commentBody">
+						<th:block th:each="feedback : ${projectFeedbackList}">
+							<div class="media border-bottom-1 pt-3 pb-3 hover-overlay" th:data-no="${feedback.prjtFdbkNo}"
+							th:style="${feedback.level} >= 2 ? |margin-left:${feedback.level-1}rem;| : ''"
+							th:data-level="${feedback.level}">
+	                            <div class="media-body">
+	                                <h5 th:text="${feedback.membNm}"></h5>
+									<th:block th:switch="${feedback.prjtFdbkShow}">
+	                                	<p class="mb-0" th:case="0N1" th:text="${feedback.prjtFdbkCntn}"></p>
+	                                	<p class="mb-0" th:case="0N2">삭제되었습니다.</p>
+	                                </th:block>
+									<div class="edit-area" style="display:none;">
+										<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
+									
+									</div>
+	                            </div>
+	                            <th:block th:if="${feedback.prjtFdbkShow} == '0N1'">
+	                            <ul class="btn-area">
+	                           		<li>
+	                           			<span class="text-muted" th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}"></span>
+	                           		</li>
+	                           		<th:block th:if="${feedback.membId} == ${session.loginInfo.membId}">
+		                           		<li>
+		                           			<span class="editBtn">수정</span>
+		                           			<span class="delBtn">삭제</span>
+		                           			<span class="submitBtn">확인</span>
+		                           		</li>
+	                           		</th:block>
+	                           		<li>
+	                           			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+	                           		</li>
+	                            </ul>
+	                            </th:block>
+	                        </div>
+						</th:block>
+		            </div>
+					<!-- 댓글 등록 영역 -->
+		            <div class="card-footer">
+						<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;"></textarea>
+			            <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
+		            </div>
+					<!-- 댓글 등록 영역 End -->
+		        </div>
+		    </div>
+		    <!-- Comment Area End -->
 		</div>
-		<!-- Comment Area -->
-	    <div class="col-lg-4">
-	        <div class="card"  style="height:80vh;">
-	        	<div class="card-header bg-white">
-                    <h5 class="card-title">코멘트</h5>
-                </div>
-	            <div class="card-body comment-body" style="background-color:#FAFAFA;" id="commentBody">
-					<th:block th:each="feedback : ${projectFeedbackList}">
-						<div class="media border-bottom-1 pt-3 pb-3 hover-overlay" th:data-no="${feedback.prjtFdbkNo}"
-						th:style="${feedback.level} >= 2 ? |margin-left:${feedback.level-1}rem;| : ''"
-						th:data-level="${feedback.level}">
-                            <div class="media-body">
-                                <h5 th:text="${feedback.membNm}"></h5>
-								<th:block th:switch="${feedback.prjtFdbkShow}">
-                                	<p class="mb-0" th:case="0N1" th:text="${feedback.prjtFdbkCntn}"></p>
-                                	<p class="mb-0" th:case="0N2">삭제되었습니다.</p>
-                                </th:block>
-								<div class="edit-area" style="display:none;">
-									<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
-								
-								</div>
-                            </div>
-                            <th:block th:if="${feedback.prjtFdbkShow} == '0N1'">
-                            <ul class="btn-area">
-                           		<li>
-                           			<span class="text-muted" th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}"></span>
-                           		</li>
-                           		<li>
-                           			<span class="editBtn">수정</span>
-                           			<span class="delBtn">삭제</span>
-                           			<span class="submitBtn">확인</span>
-                           		</li>
-                           		<li>
-                           			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
-                           		</li>
-                            </ul>
-                            </th:block>
-                        </div>
-					</th:block>
-	            </div>
-				<!-- 댓글 등록 영역 -->
-	            <div class="card-footer">
-					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;"></textarea>
-		            <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
-	            </div>
-				<!-- 댓글 등록 영역 End -->
-	        </div>
-	    </div>
-	    <!-- Comment Area End -->
-	</div>
 	
-	<!-- Hidden Insert Comment Body -->
-	<div class="media border-bottom-1 pt-3 pb-3" id="insertBody" style="display:none;">
-	    <div class="media-body">
-	        <h5></h5>
-	        <p class="mb-0"></p>
-			<div class="edit-area" style="display:none;">
-				<textarea class="form-control" id="editCntn"></textarea>
-			</div>
-	    </div>
-	    <ul class="btn-area">
-	   		<li>
-	   			<span class="text-muted" id="date-area"></span>
-	   		</li>
-	   		<li>
-	            <span class="editBtn">수정</span>
-	            <span class="delBtn">삭제</span>
-	            <span class="submitBtn">확인</span>
-	   		</li>
-       		<li>
-       			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
-       		</li>
-	    </ul>
-	</div>
-	
-	<div id="insert-reply-area" style="display:none;">
-    	<span class="replyInsertBtn">등록</span>
-    	<span class="replyDeleteBtn">취소</span>
-	</div>
-	
-	<!-- Hidden Insert Comment Body -->
+		<!-- Hidden Insert Comment Body -->
+		<div class="media border-bottom-1 pt-3 pb-3" id="insertBody" style="display:none;">
+		    <div class="media-body">
+		        <h5></h5>
+		        <p class="mb-0"></p>
+				<div class="edit-area" style="display:none;">
+					<textarea class="form-control" id="editCntn"></textarea>
+				</div>
+		    </div>
+		    <ul class="btn-area">
+		   		<li>
+		   			<span class="text-muted" id="date-area"></span>
+		   		</li>
+		   		<li>
+		            <span class="editBtn">수정</span>
+		            <span class="delBtn">삭제</span>
+		            <span class="submitBtn">확인</span>
+		   		</li>
+	       		<li>
+	       			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+	       		</li>
+		    </ul>
+		</div>
+		<div id="insert-reply-area" style="display:none;">
+	    	<span class="replyInsertBtn">등록</span>
+	    	<span class="replyDeleteBtn">취소</span>
+		</div>
+		<!-- Hidden Insert Comment Body -->
 	
 	<script th:inline="javascript">
 	let issueList = [[${projectFeedbackIssueList}]];

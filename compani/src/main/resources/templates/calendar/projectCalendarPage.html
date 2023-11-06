@@ -169,21 +169,20 @@ select {
 					<div class="container-fluid">
 						<!-- 프로젝트 헤더 정보 시작 -->
 						<div class="row">
-							<div class="col-lg-2 col-sm-6">
+							<div class="col-lg-4 col-sm-6">
 								<div class="card">
 									<div class="row">
 										<div class="col-6">
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-												<!-- 데이터 prjtNM -->
+												<!-- 데이터 prjtNM-->
 												<h4 class="m-1">[[${session.projectVO.prjtNm}]]</h4>
-												<p class="m-1">프로젝트번호.[[${session.prjtNo}]]</p>
 											</div>
 										</div>
 										<div class="col-2  border-right">
 											<div class="pt-3 pb-3 pl-5 pr-0 text-center">
 												<!-- 데이터 -->
 												<h4 class="m-1">
-													<i id="prjtIcon" class="fa-solid fa-pen-to-square fa-2xl"></i>
+												<i id="prjtIcon" class="fa-solid fa-pen-to-square fa-xl" style="cursor: pointer;"></i>									
 												</h4>
 				
 											</div>
@@ -193,30 +192,26 @@ select {
 							</div>
 							<div class="col-lg-2 col-sm-6">
 								<div class="card">
-				
 									<div class="row">
 										<div class="col-6 border-right">
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 												<h4 class="m-1">업무</h4>
-				
 											</div>
 										</div>
 										<div class="col-6">
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
 												<h4 class="m-1">[[${session.projectVO.count}]]</h4>
-				
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3 col-sm-6">
+							<div class="col-lg-2 col-sm-6">
 								<div class="card">
-				
 									<div class="row">
 										<div class="col-6 border-right">
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-												<h4 class="m-1">프로젝트일정</h4>
+												<h4 class="m-1">일정</h4>
 												<p class="m-0"></p>
 											</div>
 										</div>
@@ -230,13 +225,12 @@ select {
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3 col-sm-6">
+							<div class="col-lg-2 col-sm-6">
 								<div class="card">
-				
 									<div class="row">
 										<div class="col-6 border-right">
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-												<h4 class="m-1">프로젝트 상태</h4>
+												<h4 class="m-1">상태</h4>
 											</div>
 										</div>
 										<div class="col-6">
@@ -251,7 +245,6 @@ select {
 							</div>
 							<div class="col-lg-2 col-sm-6">
 								<div class="card">
-				
 									<div class="row">
 										<div class="col-6 border-right">
 											<div class="pt-3 pb-3 pl-0 pr-0 text-center">
@@ -369,26 +362,26 @@ select {
 					<form id="updateform" class="form-valide" action="#" method="post">
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
-							<div class="col-lg-5">
+							<div class="col-lg-5 col-form-label">
 								<div class="issueNameEdit">
-									<div class="issueNameBack">
+									<div class="prjtName">
 										<textarea class="modalIssueNameUpdate" id="prjtNm"
 											name='prjtNm' maxlength="200" style="height: 34px;"
 											th:text="${session.projectVO.prjtNm}"></textarea>
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-3 col-form-label">
 								<div class="dropdown custom-dropdown">
-									<select class="dropdown-import" id="prjtImp" name="prjtImp"
+									<select class="dropdown-import" id="prjtSt" name="prjtSt"
 										th:value="${session.projectVO.prjtSt}">
 										<option class="dropdown-import" value="0D1"
-											th:selected="${session.projectVO.prjtSt}=='진행중'">진행중</option>
+											th:selected="${session.projectVO.prjtSt}=='0D1'">진행중</option>
 
 										<option class="dropdown-import" value="0D2"
-											th:selected="${session.projectVO.prjtSt}=='완료'">완료</option>
+											th:selected="${session.projectVO.prjtSt}=='0D2'">완료</option>
 										<option class="dropdown-import" value="0D3"
-											th:selected="${session.projectVO.prjtSt}=='초과'">초과</option>
+											th:selected="${session.projectVO.prjtSt}=='0D3'">초과</option>
 
 									</select>
 
@@ -400,14 +393,14 @@ select {
 							<label class="col-lg-4 col-form-label" for="val-username">공개여부
 							</label>
 							<div class="col-lg-6">
-								<label class="radio-inline mr-3"> <input type="radio"
-									name="optradio"
-									th:attr="checked=${session.projectVO.prjtPubcyn == '공개' ? 'true' : 'false'}">
+								<label class="radio-inline mr-3"> 
+								<input type="radio"
+									 id="prjtPubcyn" name="prjtPubcyn" th:value="0F1" th:checked="${session.projectVO.prjtPubcyn eq '0F1'}">
 									공개
-								</label> <i class="fa-solid fa-lock-open fa-lg"></i> <label
-									class="radio-inline mr-3"> <input type="radio"
-									name="optradio"
-									th:attr="checked=${session.projectVO.prjtPubcyn == '비공개' ? 'true' : 'false'}">
+								</label> <i class="fa-solid fa-lock-open fa-lg"></i> 
+								<label class="radio-inline mr-3"> 
+								<input type="radio"
+									 id="prjtPubcyn" name="prjtPubcyn" th:value="0F2" th:checked="${session.projectVO.prjtPubcyn eq '0F2'}">
 									비공개
 								</label><i class="fa-solid fa-lock fa-lg"></i>
 
@@ -449,19 +442,21 @@ select {
 													<th>삭제</th>
 												</tr>
 											</thead>
-											<tbody id="insertmembertbl">
-												<th:block th:each="prjtMember : ${projectMemberList}">
+											<tbody id="updatemembertbl">
 												
-													<tr th:id="${prjtMember.membId}">
+												<th:block th:each="prjtMember : ${projectMemberList}">
+
+													 <tr th:id="${prjtMember.membId}">
 														<td><img
 															th:src="@{/images/profile/}+${prjtMember.membPhtPath}"
 															height="50px" width="50px" alt="프로필"
-															th:if="${prjtMember.membPhtPath != null}" /></td>
-														<td th:text="${prjtMember.membDept}" />
-														<td th:text="${prjtMember.membWkgd}" />
-														<td th:text="${prjtMember.membNm}" />
-														<td><i class="fa-solid fa-minus"></i></td>
-													</tr>
+															th:if="${prjtMember.membPhtPath != null}" /></td> 
+														<td th:text="${prjtMember.membDept}" />  
+														<td th:text="${prjtMember.membWkgd}" />  
+														<td th:text="${prjtMember.membNm}" />  
+														<td th:if="${prjtMember.prjtMembPerm} != 'CRTR'"><i class="fa-solid fa-minus"></i></td>
+														<input type="hidden" name ="membId" th:value="${prjtMember.membId}">
+													</tr> 
 												</th:block>
 											</tbody>
 										</table>
@@ -475,7 +470,7 @@ select {
 										<div class="SearchBox" style="height: 50%">
 											<label for="SearchToggleCheckBox"
 												th:attr="onclick='searchMember()'"></label> <input
-												type="hidden" id="keyword" value="전체">
+												type="hidden" id="prjtkeyword" value="전체">
 											<div class="SearchInputBox" style="width: 270px;">
 												<div>
 													<div class="member-selectBox" style="width: 100px;">
@@ -493,7 +488,7 @@ select {
 													</div>
 
 												</div>
-												<input class="SearchInputModalView" id="search" type="text"
+												<input class="SearchInputModalView" id="prjtsearch" type="text"
 													placeholder="검색어를 입력하세요." />
 											</div>
 
@@ -509,9 +504,8 @@ select {
 														<th>추가</th>
 													</tr>
 												</thead>
-												<tbody id="membertbl">
+												<tbody id="prjtmembertbl">
 													<th:block th:each="memberList : ${memberList}">
-														<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
 														<tr th:id="${memberList.membId}">
 															<td><img
 																th:src="@{/images/profile/}+${memberList.membPhtPath}"
@@ -532,10 +526,10 @@ select {
 							</div>
 						</div>
 						<div>
-							<input type="hidden" name="prjtNo" th:value="1" />
+							<input type="hidden" name="prjtNo" th:value="${prjtNo}" />
 						</div>
 						<div class="modal-footer">
-							<button id="prjtInsertBtn" type="button" class="btn btn-primary">수정</button>
+							<button id="prjtUpdateBtn" type="button" class="btn btn-primary">수정</button>
 
 						</div>
 					</form>
@@ -916,7 +910,7 @@ select {
 	})
 	
 	/*----------------------------
-		업무 수정 모달
+		프로젝트 수정 모달
 	------------------------------*/
 	$('#prjtIcon').on('click', function() {
 		$('#updateProject').modal('show');
@@ -946,6 +940,178 @@ select {
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
+	
+	<!-- 프로젝트 수정 모달 시작 -->
+	<script>
+		
+		$('#prjtUpdateBtn').on('click', function(){
+		
+	 		let formData = $('#updateform').serializeArray();
+	
+		 	let formObj = {};
+		 	let memberArray = [];
+			$.each(formData, function(idx,obj){
+	 		  	if(obj.name != "membId"){
+					formObj[obj.name] = obj.value;
+				}  
+	 		  	else{
+					memberArray.push({membId : obj.value});
+			    }
+			});
+		
+			let obj = {};
+		
+			obj["project"] = formObj;
+			obj["projectMember"] = memberArray;
+			
+		 	$.ajax('/updateProject' ,{
+				type : 'post',
+				contentType : 'application/json',
+				data : JSON.stringify(obj)
+			})
+			.done(data => {})
+			.fail(err => {}); 
+	 	})
+		
+		$('#prjtmembertbl').on('click', 'td:nth-child(5)',  function(){insertMember($('#updatemembertbl'))})
+		$('#updatemembertbl').on('click','td:nth-child(5)' ,deleteMember)
+		
+		function insertMember(tbl){
+				//tr의 ID -중복체크를 위한 값 
+				let id = $(event.target).closest('tr').attr('id');
+				
+				let image = $(event.target).closest('tr').children().eq(0).children().attr('src');
+				let dept = $(event.target).closest('tr').children().eq(1).text();
+				let position = $(event.target).closest('tr').children().eq(2).text();
+				let name = $(event.target).closest('tr').children().eq(3).text();
+				
+				let isDup = true;				
+				tbl.find('tr').each(function(){
+					 let checkId = $(this).attr('id');
+					 if(checkId == id){
+						 isDup = false;
+					 }
+				})
+				
+				if (isDup){
+					
+					let trTag = $('<tr/>');
+					let tdTag= $('<td/>');
+					
+					trTag.attr('id', id);
+					
+					if(image != null){
+						let imgTag = $('<img>',{
+							src:image,
+							height:"50px", 
+							width:"50px"
+						})
+						
+						tdTag.append(imgTag);
+					}
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append(dept);
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append(position);
+					trTag.append(tdTag);
+				
+					tdTag= $('<td/>');
+					tdTag.append(name);
+					trTag.append(tdTag);
+					
+					tdTag= $('<td/>');
+					tdTag.append('<i class="fa-solid fa-minus"></i>');
+					trTag.append(tdTag);
+					
+					let inputTag = $('<input/>');
+					inputTag.attr('type', 'hidden');
+					inputTag.attr('name', 'membId');
+					inputTag.attr('value', id);
+					trTag.append(inputTag);
+					
+					tbl.append(trTag); 
+				}
+			}
+		
+		function deleteMember(event){
+			$(this).parent().remove();
+		}
+		$('#prjtkeyword').on('click', searchMember)
+		
+			$('.member-selectBox').on('click', function () {
+				$('.member-select-ul').css('display', 'block');
+			})
+			
+			$('.member-select-option').on('click', function (e) {
+				
+				var selectValue = e.currentTarget.textContent;
+				$('.member-selected-value').text(selectValue);
+				$('#prjtkeyword').val(selectValue);
+				$('.member-select-ul').css('display', 'none');
+				e.stopPropagation();
+		})
+		function dropdown(){
+				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				$(this).parent().siblings().text($(this).text());
+		}	
+	
+		function searchMember(){
+			
+				let selected = $('.member-selected-value').first().text();
+				let search  = $('#prjtsearch').val();
+				
+				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
+				.done(function(data){
+					let tbody = $('#prjtmembertbl');
+					tbody.empty();
+					$.each( data, function(idx,data){
+	
+					 	let trTag = $('<tr/>');
+					 	let tdTag = $('<td/>');
+					 	
+						trTag.attr('id', data.MEMB_ID);
+				
+						if(data.MEMB_PHT_PATH != null){
+						let imgTag = $('<img>',{
+							src:"/images/profile/" +data.MEMB_PHT_PATH,
+							height:"50px", 
+							width:"50px",
+						})
+			
+					 		tdTag.append(imgTag);
+						}
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_DEPT);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_WKGD);
+					 	trTag.append(tdTag);
+					 	
+					 	tdTag = $('<td/>');
+					 	tdTag.append(data.MEMB_NM);
+					 	trTag.append(tdTag);
+					
+					 	tdTag = $('<td/>');
+					 	tdTag.append('<i class="fa-solid fa-plus"></i>');
+					 	trTag.append(tdTag);
+					 	
+					 	tbody.append(trTag);
+					 	
+					})
+				})
+				.fail(err =>  console.log(err));
+	 	
+		}
+	
+	</script>
+	<!-- 프로젝트 수정 모달 끝 -->
 </body>
 </html>
 

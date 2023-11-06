@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.service.ProjectFormVO;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,7 @@ public class BusinessController {
 	private final BusinessService businessService;
 	private final MemberService memberService;
 	private final BusinessMemberService businessMemberService;
+	private final ProjectMemberService projectMemberService;
 
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {
@@ -109,10 +112,23 @@ public class BusinessController {
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
 	@GetMapping("projectCalendar")
-	public String projectCalendarList(Model model, HttpSession session) {
+	public String projectCalendarList(Model model, HttpSession session, HttpServletRequest request) {
 		int prjtNo = (Integer) session.getAttribute("prjtNo");
+		
+		// 캘린더 업무리스트
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);
+		
+		// 프로젝트 모달 수정 - 참여자 리스트
+		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
+		model.addAttribute("projectMemberList", prjtMemberList);
+		
+		// 프로젝트 모달 수정 - 회사 멤버 리스트
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
+		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
+		model.addAttribute("memberList", memberList);
+		
 		return "calendar/projectCalendarPage";
 	}
 	

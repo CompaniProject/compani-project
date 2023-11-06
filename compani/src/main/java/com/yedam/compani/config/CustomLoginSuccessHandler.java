@@ -54,10 +54,13 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		});
 		
 		log.warn("ROLE NAMES: " + roleNames);
-		if(roleNames.contains("ROLE_0A1")||roleNames.contains("ROLE_0A2") || roleNames.contains("ROLE_0A3") || roleNames.contains("ROLE_0A4")) {
+		if(roleNames.contains("ROLE_0A2") || roleNames.contains("ROLE_0A3") || roleNames.contains("ROLE_0A4")) {
 			response.sendRedirect("/home");
 			return;
-		} 
+		} else if(roleNames.contains("ROLE_0A1")) {
+			response.sendRedirect("/masterHome");
+			return;
+		}
 		/*
 			 * else if() { response.sendRedirect("/home"); return; }
 			 */
