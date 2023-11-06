@@ -159,13 +159,9 @@
 	<update id="updateBusiness" parameterType="BusinessVO">
 
 		DECLARE
-		max_no NUMBER(10) := 0;
+	
 		p_buss_no NUMBER(10) := 0;
 		BEGIN
-		SELECT
-		MAX(BUSS_NO)
-		INTO max_no
-		FROM BUSINESS;
 
 		SELECT BUSS_NO
 		INTO p_buss_no
@@ -179,13 +175,15 @@
 		<set>
 			<if test="bussDep.equals('up')">
 				BUSS_UPCD = p_buss_no
-				WHERE BUSS_NO = max_no;
+				WHERE BUSS_NO = #{bussNo};
 			</if>
 			<if test="bussDep.equals('down')">
-				BUSS_UPCD = max_no
+				BUSS_UPCD = #{bussNo}
 				WHERE BUSS_NO = p_buss_no;
 			</if>
-
+			<if test="bussDep.equals('') bussDep = null">
+				BUSS_UPCD = NULL
+			</if>
 		</set>
 
 		END;
@@ -205,7 +203,17 @@
 		b.buss_cmpltdt,
 		b.buss_st,
 		FIND_CODENM(BUSS_ST) as bussStNm,
-		FIND_CODENM(BUSS_IMP) as bussImpNm
+		FIND_CODENM(BUSS_IMP) as bussImpNm,
+		  ( SELECt buss_No 
+        FROM  business
+        where buss_NO = (SELECT  buss_NO
+                 FROM    business
+                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNo,
+        ( SELECt buss_NM 
+        FROM  business
+        where buss_NO = (SELECT  buss_NO
+                 FROM    business
+                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNM
 		FROM BUSINESS b , PROJECT p
 		WHERE b.prjt_no = p.prjt_no
 		AND b.buss_no = #{bussNo}
@@ -234,7 +242,39 @@
 				BUSS_PRGRE=#{bussPrgre},
 				BUSS_FRDT =#{bussFrdt},
 				BUSS_TODT =#{bussTodt},
-				BUSS_ST   =#{bussSt}
+				<choose>
+					<when test="bussSt.equals('0K1')">
+						BUSS_ST = '0K1',
+						BUSS_CMPLTDT = NULL
+					</when>
+					<when test="bussSt.equals('0K2')">
+						BUSS_ST = '0K2',
+						BUSS_CMPLTDT = SYSDATE
+					</when>
+					<when test="bussSt.equals('0K3')">
+						BUSS_ST = '0K3',
+						BUSS_CMPLTDT = NULL
+					</when>
+					<otherwise>
+						BUSS_ST = '0K4',
+						BUSS_CMPLTDT = SYSDATE
+					</otherwise>
+				</choose>
+				
+				<!-- <if test="bussDep.equals('') and bussDep = null">
+					bussUpNm = NULL
+				</if>
+				<if test="bussDep.equals('up')">
+					BUSS_UPCD = p_buss_no
+					WHERE BUSS_NO = #{bussNo}
+				</if>
+					<if test="bussDep.equals('down')">
+					BUSS_UPCD = #{bussNo}
+					WHERE BUSS_NO = p_buss_no
+				</if> -->
+		
 		WHERE   BUSS_NO = #{bussNo}
+		
 	</update>
+	
 </mapper>

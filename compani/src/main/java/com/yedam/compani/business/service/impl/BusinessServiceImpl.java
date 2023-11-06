@@ -1,6 +1,7 @@
 package com.yedam.compani.business.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +104,17 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	public int modifyBusiness(BusinessVO businessVO) {
+		Date date = new Date();
+		System.out.println(date);
+		if(businessVO.getBussPrgre() < 100 && date.before(businessVO.getBussTodt()) ) {
+			businessVO.setBussSt("0K1");
+		}else if(businessVO.getBussPrgre() == 100 && date.after(businessVO.getBussTodt())) {
+			businessVO.setBussSt("0K4");
+		}else if(businessVO.getBussPrgre() < 100 && date.after(businessVO.getBussTodt())) {
+			businessVO.setBussSt("0K3");
+		}else {
+			businessVO.setBussSt("0K2");
+		}
 		
 		return businessMapper.modifyBusiness(businessVO);
 	}

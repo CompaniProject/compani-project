@@ -152,5 +152,11 @@ public class ProjectController {
 		projectMemberService.insertProjectMember(formVO);
 	
 	}
+	//회사 프로젝트 게시판 
+	@GetMapping("/company/project/{cocd}")
+	public String projectBoard(Model model) {
+		
+		return "company/company-project";
+	}
 	
 }

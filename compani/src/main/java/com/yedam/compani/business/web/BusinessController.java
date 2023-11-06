@@ -50,8 +50,9 @@ public class BusinessController {
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		model.addAttribute("businessLevelList", businessLevelList);
 
-		List<MemberVO> list = memberService.getMemberList();
-		model.addAttribute("memberList", list);
+		// 회사 멤버 list -> 프로젝트 참여자 list
+		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
+		model.addAttribute("projectMemberList", projectMemberList);
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
 		return "project/business-home";
@@ -90,12 +91,12 @@ public class BusinessController {
 		// 업무 참여자 list
 		List<MemberVO> list = businessMemberService.bussMemberList(bussNo);
 		model.addAttribute("businessMemberList", list);
-	
-		// 회사 멤버 list
-		List<MemberVO> memberList = memberService.getMemberList();
-		model.addAttribute("memberList", memberList);
 		
 		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		// 회사 멤버 list -> 프로젝트 참여자 list
+		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
+		model.addAttribute("projectMemberList", projectMemberList);
+		
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
 		 
@@ -150,22 +151,17 @@ public class BusinessController {
 	}
 	@PostMapping("/updateBusiness")
 	@ResponseBody
-	public Map<String, Object> updateBusiness(@RequestBody FormVO formVO) {
+	public void updateBusiness(@RequestBody FormVO formVO) {
 
-		Map<String, Object> map = new HashMap<>();
 		businessService.modifyBusiness(formVO.getBusiness());
-		//종속관계 업데이트 , 사람 읍데이뜨
-		/*
-		 * if (!formVO.getBusiness().getBussDep().equals("")) {
-		 * businessService.modifyBusiness(formVO.getBusiness()); }
-		 */
+		
+		//종속 변경인디 
+		//businessService.updateBusiness(formVO.getBusiness()); 
 	
 		//businessMemberService.deleteBusinessMember(formVO);
 		//businessMemberService.insertBusinessMember(formVO);
 		 
-		
-		return map;
-
+	
 	}
 	
 
