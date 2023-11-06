@@ -63,7 +63,8 @@
 					  ,  	ir.issu_rply_cntn
 					  ,  	ir.issu_rply_dt
 					  ,  	ir.issu_rply_del
-					  ,		m.memb_nm					
+					  ,		m.memb_nm
+					  ,		m.memb_pht_path					
 			FROM   			issue_reply ir, member m
 			WHERE			ir.memb_id 		 = m.memb_id
 			AND  			ir.issu_rply_del = 0

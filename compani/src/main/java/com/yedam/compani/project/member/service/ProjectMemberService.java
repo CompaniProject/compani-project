@@ -13,4 +13,5 @@ public interface ProjectMemberService {
 	public int insertProjectMember(ProjectFormVO formVO);
 	public List<Map<String,String>> projectMemberList(Integer prjtNo);
 	public int deleteProjectMember(ProjectFormVO formVO);
+	public ProjectMemberVO projectMemberSelect(int prjtNo, String membId);
 }

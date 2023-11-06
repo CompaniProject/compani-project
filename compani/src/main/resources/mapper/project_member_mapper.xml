@@ -110,4 +110,14 @@
    	<!-- 	AND    PRJT_MEMB_PERM NOT IN 'CRTR' -->
 	
 	</delete>
+	
+	<select id="projectMemberSelect" resultType="ProjectMemberVO">
+		SELECT 	prjt_no
+			 ,	memb_id
+			 ,  prjt_memb_perm
+			 ,	prjt_fav
+		FROM	project_member
+		WHERE	memb_id = #{membId}
+		AND		prjt_no = #{prjtNo}
+	</select>
 </mapper>
