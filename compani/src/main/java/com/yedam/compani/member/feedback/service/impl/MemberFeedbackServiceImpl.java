@@ -44,7 +44,7 @@ public class MemberFeedbackServiceImpl implements MemberFeedbackService {
 	}
 	@Override
 	public List<MemberFeedbackVO> getMemberFeedbackList() {
-	
+		
 		return memberFeedbackMapper.getMemberFeedbackList();
 	}
 
