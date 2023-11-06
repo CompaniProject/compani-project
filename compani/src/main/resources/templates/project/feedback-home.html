@@ -146,11 +146,13 @@
                            		<li>
                            			<span class="text-muted" th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}"></span>
                            		</li>
-                           		<li>
-                           			<span class="editBtn">수정</span>
-                           			<span class="delBtn">삭제</span>
-                           			<span class="submitBtn">확인</span>
-                           		</li>
+                           		<th:block th:if="${feedback.membId} == ${session.loginInfo.membId}">
+	                           		<li>
+	                           			<span class="editBtn">수정</span>
+	                           			<span class="delBtn">삭제</span>
+	                           			<span class="submitBtn">확인</span>
+	                           		</li>
+                           		</th:block>
                            		<li>
                            			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
                            		</li>

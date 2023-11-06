@@ -13,10 +13,10 @@
 			<!-- Bussiness Header -->
 			<div class="row mx-0">
 				<ul class="nav nav-pills mb-3">
-					<li class="nav-item"><a href="#kanbanBoard"
+					<li class="nav-item" id="kanbanTab"><a href="#kanbanBoard"
 						class="nav-link active" data-toggle="tab" aria-expanded="false">칸반보드</a>
 					</li>
-					<li class="nav-item"><a href="#businessList" class="nav-link"
+					<li class="nav-item" id="bussTab"><a href="#businessList" class="nav-link"
 						data-toggle="tab" aria-expanded="false">리스트</a></li>
 				</ul>
 				<div class="col p-md-0">
@@ -462,6 +462,18 @@
 			</div>
 		</div>
 		<div data-include1="showModalMain"></div>
+		
+		<script>
+			$(document).on('click','#kanbanTab',function(){
+				$('#kanbanBoard').toggle();
+				$('#businessList').toggle();
+			})
+			
+			$(document).on('click','#bussTab',function(){
+				$('#kanbanBoard').toggle();
+				$('#businessList').toggle();
+			})
+		</script>
 
 		<script th:inline="javascript">
 		    window.onload = function () {
