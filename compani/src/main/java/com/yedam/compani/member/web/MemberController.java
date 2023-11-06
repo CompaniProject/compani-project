@@ -182,7 +182,6 @@ public class MemberController {
 			stream.write(uploadfile.getBytes());
 			stream.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
