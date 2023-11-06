@@ -106,7 +106,7 @@
 
 	<!--/* 등록폼 모달 START */-->
 	<div class="modal fade" id="piSaveModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true"
-		style="overflow: auto;">
+		style="overflow: auto; cursor: auto;">
 		<div class="modal-dialog">
 			<div class="modal-content"
 				style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
@@ -320,7 +320,19 @@
 		}
 		let piMemberId = [[${ session.loginInfo.membId }]];
 		let piprjtNo = [[${ prjtNo }]];
-
+		let piprjtNm = [[${projects.prjtNm}]];
+		
+		// 프로젝트 멤버만 '글쓰기' 버튼 활성화
+		let memvo = [[${memvo}]];
+		for(let i=0; i<memvo.length; i++) {
+			if(memvo[i].membId == piMemberId) {
+				$('.postWritingBoxP').css('display', 'block');
+				break;
+			} else{
+				$('.postWritingBoxP').css('display', 'none');
+			}
+		}
+		
 		//검색 조건 (제목, 작성자, 전체) 
 		$('.pissue-selectBox').on('click', function () {
 			$('.pissue-select-ul').css('display', 'block');
@@ -520,6 +532,7 @@
 		// 글쓰기 버튼
 		$('.postWritingBoxP').on('click', function () {
 			$('#piSaveModal').modal('show');
+			inputHashPI.value = piprjtNm;
 		});
 
 		// "등록" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.

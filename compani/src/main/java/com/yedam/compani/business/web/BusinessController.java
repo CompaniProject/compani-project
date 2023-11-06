@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.business.member.service.BusinessMemberService;
-import com.yedam.compani.business.member.service.BusinessMemberVO;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.member.service.ProjectMemberService;
+import com.yedam.compani.project.service.ProjectFormVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;;
@@ -42,6 +43,7 @@ public class BusinessController {
 	private final BusinessService businessService;
 	private final MemberService memberService;
 	private final BusinessMemberService businessMemberService;
+	private final ProjectMemberService projectMemberService;
 
 	@GetMapping("/project/business/{prjtNo}")
 	public String projectHome(@PathVariable int prjtNo, Model model) {
@@ -50,7 +52,6 @@ public class BusinessController {
 
 		List<MemberVO> list = memberService.getMemberList();
 		model.addAttribute("memberList", list);
-
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
 		return "project/business-home";
@@ -62,24 +63,25 @@ public class BusinessController {
 
 		Map<String, Object> map = new HashMap<>();
 
-		businessService.insertBusiness(formVO.getBusiness());
+		businessService.insertBusiness(formVO.getBusiness()); 
 		businessMemberService.insertBusinessMember(formVO);
 
 		// 이거 한번 고민 해보자구 mapper 설계
 		if (!formVO.getBusiness().getBussDep().equals("")) {
-			businessService.updateBusiness(formVO.getBusiness());
+			businessService.modifyBusiness(formVO.getBusiness());
 		}
 
 		return map;
 
 	}
+	
 	@GetMapping("home/modal")
 	public String projectHome() {
 		return "modal/modal-main";
 	}
 
 	@GetMapping("/businessInfo/{bussNo}")
-	public String businessInfo(@PathVariable Integer bussNo ,Model model) {
+	public String businessInfo(@PathVariable Integer bussNo ,Model model, HttpServletRequest request) {
 
 		// 업무 단건
 		BusinessVO bussVO = businessService.businessSelect(bussNo);
@@ -92,11 +94,14 @@ public class BusinessController {
 		// 회사 멤버 list
 		List<MemberVO> memberList = memberService.getMemberList();
 		model.addAttribute("memberList", memberList);
-
+		
+		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
+		model.addAttribute("businessNameList", busineesNameList);
+		 
 		return "modal/modal-business";
 	}
 
-	
 	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
 	@GetMapping("myCalendar")
 	public String personalCalendarList(Model model, HttpSession session) {
@@ -109,10 +114,23 @@ public class BusinessController {
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
 	@GetMapping("projectCalendar")
-	public String projectCalendarList(Model model, HttpSession session) {
+	public String projectCalendarList(Model model, HttpSession session, HttpServletRequest request) {
 		int prjtNo = (Integer) session.getAttribute("prjtNo");
+		
+		// 캘린더 업무리스트
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);
+		
+		// 프로젝트 모달 수정 - 참여자 리스트
+		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
+		model.addAttribute("projectMemberList", prjtMemberList);
+		
+		// 프로젝트 모달 수정 - 회사 멤버 리스트
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
+		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
+		model.addAttribute("memberList", memberList);
+		
 		return "calendar/projectCalendarPage";
 	}
 	
@@ -130,4 +148,25 @@ public class BusinessController {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
 	}
+	@PostMapping("/updateBusiness")
+	@ResponseBody
+	public Map<String, Object> updateBusiness(@RequestBody FormVO formVO) {
+
+		Map<String, Object> map = new HashMap<>();
+		businessService.modifyBusiness(formVO.getBusiness());
+		//새로운 Service 만들기
+		/*
+		 * if (!formVO.getBusiness().getBussDep().equals("")) {
+		 * businessService.modifyBusiness(formVO.getBusiness()); }
+		 */
+	
+		//businessMemberService.deleteBusinessMember(formVO);
+		//businessMemberService.insertBusinessMember(formVO);
+		 
+		
+		return map;
+
+	}
+	
+
 }

@@ -17,13 +17,6 @@ class ProjectServiceImplTest {
     ProjectService projectService;
 
     @Test
-    public void projectTest() {
-        List<ProjectVO> projects = new ArrayList<ProjectVO>();
-        projects = projectService.getProjectList();
-        System.out.println(projects);
-    }
-    
-    @Test
     public void projectAndMemberTest() {
         List<Map<Object,Object>> projects = new ArrayList<>();
         projects = projectService.getProjectAndMemberList("m1");

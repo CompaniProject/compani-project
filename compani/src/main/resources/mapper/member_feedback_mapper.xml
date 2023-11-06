@@ -5,9 +5,12 @@
 <mapper
 	namespace="com.yedam.compani.member.feedback.mapper.MemberFeedbackMapper">
 	<select id="getMemberFeedbackList" resultType="MemberFeedbackVO">
-		SELECT P.PRJT_NM, F.MEMB_FDBK_CNTN, F.MEMB_FDBK_DT
-		FROM PROJECT P, MEMBER_FEEDBACK F
-		WHERE P.PRJT_NO = F.PRJT_NO
+		SELECT P.PRJT_NM, 
+		       F.MEMB_FDBK_CNTN, 
+		       F.MEMB_FDBK_DT
+		FROM   PROJECT P, MEMBER_FEEDBACK F
+		WHERE  P.PRJT_NO = F.PRJT_NO
+		AND    f.MEMB_FDBK_OBJ = #{membId}
 	</select>
 	
 	<select id="selectFeedbackList" resultType="MemberFeedbackVO">

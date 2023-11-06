@@ -1,77 +1,58 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="aside">
-
-	<div class="nk-sidebar" style="height: 100%;">
-		<div class="nk-nav-scroll">
-			<ul class="metismenu" id="menu">
-				<li><a href="/home" aria-expanded="false"><span
-						class="icon-home"> 홈</span> </a></li>
-				<li><a href="/myCalendar" aria-expanded="false"><span
-						class="icon-calender"> 내 캘린더</span> </a></li>
-				<li><a class="has-arrow" href="javascript:void()"
-					aria-expanded="false"><i class="icon-docs"> </i><span
-						class="nav-text">프로젝트</span>&nbsp;&nbsp;&nbsp;<i class="icon-plus"></i>
-				</a>
-					<ul aria-expanded="false" id="myPrjtList">
-						<li th:each="project : ${session.projectList}"><a
-							th:href="@{/project/home/{prjtNo}(prjtNo=${project.prjtNo})}"
-							th:text="${project.prjtNm}"></a></li>
-					</ul></li>
-				<li><a class="has-arrow" href="javascript:void()"
-					aria-expanded="false"> <i class="icon-screen-tablet menu-icon"></i><span
-						class="nav-text">회사</span>
-				</a>
-					<ul aria-expanded="false">
-						<li><a href="">회사 프로젝트 게시판</a></li>
-						<li><a
-							th:href="@{/company/issues/{coCd}(coCd=${session.loginInfo.coCd})}">회사
-								이슈 게시판</a></li>
-					</ul></li>
-				<li><a href="support.html" aria-expanded="false"><span
-						class="icon-support"> 고객센터</span> </a></li>
-				
-				<li class="companyManageMenu"><a href="" aria-expanded="false">
-					<span class=""> 회사 관리</span></a></li>
-
-			</ul>
-		</div>
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="insertProject"
+	<div class="modal fade bd-example-modal-lg" id="updateProject"
 		tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">
 						<span>&times;</span>
 					</button>
+
 				</div>
 				<div class="modal-body">
-					<form id="insertform" class="form-valide" action="#" method="post">
 
+					<form id="updateform" class="form-valide" action="#" method="post">
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label" for="val-username">프로젝트명</label>
-							<div class="col-lg-6">
+							<div class="col-lg-5 col-form-label">
 								<div class="issueNameEdit">
 									<div class="prjtName">
 										<textarea class="modalIssueNameUpdate" id="prjtNm"
 											name='prjtNm' maxlength="200" style="height: 34px;"
-											placeholder="프로젝트명 입력하세요"></textarea>
+											th:text="${session.projectVO.prjtNm}"></textarea>
 									</div>
 								</div>
 							</div>
+							<div class="col-lg-3 col-form-label">
+								<div class="dropdown custom-dropdown">
+									<select class="dropdown-import" id="prjtSt" name="prjtSt"
+										th:value="${session.projectVO.prjtSt}">
+										<option class="dropdown-import" value="0D1"
+											th:selected="${session.projectVO.prjtSt}=='0D1'">진행중</option>
+
+										<option class="dropdown-import" value="0D2"
+											th:selected="${session.projectVO.prjtSt}=='0D2'">완료</option>
+										<option class="dropdown-import" value="0D3"
+											th:selected="${session.projectVO.prjtSt}=='0D3'">초과</option>
+
+									</select>
+
+								</div>
+							</div>
+
 						</div>
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label" for="val-username">공개여부
 							</label>
 							<div class="col-lg-6">
-
-								<label class="radio-inline mr-3"> <input type="radio"
-									name="prjtPubcyn" value="0F1"> 공개
-								</label> <i class="fa-solid fa-lock-open fa-lg"></i> <label
-									class="radio-inline mr-3"> <input type="radio"
-									name="prjtPubcyn" value="0F2"> 비공개
+								<label class="radio-inline mr-3"> 
+								<input type="radio"
+									 id="prjtPubcyn" name="prjtPubcyn" th:value="0F1" th:checked="${session.projectVO.prjtPubcyn eq '0F1'}">
+									공개
+								</label> <i class="fa-solid fa-lock-open fa-lg"></i> 
+								<label class="radio-inline mr-3"> 
+								<input type="radio"
+									 id="prjtPubcyn" name="prjtPubcyn" th:value="0F2" th:checked="${session.projectVO.prjtPubcyn eq '0F2'}">
+									비공개
 								</label><i class="fa-solid fa-lock fa-lg"></i>
 
 
@@ -82,7 +63,8 @@
 							<label class="col-lg-4 col-form-label">일정 </label>
 							<div class="col-lg-3">
 								<input type="date" class="form-control" id="prjtFdt"
-									name="prjtFdt" />
+									name="prjtFdt"
+									th:value="${#dates.format(session.projectVO.prjtFdt, 'yyyy-MM-dd')}" />
 								<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
 							</div>
 							<div class="col-lg-1">
@@ -91,7 +73,8 @@
 							</div>
 							<div class="col-lg-3">
 								<input type="date" class="form-control" id="prjtTdt"
-									name="prjtTdt">
+									name="prjtTdt"
+									th:value="${#dates.format(session.projectVO.prjtTdt, 'yyyy-MM-dd')}">
 							</div>
 						</div>
 						<div>
@@ -110,27 +93,40 @@
 													<th>삭제</th>
 												</tr>
 											</thead>
-											<tbody id="insertmembertbl">
+											<tbody id="updatemembertbl">
+												
+												<th:block th:each="prjtMember : ${projectMemberList}">
 
+													 <tr th:id="${prjtMember.membId}">
+														<td><img
+															th:src="@{/images/profile/}+${prjtMember.membPhtPath}"
+															height="50px" width="50px" alt="프로필"
+															th:if="${prjtMember.membPhtPath != null}" /></td> 
+														<td th:text="${prjtMember.membDept}" />  
+														<td th:text="${prjtMember.membWkgd}" />  
+														<td th:text="${prjtMember.membNm}" />  
+														<td th:if="${prjtMember.prjtMembPerm} != 'CRTR'"><i class="fa-solid fa-minus"></i></td>
+														<input type="hidden" name ="membId" th:value="${prjtMember.membId}">
+													</tr> 
+												</th:block>
 											</tbody>
 										</table>
 									</div>
 
 								</div>
 							</div>
-
 							<div>
 								<div class="card" style="height: 200px;">
 									<div class="card-body" style="overflow: auto;">
 										<div class="SearchBox" style="height: 50%">
 											<label for="SearchToggleCheckBox"
-												th:attr="onclick='searchMember2()'"></label> <input
-												type="hidden" id="prjtinsertkeyword" value="전체">
+												th:attr="onclick='searchMember()'"></label> <input
+												type="hidden" id="prjtkeyword" value="전체">
 											<div class="SearchInputBox" style="width: 270px;">
 												<div>
 													<div class="member-selectBox" style="width: 100px;">
 														<div class="member-selected" id="member-selected">
-															<div class="member-selected-valueaside">전체</div>
+															<div class="member-selected-value">전체</div>
 															<div class="arrow"></div>
 														</div>
 														<ul class="member-select-ul"
@@ -143,7 +139,7 @@
 													</div>
 
 												</div>
-												<input class="SearchInputModalView" id="prjtinsertsearch" type="text"
+												<input class="SearchInputModalView" id="prjtsearch" type="text"
 													placeholder="검색어를 입력하세요." />
 											</div>
 
@@ -159,8 +155,19 @@
 														<th>추가</th>
 													</tr>
 												</thead>
-												<tbody id="membertbl">
-													
+												<tbody id="prjtmembertbl">
+													<th:block th:each="memberList : ${memberList}">
+														<tr th:id="${memberList.membId}">
+															<td><img
+																th:src="@{/images/profile/}+${memberList.membPhtPath}"
+																height="50px" width="50px" alt="프로필"
+																th:if="${memberList.membPhtPath != null}" /></td>
+															<td th:text="${memberList.membDept}" />
+															<td th:text="${memberList.membWkgd}" />
+															<td th:text="${memberList.membNm}" />
+															<td><i class="fa-solid fa-plus"></i></td>
+														</tr>
+													</th:block>
 												</tbody>
 											</table>
 										</div>
@@ -169,114 +176,53 @@
 								</div>
 							</div>
 						</div>
-						<div></div>
+						<div>
+							<input type="hidden" name="prjtNo" th:value="${prjtNo}" />
+						</div>
 						<div class="modal-footer">
-							<button id="prjtInsertBtn" type="button" class="btn btn-primary">등록</button>
+							<button id="prjtUpdateBtn" type="button" class="btn btn-primary">수정</button>
 
 						</div>
-						<input type="hidden" id="coCd" name="coCd"
-							th:value="${session.loginInfo.coCd}" />
 					</form>
+
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<script th:inline="javascript">
-		$('.icon-plus').on('click', function(){
-		  let membId =[[${session.loginInfo.membId}]];
-		  let coCd =[[${session.loginInfo.coCd}]];
-		  
-		  $.ajax('/prjtInsert',{
-			  type : 'post',
-			  data : {membId : membId, coCd : coCd}
-		  })
-		  .done(function(data){  //member  , memberList
-			 	let tbl = $('#insertmembertbl');
-		  		tbl.empty();
-				let trTag = $('<tr/>');
-				let tdTag= $('<td/>');
-				
-				trTag.attr('id', data.member.membId);
-				
-				let image = data.member.membPhtPath;
-				if(image != null){
-					let imgTag = $('<img>',{
-						src:'/images/profile/'+image,
-						height:"50px", 
-						width:"50px"
-					})
-					
-					tdTag.append(imgTag);
-				}
-				trTag.append(tdTag);
-				
-			 	tdTag= $('<td/>');
-				tdTag.append(data.member.membDept);
-				trTag.append(tdTag);
-				
-				tdTag= $('<td/>');
-				tdTag.append(data.member.membWkgd);
-				trTag.append(tdTag); 
+	
+	<script>
+		
+		$('#prjtUpdateBtn').on('click', function(){
+		
+	 		let formData = $('#updateform').serializeArray();
+	
+		 	let formObj = {};
+		 	let memberArray = [];
+			$.each(formData, function(idx,obj){
+	 		  	if(obj.name != "membId"){
+					formObj[obj.name] = obj.value;
+				}  
+	 		  	else{
+					memberArray.push({membId : obj.value});
+			    }
+			});
+		
+			let obj = {};
+		
+			obj["project"] = formObj;
+			obj["projectMember"] = memberArray;
 			
-				tdTag= $('<td/>');
-				tdTag.append(data.member.membNm);
-				trTag.append(tdTag);
-				
-				let inputTag = $('<input/>');
-				inputTag.attr('type', 'hidden');
-				inputTag.attr('name', 'membId');
-				inputTag.attr('value', data.member.membId);
-				trTag.append(inputTag);
-				
-				tbl.append(trTag); 
-				
-				$.each(data.memberList, function(idx,data){
-					let tbl = $('#membertbl');
-					
-					let trTag = $('<tr/>');
-					let tdTag= $('<td/>');
-					
-					trTag.attr('id', data.membId);
-					
-					let image = data.membPhtPath;
-					
-					if(image != null){
-						let imgTag = $('<img>',{
-							src:'/images/profile/'+image,
-							height:"50px", 
-							width:"50px"
-						})
-						
-						tdTag.append(imgTag);
-					}
-					trTag.append(tdTag);
-					
-					tdTag= $('<td/>');
-					tdTag.append(data.membDept);
-					trTag.append(tdTag);
-					
-					tdTag= $('<td/>');
-					tdTag.append(data.membWkgd);
-					trTag.append(tdTag);
-				
-					tdTag= $('<td/>');
-					tdTag.append(data.membNm);
-					trTag.append(tdTag);
-					
-					tdTag= $('<td/>');
-					tdTag.append('<i class="fa-solid fa-plus"></i>');
-					trTag.append(tdTag);
-							
-					tbl.append(trTag); 
-					
-				})
-		  })
-		  .fail();
-			$('#insertProject').modal('show');		
-		})
-		$('#membertbl').on('click', 'td:nth-child(5)',  function(){insertMember($('#insertmembertbl'))})
-		$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
+		 	$.ajax('/updateProject' ,{
+				type : 'post',
+				contentType : 'application/json',
+				data : JSON.stringify(obj)
+			})
+			.done(data => {})
+			.fail(err => {}); 
+	 	})
+		
+		$('#prjtmembertbl').on('click', 'td:nth-child(5)',  function(){insertMember($('#updatemembertbl'))})
+		$('#updatemembertbl').on('click','td:nth-child(5)' ,deleteMember)
 		
 		function insertMember(tbl){
 				//tr의 ID -중복체크를 위한 값 
@@ -342,17 +288,18 @@
 		function deleteMember(event){
 			$(this).parent().remove();
 		}
-	
 		
-		$('.member-selectBox').on('click', function () {
-			$('.member-select-ul').css('display', 'block');
-		})
+		$('#prjtkeyword').on('click', searchMember)
+		
+			$('.member-selectBox').on('click', function () {
+				$('.member-select-ul').css('display', 'block');
+			})
 			
-		$('.member-select-option').on('click', function (e) {
+			$('.member-select-option').on('click', function (e) {
 				
 				var selectValue = e.currentTarget.textContent;
-				$('.member-selected-valueaside').text(selectValue);
-				$('#prjtinsertkeyword').val(selectValue);
+				$('.member-selected-value').text(selectValue);
+				$('#prjtkeyword').val(selectValue);
 				$('.member-select-ul').css('display', 'none');
 				e.stopPropagation();
 		})
@@ -360,17 +307,15 @@
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
 		}	
-		
-		$('#prjtinsertkeyword').on('click', searchMember2)
-
-		function searchMember2(){
-
-				let selected = $('.member-selected-valueaside').first().text();
-				let search  = $('#prjtinsertsearch').val();
+	
+		function searchMember(){
+			
+				let selected = $('.member-selected-value').first().text();
+				let search  = $('#prjtsearch').val();
 				
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
 				.done(function(data){
-					let tbody = $('#membertbl');
+					let tbody = $('#prjtmembertbl');
 					tbody.empty();
 					$.each( data, function(idx,data){
 	
@@ -378,7 +323,7 @@
 					 	let tdTag = $('<td/>');
 					 	
 						trTag.attr('id', data.MEMB_ID);
-						
+				
 						if(data.MEMB_PHT_PATH != null){
 						let imgTag = $('<img>',{
 							src:"/images/profile/" +data.MEMB_PHT_PATH,
@@ -411,45 +356,7 @@
 					})
 				})
 				.fail(err =>  console.log(err));
+	 	
 		}
-		$('#prjtInsertBtn').on('click',function(){
-			let formData = $('#insertform').serializeArray();
-
-		 	let formObj = {};
-		 	let memberArray = [];
-			$.each(formData, function(idx,obj){
-	 		  	if(obj.name != "membId"){
-					formObj[obj.name] = obj.value;
-				}  
-	 		  	else{
-					memberArray.push({membId : obj.value});
-			    }
-			});
-		
-			let obj = {};
-		
-			obj["project"] = formObj;
-			obj["projectMember"] = memberArray;
-			
-			$.ajax('/insertProject' ,{
-				type : 'post',
-				contentType : 'application/json',
-				data : JSON.stringify(obj)
-			})
-			.done(data => {})
-			.fail(err => {});
-				
-		})
-		
-		// 회사관리자, 회사부관리자만 '회사 관리'메뉴 보임
-		if([[${session.loginInfo.permNo}]] == 'ROLE_0A2' ||
-				[[${session.loginInfo.permNo}]] == 'ROLE_0A3'){
-			$('.companyManageMenu').css('display', 'block');
-		} else {
-			$('.companyManageMenu').css('display', 'none');
-		}
+	
 	</script>
-
-
-</th:block>
-</html>

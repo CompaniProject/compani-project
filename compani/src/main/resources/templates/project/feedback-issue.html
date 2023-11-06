@@ -4,7 +4,7 @@
 	layout:decorate="~{/layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>피드백 이슈</title>
 <style>
 
 /* .card-body {
@@ -26,6 +26,17 @@
 	<th:block layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-8">
+				<!-- 피드백 탭 시작 -->
+				<div class="default-tab">
+					<ul class="nav nav-tabs mb-3" role="tablist">
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
+						<li class="nav-item"><a class="nav-link"
+							href="#">이슈</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인 피드백</a></li>
+					</ul>
+				</div>
+				<!-- 피드백 탭 끝 -->
 				<div class="column">
 					<!-- 이슈 데이터 - 시작 -->
 					<div class="row">
@@ -45,7 +56,7 @@
 									<div class="progress mb-3">
 										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
 											<span class="sr-only"></span>
-                                    	</div>
+	                                   	</div>
 									</div>
 								</div>
 							</div>
@@ -58,7 +69,7 @@
 									<div class="progress mb-3">
 										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
 											<span class="sr-only"></span>
-                                    	</div>
+	                                   	</div>
 									</div>
 								</div>
 							</div>
@@ -71,16 +82,15 @@
 									<div class="progress mb-3">
 										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
 											<span class="sr-only"></span>
-                                    	</div>
+	                                   	</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- 이슈 데이터 - 끝 -->
-					
 					<!-- 이슈 리스트 시작 -->
-                   	<div class="row">
+					<div class="row">
 	                    <div class="col-12">
 		                   	<div class="card">
 		                       	<div class="card-body">
@@ -120,47 +130,91 @@
 				</div>
 			</div>
 			<!-- Comment Area -->
-			<div class="col-lg-4">
-	        	<div class="card"  style="height:80vh;">
-	        		<div class="card-header bg-white">
-                    	<h5 class="card-title">Card title</h5>
-                    	<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                	</div>
-	            	<div class="card-body" style="overflow-y:auto; background-color:#FAFAFA;">
-	            		<div class="card">
-		                	<div class="card-body">
-		                		<div class="media">
-		                        	<div class="media-body">
-										<h5 class="mt-0">Media heading</h5>
-										Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-										 Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-										 Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-		                                <div class="media mt-3">
-		                                	<div class="media-body">
-		                                    	<h5 class="mt-0">Media heading</h5>
-	                                    		Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-	                                    		 Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-	                                    		 Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-		                                	</div>
-		                            	</div>
+		    <div class="col-lg-4">
+		        <div class="card"  style="height:80vh;">
+		        	<div class="card-header bg-white">
+	                    <h5 class="card-title">코멘트</h5>
+	                </div>
+		            <div class="card-body comment-body" style="background-color:#FAFAFA;" id="commentBody">
+						<th:block th:each="feedback : ${projectFeedbackList}">
+							<div class="media border-bottom-1 pt-3 pb-3 hover-overlay" th:data-no="${feedback.prjtFdbkNo}"
+							th:style="${feedback.level} >= 2 ? |margin-left:${feedback.level-1}rem;| : ''"
+							th:data-level="${feedback.level}">
+	                            <div class="media-body">
+	                                <h5 th:text="${feedback.membNm}"></h5>
+									<th:block th:switch="${feedback.prjtFdbkShow}">
+	                                	<p class="mb-0" th:case="0N1" th:text="${feedback.prjtFdbkCntn}"></p>
+	                                	<p class="mb-0" th:case="0N2">삭제되었습니다.</p>
+	                                </th:block>
+									<div class="edit-area" style="display:none;">
+										<textarea class="form-control" id="editCntn" th:text="${feedback.prjtFdbkCntn}"></textarea>
+									
 									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-	            	<div class="card-footer">
-			            <p class="card-text d-inline">
-			            	<small class="text-muted">Last updated 3 mins ago</small>
-			            </p>
-			            <a href="#" class="card-link float-right"><small>Card link</small></a>
+	                            </div>
+	                            <th:block th:if="${feedback.prjtFdbkShow} == '0N1'">
+	                            <ul class="btn-area">
+	                           		<li>
+	                           			<span class="text-muted" th:text="${#dates.format(feedback.prjtFdbkDt,'yyyy-MM-dd HH:mm')}"></span>
+	                           		</li>
+	                           		<th:block th:if="${feedback.membId} == ${session.loginInfo.membId}">
+		                           		<li>
+		                           			<span class="editBtn">수정</span>
+		                           			<span class="delBtn">삭제</span>
+		                           			<span class="submitBtn">확인</span>
+		                           		</li>
+	                           		</th:block>
+	                           		<li>
+	                           			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+	                           		</li>
+	                            </ul>
+	                            </th:block>
+	                        </div>
+						</th:block>
 		            </div>
-	        	</div>
-			</div>
-	    	<!-- Comment Area End -->
+					<!-- 댓글 등록 영역 -->
+		            <div class="card-footer">
+						<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;"></textarea>
+			            <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
+		            </div>
+					<!-- 댓글 등록 영역 End -->
+		        </div>
+		    </div>
+		    <!-- Comment Area End -->
 		</div>
+	
+		<!-- Hidden Insert Comment Body -->
+		<div class="media border-bottom-1 pt-3 pb-3" id="insertBody" style="display:none;">
+		    <div class="media-body">
+		        <h5></h5>
+		        <p class="mb-0"></p>
+				<div class="edit-area" style="display:none;">
+					<textarea class="form-control" id="editCntn"></textarea>
+				</div>
+		    </div>
+		    <ul class="btn-area">
+		   		<li>
+		   			<span class="text-muted" id="date-area"></span>
+		   		</li>
+		   		<li>
+		            <span class="editBtn">수정</span>
+		            <span class="delBtn">삭제</span>
+		            <span class="submitBtn">확인</span>
+		   		</li>
+	       		<li>
+	       			<span class="replyBtn float-right"><i class="bi bi-reply-fill"></i></span>
+	       		</li>
+		    </ul>
+		</div>
+		<div id="insert-reply-area" style="display:none;">
+	    	<span class="replyInsertBtn">등록</span>
+	    	<span class="replyDeleteBtn">취소</span>
+		</div>
+		<!-- Hidden Insert Comment Body -->
 	
 	<script th:inline="javascript">
 	let issueList = [[${projectFeedbackIssueList}]];
+	const prjtNo = [[${prjtNo}]];
+	const membNm = [[${session.loginInfo.membNm}]];
 	
 	/*----------------------------
 		업무리스트 정렬
@@ -204,9 +258,22 @@
 		}
 		
 	}
+	window.onload = function () {
+		let navItemHome = $('.nav-link').eq(1);
+		navItemHome.addClass('active');
+	}
+	
+	// 코멘트창 스크롤바
+	$(function(){
+		$('#commentBody').slimScroll({
+	    	height: '35rem'
+	    })
+	})
 	
 	</script>
-	</th:block>
+	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
+	
+</th:block>
 	
 
 </body>

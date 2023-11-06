@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.compani.business.service.BusinessService;
+import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.config.DriveFileUtils;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
@@ -26,17 +28,22 @@ public class ProjectFileController {
 	FileService fileservice;
 	
 	@Autowired
+	BusinessService businessservice;
+	
+	@Autowired
 	DriveFileUtils dfu;
 
-	// 파일 리스트
+	// 파일 리스트 + 업무 리스트
 	@GetMapping("/project/drive/{prjtNo}")
 	public String fileList(@PathVariable int prjtNo, String pType, String pKeyword, FileVO fileVO, Model model) throws Exception {
 		List<FileVO> file = new ArrayList<> (fileservice.fileList(pType, pKeyword, prjtNo));
 		List<FileVO> vo = fileservice.fileList(pType, pKeyword, prjtNo);
+		List<BusinessVO> bussVO = businessservice.businessdriveNameList(prjtNo); 
 
 		model.addAttribute("file", file);
 		model.addAttribute("pFileList", vo);
 		model.addAttribute("search", pType);
+		model.addAttribute("driveBussName", bussVO);
 
 		return "project/project-drive";
 	}
@@ -54,18 +61,24 @@ public class ProjectFileController {
 		return map;
 	}
 	
-	@PostMapping("/project/drive/save")
+	@PostMapping("/project/driveInsertAjax/save")
 	@ResponseBody
-	public void fileListInsert(MultipartFile[] drivefile) {
+	public Map<String, Object> fileListInsert(MultipartFile[] drivefile, FileVO fileVO) {
 		
 		// 파일 업로드, 파일 DB에 저장
 		List<FileVO> uploadedFiles = new ArrayList<>();
 		if (drivefile != null && drivefile.length > 0) {
 				 uploadedFiles = dfu.uploadFiles(Arrays.asList(drivefile)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
 				 fileservice.driveFileInsert(uploadedFiles);
-		}				
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("uploadedFiles", uploadedFiles);
+		map.put("driveVO", fileVO);
+		
+		return map;
 	}
-	
 
 	// 확장자 필터링 AJAX
 		@GetMapping("/project/driveFilterAjax/{prjtNo}")

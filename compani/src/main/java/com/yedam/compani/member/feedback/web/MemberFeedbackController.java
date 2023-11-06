@@ -44,16 +44,14 @@ public class MemberFeedbackController {
 		return servicem.getProjectFeedbackMemberList(prjtno);
 	}
 	
-	@GetMapping("/project/feedback/{prgjNo}/personal")
-	public String projectFeedbackPersonal(/* @PathVariable int prjtNo, */Model model, HttpSession session) {
-		//ProjectStatusVO projectStatus = serviceps.getProjectStatus(prjtNo);////////////////////////////////
-		ProjectStatusVO projectStatus = serviceps.getProjectStatus(1);
+	@GetMapping("/project/feedback/{prjtNo}/personal")
+	public String projectFeedbackPersonal(@PathVariable int prjtNo, Model model, HttpSession session) {
+		ProjectStatusVO projectStatus = serviceps.getProjectStatus(prjtNo);////////////////////////////////
+		
 		MemberFeedbackVO vo = new MemberFeedbackVO();
-		//MemberVO membvo = new MemberVO();
-		//membvo =(MemberVO) session.getAttribute("loginInfo");
+		
 		model.addAttribute("projectStatus",projectStatus);
-		//model.addAttribute("pfst", servicem.getPersonalFeedbackStatusCnt(prjtNo));/////////////////////
-		model.addAttribute("pfst", servicem.getPersonalFeedbackStatusCnt(1));
+		model.addAttribute("pfst", servicem.getPersonalFeedbackStatusCnt(prjtNo));/////////////////////		
 		return "member/feedbackPers";
 	}
 	

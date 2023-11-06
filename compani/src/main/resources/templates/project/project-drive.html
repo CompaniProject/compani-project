@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
 <head>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 	
@@ -12,10 +12,6 @@
 <style>
 .content-body {
 	margin-left: 200px;
-}
-
-hr {
-	width: 60%;
 }
 
 #FileSearch {
@@ -56,6 +52,85 @@ hr {
 .card:hover {
 	border: solid 0.5px red;
 }
+
+hr {
+	width: 100%;
+}
+
+#FileInsert {
+	float: right;
+	display: block;
+	width: 50px;
+	height: 30px;
+	margin-right: 130px;
+	border-radius: 5px;
+	color: white;
+	font-size: 15px;
+	width: 120px;
+	font-weight: bold;
+}
+
+.FileText {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#DataBox {
+	width: 500px;
+	height: 150px;
+	padding: 20px;
+	background-color: #DCDCDC;
+	display: block;
+}
+
+#jobDown {
+	width: 180px;
+	display: block;
+	float: right;
+	margin-right: 127px;
+}
+
+#FileSearch {
+	display: block;
+	margin-right: 30px;
+	width: 300px;
+	height: 41px;
+	border-radius: 5px;
+	text-align: left;
+	border-color: black;
+	padding-left: 15px;
+}
+
+#ulLeft {
+	display: inline-block;
+}
+
+#ulLeft li {
+	float: left;
+}
+
+#modal {
+	margin-left: 150px;
+}
+
+#FileUpload {
+	margin-bottom: 20px;
+	font-size: 15px;
+}
+
+#fileBoxName {
+	font-weight: bold;
+	padding-right: 30px;
+}
+
+#fileBoxSize {
+	font-weight: bold;
+	padding-right: 30px;
+}
+
+#closeBtn {
+	
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -69,6 +144,66 @@ hr {
 	<div class="content-container">
 		<div class="content-body">
 
+			<!-- ===================== 모달 업로드 부분 ============================ -->
+			<div class="modal fade" id="workModal" tabindex="-1"
+				aria-labelledby="sidebarModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content"
+						style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500;">
+						<!-- 모달 헤더 부분 -->
+						<div class="modal-header">
+							<button type="button" class="btn-close" data-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-content-container">
+
+							<div class="modal-body"></div>
+						</div>
+						<div id="modal">
+							<button id="FileInsert" type="button" class="btn mb-1 btn-info"
+								onclick="saveFiles()">등록</button>
+							<br> <br> <br> <br> <br> <br> <br>
+							<ul id="ulLeft">
+								<li class="FileText" style="margin-right: 300px"><p>첨부파일</p></li>
+								<li><input type="file" id="selectedFile"
+									style="display: none;" multiple="multiple"
+									onchange="saveRealRealFile(this)" /> <input type="button"
+									id="FileUpload" value="업로드" class="btn mb-1 btn-info" /></li>
+							</ul>
+
+							<!-- 데이터 들어갈 박스 -->
+							<span id="DataBox">
+								<table>
+									<thead>
+										<tr>
+										</tr>
+									</thead>
+									<tbody id="modalTbody">
+
+									</tbody>
+								</table>
+
+							</span> <br>
+
+							<!-- 업무선택 드랍다운 -->
+							<div class="form-group">
+								<select class="form-control" id="jobDown" name="jobDown">
+									<th:block th:each="bussNm : ${driveBussName}">
+										<option th:value="${bussNm.bussNo}"
+												th:text="${bussNm.bussNm}"></option>
+									</th:block>
+								</select>
+							</div>
+							<br> <br> <br>
+
+							<p class="FileText">파일설명</p>
+							<input id="FileSearch" type="text" placeholder="설명을 입력해주세요">
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- 모달 끝 ============================================================================= -->
 
 			<!-- 검색 필터 -->
 
@@ -102,27 +237,17 @@ hr {
 					<!-- 확장자 필터 드랍다운 -->
 					<select id="filter" name="filter" onchange="driveFilter(this)"
 						style="width: 70px; border-radius: 20px; text-align: center; padding: 5px; margin-right: 40px;">
-						<option value="">유형</option>
-						<optgroup label="스프레드시트">
-							<option value="xls">XLS</option>
-						</optgroup>
-						<optgroup label="프레젠테이션">
-							<option value="ppt">PPTX</option>
-						</optgroup>
-						<optgroup label="압축파일">
-							<option value="zip">ZIP</option>
-						</optgroup>
-						<optgroup label="텍스트">
-							<option value="txt">TXT</option>
-						</optgroup>
-						<optgroup label="사진">
-							<option value="jpg">JPG</option>
-							<option value="png">PNG</option>
-						</optgroup>
-					</select> <input type="file" id="selectedFile" style="display: none;" /> <input
-						type="button" id="FileUpload" value="업로드"
-						onclick="document.getElementById('selectedFile').click();"
-						class="btn mb-1 btn-info" style="margin-right: 30px" />
+						<option value="">전체</option>
+						<option value="xls">XLS</option>
+						<option value="pptx">PPTX</option>
+						<option value="pdf">PDF</option>
+						<option value="zip">ZIP</option>
+						<option value="txt">TXT</option>
+						<option value="jpg">JPG</option>
+						<option value="png">PNG</option>
+					</select> <input type="button" id="driveFile " value="업로드"
+						class="btn mb-1 btn-info" style="margin-right: 30px"
+						data-toggle="modal" data-target="#workModal" />
 
 					<button id="FileDown" type="button" class="btn mb-1 btn-info"
 						style="margin-right: 30px;">다운로드</button>
@@ -153,7 +278,7 @@ hr {
 							<form id="checkBoxForm">
 								<tbody id="newTrTd">
 									<th:block th:each="fileList : ${pFileList}">
-										<tr id="tdData" th:data-fileno="${fileList.fileNo}">
+										<tr id="tdData" th:data-fileno="${fileList.fileNo}" style="padding-bottom: 15px;">
 											<td th:text="${fileList.fileNm}" />
 											<td class="fSize" th:text="${fileList.fileSize}" />
 											<td th:text="${fileList.membNm}" />
@@ -178,8 +303,9 @@ hr {
 	</div>
 	<script>
 	
-		var prjtNo = "[[${prjtNo}]]";
-		var membId = "[[${session.loginInfo.membId}]]";
+		var drivePrjtNo = "[[${prjtNo}]]";
+		var driveMembId = "[[${session.loginInfo.membId}]]";
+		var driveBussNo = "[[${bussNo}]]";
 		
 		// ======== 파일 바이트 계산 ========
 		function ByteSize(size) {
@@ -213,8 +339,6 @@ hr {
 			}
 		});
 
-		// ======== 파일 업로드 ========
-
 		// ======== tr 선택시 active 지정 + style 부여 ========
 		$('#newTrTd').on('click', '#tdData', function() {
 			if ($(this).hasClass('active')) {
@@ -233,42 +357,50 @@ hr {
 			// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
 
 			let delTarget = $(event.target)
-
-			$.ajax({
-				type : "get",
-				url : "/fileOneDelete",
-				dataType : "text",
-				data : {
-					fileNo : fileDel
-				},
-				success : function() {
-					if (confirm("해당 파일을 삭제 하시겠습니까?")) {
-						alert("삭제가 완료되었습니다.");
-						delTarget.closest('#tdData').remove();
-					}
-				},
-				error : function() {
-					alert("AJAX 오류");
-				}
-			});
+			
+			Swal.fire({
+		                    title: '파일을 삭제 하시겠습니까?',
+		                    text: "삭제 시 복구할 수 없습니다.",
+		                    icon: 'warning',
+		                    showCancelButton: true,
+		                    confirmButtonColor: '#3085d6',
+		                    cancelButtonColor: '#d33',
+		                    confirmButtonText: '예',
+		                    cancelButtonText: '아니요'
+		    }).then((result) => {
+		      if (result.isConfirmed) {
+			
+						$.ajax({
+							type : "get",
+							url : "/fileOneDelete",
+							dataType : "text",
+							data : {
+								fileNo : fileDel
+							},
+							success : function() {
+					             Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
+							     delTarget.closest('#tdData').remove();
+					        },
+							error : function() {
+								alert("AJAX 오류");
+							}
+						});  // END OF AJAX
+		      }
+		    })
 		});
+			
 
 		// ======== active(색깔 지정) 클릭한 얘들 삭제 AJAX ========
 		$('#FileDelete').on('click', selectCkbDel);
 
 		function selectCkbDel() {
 
-			let fNum = $('input[name="files"]')
-			let id = $('#tdData.active');
-			let dd = id.append(fNum);
+			let test = $('[name="files"].active') // 네임이 files인 애들중 active 클래스
 			
-			let ww = $('#tdData.active').append(fNum);
+			let ww = $('input[name="files"]');
 			
-			console.log(fNum);
-			console.log(id);
-			console.log(dd);
 			console.log(ww);
-			
+
 			// ajax
 			$.ajax({
 				type : "get",
@@ -297,8 +429,12 @@ hr {
 			{
 				type: 'GET'
 			}).done(function (data) {
-				alert("와우")		
-
+				fileList.empty();
+				
+				$.each(data.files, function(idx, item){
+					fileList.append(makeTrTd(item));
+				});
+				
 			}).fail(function () {
 				alert('실패');
 			});
@@ -328,10 +464,11 @@ hr {
 		{
 			type: 'GET'
 		}).done(function (data) {
+			
 			fileList.empty();
 			
-			$each(data.files, function(idx, fit){
-				fileList.append(fit);
+			$.each(data.files, function(idx, fit){
+				fileList.append(makeFilter(fit));
 			})
 			
 		}).fail(function () {
@@ -339,6 +476,130 @@ hr {
 		});
 	};
 	
+	// ======== 필터 선택시 해당 확장자 보이게끔 설정하기 ========
+	function makeFilter(fit){
+		var trTag = `<tr id="tdData" data-fileno="${fit.fileNo}">
+			<td>${fit.fileNm}</td>
+			<td class="fSize">${(ByteSize(fit.fileSize))}</td>
+			<td>${fit.membNm}</td>
+			<td>${fit.fileDt}</td>
+			<td>${fit.fileType}</td>
+			<td class="downIcon"><i class="fa-solid fa-download"></i></td>
+			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
+			</tr>`
+			
+		return trTag;
+	}
+	
+	// 파일 업로드 클릭
+	const RealFile = document.querySelector('#selectedFile');
+	const secondFile = document.querySelector('#FileUpload');
+
+	secondFile.addEventListener('click', () => RealFile.click());
+
+	// 파일 삭제 버튼 누를 시 ..
+	function saveFileRemove(element) {
+		removeFileTransFer(element);
+		var tr = $(element).closest('tr');
+		tr.remove();
+	}
+	
+	const saveFileDataTransFer = new DataTransfer();
+	
+	$("#selectedFile").change(function () {
+
+		let fileArr = document.getElementById("selectedFile").files
+
+		if (fileArr != null && fileArr.length > 0) {
+
+			// =====DataTransfer 파일 관리========
+			for (var i = 0; i < fileArr.length; i++) {
+				saveFileDataTransFer.items.add(fileArr[i])
+				console.log("dataTransfer =>", saveFileDataTransFer.files)
+				console.log("input FIles =>", document.getElementById("selectedFile").files)
+			}
+
+			document.getElementById('selectedFile').files = saveFileDataTransFer.files;
+			// ==========================================
+
+		}
+	})
+
+	function removeFileTransFer(element) {
+		var parent = $(element).parent().parent();
+		var children = $(parent).children();
+		var index = children.index($(element).parent());
+	
+		if (index != -1) {
+			saveFileDataTransFer.items.remove(index);
+			document.getElementById('selectedFile').files = saveFileDataTransFer.files;
+		}
+	}
+	
+	// 파일 추가
+	function saveRealRealFile(element) {
+		const file = element.files[0];
+		// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
+		if (!file) {
+			return false;
+		}
+
+		// 2. 파일 크기가 10MB을 초과하는 경우
+		const fileSize = Math.floor(file.size / 1024 / 1024);
+
+		if (fileSize > 10) {
+			alert('10MB 이하의 파일로 업로드해 주세요.');
+			return false;
+		}
+
+		if (file) {
+			$('.fileEmpty').remove();
+			var trTag = $('<tr/>').attr('id', 'tdData');
+			var fileNameTag = $('<td/>').attr('id', 'fileBoxName').text(
+					file.name); // li 파일이름
+			var fileSizeTag = $('<td/>').attr('id', 'fileBoxSize').text(
+					ByteSize(file.size)); // li 파일크기
+			var deleteFileTag = $('<td/>').attr('id', 'closeBtn').attr('class', 'deletePISaveFile').attr('onclick', ' saveFileRemove(this);');
+			trTag.append(fileNameTag);
+			trTag.append(fileSizeTag);
+			trTag.append(deleteFileTag);
+
+			$('#modalTbody').append(trTag);
+
+		}
+	};
+	
+	function saveFiles() {
+
+		var formData = new FormData();
+		formData.append('membId', driveMembId);
+		formData.append('prjtNo', drivePrjtNo);
+		formData.append('bussNo', driveBussNo);
+		
+		var inputFile = document.querySelector('#selectedFile');
+		var fileInfo = inputFile.files;
+
+		for (i = 0; i < fileInfo.length; i++) {
+			formData.append("drivefile", fileInfo[i]);
+		};
+
+		$.ajax({
+			url: '/project/driveInsertAjax/save',
+			type: 'POST',
+			processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
+			contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+			data: formData,
+			success: function () {
+				alert("등록에 성공 !!");
+				location.reload();
+			},
+			error: function (reject) {
+				alert("등록에 실패");
+				console.log(reject);
+			}
+		});
+	};
 	</script>
+
 </th:block>
 </html>

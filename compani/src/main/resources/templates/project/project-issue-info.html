@@ -125,7 +125,7 @@
 
 	<!--/* 수정폼 모달 START */-->
 	<div class="modal fade" id="piEditModal" tabindex="-1" aria-labelledby="sidebarModalLabel" aria-hidden="true"
-		style="overflow: auto;">
+		style="overflow: auto; cursor: auto;">
 		<div class="modal-dialog">
 			<div class="modal-content"
 				style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc(( 86vh - 601px)/2); height: 671px; opacity: 1; z-index: 500; overflow: auto;">
@@ -498,7 +498,7 @@
 				.done(function () {
 					findAllReplyP();
 					countReplyP(issuNo);
-					issueReplyCntn.innerText = '';
+					$('#pIssueReplyCntn').val('');
 				})
 				.fail(function (error) {
 					console.log(error)
@@ -1126,6 +1126,7 @@
 
 		function theBusinessModal() {
 			bussNo = [[${ issueInfo.bussNo }]];
+			miPrjtNo = [[${ issueInfo.prjtNo }]];
 			$('#workModal').modal('toggle');
 		}
 	</script>

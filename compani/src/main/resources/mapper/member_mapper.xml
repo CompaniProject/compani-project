@@ -83,6 +83,10 @@
                                    FROM   PROJECT_MEMBER 
                                    WHERE  PRJT_MEMB_PERM = 'CRTR'
                                    AND    PRJT_NO = #{prjtNo} )
+              AND (MEMB_NM LIKE '%' || #{value} || '%' 
+             OR MEMB_DEPT LIKE '%' || #{value} || '%'
+		 	 OR MEMB_WKGD LIKE '%' || #{value} || '%') 
+              
 			</when>
 			<when test="key == '이름'">
 			 WHERE MEMB_NM LIKE '%' || #{value} || '%'

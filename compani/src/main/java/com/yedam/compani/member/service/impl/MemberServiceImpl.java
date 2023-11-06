@@ -83,5 +83,11 @@ public class MemberServiceImpl implements MemberService {
 		return map.selectPersonalFeedbackStatusCnt(one);
 	}
 	
+
+	// 마스터 멤버 승인
+	@Override
+	public int updateMemberAccp(MemberVO vo) {
+		return map.updateMemberAccp(vo);
+	}
 	
 }

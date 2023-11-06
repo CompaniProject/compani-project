@@ -30,6 +30,15 @@
 	<th:block layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-8">
+				<div class="default-tab">
+					<ul class="nav nav-tabs mb-3" role="tablist">
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/project/feedback/{prjtNo}/issue(prjtNo=${prjtNo})}">이슈</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인 피드백</a></li>
+					</ul>
+			</div>
 				<div class="column">
 					<div>
 						<div class="row">
@@ -229,7 +238,11 @@
 			</div>
 		</div>
 	<script th:inline="javascript">
-
+	$(document).ready( function () {
+		let navItemHome = $('.nav-link').eq(2);
+		navItemHome.addClass('active');	
+	})
+	
 	let prjtInfo = [];
 
 	let memb = [];
@@ -372,7 +385,7 @@
 	 				contentType : 'application/json',
 	 				data : JSON.stringify({
 	 						membId : charttarget,
-	 						prjtNo : 1
+	 						prjtNo : [[${prjtNo}]]
 	 						}),
 	 				async: false
 	 			})
@@ -451,7 +464,7 @@
 	 				contentType : 'application/json',
 	 				data : JSON.stringify({
 	 						membFdbkObj : charttarget,
-	 						prjtNo : 1
+	 						prjtNo : [[${prjtNo}]]
 	 						}),
 	 				async: false
 	 			})
@@ -496,7 +509,7 @@
  						membFdbkWriter : [[${session.loginInfo.membId}]],
  						membFdbkCntn : $('#inputCntn').val(),
  						membFdbkObj : charttarget,
- 						prjtNo : 1
+ 						prjtNo : [[${prjtNo}]]
  						}),
  				async: false
  			})

@@ -4,7 +4,7 @@
 	layout:decorate="~{/layout/projectlayout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>업무</title>
 <link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
 </head>
 <body>
@@ -13,10 +13,10 @@
 			<!-- Bussiness Header -->
 			<div class="row mx-0">
 				<ul class="nav nav-pills mb-3">
-					<li class="nav-item"><a href="#kanbanBoard"
+					<li class="nav-item" id="kanbanTab"><a href="#kanbanBoard"
 						class="nav-link active" data-toggle="tab" aria-expanded="false">칸반보드</a>
 					</li>
-					<li class="nav-item"><a href="#businessList" class="nav-link"
+					<li class="nav-item" id="bussTab"><a href="#businessList" class="nav-link"
 						data-toggle="tab" aria-expanded="false">리스트</a></li>
 				</ul>
 				<div class="col p-md-0">
@@ -289,7 +289,7 @@
 					</div>
 					<div class="modal-body">
 
-						<form id="insertform" class="form-valide" action="#" method="post">
+						<form id="insertbussform" class="form-valide" action="#" method="post">
 							<div>
 								<div class="issueNameEdit">
 									<div class="issueNameBack">
@@ -314,7 +314,7 @@
 															<th>삭제</th>
 														</tr>
 													</thead>
-													<tbody id="insertmembertbl">
+													<tbody id="insertbussmembertbl">
 
 													</tbody>
 												</table>
@@ -327,7 +327,7 @@
 											<div class="card-body" style="overflow: auto;">
 												<div class="SearchBox" style="height: 50%">
 													<label for="SearchToggleCheckBox"
-														th:attr="onclick='searchMember()'"></label> <input
+														th:attr="onclick='busssearchMember()'"></label> <input
 														type="hidden" id="keyword" value="전체">
 													<div class="SearchInputBox" style="width: 270px;">
 														<div>
@@ -362,7 +362,7 @@
 																<th>추가</th>
 															</tr>
 														</thead>
-														<tbody id="membertbl">
+														<tbody id="bussmembertbl">
 															<th:block th:each="memberList : ${memberList}">
 																<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
 																<tr th:id="${memberList.membId}">
@@ -449,7 +449,7 @@
 
 							</div>
 							<div>
-								<input type="hidden" name="prjtNo" th:value="1" />
+								<input type="hidden" name="prjtNo" th:value="${prjtNo}" />
 							</div>
 							<div class="modal-footer">
 								<button id="insertBtn" type="button" class="btn btn-primary">등록</button>
@@ -462,6 +462,18 @@
 			</div>
 		</div>
 		<div data-include1="showModalMain"></div>
+		
+		<script>
+			$(document).on('click','#kanbanTab',function(){
+				$('#kanbanBoard').toggle();
+				$('#businessList').toggle();
+			})
+			
+			$(document).on('click','#bussTab',function(){
+				$('#kanbanBoard').toggle();
+				$('#businessList').toggle();
+			})
+		</script>
 
 		<script th:inline="javascript">
 		    window.onload = function () {
@@ -471,11 +483,11 @@
 			// 권오준 추가
 			var miPrjtNo = [[${prjtNo}]];
 
-			$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
-			let tbody = $('#insertmembertbl');
-			$('#membertbl').on('click', 'td:nth-child(5)',  function(){insertMember(tbody)})
-			$('#insertmembertbl').on('click','td:nth-child(5)' ,deleteMember)
-			$('#keyword').on('click', searchMember)
+			//$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
+			
+			$('#bussmembertbl').on('click', 'td:nth-child(5)',  function(){insertbussMember( $('#insertbussmembertbl'))})
+			$('#insertbussmembertbl').on('click','td:nth-child(5)' ,deleteMember)
+			$('#keyword').on('click', busssearchMember)
 		 	$('.dropdown-import').on('click', dropdown)
 			$('.dropdown-relation').on('click', dropdown)
 			$('.dropdown-business').on('click', dropdown)
@@ -520,8 +532,9 @@
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
 			}
-			function insertMember(tbl){
+			function insertbussMember(tbl){
 				//tr의 ID -중복체크를 위한 값 
+				
 				let id = $(event.target).closest('tr').attr('id');
 				
 				let image = $(event.target).closest('tr').children().eq(0).children().attr('src');
@@ -573,11 +586,12 @@
 					
 					let inputTag = $('<input/>');
 					inputTag.attr('type', 'hidden');
-					inputTag.attr('name', 'memId');
+					inputTag.attr('name', 'membId');
 					inputTag.attr('value', id);
 					trTag.append(inputTag);
 					
 					tbl.append(trTag); 
+					
 				}
 			}
 			
@@ -585,13 +599,13 @@
 				$(this).parent().remove();
 			}
 		
-			function searchMember(){
+			function busssearchMember(){
 				let selected = $('.member-selected-value').first().text();
 				let search  = $('#search').val();
-		
+	
 				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
 				.done(function(data){
-					let tbody = $('#membertbl');
+					let tbody = $('#bussmembertbl');
 					tbody.empty();
 					$.each( data, function(idx,data){
 	
@@ -636,12 +650,12 @@
 	
 			function insertBusiness(){
 				
-				let formData = $('#insertform').serializeArray();
+				let formData = $('#insertbussform').serializeArray();
 
 			 	let formObj = {};
 			 	let memberArray = [];
 				$.each(formData, function(idx,obj){
-		 		  	if(obj.name != "memId"){
+		 		  	if(obj.name != "membId"){
 						formObj[obj.name] = obj.value;
 					}  
 		 		  	else{

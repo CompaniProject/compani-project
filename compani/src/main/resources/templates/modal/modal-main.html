@@ -5,35 +5,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
 </head>
 <body>
-<th:block layout:fragment="content">
+	<th:block layout:fragment="content">
 
-	<div class="row mx-0">
-        <div class="col p-md-0">
-	        <button type="button" class="btn mb-1 btn-primary float-right" id="insertBtn">modal</button>
-        </div>
-    </div>
-    
-    <!-- Modal -->
-    <div data-include1="showModalMain">
+		<div class="row mx-0">
+			<div class="col p-md-0">
+				<button type="button" class="btn mb-1 btn-primary float-right"
+					id="insertBtn">modal</button>
+			</div>
+		</div>
 
-    </div>
-    <!-- Modal -->
-    <script>
-    	let bussNo = 3;
-    
-    	$(function(){
-            var includes1 = $('[data-include1="showModalMain"]');
-            jQuery.each(includes1, function(){
-               $(this).load('/modal/modal-home.html');
-            });
-    	});
-    	
-    	$('#insertBtn').on('click',function(){
-            $('#workModal').modal('toggle');
-    	})
-    </script>
-</th:block>
+		<!-- Modal -->
+		<div data-include1="showModalMain"></div>
+		<!-- Modal -->
+		<script>
+			let bussNo = 3;
+
+			$(function() {
+				var includes1 = $('[data-include1="showModalMain"]');
+				jQuery.each(includes1, function() {
+					$(this).load('/modal/modal-home.html');
+				});
+			});
+
+			$('#insertBtn').on('click', function() {
+				$('#workModal').modal('toggle');
+			})
+		</script>
+		<script src="/plugins/nouislider/nouislider.min.js"></script>
+		<script src="/plugins/wnumb/wNumb.js"></script>
+		<script src="/js/plugins-init/nouislider-init.js"></script>
+	</th:block>
 </body>
 </html>

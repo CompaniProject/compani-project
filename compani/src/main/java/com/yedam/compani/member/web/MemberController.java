@@ -132,10 +132,11 @@ public class MemberController {
 		int prjtNo = (int) request.getSession().getAttribute("prjtNo"); 
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo"); 
 		String coCd = memberVO.getCoCd();
+		System.out.println(prjtNo);
+		System.out.println(coCd);
 		map.put("prjtNo", prjtNo);
 		map.put("coCd", coCd);
 		List<MemberVO> List = service.getMemberList(map);
-	
 	
 		return List;
 	}
@@ -212,6 +213,14 @@ public class MemberController {
 		List<Map<Object, Object>> memberList = service.masterMemberList();
 		model.addAttribute("masterCompanyList", companyList);
 		model.addAttribute("masterMemberList", memberList);
+		return "master/master-home";
+	}
+	
+	// 김연규, 2023-11-04, 마스터 멤버 승인
+	@GetMapping("/updateMemberAccp")
+	@ResponseBody
+	public String updateMemberAccp(@RequestBody MemberVO vo){
+		service.updateMemberAccp(vo);
 		return "master/master-home";
 	}
 	

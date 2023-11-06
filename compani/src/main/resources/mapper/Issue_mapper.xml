@@ -129,7 +129,7 @@
 			    i.issu_st
 		FROM    project p , issue i
 		WHERE   p.prjt_no = i.prjt_no
-
+ 		AND     i.MEMB_ID = #{membId}
 	</select>
 	
 	<!-- 단건 조회 -->

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.compani.business.member.service.BusinessMemberVO;
+import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberVO;
 
 public interface BusinessMemberMapper {
@@ -14,4 +15,5 @@ public interface BusinessMemberMapper {
 	public int selectMemberBusinessCnt(BusinessMemberVO vo);
 
 	public int selectMemberBusinessStateCnt(Map<String, String> map);
+	public int deleteBusinessMember(int bussNo);
 }
