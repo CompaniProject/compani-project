@@ -5,7 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>프로젝트 캘린더</title>
-</head>
+<!-- 간트차트 css & js -->
+<link rel="stylesheet" href="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" type="text/css"> 
+<script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+<!-- 캘린더 js -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
+<!-- ajax -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <style type="text/css">
 body{
@@ -138,9 +144,9 @@ select {
 .gantt_link_control.task_left.task_start_date {
 	display: none;
 }
-
 </style>
 
+</head>
 <body>
 	<th:block layout:fragment="content">
 		<!-- 달력&차트 박스 시작 -->
