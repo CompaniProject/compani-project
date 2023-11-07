@@ -44,8 +44,6 @@
 									<th>대표자명</th>
 									<th>사업자 등록번호</th>
 									<th>법인 설립일</th>
-									<th>가입</th>
-									<th>승인</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -55,17 +53,6 @@
 									<td th:text="${c.coRpstr}"></td>
 									<td th:text="${c.coBizno}"></td>
 									<td th:text="${#dates.format(c.coDt, 'yyyy-MM-dd')}"></td>
-									<td th:text="${c.coAccp}"></td>
-									<td>
-										<button th:if="${c.coAccp == '대기'}"
-											type="button" class="btn mx-2 px-2 py-0 btn-success">
-											<i class="fa fa-check"></i>
-										</button>
-										<button th:if="${c.coAccp == '승인'}"
-											type="button" class="btn mx-2 px-2 py-0 btn-danger">
-											<i class="fa fa-close"></i>
-										</button>
-									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -81,8 +68,6 @@
 									<th>생년월일</th>
 									<th>이메일</th>
 									<th>전화번호</th>
-									<th>가입</th>
-									<th>승인</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -94,19 +79,6 @@
 									<td th:text="${#dates.format(m.membBirthDt, 'yyyy-MM-dd')}"></td>
 									<td th:text="${m.membEmail}"></td>
 									<td th:text="${m.membTelno}"></td>
-									<td th:text="${m.membAccp}">
-										
-									</td>
-									<td>
-										<button th:if="${m.membAccp == '대기'}"
-											type="button" class="btn mx-2 px-2 py-0 btn-success">
-											<i class="fa fa-check"></i>
-										</button>
-										<button th:if="${m.membAccp == '승인'}"
-											type="button" class="btn mx-2 px-2 py-0 btn-danger">
-											<i class="fa fa-close"></i>
-										</button>
-									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -118,19 +90,6 @@
 	<script th:inline="javascript">
 		var companyList = [[${masterCompanyList}]];
 		var memberList = [[${masterMemberList}]];
-		
-		// dataTable 선언
-		var companyTable = $('.companyTable').DataTable();
-		var memberTable = $('.memberTable').DataTable();
-		companyTable
-					.order([5, 'asc']
-						 , [0, 'desc'])
-					.draw();
-		memberTable
-					.order([7, 'asc']
-						 , [0, 'desc'])
-					.draw();
-
 	
 		// 회사 버튼 클릭 시
 		$('button').eq(0).on('click', function(){
@@ -143,10 +102,53 @@
 			$('.table-responsive').eq(1).css('display', 'block');
 		});
 		
+		// 회사 목록
+		$('.companyTable').find('thead').find('tr').append('<th>가입</th><th>승인</th>');
+		$.each(companyList, function(idx, item){
+			$('.companyTable').find('tbody').find('tr').eq(idx).append('<td>'+item.coAccp+'</td>');
+			if(item.coAccp == '대기'){
+				$('.companyTable').find('tbody').find('tr').eq(idx).append(
+					`<td><button type="button" class="btn mx-2 px-2 py-0 btn-success" onclick=coApprove()>
+						<i class="fa fa-check"></i></button></td>`);
+			} else if(item.coAccp == '승인'){
+				$('.companyTable').find('tbody').find('tr').eq(idx).append(
+					`<td><button type="button" class="btn mx-2 px-2 py-0 btn-danger" onclick=coApprove()>
+						<i class="fa fa-close"></i></button></td>`);
+			}
+			//$('tbody').eq(0).find('button').eq(idx).addClass('coBtn'+idx);
+		});
+		
+		// 멤버 목록
+		$('.memberTable').find('thead').find('tr').append('<th>가입</th><th>승인</th>');
+		$.each(memberList, function(idx, item){
+			$('.memberTable').find('tbody').find('tr').eq(idx).append('<td>'+item.membAccp+'</td>');
+			if(item.membAccp == '대기'){
+				$('.memberTable').find('tbody').find('tr').eq(idx).append(
+					`<td><button type="button" class="btn mx-2 px-2 py-0 btn-success" onclick=membApprove()>
+						<i class="fa fa-check"></i></button></td>`);
+			} else if(item.membAccp == '승인'){
+				$('.memberTable').find('tbody').find('tr').eq(idx).append(
+					`<td><button type="button" class="btn mx-2 px-2 py-0 btn-danger" onclick=membApprove()>
+						<i class="fa fa-close"></i></button></td>`);
+			}
+		});
+		
+		// dataTable 선언
+		var companyTable = $('.companyTable').DataTable();
+		var memberTable = $('.memberTable').DataTable();
+		companyTable
+					.order([5, 'asc']
+						 , [0, 'desc'])
+					.draw();
+		memberTable
+					.order([7, 'asc']
+						 , [0, 'desc'])
+					.draw();
+		
 		// 회사 승인 ajax
-		$('tbody').eq(0).find('button').on('click', function(event){
+		function coApprove(){
 			var obj = new Object();
-			var findTd = $(this).closest('tr').find('td');
+			var findTd = $(event.target).closest('tr').find('td');
 			obj.coCd = findTd.eq(0).text();
 			obj.coAccp = findTd.eq(5).text();
 			
@@ -156,34 +158,62 @@
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
+					console.log('성공');
 					
+					if(obj.coAccp == '대기'){
+						findTd.eq(5).text('승인');
+						findTd.eq(6).find('button').remove();
+						findTd.eq(6).append(`
+							<button type="button" class="btn mx-2 px-2 py-0 btn-danger" onclick=coApprove()>
+							<i class="fa fa-close"></i></button>`);
+					} else if(obj.coAccp == '승인'){
+						findTd.eq(5).text('대기');
+						findTd.eq(6).find('button').remove();
+						findTd.eq(6).append(`
+							<button type="button" class="btn mx-2 px-2 py-0 btn-success" onclick=coApprove()>
+							<i class="fa fa-check"></i></button>`);
+					}
 				},
 				error: function(error){
 					console.log(error);
 				}
 			})
-		});
+		}
 		
 		// 멤버 승인 ajax
-		$('tbody').eq(1).find('button').on('click', function(event){
+		function membApprove(){
 			var obj = new Object();
-			var findTd = $(this).closest('tr').find('td');
-			obj.coCd = findTd.eq(0).text();
-			obj.coAccp = findTd.eq(7).text();
+			var findTd = $(event.target).closest('tr').find('td');
+			obj.membId = findTd.eq(2).text();
+			obj.membAccp = findTd.eq(7).text();
 			
 			$.ajax({
 				type: 'post',
-				url: 'updateCompanyAccp',
+				url: 'updateMemberAccp',
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
+					console.log('성공');
 					
+					if(obj.membAccp == '대기'){
+						findTd.eq(7).text('승인');
+						findTd.eq(8).find('button').remove();
+						findTd.eq(8).append(`
+							<button type="button" class="btn mx-2 px-2 py-0 btn-danger" onclick=membApprove()>
+							<i class="fa fa-close"></i></button>`);
+					} else if(obj.membAccp == '승인'){
+						findTd.eq(7).text('대기');
+						findTd.eq(8).find('button').remove();
+						findTd.eq(8).append(`
+							<button type="button" class="btn mx-2 px-2 py-0 btn-success" onclick=membApprove()>
+							<i class="fa fa-check"></i></button>`);
+					}
 				},
 				error: function(error){
 					console.log(error);
 				}
 			})
-		});
+		}
 		
 	</script>
 
