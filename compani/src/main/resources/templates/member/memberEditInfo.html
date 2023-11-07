@@ -296,6 +296,7 @@
 
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	<script>
 	let companyInfo = {};
@@ -314,7 +315,6 @@
 		})
 		.done(result => {
 			 memberInfo = result;
-			 console.log(memberInfo);
 		})
 		.fail(err =>console.log("err"));
 		 
@@ -623,6 +623,7 @@ $('#membWkgd').on("input", function(event){
 				$("#conditionTel").show();
 				return false;
 			}
+			swal('완료!', "정상적으로 정보가 저장되었습니다.", 'success');
 			$('form').attr('action','memberEditInfo').submit();
 		}else if($('#membNm').val().length == 0 && $('#membBirthDt').val().length != 10){
 			$("#formsMembBd").show();
@@ -635,7 +636,7 @@ $('#membWkgd').on("input", function(event){
 			$("#conditionBd").show();
 			return false;
 		}else{
-			alert("정확한 정보를 입력하시오.");
+			swal('오류!', "저장할 정보를 정확하게 입력해주세요.", 'error');
 			return false;
 		}
    });
@@ -736,9 +737,10 @@ $('#membPwd2').on("input", function(event){
 		if($('#okPw').css('display') == 'inline'
 		&& $('#conditionPw2').css('display') == 'inline'
 		&& $('#conditionPw4').css('display') == 'inline'){
+			swal('변경 완료!', "정상적으로 비밀번호가 변경되었습니다.", 'success');
 			return $('form').attr('action','memberEditPwd').submit();
 		}else{
-			alert("비밀번호를 다시 확인하시오.");
+			swal('오류!', "입력한 비밀번호를 다시 확인하세요.", 'error');
 			e.preventDefault();
 		}
    });

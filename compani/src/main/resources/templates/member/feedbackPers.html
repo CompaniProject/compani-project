@@ -218,12 +218,14 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		<script th:inline="javascript">
 	$(document).ready( function () {
 		let navItemHome = $('.nav-link').eq(2);
 		navItemHome.addClass('active');	
 	})
-	
+			$('#input2').css('display', 'none');
+		$('#inputCntn').css('display', 'none'); 
 	let prjtInfo = [];
 
 	let memb = [];
@@ -506,6 +508,7 @@
  	 			})
  	 			.done(result => {
  	 				feedbacks(result);
+ 	 				swal('추가 ', $('#feedtarget').text() + "님에게 피드백을 추가하였습니다.", 'success');
  	 			})
  	 			.fail(err =>console.log("err"));
  			})
@@ -591,7 +594,7 @@
  	    }//-------------------------------------------------------------------------------
  		
 	function fail(){
-		alert('이미 작성한 피드백이 존재합니다.');
+		swal('추가 불가!', "이미 작성한 피드백이 존재합니다.", 'error');
 	}//-------------------------------------------------------------------------------
 	
 	$(function(){

@@ -111,7 +111,7 @@ public class MemberController {
 			}
 		} else {
 			if (service.setMemberInfo(membVO) > 0) {
-				return "redirect:complete";
+				return "redirect:loginForm";
 			} else {
 				model.addAttribute("notice", "회원가입(사원부분)이 정상적으로 이루어지지 않았습니다.");
 				return "companySignUp";
