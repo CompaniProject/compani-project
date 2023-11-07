@@ -1,6 +1,6 @@
 
 <form id="updatebussform" class="form-valide" action="#" method="post">
-
+	
 	<div>
 		<div class="issueNameEdit">
 			<div class="issueNameBack">
@@ -85,15 +85,15 @@
 									</tr>
 								</thead>
 								<tbody id="infomembertbl">
-									<th:block th:each="memberList : ${memberList}">
-										<tr th:id="${memberList.membId}">
+									<th:block th:each="prjtmemberList : ${projectMemberList}">
+										<tr th:id="${prjtmemberList.membId}">
 											<td><img
-												th:src="@{/images/profile/}+${memberList.membPhtPath}"
+												th:src="@{/images/profile/}+${prjtmemberList.membPhtPath}"
 												height="50px" width="50px" alt="프로필"
-												th:if="${memberList.membPhtPath != null}" /></td>
-											<td th:text="${memberList.membDept}" />
-											<td th:text="${memberList.membWkgd}" />
-											<td th:text="${memberList.membNm}" />
+												th:if="${prjtmemberList.membPhtPath != null}" /></td>
+											<td th:text="${prjtmemberList.membDept}" />
+											<td th:text="${prjtmemberList.membWkgd}" />
+											<td th:text="${prjtmemberList.membNm}" />
 											<!-- 버튼 수정하기 -->
 											<td><i class="fa-solid fa-plus"></i></td>
 										</tr>
@@ -174,9 +174,9 @@
 				<div class="dropdown custom-dropdown">
 					<div>
 						<select class="dropdown-relation" name="bussDep">
-							<option class="dropdown-relation" value="">선택</option>
-							<option class="dropdown-relation" value="up">선행 작업</option>
-							<option class="dropdown-relation" value="down">후속 작업</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo}" value="">선택</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} != null" value="up">선행 작업</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and${businessVO.bussdownNo} != null" value="down">후속 작업</option>
 
 						</select>
 					</div>
@@ -185,7 +185,12 @@
 				<div class="dropdown custom-dropdown">
 					<div>
 						<select class="dropdown-relation" name="bussUpNm">
-							<option class="dropdown-business" value="">선택</option>
+							<div th:if ="${businessVO.bussUpcd != null}"><option class="dropdown-business" 
+							value="${businessVO.bussNm}"
+							th:text="${businessVO.bussNm}"></option></div>
+							<div th:if ="${businessVO.bussdownNo!= null}"><option class="dropdown-business" 
+							value="businessVO.bussdownNm"
+							th:text="${businessVO.bussdownNm}"></option></div>
 							<th:block th:each="bussNameList : ${businessNameList}">
 
 								<option class="dropdown-business"
@@ -207,6 +212,10 @@
 		<button id="updatebussBtn" type="button" class="btn btn-primary">수정</button>
 	</div>
 </form>
+
+<script src="/plugins/nouislider/nouislider.min.js"></script>
+<script src="/plugins/wnumb/wNumb.js"></script>
+<script src="/js/plugins-init/nouislider-init.js"></script>
 <script>
 	var slider = document.getElementById('hover');
 	var bussPrgre = $('#bussPrgre').val();
@@ -394,9 +403,14 @@
 					data : JSON.stringify(obj)
 				})
 				.done(data => {
+					location.reload();
 				})
 				.fail(err => {});
 					
 	})
+	
 </script>
+
+	
+		
 

@@ -32,4 +32,6 @@ public interface MemberMapper {
 		
 	// 마스터 멤버 승인
 	public int updateMemberAccp(MemberVO vo);
+	
+	public List<MemberVO> projectMemberList(int prjtNo);
 }

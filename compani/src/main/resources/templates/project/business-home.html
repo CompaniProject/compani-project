@@ -363,7 +363,7 @@
 															</tr>
 														</thead>
 														<tbody id="bussmembertbl">
-															<th:block th:each="memberList : ${memberList}">
+															<th:block th:each="memberList : ${projectMemberList}">
 																<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
 																<tr th:id="${memberList.membId}">
 																	<td><img
@@ -674,6 +674,7 @@
 					data : JSON.stringify(obj)
 				})
 				.done(data => {
+					location.reload();
 				})
 				.fail(err => {});
 					

@@ -6,19 +6,21 @@
 	namespace="com.yedam.compani.project.mapper.ProjectMapper">
 
 	<select id="selectAllProject" resultType="ProjectVO">
-
-		SELECT PM.PRJT_FAV,
-		P.PRJT_NO ,
-		COUNT(PM.PRJT_NO) AS count,
-		P.PRJT_NM,P.PRJT_TDT,
-		P.PRJT_FDT,
-		P.PRJT_ST
-		FROM PROJECT_MEMBER PM, PROJECT P
-		WHERE PM.PRJT_NO = P.PRJT_NO
-		AND   pm.memb_ID = #{membId} 
-		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT,
-		P.PRJT_ST
-		ORDER BY PRJT_FAV DESC
+	 SELECT   PM.PRJT_FAV,
+			      P.PRJT_NO,
+			      COUNT(PM.PRJT_NO) AS count,
+			   	  P.PRJT_NM,
+			   	  P.PRJT_TDT,
+			   	  P.PRJT_FDT,
+			   	  P.PRJT_ST
+                
+		FROM   	  PROJECT_MEMBER PM,  PROJECT P
+		WHERE     PM.PRJT_NO = P.PRJT_NO
+        AND       PM.PRJT_NO IN (SELECT PRJT_NO 
+        						 FROM 	PROJECT_MEMBER
+                                 WHERE  MEMB_ID = #{membId})
+        GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+		ORDER BY PRJT_FAV DESC 
 	</select>
 
 	<select id="selectProjectAndMemberList"
@@ -46,19 +48,23 @@
 	</select>
 
 	<select id="getProjectStateList" resultType="ProjectVO">
-		<!-- count membId 카운트 오류수정-->
-		SELECT PM.PRJT_FAV,
-			   P.PRJT_NO ,
-		       COUNT(PM.PRJT_NO) AS count,
-			   P.PRJT_NM,P.PRJT_TDT,
-			   P.PRJT_FDT,
-			   FIND_CODENM(P.PRJT_ST) as prjtStNm
-		FROM   PROJECT_MEMBER PM,  PROJECT P
-		WHERE  PM.PRJT_NO = P.PRJT_NO
-		AND    pm.memb_Id= #{membId}
-		AND    p.PRJT_ST = #{prjtSt}
-		GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
-		ORDER BY PRJT_FAV DESC
+
+	     SELECT   PM.PRJT_FAV,
+			      P.PRJT_NO,
+			      COUNT(PM.PRJT_NO) AS count,
+			   	  P.PRJT_NM,
+			   	  P.PRJT_TDT,
+			   	  P.PRJT_FDT,
+			   	  FIND_CODENM(P.PRJT_ST) as prjtStNm
+                
+		FROM   	  PROJECT_MEMBER PM,  PROJECT P
+		WHERE     PM.PRJT_NO = P.PRJT_NO
+		AND       P.PRJT_ST = #{prjtSt}
+        AND       PM.PRJT_NO IN (SELECT PRJT_NO 
+        						 FROM 	PROJECT_MEMBER
+                                 WHERE  MEMB_ID = #{membId})
+        GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+		ORDER BY PRJT_FAV DESC 
 
 	</select>
 	<update id="updateFavorite" parameterType="ProjectVO">

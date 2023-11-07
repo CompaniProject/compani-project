@@ -31,4 +31,5 @@ public interface BusinessMapper {
 	public int updateGanttUpcd(BusinessVO vo);
 	
 	public int modifyBusiness(BusinessVO businessVO);
+	
 }

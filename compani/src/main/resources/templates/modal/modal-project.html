@@ -216,7 +216,9 @@
 				contentType : 'application/json',
 				data : JSON.stringify(obj)
 			})
-			.done(data => {})
+			.done(data => {
+				location.reload();
+			})
 			.fail(err => {}); 
 	 	})
 		
