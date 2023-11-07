@@ -10,7 +10,6 @@ import com.yedam.compani.issue.mapper.IssueMapper;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.service.MemberVO;
-import com.yedam.compani.paging.SearchDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,9 +38,9 @@ public class IssueServiceImpl implements IssueService {
 	 * @return list & pagination information
 	 */
 	@Override
-	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, int prjtNo) {
+	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, int prjtNo, String filterType) {
 		PageHelper.startPage(pageNo, 10);
-		return issueMapper.findProjectIssue(search, keyword, prjtNo);
+		return issueMapper.findProjectIssue(search, keyword, prjtNo, filterType);
 	}
 	/**
 	 * 회사 내 이슈 리스트 조회

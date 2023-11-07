@@ -5,6 +5,19 @@
 <th:block layout:fragment="content">
 	<!--/* 검색, 글쓰기 버튼 START */-->
 	<div class="TopBarProjectIssueControlArea">
+		<div class="pissue-filterBox" style="width: 100px;">
+							<div class="pissue-filtered" id="pissue-filtered">
+								<div class="pissue-filter-value">정렬</div>
+								<div class="arrow"></div>
+								<input type="hidden" id="filterType" name="filterType" value="정렬">
+							</div>
+							<ul class="pissue-filter-ul" style="width: 100px; display: none;">
+								<li class="pissue-filter-option" data-value="날짜순">날짜순</li>
+								<li class="pissue-filter-option" data-value="상태순">상태순</li>
+								<li class="pissue-filter-option" data-value="우선순위순">우선순위순</li>
+								<li class="pissue-filter-option" data-value="종류순">종류순</li>
+							</ul>
+		</div>
 		<div class="piSearchBox">
 			<label for="SearchToggleCheckBox" th:attr="onclick='projectIssuePaging(1)'"></label> <input type="hidden"
 				id="keyword" name="keyword" value="전체">
@@ -336,6 +349,10 @@
 		$('.pissue-selectBox').on('click', function () {
 			$('.pissue-select-ul').css('display', 'block');
 		});
+		$('.pissue-filterBox').on('click', function () {
+			$('.pissue-filter-ul').css('display', 'block');
+		});
+
 
 		// 현재 페이지에 current 클래스 붙이기!
 		$('.cur_page').each(function () {
@@ -359,6 +376,17 @@
 			e.stopPropagation();
 
 		});
+		
+		// filter링.
+		$('.pissue-filter-option').on('click', function (e) {
+			let selectValue = e.currentTarget.textContent;
+			$('.pissue-filter-value').text(selectValue);
+			$('#filterType').val(selectValue);
+			$('.pissue-filter-ul').css('display', 'none');
+			e.stopPropagation();
+			projectIssuePaging(1);
+
+		});
 		function dateFormatting(date) {
 
 			let parseDate = new Date(date);
@@ -375,9 +403,10 @@
 			let searchVal = $('#search').val();
 			let issueLists = $('.projectIssueLists');
 			let pagination = $('.piPagination');
+			let filterTypeVal = $('#filterType').val();
 
 			$.ajax('/project/aissues/' + piprjtNo + '?pageNum=' + pageNum + '&keyword='
-				+ keywordVal + '&search=' + searchVal,
+				+ keywordVal + '&search=' + searchVal +'&filterType=' + filterTypeVal,
 				{
 					type: 'GET'
 				}).done(function (data) {
@@ -416,7 +445,13 @@
 						} else if (item.issuRank == '0G5') {
 							trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
 						}
-						trTag.append('<td>' + item.bussNm + '</td>');
+						
+						if(item.bussNm == null) {							
+							trTag.append('<td>(없음)</td>')
+						} else {
+							trTag.append('<td>' + item.bussNm + '</td>');
+						}
+						
 						trTag.append('<td>' + dateFormatting(item.issuDt) + '</td>');
 						issueLists.append(trTag);
 

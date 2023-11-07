@@ -44,11 +44,11 @@ public class ProjectIssueController {
 	private final ProjectMemberService projectMemberService;
 
 	@GetMapping("/project/issues/{prjtNo}")
-	public String projectIssueList(@PathVariable int prjtNo, String search, String keyword,
+	public String projectIssueList(@PathVariable int prjtNo, String search, String keyword, String filterType,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo),
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType),
 				8);
-		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
+		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType);
 		Map<Object, Object> pmap = projectService.projectSelect(prjtNo);
 		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 		
@@ -66,11 +66,11 @@ public class ProjectIssueController {
 	// 프로젝트 내 이슈 리스트 조회 (Ajax)
 	@GetMapping("/project/aissues/{prjtNo}")
 	@ResponseBody
-	public Map<String, Object> projectIssue(@PathVariable int prjtNo, String search, String keyword,
+	public Map<String, Object> projectIssue(@PathVariable int prjtNo, String search, String keyword, String filterType,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo),
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType),
 				8);
-		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo);
+		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType);
 		Map<String, Object> map = new HashMap<>();
 		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
