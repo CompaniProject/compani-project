@@ -66,10 +66,10 @@ public class BusinessController {
 
 		businessService.insertBusiness(formVO.getBusiness()); 
 		businessMemberService.insertBusinessMember(formVO);
-
+		
 		// 이거 한번 고민 해보자구 mapper 설계
 		if (!formVO.getBusiness().getBussDep().equals("")) {
-			businessService.modifyBusiness(formVO.getBusiness());
+			businessService.updateBusiness(formVO.getBusiness());
 		}
 
 		return map;

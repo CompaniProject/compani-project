@@ -161,29 +161,42 @@
 		DECLARE
 	
 		p_buss_no NUMBER(10) := 0;
+		
 		BEGIN
-
-		SELECT BUSS_NO
-		INTO p_buss_no
-		FROM
-		BUSINESS
-		WHERE BUSS_NM = #{bussUpNm}
-		AND PRJT_NO = #{prjtNo};
+			SELECT BUSS_NO
+			INTO p_buss_no
+			FROM
+			BUSINESS
+			WHERE BUSS_NM = #{bussUpNm}
+			AND PRJT_NO = #{prjtNo};
 
 		UPDATE
 		BUSINESS
 		<set>
-			<if test="bussDep.equals('up')">
+			<choose>
+				<when test="bussDep.equals('up')">
+					BUSS_UPCD = p_buss_no
+					WHERE BUSS_NO = #{bussNo};
+				</when>
+				<when test="bussDep.equals('down')">
+					BUSS_UPCD = #{bussNo}
+					WHERE BUSS_NO = p_buss_no;
+				</when>
+				<otherwise>
+					BUSS_UPCD = NULL
+				</otherwise>
+			</choose>
+			<!-- <if test="bussDep.equals('up')">
 				BUSS_UPCD = p_buss_no
-				WHERE BUSS_NO = #{bussNo};
+					WHERE BUSS_NO = #{bussNo};
 			</if>
 			<if test="bussDep.equals('down')">
 				BUSS_UPCD = #{bussNo}
 				WHERE BUSS_NO = p_buss_no;
 			</if>
-			<if test="bussDep.equals('') bussDep = null">
+			<if test="bussDep.equals('') and bussDep = null">
 				BUSS_UPCD = NULL
-			</if>
+			</if> -->
 		</set>
 
 		END;
@@ -204,9 +217,12 @@
 		b.buss_st,
 		FIND_CODENM(BUSS_ST) as bussStNm,
 		FIND_CODENM(BUSS_IMP) as bussImpNm,
-		(SELECT BUSS_NM
+		                    
+         ( SELECT BUSS_NM
 		 FROM   BUSINESS
-		 WHERE  BUSS_NO  = #{bussUpcd}) as bussUpNm,	
+		 WHERE  BUSS_NO  = ( select buss_upcd
+                            from  business
+                            where  buss_no = #{bussNo})) as bussUpNm,	
 		( SELECT BUSS_NO 
         FROM  BUSINESS
         WHERE BUSS_NO = (SELECT  BUSS_NO
