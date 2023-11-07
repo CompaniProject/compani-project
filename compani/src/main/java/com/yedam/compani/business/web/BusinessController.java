@@ -154,7 +154,7 @@ public class BusinessController {
 		businessService.modifyBusiness(formVO.getBusiness());
 		
 		//종속 변경인디 
-		//businessService.updateBusiness(formVO.getBusiness()); 
+		businessService.updateBusiness(formVO.getBusiness()); 
 	
 		//businessMemberService.deleteBusinessMember(formVO);
 		//businessMemberService.insertBusinessMember(formVO);

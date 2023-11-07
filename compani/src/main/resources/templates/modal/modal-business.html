@@ -175,7 +175,7 @@
 					<div>
 						<select class="dropdown-relation" name="bussDep">
 							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} == null" value="">선택</option>
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == null" value="up">선행 작업</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} != null" value="up">선행 작업</option>
 							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} != null" value="down">후속 작업</option>
 
 						</select>
@@ -185,6 +185,10 @@
 				<div class="dropdown custom-dropdown">
 					<div>
 						<select class="dropdown-relation" name="bussUpNm">
+							<div th:if ="${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} == null"><option class="dropdown-business" 
+							value="" th:text=""></option></div>
+							<div th:if ="${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == null"><option class="dropdown-business" 
+							value="${businessVO.bussUpNm}" th:text="${businessVO.bussUpNm}"></option></div>
 							<div th:if ="${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == null"><option class="dropdown-business" 
 							value="${businessVO.bussdownNm}" th:text="${businessVO.bussdownNm}"></option></div>
 					

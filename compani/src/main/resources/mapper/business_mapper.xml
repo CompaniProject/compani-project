@@ -204,14 +204,17 @@
 		b.buss_st,
 		FIND_CODENM(BUSS_ST) as bussStNm,
 		FIND_CODENM(BUSS_IMP) as bussImpNm,
-		  ( SELECt buss_No 
-        FROM  business
-        where buss_NO = (SELECT  buss_NO
-                 FROM    business
+		(SELECT BUSS_NM
+		 FROM   BUSINESS
+		 WHERE  BUSS_NO  = #{bussUpcd}) as bussUpNm,	
+		( SELECT BUSS_NO 
+        FROM  BUSINESS
+        WHERE BUSS_NO = (SELECT  BUSS_NO
+                 FROM    BUSINESS
                  WHERE   BUSS_UPCD = #{bussNo})) as bussDownNo,
-        ( SELECt buss_NM 
-        FROM  business
-        where buss_NO = (SELECT  buss_NO
+        ( SELECT BUSS_NM 
+        FROM  BUSINESS
+        WHERE BUSS_NO = (SELECT  BUSS_NO
                  FROM    business
                  WHERE   BUSS_UPCD = #{bussNo})) as bussDownNM
 		FROM BUSINESS b , PROJECT p
@@ -260,19 +263,7 @@
 						BUSS_CMPLTDT = SYSDATE
 					</otherwise>
 				</choose>
-				
-				<!-- <if test="bussDep.equals('') and bussDep = null">
-					bussUpNm = NULL
-				</if>
-				<if test="bussDep.equals('up')">
-					BUSS_UPCD = p_buss_no
-					WHERE BUSS_NO = #{bussNo}
-				</if>
-					<if test="bussDep.equals('down')">
-					BUSS_UPCD = #{bussNo}
-					WHERE BUSS_NO = p_buss_no
-				</if> -->
-		
+			
 		WHERE   BUSS_NO = #{bussNo}
 		
 	</update>
