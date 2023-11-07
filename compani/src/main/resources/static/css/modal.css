@@ -1147,6 +1147,25 @@ form.fileupload.dz {
     color: rgba(108, 117, 125, 0.5);
 }
 
+.issue-filterBox {
+	display: inline-block;
+	width: 40px;
+}
+
+.issue-filter-ul {
+	list-style-type: none;
+	padding-left: 0px;
+	width: 100px;
+	border-radius: 4px;
+	border: 1px solid #0098fe;
+	position: absolute;
+	background: #fff;
+	margin: 1px 0 0 -1px;
+	z-index: 300;
+	display: none;
+	cursor: pointer;
+}
+
 .issue__reply__item {
 	overflow: hidden;
 	margin-bottom: 15px;
@@ -1669,12 +1688,12 @@ fileupload.dz {
     padding: 0 4px;
     box-sizing: border-box;
     border-radius: 4px;
-    background-color: #f5f5f5;
+    background-color: #458EFF;
 }
 
 .showTagBox > p {
     font-size: 12px;
-    color: #a8a8a8;
+    color: #fff;
     margin: 0;
 }
 

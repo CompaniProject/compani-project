@@ -22,8 +22,19 @@
 					<div class="IssueTopBar">
 						<div></div>
 						<div class="TobBarIssueControlArea">
-
 							<div class="SearchBox">
+								<div class="issue-filterBox">
+									<div class="issue-filtered" id="issue-filtered">
+										<div class="issue-filter-value"></div>
+										<input type="hidden" id="filterTypeM" name="filterTypeM" value="정렬">
+									</div>
+									<ul class="issue-filter-ul" style="width: 100px; display: none;">
+										<li class="issue-filter-option" data-value="날짜순">날짜순</li>
+										<li class="issue-filter-option" data-value="상태순">상태순</li>
+										<li class="issue-filter-option" data-value="우선순위순">우선순위순</li>
+										<li class="issue-filter-option" data-value="종류순">종류순</li>
+									</ul>
+								</div>
 								<label for="SearchToggleCheckBox" th:attr="onclick='issuePaging(1)'"></label> <input
 									type="hidden" id="keyword" name="keyword" value="전체">
 								<div class="SearchInputBox" style="width: 270px;">
@@ -557,12 +568,20 @@
 	//검색 조건 ( 제목, 작성자, 전체)
 	$('.issue-selectBox').on('click', function () {
 		let issueSelectUl = $('.issue-select-ul');
-		if (issueSelectUl.css('display') === 'block') {
-			issueSelectUl.css('display', 'none');
-		} else {
+		if (issueSelectUl.css('display') == 'none') {
 			issueSelectUl.css('display', 'block');
+		} else {
+			issueSelectUl.css('display', 'none');
 		}
-	});
+	})
+	// 필터링
+	 $('.issue-filterBox').on('click', function () {
+		if($('.issue-filter-ul').css('display') == 'none') {
+		   $('.issue-filter-ul').css( 'display', 'block');
+		} else {
+			$('.issue-filter-ul').css('display', 'none');
+		}
+  	})
 	// 현재 페이지에 current 클래스 붙이기!
 	$('.cur_page').each(function () {
 		let page = $(this).text();
@@ -585,15 +604,25 @@
 		e.stopPropagation();
 	});
 
+	// filter링.
+	$('.issue-filter-option').on('click', function (e) {
+		let selectValue = e.currentTarget.textContent;
+		$('#filterTypeM').val(selectValue);
+		$('.issue-filter-ul').css('display', 'none');
+		e.stopPropagation();
+		issuePaging(1);
+	});
+
 	// ajax 
 	function issuePaging(pageNum) {
 		let keywordVal = $('#keyword').val();
 		let searchVal = $('#searchBI').val();
 		let issueLists = $('#issueLists');
 		let pagination = $('.pagination');
+		let filterTypeVal = $('#filterTypeM').val();
 
 		$.ajax('/ModalAjaxIssueList/' + bussNo + '?pageNum=' + pageNum + '&keyword='
-			+ keywordVal + '&searchBI=' + searchVal,
+			+ keywordVal + '&searchBI=' + searchVal + '&filterTypeM=' + filterTypeVal,
 			{
 				type: 'GET'
 			}).done(function (data) {
@@ -963,16 +992,18 @@
 		let fileArr = document.getElementById("files").files
 
 		if (fileArr != null && fileArr.length > 0) {
+			let maxSize = 10 * 1024 * 1024;
 
-			// =====DataTransfer 파일 관리========
 			for (var i = 0; i < fileArr.length; i++) {
-				dataTransfer.items.add(fileArr[i])
+				let fileSize = fileArr[i].size;
+					if (fileSize > maxSize) {
+						$(this).val('');
+					} else {
+						dataTransfer.items.add(fileArr[i])
+					}
 			}
 			document.getElementById("files").files = dataTransfer.files;
-			// ==========================================
-
 		}
-
 	})
 
 	function removeFileFromDataTransfer(element) {
@@ -1050,7 +1081,8 @@
 				let issueFile = data.issueFile;
 				let issueHash = data.issueHash;
 				 if (issueInfo.membId == miMemberId) {
-							let btnReturn = $('<span/>').attr('class', 'returnIssueList').attr('onclick', 'returnIssueList()');		 				    let btnEdit = $('<button/>').attr('class', 'issueEditing').attr('onclick', 'switchEditForm()').text('수정');
+							let btnReturn = $('<span/>').attr('class', 'returnIssueList').attr('onclick', 'returnIssueList()');
+		 				    let btnEdit = $('<button/>').attr('class', 'issueEditing').attr('onclick', 'switchEditForm()').text('수정');
 							let btnDel =  $('<button/>').attr('class', 'issueDeleting').attr('onclick', 'deleteIssue()').text('삭제');
 							$('.issueInfoContentTopBar').append(btnReturn);
 							$('.issueInfoContentTopBar').append(btnEdit);
@@ -1171,12 +1203,13 @@
 
 	// 댓글 저장
 	function saveReply() {
-		const issueReplyCntn = document.getElementById('issueReplyCntn');
+		let issueReplyCntn = document.getElementById('issueReplyCntn').value;
+		issueReplyCntn = issueReplyCntn.replaceAll(/(\n|\r\n)/g, '<br>');
 		const issuNo = $('.modalIssueName').data('issuNo');
 
 		const params = {
 			issuNo: issuNo,
-			issuRplyCntn: issueReplyCntn.value,
+			issuRplyCntn: issueReplyCntn,
 			membId: miMemberId
 		}
 
@@ -1287,8 +1320,9 @@
 					editForm.style.display = 'none';
 					replyText.style.display = 'block';
 				}
-
-				document.getElementById('updateReplyComment_' + id).value = response.issuRplyCntn;
+				var text = response.issuRplyCntn;
+				text = text.replaceAll('<br>', '\r\n');
+				document.getElementById('updateReplyComment_' + id).value = text;
 			})
 
 			.fail(function (err) {
@@ -1310,12 +1344,13 @@
 		const issuNo = $('.modalIssueName').data('issuNo');
 		const issuRplyNo = id;
 		const writer = miMemberId;
-		const content = document.getElementById('updateReplyComment_' + id);
+		let content = document.getElementById('updateReplyComment_' + id);
+		content = content.value.replaceAll(/(\n|\r\n)/g, '<br>');
 
 		const params = {
 			issuRplyNo: id,
 			issuNo: issuNo,
-			issuRplyCntn: content.value,
+			issuRplyCntn: content,
 			membId: writer
 		}
 
@@ -1727,9 +1762,15 @@
 		let fileArr = document.getElementById("editFiles").files
 
 		if (fileArr != null && fileArr.length > 0) {
-			// DataTransfer 파일 관리 //
+			let maxSize = 10 * 1024 * 1024;
+
 			for (let i = 0; i < fileArr.length; i++) {
-				editDataTransfer.items.add(fileArr[i])
+				let fileSize = fileArr[i].size;
+					if (fileSize > maxSize) {
+						$(this).val('');
+					} else {
+						editDataTransfer.items.add(fileArr[i])
+					}
 			}
 			document.getElementById('editFiles').files = editDataTransfer.files;
 		}

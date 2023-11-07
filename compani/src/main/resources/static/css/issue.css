@@ -61,10 +61,10 @@
 	background-size: 18px 18px;
 }
 
-.pissue-selected, .cissue-selected {
+.pissue-selected, .cissue-selected, .pissue-filtered, .cissue-filtered, .issue-filtered {
 	display: flex;
 	justify-content: space-between;
-	padding: 8px 5px;
+	padding: 0 5px;
 	cursor: pointer;
 }
 .bussNm-selected {
@@ -73,7 +73,7 @@
     padding: 8px 5px;
     cursor: pointer;
 }
-.pissue-select-ul, .cissue-select-ul {
+.pissue-select-ul, .cissue-select-ul, .pissue-filter-ul, .cissue-filter-ul {
 	list-style-type: none;
 	padding-left: 0px;
 	width: 100px;
@@ -85,6 +85,20 @@
 	z-index: 300;
 	display: none;
 	cursor: pointer;
+}
+
+.pissue-filter-value, .cissue-filter-value, .issue-filter-value {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-size: 20px;
+    background-image: url(/images/filter.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.1s ease;
+    cursor: pointer;
+    margin-bottom: 3px;
+    margin-left: 2px;
 }
 
 .bussNm-select-ul {
@@ -101,12 +115,14 @@
 	cursor: pointer;
 }
 
-.pissue-select-option.active, .cissue-select-option.active, .bussNm-select-option.active {
+.pissue-select-option.active, .cissue-select-option.active, .bussNm-select-option.active,
+.pissue-filter-option.active, .cissue-filter-option.active, .issue-filter-option.active {
 	background: url(/images/arrow_active.png) no-repeat 97% 50%;
 	background-size: 16px 16px;
 }
 
-.pissue-select-option, .cissue-select-option, .bussNm-select-option {
+.pissue-select-option, .cissue-select-option, .bussNm-select-option,
+.pissue-filter-option, .cissue-filter-option, .issue-filter-option {
 	padding: 8px 5px;
 	cursor: pointer;
 }

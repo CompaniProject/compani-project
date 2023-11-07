@@ -5,20 +5,21 @@
 <th:block layout:fragment="content">
 	<!--/* 검색, 글쓰기 버튼 START */-->
 	<div class="TopBarProjectIssueControlArea">
-		<div class="pissue-filterBox" style="width: 100px;">
-							<div class="pissue-filtered" id="pissue-filtered">
-								<div class="pissue-filter-value">정렬</div>
-								<div class="arrow"></div>
-								<input type="hidden" id="filterType" name="filterType" value="정렬">
-							</div>
-							<ul class="pissue-filter-ul" style="width: 100px; display: none;">
-								<li class="pissue-filter-option" data-value="날짜순">날짜순</li>
-								<li class="pissue-filter-option" data-value="상태순">상태순</li>
-								<li class="pissue-filter-option" data-value="우선순위순">우선순위순</li>
-								<li class="pissue-filter-option" data-value="종류순">종류순</li>
-							</ul>
-		</div>
+
 		<div class="piSearchBox">
+			<div class="pissue-filterBox">
+				<div class="pissue-filtered" id="pissue-filtered">
+					<div class="pissue-filter-value"></div>
+					<div class="arrow"></div>
+					<input type="hidden" id="filterType" name="filterType" value="정렬">
+				</div>
+				<ul class="pissue-filter-ul" style="width: 100px; display: none;">
+					<li class="pissue-filter-option" data-value="날짜순">날짜순</li>
+					<li class="pissue-filter-option" data-value="상태순">상태순</li>
+					<li class="pissue-filter-option" data-value="우선순위순">우선순위순</li>
+					<li class="pissue-filter-option" data-value="종류순">종류순</li>
+				</ul>
+			</div>
 			<label for="SearchToggleCheckBox" th:attr="onclick='projectIssuePaging(1)'"></label> <input type="hidden"
 				id="keyword" name="keyword" value="전체">
 			<div class="piSearchInputBox" style="width: 350px;">
@@ -36,8 +37,8 @@
 						</ul>
 					</div>
 				</div>
-				<input class="piSearchInput" id="search" name="search" type="text"
-					placeholder="검색어를 입력하세요."><span class="piDeleteSearchWord" onclick="delSearchValp()"></span>
+				<input class="piSearchInput" id="search" name="search" type="text" placeholder="검색어를 입력하세요."><span
+					class="piDeleteSearchWord" onclick="delSearchValp()"></span>
 			</div>
 		</div>
 	</div>
@@ -321,6 +322,7 @@
 	<!-- Tagify -->
 	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script th:inline="javascript">
 
 		window.onload = function () {
@@ -329,31 +331,38 @@
 		}
 		let piMemberId = [[${ session.loginInfo.membId }]];
 		let piprjtNo = [[${ prjtNo }]];
-		let piprjtNm = [[${projects.prjtNm}]];
-		
+		let piprjtNm = [[${ projects.prjtNm }]];
+
 		// 프로젝트 멤버만 '글쓰기' 버튼 활성화
-		let memvo = [[${memvo}]];
-		for(let i=0; i<memvo.length; i++) {
-			if(memvo[i].membId == piMemberId) {			
-			let makebtn = $('<button/>').attr('class', 'postWritingBoxP');
-			let spans = $('<span/>');
-			let ps = $('<p/>').text('글쓰기');
-			makebtn.append(spans)
-			makebtn.append(ps)
-			$('.TopBarProjectIssueControlArea').append(makebtn)
-			break;
+		let memvo = [[${ memvo }]];
+		for (let i = 0; i < memvo.length; i++) {
+			if (memvo[i].membId == piMemberId) {
+				let makebtn = $('<button/>').attr('class', 'postWritingBoxP');
+				let spans = $('<span/>');
+				let ps = $('<p/>').text('글쓰기');
+				makebtn.append(spans)
+				makebtn.append(ps)
+				$('.TopBarProjectIssueControlArea').append(makebtn)
+				break;
 			}
 		}
-		
+
 		//검색 조건 (제목, 작성자, 전체) 
 		$('.pissue-selectBox').on('click', function () {
-			$('.pissue-select-ul').css('display', 'block');
+			if ($('.pissue-select-ul').css('display') == 'none') {
+				$('.pissue-select-ul').css('display', 'block');
+			} else {
+				$('.pissue-select-ul').css('display', 'none');
+			}
 		});
+
 		$('.pissue-filterBox').on('click', function () {
-			$('.pissue-filter-ul').css('display', 'block');
-		});
-
-
+			if ($('.pissue-filter-ul').css('display') == 'none') {
+				$('.pissue-filter-ul').css('display', 'block');
+			} else {
+				$('.pissue-filter-ul').css('display', 'none');
+			}
+		})
 		// 현재 페이지에 current 클래스 붙이기!
 		$('.cur_page').each(function () {
 			let page = $(this).text();
@@ -376,11 +385,10 @@
 			e.stopPropagation();
 
 		});
-		
+
 		// filter링.
 		$('.pissue-filter-option').on('click', function (e) {
 			let selectValue = e.currentTarget.textContent;
-			$('.pissue-filter-value').text(selectValue);
 			$('#filterType').val(selectValue);
 			$('.pissue-filter-ul').css('display', 'none');
 			e.stopPropagation();
@@ -406,7 +414,7 @@
 			let filterTypeVal = $('#filterType').val();
 
 			$.ajax('/project/aissues/' + piprjtNo + '?pageNum=' + pageNum + '&keyword='
-				+ keywordVal + '&search=' + searchVal +'&filterType=' + filterTypeVal,
+				+ keywordVal + '&search=' + searchVal + '&filterType=' + filterTypeVal,
 				{
 					type: 'GET'
 				}).done(function (data) {
@@ -445,13 +453,13 @@
 						} else if (item.issuRank == '0G5') {
 							trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
 						}
-						
-						if(item.bussNm == null) {							
+
+						if (item.bussNm == null) {
 							trTag.append('<td>(없음)</td>')
 						} else {
 							trTag.append('<td>' + item.bussNm + '</td>');
 						}
-						
+
 						trTag.append('<td>' + dateFormatting(item.issuDt) + '</td>');
 						issueLists.append(trTag);
 
@@ -755,19 +763,22 @@
 		const savePIDataTransfer = new DataTransfer();
 
 		$("#savePIFiles").change(function () {
-
 			let fileArr = document.getElementById("savePIFiles").files
 
 			if (fileArr != null && fileArr.length > 0) {
+				let maxSize = 10 * 1024 * 1024;
 
-				// =====DataTransfer 파일 관리========
 				for (let i = 0; i < fileArr.length; i++) {
-					savePIDataTransfer.items.add(fileArr[i])
+					let fileSize = fileArr[i].size;
+					if (fileSize > maxSize) {
+						$(this).val('');
+					} else {
+						savePIDataTransfer.items.add(fileArr[i])
+					}
+					document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 				}
 
-				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 				// ==========================================
-
 			}
 		})
 
@@ -800,7 +811,6 @@
 
 			// 2. 파일 크기가 10MB을 초과하는 경우
 			const fileSize = Math.floor(file.size / 1024 / 1024);
-
 			if (fileSize > 10) {
 				Swal.fire({
 					icon: 'error',                         // Alert 타입

@@ -33,10 +33,10 @@ public class CompanyIssueController {
 
 	// 회사 이슈 게시판에서 이슈 리스트 나오기
 	@GetMapping("/company/issues/{coCd}")
-	public String companyIssueList(@PathVariable String coCd, String search, String keyword,
+	public String companyIssueList(@PathVariable String coCd, String search, String keyword, String filterType,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getCompanyIssueList(pageNum, search, keyword, coCd), 8);
-		Page<IssueVO> vo = issueService.getCompanyIssueList(pageNum, search, keyword, coCd);
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getCompanyIssueList(pageNum, search, keyword, coCd, filterType), 8);
+		Page<IssueVO> vo = issueService.getCompanyIssueList(pageNum, search, keyword, coCd, filterType);
 
 		model.addAttribute("companyIssue", issues);
 		model.addAttribute("companyIssueList", vo);
@@ -47,10 +47,10 @@ public class CompanyIssueController {
 	// 회사 내 이슈 리스트 조회 (Ajax)
 	@GetMapping("/company/aissues/{coCd}")
 	@ResponseBody
-	public Map<String, Object> companyIssue(@PathVariable String coCd, String search, String keyword,
+	public Map<String, Object> companyIssue(@PathVariable String coCd, String search, String keyword, String filterType,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getCompanyIssueList(pageNum, search, keyword, coCd), 8);
-		Page<IssueVO> vo = issueService.getCompanyIssueList(pageNum, search, keyword, coCd);
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getCompanyIssueList(pageNum, search, keyword, coCd, filterType), 8);
+		Page<IssueVO> vo = issueService.getCompanyIssueList(pageNum, search, keyword, coCd, filterType);
 		Map<String, Object> map = new HashMap<>();
 
 		map.put("cissue", issues);
