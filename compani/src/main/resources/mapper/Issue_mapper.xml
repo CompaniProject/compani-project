@@ -35,7 +35,24 @@
 				 OR issu_ttl LIKE '%' || #{searchBI} || '%'
 				 )
 			</when>
-		</choose>				
+		</choose>
+		<choose>
+			<when test="filterTypeM == '상태순'">
+				ORDER BY issu_st
+			</when>
+			<when test="filterTypeM == '날짜순'">
+				ORDER BY issu_dt DESC
+			</when>
+			<when test="filterTypeM == '우선순위순'">
+				ORDER BY issu_rank
+			</when>
+			<when test="filterTypeM == '종류순'">
+				ORDER BY issu_knd
+			</when>
+			<when test="filterTypeM == '정렬' or filterTypeM == null">
+				ORDER BY issu_dt DESC
+			</when>
+		</choose>
 	</select>
 	
 	<!-- 프로젝트 이슈 페이지에서 이슈 리스트 조회 -->
@@ -88,7 +105,7 @@
 			<when test="filterType == '종류순'">
 				ORDER BY issu_knd
 			</when>
-			<when test="filterType == '정렬'">
+			<when test="filterType == '정렬' or filterType == null">
 				ORDER BY issu_dt DESC
 			</when>
 		</choose>
@@ -136,8 +153,25 @@
 				 OR  buss_nm  LIKE '%' || #{search} || '%'
 				 OR  prjt_nm  LIKE '%' || #{search} || '%')
 			</when>
-		</choose> 
-		ORDER BY 	 issu_dt DESC
+		</choose>
+		<choose>
+			<when test="filterType == '상태순'">
+				ORDER BY issu_st
+			</when>
+			<when test="filterType == '날짜순'">
+				ORDER BY issu_dt DESC
+			</when>
+			<when test="filterType == '우선순위순'">
+				ORDER BY issu_rank
+			</when>
+			<when test="filterType == '종류순'">
+				ORDER BY issu_knd
+			</when>
+			<when test="filterType == '정렬' or filterType == null">
+				ORDER BY issu_dt DESC
+			</when>
+		</choose>
+
 	</select>
 
 	<select id="getIssueList" resultType="IssueVO">

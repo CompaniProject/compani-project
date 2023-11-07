@@ -10,11 +10,11 @@ import com.yedam.compani.member.service.MemberVO;
 
 public interface IssueMapper {
 	
-	Page<IssueVO> findIssue(@Param("searchBI")String search, @Param("keyword") String keyword, @Param("bussNo") int bussNo);
+	Page<IssueVO> findIssue(@Param("searchBI")String search, @Param("keyword") String keyword, @Param("bussNo") int bussNo, @Param("filterTypeM")String filterType);
 	
 	Page<IssueVO> findProjectIssue(@Param("search")String search, @Param("keyword") String keyword, @Param("prjtNo") int prjtNo, @Param("filterType")String filterType);
 	
-	Page<IssueVO> findCompanyIssue(@Param("search")String search, @Param("keyword") String keyword, @Param("coCd") String coCd);
+	Page<IssueVO> findCompanyIssue(@Param("search")String search, @Param("keyword") String keyword, @Param("coCd") String coCd, @Param("filterType")String filterType);
 	
 	/**
 	 * 모달 이슈 저장

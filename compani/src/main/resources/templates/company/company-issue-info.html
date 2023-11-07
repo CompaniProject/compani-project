@@ -486,11 +486,13 @@
 
             // 댓글 저장
             function saveReplyC() {
-                const issueReplyCntn = document.getElementById('cIssueReplyCntn');
+                let issueReplyCntn = document.getElementById('cIssueReplyCntn').value;
+                issueReplyCntn = issueReplyCntn.replaceAll(/(\n|\r\n)/g, '<br>');
                 const issuNo = cIssuNo;
+
                 const params = {
                     issuNo: issuNo,
-                    issuRplyCntn: issueReplyCntn.value,
+                    issuRplyCntn: issueReplyCntn,
                     membId: [[${session.loginInfo.membId}]]
                 }
 
@@ -597,7 +599,9 @@
                             editForm.style.display = 'none';
                             replyText.style.display = 'block';
                         }
-                        document.getElementById('updateReplyCommentC_' + id).value = response.issuRplyCntn;
+                        var text = response.issuRplyCntn;
+                        text = text.replaceAll('<br>', '\r\n');
+                        document.getElementById('updateReplyCommentC_' + id).value =text;
 
                     })
 
@@ -621,12 +625,13 @@
                 const issuNo = cIssuNo;
                 const issuRplyNo = id;
                 const writer = [[${session.loginInfo.membId}]];
-                const content = document.getElementById('updateReplyCommentC_' + id);
+                let content = document.getElementById('updateReplyCommentC_' + id);
+                content = content.value.replaceAll(/(\n|\r\n)/g, '<br>');
 
                 const params = {
                     issuRplyNo: id,
                     issuNo: issuNo,
-                    issuRplyCntn: content.value,
+                    issuRplyCntn: content,
                     membId: writer
                 }
 
@@ -1058,11 +1063,17 @@
                 let fileArr = document.getElementById("editCIFiles").files
 
                 if (fileArr != null && fileArr.length > 0) {
-                    // DataTransfer 파일 관리 //
+                    let maxSize = 10 * 1024 * 1024;
+
                     for (var i = 0; i < fileArr.length; i++) {
-                        editCIDataTransfer.items.add(fileArr[i])
+                        let fileSize = fileArr[i].size;
+                            if (fileSize > maxSize) {
+						        $(this).val('');
+					        } else {
+						        editCIDataTransfer.items.add(fileArr[i])
+					        }
                     }
-                    document.getElementById('editCIFiles').files = editCIDataTransfer.files;
+                  document.getElementById('editCIFiles').files = editCIDataTransfer.files;
                 }
             })
             // 수정 폼에서 새롭게 추가된 파일 삭제 시

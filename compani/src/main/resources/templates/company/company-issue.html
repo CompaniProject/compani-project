@@ -5,8 +5,22 @@
 
 <th:block layout:fragment="content">
     <!--/* 검색, 글쓰기 버튼 START */-->
+    <h2 class="common-title">회사 이슈 게시판</h2>
     <div class="TopBarCompanyIssueControlArea">
         <div class="piSearchBox">
+            <div class="cissue-filterBox">
+                <div class="cissue-filtered" id="cissue-filtered">
+                    <div class="cissue-filter-value"></div>
+                    <div class="arrow"></div>
+                    <input type="hidden" id="filterType" name="filterType" value="정렬">
+                </div>
+                <ul class="cissue-filter-ul" style="width: 100px; display: none;">
+                    <li class="cissue-filter-option" data-value="날짜순">날짜순</li>
+                    <li class="cissue-filter-option" data-value="상태순">상태순</li>
+                    <li class="cissue-filter-option" data-value="우선순위순">우선순위순</li>
+                    <li class="cissue-filter-option" data-value="종류순">종류순</li>
+                </ul>
+            </div>
             <label for="SearchToggleCheckBox"
                    th:attr="onclick='companyIssuePaging(1)'"></label> <input
                 type="hidden" id="keyword" name="keyword" value="전체">
@@ -113,9 +127,19 @@
 
           //검색 조건 (제목, 작성자, 전체)
           $('.cissue-selectBox').on('click', function () {
-              $('.cissue-select-ul').css('display', 'block');
-          });
-
+			    if($('.cissue-select-ul').css('display') == 'none') {
+			  	$('.cissue-select-ul').css('display', 'block');
+			} else {
+				$('.cissue-select-ul').css('display', 'none');
+			}
+		  })
+          $('.cissue-filterBox').on('click', function () {
+                if($('.cissue-filter-ul').css('display') == 'none') {
+                   $('.cissue-filter-ul').css( 'display', 'block');
+                } else {
+                    $('.cissue-filter-ul').css('display', 'none');
+                }
+          })
           // 현재 페이지에 current 클래스 붙이기!
           $('.cur_page').each(function () {
               let page = $(this).text();
@@ -138,6 +162,15 @@
               e.stopPropagation();
 
           });
+
+          // filter링.
+		$('.cissue-filter-option').on('click', function (e) {
+			let selectValue = e.currentTarget.textContent;
+			$('#filterType').val(selectValue);
+			$('.cissue-filter-ul').css('display', 'none');
+			e.stopPropagation();
+			companyIssuePaging(1);
+		});
             function dateFormatting(date) {
 
             let parseDate = new Date(date);
@@ -155,9 +188,10 @@
               let searchVal = $('#search').val();
               let issueLists = $('.companyIssueLists');
               let pagination = $('.ciPagination');
+              let filterTypeVal = $('#filterType').val();
 
               $.ajax('/company/aissues/' + coCd + '?pageNum=' + pageNum + '&keyword='
-                  + keywordVal + '&search=' + searchVal,
+                  + keywordVal + '&search=' + searchVal + '&filterType=' + filterTypeVal,
                   {
                       type: 'GET'
                   }).done(function (data) {

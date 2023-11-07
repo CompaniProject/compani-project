@@ -53,10 +53,10 @@ public class IssueController {
 	
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList/{bussNo}")
-	public String modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword, IssueVO issueVO,
+	public String modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword, IssueVO issueVO, String filterTypeM,
 			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
-		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo);
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);
+		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM);
 		
 		BusinessVO bussvo = businessService.businessSelect(bussNo);
 		int prjtNo = bussvo.getPrjtNo();			
@@ -73,9 +73,9 @@ public class IssueController {
 	// 페이징 또는 검색 시 ajax 처리
 	@GetMapping("/ModalAjaxIssueList/{bussNo}")
 	@ResponseBody
-	public Map<String, Object> modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword,
+	public Map<String, Object> modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword, String filterTypeM,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo), 8);
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);
 		Map<String, Object> map = new HashMap<>();
 		
 		BusinessVO bussvo = businessService.businessSelect(bussNo);
@@ -84,7 +84,7 @@ public class IssueController {
 		
 		map.put("memvomi", memvo);
 		map.put("issue", issues);
-		map.put("issues", issueService.getIssueList(pageNum, searchBI, keyword, bussNo));
+		map.put("issues", issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM));
 		map.put("search", searchBI);
 		map.put("buss", bussvo);
 		return map;
