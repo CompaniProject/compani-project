@@ -575,6 +575,12 @@ select {
 		$('.businessListBox').parent().css('float', 'right');
 	})
 	
+	// 프로젝트 헤더 탭
+	window.onload = function () {
+		var navItemHome = $('.nav-link').eq(1);
+        navItemHome.addClass('active');
+    }
+	
 	</script>
 	</th:block>
 </body>
