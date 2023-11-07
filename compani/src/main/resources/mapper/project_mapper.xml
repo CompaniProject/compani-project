@@ -123,7 +123,7 @@
 			  prjt_pubcyn = #{prjtPubcyn},
 			  prjt_fdt    = #{prjtFdt},
 			  prjt_tdt    = #{prjtTdt},
-			  prjt_st    = #{prjtSt}
+			  PRJT_ST    = #{prjtSt}
 		</set>
 		WHERE  prjt_no     = #{prjtNo}
 	

@@ -28,14 +28,13 @@
 										th:value="${session.projectVO.prjtSt}">
 										<option class="dropdown-import" value="0D1"
 											th:selected="${session.projectVO.prjtSt}=='0D1'">진행중</option>
-
 										<option class="dropdown-import" value="0D2"
 											th:selected="${session.projectVO.prjtSt}=='0D2'">완료</option>
 										<option class="dropdown-import" value="0D3"
-											th:selected="${session.projectVO.prjtSt}=='0D3'">초과</option>
+											th:selected="${session.projectVO.prjtSt}=='0D3'">보류</option>
 
 									</select>
-
+				
 								</div>
 							</div>
 						</div>
@@ -182,6 +181,7 @@
 							<button id="prjtUpdateBtn" type="button" class="btn btn-primary">수정</button>
 
 						</div>
+						<div th:if = "${projectMemberVO.prjtmembPerm != 'CRTR'}"><input type ="hidden" name ="prjtSt" th:value="${session.projectVO.prjtSt}"></div>
 					</form>
 
 				</div>
