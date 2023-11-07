@@ -195,7 +195,6 @@ input[type="checkbox"]:checked::after {
 													th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
 												<!-- 다운로드 아이콘 -->
 												<td class="downIcon" th:attr="onclick='fileDown(\'' + ${fileList.fileNo} + '\')'"><i class="fa-solid fa-download"></i></td>
-												
 												<!-- 쓰레기 아이콘 -->
 												<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 											</tr>

@@ -222,7 +222,8 @@ hr {
 						<option value="txt">TXT</option>
 						<option value="jpg">JPG</option>
 						<option value="png">PNG</option>
-					</select> <input type="button" id="driveFile " value="업로드"
+					</select> 
+					<input type="button" id="driveFile " value="업로드"
 						class="btn mb-1 btn-info" style="margin-right: 30px"
 						data-toggle="modal" data-target="#workModal" />
 
@@ -256,6 +257,15 @@ hr {
 								<tbody id="newTrTd">
 									<th:block th:each="fileList : ${pFileList}">
 										<tr id="tdData" th:data-fileno="${fileList.fileNo}" style="padding-bottom: 15px;">
+											<td>
+											<img th:if="${fileList.fileType == 'xls'}" th:src="@{/images/type/xls.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'pptx'}" th:src="@{/images/type/ppt.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'pdf'}" th:src="@{/images/type/pdf.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'zip'}" th:src="@{/images/type/zip.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'txt'}" th:src="@{/images/type/txt.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'jpg'}" th:src="@{/images/type/jpg.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'png'}" th:src="@{/images/type/png.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">										    
+											</td>
 											<td th:text="${fileList.fileNm}" />
 											<td class="fSize" th:text="${fileList.fileSize}" />
 											<td th:text="${fileList.membNm}" />
