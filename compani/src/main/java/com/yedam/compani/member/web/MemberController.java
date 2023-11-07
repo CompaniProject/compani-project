@@ -227,8 +227,10 @@ public class MemberController {
 	}
 	
 	// 김연규, 2023-11-07, 회사관리자 멤버리스트
-	@GetMapping("/companyManager/{coCd}")
-	public String companyManager(Model model, @PathVariable String coCd) {
+	@GetMapping("/companyManager")
+	public String companyManager(Model model, HttpSession session) {
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
 		List<Map<Object, Object>> list = service.companyManager(coCd);
 		model.addAttribute("companyManager", list);
 		return "master/company-manager";

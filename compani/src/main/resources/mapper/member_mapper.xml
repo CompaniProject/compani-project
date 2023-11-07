@@ -228,12 +228,16 @@
 	
 	<!-- 회사관리자 멤버리스트 -->
 	<select id="companyManager" resultType="MemberVO">
-		SELECT memb_nm
+		SELECT memb_id
+			   , memb_nm
 			   , memb_dept
 			   , memb_wkgd
 			   , memb_birth_dt
 			   , memb_email
 			   , memb_telno
+			   , CASE memb_accp WHEN '0C1' THEN '승인'
+								WHEN '0C2' THEN '대기'
+								END AS memb_accp
 		FROM member
 		WHERE co_cd = #{coCd}
 	</select>

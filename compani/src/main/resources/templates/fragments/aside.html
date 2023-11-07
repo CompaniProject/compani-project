@@ -31,8 +31,9 @@
 				<li><a href="support.html" aria-expanded="false"><span
 						class="icon-support"> 고객센터</span> </a></li>
 				
-				<li class="companyManageMenu"><a th:href="@{/companyManager/{coCd}(coCd=${session.loginInfo.coCd})}" aria-expanded="false">
-					<span class=""> 회사 관리</span></a></li>
+				<li class="companyManageMenu">
+					<a href="/companyManager" aria-expanded="false">
+					<span class="bi bi-building"> 회사 관리</span></a></li>
 
 			</ul>
 		</div>
