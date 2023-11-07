@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yedam.compani.company.service.CompanyVO;
 import com.yedam.compani.project.member.service.ProjectMemberVO;
 
 public interface MemberService {
@@ -35,6 +36,8 @@ public interface MemberService {
 	
 	// 마스터 멤버 승인
 	public int updateMemberAccp(MemberVO vo);
+	// 마스터 멤버 자동 승인
+	public int updateMemberAccpAuto(CompanyVO vo);
 	
 	public List<MemberVO> projectMemberList(int prjtNo);
 	

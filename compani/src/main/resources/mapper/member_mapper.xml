@@ -212,6 +212,16 @@
 		</set>
 		WHERE memb_id = #{membId}
 	</update>
+	
+	<!-- 마스터 멤버 자동 승인 -->
+	<update id="updateMemberAccpAuto" parameterType="CompanyVO">
+		UPDATE member
+		SET memb_accp = '0C1'
+		WHERE memb_id = (SELECT memb_id
+						 FROM member
+						 WHERE co_cd = #{coCd}
+						 AND perm_no = '0A2')
+	</update>
 
 	<select id="projectMemberList" resultType="MemberVO">
 		SELECT m.MEMB_ID,

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.compani.company.service.CompanyService;
 import com.yedam.compani.company.service.CompanyVO;
+import com.yedam.compani.member.service.MemberService;
+import com.yedam.compani.member.service.MemberVO;
 
 import lombok.extern.log4j.Log4j2;
 @Log4j2
@@ -21,6 +23,8 @@ import lombok.extern.log4j.Log4j2;
 public class CompanyController {
 	@Autowired
 	CompanyService service;
+	@Autowired
+	MemberService memberService;
 	
 	//회원가입 소속회사
 	@PostMapping("/companyList")
@@ -61,11 +65,20 @@ public class CompanyController {
 		return vo;
 	}
 	
+	// 김연규, 2023-11-03, 마스터-회사
+	@GetMapping("/master-company")
+	public String companyAllList(Model model) {
+		List<CompanyVO> companyList = service.companyAllList();
+		model.addAttribute("masterCompanyList", companyList);
+		return "master/master-company";
+	}
+	
 	// 김연규, 2023-11-03, 마스터 회사 승인
 	@PostMapping("/updateCompanyAccp")
 	@ResponseBody
 	public String updateCompanyAccp(@RequestBody CompanyVO vo) {
 		service.updateCompanyAccp(vo);
-		return "master/master-manager";
+		memberService.updateMemberAccpAuto(vo);
+		return "";
 	}
 }
