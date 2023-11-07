@@ -80,15 +80,16 @@ public class FileServiceImpl implements FileService {
 
 		return filemapper.fileFilter(Filter, prjtNo);
 	}
-
+	
+	// 드라이브 파일 선택삭제 
 	@Override
-	public int fileDriveDel(List<Integer> driveFile) {
-			for(int i=0; i<driveFile.size(); i++) {
-				filemapper.fileDelete(driveFile.get(i));
-			}
-		return driveFile.size();
-	}
+	public int fileDriveDel(Integer fileNo) {
 
+		return fileNo;
+	}
+	
+	
+	// 업무 + 드라이브 파일 다운로드
 	@Override
 	public FileVO fileDownload(Integer fileNo) {
 		

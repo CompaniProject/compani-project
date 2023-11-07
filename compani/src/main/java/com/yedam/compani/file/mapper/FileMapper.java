@@ -30,7 +30,7 @@ public interface FileMapper {
 		public int fileSelDel(List<Integer> fileNo);
 		
 		// 드라이브 선택삭제
-		public int fileDriveDel(List<Integer> fileNo);
+		public int fileDriveDel(Integer fileNo);
 		
 		// 업무 모달 파일함 검색기능
 		public List<FileVO> fileSearch(Map<String, String> map);
