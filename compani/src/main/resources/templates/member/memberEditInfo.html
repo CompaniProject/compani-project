@@ -55,11 +55,11 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="form-validation">
-							<input type="text" id="membPhtPath"/>
+							<!-- <input type="text" id="membPhtPath"/> -->
 									<img class="form-group" id="membPhtPath2" width="200"
 										height="200" style="border-radius: 70%"
 										src="images/member/77.jpg" />
-										<img
+<!-- 										<img
 										src="images/member/plus.png" onclick="#" width="40"
 										height="30" style="vertical-align: bottom;">
 
@@ -67,7 +67,7 @@
 									<form action="/Temp" id="upload-file-form" method="post" enctype="multipart/form-data">
 										<input id="profilePht" type="file" name="uploadfile"
 											accept="image/png, image/jpeg"/>
-									</form>
+									</form> -->
 
 
 									<div class="form-group row">
@@ -747,7 +747,7 @@ $('#membPwd2').on("input", function(event){
 
 
 ///////////////////////파일
-	$('#profilePht').change(function() {
+ /* 	$('#profilePht').change(function() {
 		var formData = new FormData(); //FormData 객체 생성(content-type을 갖고있는 클레스임. servlet-context.xml에 multipartResolver가 필요함.)
 		var inputFile = $("#profilePht");
 
@@ -760,13 +760,13 @@ $('#membPwd2').on("input", function(event){
 		//실제 업로드 ajax
 		
 		//1)자바스크립트 : fetch
-/* 		fetch('uploadsAjax',{
+ 		fetch('uploadsAjax',{
 			method : 'post',
 			body : formData
 		})
 		.then(response => response.json())
 		.then(data => console.log(data))
-		.catch(err => console.log(err)); */
+		.catch(err => console.log(err)); 
 
         
         //2)jQuery.ajax
@@ -787,7 +787,7 @@ $('#membPwd2').on("input", function(event){
                 console.log(reject);
             }
         }); 
-	});
+	}); */
 
 	</script>
 </th:block>
