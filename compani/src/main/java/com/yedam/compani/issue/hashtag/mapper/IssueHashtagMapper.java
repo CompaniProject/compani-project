@@ -36,4 +36,6 @@ public interface IssueHashtagMapper {
 	 * @param hashtags - 해시태그 리스트
 	 */	
 	void delete(int issuNo);
+
+	List<IssueHashtagVO> selectHashtagByPrjtNo(int prjtNo);
 }

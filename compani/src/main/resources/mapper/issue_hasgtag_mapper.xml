@@ -32,8 +32,8 @@
 		BEGIN
 		
 		DELETE 		
-		FROM		issue_hashtag		
-		WHERE		issu_no = #{issuNo};
+		FROM			issue_hashtag
+		WHERE			issu_no = #{issuNo};
 		
 		INSERT INTO 	issue_hashtag
 				(   	issu_ht_no
@@ -47,7 +47,7 @@
 			      	,	#{hashtags}
 			FROM        DUAL
 		</foreach>
-			) A;
+				 ) A;
 			
 		END;
 	</insert>
@@ -57,5 +57,16 @@
 		FROM	issue_hashtag
 		WHERE
 				issu_no = #{issuNo}
-	</delete> 
+	</delete>
+
+	<select id="selectHashtagByPrjtNo" resultType="IssueHashtagVO">
+		SELECT		h.issu_ht_no
+		          , h.issu_no
+		          , h.issu_ht_nm
+		          , i.prjt_no
+		FROM        issue_hashtag h, issue i
+		WHERE       h.issu_no  = i.issu_no(+)
+		AND         prjt_no = #{prjtNo}
+		ORDER BY    issu_ht_no
+	</select>
 </mapper>

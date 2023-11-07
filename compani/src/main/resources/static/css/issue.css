@@ -1335,3 +1335,13 @@ piFileUpload.dz {
     text-overflow: ellipsis;
 }
 
+.common-title {
+  margin: 0 0 0px;
+  overflow: hidden;
+  padding: 0 20px;
+  height: 45px;
+  color: #333333;
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: 600;
+}
