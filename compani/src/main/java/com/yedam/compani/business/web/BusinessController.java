@@ -110,7 +110,7 @@ public class BusinessController {
 		String membId = memberVO.getMembId();
 		List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList(membId);
 		model.addAttribute("personalCalendarPage", list);
-		return "calendar/personalCalendarPage";
+		return "calendar/myCalendar";
 	}
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
