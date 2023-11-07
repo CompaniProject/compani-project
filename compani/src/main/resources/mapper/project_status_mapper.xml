@@ -79,7 +79,7 @@
                 ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E1' ) AS issu_solve,
                 ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E2' ) AS issu_unsolve,
                 ( SELECT COUNT(*) FROM issue WHERE prjt_no = #{prjtNo} AND issu_st = '0E3' ) AS issu_unsolvable,
-                ( SELECT prjt_cmpltdt - prjt_fdt FROM project WHERE prjt_no = #{prjtNo}) AS prjt_dt_cnt,
+                ( SELECT TRUNC(prjt_cmpltdt - prjt_fdt) FROM project WHERE prjt_no = #{prjtNo}) AS prjt_dt_cnt,
                 ( SELECT COUNT(*) FROM project_member WHERE prjt_no = #{prjtNo}) AS prjt_memb_cnt,
                 ( SELECT DECODE(COUNT(*),0,NULL) FROM business WHERE prjt_no = #{prjtNo}) AS buss_cnt,
                 ( SELECT DECODE(COUNT(*),0,NULL) FROM issue WHERE prjt_no = #{prjtNo}) AS issu_cnt
