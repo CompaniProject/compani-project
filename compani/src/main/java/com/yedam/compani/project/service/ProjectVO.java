@@ -2,11 +2,13 @@ package com.yedam.compani.project.service;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.context.annotation.Bean;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ProjectVO {
 	private int prjtNo;
 	private	String coCd;
@@ -20,8 +22,9 @@ public class ProjectVO {
 	private int count;
 	private String prjtFav;
 	private String membId;
-	
-//	public boolean isStateEnd() {
-//		return (prjtSt.equals("0D2"));
-//	}
+
+	@Bean
+	public boolean stateCheckEnd() {
+		return (prjtSt.equals("0D2"));
+	}
 }
