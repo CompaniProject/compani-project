@@ -23,10 +23,6 @@
 	border-color: #C0C0C0;
 }
 
-.card {
-	display: block;
-}
-
 .content-body {
 	padding-left: 20px;
 }
@@ -35,22 +31,6 @@
 	display: inline-block;
 	float: right;
 	margin-left: 100px;
-}
-
-.weCard {
-	margin-top: 70px;
-	display: flex;
-	flex-wrap: wrap;
-	width: 80%;
-}
-
-.card {
-	flex: 1;
-	cursor: pointer;
-}
-
-.card:hover {
-	border: solid 0.5px red;
 }
 
 hr {
@@ -128,9 +108,6 @@ hr {
 	padding-right: 30px;
 }
 
-#closeBtn {
-	
-}
 </style>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -245,7 +222,8 @@ hr {
 						<option value="txt">TXT</option>
 						<option value="jpg">JPG</option>
 						<option value="png">PNG</option>
-					</select> <input type="button" id="driveFile " value="업로드"
+					</select> 
+					<input type="button" id="driveFile " value="업로드"
 						class="btn mb-1 btn-info" style="margin-right: 30px"
 						data-toggle="modal" data-target="#workModal" />
 
@@ -279,6 +257,15 @@ hr {
 								<tbody id="newTrTd">
 									<th:block th:each="fileList : ${pFileList}">
 										<tr id="tdData" th:data-fileno="${fileList.fileNo}" style="padding-bottom: 15px;">
+											<td>
+											<img th:if="${fileList.fileType == 'xls'}" th:src="@{/images/type/xls.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'pptx'}" th:src="@{/images/type/ppt.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'pdf'}" th:src="@{/images/type/pdf.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'zip'}" th:src="@{/images/type/zip.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'txt'}" th:src="@{/images/type/txt.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'jpg'}" th:src="@{/images/type/jpg.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">
+										    <img th:if="${fileList.fileType == 'png'}" th:src="@{/images/type/png.png}" style="width: 40px; height: 40px; border: 0.1px solid gray;">										    
+											</td>
 											<td th:text="${fileList.fileNm}" />
 											<td class="fSize" th:text="${fileList.fileSize}" />
 											<td th:text="${fileList.membNm}" />
@@ -289,8 +276,6 @@ hr {
 											<td class="downIcon"><i class="fa-solid fa-download"></i></td>
 											<!-- 쓰레기 아이콘 -->
 											<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
-											<td><input type="hidden" name="files"
-												th:value="${fileList.fileNo}"></td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -326,13 +311,13 @@ hr {
 		})
 
 		// ======== tr 선택시 active 지정 + style 부여 ========
-		$('#newTrTd').on('click', '#tdData', function() {
+		$('#newTrTd').on('click', '#tdData', function() { // tbody를 선택하면 td가 반응
+			
 			if ($(this).hasClass('active')) {
 				$(this).css("backgroundColor", "");
 				$(this).removeClass('active');
 			} else {
 				let trColor = $(this).addClass("active"); // 클릭한 tr에 액티브 지정
-				trColor.attr('name', 'driveFile');
 				trColor.css("backgroundColor", "#ADD8E6");
 			}
 		})
@@ -380,19 +365,14 @@ hr {
 
 		function selectCkbDel() {
 
-			let test = $('[name="files"].active') // 네임이 files인 애들중 active 클래스
+			let test = $('#tdData.active'); // 네임이 files인 애들중 active 클래스
+			console.log(test);
 			
-			let ww = $('input[name="files"]');
-			
-			let wow = $('[name="driveFile"].active');
-			
-			console.log(wow);
-
 			// ajax
 			$.ajax({
 				type : "get",
 				url : "/driveFileDel",
-				data : wow.serialize(),
+				data : test.serialize(),
 				success : function() {
 					if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
 						alert("삭제가 완료 되었습니다.")

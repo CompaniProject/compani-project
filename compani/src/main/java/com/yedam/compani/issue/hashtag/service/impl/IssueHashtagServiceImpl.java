@@ -60,5 +60,16 @@ public class IssueHashtagServiceImpl implements IssueHashtagService {
 	@Override
 	public void deleteHashtagbyId(final int issuNo) {
 		issueHashtagMapper.delete(issuNo);		
-	}	
+	}
+
+	/**
+	 * 프로젝트 이슈 게시판 내 해시태그 조회
+	 *
+	 * @param prjtNo - 프로젝트 번호 (FK)
+	 * @return 해시태그 리스트
+	 */
+	@Override
+	public List<IssueHashtagVO> selectHashtagByPrjtNo(final int prjtNo) {
+			return issueHashtagMapper.selectHashtagByPrjtNo(prjtNo);
+	}
 }

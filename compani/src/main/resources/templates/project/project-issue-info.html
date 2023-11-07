@@ -481,11 +481,12 @@
 
 		// 댓글 저장
 		function saveReplyP() {
-			const issueReplyCntn = document.getElementById('pIssueReplyCntn');
+			let issueReplyCntn = document.getElementById('pIssueReplyCntn').value;
+			issueReplyCntn = issueReplyCntn.replaceAll(/(\n|\r\n)/g, '<br>');
 			const issuNo = pIssuNo;
 			const params = {
 				issuNo: issuNo,
-				issuRplyCntn: issueReplyCntn.value,
+				issuRplyCntn: issueReplyCntn,
 				membId: piMemberId
 			}
 
@@ -597,7 +598,9 @@
 						editForm.style.display = 'none';
 						replyText.style.display = 'block';
 					}
-					document.getElementById('updateReplyCommentP_' + id).value = response.issuRplyCntn;
+					var text = response.issuRplyCntn;
+					text = text.replaceAll('<br>', '\r\n');
+					document.getElementById('updateReplyCommentP_' + id).value = text;
 
 				})
 
@@ -621,12 +624,13 @@
 			const issuNo = pIssuNo;
 			const issuRplyNo = id;
 			const writer = piMemberId;
-			const content = document.getElementById('updateReplyCommentP_' + id);
+			let content = document.getElementById('updateReplyCommentP_' + id);
+			content = content.value.replaceAll(/(\n|\r\n)/g, '<br>');
 
 			const params = {
 				issuRplyNo: id,
 				issuNo: issuNo,
-				issuRplyCntn: content.value,
+				issuRplyCntn: content,
 				membId: writer
 			}
 
@@ -1056,13 +1060,17 @@
 			let fileArr = document.getElementById("editPIFiles").files
 
 			if (fileArr != null && fileArr.length > 0) {
-				// DataTransfer 파일 관리 //
+				let maxSize = 10 * 1024 * 1024;
+
 				for (let i = 0; i < fileArr.length; i++) {
-					editPIDataTransfer.items.add(fileArr[i])
-					console.log("dataTransfer =>", editPIDataTransfer.files)
-					console.log("input FIles =>", document.getElementById("editPIFiles").files)
+					let fileSize = fileArr[i].size;
+						if (fileSize > maxSize) {
+							$(this).val('');
+						} else {
+							editPIDataTransfer.items.add(fileArr[i])
+						}
 				}
-				document.getElementById('editPIFiles').files = editPIDataTransfer.files;
+			  	document.getElementById('editPIFiles').files = editPIDataTransfer.files;
 			}
 		})
 		// 수정 폼에서 새롭게 추가된 파일 삭제 시

@@ -10,7 +10,6 @@ import com.yedam.compani.issue.mapper.IssueMapper;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.service.MemberVO;
-import com.yedam.compani.paging.SearchDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,9 +26,9 @@ public class IssueServiceImpl implements IssueService {
 	 * @return list & pagination information
 	 */
 	@Override
-	public Page<IssueVO> getIssueList(int pageNo, String search, String keyword, int bussNo) {
+	public Page<IssueVO> getIssueList(int pageNo, String search, String keyword, int bussNo, String filterTypeM) {
 		PageHelper.startPage(pageNo, 6);
-		return issueMapper.findIssue(search, keyword, bussNo);
+		return issueMapper.findIssue(search, keyword, bussNo, filterTypeM);
 	}
 
 	/**
@@ -39,9 +38,9 @@ public class IssueServiceImpl implements IssueService {
 	 * @return list & pagination information
 	 */
 	@Override
-	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, int prjtNo) {
+	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, int prjtNo, String filterType) {
 		PageHelper.startPage(pageNo, 10);
-		return issueMapper.findProjectIssue(search, keyword, prjtNo);
+		return issueMapper.findProjectIssue(search, keyword, prjtNo, filterType);
 	}
 	/**
 	 * 회사 내 이슈 리스트 조회
@@ -50,9 +49,9 @@ public class IssueServiceImpl implements IssueService {
 	 * @return list & pagination information
 	 */
 	@Override
-	public Page<IssueVO> getCompanyIssueList(int pageNo, String search, String keyword, String coCd) {
+	public Page<IssueVO> getCompanyIssueList(int pageNo, String search, String keyword, String coCd, String filterType) {
 		PageHelper.startPage(pageNo, 10);
-		return issueMapper.findCompanyIssue(search, keyword, coCd);
+		return issueMapper.findCompanyIssue(search, keyword, coCd, filterType);
 	}
 	
 	/**

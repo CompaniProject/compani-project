@@ -151,10 +151,9 @@ public class ProjectController {
 		projectService.updateProject(projectVO);
 		
 		// 프로젝트 완료 시, 통계 측정
-		/*
-		 * if (projectVO.isStateEnd()) {
-		 * projectStatusService.insert(projectVO.getPrjtNo()); }
-		 */
+		if (projectVO.stateCheckEnd()) {
+			projectStatusService.insert(projectVO.getPrjtNo());
+		}
 		
 		projectMemberService.deleteProjectMember(formVO);
 		projectMemberService.insertProjectMember(formVO);

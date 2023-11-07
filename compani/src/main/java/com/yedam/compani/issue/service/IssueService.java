@@ -7,11 +7,11 @@ import com.yedam.compani.member.service.MemberVO;
 
 public interface IssueService {
 	// 이슈 전체 조회(검색)
-	public Page<IssueVO> getIssueList(int pageNo, String search, String keyword, final int bussNo);
+	public Page<IssueVO> getIssueList(int pageNo, String search, String keyword, final int bussNo, String filterTypeM);
 	
-	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, final int prjtNo);
+	public Page<IssueVO> getProjectIssueList(int pageNo, String search, String keyword, final int prjtNo, String filterType);
 	
-	public Page<IssueVO> getCompanyIssueList(int pageNo, String search, String keyword, final String coCd);
+	public Page<IssueVO> getCompanyIssueList(int pageNo, String search, String keyword, final String coCd, String filterType);
 	
 	// 이슈 단건 조회
 	public IssueVO findIssueById(final int issuNo);

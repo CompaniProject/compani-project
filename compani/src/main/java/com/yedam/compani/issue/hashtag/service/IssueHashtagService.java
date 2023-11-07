@@ -13,4 +13,6 @@ public interface IssueHashtagService {
 	public void modalEditIssueHashtag(final int issuNo, final List<String> hashtags);
 	
 	public void deleteHashtagbyId(final int issuNo);
+	// 프로젝트 이슈 게시판에서 해시태그 출력.
+	public List<IssueHashtagVO> selectHashtagByPrjtNo(final int prjtNo);
 }

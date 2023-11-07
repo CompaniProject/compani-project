@@ -33,7 +33,7 @@ public class FileDeleteController {
 	// 드라이브 active 선택삭제 - AJAX
 		@GetMapping("/driveFileDel")
 		@ResponseBody
-		public int driveFileDel(@RequestParam List<Integer> driveFile) {
-			return fileservice.fileDriveDel(driveFile);
+		public int driveFileDel(@RequestParam Integer fileNo) {
+			return fileservice.fileDriveDel(fileNo);
 		}
 }

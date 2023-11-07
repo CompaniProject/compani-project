@@ -7,4 +7,5 @@ public class IssueHashtagVO {
 	private int issuHtNo;
 	private int issuNo;
 	private String issuHtNm;
+
 }
