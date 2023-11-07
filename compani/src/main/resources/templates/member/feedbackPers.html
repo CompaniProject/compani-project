@@ -384,7 +384,7 @@
 		 				
 	 			
 				if($('#feedtarget').text().length > 0){
-					
+					if(buss.length > 3){
 					 new Chartist.Bar('#horizontal-bar-chart2', {
 						    labels: buss,
 						    series: [prgre]
@@ -400,6 +400,23 @@
 						      Chartist.plugins.tooltip()
 						    ]
 					});
+					}else{
+						 new Chartist.Bar('#horizontal-bar-chart2', {
+							    labels: buss,
+							    series: [prgre]
+							  }, {
+							    seriesBarDistance: 10,
+							    reverseData: true,
+							    horizontalBars: true,
+							    height:120,
+							    axisY: {
+							      offset: 120
+							    },
+							    plugins: [
+							      Chartist.plugins.tooltip()
+							    ]
+						});
+					}
 				}else{
 	 				
 					 new Chartist.Bar('#horizontal-bar-chart2', {
