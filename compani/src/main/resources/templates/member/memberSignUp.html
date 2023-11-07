@@ -697,8 +697,7 @@ mark, .mark {
 						e.preventDefault();
 					}else{
 						$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
-						swal('가입완료!', "정상적으로 가입되었습니다.", 'success');
-						$("#formSignUp").attr("action","SignUpped").submit();
+						swal('가입완료!', "정상적으로 가입되었습니다.", 'success').then($("#formSignUp").attr("action","SignUpped").submit());
 					}
 				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 0){
 					$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
