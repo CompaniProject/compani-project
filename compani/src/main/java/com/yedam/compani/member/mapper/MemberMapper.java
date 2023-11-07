@@ -25,7 +25,7 @@ public interface MemberMapper {
 	public List<MemberVO> memberList(MemberVO vo);
 	public List<MemberVO> prjtMemberList(@Param("prjtNo") Integer prjtNo, @Param("coCd") String coCd);
 	
-	// 마스터 회원리스트
+	// 마스터 멤버리스트
 	public List<Map<Object, Object>> masterMemberList();
 	
 	public List<Map<String, String>> selectPersonalFeedbackStatusCnt(int one);
@@ -34,4 +34,7 @@ public interface MemberMapper {
 	public int updateMemberAccp(MemberVO vo);
 	
 	public List<MemberVO> projectMemberList(int prjtNo);
+	
+	// 회사관리자 멤버리스트
+	public List<Map<Object, Object>> companyManager(String coCd);
 }

@@ -28,12 +28,16 @@ public interface MemberService {
 	// 프로젝트 모달 수정 - 회사 멤버 리스트(생성자 제외)
 	public List<MemberVO> prjtMemberList(Integer prjtNo, String coCd);
 
-	// 마스터 회원리스트
+	// 마스터 멤버리스트
 	public List<Map<Object, Object>> masterMemberList();
+	
 	public List<Map<String, String>> getPersonalFeedbackStatusCnt(int one);
 	
 	// 마스터 멤버 승인
 	public int updateMemberAccp(MemberVO vo);
 	
 	public List<MemberVO> projectMemberList(int prjtNo);
+	
+	// 회사관리자 멤버리스트
+	public List<Map<Object, Object>> companyManager(String coCd);
 }

@@ -225,4 +225,16 @@
 		AND    pm.PRJT_NO = #{prjtNo}
 
 	</select>
+	
+	<!-- 회사관리자 멤버리스트 -->
+	<select id="companyManager" resultType="MemberVO">
+		SELECT memb_nm
+			   , memb_dept
+			   , memb_wkgd
+			   , memb_birth_dt
+			   , memb_email
+			   , memb_telno
+		FROM member
+		WHERE co_cd = #{coCd}
+	</select>
 </mapper>

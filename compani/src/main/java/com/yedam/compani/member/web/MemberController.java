@@ -23,6 +23,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -223,5 +224,13 @@ public class MemberController {
 	public String updateMemberAccp(@RequestBody MemberVO vo){
 		service.updateMemberAccp(vo);
 		return "master/master-manager";
+	}
+	
+	// 김연규, 2023-11-07, 회사관리자 멤버리스트
+	@GetMapping("/companyManager/{coCd}")
+	public String companyManager(Model model, @PathVariable String coCd) {
+		List<Map<Object, Object>> list = service.companyManager(coCd);
+		model.addAttribute("companyManager", list);
+		return "master/company-manager";
 	}
 }

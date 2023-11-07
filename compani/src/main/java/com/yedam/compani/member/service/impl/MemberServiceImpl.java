@@ -96,4 +96,10 @@ public class MemberServiceImpl implements MemberService {
 		return map.projectMemberList(prjtNo);
 	}
 	
+	// 회사관리자 멤버리스트
+	@Override
+	public List<Map<Object, Object>> companyManager(String coCd) {
+		return map.companyManager(coCd);
+	}
+	
 }

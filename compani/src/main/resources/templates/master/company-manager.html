@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>회사 관리</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+	<div class="card">
+		<div class="card-body">
+			<h1>회사 관리</h1>
+			<hr>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>부서</th>
+							<th>직급</th>
+							<th>이름</th>
+							<th>생일</th>
+							<th>이메일</th>
+							<th>전화번호</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="info : ${companyManager}">
+							<td th:text="${info.membDept}"></td>
+							<td th:text="${info.membWkgd}"></td>
+							<td th:text="${info.membNm}"></td>
+							<td th:text="${info.membBirthDt}"></td>
+							<td th:text="${info.membEmail}"></td>
+							<td th:text="${info.membTelno}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+	var memberList = [[${companyManager}]];
+	
+	// 멤버 목록
+	
+	</script>
+</th:block>
+</body>
+</html>
