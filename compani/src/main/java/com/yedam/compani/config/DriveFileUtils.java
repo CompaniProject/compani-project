@@ -24,7 +24,7 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
 //@Component는 개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
 @Component
 public class DriveFileUtils {
-    private final String uploadPath = Paths.get("C:", "develop", "upload-files").toString();
+    private final String uploadPath = Paths.get("C:", "Temp").toString();
 
     /**
      * 다중 파일 업로드
@@ -127,9 +127,9 @@ public class DriveFileUtils {
      * @return 첨부파일(리소스)
      */
     public Resource readFileAsResource(final FileVO file) {
-        String uploadedDate = file.getFileDt().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
+   
         String filename = file.getFilePath();
-        Path filePath = Paths.get(uploadPath, uploadedDate, filename);
+        Path filePath = Paths.get(uploadPath,filename);
         try {
             Resource resource = new UrlResource(filePath.toUri());
             if (resource.exists() == false || resource.isFile() == false) {

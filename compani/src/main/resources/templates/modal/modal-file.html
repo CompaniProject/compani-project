@@ -194,7 +194,8 @@ input[type="checkbox"]:checked::after {
 												<td
 													th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
 												<!-- 다운로드 아이콘 -->
-												<td class="downIcon" onclick="fileDown(fileNo)"><i class="fa-solid fa-download"></i></td>
+												<td class="downIcon" th:attr="onclick='fileDown(\'' + ${fileList.fileNo} + '\')'"><i class="fa-solid fa-download"></i></td>
+												
 												<!-- 쓰레기 아이콘 -->
 												<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 											</tr>
@@ -382,7 +383,7 @@ input[type="checkbox"]:checked::after {
 			<td class="fSize">${(ByteSize(item.fileSize))}</td>
 			<td>${item.membNm}</td>
 			<td>${item.fileDt}</td>
-			<td class="downIcon"><i class="fa-solid fa-download"></i></td>
+			<td class="downIcon" onclick="fileDown(\'' + ${item.fileNo} + '\')"><i class="fa-solid fa-download"></i></td>
 			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 			</tr>`
 			
@@ -478,7 +479,9 @@ input[type="checkbox"]:checked::after {
 	};
 
 	// ======== 파일 업로드 AJAX ========
+	
 
+	
 	$('#selectedFile').on(
 			'change',
 			function() {
@@ -548,12 +551,13 @@ input[type="checkbox"]:checked::after {
 							
 							
 							var fileDownTag = $('<td/>').attr('class',
-									'downIcon');
-							fileDown = $('<i/>').attr('class',
-									'fa-solid fa-download').attr("onclick", "fileDown(" + result.fileVO.fileNo +")");
+									'downIcon').attr("onclick", "fileDown('" + result.fileVO.fileNo +"')");							
+							var fileDown = $('<i/>').attr('class', 'fa-solid fa-download');
+							
 							var fileDelTag = $('<td/>').attr('class',
 									'trashIcon');
-							fileDel = $('<i/>').attr('class',
+							
+							var fileDel = $('<i/>').attr('class',
 									'fa-solid fa-trash');
 
 							checkTd.append(fileCheckTag);
@@ -579,10 +583,10 @@ input[type="checkbox"]:checked::after {
 					}
 				});
 			});
-
-	// 파일 다운로드
-	function fileDown(fileNo){
-		location.href = '/searchFile/' + fileNo + '/download';
-	}
+	
+		// 파일 다운로드
+		function fileDown(fileNo){
+			location.href = '/searchFile/' + fileNo + '/download';
+		}
 	
 </script>
