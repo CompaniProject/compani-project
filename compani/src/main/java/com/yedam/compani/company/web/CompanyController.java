@@ -66,6 +66,6 @@ public class CompanyController {
 	@ResponseBody
 	public String updateCompanyAccp(@RequestBody CompanyVO vo) {
 		service.updateCompanyAccp(vo);
-		return "master/master-home";
+		return "master/master-manager";
 	}
 }

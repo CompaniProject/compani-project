@@ -207,14 +207,14 @@ public class MemberController {
 		return map;
 	}
 	
-	// 김연규, 2023-11-03, 마스터 멤버리스트
+	// 김연규, 2023-11-03, 마스터 홈
 	@GetMapping("/masterHome")
 	public String masterList(Model model) {
 		List<CompanyVO> companyList = serviceC.companyAllList();
 		List<Map<Object, Object>> memberList = service.masterMemberList();
 		model.addAttribute("masterCompanyList", companyList);
 		model.addAttribute("masterMemberList", memberList);
-		return "master/master-home";
+		return "master/master-manager";
 	}
 	
 	// 김연규, 2023-11-04, 마스터 멤버 승인
@@ -222,6 +222,6 @@ public class MemberController {
 	@ResponseBody
 	public String updateMemberAccp(@RequestBody MemberVO vo){
 		service.updateMemberAccp(vo);
-		return "master/master-home";
+		return "master/master-manager";
 	}
 }
