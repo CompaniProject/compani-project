@@ -97,7 +97,7 @@ public class MemberController {
 	// 가입 서브밋
 	@PostMapping("/SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
-		if (membVO.getPermNo().equals("2")) {
+		if (membVO.getPermNo().equals("0A2")) {
 			if (serviceC.setCompanyInfo(compVO) > 0) {
 				if (service.setMemberInfo(membVO) > 0) {
 					return "redirect:complete";

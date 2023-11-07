@@ -308,7 +308,7 @@ mark, .mark {
 											</div>
 										</div>
 										<div>
-											<input type="number" class="form-control" id="permNo"
+											<input type="text" class="form-control" id="permNo"
 												name="permNo" placeholder="" hidden>
 										</div>
 
@@ -399,7 +399,7 @@ mark, .mark {
 			if('[(${companyVO.coBizno})]'!= null && '[(${companyVO.coBizno})]' != ''){
 				$('#coNm').val('[(${companyVO.coNm})]');
 				$('#coCd').val('[(${companyVO.coCd})]');
-				$('#searchComp').css('display', 'none');
+				$('#searchComp').hide();
 				$('#permNo').val("0A2");
 			}
 		});
@@ -589,7 +589,7 @@ mark, .mark {
 	//이메일 형식 검사
 	$('#selectEmail').change(function(){
 		
-		if($('#str_email02').val() == null || $('#str_email02').val() == ''){
+		if($('#str_email02').val().length == 0){
 			$('#conditionEmail').css('display', 'block');
 			$('#conditionEid').hide();
 		}else{
