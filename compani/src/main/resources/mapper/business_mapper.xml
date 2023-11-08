@@ -28,7 +28,7 @@
 		OR buss_st = '0K3')
 		AND
 		memb_id = #{membId}
-		ORDER BY buss_no
+		ORDER BY buss_frdt
 	</select>
 
 	<!-- 프로젝트 캘린더 업무 목록 -->
