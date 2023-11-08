@@ -132,31 +132,6 @@ public class FileUploadController {
 			return uploadFileName.replace(File.separator, "/");
 		}
 		
-		// 파일 다운로드
-		@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-		@ResponseBody
-		public ResponseEntity<Resource> downloadFile(String saveName){	
-			log.info("download file : " + saveName);
-			
-			// 존재하는 파일 찾아감
-			FileSystemResource resource = new FileSystemResource(saveName);
-			
-			log.info("resource : " + resource);
-			
-			String resourceName = resource.getFilename();
-			
-			HttpHeaders headers = new HttpHeaders();
-			try {			// 파일명이 한글일 시 깨짐 방지
-				headers.add("Content-Disposition",
-						"attachment; filename=" + new String(resourceName.getBytes("UTF-8"),
-						"ISO-8859-1"));
-			}catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-
-			return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-		}
-		
 		//첨부 파일 다운로드
 		  @GetMapping("/searchFile/{fileNo}/download")
 		    public ResponseEntity<Resource> downloadFile(@PathVariable final int fileNo) {
