@@ -164,7 +164,7 @@
 				<!-- 댓글 등록 영역 -->
 	            <div class="card-footer">
 					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;" maxlength="400"></textarea>
-		            <span id="edit-cntn-count">0/400</span>
+		            <span id="input-cntn-count">0/400</span>
 		            <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
 	            </div>
 				<!-- 댓글 등록 영역 End -->
@@ -179,7 +179,8 @@
 	        <h5></h5>
 	        <p class="mb-0"></p>
 			<div class="edit-area" style="display:none;">
-				<textarea class="form-control" id="editCntn"></textarea>
+				<textarea class="form-control editCntn" id="editCntn" maxlength="400"></textarea>		            
+				<span class="edit-cntn-count">0/400</span>
 			</div>
 	    </div>
 	    <ul class="btn-area">
@@ -239,7 +240,8 @@
 			$(event.data.idTag).text(txt);
 		}
 
-		$('#inputCntn').on("keyup",{idTag:"#edit-cntn-count"},commentCntnCount)
+		$('#inputCntn').on("keyup",{idTag:"#input-cntn-count"},commentCntnCount);
+		$(document).on("keyup",".editCntn",{idTag:".edit-cntn-count"},commentCntnCount);
 		
 	</script>
 	

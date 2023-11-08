@@ -159,6 +159,9 @@
     // ------------------------------------------------
     
 	function replyInsertAreaHTML(event){
+		// remove count area size
+		$('.edit-cntn-count').text("0/" + text_limit);
+	
 	    // create tag
 		let curBody = $(event.target).closest('.media');
 	    let insertBody = $('#insertBody');
