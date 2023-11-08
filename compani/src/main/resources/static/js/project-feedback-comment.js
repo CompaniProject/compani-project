@@ -22,6 +22,7 @@
         obj["prjtFdbkUpno"] = curBody.data('parentNo');
         
         cntn.val('');
+        $("#input-cntn-count").text("0/" + text_limit);
         
         return obj;
 	}
