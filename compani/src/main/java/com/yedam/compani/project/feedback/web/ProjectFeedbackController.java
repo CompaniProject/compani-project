@@ -4,6 +4,7 @@ import com.yedam.compani.company.status.service.CompanyStatusService;
 import com.yedam.compani.company.status.service.CompanyStatusVO;
 import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackVO;
+import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProjectFeedbackController {
 	private final ProjectStatusService projectStatusService;
 	private final CompanyStatusService companyStatusService;
 	private final ProjectFeedbackService projectFeedbackService;
+	private final ProjectService projectService;
 	
 	@GetMapping("/project/feedback/{prjtNo}")
 	public String projectFeedbackHome(@PathVariable int prjtNo, Model model, HttpSession session) {
@@ -41,12 +43,13 @@ public class ProjectFeedbackController {
 		CompanyStatusVO cpnStatForCurrDt = companyStatusService.getStatusForCurrentDate(coCd);
 		CompanyStatusVO cpnStatForPrjtDt = companyStatusService.getStatusForProjectDate(prjtNo,coCd);
 		List<Map<Object,Object>> feedbackList = projectFeedbackService.getListForLevel(prjtNo);
-
+		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
+		
 		model.addAttribute("projectStatus",projectStatus);
 		model.addAttribute("cpnStatForCurrDt",cpnStatForCurrDt);
 		model.addAttribute("cpnStatForPrjtDt",cpnStatForPrjtDt);
 		model.addAttribute("projectFeedbackList",feedbackList);
-		model.addAttribute("prjtNo",prjtNo);
+		model.addAttribute("projectVO", projectVO);
 
 		return "project/feedback-home";
 	}
