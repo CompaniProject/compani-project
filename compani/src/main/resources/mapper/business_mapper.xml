@@ -105,10 +105,10 @@
 		B.BUSS_NM,
 		B.BUSS_FRDT,
 		B.BUSS_TODT,
-		B.BUSS_IMP
+		B.BUSS_IMP,
+		FIND_CODENM(B.BUSS_IMP) AS bussImpNm
 		FROM BUSINESS B, BUSINESS_MEMBER BM, PROJECT P
-		WHERE BM.BUSS_NO =
-		B.BUSS_NO
+		WHERE BM.BUSS_NO = B.BUSS_NO
 		AND P.PRJT_NO = B.PRJT_NO
 		AND BM.MEMB_ID = #{membId}
 	</select>
@@ -159,7 +159,6 @@
 	<update id="updateBusiness" parameterType="BusinessVO">
 
 		DECLARE
-	
 		p_buss_no NUMBER(10) := 0;
 		
 		BEGIN

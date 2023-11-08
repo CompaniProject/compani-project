@@ -128,4 +128,14 @@
 		WHERE  prjt_no     = #{prjtNo}
 	
 	</update>
+	
+	<select id="updateCheck" resultType="ProjectMemberVO">
+		SELECT pm.memb_id 	
+		FROM   PROJECT_MEMBER pm, PROJECT p
+		WHERE  pm.prjt_No = p.prjt_No
+		AND    pm.prjt_NO  = #{prjtNo}
+		AND    pm.memb_id =  #{membId}
+		AND    p.PRJT_ST not in ('0D2')
+	</select>
+	
 </mapper>

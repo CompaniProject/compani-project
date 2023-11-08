@@ -150,12 +150,13 @@ public class BusinessController {
 	@PostMapping("/updateBusiness")
 	@ResponseBody
 	public void updateBusiness(@RequestBody FormVO formVO) {
-
-		businessService.modifyBusiness(formVO.getBusiness());
 		
-		//종속 변경인디 
+		//업무 수정 
+		businessService.modifyBusiness(formVO.getBusiness());
+		//종속 변경
 		businessService.updateBusiness(formVO.getBusiness()); 
-	
+		
+		//참여자 변경
 		//businessMemberService.deleteBusinessMember(formVO);
 		//businessMemberService.insertBusinessMember(formVO);
 		 

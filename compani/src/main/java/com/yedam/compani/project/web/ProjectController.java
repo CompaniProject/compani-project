@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
@@ -50,7 +49,6 @@ public class ProjectController {
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
 		
-
 		model.addAttribute("businessStateList", businessStateList);
 		model.addAttribute("businessLevelList", businessLevelList);
 		model.addAttribute("memberStatusList", memberStatusList);
@@ -59,6 +57,11 @@ public class ProjectController {
 		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", projectVO);
 		request.getSession().setAttribute("prjtNo", prjtNo);
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String membId = memberVO.getMembId();
+		// prjtNo, membId 프로젝트 참여자 인지 확인하고 프로젝트 완료 체크  
+		ProjectMemberVO pmVO = projectService.updateCheck(prjtNo, membId);
+		request.getSession().setAttribute("updateCheck", pmVO);
 		
 		return "project/project-home";
 	}
@@ -144,12 +147,16 @@ public class ProjectController {
 	
 	@PostMapping("/updateProject")
 	@ResponseBody
-	public void updateProject(@RequestBody ProjectFormVO formVO) {
+	public void updateProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<>();
 		
 		ProjectVO projectVO = formVO.getProject();
+		int prjtNo = formVO.getProject().getPrjtNo();
 		projectService.updateProject(projectVO);
 		
+		
+		Map<Object, Object> project = projectService.projectSelect(prjtNo);
+		request.getSession().setAttribute("projectVO", project);
 		// 프로젝트 완료 시, 통계 측정
 		/*
 		 * if (projectVO.isStateEnd()) {

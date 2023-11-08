@@ -28,10 +28,9 @@
 							</div>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-project" href="#">진행중</a> <a
-									class="dropdown-project" href="#">완료</a>
-									<a
+									class="dropdown-project" href="#">완료</a> <a
 									class="dropdown-project" href="#">보류</a>
-								
+
 
 							</div>
 						</div>
@@ -120,14 +119,14 @@
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">업무</h4>
 						<div class="dropdown custom-dropdown">
-							<div data-toggle="dropdown">
-								<a class="dropdown-business" href="#"></a>중요도<i
-									class="fa fa-angle-down m-l-5"></i>
-							</div>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-business" href="#">상</a> <a
-									class="dropdown-business" href="#">중</a> <a
-									class="dropdown-business" href="#">하</a>
+							<div>
+								<!-- selected 박스로 변경하기  -->
+								<select class="dropdown-business" name="bussImp">
+									<option class="dropdown-relation" value="*">전체</option>
+									<option class="dropdown-relation" value="0J1">상</option>
+									<option class="dropdown-relation" value="0J2">중</option>
+									<option class="dropdown-relation" value="0J3">하</option>
+								</select>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -151,9 +150,7 @@
 											<td
 												th:text="${#dates.format(businessList.bussTodt, 'yyyy-MM-dd')}" />
 
-											<td th:if="${businessList.bussImp == '0J1'}">상</td>
-											<td th:if="${businessList.bussImp == '0J2'}">중</td>
-											<td th:if="${businessList.bussImp == '0J3'}">하</td>
+											<td th:text="${businessList.bussImpNm}">
 										</tr>
 									</th:block>
 								</tbody>
@@ -168,8 +165,18 @@
 				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">이슈</h4>
-
 						<div class="dropdown custom-dropdown">
+							<div>
+								<!-- selected 박스로 변경하기  -->
+								<select class="dropdown-business" name="issue">
+									<option class="dropdown-relation" value="*">전체</option>
+									<option class="dropdown-relation" value="0E1">해결</option>
+									<option class="dropdown-relation" value="0E2">미해결</option>
+									<option class="dropdown-relation" value="0E3">해결불가</option>
+								</select>
+							</div>
+						</div>
+						<!-- <div class="dropdown custom-dropdown">
 							<div data-toggle="dropdown">
 								<a class="dropdown-issue" href="#"></a>상태<i
 									class="fa fa-angle-down m-l-5"></i>
@@ -179,7 +186,7 @@
 									class="dropdown-issue" href="#">미해결</a> <a
 									class="dropdown-issue" href="#">해결불가</a>
 							</div>
-						</div>
+						</div> -->
 						<div class="table-responsive">
 							<table class="table">
 								<thead>
@@ -216,9 +223,9 @@
 			//드롭다운 
 			$('.dropdown-project').on('click', projectDropDown);
 			$('.dropdown-feedback').on('click', feedbackDropdown);
-			$('.dropdown-business').on('click', businessDropdown);
-			$('.dropdown-issue').on('click', issueDropdown);
-					
+			$('select[name=bussImp]').on('change', businessDropdown);
+			$('select[name=issue]').on('change', issueDropdown);
+			
 			function projectDropDown() {
 				
 				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
@@ -299,9 +306,8 @@
 				$(this).parent().siblings().text($(this).text());
 				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
 				
-				 
 				let fdList = [[${memberFeedbackList}]];
-		
+			
 				let membFdbkDt =$(this).text();
 				let replytbl = $('#replytbl');
 				
@@ -372,14 +378,14 @@
 			}
 			
 			function businessDropdown(){
-				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				/* $(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
-				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>'); */
 				
-				 
 				let businessList = [[${businessList}]];
 		
-				let membFdbkDt =$(this).text();
+				//let membFdbkDt =$(this).val();
+				let membFdbkDt = $('select[name=bussImp] option:selected').text();
 				let businesstbl = $('#businesstbl');
 				
 				if(membFdbkDt=='상'){
@@ -448,7 +454,7 @@
     					businesstbl.append(trTag);
 					})
 					
-				}else{
+				}else if(membFdbkDt=='하'){
 					let bussImp = businessList.filter( businessList => businessList.bussImp == '0J3');
 					businesstbl.empty();
 					
@@ -480,18 +486,49 @@
     					
     					businesstbl.append(trTag);
 					})
+				}else{
+					let bussImp = businessList;
+					businesstbl.empty();
+					
+					$.each(bussImp, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.bussNm);
+    					trTag.append(tdTag);
+    					
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					let bussFrdt = new Date(data.bussFrdt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussFrdt));
+    					trTag.append(tdTag);
+    					
+    					let bussTodt = new Date(data.bussTodt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(bussTodt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.bussImpNm);
+    					trTag.append(tdTag);
+    					
+    					businesstbl.append(trTag);
+				})
 				}
 			
 			}
 			function issueDropdown(){
-				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
+				/* $(this).parent().siblings().attr('class', $(this).children().attr('class'));
 				$(this).parent().siblings().text($(this).text());
-				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
+				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>'); */
 				
-				 
 				let issueList = [[${issueList}]];
 		
-				let membFdbkDt =$(this).text();
+				let membFdbkDt =$('select[name=issue] option:selected').text();;
 				let issuetbl = $('#issuetbl');
 				
 				if(membFdbkDt=='해결'){
@@ -553,7 +590,7 @@
     					issuetbl.append(trTag);
 					})
 					
-				}else{
+				}else if(membFdbkDt=='해결불가'){
 					
 					let issueSt = issueList.filter(issueList =>issueList.issuSt == '0E3');
 					
@@ -583,6 +620,34 @@
     					issuetbl.append(trTag);
 					})
 					
+				}else{
+					let issueSt = issueList;
+					
+					issuetbl.empty();
+					
+					$.each(issueSt, function (idx, data) {
+						let trTag = $('<tr/>');
+						let tdTag= $('<td/>');
+						
+						tdTag= $('<td/>');
+    					tdTag.append(data.prjtNm);
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data.membId);
+    					trTag.append(tdTag);
+    					
+    					let issuDt = new Date(data.issuDt);
+    					tdTag= $('<td/>');
+    					tdTag.append(dateFormat(issuDt));
+    					trTag.append(tdTag);
+    					
+    					tdTag= $('<td/>');
+    					tdTag.append(data,issuStNm);
+    					trTag.append(tdTag);
+    					
+    					issuetbl.append(trTag);
+				})
 				}
 			}
 			
