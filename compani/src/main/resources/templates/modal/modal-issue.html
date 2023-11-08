@@ -224,7 +224,7 @@
 				<p class="sectionTitleText">해시태그</p>
 			</div>
 			<input name='input-custom-dropdown' class='tagify__dropdown__item'
-				placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+				placeholder='Enter키로 등록하세요. 최대 5개까지 등록이 가능합니다.'>
 		</div>
 	</div>
 	<!--/* 취소 확인하는 모달 START */-->
@@ -468,7 +468,7 @@
 				<p class="sectionTitleText">해시태그</p>
 			</div>
 			<input name='input-custom-dropdownE' class='tagify__dropdown__itemE'
-				placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+				placeholder='Enter키로 등록하세요. 최대 5개까지 등록이 가능합니다.'>
 		</div>
 	</div>
 	<!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
@@ -1806,7 +1806,7 @@
 	var inputHash = document.querySelector('input[name="input-custom-dropdown"]');
 
 	var tagify = new Tagify(inputHash, {
-		maxTags: 10, // 최대 허용 태그 개수
+		maxTags: 5, // 최대 허용 태그 개수
 		dropdown: {
 			position: "input",
 			classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
@@ -1819,7 +1819,7 @@
 	var inputHashE = document.querySelector('input[name="input-custom-dropdownE"]');
 
 	var tagifyE = new Tagify(inputHashE, {
-		maxTags: 10, // 최대 허용 태그 개수
+		maxTags: 5, // 최대 허용 태그 개수
 		dropdown: {
 			position: "input",
 			classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
