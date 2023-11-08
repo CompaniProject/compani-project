@@ -58,6 +58,7 @@
 	            <!-- Comemnt Input Area Start -->
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn"></textarea>
+					<span id="input-cntn-count">0/400</span>
 					<button id="commentInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em" onclick="insertComment()">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
@@ -72,7 +73,8 @@
         <h5></h5>
         <p class="mb-0"></p>
 		<div class="edit-area" style="display:none;">
-			<textarea class="form-control" id="editCntn"></textarea>
+			<textarea class="form-control editCntn" id="editCntn" maxlength="400"></textarea>
+			<span class="edit-cntn-count">0/400</span>
 		</div>
     </div>
     <ul class="btn-area">
@@ -99,6 +101,7 @@
 
 <script>
 	var membNm = "[[${session.loginInfo.membNm}]]";
+	var text_limit = 400;
 	$(function(){
 	    $('#reply-body-div').slimScroll({
 	        height: '250px'
@@ -127,6 +130,7 @@
 	    obj["replyUpno"] = curBody.data('parentNo');
 
 	    cntn.val('');
+	    $("#input-cntn-count").text("0/" + text_limit);
 	    
 	    return obj;
 	}
@@ -167,7 +171,10 @@
 	    insertBody.find('textarea').text(data.replyCntn);
 	    insertBody.find('#date-area').text(timestamp(data.replyDt));
 	    insertBody.attr('id','');
-	    
+
+		insertBody.find('.replyInsertBtn').remove();
+		insertBody.find('.replyDeleteBtn').remove();
+		
 	    toggleBodyDisplay(insertBody,true);
 	    
 	    // insert comment tag to comment body
@@ -265,6 +272,9 @@
     // ------------------------------------------------
     
 	function replyInsertAreaHTML(event){
+		// remove count area size
+		$('.edit-cntn-count').text("0/" + text_limit);
+		
 	    // create tag
 		let curBody = $(event.target).closest('.media');
 	    let insertBody = $('#insertBody');
@@ -313,6 +323,23 @@
 	$(document).on('click','.replyBtn',replyInsertAreaHTML);
 	$(document).on('click','.replyInsertBtn',replyInsert);
 	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
-    
+	
+	// ---------------------------------------------------- insert Cntn Counting
+   	function commentCntnCount(event){
+		let text_count = $(this).val().length;
+		if (text_count >= text_limit){
+			Swal.fire({
+                   icon: 'error',
+                   text: '피드백을 '+ text_limit + '자 이하로 입력해 주세요.',
+               });
+		}
+		
+		let txt = text_count + "/" + text_limit;
+		$(event.data.idTag).text(txt);
+	}
+
+	$('#inputCntn').on("keyup",{idTag:"#input-cntn-count"},commentCntnCount);
+	$(document).on("keyup",".editCntn",{idTag:".edit-cntn-count"},commentCntnCount);
+	
 </script>
             
