@@ -21,9 +21,10 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
+			.antMatchers("/").permitAll()
 			.antMatchers("/loginForm").permitAll()
 			.antMatchers("/home").hasAnyRole("0A1", "0A2", "0A3", "0A4");
-
+			
 //			.antMatchers("/").hasRole("0A2")
 //			.antMatchers("/").hasRole("0A3")
 //			.antMatchers("/").hasRole("0A4");

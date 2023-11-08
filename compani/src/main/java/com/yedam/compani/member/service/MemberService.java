@@ -36,4 +36,6 @@ public interface MemberService {
 	public int updateMemberAccp(MemberVO vo);
 	
 	public List<MemberVO> projectMemberList(int prjtNo);
+	
+	public int editProfile(MemberVO vo);
 }

@@ -34,4 +34,6 @@ public interface MemberMapper {
 	public int updateMemberAccp(MemberVO vo);
 	
 	public List<MemberVO> projectMemberList(int prjtNo);
+	
+	public int updateMemberprofile(MemberVO vo);
 }

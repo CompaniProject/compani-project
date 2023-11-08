@@ -95,5 +95,10 @@ public class MemberServiceImpl implements MemberService {
 	
 		return map.projectMemberList(prjtNo);
 	}
+
+	@Override
+	public int editProfile(MemberVO vo) {
+		return map.updateMemberprofile(vo);
+	}
 	
 }

@@ -49,7 +49,11 @@ public class MemberController {
 
 	HttpServletRequest request;
 	HttpSession session;
-
+	// 홈페이지
+	@GetMapping("/")
+	public String homepage() {
+		return "member/memberLoginForm";
+	}
 	// 로그인 페이지
 	@GetMapping("/loginForm")
 	public String memberLoginForm() {
@@ -185,7 +189,7 @@ public class MemberController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	} 
 	// method uploadFile

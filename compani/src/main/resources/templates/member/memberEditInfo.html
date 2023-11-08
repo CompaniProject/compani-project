@@ -55,20 +55,15 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="form-validation">
-							<!-- <input type="text" id="membPhtPath"/> -->
 									<img class="form-group" id="membPhtPath2" width="200"
-										height="200" style="border-radius: 70%"
-										src="images/member/77.jpg" />
-<!-- 										<img
-										src="images/member/plus.png" onclick="#" width="40"
+										height="200" style="border-radius: 70%" src="/upload/"
+										/>
+ 										<img
+										src="images/member/plus.png" onclick="$('#profilePht').trigger('click')" width="40"
 										height="30" style="vertical-align: bottom;">
 
-
-									<form action="/Temp" id="upload-file-form" method="post" enctype="multipart/form-data">
-										<input id="profilePht" type="file" name="uploadfile"
-											accept="image/png, image/jpeg"/>
-									</form> -->
-
+										<input id="profilePht" type="file" name="profilePht"
+											accept="image/png, image/jpeg" hidden/>
 
 									<div class="form-group row">
 									<label class="col-lg-4 col-form-label" for="coNm">소속기관
@@ -335,8 +330,7 @@
 	 	$('#membNm').val(memberInfo.membNm);
 	 	$('#membDept').val(memberInfo.membDept);
 	 	$('#membWkgd').val(memberInfo.membWkgd);
-	 	$('#membPhtPath').val(memberInfo.membPhtPath);
-	 	$('#membPhtPath2').prop('src', 'images/member/'+memberInfo.membPhtPath);
+	 	$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
 	 	
 	 	year = new Date(memberInfo.membBirthDt).getFullYear();
 	 	month = new Date(memberInfo.membBirthDt).getMonth()+1;
@@ -623,8 +617,13 @@ $('#membWkgd').on("input", function(event){
 				$("#conditionTel").show();
 				return false;
 			}
-			swal('완료!', "정상적으로 정보가 저장되었습니다.", 'success');
-			$('form').attr('action','memberEditInfo').submit();
+			$(function(){
+				swal({title : '완료!', text : "정상적으로 정보가 저장되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+					$('form').attr('action','memberEditInfo').submit();
+				});	
+			})
+			
+			
 		}else if($('#membNm').val().length == 0 && $('#membBirthDt').val().length != 10){
 			$("#formsMembBd").show();
 			$("#conditionNm").show();
@@ -636,8 +635,11 @@ $('#membWkgd').on("input", function(event){
 			$("#conditionBd").show();
 			return false;
 		}else{
-			swal('오류!', "저장할 정보를 정확하게 입력해주세요.", 'error');
-			return false;
+			$(function(){
+				swal({title : '오류!', text : "저장할 정보를 정확하게 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+					return false;
+				});	
+			})
 		}
    });
    
@@ -737,11 +739,17 @@ $('#membPwd2').on("input", function(event){
 		if($('#okPw').css('display') == 'inline'
 		&& $('#conditionPw2').css('display') == 'inline'
 		&& $('#conditionPw4').css('display') == 'inline'){
-			swal('변경 완료!', "정상적으로 비밀번호가 변경되었습니다.", 'success');
-			return $('form').attr('action','memberEditPwd').submit();
+			$(function(){
+				swal({title : '변경 완료!', text : "정상적으로 비밀번호가 변경되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+					$('form').attr('action','memberEditPwd').submit();
+				});	
+			})
 		}else{
-			swal('오류!', "입력한 비밀번호를 다시 확인하세요.", 'error');
-			e.preventDefault();
+			$(function(){
+				swal({title : '오류!', text : "입력한 비밀번호를 다시 확인하세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+					return false;
+				});	
+			})
 		}
    });
  
@@ -749,28 +757,11 @@ $('#membPwd2').on("input", function(event){
 
 
 ///////////////////////파일
- /* 	$('#profilePht').change(function() {
-		var formData = new FormData(); //FormData 객체 생성(content-type을 갖고있는 클레스임. servlet-context.xml에 multipartResolver가 필요함.)
-		var inputFile = $("#profilePht");
+  	$('#profilePht').change(function() {
+  		var formData = new FormData(); //FormData 객체 생성(content-type을 갖고있는 클레스임. servlet-context.xml에 multipartResolver가 필요함.)
+		var files = $('#profilePht')[0].files[0];
 
-		var files = inputFile[0].files;
-		//files : 선택한 모든 파일을 나열하는 FileList 객체입니다.
-		//multiple 특성을 지정하지 않닸다면 두 개 이상의 파일을 포함하지 않습니다.
-
-		formData.append("uploadFiles", files[0]);//키,값으로 append 
-
-		//실제 업로드 ajax
-		
-		//1)자바스크립트 : fetch
- 		fetch('uploadsAjax',{
-			method : 'post',
-			body : formData
-		})
-		.then(response => response.json())
-		.then(data => console.log(data))
-		.catch(err => console.log(err)); 
-
-        
+		formData.append("image", files);//키,값으로 append 
         //2)jQuery.ajax
         $.ajax({
             url: 'uploadsAjaxs',	
@@ -779,17 +770,13 @@ $('#membPwd2').on("input", function(event){
             contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
             data: formData,               
             success: function(result){
-            	console.log(result);
-            	console.log('${pageContext.request.contextPath}');
-            	
-			   let path = '${pageContext.request.contextPath}/' + result;
-			   $('#membPhtPath2').prop('src', path);
+				$('#membPhtPath2').prop('src', 'upload/'+result);
             },
             error: function(reject){	
                 console.log(reject);
             }
         }); 
-	}); */
+	}); 
 
 	</script>
 </th:block>

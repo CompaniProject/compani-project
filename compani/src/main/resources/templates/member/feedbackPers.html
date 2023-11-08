@@ -508,7 +508,7 @@
  	 			})
  	 			.done(result => {
  	 				feedbacks(result);
- 	 				swal('추가 ', $('#feedtarget').text() + "님에게 피드백을 추가하였습니다.", 'success');
+ 	 				swal('추가', $('#feedtarget').text() + "님에게 성공적으로 피드백을 추가하였습니다.", 'success');
  	 			})
  	 			.fail(err =>console.log("err"));
  			})
@@ -568,7 +568,10 @@
 	            data:JSON.stringify(obj),
 	            async: false
 	        })
-	        .done(data => {changeComment(data, comment)})
+	        .done(data => {
+	        	changeComment(data, comment);
+	        	swal('수정', $('#feedtarget').text() + "님에게 작성한 피드백을 성공적으로 수정하였습니다.", 'success');
+	        })
 	        .fail(err => {});
 	    }
 		// -------------------------------Update Ajax End
@@ -594,7 +597,7 @@
  	    }//-------------------------------------------------------------------------------
  		
 	function fail(){
-		swal('추가 불가!', "이미 작성한 피드백이 존재합니다.", 'error');
+		swal('추가 불가!', "이미 " + $('#feedtarget').text() + "님에게 피드백을 작성하였습니다.", 'error');
 	}//-------------------------------------------------------------------------------
 	
 	$(function(){
