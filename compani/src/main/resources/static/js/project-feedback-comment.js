@@ -62,6 +62,9 @@
         insertBody.find('#date-area').text(timestamp(data.prjtFdbkDt));
 		insertBody.attr('id','');
 		
+		insertBody.find('.replyInsertBtn').remove();
+		insertBody.find('.replyDeleteBtn').remove();
+		
 		toggleBodyDisplay(insertBody,true);
         
         // insert comment tag to comment body
