@@ -49,25 +49,7 @@
 					AND		f.memb_id = mem.memb_id
 					AND		f.prjt_no = #{prjtNo}
 					<choose>
-						<when test="filter == 'xls'">
-							AND f.file_type LIKE '%' || #{filter} || '%'
-						</when>
-						<when test="filter == 'pptx'">
-							AND f.file_type LIKE '%' || #{filter} || '%'
-						</when>
-						<when test="filter == 'pdf'">
-							AND f.file_type LIKE '%' || #{filter} || '%'
-						</when>
-						<when test="filter == 'zip'">
-							AND f.file_type LIKE '%' || #{filter} || '%'
-						</when>
-						<when test="filter == 'txt'">
-							AND f.file_type LIKE '%' || #{filter} || '%'
-						</when>
-						<when test="filter == 'jpg'">
-							AND f.file_type LIKE '%' || #{filter} || '%'
-						</when>
-						<when test="filter == 'png'">
+						<when test="filter != null and filter != ''">
 							AND f.file_type LIKE '%' || #{filter} || '%'
 						</when>
 					</choose>
@@ -167,7 +149,7 @@
 			                    , 	#{files.filePath} as filePath
 			                    ,   #{files.fileType} as fileType
 			                    ,   SYSDATE as fileDt
-			                    ,  	#{files.membId} as membId
+			                    ,  	'ojunkwon' as membId
 			                    ,   #{files.fileSize} as fileSize
 			            FROM       DUAL
 			        </foreach>
