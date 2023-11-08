@@ -23,6 +23,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -207,14 +208,12 @@ public class MemberController {
 		return map;
 	}
 	
-	// 김연규, 2023-11-03, 마스터 멤버리스트
-	@GetMapping("/masterHome")
+	// 김연규, 2023-11-03, 마스터-멤버
+	@GetMapping("/master-member")
 	public String masterList(Model model) {
-		List<CompanyVO> companyList = serviceC.companyAllList();
 		List<Map<Object, Object>> memberList = service.masterMemberList();
-		model.addAttribute("masterCompanyList", companyList);
 		model.addAttribute("masterMemberList", memberList);
-		return "master/master-home";
+		return "master/master-member";
 	}
 	
 	// 김연규, 2023-11-04, 마스터 멤버 승인
@@ -222,6 +221,16 @@ public class MemberController {
 	@ResponseBody
 	public String updateMemberAccp(@RequestBody MemberVO vo){
 		service.updateMemberAccp(vo);
-		return "master/master-home";
+		return "";
+	}
+	
+	// 김연규, 2023-11-07, 회사관리자 멤버리스트
+	@GetMapping("/companyManager")
+	public String companyManager(Model model, HttpSession session) {
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		String coCd = memberVO.getCoCd();
+		List<Map<Object, Object>> list = service.companyManager(coCd);
+		model.addAttribute("companyManager", list);
+		return "master/company-manager";
 	}
 }

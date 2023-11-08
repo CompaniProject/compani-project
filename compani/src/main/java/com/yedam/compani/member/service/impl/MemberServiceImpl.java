@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.compani.company.service.CompanyVO;
 import com.yedam.compani.member.mapper.MemberMapper;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
@@ -89,11 +90,22 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMemberAccp(MemberVO vo) {
 		return map.updateMemberAccp(vo);
 	}
-
+	
+	// 마스터 멤버 자동 승인
+	@Override
+	public int updateMemberAccpAuto(CompanyVO vo) {
+		return map.updateMemberAccpAuto(vo);
+	}
+	
 	@Override
 	public List<MemberVO> projectMemberList(int prjtNo) {
 	
 		return map.projectMemberList(prjtNo);
 	}
 	
+	// 회사관리자 멤버리스트
+	@Override
+	public List<Map<Object, Object>> companyManager(String coCd) {
+		return map.companyManager(coCd);
+	}
 }

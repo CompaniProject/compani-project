@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/projectlayout}">
+	layout:decorate="~{/layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>프로젝트 캘린더</title>
+<title>내 캘린더</title>
 <!-- 간트차트 css & js -->
 <link rel="stylesheet" href="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" type="text/css"> 
 <script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
@@ -22,19 +22,23 @@ body{
 	overflow: visible;
 }
 
-#projectCalendarBox {
+#personalCalendarBox {
 	width: 70%;
+	float: right;
 }
 
-#projectCalendar {
-	padding: 10px;
+#personalCalendar {
+	margin: 10px;
 	background-color: white;
 }
 
 .calendarBusinessInfo {
+	min-height: 1000px;
+	height: 100%;
 	width: 30%;
 	padding: 10px;
 	background-color: #dddddd;
+	float: right;
 }
 
 select {
@@ -128,7 +132,7 @@ select {
 	-webkit-box-orient: vertical;
 }
 
-#projectGanttchart {
+#personalGanttchart {
 	padding: 10px;
 	float: left;
 	display: none;
@@ -144,21 +148,22 @@ select {
 .gantt_link_control.task_left.task_start_date {
 	display: none;
 }
+
 </style>
 
 </head>
 <body>
-	<th:block layout:fragment="content">
+<th:block layout:fragment="content">
 	<div class="row">
-		<!-- 달력&차트 박스 시작 -->
-		<div id="projectCalendarBox" >
-			<div id='projectCalendar' class="tab-pane"></div>
+		<!-- 달력&차트 시작 -->
+		<div id="personalCalendarBox">
+			<div id='personalCalendar' class="tab-pane"></div>
 			
-			<div id='projectGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
+			<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
 		</div>
-		<!-- 달력&차트 박스 끝 -->
+		<!-- 달력&차트 끝 -->
 		
-		<!-- 업무리스트 박스 시작 -->
+		<!--  업무리스트 박스 시작 -->
 		<div class='calendarBusinessInfo'>
 			<div>
 				<!-- 달력 간트 스위치 시작 -->
@@ -169,27 +174,47 @@ select {
 					</div>
 				</div>
 				<!-- 달력 간트 스위치 끝 -->
-			
+				
 				<!-- 정렬 버튼 시작 -->
 				<div class="basic-dropdown">
 					<div class="dropdown">
-						<button type="button" class="btn btn-primary dropdown-toggle" 
+						<button type="button" class="btn btn-primary dropdown-toggle sort" 
 							data-toggle="dropdown" aria-expanded="true">
 							정렬
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item">날짜순</a>
-							<a class="dropdown-item">진척도</a>
-							<a class="dropdown-item">중요도</a>
+							<a class="dropdown-item sort">날짜순</a>
+							<a class="dropdown-item sort">진척도</a>
+							<a class="dropdown-item sort">중요도</a>
 						</div>
 					</div>
 				</div>
-				<!-- 정렬 버튼 끝 -->
+				<!-- 정렬 버튼 끝-->
+			
+				<!-- 필터링 버튼 시작 -->
+				<div class="basic-dropdown">
+					<div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle filter" 
+							data-toggle="dropdown" aria-expanded="true"
+							style="margin-right: 10px;">
+							프로젝트
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item selectAll">전체</a>
+							<th:block th:each="info : ${personalCalendarPage}">
+								<a class="dropdown-item filter" th:data-prjtnm="${info.prjtNm}"
+									th:text="${info.prjtNm}"></a>
+							</th:block>
+						</div>
+					</div>
+				</div>
+				<!-- 필터링 버튼 끝 -->
 			</div>
+			<!--  업무리스트 박스 끝 -->
 			
 			<!-- 업무 목록 - 리스트 시작 -->
 			<div class="businessListBox">
-				<th:block th:each="bussInfo : ${projectCalendarPage}">
+				<th:block th:each="bussInfo : ${personalCalendarPage}">
 					<div class="businessList">
 						<div class="businessList2" 
 							th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
@@ -204,34 +229,130 @@ select {
 			</div>
 			<!-- 업무 목록 - 리스트 끝 -->
 		</div>
-		<!-- 업무리스트 박스 끝 -->
+		<!--  업무리스트 박스 끝 -->
 	</div>
 	
 	<script th:inline="javascript">
-    let calendarData = [[${projectCalendarPage}]];
-    //console.log([[${session.loginInfo}]]);
-    //console.log([[${session.projectList}]]);
-    
-   	/*----------------------------
+	let calendarData = [[${personalCalendarPage}]];
+	
+	let prjtNum = [];
+	//console.log([[${session.loginInfo}]]);
+	/*----------------------------
+		필터링
+	------------------------------*/
+	// 필터링 - 중복제거
+	for(let i=0; i<$('.dropdown-item.filter').length; i++){
+		for(let j=i+1; j<$('.dropdown-item.filter').length; j++){
+			if($('.dropdown-item.filter').eq(i).text() == $('.dropdown-item.filter').eq(j).text()){
+				$('.dropdown-item.filter').eq(j).remove();
+				i=0;
+				j=0;
+			}
+		}
+	}
+	// 필터링 전체 - 화면에 다시 뿌리기
+	if($('.dropdown-item.selectAll').on('click', function(){
+		// 캘린더에 뿌리기
+		$('.fc-daygrid-event-harness').css('display', 'block');
+		
+		// 업무리스트에 뿌리기
+		$('.businessList').remove();
+		for(let i=0; i<calendarData.length; i++){
+			$('.businessListBox').append($('<div class="businessList"></div>'));
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
+					+ ' | 중요도 ' + calendarData[i].bussImp);
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(calendarData[i].bussNm + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+		}
+		
+		// 간트에 뿌리기
+		prjtNum = [];
+		for(let j=0; j<calendarData.length; j++){
+			prjtNum.push(calendarData[j].bussNo);
+		}
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		    for(let i=0; i<prjtNum.length; i++){
+		    	if (task.id == prjtNum[i]){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
+		gantt.init("personalGanttchart");
+		//console.log("target: " + $(event.target).text() + ", length: " + prjtNum.length);
+	}));
+	
+	// 필터링 선택 - 업무리스트에 뿌리기
+	for(let i=0; i<$('.dropdown-item.filter').length; i++){
+		$('.dropdown-item.filter').eq(i).on('click', function(){
+			$('.businessList').remove();
+			for(let j=0; j<calendarData.length; j++){
+				if(calendarData[j].prjtNm == $('.dropdown-item.filter').eq(i).text()){
+					$('.businessListBox').append($('<div class="businessList"></div>'));
+					
+					$('.businessList:last').append($('<div class="businessList2"></div>'));
+					$('.businessList2:last').append(formatDate(calendarData[j].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[j].bussTodt).substr(2)
+							+ ' | 중요도 ' + calendarData[j].bussImp + ' | 진척도 ' + calendarData[j].bussPrgre + '%');
+					
+					$('.businessList:last').append($('<div class="businessList2"></div>'));
+					$('.businessList2:last').append(calendarData[j].bussNm);
+				}
+			}
+		});
+	}
+	// 필터링 선택 - 캘린더&간트에 다시 뿌리기
+	$('.dropdown-item.filter').on('click', function(){
+		// 캘린더에 다시 뿌리기
+		$('.fc-daygrid-event-harness').css('display', 'none');
+		let target = event.target.dataset.prjtnm;
+		
+		let regexFor = / /gi;
+		let targetStr = target.replace(regexFor, '.');
+		
+		$('.calendarEvent_' + targetStr).parent().css('display', 'block');
+		
+		// 간트차트에 다시 뿌리기
+		prjtNum = [];
+		for(let j=0; j<calendarData.length; j++){
+			if(calendarData[j].prjtNm == $(event.target).text()){
+				prjtNum.push(calendarData[j].bussNo);
+			}
+		}
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		    for(let i=0; i<prjtNum.length; i++){
+		    	if (task.id == prjtNum[i]){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
+		
+		gantt.init("personalGanttchart");
+	});
+	
+	/*----------------------------
 		업무리스트 정렬
 	------------------------------*/
-   	$('.dropdown-item').eq(0).on('click', function(){ // 날짜
-   		calendarData.sort(function(a, b){
+	$('.dropdown-item.sort').eq(0).on('click', function(){ // 날짜
+		calendarData.sort(function(a, b){
 			if(a.bussFrdt<b.bussFrdt) return -1;
 			if(a.bussFrdt>b.bussFrdt) return 1;
 			if(a.bussFrdt===b.bussFrdt) return 0;
 		});
-   		resetBussList();
-   	});
-   	$('.dropdown-item').eq(1).on('click', function(){ // 진척도
-   		calendarData.sort(function(a, b){
+		resetBussList();
+	});
+	$('.dropdown-item.sort').eq(1).on('click', function(){ // 진척도
+		calendarData.sort(function(a, b){
 			if(a.bussPrgre>b.bussPrgre) return -1;
 			if(a.bussPrgre<b.bussPrgre) return 1;
 			if(a.bussPrgre===b.bussPrgre) return 0;
 		});
-   		resetBussList();
-   	});
-   	$('.dropdown-item').eq(2).on('click', function(){ // 중요도
+		resetBussList();
+	});
+	$('.dropdown-item.sort').eq(2).on('click', function(){ // 중요도
    		for(let i=0; i<calendarData.length; i++){
    			if(calendarData[i].bussImp == "상") calendarData[i].bussImp == 1;
    			if(calendarData[i].bussImp == "중") calendarData[i].bussImp == 2;
@@ -248,33 +369,33 @@ select {
    			if(calendarData[i].bussImp == 3) calendarData[i].bussImp == "하";
    		}
 		resetBussList();
-   	});
-   	
-   	// 업무리스트 화면에 다시 뿌리기
-   	function resetBussList(){
+	});
+	
+	// 업무리스트 화면에 다시 뿌리기
+	function resetBussList(){
 		$('.businessList').remove();
-   		
-   		for(let i=0; i<calendarData.length; i++){
-   			$('.businessListBox').append($('<div class="businessList"></div>'));
-   			
-   			$('.businessList:last').append($('<div class="businessList2"></div>'));
-   			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
-   					+ ' | 중요도 ' + calendarData[i].bussImp + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
-   			
-   			$('.businessList:last').append($('<div class="businessList2"></div>'));
-   			$('.businessList2:last').append(calendarData[i].bussNm);
-   		}
-   	}
-    
-   	/*----------------------------
+		
+		for(let i=0; i<calendarData.length; i++){
+			$('.businessListBox').append($('<div class="businessList"></div>'));
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(formatDate(calendarData[i].bussFrdt).substr(2) + ' ~ ' + formatDate(calendarData[i].bussTodt).substr(2)
+					+ ' | 중요도 ' + calendarData[i].bussImp + ' | 진척도 ' + calendarData[i].bussPrgre + '%');
+			
+			$('.businessList:last').append($('<div class="businessList2"></div>'));
+			$('.businessList2:last').append(calendarData[i].bussNm);
+		}
+	}
+	
+	/*----------------------------
 		Calendar 구현
 	------------------------------*/
    	document.addEventListener('DOMContentLoaded', function() {
-       	var calendarEl = document.getElementById('projectCalendar');
+       	var calendarEl = document.getElementById('personalCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
        		height: "1000px",
        		expandRows: true,
-       		initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
+			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
        		dayMaxEvents: 3,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
        		locale: 'ko',			// 한국어 설정
        		editable: true,			// 수정 가능
@@ -317,59 +438,62 @@ select {
 	    		// YYYY년 MM월
 	    		return `${date.date.year}년 ${date.date.month + 1}월`;
 	    	},
-	    	events: projectCalendarArr(),		// 내용 데이터
+	    	events: personalCalendarArr()		// 내용 데이터
        	});
        	calendar.render();
-       	
-       	//console.log(calendar.getEventById(15).startStr);
-       	//console.log(calendar.getEventById(15).endStr);
    	});
    	
    	/*----------------------------
-   		Calendar - events 출력
-   	------------------------------*/
-   	function projectCalendarArr(){
-   		let arr = [];
-   		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
+		Calendar - events 출력
+	------------------------------*/
+	function personalCalendarArr(){
+		let arr = [];
+		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
 			'blueviolet', 'purple', 'chocolate', 'deeppink'];
 		
-   		for(let i=0; i<calendarData.length; i++){
+		for(let i=0; i<calendarData.length; i++){
    			let obj = new Object();
    			
    			var todt = new Date(new Date(calendarData[i].bussTodt).getTime() + 1000*60*60*24);
    			var todtDate = (String)(todt.getDate());
-   			if(todtDate < 10){
-   				todtDate = '0' + todtDate;
-   			}
+   			if(todtDate < 10) todtDate = '0' + todtDate;
    			var newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
+   			
+   			var frdt = new Date(calendarData[i].bussFrdt);
+   			var frdtDate = (String)(frdt.getDate());
+   			if(frdtDate < 10) frdtDate = '0' + frdtDate;
+   			var newFrdt = frdt.getFullYear() + '-' + (frdt.getMonth() + 1) + '-' + frdtDate;
    			
    			obj.id = calendarData[i].bussNo; // id
    			obj.title = calendarData[i].bussNm;		// 제목
-   			obj.start = calendarData[i].bussFrdt;	// 시작 날짜
+   			obj.start = newFrdt;	// 시작 날짜
    			obj.end = newTodt;		// 종료 날짜
-   			obj.color = color[i%12]; 	// 바 색깔
-   			
+   			obj.className = 'calendarEvent_' + calendarData[i].prjtNm;
+   			obj.color = color[i%12];
    			arr.push(obj);
+   			
+   			calendarData[i].bussFrdt = newFrdt;
+   			calendarData[i].bussTodt = newTodt;
    		}
    		return arr;
    	}
    	
-   	/*----------------------------
+	/*----------------------------
 		Calendar - formatDate
 	------------------------------*/
-   	function formatDate(date){
-   		var d = new Date(date),
-   		year = d.getFullYear(),
-   		month = '' + (d.getMonth() + 1),
-   		day = '' + d.getDate();
-   		
-   		if(month.length<2) month = '0'+month;
-   		if(day.length<2) day = '0'+day;
-   		
-   		return [year, month, day].join('.');
-   	}
-   	
-   	/*----------------------------
+	function formatDate(date){
+		var d = new Date(date),
+		year = d.getFullYear(),
+		month = '' + (d.getMonth() + 1),
+		day = '' + d.getDate();
+		
+		if(month.length<2) month = '0'+month;
+		if(day.length<2) day = '0'+day;
+		
+		return [year, month, day].join('.');
+	}
+	
+	/*----------------------------
 		Gantt Chart 구현
 	------------------------------*/
 	document.addEventListener('DOMContentLoaded', function() {
@@ -461,7 +585,7 @@ select {
 			
 			$.ajax({
 				type: 'post',
-				url: '/updateProjectGanttUpcd',
+				url: '/updatePersonalGanttUpcd',
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
@@ -484,12 +608,12 @@ select {
 			gantt.hideLightbox();
 		});
 		// 간트 실행 코드
-		gantt.init("projectGanttchart");
+		gantt.init("personalGanttchart");
 		// 데이터+상위업무 데이터 구현
 		if(calendarData.length != 0){
 			gantt.parse({
-			    data: projectGanttData(),
-			    links: projectGanttLink()
+			    data: personalGanttData(),
+			    links: personalGanttLink()
 			});
 		}
 	});
@@ -498,7 +622,7 @@ select {
 		Gantt Chart - data 출력
 	------------------------------*/
 	// 간트차트 내용 구현
-	function projectGanttData(){
+	function personalGanttData(){
 		let arr = [];
 		
 		for(let i=0; i<calendarData.length; i++){
@@ -519,18 +643,18 @@ select {
 		return arr;
 	}
 	// 간트차트 상위업무 구현
-	function projectGanttLink(){
+	function personalGanttLink(){
 		let arr = [];
 		
 		for(let i=0; i<calendarData.length; i++){
 			let obj = new Object();
-			if(calendarData[i].bussUpcd != '0'){
-				//obj.id = calendarData[i].bussNo; // id
-				obj.source = calendarData[i].bussUpcd; // 상위업무
-				obj.target = calendarData[i].bussNo; // 해당업무
+			if(calendarData[i].bussUpcd != null){
+				obj.id = calendarData[i].bussNo;
+				obj.source = calendarData[i].bussUpcd;
+				obj.target = calendarData[i].bussNo;
 				obj.type = "0";
-				arr.push(obj);
 			}
+				arr.push(obj);
 		}
 		return arr;
 	}
@@ -551,17 +675,17 @@ select {
 		var milli = date.getTime();
 		return milli;
 	}
-
-    /*----------------------------
+	
+	/*----------------------------
 		Calendar&Gantt switch
 	------------------------------*/
 	$('.btn.btn-primary.calendar').on('click', function(){
-		$('#projectCalendar').css("display","flex");
-		$('#projectGanttchart').css("display","none");
+		$('#personalCalendar').css("display","flex");
+		$('#personalGanttchart').css("display","none");
 	});
 	$('.btn.btn-primary.gantt').on('click', function(){
-		$('#projectGanttchart').css("display","flex");
-		$('#projectCalendar').css("display","none");
+		$('#personalGanttchart').css("display","flex");
+		$('#personalCalendar').css("display","none");
 	});
 	
     /*----------------------------
@@ -569,19 +693,12 @@ select {
 	------------------------------*/
 	$(function(){
 		$('.businessListBox').slimScroll({
-			height: '940px',
+			height: '940px'
 		});
 		
 		$('.businessListBox').parent().css('float', 'right');
 	})
-	
-	// 프로젝트 헤더 탭
-	window.onload = function () {
-		var navItemHome = $('.nav-link').eq(1);
-        navItemHome.addClass('active');
-    }
-	
 	</script>
-	</th:block>
+</th:block>
 </body>
 </html>
