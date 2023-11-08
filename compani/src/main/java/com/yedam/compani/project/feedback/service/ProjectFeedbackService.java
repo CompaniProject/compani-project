@@ -9,4 +9,5 @@ public interface ProjectFeedbackService {
 	public List<Map<Object,Object>> getListForLevel(int prjtNo);
 	public boolean insert(ProjectFeedbackVO projectFeedbackVO);
 	public boolean update(ProjectFeedbackVO projectFeedbackVO);
+	public boolean isHaveChildrenShow(int prjtFdbkNo);
 }
