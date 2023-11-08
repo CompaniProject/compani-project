@@ -108,31 +108,29 @@ hr {
 	padding-right: 30px;
 }
 
-#filter{
-    width: 200px;
-    list-style: none;
-    background: #FFFFFF;
-    border: 1px solid #C4C4C4;
-    box-sizing: border-box;
-    box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    margin-top: 9px;
+#filter {
+	width: 200px;
+	list-style: none;
+	background: #FFFFFF;
+	border: 1px solid #C4C4C4;
+	box-sizing: border-box;
+	box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
+	border-radius: 10px;
+	margin-top: 9px;
 }
 
-
-.list{
-    border: none;
-    background-color: #FFFFFF;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    padding: 7px 10px;
-    margin: 5px 7px;
-    box-sizing: border-box;
+.list {
+	border: none;
+	background-color: #FFFFFF;
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+	padding: 7px 10px;
+	margin: 5px 7px;
+	box-sizing: border-box;
 }
-
 </style>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -175,7 +173,6 @@ hr {
 									onchange="saveRealRealFile(this)" /> <input type="button"
 									id="FileUpload" value="업로드" class="btn mb-1 btn-info" /></li>
 							</ul>
-
 							<!-- 데이터 들어갈 박스 -->
 							<span id="DataBox">
 								<table>
@@ -194,11 +191,10 @@ hr {
 							<div class="form-group">
 								<select class="form-control" id="jobDown" name="jobDown">
 									<th:block th:each="bussNm : ${driveBussName}">
-										<option th:value="${bussNm.bussNo}"
-												th:text="${bussNm.bussNm}"></option>
+										<option th:value="${bussNm.bussNo}" th:text="${bussNm.bussNm}"></option>
 									</th:block>
 								</select>
-							</div>							
+							</div>
 						</div>
 					</div>
 
@@ -245,7 +241,7 @@ hr {
 						<option value="zip" class="list">ZIP</option>
 						<option value="txt" class="list">TXT</option>
 						<option value="png" class="list">IMG</option>
-					</select>
+					</select> 
 					<input type="button" id="driveFile " value="업로드"
 						class="btn mb-1 btn-info" style="margin-right: 30px"
 						data-toggle="modal" data-target="#workModal" />
@@ -260,7 +256,7 @@ hr {
 			<hr>
 			<br> <br>
 
-			<div class="ModalInfoArea IssueInfoArea"  style="overflow: auto;">
+			<div class="ModalInfoArea IssueInfoArea" style="overflow: auto;">
 				<div class="col-lg-6" style="width: 100%; max-width: 100%;">
 					<div class="table-responsive">
 						<table class="table table-hover">
@@ -281,20 +277,32 @@ hr {
 							<form id="checkBoxForm">
 								<tbody id="newTrTd">
 									<th:block th:each="fileList : ${pFileList}">
-										<tr id="tdData" th:data-fileno="${fileList.fileNo}" style="padding-bottom: 15px;">
-											<td>
-											<img th:if="${#strings.contains('xls,xlsx',fileList.fileType)}" th:src="@{/images/type/xls.png}" style="width: 40px; height: 40px;">
-										    <img th:if="${fileList.fileType == 'pptx'}" th:src="@{/images/type/ppt.png}" style="width: 40px; height: 40px;">
-										    <img th:if="${fileList.fileType == 'pdf'}" th:src="@{/images/type/pdf.png}" style="width: 40px; height: 40px;">
-										    <img th:if="${fileList.fileType == 'zip'}" th:src="@{/images/type/zip.png}" style="width: 40px; height: 40px;">
-										    <img th:if="${fileList.fileType == 'txt'}" th:src="@{/images/type/txt.png}" style="width: 40px; height: 40px;">	
-										    <img th:if="${#strings.contains('jpg,png',fileList.fileType)}" th:src="@{/images/type/img.png}" style="width: 40px; height: 40px;">
-										    									    
-										    <img th:if="${fileList.fileType} != 'xls' and ${fileList.fileType} != 'pptx' and ${fileList.fileType} != 'pdf' and
+										<tr id="tdData" th:data-fileno="${fileList.fileNo}"
+											style="padding-bottom: 15px;">
+											<td><img
+												th:if="${#strings.contains('xls,xlsx',fileList.fileType)}"
+												th:src="@{/images/type/xls.png}"
+												style="width: 40px; height: 40px;"> <img
+												th:if="${fileList.fileType == 'pptx'}"
+												th:src="@{/images/type/ppt.png}"
+												style="width: 40px; height: 40px;"> <img
+												th:if="${fileList.fileType == 'pdf'}"
+												th:src="@{/images/type/pdf.png}"
+												style="width: 40px; height: 40px;"> <img
+												th:if="${fileList.fileType == 'zip'}"
+												th:src="@{/images/type/zip.png}"
+												style="width: 40px; height: 40px;"> <img
+												th:if="${fileList.fileType == 'txt'}"
+												th:src="@{/images/type/txt.png}"
+												style="width: 40px; height: 40px;"> <img
+												th:if="${#strings.contains('jpg,png',fileList.fileType)}"
+												th:src="@{/images/type/img.png}"
+												style="width: 40px; height: 40px;"> <img
+												th:if="${fileList.fileType} != 'xls' and ${fileList.fileType} != 'pptx' and ${fileList.fileType} != 'pdf' and
 										    ${fileList.fileType} != 'zip' and ${fileList.fileType} != 'txt' and ${fileList.fileType} != 'jpg'
 										    and ${fileList.fileType} != 'png'"
-										    th:src="@{/images/type/null.png}" style="width: 40px; height: 40px;">									    
-											</td>
+												th:src="@{/images/type/null.png}"
+												style="width: 40px; height: 40px;"></td>
 											<td th:text="${fileList.fileNm}" />
 											<td class="fSize" th:text="${fileList.fileSize}" />
 											<td th:text="${fileList.membNm}" />
@@ -302,10 +310,13 @@ hr {
 												th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
 											<td th:text="${fileList.fileType}" />
 											<!-- 다운로드 아이콘 -->
-											<td class="downIcon" th:attr="onclick='fileDown(\'' + ${fileList.fileNo} + '\')'"><i class="fa-solid fa-download"></i></td>
+											<td class="downIcon"
+												th:attr="onclick='fileDown(\'' + ${fileList.fileNo} + '\')'"><i
+												class="fa-solid fa-download"></i></td>
 											<!-- 쓰레기 아이콘 -->
 											<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
-											<td><button type="button" id="previewBtn" th:onclick="preview([[${fileList.filePath}]])">미리보기</button></td>
+											<td><button type="button" id="previewBtn"
+													th:onclick="preview([[${fileList.filePath}]])">미리보기</button></td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -399,32 +410,30 @@ hr {
 		$('#FileDelete').on('click', selectCkbDel);
 
 		function selectCkbDel() {
-			
-			let tr = $('#tdData');
-			
-			$.each(function (idx, tr){
-				console.log(tr);
-			})
-			
-			let test = $('#tdData.active'); // 네임이 files인 애들중 active 클래스
-			console.log(test);
-			
-			// ajax
-			$.ajax({
-				type : "get",
-				url : "/driveFileDel",
-				data : test.serialize(),
-				success : function() {
-					if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
-						alert("삭제가 완료 되었습니다.")
-					}
-				},
-				error : function(err) {
+		    var files = [];
+			var trActive = $('#tdData.active'); // 액티브 된 tr들
+		    
+			trActive.each(function() { // 액티브 된 얘들 반복문 돌려서 배열에다가 tr이 가지고있는 파일번호 넣기
+		        files.push($(this).data('fileno')); // 액티브된 애들 파일번호 배열에 넣기
+		    });
 
-					alert("선택된 파일이 존재하지 않습니다.");
-				}
-			});
-		};
+		    // ajax
+		    $.ajax({
+		        type: "post", 
+		        url: "/fileSelectDel",
+		        data: { files: files },
+		        traditional: true, // ajax 배열을 넘길때 필요함
+		        success: function () {
+		            if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
+		                alert("삭제가 완료 되었습니다.");
+		                trActive.remove(); // 액티브된 애들 실시간 삭제 
+		            }
+		        },
+		        error: function (err) {
+		            alert("선택된 파일이 존재하지 않습니다.");
+		        }
+		    });
+		}
 
 		// ======== 검색 AJAX ========
 		function fileSearch() {
@@ -449,37 +458,41 @@ hr {
 	};
 	
 	// ======== 파일 검색 시 나오는 리스트 함수로 제작 ========
-	function makeTrTd(item){
-		var trTag = `<tr id="tdData" data-fileno="${item.fileNo}">
-			
-			<td>
-			if(${item.fileType == 'xls'}){
-				<img src="/images/type/xls.png" style="width: 40px; height: 40px;">
-			}else if(${item.fileType} == 'pptx'){
-				<img src="/images/type/ppt.png" style="width: 40px; height: 40px;">		
-			}else if(${item.fileType} == 'pdf'){
-			<img src="/images/type/pdf.png" style="width: 40px; height: 40px;">
-			}else if(${item.fileType} == 'zip'){
-				<img src="/images/type/zip.png" style="width: 40px; height: 40px;">
-			}else if(${item.fileType} == 'txt'){
-				<img src="/images/type/txt.png" style="width: 40px; height: 40px;">
-			}else if(${item.fileType} == 'jpg'){s
-				<img src="/images/type/jpg.png" style="width: 40px; height: 40px;">
-			}else if(${item.fileType} == 'png'){
-				<img src="/images/type/png.png" style="width: 40px; height: 40px;">
-			}
-			</td>
-			
-			<td>${item.fileNm}</td> 
-			<td class="fSize">${(ByteSize(item.fileSize))}</td>
-			<td>${item.membNm}</td>
-			<td>${item.fileDt}</td>
-			<td>${item.fileType}</td>
-			<td class="downIcon"><i class="fa-solid fa-download"></i></td>
-			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
-			</tr>`
-			
-		return trTag;
+		function makeTrTd(item) {
+	    var newType = "";
+	
+	    if (item.fileType === 'xls') {
+	    	newType = "/images/type/xls.png";
+	    } else if (item.fileType == 'pptx') {
+	    	newType = "/images/type/ppt.png";
+	    } else if (item.fileType == 'pdf') {
+	    	newType = "/images/type/pdf.png";
+	    } else if (item.fileType == 'zip') {
+	    	newType = "/images/type/zip.png";
+	    } else if (item.fileType == 'txt') {
+	    	newType = "/images/type/txt.png";
+	    } else if (item.fileType == 'jpg') {
+	    	newType = "/images/type/img.png";
+	    } else if (item.fileType == 'png') {
+	    	newType = "/images/type/img.png";
+	    } else {
+	    	newType = "/images/type/null.png";
+	    }
+	
+	    var trTag = `<tr id="tdData" data-fileno="${item.fileNo}">
+	        <td>
+	            <img src="${newType}" style="width: 40px; height: 40px;">
+	        </td>
+	        <td>${item.fileNm}</td> 
+	        <td class="fSize">${(ByteSize(item.fileSize))}</td>
+	        <td>${item.membNm}</td>
+	        <td>${item.fileDt}</td>
+	        <td>${item.fileType}</td>
+	        <td class="downIcon"><i class="fa-solid fa-download"></i></td>
+	        <td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
+	    </tr>`;
+	
+	    return trTag;
 	}
 	
 	// ======== 필터링 AJAX ========
@@ -505,11 +518,28 @@ hr {
 	
 	// ======== 필터 선택시 해당 확장자 보이게끔 설정하기 ========
 	function makeFilter(fit){
-		var trTag = `<tr id="tdData" data-fileno="${fit.fileNo}">
-			<td>
-			<img th:if ="${fit.fileType == 'xls'}" th:src="@{/images/type/xls.png}" style="width: 40px; height: 40px;">
+		 var newType = "";
 			
-			</td>
+		    if (fit.fileType === 'xls') {
+		    	newType = "/images/type/xls.png";
+		    } else if (fit.fileType == 'pptx') {
+		    	newType = "/images/type/ppt.png";
+		    } else if (fit.fileType == 'pdf') {
+		    	newType = "/images/type/pdf.png";
+		    } else if (fit.fileType == 'zip') {
+		    	newType = "/images/type/zip.png";
+		    } else if (fit.fileType == 'txt') {
+		    	newType = "/images/type/txt.png";
+		    } else if (fit.fileType == 'jpg') {
+		    	newType = "/images/type/img.png";
+		    } else if (fit.fileType == 'png') {
+		    	newType = "/images/type/img.png";
+		    } else {
+		    	newType = "/images/type/null.png";
+		    }
+
+		var trTag = `<tr id="tdData" data-fileno="${fit.fileNo}">
+			<td><img src="${newType}" style="width: 40px; height: 40px;"></td>
 			<td>${fit.fileNm}</td>
 			<td class="fSize">${(ByteSize(fit.fileSize))}</td>
 			<td>${fit.membNm}</td>
