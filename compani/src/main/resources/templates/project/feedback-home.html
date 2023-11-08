@@ -225,24 +225,6 @@
 			let navItemHome = $('.nav-link').eq(0);
 			navItemHome.addClass('active');	
 		})
-		
-		
-		function commentCntnCount(event){
-			let text_count = $(this).val().length;
-			if (text_count >= text_limit){
-				Swal.fire({
-                    icon: 'error',
-                    text: '피드백을 '+ text_limit + '자 이하로 입력해 주세요.',
-                });
-			}
-			
-			let txt = text_count + "/" + text_limit;
-			$(event.data.idTag).text(txt);
-		}
-
-		$('#inputCntn').on("keyup",{idTag:"#input-cntn-count"},commentCntnCount);
-		$(document).on("keyup",".editCntn",{idTag:".edit-cntn-count"},commentCntnCount);
-		
 	</script>
 	
 	<script th:inline="javascript" th:src="@{/js/project-feedback-chart.js}"></script>

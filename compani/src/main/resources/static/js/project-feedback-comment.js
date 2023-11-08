@@ -214,4 +214,22 @@
 	$(document).on('click','.replyBtn',replyInsertAreaHTML);
 	$(document).on('click','.replyInsertBtn',replyInsert);
 	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
+	
+	// -----------------------------------------------------cntn counting event
+
+	function commentCntnCount(event){
+		let text_count = $(this).val().length;
+		if (text_count >= text_limit){
+			Swal.fire({
+                icon: 'error',
+                text: '피드백을 '+ text_limit + '자 이하로 입력해 주세요.',
+            });
+		}
+		
+		let txt = text_count + "/" + text_limit;
+		$(event.data.idTag).text(txt);
+	}
+
+	$('#inputCntn').on("keyup",{idTag:"#input-cntn-count"},commentCntnCount);
+	$(document).on("keyup",".editCntn",{idTag:".edit-cntn-count"},commentCntnCount);
     
