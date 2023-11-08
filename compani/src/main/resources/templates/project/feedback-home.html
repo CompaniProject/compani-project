@@ -225,7 +225,8 @@
 			navItemHome.addClass('active');	
 		})
 		
-		$('#inputCntn').keyup(function(){
+		
+		function commentCntnCount(event){
 			let text_count = $(this).val().length;
 			if (text_count >= text_limit){
 				Swal.fire({
@@ -235,8 +236,10 @@
 			}
 			
 			let txt = text_count + "/" + text_limit;
-			$('#edit-cntn-count').text(txt);
-		})
+			$(event.data.idTag).text(txt);
+		}
+
+		$('#inputCntn').on("keyup",{idTag:"#edit-cntn-count"},commentCntnCount)
 		
 	</script>
 	
