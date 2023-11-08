@@ -163,7 +163,7 @@
 	            </div>
 				<!-- 댓글 등록 영역 -->
 	            <div class="card-footer">
-					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;"></textarea>
+					<textarea class="form-control" name="inputCntn" id="inputCntn" cols="30" rows="2" style="height: 56px;" maxlength="400"></textarea>
 		            <span id="edit-cntn-count">0/400</span>
 		            <button id="insertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
 	            </div>
@@ -227,14 +227,11 @@
 		
 		$('#inputCntn').keyup(function(){
 			let text_count = $(this).val().length;
-			if (text_count > text_limit){
+			if (text_count >= text_limit){
 				Swal.fire({
                     icon: 'error',
                     text: '피드백을 '+ text_limit + '자 이하로 입력해 주세요.',
                 });
-				
-				text_count = text_limit;
-				$(this).val($(this).val().substring(0,text_limit));
 			}
 			
 			let txt = text_count + "/" + text_limit;
