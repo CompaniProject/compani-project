@@ -22,4 +22,16 @@ public class IssueHashtagController {
 	public List<IssueHashtagVO> findAllHashtagByIssuNo(@PathVariable final int issuNo) {
 		return issueHashtagService.findAllHashtagsByIssuNo(issuNo);
 	}
+	
+	// 프로젝트 이슈 게시판 내 해시태그 리스트 조회
+	@GetMapping("/project/{prjtNo}/hashtags")
+	public List<IssueHashtagVO> findAllHashtagByPrjtNo(@PathVariable final int prjtNo) {
+		return issueHashtagService.selectHashtagByPrjtNo(prjtNo);
+	}
+	
+	// 회사 이슈 게시판 내 해시태그 리스트 조회
+	@GetMapping("/company/{coCd}/hashtags")
+	public List<IssueHashtagVO> findAllHashtagByCoCd(@PathVariable final String coCd) {
+		return issueHashtagService.selectHashtagByCoCd(coCd);
+	}
 }

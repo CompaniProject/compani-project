@@ -69,4 +69,17 @@
 		AND         prjt_no = #{prjtNo}
 		ORDER BY    issu_ht_no
 	</select>
+	
+	<select id="selectHashtagByCoCd" resultType="IssueHashtagVO">
+		SELECT		h.issu_ht_no
+		          , h.issu_no
+		          , h.issu_ht_nm
+		          , i.prjt_no
+		          , p.co_cd
+		FROM        issue_hashtag h, issue i, project p
+		WHERE       h.issu_no  = i.issu_no(+)
+		AND			i.prjt_no  = p.prjt_no
+		AND         p.co_cd = #{coCd}
+		ORDER BY    issu_ht_no
+	</select>
 </mapper>

@@ -72,4 +72,15 @@ public class IssueHashtagServiceImpl implements IssueHashtagService {
 	public List<IssueHashtagVO> selectHashtagByPrjtNo(final int prjtNo) {
 			return issueHashtagMapper.selectHashtagByPrjtNo(prjtNo);
 	}
+
+	/**
+	 * 회사 이슈 게시판 내 해시태그 조회
+	 *
+	 * @param coCd - 회사 코드 (FK)
+	 * @return 해시태그 리스트
+	 */
+	@Override
+	public List<IssueHashtagVO> selectHashtagByCoCd(String coCd) {
+		return issueHashtagMapper.selectHashtagByCoCd(coCd);
+	}
 }

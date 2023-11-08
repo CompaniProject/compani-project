@@ -72,7 +72,7 @@
 										th:text="새기능"></span></th>
 								<th th:if="${projectIssueList.issuKnd == '0L4'}"><span class="badge badge-light"
 										th:text="업무"></span></th>
-								<td th:text="${projectIssueList.issuTtl}"></td>
+								<td th:class="prjtIssu" th:attr="data-issuno=${projectIssueList.issuNo}" th:text="${projectIssueList.issuTtl}"></td>
 								<td th:text="${projectIssueList.membNm}"></td>
 								<th th:if="${projectIssueList.issuSt == '0E1'}"><span
 										class="badge badge-pill badge-success" th:text="해결"></span></th>
@@ -328,6 +328,7 @@
 		window.onload = function () {
 			let navItemHome = $('.nav-link').eq(3);
 			navItemHome.addClass('active');
+			hashtagByPrjtNo()
 		}
 		let piMemberId = [[${ session.loginInfo.membId }]];
 		let piprjtNo = [[${ prjtNo }]];
@@ -419,6 +420,7 @@
 					type: 'GET'
 				}).done(function (data) {
 					issueLists.empty();
+					hashtagByPrjtNo();
 					$.each(data.projectIssueList, function (idx, item) {
 						let trTag = $('<tr/>').attr('onclick', 'selectIssueInfo(' + item.issuNo + ')');
 
@@ -431,7 +433,8 @@
 						} else if (item.issuKnd == '0L4') {
 							trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
 						}
-						trTag.append('<td>' + item.issuTtl + '</td>');
+						let prjtIssuTd = $('<td/>').attr('class', 'prjtIssu').attr('data-issuno', item.issuNo).text(item.issuTtl);
+						trTag.append(prjtIssuTd);
 						trTag.append('<td>' + item.membNm + '</td>');
 
 						if (item.issuSt == '0E1') {
@@ -511,6 +514,37 @@
 				}).fail(function () {
 					alert('실패')
 				});
+		}
+		
+		function hashtagByPrjtNo() {
+			$.ajax({
+				url: '/project/' + piprjtNo  +'/hashtags',
+				type: 'GET',
+				success: function (data) {
+					
+					$('.prjtIssu').each(function () {
+						let issuNo = $(this).data('issuno');
+						let curelem = $(this);
+						$.each(data, function(idx, item) {
+							if(item.issuNo == issuNo) {
+								let showList = $('<div/>').attr('class', 'showPIHt');
+								let showtb = $('<div/>').attr('class', 'showTBPI task').attr('title', item.issuHtNm);
+								let pht = $('<p/>').text('#');
+								let phtnm = $('<p/>').attr('class', 'showTextPI').text(item.issuHtNm);
+													
+								showtb.append(pht);
+								showtb.append(phtnm);
+								showList.append(showtb);
+								curelem.append(showList)
+							}
+						})						
+					})					
+				},
+				error: function (reject) {
+					console.log(reject);
+				}
+			});
+			
 		}
 
 		function updatePiPaging(paging) {

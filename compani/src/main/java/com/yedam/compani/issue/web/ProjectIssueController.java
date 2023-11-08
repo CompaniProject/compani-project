@@ -26,7 +26,6 @@ import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
-import com.yedam.compani.project.member.service.ProjectMemberVO;
 import com.yedam.compani.project.service.ProjectService;
 
 import lombok.RequiredArgsConstructor;
