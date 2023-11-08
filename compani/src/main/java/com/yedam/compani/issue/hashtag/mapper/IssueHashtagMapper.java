@@ -36,6 +36,20 @@ public interface IssueHashtagMapper {
 	 * @param hashtags - 해시태그 리스트
 	 */	
 	void delete(int issuNo);
-
+	
+	/**
+     * 프로젝트 이슈 게시판에서 해시태그 리스트 조회
+     *
+     * @param prjtNo - 프로젝트 번호 (FK)
+     * @return 해시태그 리스트
+     */
 	List<IssueHashtagVO> selectHashtagByPrjtNo(int prjtNo);
+	
+	/**
+     * 회사 이슈 게시판에서 해시태그 리스트 조회
+     *
+     * @param coCd - 회사 코드
+     * @return 해시태그 리스트
+     */	
+	List<IssueHashtagVO> selectHashtagByCoCd(String coCd);
 }

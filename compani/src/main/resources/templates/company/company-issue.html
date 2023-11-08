@@ -75,7 +75,7 @@
                                     class="badge badge-info" th:text="새기능"></span></th>
                             <th th:if="${ci.issuKnd == '0L4'}"><span
                                     class="badge badge-light" th:text="업무"></span></th>
-                            <td th:text="${ci.issuTtl}"></td>
+                            <td th:class="prjtIssu" th:attr="data-issuno=${ci.issuNo}" th:text="${ci.issuTtl}"></td>
                             <td th:text="${ci.membNm}"></td>
                             <th th:if="${ci.issuSt == '0E1'}"><span
                                     class="badge badge-pill badge-success" th:text="해결"></span></th>
@@ -123,6 +123,9 @@
     <script
             src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script th:inline="javascript">
+		window.onload = function () {
+			hashtagByCoCd()
+		}
         let coCd = [[${session.loginInfo.coCd}]];
 
           //검색 조건 (제목, 작성자, 전체)
@@ -197,6 +200,7 @@
                   }).done(function (data) {
                       $('.ciSearchInput').val('');
                       issueLists.empty();
+                      hashtagByCoCd();
                       $.each(data.cissueList, function (idx, item) {
                           let trTag = $('<tr/>').attr('onclick', 'selectCIssueInfo(' + item.issuNo + ')');
 
@@ -284,7 +288,38 @@
                       alert('실패');
                   });
           }
-
+		  
+          function hashtagByCoCd() {
+  			$.ajax({
+  				url: '/company/' + coCd  +'/hashtags',
+  				type: 'GET',
+  				success: function (data) {
+  					
+  					$('.prjtIssu').each(function () {
+  						let issuNo = $(this).data('issuno');
+  						let curelem = $(this);
+  						$.each(data, function(idx, item) {
+  							if(item.issuNo == issuNo) {
+  								let showList = $('<div/>').attr('class', 'showPIHt');
+  								let showtb = $('<div/>').attr('class', 'showTBPI task').attr('title', item.issuHtNm);
+  								let pht = $('<p/>').text('#');
+  								let phtnm = $('<p/>').attr('class', 'showTextPI').text(item.issuHtNm);
+  													
+  								showtb.append(pht);
+  								showtb.append(phtnm);
+  								showList.append(showtb);
+  								curelem.append(showList)
+  							}
+  						})						
+  					})					
+  				},
+  				error: function (reject) {
+  					console.log(reject);
+  				}
+  			})
+ 			
+  		}         
+                          
           function updateCIPaging(paging) {
               let pagination = $('.ciPagination');
               pagination.empty();
