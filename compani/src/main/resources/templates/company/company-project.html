@@ -4,8 +4,263 @@
       layout:decorate="~{/layout/layout}">
 
 <th:block layout:fragment="content">
-프로젝트 게시판.
 
+  <!--/* 검색, 글쓰기 버튼 START */-->
+    <div class="TopBarCompanyIssueControlArea">
+        <div class="piSearchBox">
+            <label for="SearchToggleCheckBox"
+                   th:attr="onclick='companyProjectPaging(1)'"></label> <input
+                type="hidden" id="keyword" name="keyword" value="전체">
+            <div class="piSearchInputBox" style="width: 350px;">
+                <div>
+                    <div class="cissue-selectBox" style="width: 100px;">
+                        <div class="cissue-selected" id="cissue-selected">
+                            <div class="cissue-selected-value">전체</div>
+                            <div class="arrow"></div>
+                        </div>
+                        <ul class="cissue-select-ul" style="width: 100px; display: none;">
+                            <li class="cissue-select-option" data-value="전체">전체</li>
+                            <li class="cissue-select-option" data-value="제목">제목</li>
+                        </ul>
+                    </div>
+                </div>
+                <input class="ciSearchInput" id="search" name="search" type="text"
+                       placeholder="검색어를 입력하세요."><span class="ciDeleteSearchWord" onclick="delSearchValc()"></span>
+            </div>
+        </div>
+    </div>
+    <!--/* 검색, 글쓰기 버튼 END */-->
+
+    <div class="ModalInfoArea IssueInfoArea">
+
+        <div class="col-lg-8" style="width: 100%; max-width: 100%;">
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead style="text-align: center;">
+                    <tr>
+                        <th style="font-weight: normal;">프로젝트명</th>
+                        <th style="font-weight: normal;">참여인원</th>
+                        <th style="font-weight: normal;">상태</th>
+                        <th style="font-weight: normal;">피드백</th>
+                        <th style="font-weight: normal;">프로젝트</th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody class="companyProjectLists" style="text-align: center;">
+                     <th:block th:each="prjt : ${companyProjectList}">
+                      	<tr th:id= "${prjt.prjtNo}">
+                      		<td th:text="${prjt.prjtNm}"></td>
+                      		<td th:text="${prjt.count}"></td>
+                      		<td th:text="${prjt.prjtStNm}"></td>
+                      		<td th:if="${prjt.prjtSt == '0D2'}"><span class="badge badge-success px-2">바로가기</span></td>
+                      		<td th:unless="${prjt.prjtSt == '0D2'}"></td>
+                      		<td th:if="${prjt.prjtPubcyn == '0F1'}"><span class="badge badge-info px-2">바로가기</span></td>
+                      		<td th:unless="${prjt.prjtPubcyn == '0F1'}"></td>
+                        </tr>
+                    </th:block> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+     <div class="paginate-container d-none d-sm-flex flex-sm-justify-center">
+        <div role="navigation" aria-label="ciPagination" class="ciPagination">
+
+            <a id="previous_page"
+               th:classappend="${companyProject.prePage == 0} ? 'disabled'"
+               th:attr="onclick='companyProjectPaging(\'' + ${companyProject.prePage} + '\')'">Previous</a>
+            <a class="cur_page"
+               th:each="page: ${#numbers.sequence(companyProject.navigateFirstPage, companyProject.navigateLastPage)}"
+               th:text="${page}"
+               th:attr="onclick='companyProjectPaging(\'' + ${page} + '\')'"></a> <a
+                id="next_page"
+                th:classappend="${companyProject.nextPage == 0} ? 'disabled'"
+                th:attr="onclick='companyProjectPaging(\'' + ${companyProject.nextPage} + '\')'">Next</a>
+        </div>
+    </div>
+    <script
+            src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script th:inline="javascript">
+        let coCd = [[${session.loginInfo.coCd}]];
+
+          //검색 조건 (제목, 작성자, 전체)
+          $('.cissue-selectBox').on('click', function () {
+              $('.cissue-select-ul').css('display', 'block');
+          });
+
+          // 현재 페이지에 current 클래스 붙이기!
+          $('.cur_page').each(function () {
+              let page = $(this).text();
+
+              if (page == 1) {
+                  $(this).addClass('current').css('color', '#ffffff');
+              } else {
+                  $(this).removeClass('current').css('color', '#76838F');
+              }
+          });
+
+          // disabled 일 때 , onclick 지우기
+          $(".disabled").css("color", "#8C959F").removeAttr("onclick");
+
+          $('.cissue-select-option').on('click', function (e) {
+              let selectValue = e.currentTarget.textContent;
+              $('.cissue-selected-value').text(selectValue);
+              $('#keyword').val(selectValue);
+              $('.cissue-select-ul').css('display', 'none');
+              e.stopPropagation();
+
+          });
+            function dateFormatting(date) {
+
+            let parseDate = new Date(date);
+
+            let year = parseDate.getFullYear();
+            let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
+            let day = ('0' + parseDate.getDate()).slice(-2);
+            return year + '-' + month + '-' + day;
+          }
+
+          // ajax
+          function companyProjectPaging(pageNum) {
+
+              let keywordVal = $('#keyword').val();
+              let searchVal = $('#search').val();
+              let projectLists = $('.companyProjectLists');
+              let pagination = $('.ciPagination');
+
+              $.ajax('/company/projects/' + coCd + '?pageNum=' + pageNum + '&keyword='
+                  + keywordVal + '&search=' + searchVal,
+                  {
+                      type: 'GET'
+                  }).done(function (data) {
+                      $('.ciSearchInput').val('');
+                      projectLists.empty();
+                      $.each(data.cprojectList, function (idx, item) {
+                         	//let trTag = $('<tr/>').attr('onclick', 'selectComProjectInfo(' + item.prjtNo + ')');
+						  let trTag = $('<tr/>').attr('id', item.prjtNo);
+                          trTag.append('<td>' + item.prjtNm + '</td>');
+                          trTag.append('<td>' + item.count + '</td>');
+                          trTag.append('<td>' + item.prjtStNm + '</td>');
+                          if(item.prjtSt == '0D2'){
+                        	  trTag.append('<td>' + '<span class="badge badge-success px-2">바로가기</span>' +'</td>');
+                        	 
+                          }else{
+                        	  trTag.append('<td>' +'</td>');
+                          }
+                          
+                          if(item.prjtPubcyn == '0F1'){
+                        	  trTag.append('<td>' + '<span class="badge badge-info px-2">바로가기</span>' +'</td>');
+                          }else{
+                        	  trTag.append('<td>' +'</td>');
+                          }
+                          
+                          projectLists.append(trTag);
+                      })
+                      // 페이징 업데이트..
+                      updateCIPaging(data.cproject);
+
+
+                      let prePageNum = data.cproject.prePage;
+                      let nextPageNum = data.cproject.nextPage;
+                      let curPageNum = data.cproject.pageNum;
+                      let navFirstPage = data.cproject.navigateFirstPage;
+                      let navLastPage = data.cproject.navigateLastPage;
+                      let lastPage = data.cproject.pages;
+
+                      // 현재 페이지에 current 클래스 붙이기!
+                      $('.cur_page').each(function () {
+                          let page = $(this).text();
+
+                          if (page == curPageNum) {
+                              $(this).addClass('current').css('color', '#ffffff');
+                          } else {
+                              $(this).removeClass('current').css('color', '#76838F');
+                          }
+                      });
+
+                      // 현재 페이지 업데이트.
+                      $('#previous_page').attr('onclick',
+                          'companyProjectPaging(' + prePageNum + ')');
+                      $('#next_page').attr('onclick',
+                          'companyProjectPaging(' + nextPageNum + ')');
+
+                      // previous, next disabled 설정 + onclick 속성 제거
+                      if (prePageNum == 0) {
+                          $('#previous_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+                      } else {
+                          $('#previous_page').css("color", "#0969DA");
+                      };
+
+                      if (nextPageNum == 0) {
+                          $('#next_page').addClass('disabled').css("color", "#8C959F").removeAttr("onclick");
+                      } else {
+                          $('#next_page').css("color", "#0969DA");
+                      };
+
+
+                  }).fail(function () {
+                      alert('실패');
+                  });
+          }
+
+           function updateCIPaging(paging) {
+              let pagination = $('.ciPagination');
+              pagination.empty();
+
+              let pagesPer = 8;  // 한 번에 보이는 페이지 수
+              let endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
+              let realEndPage = paging.pages;
+              let startPage = (endPage - pagesPer) + 1;
+
+              if (endPage > realEndPage) {
+                  endPage = realEndPage;
+              };
+
+              for (let i = startPage; i <= endPage; i++) {
+                  let aTag = $('<a/>');
+                  aTag.addClass('cur_page').text(i);
+                  aTag.attr('onclick', 'companyProjectPaging(' + i + ')');
+                  pagination.append(aTag);
+              };
+
+              if (startPage >= 1) {
+                  let prevTag = $('<a/>');
+                  prevTag.attr('id', 'previous_page');
+                  prevTag.text('Previous');
+                  prevTag.attr('onclick', 'companyProjectPaging(' + (paging.prePage) + ')');
+                  pagination.prepend(prevTag);
+              };
+
+              if (endPage <= paging.pages) {
+                  let nextTag = $('<a/>');
+                  nextTag.attr('id', 'next_page');
+                  nextTag.text('Next');
+                  nextTag.attr('onclick', 'companyProjectPaging(' + (paging.nextPage) + ')');
+                  pagination.append(nextTag);
+              };
+          }
+
+          function delSearchValc() {
+              $('.ciSearchInput').val('');
+          }
+
+      function selectComProjectInfo(prjtNo) {
+              location.href = '/project/home/' + prjtNo;
+              }
+      $('.companyProjectLists').on('click','.badge.badge-info.px-2',function(){
+    	 let prjtNo = $(this).closest('tr').attr('id');
+    	
+    	  location.href = '/project/home/' + prjtNo;
+      })
+      
+      $('.companyProjectLists').on('click','.badge.badge-success.px-2',function(){
+     	 let prjtNo = $(this).closest('tr').attr('id');
+     	
+     	  location.href = '/project/feedback/' + prjtNo;
+       })
+    </script>
 
 
 

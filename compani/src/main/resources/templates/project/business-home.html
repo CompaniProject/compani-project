@@ -20,8 +20,8 @@
 						data-toggle="tab" aria-expanded="false">리스트</a></li>
 				</ul>
 				<div class="col p-md-0">
-					<button type="button" id="insertModal"
-						class="btn mb-1 btn-primary float-right">업무추가</button>
+					<button th:if ="${session.updateCheck != null}" type="button" id="insertModal"
+						 class="btn mb-1 btn-primary float-right">업무추가</button>
 				</div>
 			</div>
 			<!-- Bussiness Header End -->

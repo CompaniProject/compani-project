@@ -111,6 +111,7 @@
 		WHERE BM.BUSS_NO = B.BUSS_NO
 		AND P.PRJT_NO = B.PRJT_NO
 		AND BM.MEMB_ID = #{membId}
+		ORDER BY buss_todt 
 	</select>
 	
 	<select id="businessdriveNameList" resultType="BusinessVO">

@@ -21,25 +21,20 @@
 				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">프로젝트</h4>
-						<div class="dropdown custom-dropdown">
-							<div data-toggle="dropdown">
-								<a class="dropdown-project" href="#"></a>진행중<i
-									class="fa fa-angle-down m-l-5"></i>
-							</div>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-project" href="#">진행중</a> <a
-									class="dropdown-project" href="#">완료</a> <a
-									class="dropdown-project" href="#">보류</a>
-
-
+							<div class="dropdown custom-dropdown">
+							<div>
+								<select class="dropdown-business" name="project">
+									<option class="dropdown-relation" value="0D1">진행중</option>
+									<option class="dropdown-relation" value="0D2">완료</option>
+									<option class="dropdown-relation" value="0D3">보류</option>
+								</select>
 							</div>
 						</div>
-
 						<div class="table-responsive">
 							<table class="table">
 								<thead>
 									<tr>
-										<th>즐찾</th>
+										<th>즐겨찾기</th>
 										<th>프로젝트번호</th>
 										<th>프로젝트명</th>
 										<th>참여인원</th>
@@ -50,7 +45,8 @@
 								</thead>
 								<tbody id="projecttbl">
 									<th:block th:each="projectList : ${projectList}">
-										<tr th:if="${projectList.prjtSt == '0D1'}">
+										<tr th:if="${projectList.prjtSt == '0D1'}" 
+											th:attr="onclick='movePrjt(\'' + ${projectList.prjtNo} + '\')'">
 											<td th:if="${projectList.prjtFav == 'N'}"><i
 												class="fa-regular fa-star" style="color: #080808;"></i></td>
 											<td th:if="${projectList.prjtFav == 'Y'}"><i
@@ -77,18 +73,14 @@
 					<div class="card-body" style="overflow: auto;">
 						<h4 class="card-title">코멘트(개인피드백)</h4>
 						<div class="dropdown custom-dropdown">
-							<div data-toggle="dropdown">
-								<a class="dropdown-feedback" href="#"></a>최신순<i
-									class="fa fa-angle-down m-l-5"></i>
-							</div>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-feedback" href="#">최신순</a> <a
-									class="dropdown-feedback" href="#">오래된순</a>
+							<div>
+								<select class="dropdown-business" name="feedback">
+									<option class="dropdown-relation" value="">최신순</option>
+									<option class="dropdown-relation" value="">오래된순</option>
+								
+								</select>
 							</div>
 						</div>
-
-
-						<!-- drop down -->
 
 						<div class="table-responsive">
 							<table class="table">
@@ -101,7 +93,7 @@
 								</thead>
 								<tbody id="replytbl">
 									<th:block th:each=" memberFeedbackList: ${memberFeedbackList}">
-										<tr>
+										<tr th:attr="onclick='moveFeed(\'' + ${memberFeedbackList.prjtNo} + '\')'">
 											<td th:text="${memberFeedbackList.prjtNm}" />
 											<td th:text="${memberFeedbackList.membFdbkCntn}" />
 											<td
@@ -120,7 +112,6 @@
 						<h4 class="card-title">업무</h4>
 						<div class="dropdown custom-dropdown">
 							<div>
-								<!-- selected 박스로 변경하기  -->
 								<select class="dropdown-business" name="bussImp">
 									<option class="dropdown-relation" value="*">전체</option>
 									<option class="dropdown-relation" value="0J1">상</option>
@@ -176,17 +167,6 @@
 								</select>
 							</div>
 						</div>
-						<!-- <div class="dropdown custom-dropdown">
-							<div data-toggle="dropdown">
-								<a class="dropdown-issue" href="#"></a>상태<i
-									class="fa fa-angle-down m-l-5"></i>
-							</div>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-issue" href="#">해결</a> <a
-									class="dropdown-issue" href="#">미해결</a> <a
-									class="dropdown-issue" href="#">해결불가</a>
-							</div>
-						</div> -->
 						<div class="table-responsive">
 							<table class="table">
 								<thead>
@@ -200,8 +180,8 @@
 								<tbody id="issuetbl">
 									<th:block th:each=" issueList: ${issueList}">
 										<tr>
-											<td th:text="${issueList.prjtNm}" />
-											<td th:text="${issueList.membId}" />
+											<td th:text="${issueList.issuTtl}" />
+											<td th:text="${issueList.membNm}" />
 											<td
 												th:text="${#dates.format(issueList.issuDt, 'yyyy-MM-dd')}" />
 											<td th:if="${issueList.issuSt == '0E1'}">해결</td>
@@ -219,10 +199,10 @@
 		<script th:inline="javascript">
 		
 			//즐겨찾기
-			$(document).on('click','td:nth-child(1)' ,projectFavorite);
+			$('#projecttbl').on('click','td:nth-child(1)' ,projectFavorite);
 			//드롭다운 
-			$('.dropdown-project').on('click', projectDropDown);
-			$('.dropdown-feedback').on('click', feedbackDropdown);
+			$('select[name=project]').on('change', projectDropDown);
+			$('select[name=feedback]').on('change', feedbackDropdown);
 			$('select[name=bussImp]').on('change', businessDropdown);
 			$('select[name=issue]').on('change', issueDropdown);
 			
@@ -232,20 +212,9 @@
 				$(this).parent().siblings().text($(this).text());
 				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
 				
-				let projectState = $(this).text();
+				let projectState = $('select[name=project] option:selected').val();
 				let projecttbl = $('#projecttbl');
-				if(projectState == '완료'){
-					projectState = '0D2';
-					
-				}
-				else if(projectState == '진행중'){
-					projectState = '0D1';
-				
-				}
-				else{
-					projectState = '0D3';
-				}
-				
+		
 				$.ajax('ProjectStateAjax',{
 					type : 'post',
 					data : { prjtSt : projectState}
@@ -292,7 +261,7 @@
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
-					
+						
 						
 					})
 				})
@@ -302,13 +271,9 @@
 			
 			
 			function feedbackDropdown(){
-				$(this).parent().siblings().attr('class', $(this).children().attr('class'));
-				$(this).parent().siblings().text($(this).text());
-				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>');
-				
 				let fdList = [[${memberFeedbackList}]];
 			
-				let membFdbkDt =$(this).text();
+				let membFdbkDt =$('select[name=feedback] option:selected').text();
 				let replytbl = $('#replytbl');
 				
 				if(membFdbkDt=='최신순'){
@@ -378,13 +343,8 @@
 			}
 			
 			function businessDropdown(){
-				/* $(this).parent().siblings().attr('class', $(this).children().attr('class'));
-				$(this).parent().siblings().text($(this).text());
-				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>'); */
-				
 				let businessList = [[${businessList}]];
 		
-				//let membFdbkDt =$(this).val();
 				let membFdbkDt = $('select[name=bussImp] option:selected').text();
 				let businesstbl = $('#businesstbl');
 				
@@ -522,13 +482,9 @@
 			
 			}
 			function issueDropdown(){
-				/* $(this).parent().siblings().attr('class', $(this).children().attr('class'));
-				$(this).parent().siblings().text($(this).text());
-				$(this).parent().siblings().append('<i class="fa fa-angle-down m-l-5"></i>'); */
-				
 				let issueList = [[${issueList}]];
 		
-				let membFdbkDt =$('select[name=issue] option:selected').text();;
+				let membFdbkDt =$('select[name=issue] option:selected').text();
 				let issuetbl = $('#issuetbl');
 				
 				if(membFdbkDt=='해결'){
@@ -541,11 +497,11 @@
 						let tdTag= $('<td/>');
 						
 						tdTag= $('<td/>');
-    					tdTag.append(data.prjtNm);
+    					tdTag.append(data.issuTtl);
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.membId);
+    					tdTag.append(data.membNm);
     					trTag.append(tdTag);
     					
     					let issuDt = new Date(data.issuDt);
@@ -571,11 +527,11 @@
 						let tdTag= $('<td/>');
 						
 						tdTag= $('<td/>');
-    					tdTag.append(data.prjtNm);
+    					tdTag.append(data.issuTtl);
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.membId);
+    					tdTag.append(data.membNm);
     					trTag.append(tdTag);
     					
     					let issuDt = new Date(data.issuDt);
@@ -601,11 +557,11 @@
 						let tdTag= $('<td/>');
 						
 						tdTag= $('<td/>');
-    					tdTag.append(data.prjtNm);
+    					tdTag.append(data.issuTtl);
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.membId);
+    					tdTag.append(data.membNm);
     					trTag.append(tdTag);
     					
     					let issuDt = new Date(data.issuDt);
@@ -630,11 +586,11 @@
 						let tdTag= $('<td/>');
 						
 						tdTag= $('<td/>');
-    					tdTag.append(data.prjtNm);
+    					tdTag.append(data.issuTtl);
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data.membId);
+    					tdTag.append(data.membNm);
     					trTag.append(tdTag);
     					
     					let issuDt = new Date(data.issuDt);
@@ -643,7 +599,7 @@
     					trTag.append(tdTag);
     					
     					tdTag= $('<td/>');
-    					tdTag.append(data,issuStNm);
+    					tdTag.append(data.issuStNm);
     					trTag.append(tdTag);
     					
     					issuetbl.append(trTag);
@@ -652,9 +608,10 @@
 			}
 			
 			function projectFavorite() {
+			 	 e.stopPropagation();
+			
 				let favorite = $(this).children().hasClass("fa-solid fa-star");
 				let prjtNo =  $(this).next().text();
-				//td요소 들중 마지막 값 proceed, end 가져오기 
 				let prjtSt = $(this).parent().find('td:last').text();
 				if(prjtSt == '진행중'){
 					prjtSt = '0D1';
@@ -720,7 +677,6 @@
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
-					
 					})
 					
 				})
@@ -737,6 +693,16 @@
 					let day  = '0' + date.getDate();
 
 					return year +'-'+ month.substring(month.length -2) + '-'+day.substring(day.length -2);
+			}
+		
+			function moveFeed(prjtNo){
+				
+				location.href = '/project/feedback/' + prjtNo;
+			}
+			function movePrjt(prjtNo){
+			
+				location.href = '/project/home/' + prjtNo;
+				
 			}
 		
 		</script>

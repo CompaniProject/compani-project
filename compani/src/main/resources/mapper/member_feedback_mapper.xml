@@ -7,7 +7,8 @@
 	<select id="getMemberFeedbackList" resultType="MemberFeedbackVO">
 		SELECT P.PRJT_NM, 
 		       F.MEMB_FDBK_CNTN, 
-		       F.MEMB_FDBK_DT
+		       F.MEMB_FDBK_DT,
+		       P.PRJT_NO
 		FROM   PROJECT P, MEMBER_FEEDBACK F
 		WHERE  P.PRJT_NO = F.PRJT_NO
 		AND    f.MEMB_FDBK_OBJ = #{membId}

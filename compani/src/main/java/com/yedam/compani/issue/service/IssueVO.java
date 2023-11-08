@@ -28,4 +28,5 @@ public class IssueVO {
 	private List<Integer> removeFileIds = new ArrayList<>(); // 삭제할 첨부파일 issuFileNo List
 	private String membNm;
 	private	String membPhtPath;
+	private String issuStNm;
 }

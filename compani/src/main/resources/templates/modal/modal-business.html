@@ -211,7 +211,7 @@
 			name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
-		<button id="updatebussBtn" type="button" class="btn btn-primary">수정</button>
+		<button th:if ="${session.updateCheck != null}" type="button" id="updatebussBtn"  class="btn btn-primary">수정</button>
 	</div>
 </form>
 

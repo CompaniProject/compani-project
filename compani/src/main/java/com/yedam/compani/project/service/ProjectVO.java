@@ -20,6 +20,7 @@ public class ProjectVO {
 	private int count;
 	private String prjtFav;
 	private String membId;
+	private String prjtPubcynNm;
 	
 //	public boolean isStateEnd() {
 //		return (prjtSt.equals("0D2"));

@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.github.pagehelper.Page;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.member.service.ProjectMemberVO;
 import com.yedam.compani.project.service.ProjectVO;
@@ -21,4 +23,5 @@ public interface ProjectMapper {
 	public Map<Object,Object> projectSelect(Integer prjtNo);
 	public int updateProject(ProjectVO project);
 	public ProjectMemberVO updateCheck(@Param("prjtNo") Integer prjtNo, @Param("membId") String membId);
+	Page<ProjectVO> findCompanyProject(@Param("search")String search, @Param("keyword") String keyword, @Param("coCd") String coCd);
 }
