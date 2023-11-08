@@ -268,7 +268,7 @@
 										<p class="sectionTitleText">해시태그</p>
 									</div>
 									<input name='input-custom-dropdownPIE' class='tagify__dropdown__itemPIE'
-										placeholder='Enter키로 등록하세요. 최대 10개까지 등록이 가능합니다.'>
+										placeholder='Enter키로 등록하세요. 최대 5개까지 등록이 가능합니다.'>
 								</div>
 							</div>
 							<!--/* 이슈 수정폼에서 수정 취소 확인 START */-->
@@ -742,7 +742,7 @@
 		let inputHashPIE = document.querySelector('input[name="input-custom-dropdownPIE"]');
 
 		let tagifyPIE = new Tagify(inputHashPIE, {
-			maxTags: 10, // 최대 허용 태그 개수
+			maxTags: 5, // 최대 허용 태그 개수
 			dropdown: {
 				position: "input",
 				classname: "tags-look", // 드롭다운 메뉴 엘리먼트 클래스 이름.
