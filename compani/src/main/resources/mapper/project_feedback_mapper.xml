@@ -64,4 +64,13 @@
 		</set>
 		WHERE prjt_fdbk_no = #{prjtFdbkNo}
 	</update>
+
+	<select id="selectChildrenShowCount">
+		SELECT COUNT(*)
+		FROM (	SELECT *
+				FROM project_feedback
+				START WITH prjt_fdbk_no = #{prjtFdbkNo}
+				CONNECT BY PRIOR  prjt_fdbk_no = prjt_fdbk_upno)pf
+		WHERE pf.prjt_fdbk_show = '0N1'
+	</select>
 </mapper>

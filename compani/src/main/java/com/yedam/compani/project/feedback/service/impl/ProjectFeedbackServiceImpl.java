@@ -32,5 +32,11 @@ public class ProjectFeedbackServiceImpl implements ProjectFeedbackService {
 		return (projectFeedbackMapper.update(projectFeedbackVO) == 1);
 	}
 
-	
+	@Override
+	public boolean isHaveChildrenShow(int prjtFdbkNo) {
+		int count = projectFeedbackMapper.selectChildrenShowCount(prjtFdbkNo)-1;
+		return (count == 0);
+	}
+
+
 }
