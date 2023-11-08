@@ -133,18 +133,21 @@ public class ProjectController {
 	//프로젝트 등록 - 실행시 
 	@PostMapping("/insertProject")
 	@ResponseBody
-	public Map<String, Object> insertProject(@RequestBody ProjectFormVO formVO) {
+	public Map<String, Object> insertProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
 
 		Map<String, Object> map = new HashMap<>();
 		projectService.insertProject(formVO.getProject());
 		projectMemberService.insertProjectMember(formVO);
 		
+		// project 추가 후 sidebar project list 재설정
+		setProjectSidebarList(request);
+
 		return map;
 	}
-	
+
 	@PostMapping("/updateProject")
 	@ResponseBody
-	public void updateProject(@RequestBody ProjectFormVO formVO) {
+	public void updateProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<>();
 		
 		ProjectVO projectVO = formVO.getProject();
@@ -157,13 +160,21 @@ public class ProjectController {
 		
 		projectMemberService.deleteProjectMember(formVO);
 		projectMemberService.insertProjectMember(formVO);
-	
+
+		// 프로젝트 수정 시 사이드바 재설정
+		setProjectSidebarList(request);
 	}
+	
 	//회사 프로젝트 게시판 
 	@GetMapping("/company/project/{cocd}")
 	public String projectBoard(Model model) {
 		
 		return "company/company-project";
 	}
-	
+
+	private void setProjectSidebarList(HttpServletRequest request) {
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		List<Map<Object, Object>> projectList = projectService.getProjectAndMemberList(memberVO.getMembId());
+		request.getSession().setAttribute("projectList", projectList);
+	}
 }
