@@ -148,8 +148,6 @@ public class ProjectController {
 	@PostMapping("/updateProject")
 	@ResponseBody
 	public void updateProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<>();
-		
 		ProjectVO projectVO = formVO.getProject();
 		projectService.updateProject(projectVO);
 		
