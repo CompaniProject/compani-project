@@ -25,11 +25,11 @@ body{
 #personalCalendarBox {
 	width: 70%;
 	float: right;
+	background-color: white;
 }
 
 #personalCalendar {
-	margin: 10px;
-	background-color: white;
+	
 }
 
 .calendarBusinessInfo {
@@ -47,7 +47,8 @@ select {
 }
 
 .fc .fc-toolbar.fc-header-toolbar {
-	margin: 10px;
+	margin: 0px;
+	margin-top: 10;
 }
 
 .fc-toolbar-chunk {
@@ -153,7 +154,21 @@ select {
 	<div class="row">
 		<!-- 달력&차트 시작 -->
 		<div id="personalCalendarBox">
-			<div id='personalCalendar' class="tab-pane"></div>
+		<div class="prjtNmBox" style="float:left; width:100%">
+		<div class="checkbox p-1" style="float:left">
+		  <label>
+		    <input class='calFilter' type="checkbox" value="normal" checked>Normal</label>
+		</div>
+		<div class="checkbox p-1" style="float:left">
+		  <label>
+		    <input class='calFilter' type="checkbox" value="event">Event</label>
+		</div>
+		<div class="checkbox p-1" style="float:left">
+		  <label>
+		    <input class='calFilter' type="checkbox" value="whisper">Whisper</label>
+		</div>
+		</div>
+			<div id='personalCalendar' class="tab-pane p-2"></div>
 			
 			<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
 		</div>
@@ -231,7 +246,7 @@ select {
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]];
 	
-	let prjtNum = [];
+	let prjtNumArr = [];
 	//console.log([[${session.loginInfo}]]);
 	/*----------------------------
 		필터링
@@ -246,6 +261,17 @@ select {
 			}
 		}
 	}
+	if(calendarData != null){
+		$.each(calendarData, function(idx, item){
+			prjtNumArr.push(item.prjtNm);
+		});
+		let set = new Set(prjtNumArr);
+		let prjtNum = [...set]; // 중복 처리한 프로젝트 이름 배열.
+		
+		$('.prjtNmBox').prepend(`<div class="checkbox p-1" style="float:left"><label>
+		    <input class='calFilter' type="checkbox">test</label></div>`);
+	}
+	
 	// 필터링 전체 - 화면에 다시 뿌리기
 	if($('.dropdown-item.selectAll').on('click', function(){
 		// 캘린더에 뿌리기
@@ -689,7 +715,8 @@ select {
 	------------------------------*/
 	$(function(){
 		$('.businessListBox').slimScroll({
-			height: '940px'
+			height: '940px',
+			width: '100%'
 		});
 		
 		$('.businessListBox').parent().css('float', 'right');
