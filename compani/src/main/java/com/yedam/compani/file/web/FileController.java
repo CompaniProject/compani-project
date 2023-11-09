@@ -42,56 +42,32 @@ public class FileController {
 	
 	// 파일 리스트
 	@GetMapping("/searchFile/{bussNo}")
-	public String fileList(@PathVariable int bussNo, String type, String keywordFile, FileVO fileVO,
-			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
+	public String fileList(@PathVariable int bussNo, 
+			                String type, 
+			                String keywordFile, 
+			                FileVO fileVO,
+			                @RequestParam(required = false, defaultValue = "1") int pageNum,
+			                Model model) throws Exception {
+		
 		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, type, keywordFile, bussNo), 5);
-		Page<FileVO> vo = fileservice.fileList(pageNum, type, keywordFile, bussNo);
 		
 		model.addAttribute("file", file);
-		model.addAttribute("fileList", vo);
-		model.addAttribute("search", type);
 		model.addAttribute("bVO", business.businessSelect(bussNo));
-
+ 
 		return "modal/modal-file";
 	}
 	
 	// 페이징 및 검색 AJAX
 	@GetMapping("/searchAjax/{bussNo}")
 	@ResponseBody
-	public Map<String, Object> fileList(@PathVariable int bussNo, String type, String keywordFile,
-			@RequestParam(required = false, defaultValue = "1") int pageNum){
+	public Map<String, Object> fileList(@PathVariable int bussNo, 
+										String type, 
+										String keywordFile,
+										@RequestParam(required = false, defaultValue = "1") int pageNum){
 		PageInfo<FileVO> file = new PageInfo<>(fileservice.fileList(pageNum, type, keywordFile, bussNo), 5);
 		Map<String, Object> map = new HashMap<>();
-		
 		map.put("file", file);
-		map.put("files", fileservice.fileList(pageNum, type, keywordFile, bussNo));
-		map.put("search", type);
 		return map;
 	}
-
-	// 파일 업로드 다운로드 테스트용
-	@GetMapping("/FileTest")
-	public String FileTest() {
-		return "FileTest";
-	}
-
-
-	// 첨부 파일 다운로드
-
-	@GetMapping("/workFile/{FileNo}/download")
-	public ResponseEntity<Resource> downloadFile(@PathVariable final int FileNo) {
-		FileVO file = fileservice.fileInfo(FileNo);
-		Resource resource = new FileSystemResource("c:\\Temp\\" + file.getFileNm());
-		try {
-			String filename = URLEncoder.encode(file.getFileNm(), "UTF-8");
-			return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + filename + "\";")
-					.header(HttpHeaders.CONTENT_LENGTH, file.getFileSize() + "").body(resource);
-
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("filename encoding failed : " + file.getFileNm());
-		}
-	}
 	
-
 }

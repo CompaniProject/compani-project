@@ -4,10 +4,6 @@
 	layout:decorate="~{/layout/projectlayout}">
 <head>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-</script>
-<!-- <script src="../../static/type/jquery.dd.min.js"></script> -->
 
 <style>
 .content-body {
@@ -136,11 +132,6 @@ hr {
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- <link rel="stylesheet"
-	type="text/css" href="../../static/css/dd.css"> -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-	crossorigin="anonymous"></script>
 
 </head>
 <th:block layout:fragment="content">
@@ -174,7 +165,7 @@ hr {
 									id="FileUpload" value="업로드" class="btn mb-1 btn-info" /></li>
 							</ul>
 							<!-- 데이터 들어갈 박스 -->
-							<span id="DataBox">
+							<div id="DataBox">
 								<table>
 									<thead>
 										<tr>
@@ -184,15 +175,12 @@ hr {
 
 									</tbody>
 								</table>
-
-							</span> <br>
+							</div><br><br>
 
 							<!-- 업무선택 드랍다운 -->
 							<div class="form-group">
 								<select class="form-control" id="jobDown" name="jobDown">
-									<th:block th:each="bussNm : ${driveBussName}">
-										<option th:value="${bussNm.bussNo}" th:text="${bussNm.bussNm}"></option>
-									</th:block>
+									<option th:value="${bussNm.bussNo}" th:text="${bussNm.bussNm}" th:each="bussNm : ${driveBussName}"></option>
 								</select>
 							</div>
 						</div>
@@ -274,7 +262,6 @@ hr {
 								</tr>
 
 							</thead>
-							<form id="checkBoxForm">
 								<tbody id="newTrTd">
 									<th:block th:each="fileList : ${pFileList}">
 										<tr id="tdData" th:data-fileno="${fileList.fileNo}"
@@ -320,7 +307,6 @@ hr {
 										</tr>
 									</th:block>
 								</tbody>
-							</form>
 						</table>
 					</div>
 				</div>
@@ -329,10 +315,12 @@ hr {
 	</div>
 	<script>
 		var prjtNo = [[${prjtNo}]];
-		var membId = "[[${session.loginInfo.membId}]]";
+
 		
+		
+		// 파일 미리보기 버튼 선택시 해당 파일의 내용물을 팝업창으로 작게 띄움 
 		function preview(path){
-			window.open('/upload/' + path,'previewF');
+			window.open('/upload/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
 		}
 		
 	    window.onload = function () {
@@ -416,23 +404,35 @@ hr {
 			trActive.each(function() { // 액티브 된 얘들 반복문 돌려서 배열에다가 tr이 가지고있는 파일번호 넣기
 		        files.push($(this).data('fileno')); // 액티브된 애들 파일번호 배열에 넣기
 		    });
-
-		    // ajax
-		    $.ajax({
-		        type: "post", 
-		        url: "/fileSelectDel",
-		        data: { files: files },
-		        traditional: true, // ajax 배열을 넘길때 필요함
-		        success: function () {
-		            if (confirm("해당 파일들을 삭제 하시겠습니까?")) {
-		                alert("삭제가 완료 되었습니다.");
-		                trActive.remove(); // 액티브된 애들 실시간 삭제 
-		            }
-		        },
-		        error: function (err) {
-		            alert("선택된 파일이 존재하지 않습니다.");
-		        }
-		    });
+			
+			Swal.fire({
+                title: '파일을 삭제 하시겠습니까?',
+                text: "삭제 시 복구할 수 없습니다.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '예',
+                cancelButtonText: '아니요'
+			}).then((result) => {
+				 if (result.isConfirmed) {
+				    // ajax
+				    $.ajax({
+				        type: "post", 
+				        url: "/fileSelectDel",
+				        data: { files: files },
+				        traditional: true, // ajax 배열을 넘길때 필요함
+				        success: function () {
+				        	Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
+				            trActive.remove(); // 액티브된 애들 실시간 삭제 
+				           
+				        },
+				        error: function (err) {
+				            alert("선택된 파일이 존재하지 않습니다.");
+				        }
+				    });
+				 }
+			})
 		}
 
 		// ======== 검색 AJAX ========
@@ -457,28 +457,33 @@ hr {
 			});
 	};
 	
-	// ======== 파일 검색 시 나오는 리스트 함수로 제작 ========
-		function makeTrTd(item) {
-	    var newType = "";
-	
-	    if (item.fileType === 'xls') {
+	function searchType(type){
+		var newType = "";
+		
+	    if (type=== 'xls') {
 	    	newType = "/images/type/xls.png";
-	    } else if (item.fileType == 'pptx') {
+	    } else if (type == 'pptx') {
 	    	newType = "/images/type/ppt.png";
-	    } else if (item.fileType == 'pdf') {
+	    } else if (type == 'pdf') {
 	    	newType = "/images/type/pdf.png";
-	    } else if (item.fileType == 'zip') {
+	    } else if (type == 'zip') {
 	    	newType = "/images/type/zip.png";
-	    } else if (item.fileType == 'txt') {
+	    } else if (type == 'txt') {
 	    	newType = "/images/type/txt.png";
-	    } else if (item.fileType == 'jpg') {
+	    } else if (type == 'jpg') {
 	    	newType = "/images/type/img.png";
-	    } else if (item.fileType == 'png') {
+	    } else if (type == 'png') {
 	    	newType = "/images/type/img.png";
 	    } else {
 	    	newType = "/images/type/null.png";
 	    }
+	    
+	    return newType;
+	}
 	
+	// ======== 파일 검색 시 나오는 리스트 함수로 제작 ========
+		function makeTrTd(item) {
+	    var newType =  searchType(item.fileType);
 	    var trTag = `<tr id="tdData" data-fileno="${item.fileNo}">
 	        <td>
 	            <img src="${newType}" style="width: 40px; height: 40px;">
@@ -518,25 +523,7 @@ hr {
 	
 	// ======== 필터 선택시 해당 확장자 보이게끔 설정하기 ========
 	function makeFilter(fit){
-		 var newType = "";
-			
-		    if (fit.fileType === 'xls') {
-		    	newType = "/images/type/xls.png";
-		    } else if (fit.fileType == 'pptx') {
-		    	newType = "/images/type/ppt.png";
-		    } else if (fit.fileType == 'pdf') {
-		    	newType = "/images/type/pdf.png";
-		    } else if (fit.fileType == 'zip') {
-		    	newType = "/images/type/zip.png";
-		    } else if (fit.fileType == 'txt') {
-		    	newType = "/images/type/txt.png";
-		    } else if (fit.fileType == 'jpg') {
-		    	newType = "/images/type/img.png";
-		    } else if (fit.fileType == 'png') {
-		    	newType = "/images/type/img.png";
-		    } else {
-		    	newType = "/images/type/null.png";
-		    }
+		 var newType = searchType(fit.fileType);
 
 		var trTag = `<tr id="tdData" data-fileno="${fit.fileNo}">
 			<td><img src="${newType}" style="width: 40px; height: 40px;"></td>
@@ -633,10 +620,10 @@ hr {
 	function saveFiles() {
 
 		var formData = new FormData();
-		formData.append('membId', membId);
-		formData.append('prjtNo', prjtNo);
+		formData.append('membId', fileMembId);
+		formData.append('prjtNo', miPrjtNo);
+		formData.append('bussNo', bussNo);
 
-		
 		var inputFile = document.querySelector('#selectedFile');
 		var fileInfo = inputFile.files;
 
@@ -661,11 +648,11 @@ hr {
 		});
 	};
 	
-	// 파일 다운로드
+	// 파일 단건 다운로드
 	function fileDown(fileNo){
 		
 		Swal.fire({
-            title: '해당 파일 다운하실?',
+            title: '파일을 다운 하시겠습니까?',
             text: "컴퓨터의 다운로드 파일에 저장됩니다.",
             icon: 'question',
             showCancelButton: true,
@@ -679,7 +666,10 @@ hr {
 				}
 			})
 	}
-	</script>
+	
 
+	
+	
+	</script>
 </th:block>
 </html>

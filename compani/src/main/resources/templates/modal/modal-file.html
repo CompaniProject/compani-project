@@ -1,5 +1,4 @@
 
-
 <head>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -100,7 +99,7 @@ input[type="checkbox"]:checked::after {
 
 </head>
 
-
+<body>
 <div class="workModalContentBack">
 	<div class="workModalContentSlider">
 		<div class="workModalContent scroll issueContent">
@@ -184,7 +183,7 @@ input[type="checkbox"]:checked::after {
 									</thead>
 									<form id="checkBoxForm">
 									<tbody id="newTrTd">
-										<th:block th:each="fileList : ${fileList}">
+										<th:block th:each="fileList : ${file.list}">
 											<tr id="tdData" th:data-fileno="${fileList.fileNo}">
 												<td class="newCKB"><input type="checkbox" name="files"
 													th:value="${fileList.fileNo}"></td>
@@ -269,7 +268,7 @@ input[type="checkbox"]:checked::after {
 				type: 'GET'
 			}).done(function (data) {
 				fileList.empty();
-				$.each(data.files, function(idx, item) {
+				$.each(data.file.list, function(idx, item) {
 					
 					fileList.append(makeTrTd(item));
 				})
@@ -459,7 +458,7 @@ input[type="checkbox"]:checked::after {
 		}).then((result) => {
 		      if (result.isConfirmed) {	
 		  		$.ajax({
-		  			type : "get",
+		  			type : "post",
 		  			url : "/fileSelectDel",
 		  			dataType : "text",
 		  			data : tdBox.serialize(),
@@ -478,12 +477,7 @@ input[type="checkbox"]:checked::after {
 	};
 
 	// ======== 파일 업로드 AJAX ========
-	
-
-	
-	$('#selectedFile').on(
-			'change',
-			function() {
+	$('#selectedFile').on('change', function() {
 				var formData = new FormData(); //FormData 객체 생성
 				formData.append('membId', fileMembId);
 				formData.append('prjtNo', miPrjtNo);
@@ -498,7 +492,7 @@ input[type="checkbox"]:checked::after {
 
 				for (var i = 0; i < files.length; i++) {
 					console.log(files[i]);
-					formData.append("uploadFiles", files[i]);//키,값으로 append 
+					formData.append("uploadFile", files[i]);//키,값으로 append 
 				}
 
 				$.ajax({
@@ -507,13 +501,7 @@ input[type="checkbox"]:checked::after {
 					processData : false, //기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
 					contentType : false, // multipart/form-data타입을 사용하기위해 false 로 지정합니다.
 					data : formData,
-					success : function(result) {
-						console.log(result.fileVO.membId);
-						console.log(result.fileVO.fileNo);
-						console.log(result.fileVO.fileType);
-						console.log(fileMembId);
-						console.log(miPrjtNo);
-						console.log(bussNo);
+					success : function(fileVO) {
 						var fileInfo = document
 								.querySelector('input[type=file]').files;
 
@@ -522,11 +510,11 @@ input[type="checkbox"]:checked::after {
 						if (file) {
 							
 							// tr태그 
-							var trTag = $('<tr/>').attr('id', 'tdData').data('fileno', result.fileVO.fileNo);
+							var trTag = $('<tr/>').attr('id', 'tdData').data('fileno', fileVO.fileNo);
 							
 							// 체크박스
 							var checkTd = $('<td/>').attr('class', 'newCKB');
-							fileCheckTag = $('<input/>').attr('type','checkbox').attr('name', 'files').attr('value', result.fileVO.fileNo );
+							fileCheckTag = $('<input/>').attr('type','checkbox').attr('name', 'files').attr('value', fileVO.fileNo );
 							
 							// 파일명
 							var fileNameTag = $('<td/>').text(file.name);
@@ -550,7 +538,7 @@ input[type="checkbox"]:checked::after {
 							
 							
 							var fileDownTag = $('<td/>').attr('class',
-									'downIcon').attr("onclick", "fileDown('" + result.fileVO.fileNo +"')");							
+									'downIcon').attr("onclick", "fileDown('" + fileVO.fileNo +"')");							
 							var fileDown = $('<i/>').attr('class', 'fa-solid fa-download');
 							
 							var fileDelTag = $('<td/>').attr('class',
@@ -573,12 +561,9 @@ input[type="checkbox"]:checked::after {
 
 							$('#newTrTd').append(trTag);
 						}
-						console.log(result.fList);
-						console.log(result.fileVO);
 					},
-					error : function(reject) {
-						console.log(reject.fList);
-						console.log(reject.fileVO)
+					error : function() {
+						alert("실패");
 					}
 				});
 			});
@@ -589,3 +574,4 @@ input[type="checkbox"]:checked::after {
 		}
 	
 </script>
+</body>
