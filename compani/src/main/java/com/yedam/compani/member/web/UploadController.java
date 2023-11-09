@@ -6,10 +6,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,35 +19,33 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
-@Log4j2
+@Slf4j
 @Controller
 public class UploadController {
-
+	@Autowired
+	MemberService sv;
+	
+	
 	@Value("${file.upload.path}")
 	private String uploadPath;
 
 	@PostMapping("/uploadsAjaxs")
 	@ResponseBody
-	public String uploadFile(@RequestPart MultipartFile[] uploadFiles) {
-
-		//List<String> imageList = new ArrayList<>();
-		String pht = "";
-		System.out.println(uploadPath+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		
-		for (MultipartFile uploadFile : uploadFiles) {
-			if (uploadFile.getContentType().startsWith("image") == false) {
+	public String uploadFiles(@RequestPart(value = "image", required = false) MultipartFile uploadFiles, HttpServletRequest request) {
+			MemberVO vo = (MemberVO) request.getSession().getAttribute("loginInfo"); 
+			if (uploadFiles.getContentType().startsWith("image") == false) {
 				System.err.println("this file is not image type");
 				return null;
 			}
 
-			String originalName = uploadFile.getOriginalFilename();						 //
+			String originalName = uploadFiles.getOriginalFilename();						 //
 			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);//실제 파일이름을 불러옴
 
-			System.out.println("fileName : " + fileName);
 
 			// 날짜 폴더 생성																	//
 			String folderPath = makeFolder();												//	
@@ -56,12 +56,10 @@ public class UploadController {
 			String uploadFileName = folderPath + File.separator + uuid + "_" + fileName;	//실제 서버에 저장될 파일이름
 																							//
 			String saveName = uploadPath + File.separator + uploadFileName;					//
-
 			Path savePath = Paths.get(saveName);
 			// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-			System.out.println("path : " + saveName);
 			try {
-				uploadFile.transferTo(savePath);
+				uploadFiles.transferTo(savePath);
 				// uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -69,10 +67,9 @@ public class UploadController {
 			// DB에 해당 경로 저장
 			// 1) 사용자가 업로드할 때 사용한 파일명
 			// 2) 실제 서버에 업로드할 때 사용한 경로
-			pht = setImagePath(uploadFileName);
-		}
-
-		return pht;
+			vo.setMembPhtPath(setImagePath(uploadFileName));
+			sv.editProfile(vo);
+		return vo.getMembPhtPath();
 	}
 
 	private String makeFolder() {
@@ -94,3 +91,4 @@ public class UploadController {
 		return uploadFileName.replace(File.separator, "/");
 	}
 }
+

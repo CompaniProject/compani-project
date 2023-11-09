@@ -100,7 +100,10 @@
 
 		</choose>
 	</select>
-
+	<update id="updateMemberprofile" parameterType="MemberVO">
+		UPDATE member SET MEMB_PHT_PATH = #{membPhtPath}
+                   		   WHERE memb_id = #{membId}
+	</update>
 	<update id="updateMemberInfo" parameterType="MemberVO">
 		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm}</if>
                           ,memb_dept = #{membDept}

@@ -102,6 +102,11 @@ public class MemberServiceImpl implements MemberService {
 	
 		return map.projectMemberList(prjtNo);
 	}
+
+	@Override
+	public int editProfile(MemberVO vo) {
+		return map.updateMemberprofile(vo);
+	}
 	
 	// 회사관리자 멤버리스트
 	@Override

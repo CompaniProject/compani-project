@@ -37,7 +37,8 @@ public interface MemberMapper {
 	public int updateMemberAccpAuto(CompanyVO vo);
 	
 	public List<MemberVO> projectMemberList(int prjtNo);
-	
+
 	// 회사관리자 멤버리스트
 	public List<Map<Object, Object>> companyManager(String coCd);
+	public int updateMemberprofile(MemberVO vo);
 }

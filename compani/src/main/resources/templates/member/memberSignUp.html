@@ -697,8 +697,11 @@ mark, .mark {
 						e.preventDefault();
 					}else{
 						$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
-						swal('가입완료!', "정상적으로 가입되었습니다.", 'success');
-						$("#formSignUp").attr("action","SignUpped").submit();
+						$(function(){
+							swal({title : '가입완료!', text : "정상적으로 가입되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+								$("#formSignUp").attr("action","SignUpped").submit();
+							});	
+						});
 					}
 				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 0){
 					$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
@@ -710,8 +713,11 @@ mark, .mark {
 				
 
 			}else{
-				swal('입력정보오류!', "정확한 가입정보를 입력해주세요.", 'error');
-				e.preventDefault();
+				$(function(){
+					swal({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+						return false;
+					});	
+				})
 			}
 	    });
 	});
