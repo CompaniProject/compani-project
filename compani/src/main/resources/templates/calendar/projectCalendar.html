@@ -100,10 +100,6 @@ select {
 	min-width: 3em;
 }
 
-.businessListBox {
-	float: right;
-}
-
 .businessList {
 	background-color: white;
 	width: 100%;
@@ -461,7 +457,7 @@ select {
 			
 			$.ajax({
 				type: 'post',
-				url: '/updateProjectGanttUpcd',
+				url: '/updateGanttUpcd',
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
