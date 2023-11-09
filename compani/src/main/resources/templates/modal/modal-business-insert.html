@@ -1,190 +1,209 @@
 
-		<!--  업무 등록 모달  -->
-		<div class="modal fade bd-example-modal-lg" id="insertbuss"
-			tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">
-							<span>&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
+<!--  업무 등록 모달  -->
+<div class="modal fade bd-example-modal-lg" id="insertbuss"
+	tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
 
-						<form id="insertbussform" class="form-valide" action="#" method="post">
-							<div>
-								<div class="issueNameEdit">
-									<div class="issueNameBack">
-										<textarea class="modalIssueNameUpdate" id="bussNm"
-											name='bussNm' maxlength="200" style="height: 34px;"
-											placeholder="업무명을 입력하세요."></textarea>
+				<form id="insertbussform" class="form-valide" action="#"
+					method="post">
+					<div>
+						<div class="issueNameEdit">
+							<div class="issueNameBack">
+								<textarea class="modalIssueNameUpdate" id="bussNm" name='bussNm'
+									maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요."></textarea>
+							</div>
+						</div>
+
+						<div>
+
+							<div class="card" style="height: 200px;">
+								<div class="card-body" style="overflow: auto;">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>프로필</th>
+													<th>부서</th>
+													<th>직책</th>
+													<th>이름</th>
+													<th>삭제</th>
+												</tr>
+											</thead>
+											<tbody id="insertbussmembertbl">
+
+											</tbody>
+										</table>
 									</div>
+
 								</div>
-
-								<div>
-
-									<div class="card" style="height: 200px;">
-										<div class="card-body" style="overflow: auto;">
-											<div class="table-responsive">
-												<table class="table">
-													<thead>
-														<tr>
-															<th>프로필</th>
-															<th>부서</th>
-															<th>직책</th>
-															<th>이름</th>
-															<th>삭제</th>
-														</tr>
-													</thead>
-													<tbody id="insertbussmembertbl">
-
-													</tbody>
-												</table>
-											</div>
-
-										</div>
-									</div>
-									<div>
-										<div class="card" style="height: 200px;">
-											<div class="card-body" style="overflow: auto;">
-												<div class="SearchBox" style="height: 50%">
-													<label for="SearchToggleCheckBox"
-														th:attr="onclick='busssearchMember()'"></label> <input
-														type="hidden" id="keyword" value="전체">
-													<div class="SearchInputBox" style="width: 270px;">
-														<div>
-															<div class="member-selectBox" style="width: 100px;">
-																<div class="member-selected" id="member-selected">
-																	<div class="member-selected-value">전체</div>
-																	<div class="arrow"></div>
-																</div>
-																<ul class="member-select-ul"
-																	style="width: 100px; top: 20%; display: none;">
-																	<li class="member-select-option" data-value="전체">전체</li>
-																	<li class="member-select-option" data-value="부서">부서</li>
-																	<li class="member-select-option" data-value="직책">직책</li>
-																	<li class="member-select-option" data-value="이름">이름</li>
-																</ul>
-															</div>
-
+							</div>
+							<div>
+								<div class="card" style="height: 200px;">
+									<div class="card-body" style="overflow: auto;">
+										<div class="SearchBox" style="height: 50%">
+											<label for="SearchToggleCheckBox"
+												th:attr="onclick='busssearchMember()'"></label> <input
+												type="hidden" id="keyword" value="전체">
+											<div class="SearchInputBox" style="width: 270px;">
+												<div>
+													<div class="member-selectBox" style="width: 100px;">
+														<div class="member-selected" id="member-selected">
+															<div class="member-selected-value">전체</div>
+															<div class="arrow"></div>
 														</div>
-														<input class="SearchInputModalView" id="search"
-															type="text" placeholder="검색어를 입력하세요." />
+														<ul class="member-select-ul"
+															style="width: 100px; top: 20%; display: none;">
+															<li class="member-select-option" data-value="전체">전체</li>
+															<li class="member-select-option" data-value="부서">부서</li>
+															<li class="member-select-option" data-value="직책">직책</li>
+															<li class="member-select-option" data-value="이름">이름</li>
+														</ul>
 													</div>
 
 												</div>
-												<div class="table-responsive">
-													<table class="table">
-														<thead>
-															<tr>
-																<th>프로필</th>
-																<th>부서</th>
-																<th>직책</th>
-																<th>이름</th>
-																<th>추가</th>
-															</tr>
-														</thead>
-														<tbody id="bussmembertbl">
-															<th:block th:each="memberList : ${projectMemberList}">
-																<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
-																<tr th:id="${memberList.membId}">
-																	<td><img
-																		th:src="@{/images/profile/}+${memberList.membPhtPath}"
-																		height="50px" width="50px" alt="프로필"
-																		th:if="${memberList.membPhtPath != null}" /></td>
-																	<td th:text="${memberList.membDept}" />
-																	<td th:text="${memberList.membWkgd}" />
-																	<td th:text="${memberList.membNm}" />
-																	<td><i class="fa-solid fa-plus"></i></td>
-																</tr>
-															</th:block>
-														</tbody>
-													</table>
-												</div>
-
+												<input class="SearchInputModalView" id="search" type="text"
+													placeholder="검색어를 입력하세요." />
 											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<label class="col-lg-4 col-form-label">일정 </label>
-									<div class="col-lg-3">
-										<input type="date" class="form-control" id="bussFrdt"
-											name="bussFrdt" />
-										<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
-									</div>
-									<div class="col-lg-1">
-										<label class="col-lg-4 col-form-label">~ </label>
-
-									</div>
-									<div class="col-lg-3">
-										<input type="date" class="form-control" id="bussTodt"
-											name="bussTodt">
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<label class="col-lg-4 col-form-label" for="val-username">중요도
-									</label>
-									<div class="col-lg-6">
-										<div class="dropdown custom-dropdown">
-											<select class="dropdown-import" name="bussImp">
-												<option class="dropdown-import" value="0J1">상</option>
-												<option class="dropdown-import" value="0J2">중</option>
-												<option class="dropdown-import" value="0J3">하</option>
-
-											</select>
 
 										</div>
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>프로필</th>
+														<th>부서</th>
+														<th>직책</th>
+														<th>이름</th>
+														<th>추가</th>
+													</tr>
+												</thead>
+												<tbody id="bussmembertbl">
+													<!--  <input type="hidden" name="membId" th:value="${memberList.membId}" />-->
+													<tr th:id="${memberList.membId}"
+														th:each="memberList : ${projectMemberList}">
+														<td><img
+															th:src="@{/images/profile/}+${memberList.membPhtPath}"
+															height="50px" width="50px" alt="프로필"
+															th:if="${memberList.membPhtPath != null}" /></td>
+														<td th:text="${memberList.membDept}">개발</td>
+														<td th:text="${memberList.membWkgd}" />
+														<td th:text="${memberList.membNm}" />
+														<td><i class="fa-solid fa-plus"></i></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
 									</div>
 								</div>
+							</div>
+						</div>
 
-								<label class="col-lg-4 col-form-label" for="val-username">종속관계
-
-								</label>
-								<div class="col-lg-6">
-									<div class="dropdown custom-dropdown">
-										<div>
-											<select class="dropdown-relation" name="bussDep">
-												<option class="dropdown-relation" value="">선택</option>
-												<option class="dropdown-relation" value="up">선행 작업</option>
-												<option class="dropdown-relation" value="down">후속
-													작업</option>
-
-											</select>
-										</div>
-									</div>
-
-									<div class="dropdown custom-dropdown">
-										<div>
-											<select class="dropdown-relation" name="bussUpNm">
-												<th:block th:each="bussNameList : ${businessNameList}">
-													<option class="dropdown-business"
-														th:value="${bussNameList.bussNm}"
-														th:text="${bussNameList.bussNm}"></option>
-												</th:block>
-											</select>
-										</div>
-									</div>
-								</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label">일정 </label>
+							<div class="col-lg-3">
+								<input type="date" class="form-control" id="bussFrdt"
+									name="bussFrdt" />
+								<!--/* th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" */-->
+							</div>
+							<div class="col-lg-1">
+								<label class="col-lg-4 col-form-label">~ </label>
 
 							</div>
-							<div>
-								<input type="hidden" name="prjtNo" th:value="${session.prjtNo}" />
+							<div class="col-lg-3">
+								<input type="date" class="form-control" id="bussTodt"
+									name="bussTodt">
 							</div>
-							<div class="modal-footer">
-								<button id="insertBtn" type="button" class="btn btn-primary">등록</button>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label" for="val-username">중요도
+							</label>
+							<div class="col-lg-6">
+								<div class="dropdown custom-dropdown">
+									<select class="dropdown-import" name="bussImp">
+										<option class="dropdown-import" value="0J1">상</option>
+										<option class="dropdown-import" value="0J2">중</option>
+										<option class="dropdown-import" value="0J3">하</option>
+
+									</select>
+
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label" for="val-username">종속관계</label>
+							<div class="col-lg-3">
+								<div class="dropdown custom-dropdown">
+									<div>
+										<select class="dropdown-relation" name="bussDep">
+											<option class="dropdown-relation" value="">선택</option>
+											<option class="dropdown-relation" value="up">선행 작업</option>
+											
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown custom-dropdown">
+								<div>
+									<select class="dropdown-relation" name="bussUpNm">
+										<th:block th:each="bussNameList : ${businessNameList}">
+											<option class="dropdown-business"
+												th:value="${bussNameList.bussNm}"
+												th:text="${bussNameList.bussNm}"></option>
+										</th:block>
+									</select>
+								</div>
+							</div>
+							<!--후속  -->
+							<div class="col-lg-3">
+								<div class="dropdown custom-dropdown">
+									<div>
+										<select class="dropdown-relation" name="bussDep">
+											<option class="dropdown-relation" value="">선택</option>
+											<option class="dropdown-relation" value="up">선행 작업</option>
+											<option class="dropdown-relation" value="down">후속 작업</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown custom-dropdown">
+								<div>
+									<select class="dropdown-relation" name="bussUpNm">
+										<th:block th:each="bussNameList : ${businessNameList}">
+											<option class="dropdown-business"
+												th:value="${bussNameList.bussNm}"
+												th:text="${bussNameList.bussNm}"></option>
+										</th:block>
+									</select>
+								</div>
 							</div>
 
-						</form>
+						</div>
 
 					</div>
-				</div>
+					<div>
+						<input type="hidden" name="prjtNo" th:value="${session.prjtNo}" />
+					</div>
+					<div class="modal-footer">
+						<button id="insertBtn" type="button" class="btn btn-primary">등록</button>
+					</div>
+
+				</form>
+
 			</div>
 		</div>
-		
-		<script>
+	</div>
+</div>
+
+<script>
 
 			//$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#bussmembertbl').on('click', 'td:nth-child(5)',  function(){insertbussMember( $('#insertbussmembertbl'))})
@@ -251,12 +270,11 @@
 					trTag.append(tdTag);
 					
 					tdTag= $('<td/>');
-					tdTag.append(dept);
-					trTag.append(tdTag);
+					tdTag.append(dept, tdTag);
+
 					
-					tdTag= $('<td/>');
-					tdTag.append(position);
-					trTag.append(tdTag);
+					tdTag= $('<td/>').append(position)
+					                 .append(tdTag);
 				
 					tdTag= $('<td/>');
 					tdTag.append(name);
@@ -267,7 +285,7 @@
 					trTag.append(tdTag);
 					
 					let inputTag = $('<input/>');
-					inputTag.attr('type', 'hidden');
+					inputTag.attr('type', 'hidden'); 
 					inputTag.attr('name', 'membId');
 					inputTag.attr('value', id);
 					trTag.append(inputTag);
@@ -364,7 +382,7 @@
 			
 		
 		</script>
-		
-		<script src="/plugins/nouislider/nouislider.min.js"></script>
-		<script src="/plugins/wnumb/wNumb.js"></script>
-		<script src="/js/plugins-init/nouislider-init.js"></script>
+
+<script src="/plugins/nouislider/nouislider.min.js"></script>
+<script src="/plugins/wnumb/wNumb.js"></script>
+<script src="/js/plugins-init/nouislider-init.js"></script>

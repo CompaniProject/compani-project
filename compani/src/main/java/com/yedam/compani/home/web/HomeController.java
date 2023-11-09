@@ -39,12 +39,16 @@ public class HomeController {
 	public String mainhomeList(Model model, HttpServletRequest request) {
 	
 		MemberVO memberVO = sessionService.getLoginInfo(request);
+		//로그인한 프로젝트 리스트
 		List<ProjectVO> list = projectService.getProjectList(memberVO);
 		model.addAttribute("projectList", list);
+		// 개인 피드백 리스트
 		List<MemberFeedbackVO> list2 = memberFeedbackService.getMemberFeedbackList(memberVO);
 		model.addAttribute("memberFeedbackList", list2);
+		//업무 리스트
 		List<BusinessVO> list3 = businessService.getBusinessList(memberVO);
 		model.addAttribute("businessList", list3);
+		// 이슈 리스트
 		List<IssueVO> list4 = issueService.getIssueList(memberVO);
 		model.addAttribute("issueList", list4);
 
