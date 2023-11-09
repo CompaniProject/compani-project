@@ -30,10 +30,11 @@
 							<div class="arrow"></div>
 						</div>
 						<ul class="pissue-select-ul" style="width: 100px; display: none;">
-							<li class="pissue-select-option" data-value="전체">
+							<li class="pissue-select-option" data-value="전체">전체</li>
 							<li class="pissue-select-option" data-value="작성자">작성자</li>
 							<li class="pissue-select-option" data-value="제목">제목</li>
 							<li class="pissue-select-option" data-value="업무명">업무명</li>
+							<li class="pissue-select-option" data-value="해시태그">해시태그</li>
 						</ul>
 					</div>
 				</div>
@@ -419,6 +420,7 @@
 				{
 					type: 'GET'
 				}).done(function (data) {
+					$('.piSearchInput').val('');
 					issueLists.empty();
 					hashtagByPrjtNo();
 					$.each(data.projectIssueList, function (idx, item) {
