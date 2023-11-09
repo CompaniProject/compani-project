@@ -1,28 +1,14 @@
 package com.yedam.compani.business.web;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import com.yedam.compani.session.service.SessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yedam.compani.business.member.service.BusinessMemberService;
 import com.yedam.compani.business.service.BusinessService;
-import com.yedam.compani.business.service.BusinessVO;
-import com.yedam.compani.business.service.FormVO;
-import com.yedam.compani.member.service.MemberService;
-import com.yedam.compani.member.service.MemberVO;
-import com.yedam.compani.project.member.service.ProjectMemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 public class BusinessController {
 
 	private final BusinessService businessService;
-	private final MemberService memberService;
-	private final BusinessMemberService businessMemberService;
-	private final ProjectMemberService projectMemberService;
-	private final SessionService sessionService;
 
 	@GetMapping("/project/business/{prjtNo}")
 	public String businessHome(@PathVariable int prjtNo, Model model) {
@@ -45,110 +27,5 @@ public class BusinessController {
 		
 		return "project/business-home";
 	}
-
-	@GetMapping("/modal/business/insert")
-	public String businessModalInsertHome(Model model, HttpServletRequest request) {
-		int prjtNo = sessionService.getProjectNo(request);
-		
-		// 회사 멤버 list -> 프로젝트 참여자 list
-		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
-		model.addAttribute("projectMemberList", projectMemberList);
-		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
-		model.addAttribute("businessNameList", busineesNameList);
-		return "modal/modal-business-insert";
-	}
-
-	@PostMapping("insertBusiness")
-	@ResponseBody
-	public Map<String, Object> insertBusiness(@RequestBody FormVO formVO) {
-
-		Map<String, Object> map = new HashMap<>();
-
-		businessService.insertBusiness(formVO.getBusiness()); 
-		businessMemberService.insertBusinessMember(formVO);
-		
-		// 이거 한번 고민 해보자구 mapper 설계
-		if (!formVO.getBusiness().getBussDep().equals("")) {
-			businessService.updateBusiness(formVO.getBusiness());
-		}
-
-		return map;
-
-	}
-
-	@GetMapping("/businessInfo/{bussNo}")
-	public String businessInfo(@PathVariable Integer bussNo ,Model model, HttpServletRequest request) {
-
-		// 업무 단건
-		BusinessVO bussVO = businessService.businessSelect(bussNo);
-		model.addAttribute("businessVO", bussVO);
-		
-		// 업무 참여자 list
-		List<MemberVO> list = businessMemberService.bussMemberList(bussNo);
-		model.addAttribute("businessMemberList", list);
-		
-		int prjtNo = sessionService.getProjectNo(request);
-		// 회사 멤버 list -> 프로젝트 참여자 list
-		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
-		model.addAttribute("projectMemberList", projectMemberList);
-		
-		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
-		model.addAttribute("businessNameList", busineesNameList);
-		 
-		return "modal/modal-business";
-	}
-
-	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
-	@GetMapping("myCalendar")
-	public String personalCalendarList(Model model, HttpServletRequest request) {
-		MemberVO memberVO = sessionService.getLoginInfo(request);
-		String membId = memberVO.getMembId();
-		List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList(membId);
-		model.addAttribute("personalCalendarPage", list);
-		return "calendar/myCalendar";
-	}
-	
-	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
-	@GetMapping("project/calendar/{prjtNo}")
-	public String projectCalendarList(Model model, @PathVariable int prjtNo) {
-		// 캘린더 업무리스트
-		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
-		model.addAttribute("projectCalendarPage", list);
-		
-		return "calendar/projectCalendar";
-	}
-	
-	// 김연규, 2023-10-31, 캘린더&간트 업무바 수정
-	@PostMapping("/updateCalendarBuss")
-	@ResponseBody
-	public String updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
-		businessService.updateCalendarBuss(vo);
-		return "";
-	}
-	
-	// 김연규, 2023-11-01, 간트 상위업무 수정
-	@PostMapping("/updateGanttUpcd")
-	@ResponseBody
-	public String updatePersonalGanttUpcd(@RequestBody BusinessVO vo) {
-		businessService.updateGanttUpcd(vo);
-		return "calendar/personalCalendarPage";
-	}
-	
-	@PostMapping("/updateBusiness")
-	@ResponseBody
-	public void updateBusiness(@RequestBody FormVO formVO) {
-		
-		//업무 수정 
-		businessService.modifyBusiness(formVO.getBusiness());
-		//종속 변경
-		businessService.updateBusiness(formVO.getBusiness()); 
-		
-		//참여자 변경
-		//businessMemberService.deleteBusinessMember(formVO);
-		//businessMemberService.insertBusinessMember(formVO);
-		 
-	
-	}
-	
 
 }
