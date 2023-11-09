@@ -11,20 +11,14 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.yedam.compani.company.status.service.CompanyStatusService;
-import com.yedam.compani.company.status.service.CompanyStatusVO;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
-import com.yedam.compani.project.status.service.ProjectStatusVO;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
