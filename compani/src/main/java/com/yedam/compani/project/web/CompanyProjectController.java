@@ -15,7 +15,11 @@ import com.github.pagehelper.PageInfo;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
 import lombok.RequiredArgsConstructor;
-
+/*
+ * 작성자 : 신대철
+ *  회사 프로젝트 게시판
+ * 
+ */
 @Controller
 @RequiredArgsConstructor
 public class CompanyProjectController {
@@ -24,16 +28,18 @@ public class CompanyProjectController {
 	
 	//회사 프로젝트 게시판 
 	@GetMapping("/company/project/{coCd}")
-	public String projectBoard(@PathVariable String coCd, String search, String keyword,
-			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) {
-		PageInfo<ProjectVO> projects = new PageInfo<>(projectService.getCompanyProjectList(pageNum, search, keyword, coCd), 8);
-		Page<ProjectVO> vo = projectService.getCompanyProjectList(pageNum, search, keyword, coCd);
+	public String projectBoard(@PathVariable String coCd, 
+			                   String search, 
+			                   String keyword,
+			                   @RequestParam(required = false, defaultValue = "1") int pageNum, 
+			                   Model model) {
 		
+		PageInfo<ProjectVO> projects = new PageInfo<>(projectService.getCompanyProjectList(pageNum, search, keyword, coCd), 8);
 		model.addAttribute("companyProject", projects);
-		model.addAttribute("companyProjectList", vo);
-
 		return "company/company-project";
+		
 	}
+	
 
 	@GetMapping("/company/projects/{coCd}")
 	@ResponseBody

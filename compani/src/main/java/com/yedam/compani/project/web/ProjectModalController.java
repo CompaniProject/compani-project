@@ -38,6 +38,7 @@ public class ProjectModalController {
 	
 	@GetMapping("/project/modal/{prjtNo}")
 	public String projectModal(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
+		
 		// 프로젝트 모달 수정 - 참여자 리스트
 		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", prjtMemberList);
@@ -47,10 +48,11 @@ public class ProjectModalController {
 		String membId = memberVO.getMembId();
 		String coCd = memberVO.getCoCd();
 		
-		ProjectMemberVO projectMemberVO = projectMemberService.projectMemberSelect(prjtNo, membId);
-	
+		// 프로젝트 권한 체크 여부 
+		ProjectMemberVO projectMemberVO = projectMemberService.projectMemberSelect(prjtNo, membId);	
 		model.addAttribute("projectMemberVO", projectMemberVO);
 		
+		// 프로젝트 수정 시 회사 멤버 리스트 ( 생성자를 제외한)
 		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
 		model.addAttribute("memberList", memberList);
 		
@@ -60,7 +62,8 @@ public class ProjectModalController {
 	//프로젝트 등록 - 실행시 
 	@PostMapping("/insertProject")
 	@ResponseBody
-	public Map<String, Object> insertProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
+	public Map<String, Object> insertProject(@RequestBody ProjectFormVO formVO, 
+			                                 HttpServletRequest request) {
 
 		Map<String, Object> map = new HashMap<>();
 		projectService.insertProject(formVO.getProject());

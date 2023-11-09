@@ -49,7 +49,7 @@
                     </tr>
                     </thead>
                     <tbody class="companyProjectLists" style="text-align: center;">
-                     <th:block th:each="prjt : ${companyProjectList}">
+                     <th:block th:each="prjt : ${companyProject.list}">
                       	<tr th:id= "${prjt.prjtNo}">
                       		<td th:text="${prjt.prjtNm}"></td>
                       		<td th:text="${prjt.count}"></td>

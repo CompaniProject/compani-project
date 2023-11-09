@@ -102,16 +102,21 @@
 
 	<select id="getBusinessList" resultType="BusinessVO">
 		SELECT P.PRJT_NM,
-		B.BUSS_NM,
-		B.BUSS_FRDT,
-		B.BUSS_TODT,
-		B.BUSS_IMP,
-		FIND_CODENM(B.BUSS_IMP) AS bussImpNm
-		FROM BUSINESS B, BUSINESS_MEMBER BM, PROJECT P
-		WHERE BM.BUSS_NO = B.BUSS_NO
-		AND P.PRJT_NO = B.PRJT_NO
-		AND BM.MEMB_ID = #{membId}
-		ORDER BY buss_todt 
+		       B.BUSS_NM,
+		       B.BUSS_FRDT,
+		       B.BUSS_TODT,
+		       B.BUSS_IMP,
+		       FIND_CODENM(B.BUSS_IMP) AS bussImpNm
+		       
+		  FROM BUSINESS B, 
+		       BUSINESS_MEMBER BM, 
+		       PROJECT P
+		       
+		 WHERE BM.BUSS_NO = B.BUSS_NO
+		   AND P.PRJT_NO = B.PRJT_NO
+		   AND BM.MEMB_ID = #{membId}
+		   
+		 ORDER BY buss_todt 
 	</select>
 	
 	<select id="businessdriveNameList" resultType="BusinessVO">
@@ -123,7 +128,7 @@
 
 	<select id="businessNameList" resultType="BusinessVO">
 		SELECT buss_nm, buss_no
-		FROM BUSINESS
+		FROM   BUSINESS
 		WHERE prjt_no = #{prjtNo}
 	</select>
 
@@ -180,8 +185,12 @@
 								AND    PRJT_NO = #{prjtNo})
 				</when>
 				<otherwise>
+					
+					
 					BUSS_UPCD = NULL
 					WHERE  BUSS_NO = #{bussNo}
+					
+					
 				</otherwise>
 			</choose>
 		</set>
@@ -190,37 +199,40 @@
 
 	<select id="businessSelect" resultType="BusinessVO">
 		SELECT b.buss_no,
-		b.prjt_no,
-		p.prjt_nm,
-		b.buss_upcd,
-		b.buss_nm,
-		b.buss_imp,
-		b.buss_prgre,
-		b.buss_frdt,
-		b.buss_todt,
-		b.buss_cmpltdt,
-		b.buss_st,
-		FIND_CODENM(BUSS_ST) as bussStNm,
-		FIND_CODENM(BUSS_IMP) as bussImpNm,
+				b.prjt_no,
+				p.prjt_nm,
+				b.buss_upcd,
+				b.buss_nm,
+				b.buss_imp,
+				b.buss_prgre,
+				b.buss_frdt,
+				b.buss_todt,
+				b.buss_cmpltdt,
+				b.buss_st,
+				FIND_CODENM(BUSS_ST)  as bussStNm,
+				FIND_CODENM(BUSS_IMP) as bussImpNm,
 		                    
-         ( SELECT BUSS_NM
-		 FROM   BUSINESS
-		 WHERE  BUSS_NO  = ( select buss_upcd
-                            from  business
-                            where  buss_no = #{bussNo})) as bussUpNm,	
-		( SELECT BUSS_NO 
-        FROM  BUSINESS
-        WHERE BUSS_NO = (SELECT  BUSS_NO
-                 FROM    BUSINESS
-                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNo,
-        ( SELECT BUSS_NM 
-        FROM  BUSINESS
-        WHERE BUSS_NO = (SELECT  BUSS_NO
-                 FROM    business
-                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNM
-		FROM BUSINESS b , PROJECT p
-		WHERE b.prjt_no = p.prjt_no
-		AND b.buss_no = #{bussNo}
+		        ( SELECT  BUSS_NM
+				    FROM  BUSINESS
+				   WHERE  BUSS_NO = ( select  buss_upcd
+		                                from  business
+		                               where  buss_no = #{bussNo})) as bussUpNm,	
+				( SELECT BUSS_NO 
+		        FROM  BUSINESS
+		        WHERE BUSS_NO = (SELECT  BUSS_NO
+		                 FROM    BUSINESS
+		                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNo,
+		        ( SELECT BUSS_NM 
+		        FROM  BUSINESS
+		        WHERE BUSS_NO = (SELECT  BUSS_NO
+		                 FROM    business
+		                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNM
+                 
+		FROM BUSINESS b , 
+		     PROJECT p
+		     
+	   WHERE b.prjt_no = p.prjt_no
+		 AND b.buss_no = #{bussNo}
 	</select>
 
 	<!-- 캘린더&간트 업무바 수정 -->
@@ -253,7 +265,7 @@
 					</when>
 					<when test="bussSt.equals('0K2')">
 						BUSS_ST = '0K2',
-						BUSS_CMPLTDT = SYSDATE
+						BUSS_CMPLTDT = trunc(SYSDATE)
 					</when>
 					<when test="bussSt.equals('0K3')">
 						BUSS_ST = '0K3',
@@ -261,7 +273,7 @@
 					</when>
 					<otherwise>
 						BUSS_ST = '0K4',
-						BUSS_CMPLTDT = SYSDATE
+						BUSS_CMPLTDT = trunc(SYSDATE)
 					</otherwise>
 				</choose>
 			

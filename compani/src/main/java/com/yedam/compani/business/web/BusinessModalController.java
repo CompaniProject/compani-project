@@ -34,7 +34,6 @@ public class BusinessModalController {
 	private final BusinessService businessService;
 	private final MemberService memberService;
 	private final BusinessMemberService businessMemberService;
-	private final ProjectMemberService projectMemberService;
 	private final SessionService sessionService;
 	
 	@GetMapping("/modal/business/insert")
@@ -44,8 +43,10 @@ public class BusinessModalController {
 		// 회사 멤버 list -> 프로젝트 참여자 list
 		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", projectMemberList);
+
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
+
 		return "modal/modal-business-insert";
 	}
 
@@ -67,6 +68,7 @@ public class BusinessModalController {
 
 	}
 
+	//업무 상세보기 
 	@GetMapping("/businessInfo/{bussNo}")
 	public String businessInfo(@PathVariable Integer bussNo ,Model model, HttpServletRequest request) {
 
@@ -82,7 +84,8 @@ public class BusinessModalController {
 		// 회사 멤버 list -> 프로젝트 참여자 list
 		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", projectMemberList);
-		
+
+		//종속 변경할 업무 리스트
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
 		 
