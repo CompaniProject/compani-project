@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -31,7 +29,6 @@ import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
-import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
