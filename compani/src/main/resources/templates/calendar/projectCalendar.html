@@ -486,6 +486,16 @@ select {
 					console.log("수정성공!");
 					console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
 					console.log("수정된 진척도: " + obj.bussPrgre);
+					
+					$.each(calendarArr, function(idx, item){
+      					if(item.bussNo == obj.bussNo){
+      						item.bussFrdt = obj.bussFrdt;
+      						item.bussTodt = obj.bussTodt;
+      						return false;
+      					}
+      				});
+					resetBussList();
+					resetCal();
 				},
 				error: function(error){
 					console.log(error);
@@ -633,6 +643,7 @@ select {
 	$('.btn.btn-primary.calendar').on('click', function(){
 		$('#projectCalendar').css("display","flex");
 		$('#projectGanttchart').css("display","none");
+		resetCal();
 	});
 	$('.btn.btn-primary.gantt').on('click', function(){
 		$('#projectGanttchart').css("display","flex");

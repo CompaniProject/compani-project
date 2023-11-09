@@ -712,6 +712,7 @@ select {
 	$('.btn.btn-primary.calendar').on('click', function(){
 		$('#personalCalendar').css("display","flex");
 		$('#personalGanttchart').css("display","none");
+		resetCal();
 	});
 	$('.btn.btn-primary.gantt').on('click', function(){
 		$('#personalGanttchart').css("display","flex");
