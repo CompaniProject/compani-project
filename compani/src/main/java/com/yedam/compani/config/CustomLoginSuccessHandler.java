@@ -64,7 +64,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		/*
 			 * else if() { response.sendRedirect("/home"); return; }
 			 */
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+roleNames);//권한값 확인
 	}
 
 }

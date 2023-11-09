@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=chrome">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SignUp</title>
+<title>COMPANi</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
-	href="images/favicon.png">
-<!-- Custom Stylesheet -->
+	href="../../assets/images/favicon.png">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
 <link href="css/style.css" rel="stylesheet">
 
 </head>
@@ -42,7 +42,7 @@
         ***********************************-->
 		<div class="nav-header">
 			<div class="brand-logo">
-				<a href="loginForm"> <b class="logo-abbr"><img
+				<a href="/	"> <b class="logo-abbr"><img
 						src="images/logo.png" alt=""> </b> <span class="logo-compact"><img
 						src="./images/logo-compact.png" alt=""></span> <span
 					class="brand-title"> <img src="images/logo-text.png" alt="">
@@ -54,82 +54,77 @@
             Nav header end
         ***********************************-->
 
-        <div class="header" style="background:#F3F3F9;">    
-            <div class="header-content clearfix">
-                
-                <div class="nav-control">
-
-                </div>
-                <div class="header-left">
-                    <div class="input-group icons">
-
-
-                    </div>
-                </div>
-                <div class="header-right">
-                    <ul class="clearfix">
-                        <li class="icons dropdown">
-
-                        </li>
-                        <li class="icons dropdown">
-
-                        </li>
-                        <li class="icons dropdown d-none d-md-flex">
-
-                        </li>
-                        <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-
-                            </div>
-                            <div class="drop-down dropdown-profile   dropdown-menu">
-                                <div class="dropdown-content-body">
-
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-
-
 		<!--**********************************
-            Content body start
+            Header start
         ***********************************-->
-		<div class="content-body">
-			<!-- row -->
-			<div class="container-fluid">
-				<!-- End Row -->
-				<div class="row">
-					<div class="col-12 m-b-30">
-						<div class="row" align="center">
-							<div class="col-md-6 col-lg-4">
-								<div class="card">
-									<img class="img-fluid" src="images/insertcomp.jpg" alt="" onclick="location.href='companySignUp';">
-								</div>
-							</div>
-							<!-- End Col -->
-							<div class="col-md-6 col-lg-4">
-								<div class="card">
-									<img class="img-fluid" src="images/insertemp.jpg" alt="" onclick="location.href='memberSignUp';">
-								</div>
-							</div>
-							<!-- End Col -->
-						</div>
+		<div class="header" style="background: #F3F3F9">
+			<div class="header-content clearfix">
+				<div class="nav-control">
+					<div class="hamburger"></div>
+				</div>
+				<div class="header-left">
+					<div class="input-group icons">
+						<div class="input-group-prepend"></div>
+						<div class="drop-down   d-md-none"></div>
 					</div>
 				</div>
-				<!-- End Row -->
-
 			</div>
-			<!-- #/ container -->
 		</div>
 		<!--**********************************
-            Content body end
+            Header end ti-comment-alt
         ***********************************-->
 
 
+		<div class="card" style="width: 1000px; margin: 0 auto; height: 500px; margin-top:100px">
+			<div class="content-body" style="margin: 0 auto; margin-top: 60px">
+				<!-- row -->
+				<!-- End Row -->
+				<div class="row" align="center" style="margin: 0 auto;">
+					<div style="width: 350px; display: inline; margin-right: 50px">
+						<img class="img-fluid" src="images/member/human.png" alt=""
+							style="width: 230px; height: 230px">
+						<h3>
+							<b>일반회원</b>
+						</h3>
+						<p>(임직원)</p>
+						<div onclick="location.href='memberSignUp';"
+							style="cursor: pointer; width: 200px; height: 50px; background: #7571f9; color: white; font-weight: bold; font-size: 25px; display: flex; justify-content: center; align-items: center;box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5)">가입하기</div>
+					</div>
+					<img class="img-fluid" src="images/member/line.png" alt=""
+						style="width: 20px; height: 400px; margin-bottom:100px">
+					<!-- End Col -->
+					<div style="width: 350px; display: inline; margin-left: 50px">
+						<img class="img-fluid" src="images/member/company.png" alt=""
+							style="width: 200px; height: 200px; margin-top: 5px">
+						<h3 style="margin-top: 23px">
+							<b>기업회원</b>
+						</h3>
+						<p>(관리자)</p>
+						<div onclick="location.href='companySignUp';"
+							style="cursor: pointer; width: 200px; height: 50px; background: #7571f9; color: white; font-weight: bold; font-size: 25px; display: flex; justify-content: center; align-items: center;box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5)">가입하기</div>
+					</div>
+					<!-- End Col -->
+				</div>
+			</div>
+			<!-- End Row -->
 
+			<!-- #/ container -->
+		</div>
+
+		<!--**********************************
+            Footer start
+        ***********************************-->
+		<div class="footer" style="margin-top: 300px">
+			<div class="copyright">
+				<p>
+					Copyright &copy; Designed & Developed by <a
+						href="https://themeforest.net/user/quixlab">Quixlab</a> 2018
+				</p>
+			</div>
+		</div>
+		<!--**********************************
+            Footer end
+        ***********************************-->
 	</div>
 	<!--**********************************
         Main wrapper end
@@ -143,10 +138,5 @@
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
-
-	<script src="./plugins/validation/jquery.validate.min.js"></script>
-	<script src="./plugins/validation/jquery.validate-init.js"></script>
-
 </body>
-
 </html>

@@ -698,7 +698,7 @@ mark, .mark {
 					}else{
 						$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
 						$(function(){
-							swal({title : '가입완료!', text : "정상적으로 가입되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+							swal.fire({title : '가입완료!', text : "정상적으로 가입되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
 								$("#formSignUp").attr("action","SignUpped").submit();
 							});	
 						});
@@ -714,7 +714,7 @@ mark, .mark {
 
 			}else{
 				$(function(){
-					swal({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+					swal.fire({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
 						return false;
 					});	
 				})

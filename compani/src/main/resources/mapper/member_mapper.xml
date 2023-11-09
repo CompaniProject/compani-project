@@ -6,7 +6,7 @@
 	<!-- 로그인 -->
 	<select id="selectMemberInfo" resultType="MemberVO">
 		SELECT MEMB_ID
-		,'{noop}'||MEMB_PWD MEMB_PWD
+		,MEMB_PWD
 		,MEMB_NM
 		,MEMB_BIRTH_DT
 		,MEMB_EMAIL
@@ -110,7 +110,6 @@
                           ,memb_wkgd = #{membWkgd}
                           ,memb_msg = #{membMsg}
                           <if test="membBirthDt != null and !membBirthDt.equals('')">,memb_birth_dt = #{membBirthDt}</if>
-                          ,MEMB_PHT_PATH = #{membPhtPath}
                           ,memb_email = #{membEmail}
                           ,memb_telno = #{membTelno}
                           <if test="membPwd != null and !membPwd.equals('')">,memb_pwd = #{membPwd}</if>
@@ -215,6 +214,7 @@
 		</set>
 		WHERE memb_id = #{membId}
 	</update>
+
 	
 	<!-- 마스터 멤버 자동 승인 -->
 	<update id="updateMemberAccpAuto" parameterType="CompanyVO">
@@ -225,7 +225,6 @@
 						 WHERE co_cd = #{coCd}
 						 AND perm_no = '0A2')
 	</update>
-
 	<select id="projectMemberList" resultType="MemberVO">
 		SELECT m.MEMB_ID,
 			   m.MEMB_ID,

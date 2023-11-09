@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.extern.log4j.Log4j2;
@@ -17,14 +19,21 @@ public class SecurityConfig {
 	public CustomLoginSuccessHandler successHandler() {
 		return new CustomLoginSuccessHandler();
 	}
+	   @Bean
+	   public PasswordEncoder getPasswordEncoder() {
+	      return new BCryptPasswordEncoder();
+	   }
+	
 	
 	@Bean
 	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/loginForm").permitAll()
+			.antMatchers("/standBy").permitAll()
 			.antMatchers("/view/**").permitAll()			
-			.antMatchers("/home").hasAnyRole("0A1", "0A2", "0A3", "0A4");
+			.antMatchers("/home").hasAnyRole("0A2", "0A3", "0A4");
+			//.anyRequest().authenticated();
 			
 //			.antMatchers("/").hasRole("0A2")
 //			.antMatchers("/").hasRole("0A3")
@@ -42,4 +51,14 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
+	
+	
+	
+	
+//	 @Bean
+//	  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+//	    return new BCryptPasswordEncoder();
+//	  }
+	 
+	 
 }

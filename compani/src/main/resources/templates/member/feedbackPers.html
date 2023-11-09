@@ -174,8 +174,8 @@
 					<!-- 댓글 등록 영역 -->
 					<div class="card-footer">
 						<textarea class="form-control" name="inputCntn" id="inputCntn"
-							cols="30" rows="2"
-							style="height: 56px;"></textarea>
+							cols="30" rows="2" maxlength="514"
+							style="height: 56px;"></textarea><span id="cntnLength"></span>
 						<button id="input2" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88rem;">추가</button>
 					</div>
 					<!-- 댓글 등록 영역 End -->
@@ -194,9 +194,9 @@
 							<h5 class="mt-0"></h5>
 							<div class="content-area"></div>
 							<div class="edit-area" style="display: none;">
-								<textarea class="form-control" id="editCntn"></textarea>
+								<textarea class="form-control" id="editCntn" maxlength="514"></textarea>
 							</div>
-							<div class="float-left" id="date-area"></div>
+							<div class="float-left" id="date-area"></div><span id="cntnLength2" style="margin-left:150px"></span>
 							<div class="float-right editBtn">수정</div>
 							<!-- <div class="float-right delBtn">삭제</div> -->
 							<div class="float-right submitBtn">확인</div>
@@ -294,6 +294,7 @@
 		card.find('textarea').text(result.membFdbkCntn);
 		card.find('#date-area').text(timestamp(result.membFdbkDt));
 		card.css('display','block');
+		card.find('.content-area').css('height', '350px');
 		
 		// insert comment tag to comment body
 		body.append(card);
@@ -301,20 +302,7 @@
 	
 	function feedbackshide(result){
 	 	
-		// create tag
-		let body = $('#commentBody');
-		let card = $('#insertBody2').clone();
-		
-		// input content values
-		card.find('.comment-content').data('no',result.membFdbkNo);
-		card.find('.mt-0').text("익명");
-		card.find('.content-area').text("비공개");
-		card.find('textarea').text("비공개");
-		card.find('#date-area').text(timestamp(result.membFdbkDt));
-		card.css('display','block');
-		
-		// insert comment tag to comment body
-		body.append(card);
+
 	}//end of feedbackshide-----------------------------------------------------------------------
 	
 	
@@ -336,6 +324,7 @@
 		body.append(card);
 		$('#input2').css('display', 'none');
 		$('#inputCntn').css('display', 'none'); 
+		$('#cntnLength').css('display', 'none');
 	}//end of myfeedbacks-------------------------------------------------------------------
 		 
 	var mycomment = 0;
@@ -453,6 +442,7 @@
 	 				$('#commentBody').children().remove();
 	 				$('#input2').css('display', 'inline');
 	 				$('#inputCntn').css('display', 'inline'); 
+	 				$('#cntnLength').css('display', 'inline');
 	 				mycomment = 0;
 	 				for(i = 0; i < result.length; i++){
 	 					
@@ -509,7 +499,9 @@
  	 			})
  	 			.done(result => {
  	 				feedbacks(result);
- 	 				swal('추가', $('#feedtarget').text() + "님에게 성공적으로 피드백을 추가하였습니다.", 'success');
+ 	 				swal.fire('추가', $('#feedtarget').text() + "님에게 성공적으로 피드백을 추가하였습니다.", 'success').then((result)=>{
+ 	 					$('#cntnLength').hide();
+ 	 				});
  	 			})
  	 			.fail(err =>console.log("err"));
  			})
@@ -530,12 +522,14 @@
 	        let content = comment.find('.content-area');
 	        let edit = comment.find('.edit-area');
 	        let submitBtn = comment.find('.submitBtn');
-	        
 	        content.val(comment.find('textarea').val());
-	        
+	        $('#cntnLength2').show();
 	        content.toggle();
 	        edit.toggle();
 	        submitBtn.toggle();
+	        $('#editCntn').on('input', function(){
+	    		$('#cntnLength2').text($('#editCntn').val().length + "/514");
+	    	});
 	    }//-------------------------------------------------------------------------------
 	    
 	    function editSubmit(event){
@@ -571,7 +565,9 @@
 	        })
 	        .done(data => {
 	        	changeComment(data, comment);
-	        	swal('수정', $('#feedtarget').text() + "님에게 작성한 피드백을 성공적으로 수정하였습니다.", 'success');
+	        	swal.fire('수정', $('#feedtarget').text() + "님에게 작성한 피드백을 성공적으로 수정하였습니다.", 'success').then((result)=>{
+	        	$('#cntnLength2').hide();
+	        	});
 	        })
 	        .fail(err => {});
 	    }
@@ -587,6 +583,9 @@
             comment.find(".content-area").show();
             comment.find(".btn-area").remove();
             comment.find("textarea").css('display','none');
+        	$('#editCntn').on('input', function(){
+        		$('#cntnLength2').text($('#editCntn').val().length + "/514");
+        	});
         }
     }//-------------------------------------------------------------------------------
  		
@@ -598,20 +597,22 @@
  	    }//-------------------------------------------------------------------------------
  		
 	function fail(){
-		swal('추가 불가!', "이미 " + $('#feedtarget').text() + "님에게 피드백을 작성하였습니다.", 'error');
+		swal.fire('추가 불가!', "이미 " + $('#feedtarget').text() + "님에게 피드백을 작성하였습니다.", 'error');
 	}//-------------------------------------------------------------------------------
 	
 	$(function(){
 		$('#horizontal-bar-chart').slimScroll({
 	    	height: '30rem'
-	    })
-	});
-	$(function(){
+	    });
 		$('#horizontal-bar-chart2').slimScroll({
 	    	height: '29rem'
-	    })
+	    });
 	});
 	
+	$('#inputCntn').on('input', function(){
+		$('#cntnLength').text($('#inputCntn').val().length + "/514");
+	});
+
 	</script>
 		<script src="plugins/common/common.min.js"></script>
 		<script src="js/custom.min.js"></script>

@@ -54,13 +54,13 @@
 				<div class="col-lg-8">
 					<div class="card">
 						<div class="card-body">
-							<div class="form-validation">
+							<div class="form-validation" style="postiion : relative;">
 									<img class="form-group" id="membPhtPath2" width="200"
-										height="200" style="border-radius: 70%" src="/upload/"
+										height="200" style="border-radius: 70%; border: 10px solid #fff; box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.1);" src="/upload/"
 										/>
  										<img
-										src="images/member/plus.png" onclick="$('#profilePht').trigger('click')" width="40"
-										height="30" style="vertical-align: bottom;">
+										src="images/member/button.png" onclick="$('#profilePht').trigger('click')" width="30"
+										height="30" style="vertical-align: bottom;cursor: pointer;border: 2px solid #fff; position: absolute; top: 180px; left : 180px; background: #E0F2F7; border-radius: 70%;box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1)">
 
 										<input id="profilePht" type="file" name="profilePht"
 											accept="image/png, image/jpeg" hidden/>
@@ -595,8 +595,11 @@ $('#membWkgd').on("input", function(event){
    $('#save').on("click", function(e) {
 		if($('#conditionId').css("display") != 'inline' && $('#conditionId2').css("display") != 'inline' && $('#conditionNm').css("display") != 'inline' && $('#conditionBd').css("display") != 'inline' && $('#conditionEid').css("display") != 'inline' && $('#conditionEmail').css("display") != 'inline' && $('#conditionTel').css("display") != 'inline' 
 			&& $('#membNm').val().length != 0 && $('#membBirthDt').val().length != 0){
-			if(($('#email_id').val().length > 0 && $('#str_email02').val().length > 2)||($('#email_id').val().length == 0 && $('#str_email02').val().length == 0)){
+			if(($('#email_id').val().length > 0 && $('#str_email02').val().length > 2)){
 				$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
+				$("#conditionEmail").hide();
+			}else if(($('#email_id').val().length == 0 && $('#str_email02').val().length == 0)){
+				$('#membEmail').val("");
 				$("#conditionEmail").hide();
 			}else{
 				$("#conditionEmail").show();
@@ -618,7 +621,7 @@ $('#membWkgd').on("input", function(event){
 				return false;
 			}
 			$(function(){
-				swal({title : '완료!', text : "정상적으로 정보가 저장되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+				swal.fire({title : '완료!', text : "정상적으로 정보가 저장되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
 					$('form').attr('action','memberEditInfo').submit();
 				});	
 			})
@@ -636,7 +639,7 @@ $('#membWkgd').on("input", function(event){
 			return false;
 		}else{
 			$(function(){
-				swal({title : '오류!', text : "저장할 정보를 정확하게 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+				swal.fire({title : '오류!', text : "저장할 정보를 정확하게 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
 					return false;
 				});	
 			})
@@ -646,11 +649,29 @@ $('#membWkgd').on("input", function(event){
    
 //비밀번호 확인
 $('#checkPw').on("input", function(event){
-	let inputVal = $(this).val();
-	
 	if(inputVal.length > 20){
 		$(this).val(inputVal.substr(0, 20)); 
 	}
+	
+	  $.ajax({
+          url: 'testpwd',	
+          type: 'POST',
+          data: {membId: "[[${session.loginInfo.membId}]]",
+				 pwd: $('#checkPw').val();
+          		},             
+          success: function(result){
+        	  if(result==true){
+        		  /////////////////////결과값가지고 로직 생성
+        	  }
+          },
+          error: function(reject){	
+              console.log(reject);
+          }
+      }); 
+	
+	/* let inputVal = $(this).val();
+	
+
 	
 	if($(this).val() != memberInfo.membPwd.substr(6,25)){
 		$('#okPw').hide();
@@ -662,7 +683,7 @@ $('#checkPw').on("input", function(event){
 	}else{
 		$('#okPw').show();
 		$('#nokPw').hide();
-	}
+	} */
 });
 //비밀번호 조건검사
 
@@ -740,13 +761,13 @@ $('#membPwd2').on("input", function(event){
 		&& $('#conditionPw2').css('display') == 'inline'
 		&& $('#conditionPw4').css('display') == 'inline'){
 			$(function(){
-				swal({title : '변경 완료!', text : "정상적으로 비밀번호가 변경되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+				swal.fire({title : '변경 완료!', text : "정상적으로 비밀번호가 변경되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
 					$('form').attr('action','memberEditPwd').submit();
 				});	
 			})
 		}else{
 			$(function(){
-				swal({title : '오류!', text : "입력한 비밀번호를 다시 확인하세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+				swal.fire({title : '오류!', text : "입력한 비밀번호를 다시 확인하세요.", icon : 'error', button : '뒤로'}).then((value)=>{
 					return false;
 				});	
 			})
@@ -771,13 +792,13 @@ $('#membPwd2').on("input", function(event){
             data: formData,               
             success: function(result){
 				$('#membPhtPath2').prop('src', 'upload/'+result);
+				$('#profile').prop('src', 'upload/'+result);
             },
             error: function(reject){	
                 console.log(reject);
             }
         }); 
 	}); 
-
 	</script>
 </th:block>
 </body>
