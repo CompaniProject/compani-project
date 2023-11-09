@@ -331,14 +331,23 @@ select {
        	calendar.render();
        	
        	// 간트에 뿌리기
-       	gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+       	/* gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
        		$.each(calendarArr, function(idx, item){
            		if(task.id == item.bussNo){
            			return true;
            		}
-           		return false;
            	});
-       	});
+       		return false;
+       	}); */
+		
+		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+			for(let i=0; i<calendarArr.length; i++){
+			if (task.id == calendarArr[i].bussNo){
+			        return true;
+			    }
+		    }
+		    return false;
+		});
 		gantt.init("personalGanttchart");
 	}
 	
@@ -430,6 +439,7 @@ select {
           			success: function(){
           				console.log("수정성공!");
           				console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+          				
           			},
           			error: function(error){
           				console.log(error);
@@ -478,6 +488,11 @@ select {
    			obj.className = 'calendarEvent_' + item.prjtNm;
    			obj.color = color[idx%12];
    			arr.push(obj);
+   			
+   			todt = new Date(new Date(item.bussTodt).getTime());
+   			todtDate = (String)(todt.getDate());
+   			if(todtDate < 10) todtDate = '0' + todtDate;
+   			newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
    			
    			item.bussFrdt = newFrdt;
    			item.bussTodt = newTodt;
