@@ -57,7 +57,6 @@ public class ProjectIssueController {
 		model.addAttribute("bussNmList", findBuss);
 		model.addAttribute("projectIssue", issues);
 		model.addAttribute("projectIssueList", vo);
-		model.addAttribute("search", search);
 
 		return "project/project-issue";
 	}
@@ -73,7 +72,6 @@ public class ProjectIssueController {
 		Map<String, Object> map = new HashMap<>();
 		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
-		
 		map.put("memvo", memvo);
 		map.put("bussNmList", findBuss);
 		map.put("pissue", issues);
