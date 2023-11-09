@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
@@ -50,10 +49,14 @@ public class IssueController {
 	
 	// 모달에서 이슈리스트 나오기
 	@GetMapping("/ModalIssueList/{bussNo}")
-	public String modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword, IssueVO issueVO, String filterTypeM,
-			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) throws Exception {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);
-		Page<IssueVO> vo = issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM);
+	public String modalIssueList(@PathVariable final int bussNo,
+													 String searchBI, 
+													 String keyword, 
+													 IssueVO issueVO, 
+													 String filterTypeM,
+								 @RequestParam(required = false, defaultValue = "1") int pageNum, 
+								 					 Model model) {
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);		
 		
 		BusinessVO bussvo = businessService.businessSelect(bussNo);
 		int prjtNo = bussvo.getPrjtNo();			
@@ -61,29 +64,33 @@ public class IssueController {
 		
 		model.addAttribute("memvomi", memvo);
 		model.addAttribute("issue", issues);
-		model.addAttribute("issueList", vo);
 		model.addAttribute("search", searchBI);
 		model.addAttribute("buss", bussvo);
+		
 		return "modal/modal-issue";
 	}
 
 	// 페이징 또는 검색 시 ajax 처리
 	@GetMapping("/ModalAjaxIssueList/{bussNo}")
 	@ResponseBody
-	public Map<String, Object> modalIssueList(@PathVariable final int bussNo, String searchBI, String keyword, String filterTypeM,
+	public Map<String, Object> modalIssueList(@PathVariable final int bussNo, 
+															String searchBI, 
+															String keyword, 
+															String filterTypeM,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);
+		
 		Map<String, Object> map = new HashMap<>();
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);		
 		
 		BusinessVO bussvo = businessService.businessSelect(bussNo);
-		int prjtNo = bussvo.getPrjtNo();			
+		int prjtNo = bussvo.getPrjtNo();		
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
 		
 		map.put("memvomi", memvo);
-		map.put("issue", issues);
-		map.put("issues", issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM));
+		map.put("issue", issues);		
 		map.put("search", searchBI);
 		map.put("buss", bussvo);
+		
 		return map;
 	}
 	
@@ -107,7 +114,9 @@ public class IssueController {
 	// 모달에서 이슈 등록
 	@PostMapping("/ModalAjaxIssueInsert")
 	@ResponseBody
-	public void modalIssueInsert(MultipartFile[] files, final IssueVO issueVO, String[] inserthashtags) {
+	public void modalIssueInsert(MultipartFile[] files, 
+								 final IssueVO issueVO, 
+								 String[] inserthashtags) {
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
 		
@@ -125,7 +134,9 @@ public class IssueController {
 	// 모달에서 이슈 수정
 	@PostMapping("/ModalIssueUpdate")
 	@ResponseBody
-	public IssueVO modalIssueUpdate(final IssueVO issueVO, MultipartFile[] editFiles, String[] edithashtags) {
+	public IssueVO modalIssueUpdate(final IssueVO issueVO, 
+								    MultipartFile[] editFiles, 
+								    String[] edithashtags) {
 
 		// 1. 이슈글 정보 수정
 		int issuNo = issueService.updateIssue(issueVO);

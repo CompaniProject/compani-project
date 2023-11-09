@@ -75,7 +75,7 @@
 									</tr>
 								</thead>
 								<tbody id="issueLists">
-									<th:block th:each="issueList : ${issueList}">
+									<th:block th:each="issueList : ${issue.list}">
 										<tr th:onclick="viewIssueInfo([[${issueList.issuNo}]])">
 											<th th:if="${issueList.issuKnd == '0L1'}"><span class="badge badge-danger"
 													th:text="버그"></span></th>
@@ -627,7 +627,7 @@
 				type: 'GET'
 			}).done(function (data) {
 				issueLists.empty();
-				$.each(data.issues, function (idx, item) {
+				$.each(data.issue.list, function (idx, item) {
 					let trTag = $('<tr/>').attr('onclick', 'viewIssueInfo(' + item.issuNo + ')');
 
 					if (item.issuKnd == '0L1') {

@@ -63,7 +63,7 @@
 						</tr>
 					</thead>
 					<tbody class="projectIssueLists" style="text-align: center;">
-						<th:block th:each="projectIssueList : ${projectIssueList}">
+						<th:block th:each="projectIssueList : ${projectIssue.list}">
 							<tr th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
 								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span class="badge badge-danger"
 										th:text="버그"></span></th>
@@ -423,7 +423,7 @@
 					$('.piSearchInput').val('');
 					issueLists.empty();
 					hashtagByPrjtNo();
-					$.each(data.projectIssueList, function (idx, item) {
+					$.each(data.pissue.list, function (idx, item) {
 						let trTag = $('<tr/>').attr('onclick', 'selectIssueInfo(' + item.issuNo + ')');
 
 						if (item.issuKnd == '0L1') {

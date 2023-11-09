@@ -66,7 +66,7 @@
                     </tr>
                     </thead>
                     <tbody class="companyIssueLists" style="text-align: center;">
-                    <th:block th:each="ci : ${companyIssueList}">
+                    <th:block th:each="ci : ${companyIssue.list}">
                         <tr th:attr="onclick='selectCIssueInfo(\'' + ${ci.issuNo} + '\')'">
                             <th th:if="${ci.issuKnd == '0L1'}"><span
                                     class="badge badge-danger" th:text="버그"></span></th>
@@ -202,7 +202,7 @@
                       $('.ciSearchInput').val('');
                       issueLists.empty();
                       hashtagByCoCd();
-                      $.each(data.cissueList, function (idx, item) {
+                      $.each(data.cissue.list, function (idx, item) {
                           let trTag = $('<tr/>').attr('onclick', 'selectCIssueInfo(' + item.issuNo + ')');
 
                           if (item.issuKnd == '0L1') {
