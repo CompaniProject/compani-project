@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.compani.session.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -24,6 +25,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Autowired
     ProjectService projectService;
+	@Autowired
+	SessionService sessionService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -34,10 +37,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		request.getSession().setAttribute("loginInfo", vo); // 세션에 loginInfo라는 변수에 vo값을 넣는다.
 		
 		// sidebar project list setting
-        List<Map<Object, Object>> projectList = projectService.getProjectAndMemberList(vo.getMembId());
-		request.getSession().setAttribute("projectList", projectList);
-
-
+		sessionService.setProjectSidebarList(request);
 
 		//승인상태 체크
 		if(vo.getMembAccp().equals("0C2")) {//맞는지 학인하고 맞으면 매핑(컨트롤러)시켜줌

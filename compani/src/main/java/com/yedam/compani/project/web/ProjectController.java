@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yedam.compani.session.service.SessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ public class ProjectController {
 	private final IssueService issueService;
 	private final MemberService memberService;
 	private final ProjectStatusService projectStatusService;
+	private final SessionService sessionService;
 
 	@GetMapping("/project/home/{prjtNo}")
 	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
@@ -56,26 +58,11 @@ public class ProjectController {
 		model.addAttribute("businessLevelList", businessLevelList);
 		model.addAttribute("memberStatusList", memberStatusList);
 
-		// 헤더 단건 조회
-		setProjectInfoForSession(prjtNo, request);
-		// prjtNo, membId 프로젝트 참여자 인지 확인하고 프로젝트 완료 체크
-		checkProjectStForSession(prjtNo, request);
+		sessionService.setProjectInfo(prjtNo, request);
+		sessionService.checkProjectSt(prjtNo, request);
+		sessionService.setProjectNo(prjtNo, request);
 
 		return "project/project-home";
-	}
-
-	private void checkProjectStForSession(Integer prjtNo, HttpServletRequest request) {
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
-		String membId = memberVO.getMembId();
-
-		ProjectMemberVO pmVO = projectService.updateCheck(prjtNo, membId);
-		request.getSession().setAttribute("updateCheck", pmVO);
-	}
-
-	private void setProjectInfoForSession(Integer prjtNo, HttpServletRequest request) {
-		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
-		request.getSession().setAttribute("projectVO", projectVO);
-		request.getSession().setAttribute("prjtNo", prjtNo);
 	}
 
 	@GetMapping("/project/modal/{prjtNo}")
@@ -123,7 +110,6 @@ public class ProjectController {
 		Map<String, Object> map = new HashMap<>();
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
 		projectVO.setMembId(memberVO.getMembId());
-		System.out.println(projectVO);
 		List<ProjectVO> List = projectService.getProjectStateList(projectVO);
 		map.put("projectStateList", List);
 		
@@ -153,9 +139,9 @@ public class ProjectController {
 		Map<String, Object> map = new HashMap<>();
 		projectService.insertProject(formVO.getProject());
 		projectMemberService.insertProjectMember(formVO);
-		
+
 		// project 추가 후 sidebar project list 재설정
-		setProjectSidebarList(request);
+		sessionService.setProjectSidebarList(request);
 
 		return map;
 	}
@@ -166,9 +152,8 @@ public class ProjectController {
 		ProjectVO projectVO = formVO.getProject();
 		int prjtNo = formVO.getProject().getPrjtNo();
 		projectService.updateProject(projectVO);
-		
-		Map<Object, Object> project = projectService.projectSelect(prjtNo);
-		request.getSession().setAttribute("projectVO", project);
+
+		sessionService.setProjectInfo(prjtNo,request);
 		// 프로젝트 완료 시, 통계 측정
 		if (projectVO.stateCheckEnd()) {
 			projectStatusService.insert(projectVO.getPrjtNo());
@@ -178,7 +163,7 @@ public class ProjectController {
 		projectMemberService.insertProjectMember(formVO);
 
 		// 프로젝트 수정 시 사이드바 재설정
-		setProjectSidebarList(request);
+		sessionService.setProjectSidebarList(request);
 	}
 	
 	//회사 프로젝트 게시판 
@@ -192,12 +177,6 @@ public class ProjectController {
 		model.addAttribute("companyProjectList", vo);
 
 		return "company/company-project";
-	}
-
-	private void setProjectSidebarList(HttpServletRequest request) {
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
-		List<Map<Object, Object>> projectList = projectService.getProjectAndMemberList(memberVO.getMembId());
-		request.getSession().setAttribute("projectList", projectList);
 	}
 
 	@GetMapping("/company/projects/{coCd}")
