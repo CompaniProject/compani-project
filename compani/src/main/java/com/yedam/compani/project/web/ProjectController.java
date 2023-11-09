@@ -57,18 +57,27 @@ public class ProjectController {
 		model.addAttribute("memberStatusList", memberStatusList);
 
 		// 헤더 단건 조회
+		setProjectInfoForSession(prjtNo, request);
+		// prjtNo, membId 프로젝트 참여자 인지 확인하고 프로젝트 완료 체크
+		checkProjectStForSession(prjtNo, request);
+
+		return "project/project-home";
+	}
+
+	private void checkProjectStForSession(Integer prjtNo, HttpServletRequest request) {
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String membId = memberVO.getMembId();
+
+		ProjectMemberVO pmVO = projectService.updateCheck(prjtNo, membId);
+		request.getSession().setAttribute("updateCheck", pmVO);
+	}
+
+	private void setProjectInfoForSession(Integer prjtNo, HttpServletRequest request) {
 		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", projectVO);
 		request.getSession().setAttribute("prjtNo", prjtNo);
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
-		String membId = memberVO.getMembId();
-		// prjtNo, membId 프로젝트 참여자 인지 확인하고 프로젝트 완료 체크  
-		ProjectMemberVO pmVO = projectService.updateCheck(prjtNo, membId);
-		request.getSession().setAttribute("updateCheck", pmVO);
-		
-		return "project/project-home";
 	}
-	
+
 	@GetMapping("/project/modal/{prjtNo}")
 	public String projectModal(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		// 프로젝트 모달 수정 - 참여자 리스트
@@ -157,7 +166,6 @@ public class ProjectController {
 		ProjectVO projectVO = formVO.getProject();
 		int prjtNo = formVO.getProject().getPrjtNo();
 		projectService.updateProject(projectVO);
-		
 		
 		Map<Object, Object> project = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", project);
