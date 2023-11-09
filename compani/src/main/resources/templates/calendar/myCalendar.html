@@ -331,18 +331,9 @@ select {
        	calendar.render();
        	
        	// 간트에 뿌리기
-       	/* gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
-       		$.each(calendarArr, function(idx, item){
-           		if(task.id == item.bussNo){
-           			return true;
-           		}
-           	});
-       		return false;
-       	}); */
-		
-		gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+       	gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
 			for(let i=0; i<calendarArr.length; i++){
-			if (task.id == calendarArr[i].bussNo){
+				if (task.id == calendarArr[i].bussNo){
 			        return true;
 			    }
 		    }
