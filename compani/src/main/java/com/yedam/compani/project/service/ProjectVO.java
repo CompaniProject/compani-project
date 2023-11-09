@@ -22,9 +22,11 @@ public class ProjectVO {
 	private int count;
 	private String prjtFav;
 	private String membId;
+	private String prjtPubcynNm;
 
 	@Bean
 	public boolean stateCheckEnd() {
 		return (prjtSt.equals("0D2"));
 	}
+
 }

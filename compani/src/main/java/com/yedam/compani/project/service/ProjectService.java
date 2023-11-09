@@ -3,7 +3,12 @@ package com.yedam.compani.project.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.github.pagehelper.Page;
+import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.project.member.service.ProjectMemberVO;
 
 public interface ProjectService {
 
@@ -14,5 +19,7 @@ public interface ProjectService {
 	public int insertProject(ProjectVO projectVO);
 	public Map<Object,Object> projectSelect(Integer prjtNo);
 	public int updateProject(ProjectVO project); 
+	public ProjectMemberVO updateCheck(Integer prjtNo, String membId);
+	public Page<ProjectVO> getCompanyProjectList(int pageNo, String search, String keyword, String coCd);
 
 }

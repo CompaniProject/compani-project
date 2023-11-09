@@ -5,8 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.yedam.compani.issue.service.IssueVO;
 import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.mapper.ProjectMapper;
+import com.yedam.compani.project.member.service.ProjectMemberVO;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.service.ProjectVO;
 
@@ -56,6 +60,18 @@ public class ProjectServiceImpl implements ProjectService {
 	public int updateProject(ProjectVO project) {
 		
 		return projectMapper.updateProject(project);
+	}
+
+	@Override
+	public ProjectMemberVO updateCheck(Integer prjtNo, String membId) {
+	
+		return projectMapper.updateCheck(prjtNo, membId);
+	}
+	
+	@Override
+	public Page<ProjectVO> getCompanyProjectList(int pageNo, String search, String keyword, String coCd) {
+		PageHelper.startPage(pageNo, 10);
+		return projectMapper.findCompanyProject(search, keyword, coCd);
 	}
 	
 	

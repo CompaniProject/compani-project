@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
 import com.yedam.compani.issue.service.IssueService;
@@ -50,7 +52,6 @@ public class ProjectController {
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		List<Map<Object, Object>> memberStatusList = projectMemberService.getBusinessCompleteStatus(prjtNo);
 		
-
 		model.addAttribute("businessStateList", businessStateList);
 		model.addAttribute("businessLevelList", businessLevelList);
 		model.addAttribute("memberStatusList", memberStatusList);
@@ -59,6 +60,11 @@ public class ProjectController {
 		Map<Object, Object> projectVO = projectService.projectSelect(prjtNo);
 		request.getSession().setAttribute("projectVO", projectVO);
 		request.getSession().setAttribute("prjtNo", prjtNo);
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		String membId = memberVO.getMembId();
+		// prjtNo, membId 프로젝트 참여자 인지 확인하고 프로젝트 완료 체크  
+		ProjectMemberVO pmVO = projectService.updateCheck(prjtNo, membId);
+		request.getSession().setAttribute("updateCheck", pmVO);
 		
 		return "project/project-home";
 	}
@@ -149,8 +155,12 @@ public class ProjectController {
 	@ResponseBody
 	public void updateProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
 		ProjectVO projectVO = formVO.getProject();
+		int prjtNo = formVO.getProject().getPrjtNo();
 		projectService.updateProject(projectVO);
 		
+		
+		Map<Object, Object> project = projectService.projectSelect(prjtNo);
+		request.getSession().setAttribute("projectVO", project);
 		// 프로젝트 완료 시, 통계 측정
 		if (projectVO.stateCheckEnd()) {
 			projectStatusService.insert(projectVO.getPrjtNo());
@@ -164,9 +174,15 @@ public class ProjectController {
 	}
 	
 	//회사 프로젝트 게시판 
-	@GetMapping("/company/project/{cocd}")
-	public String projectBoard(Model model) {
+	@GetMapping("/company/project/{coCd}")
+	public String projectBoard(@PathVariable String coCd, String search, String keyword,
+			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) {
+		PageInfo<ProjectVO> projects = new PageInfo<>(projectService.getCompanyProjectList(pageNum, search, keyword, coCd), 8);
+		Page<ProjectVO> vo = projectService.getCompanyProjectList(pageNum, search, keyword, coCd);
 		
+		model.addAttribute("companyProject", projects);
+		model.addAttribute("companyProjectList", vo);
+
 		return "company/company-project";
 	}
 
@@ -175,4 +191,19 @@ public class ProjectController {
 		List<Map<Object, Object>> projectList = projectService.getProjectAndMemberList(memberVO.getMembId());
 		request.getSession().setAttribute("projectList", projectList);
 	}
+
+	@GetMapping("/company/projects/{coCd}")
+	@ResponseBody
+	public Map<String, Object> companyProject(@PathVariable String coCd, String search, String keyword,
+			@RequestParam(required = false, defaultValue = "1") int pageNum) {
+		PageInfo<ProjectVO> projects = new PageInfo<>(projectService.getCompanyProjectList(pageNum, search, keyword, coCd), 8);
+		Page<ProjectVO> vo = projectService.getCompanyProjectList(pageNum, search, keyword, coCd);
+		Map<String, Object> map = new HashMap<>();
+
+		map.put("cproject", projects);
+		map.put("cprojectList", vo);
+
+		return map;
+	}
+
 }

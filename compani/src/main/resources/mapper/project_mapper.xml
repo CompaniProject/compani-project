@@ -128,4 +128,43 @@
 		WHERE  prjt_no     = #{prjtNo}
 	
 	</update>
+	
+	<select id="updateCheck" resultType="ProjectMemberVO">
+		SELECT pm.memb_id 	
+		FROM   PROJECT_MEMBER pm, PROJECT p
+		WHERE  pm.prjt_No = p.prjt_No
+		AND    pm.prjt_NO  = #{prjtNo}
+		AND    pm.memb_id =  #{membId}
+		AND    p.PRJT_ST not in ('0D2')
+	</select>
+	
+	<select id="findCompanyProject" resultType="ProjectVO">
+		SELECT P.PRJT_NO,
+			   P.PRJT_NM,
+			   COUNT(pm.PRJT_NO) AS count,
+			   P.PRJT_PUBCYN,
+			   FIND_CODENM(P.PRJT_PUBCYN) AS prjtPubcynNm,
+			   P.PRJT_FDT,
+			   P.PRJT_TDT,
+			   P.PRJT_CMPLTDT,
+			   P.PRJT_ST,
+			   FIND_CODENM(P.PRJT_ST) AS prjtStNm
+		FROM   	  PROJECT_MEMBER PM,  PROJECT P
+		WHERE  PM.PRJT_NO = P.PRJT_NO
+  		AND    p.CO_CD = #{coCd}
+  		 <choose>
+			<when test="keyword == '제목'">
+				 AND prjt_nm LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '전체'">
+				 AND (prjt_nm LIKE '%' || #{search} || '%'
+				 OR  prjt_St  LIKE '%' || #{search} || '%')
+			</when>
+		</choose> 
+        GROUP BY P.PRJT_NO, 
+        	  P.PRJT_NM,P.PRJT_PUBCYN, P.PRJT_TDT, P.PRJT_FDT,PRJT_CMPLTDT, P.PRJT_ST
+        	  
+        	  
+	</select>
+	
 </mapper>

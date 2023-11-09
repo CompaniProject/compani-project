@@ -29,4 +29,5 @@ public class IssueVO {
 	private String membNm;
 	private	String membPhtPath;
 	private String filterType;
+	private String issuStNm;
 }

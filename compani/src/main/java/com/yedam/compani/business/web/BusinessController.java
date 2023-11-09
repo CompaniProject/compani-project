@@ -66,10 +66,10 @@ public class BusinessController {
 
 		businessService.insertBusiness(formVO.getBusiness()); 
 		businessMemberService.insertBusinessMember(formVO);
-
+		
 		// 이거 한번 고민 해보자구 mapper 설계
 		if (!formVO.getBusiness().getBussDep().equals("")) {
-			businessService.modifyBusiness(formVO.getBusiness());
+			businessService.updateBusiness(formVO.getBusiness());
 		}
 
 		return map;
@@ -150,12 +150,13 @@ public class BusinessController {
 	@PostMapping("/updateBusiness")
 	@ResponseBody
 	public void updateBusiness(@RequestBody FormVO formVO) {
-
-		businessService.modifyBusiness(formVO.getBusiness());
 		
-		//종속 변경인디 
-		//businessService.updateBusiness(formVO.getBusiness()); 
-	
+		//업무 수정 
+		businessService.modifyBusiness(formVO.getBusiness());
+		//종속 변경
+		businessService.updateBusiness(formVO.getBusiness()); 
+		
+		//참여자 변경
 		//businessMemberService.deleteBusinessMember(formVO);
 		//businessMemberService.insertBusinessMember(formVO);
 		 

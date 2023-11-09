@@ -175,13 +175,15 @@
 	</select>
 
 	<select id="getIssueList" resultType="IssueVO">
-		SELECT  p.prjt_nm, 
-			    i.memb_id ,
+	SELECT      i.issu_ttl,
+			    m.memb_nm ,
 			    i.issu_dt,
-			    i.issu_st
-		FROM    project p , issue i
-		WHERE   p.prjt_no = i.prjt_no
+			    i.issu_st,
+			    FIND_CODENM(i.issu_st) as issuStNm
+		FROM    member m , issue i
+		WHERE   m.memb_id = i.memb_id
  		AND     i.MEMB_ID = #{membId}
+ 		ORDER BY ISSU_DT DESC
 	</select>
 	
 	<!-- 단건 조회 -->

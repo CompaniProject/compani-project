@@ -105,12 +105,13 @@
 		B.BUSS_NM,
 		B.BUSS_FRDT,
 		B.BUSS_TODT,
-		B.BUSS_IMP
+		B.BUSS_IMP,
+		FIND_CODENM(B.BUSS_IMP) AS bussImpNm
 		FROM BUSINESS B, BUSINESS_MEMBER BM, PROJECT P
-		WHERE BM.BUSS_NO =
-		B.BUSS_NO
+		WHERE BM.BUSS_NO = B.BUSS_NO
 		AND P.PRJT_NO = B.PRJT_NO
 		AND BM.MEMB_ID = #{membId}
+		ORDER BY buss_todt 
 	</select>
 	
 	<select id="businessdriveNameList" resultType="BusinessVO">
@@ -159,31 +160,43 @@
 	<update id="updateBusiness" parameterType="BusinessVO">
 
 		DECLARE
-	
 		p_buss_no NUMBER(10) := 0;
+		
 		BEGIN
-
-		SELECT BUSS_NO
-		INTO p_buss_no
-		FROM
-		BUSINESS
-		WHERE BUSS_NM = #{bussUpNm}
-		AND PRJT_NO = #{prjtNo};
+			SELECT BUSS_NO
+			INTO p_buss_no
+			FROM
+			BUSINESS
+			WHERE BUSS_NM = #{bussUpNm}
+			AND PRJT_NO = #{prjtNo};
 
 		UPDATE
 		BUSINESS
 		<set>
-			<if test="bussDep.equals('up')">
+			<choose>
+				<when test="bussDep.equals('up')">
+					BUSS_UPCD = p_buss_no
+					WHERE BUSS_NO = #{bussNo};
+				</when>
+				<when test="bussDep.equals('down')">
+					BUSS_UPCD = #{bussNo}
+					WHERE BUSS_NO = p_buss_no;
+				</when>
+				<otherwise>
+					BUSS_UPCD = NULL
+				</otherwise>
+			</choose>
+			<!-- <if test="bussDep.equals('up')">
 				BUSS_UPCD = p_buss_no
-				WHERE BUSS_NO = #{bussNo};
+					WHERE BUSS_NO = #{bussNo};
 			</if>
 			<if test="bussDep.equals('down')">
 				BUSS_UPCD = #{bussNo}
 				WHERE BUSS_NO = p_buss_no;
 			</if>
-			<if test="bussDep.equals('') bussDep = null">
+			<if test="bussDep.equals('') and bussDep = null">
 				BUSS_UPCD = NULL
-			</if>
+			</if> -->
 		</set>
 
 		END;
@@ -204,14 +217,20 @@
 		b.buss_st,
 		FIND_CODENM(BUSS_ST) as bussStNm,
 		FIND_CODENM(BUSS_IMP) as bussImpNm,
-		  ( SELECt buss_No 
-        FROM  business
-        where buss_NO = (SELECT  buss_NO
-                 FROM    business
+		                    
+         ( SELECT BUSS_NM
+		 FROM   BUSINESS
+		 WHERE  BUSS_NO  = ( select buss_upcd
+                            from  business
+                            where  buss_no = #{bussNo})) as bussUpNm,	
+		( SELECT BUSS_NO 
+        FROM  BUSINESS
+        WHERE BUSS_NO = (SELECT  BUSS_NO
+                 FROM    BUSINESS
                  WHERE   BUSS_UPCD = #{bussNo})) as bussDownNo,
-        ( SELECt buss_NM 
-        FROM  business
-        where buss_NO = (SELECT  buss_NO
+        ( SELECT BUSS_NM 
+        FROM  BUSINESS
+        WHERE BUSS_NO = (SELECT  BUSS_NO
                  FROM    business
                  WHERE   BUSS_UPCD = #{bussNo})) as bussDownNM
 		FROM BUSINESS b , PROJECT p
@@ -260,19 +279,7 @@
 						BUSS_CMPLTDT = SYSDATE
 					</otherwise>
 				</choose>
-				
-				<!-- <if test="bussDep.equals('') and bussDep = null">
-					bussUpNm = NULL
-				</if>
-				<if test="bussDep.equals('up')">
-					BUSS_UPCD = p_buss_no
-					WHERE BUSS_NO = #{bussNo}
-				</if>
-					<if test="bussDep.equals('down')">
-					BUSS_UPCD = #{bussNo}
-					WHERE BUSS_NO = p_buss_no
-				</if> -->
-		
+			
 		WHERE   BUSS_NO = #{bussNo}
 		
 	</update>

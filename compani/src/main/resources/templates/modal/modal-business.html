@@ -174,22 +174,27 @@
 				<div class="dropdown custom-dropdown">
 					<div>
 						<select class="dropdown-relation" name="bussDep">
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} == null" value="">선택</option>
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == null" value="up">선행 작업</option>
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} != null" value="down">후속 작업</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} == 0" value="">선택</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == 0" value="up">선행 작업</option>
+							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} != 0" value="down">후속 작업</option>
 
 						</select>
 					</div>
 				</div>
 
 				<div class="dropdown custom-dropdown">
-					<div>
+					<div> 
 						<select class="dropdown-relation" name="bussUpNm">
-							<div th:if ="${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == null"><option class="dropdown-business" 
+							<div th:if ="${businessVO.bussUpcd == null}  and ${businessVO.bussdownNo  == 0}"><option class="dropdown-business" 
+							value="" th:text="선택"></option></div>
+							<div th:if ="${businessVO.bussUpcd != null}"><option class="dropdown-business" 
+							value="${businessVO.bussUpNm} and ${businessVO.bussdownNo} == 0" th:text="${businessVO.bussUpNm}"></option></div>
+							<div th:if ="${businessVO.bussUpcd == null}  and ${businessVO.bussdownNo != 0}"><option class="dropdown-business" 
 							value="${businessVO.bussdownNm}" th:text="${businessVO.bussdownNm}"></option></div>
-					
+								<option class="dropdown-business"
+									value="" text="">선택</option>
+									<!--  종속관계 설정된 업무 명은 제외한 리스트를 출력해야할듯 -->
 							<th:block th:each="bussNameList : ${businessNameList}">
-
 								<option class="dropdown-business"
 									th:value="${bussNameList.bussNm}"
 									th:text="${bussNameList.bussNm}"></option>
@@ -206,7 +211,7 @@
 			name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
-		<button id="updatebussBtn" type="button" class="btn btn-primary">수정</button>
+		<button th:if ="${session.updateCheck != null}" type="button" id="updatebussBtn"  class="btn btn-primary">수정</button>
 	</div>
 </form>
 
