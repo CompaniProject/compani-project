@@ -153,17 +153,15 @@ public class ProjectController {
 		int prjtNo = formVO.getProject().getPrjtNo();
 		projectService.updateProject(projectVO);
 
-		sessionService.setProjectInfo(prjtNo,request);
 		// 프로젝트 완료 시, 통계 측정
-		if (projectVO.stateCheckEnd()) {
-			projectStatusService.insert(projectVO.getPrjtNo());
-		}
+		projectStatusService.insert(projectVO);
 		
 		projectMemberService.deleteProjectMember(formVO);
 		projectMemberService.insertProjectMember(formVO);
 
 		// 프로젝트 수정 시 사이드바 재설정
 		sessionService.setProjectSidebarList(request);
+		sessionService.setProjectInfo(prjtNo,request);
 	}
 	
 	//회사 프로젝트 게시판 
