@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yedam.compani.session.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UploadController {
 	@Autowired
 	MemberService sv;
+	@Autowired
+	SessionService sessionService;
 	
 	
 	@Value("${file.upload.path}")
@@ -37,9 +40,8 @@ public class UploadController {
 	@PostMapping("/uploadsAjaxs")
 	@ResponseBody
 	public String uploadFiles(@RequestPart(value = "image", required = false) MultipartFile uploadFiles, HttpServletRequest request) {
-			MemberVO vo = (MemberVO) request.getSession().getAttribute("loginInfo"); 
+			MemberVO vo = sessionService.getLoginInfo(request);
 			if (uploadFiles.getContentType().startsWith("image") == false) {
-				System.err.println("this file is not image type");
 				return null;
 			}
 

@@ -6,6 +6,7 @@ import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackVO;
 import com.yedam.compani.project.service.ProjectService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
+import com.yedam.compani.session.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -32,11 +34,12 @@ public class ProjectFeedbackController {
 	private final CompanyStatusService companyStatusService;
 	private final ProjectFeedbackService projectFeedbackService;
 	private final ProjectService projectService;
+	private final SessionService sessionService;
 	
 	@GetMapping("/project/feedback/{prjtNo}")
-	public String projectFeedbackHome(@PathVariable int prjtNo, Model model, HttpSession session) {
+	public String projectFeedbackHome(@PathVariable int prjtNo, Model model, HttpServletRequest request) {
 		// get session users company data
-		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String coCd = memberVO.getCoCd();
 
 		ProjectStatusVO projectStatus = projectStatusService.getProjectStatus(prjtNo);
@@ -56,8 +59,8 @@ public class ProjectFeedbackController {
 
 	@PostMapping("/project/feedback")
 	@ResponseBody
-	public ProjectFeedbackVO insertProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk, HttpSession session){
-		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+	public ProjectFeedbackVO insertProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk, HttpServletRequest request){
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		prjtFdbk.setMembId(memberVO.getMembId());
 		projectFeedbackService.insert(prjtFdbk);
 		return prjtFdbk;

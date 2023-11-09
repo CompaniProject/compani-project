@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.yedam.compani.session.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +48,9 @@ public class MemberController {
 	MemberService service;
 	@Autowired
 	CompanyService serviceC;
+	@Autowired
+	SessionService sessionService;
 
-	HttpServletRequest request;
-	HttpSession session;
 	// 홈페이지
 	@GetMapping("/")
 	public String homepage() {
@@ -135,11 +136,9 @@ public class MemberController {
 	@ResponseBody
 	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,Object> map, HttpServletRequest request) {
 		
-		int prjtNo = (int) request.getSession().getAttribute("prjtNo"); 
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo"); 
+		int prjtNo = sessionService.getProjectNo(request);
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String coCd = memberVO.getCoCd();
-		System.out.println(prjtNo);
-		System.out.println(coCd);
 		map.put("prjtNo", prjtNo);
 		map.put("coCd", coCd);
 		List<MemberVO> List = service.getMemberList(map);
@@ -230,8 +229,8 @@ public class MemberController {
 	
 	// 김연규, 2023-11-07, 회사관리자 멤버리스트
 	@GetMapping("/companyManager")
-	public String companyManager(Model model, HttpSession session) {
-		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+	public String companyManager(Model model, HttpServletRequest request) {
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String coCd = memberVO.getCoCd();
 		List<Map<Object, Object>> list = service.companyManager(coCd);
 		model.addAttribute("companyManager", list);
