@@ -52,6 +52,14 @@
 		let curBody = $(event.target).closest('.media');
 		obj = createInsertObj(false);
 		
+		if (obj.replyCntn == ""){
+    		Swal.fire({
+                icon: 'error',
+                text: '내용을 입력해주세요.',
+            });
+    		return;
+    	}
+		
 		insertAjax(obj,false);
 		
 		// hide insert area

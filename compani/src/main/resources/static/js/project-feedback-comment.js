@@ -23,6 +23,13 @@
 	
     function insertComment(){
     	let obj = createInsertObj();
+    	if (obj.prjtFdbkCntn == ""){
+    		Swal.fire({
+                icon: 'error',
+                text: '내용을 입력해주세요.',
+            });
+            return;
+    	}
         insertAjax(obj);
     }
     
