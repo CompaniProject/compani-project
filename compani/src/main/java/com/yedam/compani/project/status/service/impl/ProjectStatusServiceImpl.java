@@ -1,5 +1,6 @@
 package com.yedam.compani.project.status.service.impl;
 
+import com.yedam.compani.project.service.ProjectVO;
 import com.yedam.compani.project.status.mapper.ProjectStatusMapper;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
@@ -14,8 +15,12 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     private final ProjectStatusMapper projectStatusMapper;
 
     @Override
-    public boolean insert(int prjtNo) {
-        return (projectStatusMapper.insert(prjtNo) == 1);
+    public boolean insert(ProjectVO projectVO) {
+		if (projectVO.stateCheckEnd() == false) {
+			return false;
+		}
+		
+        return (projectStatusMapper.insert(projectVO.getPrjtNo()) == 1);
     }
 
     @Override
