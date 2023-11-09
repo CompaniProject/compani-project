@@ -159,47 +159,32 @@
 
 	<update id="updateBusiness" parameterType="BusinessVO">
 
-		DECLARE
-		p_buss_no NUMBER(10) := 0;
-		
-		BEGIN
-			SELECT BUSS_NO
-			INTO p_buss_no
-			FROM
-			BUSINESS
-			WHERE BUSS_NM = #{bussUpNm}
-			AND PRJT_NO = #{prjtNo};
+
 
 		UPDATE
 		BUSINESS
 		<set>
 			<choose>
 				<when test="bussDep.equals('up')">
-					BUSS_UPCD = p_buss_no
-					WHERE BUSS_NO = #{bussNo};
+					BUSS_UPCD = (SELECT BUSS_NO
+								FROM   BUSINESS
+								WHERE  BUSS_NM = #{bussUpNm}
+								AND    PRJT_NO = #{prjtNo})
+					WHERE BUSS_NO = #{bussNo}
 				</when>
 				<when test="bussDep.equals('down')">
 					BUSS_UPCD = #{bussNo}
-					WHERE BUSS_NO = p_buss_no;
+					WHERE BUSS_NO = (SELECT BUSS_NO
+								FROM   BUSINESS
+								WHERE  BUSS_NM = #{bussUpNm}
+								AND    PRJT_NO = #{prjtNo})
 				</when>
 				<otherwise>
 					BUSS_UPCD = NULL
+					WHERE  BUSS_NO = #{bussNo}
 				</otherwise>
 			</choose>
-			<!-- <if test="bussDep.equals('up')">
-				BUSS_UPCD = p_buss_no
-					WHERE BUSS_NO = #{bussNo};
-			</if>
-			<if test="bussDep.equals('down')">
-				BUSS_UPCD = #{bussNo}
-				WHERE BUSS_NO = p_buss_no;
-			</if>
-			<if test="bussDep.equals('') and bussDep = null">
-				BUSS_UPCD = NULL
-			</if> -->
 		</set>
-
-		END;
 
 	</update>
 
