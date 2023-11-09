@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>피드백 이슈</title>
-<style>
 
+<style>
 /* .card-body {
 	text-align: center;
 } */
@@ -40,7 +40,7 @@
 				<!-- 피드백 탭 끝 -->
 				<div class="column">
 					<!-- 이슈 데이터 - 시작 -->
-					<div class="row">
+					<div class="row" style="text-align: center;">
 						<div class="col-lg-3">
 							<div class="card">
 								<div class="card-body" style="padding-bottom: 42px;">
@@ -96,7 +96,7 @@
 		                   	<div class="card">
 		                       	<div class="card-body">
 									<div class="table-responsive">
-										<table class="table table-striped table-bordered zero-configuration">
+										<table class="table table-striped table-bordered issueTable">
 											<thead>
 												<tr>
 													<th style="width: 5%;">#</th>
@@ -217,9 +217,7 @@
 	const prjtNo = [[${prjtNo}]];
 	const membNm = [[${session.loginInfo.membNm}]];
 	
-	/*----------------------------
-		업무리스트 정렬
-	------------------------------*/
+	// 업무리스트 정렬
 	let stripedBar1 = 100 * [[${projectStatus.issuSolveCnt}]] / [[${projectStatus.issuCnt}]];
 	let stripedBar2 = 100 * [[${projectStatus.issuUnsolveCnt}]] / [[${projectStatus.issuCnt}]];
 	let stripedBar3 = 100 * [[${projectStatus.issuUnsolvableCnt}]] / [[${projectStatus.issuCnt}]];
@@ -228,18 +226,8 @@
 	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(1).css("width", stripedBar2+'%');
 	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(2).css("width", stripedBar3+'%');
 	
-	/*----------------------------
-		업무리스트 넘버링
-	------------------------------*/
+	// 아이콘 적용
 	for(let i=0; i<issueList.length; i++){
-		$('.issueListTr').eq(i).append(i+1);
-	}
-	
-	/*----------------------------
-		데이터 디자인
-	------------------------------*/
-	for(let i=0; i<issueList.length; i++){
-		
 		if($('.issuKnd').eq(i).children('span').text() == '버그'){
 			$('.issuKnd').eq(i).children('span').addClass('badge badge-danger');
 		} else if($('.issuKnd').eq(i).children('span').text() == '개선사항'){
@@ -257,8 +245,31 @@
 		} else if($('.issuSt').eq(i).children('span').text() == '해결불가'){
 			$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-secondary');
 		}
-		
 	}
+	// 페이지 넘어갈 때마다 다시 적용해줌
+	$('.paginate_button ').on('click', function(){
+		/* for(let i=0; i<issueList.length; i++){
+			if($('.issuKnd').eq(i).children('span').text() == '버그'){
+				$('.issuKnd').eq(i).children('span').addClass('badge badge-danger');
+			} else if($('.issuKnd').eq(i).children('span').text() == '개선사항'){
+				$('.issuKnd').eq(i).children('span').addClass('badge badge-warning');
+			} else if($('.issuKnd').eq(i).children('span').text() == '새기능'){
+				$('.issuKnd').eq(i).children('span').addClass('badge badge-info');
+			} else if($('.issuKnd').eq(i).children('span').text() == '업무'){
+				$('.issuKnd').eq(i).children('span').addClass('badge badge-light');
+			}
+			
+			if($('.issuSt').eq(i).children('span').text() == '해결'){
+				$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-success');
+			} else if($('.issuSt').eq(i).children('span').text() == '미해결'){
+				$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-dark');
+			} else if($('.issuSt').eq(i).children('span').text() == '해결불가'){
+				$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-secondary');
+			}
+		} */
+	});
+	
+	// 피드백 헤더 택 효과
 	window.onload = function () {
 		let navItemHome = $('.nav-link').eq(1);
 		navItemHome.addClass('active');
@@ -271,6 +282,16 @@
 	    })
 	})
 	
+	// 업무리스트 넘버링
+	for(let i=0; i<issueList.length; i++){
+		$('.issueListTr').eq(i).append(i+1);
+	}
+	
+	// 데이터 테이블 선언
+	var dataTable = $('.issueTable').DataTable();
+	dataTable
+			.order([5, 'desc'])
+			.draw();
 	</script>
 	<script th:inline="javascript" th:src="@{/js/project-feedback-comment.js}"></script>
 	
