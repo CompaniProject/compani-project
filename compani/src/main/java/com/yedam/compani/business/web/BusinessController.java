@@ -22,19 +22,10 @@ import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 import com.yedam.compani.project.member.service.ProjectMemberService;
-import com.yedam.compani.project.service.ProjectFormVO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;;
-;
+import lombok.extern.slf4j.Slf4j;
 
-/*
- * 
- * 작성자 : 신대철
- * 작성일자:
- * 작업
- * 
- * */
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -46,16 +37,23 @@ public class BusinessController {
 	private final ProjectMemberService projectMemberService;
 
 	@GetMapping("/project/business/{prjtNo}")
-	public String projectHome(@PathVariable int prjtNo, Model model) {
+	public String businessHome(@PathVariable int prjtNo, Model model) {
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		model.addAttribute("businessLevelList", businessLevelList);
+		
+		return "project/business-home";
+	}
 
+	@GetMapping("/modal/business/insert")
+	public String businessModalInsertHome(Model model, HttpServletRequest request) {
+		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		
 		// 회사 멤버 list -> 프로젝트 참여자 list
 		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", projectMemberList);
 		List<BusinessVO> busineesNameList = businessService.bussinessNameList(prjtNo);
 		model.addAttribute("businessNameList", busineesNameList);
-		return "project/business-home";
+		return "modal/modal-business-insert";
 	}
 
 	@PostMapping("insertBusiness")
