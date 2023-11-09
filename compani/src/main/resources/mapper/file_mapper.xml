@@ -5,7 +5,7 @@
 	
 				<!-- 드라이브 파일 리스트 + 검색 -->
 				<select id="fileList" resultType="FileVO">
-					SELECT	f.file_no
+					SELECT	  f.file_no
 							, f.prjt_no
 							, f.buss_no
 							, f.file_nm
@@ -13,13 +13,18 @@
 							, f.file_type
 							, f.file_desct
 							, f.file_dt
-							, mem.memb_nm
 							, f.file_size
-					FROM   	project_file f, project p, business b, member mem
+							, mem.memb_nm
+							
+					 FROM  	project_file f, 
+					        project p, 
+					        business b, 
+					        member mem
+					        
 					WHERE	f.buss_no = b.buss_no
-					AND		b.prjt_no = p.prjt_no
-					AND		f.memb_id = mem.memb_id
-					AND		f.prjt_no = #{prjtNo}
+					  AND	b.prjt_no = p.prjt_no
+					  AND	f.memb_id = mem.memb_id
+					  AND	f.prjt_no = #{prjtNo}
 					<choose>
 						<when test="pType == '파일명'">
 							AND f.file_nm LIKE '%' || #{pKeyword} || '%'
@@ -143,13 +148,13 @@
 			        SELECT file_seq.nextval, W.*
 			        FROM (
 			        <foreach item="files" collection="list" separator="UNION ALL ">
-			            SELECT		1 as prjtNo
-			                    ,	1 as bussNo
+			            SELECT		#{files.prjtNo} as prjtNo
+			                    ,	#{files.bussNo} as bussNo
 			                    , 	#{files.fileNm} as fileNm
 			                    , 	#{files.filePath} as filePath
 			                    ,   #{files.fileType} as fileType
 			                    ,   SYSDATE as fileDt
-			                    ,  	'ojunkwon' as membId
+			                    ,  	#{files.memb_id} as membId
 			                    ,   #{files.fileSize} as fileSize
 			            FROM       DUAL
 			        </foreach>
