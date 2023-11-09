@@ -43,4 +43,19 @@ public class SessionServiceImpl implements SessionService {
     public void setProjectNo(Integer prjtNo,HttpServletRequest request) {
         request.getSession().setAttribute("prjtNo", prjtNo);
     }
+
+    @Override
+    public int getProjectNo(HttpServletRequest request) {
+        return (int) request.getSession().getAttribute("prjtNo");
+    }
+
+    @Override
+    public void setLoginInfo(MemberVO memberVO, HttpServletRequest request) {
+        request.getSession().setAttribute("loginInfo", memberVO);
+    }
+
+    @Override
+    public MemberVO getLoginInfo(HttpServletRequest request) {
+        return (MemberVO) request.getSession().getAttribute("loginInfo");
+    }
 }

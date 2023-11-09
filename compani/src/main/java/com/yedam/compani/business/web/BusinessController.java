@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.yedam.compani.session.service.SessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ public class BusinessController {
 	private final MemberService memberService;
 	private final BusinessMemberService businessMemberService;
 	private final ProjectMemberService projectMemberService;
+	private final SessionService sessionService;
 
 	@GetMapping("/project/business/{prjtNo}")
 	public String businessHome(@PathVariable int prjtNo, Model model) {
@@ -46,7 +48,7 @@ public class BusinessController {
 
 	@GetMapping("/modal/business/insert")
 	public String businessModalInsertHome(Model model, HttpServletRequest request) {
-		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		int prjtNo = sessionService.getProjectNo(request);
 		
 		// 회사 멤버 list -> 프로젝트 참여자 list
 		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
@@ -85,7 +87,7 @@ public class BusinessController {
 		List<MemberVO> list = businessMemberService.bussMemberList(bussNo);
 		model.addAttribute("businessMemberList", list);
 		
-		int prjtNo = (int) request.getSession().getAttribute("prjtNo");
+		int prjtNo = sessionService.getProjectNo(request);
 		// 회사 멤버 list -> 프로젝트 참여자 list
 		List<MemberVO> projectMemberList = memberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", projectMemberList);
@@ -98,8 +100,8 @@ public class BusinessController {
 
 	// 김연규, 2023-10-22, 개인 캘린더 업무리스트
 	@GetMapping("myCalendar")
-	public String personalCalendarList(Model model, HttpSession session) {
-		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+	public String personalCalendarList(Model model, HttpServletRequest request) {
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String membId = memberVO.getMembId();
 		List<Map<Object,Object>> list = businessService.getPersonalCalendarBusinessList(membId);
 		model.addAttribute("personalCalendarPage", list);
@@ -108,7 +110,7 @@ public class BusinessController {
 	
 	// 김연규, 2023-10-22, 프로젝트 캘린더 업무리스트
 	@GetMapping("project/calendar/{prjtNo}")
-	public String projectCalendarList(Model model, @PathVariable int prjtNo, HttpServletRequest request) {
+	public String projectCalendarList(Model model, @PathVariable int prjtNo) {
 		// 캘린더 업무리스트
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);

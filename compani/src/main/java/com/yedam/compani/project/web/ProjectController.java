@@ -72,7 +72,7 @@ public class ProjectController {
 		model.addAttribute("projectMemberList", prjtMemberList);
 		
 		// 프로젝트 모달 수정 - 회사 멤버 리스트
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String membId = memberVO.getMembId();
 		String coCd = memberVO.getCoCd();
 		
@@ -90,7 +90,7 @@ public class ProjectController {
 	@GetMapping("home")
 	public String mainhomeList(Model model, HttpServletRequest request) {
 	
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		List<ProjectVO> list = projectService.getProjectList(memberVO);
 		model.addAttribute("projectList", list);
 		List<MemberFeedbackVO> list2 = memberFeedbackService.getMemberFeedbackList(memberVO);
@@ -108,7 +108,7 @@ public class ProjectController {
 	public Map<String, Object> ProjectStateAjax(ProjectVO projectVO, HttpServletRequest request) {
 
 		Map<String, Object> map = new HashMap<>();
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		projectVO.setMembId(memberVO.getMembId());
 		List<ProjectVO> List = projectService.getProjectStateList(projectVO);
 		map.put("projectStateList", List);
@@ -122,7 +122,7 @@ public class ProjectController {
 
 		projectService.updateFavorite(projectVO);
 		Map<String, Object> map = new HashMap<>();
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		projectVO.setMembId(memberVO.getMembId());
 
 		List<ProjectVO> projectStateList = projectService.getProjectStateList(projectVO);

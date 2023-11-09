@@ -34,8 +34,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			
 		MemberVO vo = ((MemberAuthVO)auth.getPrincipal()).getVo();//오버라이드 된 getPrincipal()이 클래스 안에 모든 정보를 담고있고, 그 클래스(MemberAuthVO)는 첫줄에 MemberVO를 생성했고, 생성된 vo안의 값이 그 클래스의 @Data로 인해 
 																	//getVo로 vo의 모든 정보를 불러오는데 그 정보를 현재의 MemberVO생성자에 넣는다.
-		request.getSession().setAttribute("loginInfo", vo); // 세션에 loginInfo라는 변수에 vo값을 넣는다.
-		
+		// 세션에 loginInfo라는 변수에 vo값을 넣는다.
+		sessionService.setLoginInfo(vo,request);
+
 		// sidebar project list setting
 		sessionService.setProjectSidebarList(request);
 
