@@ -73,11 +73,6 @@ public class BusinessController {
 		return map;
 
 	}
-	
-	@GetMapping("home/modal")
-	public String projectHome() {
-		return "modal/modal-main";
-	}
 
 	@GetMapping("/businessInfo/{bussNo}")
 	public String businessInfo(@PathVariable Integer bussNo ,Model model, HttpServletRequest request) {

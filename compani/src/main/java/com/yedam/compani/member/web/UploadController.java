@@ -39,7 +39,6 @@ public class UploadController {
 	public String uploadFiles(@RequestPart(value = "image", required = false) MultipartFile uploadFiles, HttpServletRequest request) {
 			MemberVO vo = (MemberVO) request.getSession().getAttribute("loginInfo"); 
 			if (uploadFiles.getContentType().startsWith("image") == false) {
-				System.err.println("this file is not image type");
 				return null;
 			}
 

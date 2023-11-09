@@ -105,7 +105,6 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public int modifyBusiness(BusinessVO businessVO) {
 		Date date = new Date();
-		System.out.println(date);
 		if(businessVO.getBussPrgre() < 100 && date.before(businessVO.getBussTodt()) ) {
 			businessVO.setBussSt("0K1");
 		}else if(businessVO.getBussPrgre() == 100 && date.after(businessVO.getBussTodt())) {

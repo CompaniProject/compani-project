@@ -87,7 +87,6 @@ public class ProjectIssueController {
 	public String projectIssueSelect(@PathVariable final int prjtNo, @PathVariable final int issuNo, Model model) {
 
 		IssueVO vo = issueService.findIssueById(issuNo);
-		System.out.println(vo);
 		model.addAttribute("issueInfo", vo);
 
 		List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);
