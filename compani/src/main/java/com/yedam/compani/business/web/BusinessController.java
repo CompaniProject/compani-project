@@ -118,16 +118,6 @@ public class BusinessController {
 		List<BusinessVO> list = businessService.getProjectCalenderBusinessList(prjtNo);
 		model.addAttribute("projectCalendarPage", list);
 		
-		// 프로젝트 모달 수정 - 참여자 리스트
-		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
-		model.addAttribute("projectMemberList", prjtMemberList);
-		
-		// 프로젝트 모달 수정 - 회사 멤버 리스트
-		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginInfo");
-		String coCd = memberVO.getCoCd();
-		List<MemberVO> memberList = memberService.prjtMemberList(prjtNo,coCd);
-		model.addAttribute("memberList", memberList);
-		
 		return "calendar/projectCalendar";
 	}
 	
@@ -138,6 +128,7 @@ public class BusinessController {
 		businessService.updateCalendarBuss(vo);
 		return "";
 	}
+	
 	// 김연규, 2023-11-01, 간트 상위업무 수정
 	@PostMapping("/updateGanttUpcd")
 	@ResponseBody
@@ -145,6 +136,7 @@ public class BusinessController {
 		businessService.updateGanttUpcd(vo);
 		return "calendar/personalCalendarPage";
 	}
+	
 	@PostMapping("/updateBusiness")
 	@ResponseBody
 	public void updateBusiness(@RequestBody FormVO formVO) {
