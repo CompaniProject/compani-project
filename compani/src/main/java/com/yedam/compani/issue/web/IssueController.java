@@ -21,19 +21,24 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.config.FileUtils;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 import com.yedam.compani.issue.service.IssueService;
 import com.yedam.compani.issue.service.IssueVO;
-import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.feedback.service.ProjectFeedbackService;
+import com.yedam.compani.project.member.service.ProjectMemberService;
 import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
 import lombok.RequiredArgsConstructor;
-
+/*
+ * 작성자: 권오준
+ * 작성일자: 2023/11/10
+ * 내용: 이슈 등록, 조회, 수정, 삭제
+ */
 @Controller
 @RequiredArgsConstructor
 public class IssueController {
@@ -42,7 +47,7 @@ public class IssueController {
 	private final IssueFileService issueFileService;
 	private final ProjectStatusService projectStatusService;
 	private final IssueHashtagService issueHashtagService;
-	private final com.yedam.compani.config.FileUtils fileUtils;
+	//private final com.yedam.compani.config.FileUtils fileUtils;
 	private final BusinessService businessService;
 	private final ProjectMemberService projectMemberService;
 	private final ProjectFeedbackService projectFeedbackService;
@@ -56,15 +61,18 @@ public class IssueController {
 													 String filterTypeM,
 								 @RequestParam(required = false, defaultValue = "1") int pageNum, 
 								 					 Model model) {
+		// 이슈 목록 조회
 		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getIssueList(pageNum, searchBI, keyword, bussNo, filterTypeM), 8);		
 		
+		// 업무 정보
 		BusinessVO bussvo = businessService.businessSelect(bussNo);
+		
+		// 글쓰기 권한 체크
 		int prjtNo = bussvo.getPrjtNo();			
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
 		
 		model.addAttribute("memvomi", memvo);
 		model.addAttribute("issue", issues);
-		model.addAttribute("search", searchBI);
 		model.addAttribute("buss", bussvo);
 		
 		return "modal/modal-issue";
@@ -99,12 +107,13 @@ public class IssueController {
 	@ResponseBody
 	public Map<String, Object> modalIssueSelect(final int issuNo) {
 			Map<String, Object> map = new HashMap<>();
+			// 이슈 정보
 			IssueVO vo = issueService.findIssueById(issuNo);
 			map.put("issueInfo", vo);
-			
+			// 파일 목록
 			List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);			
 			map.put("issueFile", list);
-			
+			// 해시태그 목록
 			List<IssueHashtagVO> hash = issueHashtagService.findAllHashtagsByIssuNo(issuNo);
 			map.put("issueHash", hash);
 			return map;
@@ -118,16 +127,16 @@ public class IssueController {
 								 final IssueVO issueVO, 
 								 String[] inserthashtags) {
 		// 이슈를 등록.
-		int issuNo = issueService.modalInsertIssue(issueVO);
+		issueService.modalInsertIssue(issueVO);
 		
 		// 파일 업로드, 파일 DB에 저장
 		List<IssueFileVO> uploadedFiles = new ArrayList<>();
 		if (files != null && files.length > 0) {
-				 uploadedFiles = fileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
-				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
+				 uploadedFiles = FileUtils.uploadFiles(Arrays.asList(files)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
+				 issueFileService.modalInsertIssueFile(issueVO.getIssuNo(), uploadedFiles);
 		}
 		// 해시태그 저장
-		issueHashtagService.modalInsertIssueHashtag(issuNo, Arrays.asList(inserthashtags));
+		issueHashtagService.modalInsertIssueHashtag(issueVO.getIssuNo(), Arrays.asList(inserthashtags));
 				
 	}
 	
@@ -139,12 +148,12 @@ public class IssueController {
 								    String[] edithashtags) {
 
 		// 1. 이슈글 정보 수정
-		int issuNo = issueService.updateIssue(issueVO);
+		issueService.updateIssue(issueVO);
 
 		// 2. 파일 업로드 (to disk & to database)
-		List<IssueFileVO> uploadedFiles = new ArrayList<>();
+		List<IssueFileVO> uploadedFiles;
 		if(editFiles != null && editFiles.length > 0) {
-			uploadedFiles = fileUtils.uploadFiles(Arrays.asList(editFiles));
+			uploadedFiles = FileUtils.uploadFiles(Arrays.asList(editFiles));
 			issueFileService.modalInsertIssueFile(issueVO.getIssuNo(), uploadedFiles);
 		}
 
@@ -152,28 +161,30 @@ public class IssueController {
 		List<IssueFileVO> deleteFiles = issueFileService.findAllByIds(issueVO.getRemoveFileIds());
 
 		// 4. 파일 삭제 (from disk)
-		fileUtils.deleteFiles(deleteFiles);
+		FileUtils.deleteFiles(deleteFiles);
 
 		// 5. 파일 삭제 (from database)
 		issueFileService.deleteAllFileByIds(issueVO.getRemoveFileIds());
 		
 		// 6. 해시태그 수정 ( db에서 해당 이슈에 있는 모든 해시태그를 삭제 후 새로 등록 )
 		if(CollectionUtils.isEmpty(Arrays.asList(edithashtags))) {
-			issueHashtagService.deleteHashtagbyId(issuNo);
+			issueHashtagService.deleteHashtagbyId(issueVO.getIssuNo());
 		} else {
-		issueHashtagService.modalEditIssueHashtag(issuNo, Arrays.asList(edithashtags));
+			issueHashtagService.modalEditIssueHashtag(issueVO.getIssuNo(), Arrays.asList(edithashtags));
 		}
+		
 		return issueService.findIssueById(issueVO.getIssuNo());
 		
 		
 	}
 	
 	// 모달에서 이슈 삭제
-	@PostMapping("/ModalIssueDelete")
+	@PostMapping("/ModalIssue")
 	@ResponseBody
 	public void modalIssueDelete(@RequestParam final int issuNo) {
 		issueService.deleteIssue(issuNo);
 	}
+	
 	// 김연규, 2023-10-25, 프로젝트 이슈 피드백
 	@GetMapping("/project/feedback/{prjtNo}/issue")
 	public String projectFeedbackIssueList(@PathVariable int prjtNo, Model model) {

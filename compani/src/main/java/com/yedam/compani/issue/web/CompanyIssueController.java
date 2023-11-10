@@ -22,6 +22,12 @@ import com.yedam.compani.issue.service.IssueVO;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 
+ * 작성자: 권오준
+ * 작성일자: 2023/11/10
+ * 내용: 회사 이슈 게시판 조회, 삭제
+ */
 @Controller
 @RequiredArgsConstructor
 public class CompanyIssueController {

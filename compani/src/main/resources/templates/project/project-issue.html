@@ -146,8 +146,8 @@
 
 							<div class="savePIssueName">
 								<div class="savePIssueNameBack">
-									<textarea class="modalPIssueNameSave" id="savePIssuTtlVal" maxlength="200"
-										style="height: 34px;"></textarea>
+									<input class="modalPIssueNameSave" id="savePIssuTtlVal" maxlength="200"
+										style="height: 34px;"></input>
 								</div>
 							</div>
 
@@ -397,15 +397,6 @@
 			projectIssuePaging(1);
 
 		});
-		function dateFormatting(date) {
-
-			let parseDate = new Date(date);
-
-			let year = parseDate.getFullYear();
-			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
-			let day = ('0' + parseDate.getDate()).slice(-2);
-			return year + '-' + month + '-' + day;
-		}
 		// ajax 
 		function projectIssuePaging(pageNum) {
 
@@ -415,10 +406,13 @@
 			let pagination = $('.piPagination');
 			let filterTypeVal = $('#filterType').val();
 
-			$.ajax('/project/aissues/' + piprjtNo + '?pageNum=' + pageNum + '&keyword='
-				+ keywordVal + '&search=' + searchVal + '&filterType=' + filterTypeVal,
+			$.ajax('/project/aissues/' + piprjtNo,
 				{
-					type: 'GET'
+					type: 'GET',
+					data :{ pageNum, 
+					    keyword: keywordVal, 
+					    search: searchVal, 
+					    filterType: filterTypeVal }
 				}).done(function (data) {
 					$('.piSearchInput').val('');
 					issueLists.empty();
@@ -675,12 +669,6 @@
 		$('.modalPIssueNameSave').on('blur', function () {
 			$('.savePIssueNameBack').removeClass('focus');
 		});
-		// 엔터 누를 때 줄바꿈 방지하기..
-		$('.modalPIssueNameSave').on('keydown', function (e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-			}
-		});
 
 		$('.completePISaving').on('click', function () {
 			// "등록" 버튼이 활성화 상태일 때만 실행됨
@@ -828,14 +816,6 @@
 				document.getElementById('savePIFiles').files = savePIDataTransfer.files;
 			}
 		}
-
-		function getByteSize(size) {
-			const byteUnits = ["KB", "MB", "GB", "TB"];
-			for (let i = 0; i < byteUnits.length; i++) {
-				size = Math.floor(size / 1024);
-				if (size < 1024) return size.toFixed(1) + byteUnits[i];
-			}
-		};
 
 		// 파일 추가
 		function savePIssueFile(element) {

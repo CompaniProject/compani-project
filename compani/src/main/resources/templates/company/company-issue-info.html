@@ -157,8 +157,8 @@
                             </div>
                             <div class="editCIssueName">
                                 <div class="editCIssueNameBack">
-									<textarea class="modalCIssueNameEdit" id="editCIssuTtlVal"
-                                              maxlength="200" style="height: 34px;"></textarea>
+									<input class="modalCIssueNameEdit" id="editCIssuTtlVal"
+                                              maxlength="200" style="height: 34px;"></input>
                                 </div>
                             </div>
                             <hr
@@ -345,16 +345,9 @@
     <script th:inline="javascript">
         var coCd = [[${session.loginInfo.coCd}]];
         var ciMemberId = [[${session.loginInfo.membId}]];
-        // 파일 사이즈 변환하기
-        function getFileSize(size) {
-            const byteUnits = ["KB", "MB", "GB", "TB"];
-            for (let i = 0; i < byteUnits.length; i++) {
-                size = Math.floor(size / 1024);
-                if (size < 1024) return size.toFixed(1) + byteUnits[i];
-            }
-        };
+        
             $('.cfs').each(function(idx, item) {
-                $(item).text(getFileSize($(item).text()));
+                $(item).text(getByteSize($(item).text()));
             });
 
             $(document).ready(function () {
@@ -459,6 +452,15 @@
                         console.log(err)
                     })
             }
+            
+        	// 제목 입력하는 textarea 클릭시 focus
+    		$('.modalCIssueNameEdit').on('click', function () {
+    			$('.editCIssueNameBack').addClass('focus');
+    		});
+    		// textarea 벗어날 때 focus 클래스 삭제하기.
+    		$('.modalCIssueNameEdit').on('blur', function () {
+    			$('.editCIssueNameBack').removeClass('focus');
+    		});
 
             // 댓글 길이 카운팅
             function countingLengthC(content) {
@@ -471,17 +473,6 @@
                     content.focus();
                 }
                 document.getElementById('counter').innerText = content.value.length + '/300자';
-            }
-
-            // 날짜 변환
-            function dateFormatting(date) {
-
-                let parseDate = new Date(date);
-
-                let year = parseDate.getFullYear();
-                let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
-                let day = ('0' + parseDate.getDate()).slice(-2);
-                return year + '-' + month + '-' + day;
             }
 
             // 댓글 저장
@@ -797,57 +788,43 @@
                     type: 'get'
                 })
                     .done(function (response) {
-                        var issueEditForm = $('#ciEditModal');
+                        let issueEditForm = $('#ciEditModal');
                             issueEditForm.modal('show');
-                        var kndVal = document.getElementById('editCIssuKndVal');
-                        var stVal = document.getElementById('editCIssuStVal');
-                        var rankVal = document.getElementById('editCIssuRankVal');
+                        let kndVal = document.getElementById('editCIssuKndVal');
+                        let stVal = document.getElementById('editCIssuStVal');
+                        let rankVal = document.getElementById('editCIssuRankVal');
+                        
+                        let starr = {'0E1':['success','해결'], 
+						    	    '0E2':['dark','미해결'],
+						    	    '0E3':['secondary','해결불가']
+					       	   	    }
+			
+			 			let kndarr = { '0L1':['danger','버그'], 
+					          	       '0L2':['warning','개선사항'],
+					          	       '0L3':['info','새기능'],
+					          	       '0L4':['light','업무']
+					         	     }  
+			
+			  			let rankarr = { '0G1':['primary','매우높음'], 
+						       	        '0G2':['secondary','높음'],
+						                '0G3':['success','보통'],
+						                '0G4':['warning','낮음'],
+						                '0G5': ['danger','매우낮음']						          
+								      }
 
                             document.getElementById('editCIssuTtlVal').value = response.issueInfo.issuTtl;
                             editorCIEditing.setHTML(response.issueInfo.issuCntn);
 
-                            if (response.issueInfo.issuKnd == '0L1') {
-                                kndVal.className = 'badge badge-danger';
-                                kndVal.innerHTML = '버그';
-                            } else if (response.issueInfo.issuKnd == '0L2') {
-                                kndVal.className = 'badge badge-warning';
-                                kndVal.innerHTML = '개선사항';
-                            } else if (response.issueInfo.issuKnd == '0L3') {
-                                kndVal.className = 'badge badge-info';
-                                kndVal.innerHTML = '새기능';
-                            } else if (response.issueInfo.issuKnd == '0L4') {
-                                kndVal.className = 'badge badge-light';
-                                kndVal.innerHTML = '업무';
-                            }
-
-                            if (response.issueInfo.issuSt == '0E1') {
-                                stVal.className = 'badge badge-pill badge-success';
-                                stVal.innerHTML = '해결';
-                            } else if (response.issueInfo.issuSt == '0E2') {
-                                stVal.className = 'badge badge-pill badge-dark';
-                                stVal.innerHTML = '미해결';
-                            } else if (response.issueInfo.issuSt == '0E3') {
-                                stVal.className = 'badge badge-pill badge-secondary';
-                                stVal.innerHTML = '해결불가';
-                            }
-
-                            if (response.issueInfo.issuRank == '0G1') {
-                                rankVal.className = 'badge badge-primary';
-                                rankVal.innerHTML = '매우높음';
-                            } else if (response.issueInfo.issuRank == '0G2') {
-                                rankVal.className = 'badge badge-secondary';
-                                rankVal.innerHTML = '높음';
-                            } else if (response.issueInfo.issuRank == '0G3') {
-                                rankVal.className = 'badge badge-success';
-                                rankVal.innerHTML = '보통';
-                            } else if (response.issueInfo.issuRank == '0G4') {
-                                rankVal.className = 'badge badge-warning';
-                                rankVal.innerHTML = '낮음';
-                            } else if (response.issueInfo.issuRank == '0G5') {
-                                rankVal.className = 'badge badge-danger';
-                                rankVal.innerHTML = '매우낮음';
-                            }
-                            findAllCIHashtag();                  
+        					kndVal.className ='badge badge-pill badge-' + kndarr[response.issueInfo.issuKnd][0];
+        					kndVal.innerHTML = kndarr[response.issueInfo.issuKnd][1];			
+        					
+        					stVal.className = 'badge badge-' + starr[response.issueInfo.issuSt][0];
+        					stVal.innerHTML = starr[response.issueInfo.issuSt][1];
+        					
+        					rankVal.className = 'badge badge-' + rankarr[response.issueInfo.issuRank][0];
+        					rankVal.innerHTML = rankarr[response.issueInfo.issuRank][1];				
+                            
+        					findAllCIHashtag();                  
                             checkCIEditInput();
                             findAllCIFile();
                     })
@@ -869,7 +846,7 @@
 
                             var trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
                             var fileNameTag = $('<td/>').text(item.issuFileNm);
-                            var fileSizeTag = $('<td/>').text(getFileSize(item.issuFileSize));
+                            var fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
                             var deleteFileTag = $('<td/>').attr('class', 'deleteCIEditFile').attr('onclick', 'removeCIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
 
                             trTag.append(fileNameTag);
@@ -884,6 +861,7 @@
                         console.log(err);
                     })
             }
+            
             // "수정" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.
             function checkCIEditInput() {
                 var issuTtlVal = $('#editCIssuTtlVal').val();
@@ -898,8 +876,6 @@
             $('#editCIssuTtlVal').on('change', function () {
                 checkCIEditInput();
             });
-
-
 
             // 이슈 수정하기 취소 버튼
             $('.modalCIssueEditForm').on('click', '.cancelCIEditing', function () {
@@ -1046,7 +1022,7 @@
                 if (file) {
                     var trTag = $('<tr/>').addClass('added');
                     var fileNameTag = $('<td/>').text(file.name);
-                    var fileSizeTag = $('<td/>').text(getFileSize(file.size));
+                    var fileSizeTag = $('<td/>').text(getByteSize(file.size));
                     var deleteFileTag = $('<td/>').attr('class', 'deleteCIEditFile').attr('onclick', 'editRemoveCIFile(this);');
 
                     trTag.append(fileNameTag);

@@ -15,6 +15,11 @@ import com.yedam.compani.issue.reply.service.IssueReplyVO;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 작성자: 권오준
+ * 작성일자: 2023/11/10
+ * 내용: 이슈 내 댓글 등록, 조회, 수정, 삭제
+ */
 @RestController //컨트롤러의 모든 메서드에 @ResponseBody가 적용되며, 응답으로 페이지가 아닌 리턴 타입에 해당하는 데이터(객체) 자체를 리턴.
 @RequiredArgsConstructor
 public class IssueReplyController {
