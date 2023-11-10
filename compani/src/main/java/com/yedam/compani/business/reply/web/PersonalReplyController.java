@@ -27,7 +27,7 @@ public class PersonalReplyController {
 	@GetMapping("/personalReply/{prjtNo}")
 	public String personalReplyPage(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		MemberVO memberVO = sessionService.getLoginInfo(request);
-		List<BusinessReplyVO> personalReplys = businessReplyService.getBusinessReply(memberVO.getMembId());
+		List<BusinessReplyVO> personalReplys = businessReplyService.getBusinessReply(memberVO.getMembId(),prjtNo);
 		model.addAttribute("personalReplys", personalReplys);
 		
 		return "project/personal-reply";
