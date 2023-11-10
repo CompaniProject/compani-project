@@ -23,7 +23,7 @@
 					            <th scope="col">공개여부</th>
 					        </tr>
 					    </thead>
-					    <tbody>
+					    <tbody id="table-body">
 					    
 		                	<th:block th:each="reply : ${personalReplys}">
 					        <tr>
@@ -45,10 +45,56 @@
 						</tbody>
 					</table>
 				</div>
+				
+				<div class="bootstrap-pagination d-sm-flex flex-sm-justify-center">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" aria-label="Previous"><span aria-hidden="true">«</span> <span class="sr-only">Previous</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" onclick="pageDataUpdate(1)">1</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" onclick="pageDataUpdate(2)">2</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" onclick="pageDataUpdate(3)">3</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" aria-label="Next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+				
 			</div>
 		</div>
 	</div>
 
+	<script>
+		function pageDataUpdate(pageNum){
+	        $.ajax({
+	            url:'/personalReply',
+	            type: 'get',
+	            contentType: "application/json",
+	            data: {'pageNum' : pageNum}
+	        })
+	        .done(data => {commentHTML(data)})
+	        .fail(err => {});
+		}
+		
+		function commentHTML(data){
+			let tbody = $('#table-body');
+			tbody.empty();
+			
+            $.each(data.replys, function (idx, item) {
+    			let tr = $('<tr/>');
+    			tr.append(`<td>${item.bussNm}</td>`);
+    			tr.append(`<td>${item.replyCntn}</td>`);
+    			tr.append(`<td>${item.replyDt}</td>`);
+    			tr.append(`<td>${item.pubcynNm}</td>`);
+    			tbody.append(tr);
+            });
+			
+		}
+	
+	</script>
 
 
 	<script>
