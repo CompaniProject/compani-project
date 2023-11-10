@@ -37,6 +37,7 @@
                             <li class="cissue-select-option" data-value="제목">제목</li>
                             <li class="cissue-select-option" data-value="업무명">업무명</li>
                             <li class="cissue-select-option" data-value="프로젝트명">프로젝트명</li>
+                            <li class="cissue-select-option" data-value="해시태그">해시태그</li>
                         </ul>
                     </div>
                 </div>
@@ -65,7 +66,7 @@
                     </tr>
                     </thead>
                     <tbody class="companyIssueLists" style="text-align: center;">
-                    <th:block th:each="ci : ${companyIssueList}">
+                    <th:block th:each="ci : ${companyIssue.list}">
                         <tr th:attr="onclick='selectCIssueInfo(\'' + ${ci.issuNo} + '\')'">
                             <th th:if="${ci.issuKnd == '0L1'}"><span
                                     class="badge badge-danger" th:text="버그"></span></th>
@@ -75,7 +76,7 @@
                                     class="badge badge-info" th:text="새기능"></span></th>
                             <th th:if="${ci.issuKnd == '0L4'}"><span
                                     class="badge badge-light" th:text="업무"></span></th>
-                            <td th:class="prjtIssu" th:attr="data-issuno=${ci.issuNo}" th:text="${ci.issuTtl}"></td>
+                            <td th:class="cocdIssu" th:attr="data-issuno=${ci.issuNo}" th:text="${ci.issuTtl}"></td>
                             <td th:text="${ci.membNm}"></td>
                             <th th:if="${ci.issuSt == '0E1'}"><span
                                     class="badge badge-pill badge-success" th:text="해결"></span></th>
@@ -201,7 +202,7 @@
                       $('.ciSearchInput').val('');
                       issueLists.empty();
                       hashtagByCoCd();
-                      $.each(data.cissueList, function (idx, item) {
+                      $.each(data.cissue.list, function (idx, item) {
                           let trTag = $('<tr/>').attr('onclick', 'selectCIssueInfo(' + item.issuNo + ')');
 
                           if (item.issuKnd == '0L1') {
@@ -213,7 +214,8 @@
                           } else if (item.issuKnd == '0L4') {
                               trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
                           }
-                          trTag.append('<td>' + item.issuTtl + '</td>');
+                          let coIssuTd = $('<td/>').attr('class', 'cocdIssu').attr('data-issuno', item.issuNo).text(item.issuTtl);
+  						  trTag.append(coIssuTd);
                           trTag.append('<td>' + item.membNm + '</td>');
 
                           if (item.issuSt == '0E1') {
@@ -295,7 +297,7 @@
   				type: 'GET',
   				success: function (data) {
   					
-  					$('.prjtIssu').each(function () {
+  					$('.cocdIssu').each(function () {
   						let issuNo = $(this).data('issuno');
   						let curelem = $(this);
   						$.each(data, function(idx, item) {

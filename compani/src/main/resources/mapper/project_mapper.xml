@@ -6,7 +6,7 @@
 	namespace="com.yedam.compani.project.mapper.ProjectMapper">
 
 	<select id="selectAllProject" resultType="ProjectVO">
-	 SELECT   PM.PRJT_FAV,
+	   SELECT     PM.PRJT_FAV,
 			      P.PRJT_NO,
 			      COUNT(PM.PRJT_NO) AS count,
 			   	  P.PRJT_NM,
@@ -14,12 +14,16 @@
 			   	  P.PRJT_FDT,
 			   	  P.PRJT_ST
                 
-		FROM   	  PROJECT_MEMBER PM,  PROJECT P
+		 FROM  	  PROJECT_MEMBER PM,  
+		          PROJECT P
+
 		WHERE     PM.PRJT_NO = P.PRJT_NO
-        AND       PM.PRJT_NO IN (SELECT PRJT_NO 
-        						 FROM 	PROJECT_MEMBER
-                                 WHERE  MEMB_ID = #{membId})
-        GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+          AND     PM.PRJT_NO IN (SELECT PRJT_NO 
+        						   FROM PROJECT_MEMBER
+                                  WHERE MEMB_ID = #{membId})
+        GROUP BY PM.PRJT_FAV, 
+        		 P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+
 		ORDER BY PRJT_FAV DESC 
 	</select>
 

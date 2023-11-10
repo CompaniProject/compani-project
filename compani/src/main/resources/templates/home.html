@@ -50,7 +50,7 @@
 								<tbody id="projecttbl">
 									<th:block th:each="projectList : ${projectList}">
 										<tr th:if="${projectList.prjtSt == '0D1'}" 
-											th:attr="onclick='movePrjt(\'' + ${projectList.prjtNo} + '\')'">
+											th:data-no="${projectList.prjtNo}">
 											<td th:if="${projectList.prjtFav == 'N'}"><i
 												class="fa-regular fa-star" style="color: #080808;"></i></td>
 											<td th:if="${projectList.prjtFav == 'Y'}"><i
@@ -130,7 +130,7 @@
 									<tr>
 										<th>업무명</th>
 										<th>프로젝트명</th>
-										<th>시간기간</th>
+										<th>시작기간</th>
 										<th>종료기간</th>
 										<th>중요도</th>
 									</tr>
@@ -203,7 +203,19 @@
 		<script th:inline="javascript">
 		
 			//즐겨찾기
-			$('#projecttbl').on('click','td:nth-child(1)' ,projectFavorite);
+			$('#projecttbl').on('click','td:nth-child(1)',projectFavorite)
+				
+				
+		
+			$('#projecttbl').on('click','tr', function(){
+				console.log(event.target.nodeName);
+				if(event.target.nodeName == 'I'){
+					return ;
+				}
+				let prjtNo = $(event.target).closest('tr').data("no");
+				location.href = '/project/home/' + prjtNo;
+			})
+			
 			//드롭다운 
 			$('select[name=project]').on('change', projectDropDown);
 			$('select[name=feedback]').on('change', feedbackDropdown);
@@ -612,8 +624,7 @@
 			}
 			
 			function projectFavorite() {
-			 	 e.stopPropagation();
-			
+				event.stopPropagation();
 				let favorite = $(this).children().hasClass("fa-solid fa-star");
 				let prjtNo =  $(this).next().text();
 				let prjtSt = $(this).parent().find('td:last').text();
@@ -626,23 +637,23 @@
 				}
 				
 				let projecttbl = $('#projecttbl');
-				let projectFavorite;
+				let projectFavoriteSt;
 				if(favorite){
-					projectFavorite = 'N';
+					projectFavoriteSt = 'N';
 				}
 				else{
-					projectFavorite = 'Y';
+					projectFavoriteSt = 'Y';
 				}
 				
 			 	$.ajax('favAjax',{
 					type : 'post',
-					data : { prjtFav : projectFavorite , prjtNo : prjtNo , prjtSt : prjtSt}
+					data : { prjtFav : projectFavoriteSt , prjtNo : prjtNo , prjtSt : prjtSt}
 				})
 				.done(function(data){
 					projecttbl.empty();
 					$.each(data.project, function (idx, data) {
 						
-						let trTag = $('<tr/>');
+						let trTag = $('<tr/>').data('no',data.prjtNo);
 						let tdTag= $('<td/>');
 						
 			 			if(data.prjtFav == 'Y'){
@@ -681,6 +692,7 @@
     					trTag.append(tdTag);
     					
 						projecttbl.append(trTag);
+						
 					})
 					
 				})
@@ -703,11 +715,8 @@
 				
 				location.href = '/project/feedback/' + prjtNo;
 			}
-			function movePrjt(prjtNo){
 			
-				location.href = '/project/home/' + prjtNo;
-				
-			}
+		
 		
 		</script>
 	</th:block>

@@ -45,10 +45,15 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public int fileSelDel(List<Integer> files) {
 		for(int i=0; i<files.size(); i++) {
+			// 단건조회
+			
+			// 실제 경로 삭제. new File(경로명);   ;file.delete()
 			filemapper.fileDelete(files.get(i));
 		}
 		return files.size();
 	}
+	
+	
 	
 	// 모달 파일 리스트 + 검색 + 페이징
 	@Override
@@ -79,13 +84,6 @@ public class FileServiceImpl implements FileService {
 	public List<FileVO> fileList(String Filter, int prjtNo) {
 
 		return filemapper.fileFilter(Filter, prjtNo);
-	}
-	
-	// 드라이브 파일 선택삭제 
-	@Override
-	public int fileDriveDel(Integer fileNo) {
-
-		return fileNo;
 	}
 	
 	

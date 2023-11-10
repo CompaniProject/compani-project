@@ -6,6 +6,7 @@
 <th:block layout:fragment="content">
 
   <!--/* 검색, 글쓰기 버튼 START */-->
+   <h2 class="common-title">프로젝트 게시판</h2>
     <div class="TopBarCompanyIssueControlArea">
         <div class="piSearchBox">
             <label for="SearchToggleCheckBox"
@@ -48,7 +49,7 @@
                     </tr>
                     </thead>
                     <tbody class="companyProjectLists" style="text-align: center;">
-                     <th:block th:each="prjt : ${companyProjectList}">
+                     <th:block th:each="prjt : ${companyProject.list}">
                       	<tr th:id= "${prjt.prjtNo}">
                       		<td th:text="${prjt.prjtNm}"></td>
                       		<td th:text="${prjt.count}"></td>

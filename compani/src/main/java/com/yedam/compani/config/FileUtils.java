@@ -65,7 +65,7 @@ public class FileUtils {
             throw new RuntimeException(e);
         }
 
-        return IssueFileVO.builder()
+        return  IssueFileVO.builder()
                 .issuFileNm(multipartFile.getOriginalFilename())
                 .issuFilePath(saveName)
                 .issuFileSize(multipartFile.getSize())

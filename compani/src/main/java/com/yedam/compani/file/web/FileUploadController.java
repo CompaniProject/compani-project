@@ -51,12 +51,10 @@ public class FileUploadController {
 		
 		@PostMapping("/uploadsAjax")
 		@ResponseBody
-		public Map<String, Object> uploadFile(@RequestPart MultipartFile[] uploadFiles, FileVO fileVO) {
+		public FileVO uploadFile(@RequestPart MultipartFile uploadFile, FileVO fileVO) {
 		    										// 화면에 Multipart 유무에 따라 배열 넣냐 안넣냐 차이
 			
-			List<String> fList = new ArrayList<>();
-			
-		    for(MultipartFile uploadFile : uploadFiles){
+	
 		        String originalName = uploadFile.getOriginalFilename(); // 실제 파일명 
 		        String fileName = originalName.substring(originalName.lastIndexOf("//")+1);
 		        				  // ↑ 둘다 실제 사용자가 본인이 올린 파일명
@@ -82,7 +80,6 @@ public class FileUploadController {
 		        
 		        Path savePath = Paths.get(saveName);
 		        //Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-		        System.out.println("path : " + saveName);
 		        try{
 		        	uploadFile.transferTo(savePath); // 실제 작동하는 코드
 		            //uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
@@ -101,16 +98,8 @@ public class FileUploadController {
       
 			      // DB 에 저장하기
 			      fileservice.fileInsert(fileVO); // 등록과 동시에 DB에 저장 
-			      
-		        fList.add(setFilePath(uploadFileName));     
-		     } 
-		    
-	        Map<String, Object> map = new HashMap<>();
-	        
-	        map.put("fList", fList);
-	        map.put("fileVO", fileVO);
-		    
-		    return map;
+    
+		    return fileVO;
 		}
 		
 		private String makeFolder() {

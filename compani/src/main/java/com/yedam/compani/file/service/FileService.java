@@ -28,8 +28,6 @@ public interface FileService {
 	// 선택삭제
 	public int fileSelDel(List<Integer> FileNo);
 	
-	// 드라이브 선택삭제
-	public int fileDriveDel(Integer fileNo);
 	
 	// 업무 모달 파일함 검색기능
 	public Page<FileVO> fileList(int pageNo, String search, String keywordFile, int bussNo );

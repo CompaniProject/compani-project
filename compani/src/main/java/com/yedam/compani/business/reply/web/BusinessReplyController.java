@@ -3,8 +3,10 @@ package com.yedam.compani.business.reply.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.yedam.compani.session.service.SessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ public class BusinessReplyController {
 	
 	private final BusinessReplyService businessReplyService;
 	private final BusinessService businessService;
+	private final SessionService sessionService;
 	
 	@GetMapping("modal/reply/{bussNo}")
 	public String modalReply(@PathVariable Integer bussNo, Model model) {
@@ -42,8 +45,8 @@ public class BusinessReplyController {
 	
 	@PostMapping("/business/reply")
 	@ResponseBody
-	public BusinessReplyVO insertBusinessReply(@RequestBody BusinessReplyVO bussReply, HttpSession session){
-		MemberVO memberVO = (MemberVO) session.getAttribute("loginInfo");
+	public BusinessReplyVO insertBusinessReply(@RequestBody BusinessReplyVO bussReply, HttpServletRequest request){
+		MemberVO memberVO = sessionService.getLoginInfo(request);
 		bussReply.setMembId(memberVO.getMembId());
 		businessReplyService.insert(bussReply);
 		return bussReply;

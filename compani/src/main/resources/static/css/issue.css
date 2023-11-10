@@ -1306,7 +1306,7 @@ piFileUpload.dz {
     box-sizing: border-box;
 }
 
-.prjtIssu {
+.prjtIssu, .cocdIssu {
 	display: flex;
 	justify-content: center;
 	text-overflow:ellipsis;

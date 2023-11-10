@@ -57,7 +57,7 @@
 	
 	<!-- 프로젝트 이슈 페이지에서 이슈 리스트 조회 -->
 	<select id="findProjectIssue" resultType="IssueVO">
-		SELECT  	 i.issu_no
+		SELECT  	 DISTINCT i.issu_no
 				   , i.prjt_no
 				   , i.buss_no
 				   , i.memb_id
@@ -71,9 +71,10 @@
 				   , b.buss_nm
 				   , memb.memb_nm
 				   , memb.memb_pht_path
-		FROM 	  	 issue i, project p, business b, member memb
+		FROM 	  	 issue i, project p, business b, member memb, issue_hashtag h
 		WHERE 	  	 i.buss_no = b.buss_no(+)
 		AND 		 i.prjt_no = p.prjt_no(+)
+		AND			 i.issu_no = h.issu_no(+)
 		AND			 memb.memb_id = i.memb_id
 		AND          i.prjt_no = #{prjtNo}
 		 <choose>
@@ -86,10 +87,14 @@
 			<when test="keyword == '업무명'">
 				 AND buss_nm LIKE '%' || #{search} || '%'
 			</when>
+			<when test="keyword == '해시태그'">
+				 AND issu_ht_nm lIKE '%' || #{search} || '%'
+			</when>
 			<when test="keyword == '전체'">
-				 AND (memb_nm LIKE '%' || #{search} || '%'
-				 OR  issu_ttl LIKE '%' || #{search} || '%'
-				 OR  buss_nm  LIKE '%'  || #{search} || '%')
+				 AND (memb_nm 	LIKE '%' || #{search} || '%'
+				 OR  issu_ttl 	LIKE '%' || #{search} || '%'
+				 OR  buss_nm  	LIKE '%' || #{search} || '%'
+				 OR  issu_ht_nm LIKE '%' || #{search} || '%')
 			</when>
 		</choose> 
 		<choose>
@@ -113,7 +118,7 @@
 	
 	<!-- 회사이슈 페이지에서 이슈 리스트 조회 -->
 	<select id="findCompanyIssue" resultType="IssueVO">
-		SELECT  	 i.issu_no
+		SELECT  	 DISTINCT i.issu_no
 				   , i.prjt_no
 				   , i.buss_no
 				   , i.memb_id
@@ -128,30 +133,35 @@
 				   , p.co_cd
 				   , memb.memb_nm
 				   , memb.memb_pht_path
-		FROM 	  	 issue i, project p, business b, member memb
+		FROM 	  	 issue i, project p, business b, member memb, issue_hashtag h
 		WHERE 	  	 i.buss_no = b.buss_no(+)
 		AND 		 i.prjt_no = p.prjt_no(+)
+		AND			 i.issu_no = h.issu_no(+)
 		AND			 memb.memb_id = i.memb_id
 		AND          p.co_cd   = #{coCd}
 		AND          p.prjt_pubcyn = '0F1'
 		 <choose>
 			<when test="keyword == '작성자'">
-				 AND memb_nm  LIKE '%' || #{search} || '%'
+				 AND memb_nm    LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '제목'">
-				 AND issu_ttl LIKE '%' || #{search} || '%'
+				 AND issu_ttl   LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '업무명'">
-				 AND buss_nm LIKE '%' || #{search} || '%'
+				 AND buss_nm    LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '프로젝트명'">
-				 AND prjt_nm LIKE '%' || #{search} || '%'
+				 AND prjt_nm    LIKE '%' || #{search} || '%'
+			</when>
+			<when test="keyword == '해시태그'">
+				 AND issu_ht_nm LIKE '%' || #{search} || '%'
 			</when>
 			<when test="keyword == '전체'">
-				 AND (memb_nm LIKE '%' || #{search} || '%'
-				 OR  issu_ttl LIKE '%' || #{search} || '%'
-				 OR  buss_nm  LIKE '%' || #{search} || '%'
-				 OR  prjt_nm  LIKE '%' || #{search} || '%')
+				 AND ( memb_nm    LIKE '%'   || #{search} || '%'
+				 OR    issu_ttl   LIKE '%'   || #{search} || '%'
+				 OR    buss_nm    LIKE '%'   || #{search} || '%'
+				 OR    prjt_nm    LIKE '%'   || #{search} || '%'
+				 OR    issu_ht_nm LIKE '%'   || #{search} || '%')
 			</when>
 		</choose>
 		<choose>
@@ -290,6 +300,6 @@
 		FROM issue i LEFT JOIN member m
 						   ON i.memb_id = m.memb_id
 		<!-- WHERE prjt_no = {prjtNo} -->
-		ORDER BY issu_no DESC
+		ORDER BY issu_dt DESC
 	</select>
 </mapper>

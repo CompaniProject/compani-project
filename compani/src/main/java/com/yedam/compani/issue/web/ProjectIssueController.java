@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
@@ -43,12 +42,16 @@ public class ProjectIssueController {
 	private final ProjectMemberService projectMemberService;
 
 	@GetMapping("/project/issues/{prjtNo}")
-	public String projectIssueList(@PathVariable int prjtNo, String search, String keyword, String filterType,
-			@RequestParam(required = false, defaultValue = "1") int pageNum, Model model) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType),
-				8);
-		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType);
+	public String projectIssueList(@PathVariable int prjtNo, 
+							       				 String search, 
+							       				 String keyword,
+							       				 String filterType, 
+								  @RequestParam( required = false, defaultValue = "1") int pageNum, 
+								  				 Model model) {
 		Map<Object, Object> pmap = projectService.projectSelect(prjtNo);
+		
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType), 8);
+		
 		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 		
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
@@ -56,8 +59,6 @@ public class ProjectIssueController {
 		model.addAttribute("memvo", memvo);
 		model.addAttribute("bussNmList", findBuss);
 		model.addAttribute("projectIssue", issues);
-		model.addAttribute("projectIssueList", vo);
-		model.addAttribute("search", search);
 
 		return "project/project-issue";
 	}
@@ -65,29 +66,30 @@ public class ProjectIssueController {
 	// 프로젝트 내 이슈 리스트 조회 (Ajax)
 	@GetMapping("/project/aissues/{prjtNo}")
 	@ResponseBody
-	public Map<String, Object> projectIssue(@PathVariable int prjtNo, String search, String keyword, String filterType,
-			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType),
-				8);
-		Page<IssueVO> vo = issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType);
+	public Map<String, Object> projectIssue(@PathVariable int prjtNo,
+														  String search, 
+														  String keyword, 
+														  String filterType,
+											@RequestParam(required = false, defaultValue = "1") int pageNum) {
 		Map<String, Object> map = new HashMap<>();
+		
+		PageInfo<IssueVO> issues = new PageInfo<>(issueService.getProjectIssueList(pageNum, search, keyword, prjtNo, filterType),
+				8);		
 		List<BusinessVO> findBuss = businessService.bussinessNameList(prjtNo);
 		List<Map<String, String>> memvo = projectMemberService.projectMemberList(prjtNo);
-		
 		map.put("memvo", memvo);
 		map.put("bussNmList", findBuss);
 		map.put("pissue", issues);
-		map.put("projectIssueList", vo);
 
 		return map;
 	}
 
 	// 프로젝트 내 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회 + 해시태그 조회
 	@GetMapping("/project/issues/{prjtNo}/{issuNo}")
-	public String projectIssueSelect(@PathVariable final int prjtNo, @PathVariable final int issuNo, Model model) {
-
+	public String projectIssueSelect(@PathVariable final int prjtNo, 
+									 @PathVariable final int issuNo, 
+									 Model model) {
 		IssueVO vo = issueService.findIssueById(issuNo);
-		System.out.println(vo);
 		model.addAttribute("issueInfo", vo);
 
 		List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);
@@ -108,8 +110,9 @@ public class ProjectIssueController {
 	// 프로젝트 게시판 내 이슈 등록
 	@PostMapping("/project/issues/save")
 	@ResponseBody
-	public void projectIssueSave(MultipartFile[] savefiles, IssueVO issueVO, String[] inserthashtagsp) {
-		
+	public void projectIssueSave(MultipartFile[] savefiles, 
+								 IssueVO issueVO, 
+								 String[] inserthashtagsp) {		
 		// 이슈를 등록.
 		int issuNo = issueService.modalInsertIssue(issueVO);
 		
