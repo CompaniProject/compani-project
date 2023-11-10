@@ -7,6 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=chrome">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MemberSignUp</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
@@ -228,8 +230,8 @@
 										<div class="col-lg-6">
 											<input type="password" class="form-control" id="checkPw"
 												name="checkPw" >
-											<span id="nokPw">잘못된 비밀번호입니다.</span> <span
-												id="okPw" >정상적인 비밀번호입니다.</span>
+											<span id="nokPw">비밀번호가 틀립니다.</span> <span
+												id="okPw" >비밀번호 확인완료</span>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -292,6 +294,7 @@
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
 
 	<script>
 	let companyInfo = {};
@@ -647,27 +650,62 @@ $('#membWkgd').on("input", function(event){
    });
    
    
-//비밀번호 확인
+//비밀번호 20자 제한
 $('#checkPw').on("input", function(event){
+	let inputVal = $(this).val();
 	if(inputVal.length > 20){
 		$(this).val(inputVal.substr(0, 20)); 
 	}
 	
+
+	
+	/* let inputVal = $(this).val();
+	
+
+	
+	if($(this).val() != memberInfo.membPwd.substr(6,25)){
+		$('#okPw').hide();
+		$('#nokPw').show();
+		if($(this).val().length == 0){
+			$('#okPw').hide();
+			$('#nokPw').hide();
+		}
+	}else{
+		$('#okPw').show();
+		$('#nokPw').hide();
+	} */
+});
+
+//비밀번호 일치확인
+$('#checkPw').on("keyup", function(event){
+	let inputVal = $(this).val();
+	if(inputVal.length > 0){
 	  $.ajax({
           url: 'testpwd',	
           type: 'POST',
-          data: {membId: "[[${session.loginInfo.membId}]]",
-				 pwd: $('#checkPw').val();
-          		},             
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+        	  		membId: "[[${session.loginInfo.membId}]]",
+					pwd: $('#checkPw').val()
+          		}),             
           success: function(result){
         	  if(result==true){
-        		  /////////////////////결과값가지고 로직 생성
+				$('#okPw').show();
+        		$('#nokPw').hide();
+        	  }else{
+        		$('#okPw').hide();
+        		$('#nokPw').show();
         	  }
           },
           error: function(reject){	
               console.log(reject);
           }
       }); 
+	}else{
+		$('#okPw').hide();
+		$('#nokPw').hide();
+	}
 	
 	/* let inputVal = $(this).val();
 	

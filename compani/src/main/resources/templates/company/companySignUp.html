@@ -7,6 +7,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CompanySignUp</title>
 <!-- Favicon icon -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
 <!-- Custom Stylesheet -->
@@ -231,6 +233,8 @@
 	//대표자명
 	$('#coRpstr').on("input", function(event){
 		$('#checksCoBno3').hide();
+		$('#checksCoBno2').hide();
+		$('#checksCoBno').hide();
 		let inputVal = $(this).val();
 	
 		if(inputVal.length > 15){
@@ -244,6 +248,8 @@
 	//회사명
 	$('#coNm').on("input", function(event){
 		$('#checksCoBno3').hide();
+		$('#checksCoBno2').hide();
+		$('#checksCoBno').hide();
 		let inputVal = $(this).val();
 	
 		if(inputVal.length > 20){
@@ -260,6 +266,8 @@
 	//개업일자
 	$('#coDt').change(function(){
 		$('#checksCoBno3').hide();
+		$('#checksCoBno2').hide();
+		$('#checksCoBno').hide();
 	})
 	
 	//사업자번호
@@ -269,6 +277,8 @@
 	// 문자열, 하이픈을 막기 위해 input event 사용
 	date.addEventListener("input", () => {
 		$('#checksCoBno3').hide();
+		$('#checksCoBno2').hide();
+		$('#checksCoBno').hide();
 	  // 사용자 입력값은 모두 숫자만 받는다.(나머지는 ""처리)
 	 	date.value = date.value.replace(/\D/g, "");
 		

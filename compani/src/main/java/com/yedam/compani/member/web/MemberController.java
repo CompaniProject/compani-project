@@ -105,9 +105,9 @@ public class MemberController {
 	// 가입 서브밋
 	@PostMapping("/SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
+		membVO.setMembPwd(passwordEncoder.encode(membVO.getMembPwd()));
 		if (membVO.getPermNo().equals("0A2")) {
 			if (serviceC.setCompanyInfo(compVO) > 0) {
-				membVO.setMembPwd(passwordEncoder.encode(membVO.getMembPwd()));
 				if (service.setMemberInfo(membVO) > 0) {
 					return "redirect:complete";
 				} else {
@@ -171,7 +171,8 @@ public class MemberController {
 	
 	//비번수정 전 검사
 	@PostMapping("/testpwd")
-	public boolean testPwd(Map<String, String> map) {
+	@ResponseBody
+	public boolean testPwd(@RequestBody Map<String, String> map) {
 		MemberVO vo = new MemberVO();
 		vo.setMembId(map.get("membId"));
 		vo = service.getMemberInfo(vo);

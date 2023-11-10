@@ -7,6 +7,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MemberSignUp</title>
 <!-- Favicon icon -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
 <!-- Custom Stylesheet -->
@@ -117,7 +119,7 @@ mark, .mark {
 								<div class="form-validation">
 									<form class="form-valide" id="formSignUp" method="post">
 										<h1>
-											<b>회원가입(사원)</b>
+											<b id="titles">회원가입(일반)</b>
 										</h1>
 										<div class="form-group row">
 											<span class="text-danger">*</span><label
@@ -227,7 +229,7 @@ mark, .mark {
 												 <input class="form-control"
 													type="text" name="str_email02" id="str_email02"
 													style="width: 206px; display: inline-block;" disabled
-													value="naver.com"> <select
+													value=""> <select
 													style="width: 206px; margin-left: 10px; display: inline-block;"
 													name="selectEmail" id="selectEmail" class="form-control">
 													<option value="1" selected>직접입력</option>
@@ -392,6 +394,7 @@ mark, .mark {
 
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js"></script>
+	
 
 	<script th:inline="javascript">
 	/*<![CDATA[*/
@@ -400,6 +403,7 @@ mark, .mark {
 				$('#coNm').val('[(${companyVO.coNm})]');
 				$('#coCd').val('[(${companyVO.coCd})]');
 				$('#searchComp').hide();
+				$('#titles').text('회원가입(기업)');
 				$('#permNo').val("0A2");
 			}
 		});
@@ -681,11 +685,15 @@ mark, .mark {
 	    $('#submitBtn').click(function(e) {
 			if($('#conditionCN').css("display") != 'inline' && $('#conditionId').css("display") != 'inline' && $('#conditionId2').css("display") != 'inline' && $('#conditionPw').css("display") != 'inline' && $('#conditionPw3').css("display") != 'inline' && $('#conditionNm').css("display") != 'inline' && $('#conditionBd').css("display") != 'inline' && $('#conditionEid').css("display") != 'inline' && $('#conditionEmail').css("display") != 'inline' && $('#conditionTel').css("display") != 'inline' 
 				&& $('#coNm').val().length != 0 && $('#membId').val().length != 0 && $('#membPwd').val().length != 0 && $('#membPwd2').val().length != 0 && $('#membNm').val().length != 0 && $('#membBirthDt').val().length != 0){
-				if(($('#email_id').val().length > 0 && $('#str_email02').val().length > 2)||($('#email_id').val().length == 0 && $('#str_email02').val().length == 0)){
+				if(($('#email_id').val().length > 0 && $('#str_email02').val().length > 2)){
 					$('#membEmail').val($('#email_id').val()+"@"+$('#str_email02').val());
+					$("#conditionEmail").hide();
+				}else if(($('#email_id').val().length == 0 && $('#str_email02').val().length == 0)){
+					$('#membEmail').val("");
+					$("#conditionEmail").hide();
 				}else{
 					$("#conditionEmail").show();
-					e.preventDefault();
+					return false;
 				}
 				
 				if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length > 9){
@@ -705,7 +713,11 @@ mark, .mark {
 					}
 				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 0){
 					$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
-					$("#formSignUp").attr("action","SignUpped").submit();
+					$(function(){
+						swal.fire({title : '가입완료!', text : "정상적으로 가입되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
+							$("#formSignUp").attr("action","SignUpped").submit();
+						});	
+					});
 				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length <= 9){
 					$("#conditionTel").show();
 					e.preventDefault();
@@ -866,7 +878,11 @@ mark, .mark {
 			$search.value = '';
 			$('#permNo').val("0A4");
 		}else{
-			alert("존재하지 않는 기업명입니다.");
+			$(function(){
+				swal.fire({title : '정보 오류!', text : "존재하지 않는 기업명입니다.", icon : 'error', button : '뒤로'}).then((value)=>{
+					return false;
+				});	
+			})
 		}
 	}
 	/////////////////////////////////////////////////////////////End of 모달창 버튼///////
