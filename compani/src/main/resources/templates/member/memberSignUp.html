@@ -113,17 +113,17 @@ mark, .mark {
 
 			<div class="container-fluid">
 				<div class="row justify-content-center">
-					<div class="col-lg-12">
+					<div class="col-lg-8" style="margin-left:0px">
 						<div class="card">
 							<div class="card-body">
 								<div class="form-validation">
 									<form class="form-valide" id="formSignUp" method="post">
-										<h1>
+										<h1 style="margin-bottom: 50px">
 											<b id="titles">회원가입(일반)</b>
 										</h1>
 										<div class="form-group row">
 											<span class="text-danger">*</span><label
-												class="col-lg-4 col-form-label" for="coNm">소속기관 </label>
+												class="col-lg-3 col-form-label" for="coNm">소속기관 </label>
 
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="coNm"
@@ -151,7 +151,7 @@ mark, .mark {
 
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="membId">아이디 </label>
+												class="col-lg-3 col-form-label" for="membId">아이디 </label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="membId"
 													name="membId"
@@ -165,7 +165,7 @@ mark, .mark {
 										</div>
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="membPwd">비밀번호 </label>
+												class="col-lg-3 col-form-label" for="membPwd">비밀번호 </label>
 											<div class="col-lg-6">
 												<input type="password" class="form-control" id="membPwd"
 													name="membPwd" placeholder="※ 마우스 올릴 시, 설명"
@@ -179,7 +179,7 @@ mark, .mark {
 										</div>
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="membPwd2">비밀번호
+												class="col-lg-3 col-form-label" for="membPwd2">비밀번호
 												확인 </label>
 											<div class="col-lg-6">
 												<input type="password" class="form-control" id="membPwd2"
@@ -192,7 +192,7 @@ mark, .mark {
 										</div>
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="membNm">성명 </label>
+												class="col-lg-3 col-form-label" for="membNm">성명 </label>
 											<div class="col-lg-6">
 												<input class="form-control" id="membNm" name="membNm"
 													placeholder=""></input> <span id="conditionNm">이름을
@@ -202,7 +202,7 @@ mark, .mark {
 
 										<div class="form-group row">
 											<span class="text-danger">*</span> <label
-												class="col-lg-4 col-form-label" for="membBirthDt">생년월일
+												class="col-lg-3 col-form-label" for="membBirthDt">생년월일
 
 											</label>
 											<div class="col-lg-6">
@@ -214,23 +214,23 @@ mark, .mark {
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="membEmail">이메일
+											<span style="color: white">*</span><label class="col-lg-3 col-form-label" for="membEmail">이메일
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="membEmail"
 													name="membEmail" placeholder="ex) abc@example.com"
 													hidden="true"> <input type="text" id="email_id"
 													class="form-control" value="" title="이메일 아이디"
-													placeholder="" style="width: 206px; display: inline-block;" />
+													placeholder="" style="width: 146px; display: inline-block;" />
 												<b>&nbsp;@&nbsp;&nbsp;</b>
 												
 												
 												
 												 <input class="form-control"
 													type="text" name="str_email02" id="str_email02"
-													style="width: 206px; display: inline-block;" disabled
+													style="width: 146px; display: inline-block;" disabled
 													value=""> <select
-													style="width: 206px; margin-left: 10px; display: inline-block;"
+													style="width: 148px; margin-left: 10px; display: inline-block;"
 													name="selectEmail" id="selectEmail" class="form-control">
 													<option value="1" selected>직접입력</option>
 													<option value="naver.com">naver.com</option>
@@ -252,12 +252,12 @@ mark, .mark {
 
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="membTelno">전화번호
+											<span style="color: white">*</span><label class="col-lg-3 col-form-label" for="membTelno">전화번호
 											</label>
 											<div class="col-lg-6">
 												<input type="tel" class="form-control" id="membTelno"
 													name="membTelno" hidden="true"> <select
-													style="width: 205px; display: inline-block; text-align: right; font-weight: 900;"
+													style="width: 146px; display: inline-block; text-align: right; font-weight: 900;"
 													name="selectTel" id="selectTel" class="form-control">
 
 													<option value="" selected>선택 &nbsp;&nbsp;</option>
@@ -284,17 +284,17 @@ mark, .mark {
 
 												</select>&nbsp;&nbsp;<b>ㅡ</b> <input type="text" class="form-control"
 													id="tel1" name="tel1"
-													style="width: 205px; display: inline-block;"> <b>ㅡ</b>
+													style="width: 146px; display: inline-block;"> <b>ㅡ</b>
 
 												<input type="text" id="tel2" class="form-control"
-													style="width: 205px; display: inline-block;" /> <span
+													style="width: 146px; display: inline-block;" /> <span
 													id="conditionTel">전화번호를 학인하시오.</span>
 											</div>
 										</div>
 
 
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="membDept">부서
+											<span style="color: white">*</span><label class="col-lg-3 col-form-label" for="membDept">부서
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="membDept"
@@ -302,7 +302,7 @@ mark, .mark {
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-4 col-form-label" for="membWkgd">직급
+											<span style="color: white">*</span><label class="col-lg-3 col-form-label" for="membWkgd">직급
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control" id="membWkgd"
@@ -316,11 +316,11 @@ mark, .mark {
 
 
 
-										<div class="form-group row">
+										<div class="form-group row" style="margin-left:50px; margin-top:50px">
 											<div class="col-lg-8 ml-auto">
-												<button type="button" class="btn btn-primary" id="submitBtn">가입신청</button>
+												<button type="button" class="btn btn-primary" id="submitBtn"style="margin-right:5px">가입신청</button>
 												<button type="button" class="btn btn-primary"
-													onclick="location.href='loginForm';">메인으로</button>
+													onclick="location.href='loginForm';"style="margin-left:5px">메인으로</button>
 											</div>
 										</div>
 									</form>
