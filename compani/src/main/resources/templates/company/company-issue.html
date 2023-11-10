@@ -175,15 +175,6 @@
 			e.stopPropagation();
 			companyIssuePaging(1);
 		});
-            function dateFormatting(date) {
-
-            let parseDate = new Date(date);
-
-            let year = parseDate.getFullYear();
-            let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
-            let day = ('0' + parseDate.getDate()).slice(-2);
-            return year + '-' + month + '-' + day;
-          }
 
           // ajax
           function companyIssuePaging(pageNum) {
@@ -194,10 +185,13 @@
               let pagination = $('.ciPagination');
               let filterTypeVal = $('#filterType').val();
 
-              $.ajax('/company/aissues/' + coCd + '?pageNum=' + pageNum + '&keyword='
-                  + keywordVal + '&search=' + searchVal + '&filterType=' + filterTypeVal,
+              $.ajax('/company/aissues/' + coCd,
                   {
-                      type: 'GET'
+                      type: 'GET',
+                      data :{ pageNum, 
+  					   		  keyword: keywordVal, 
+  					    	  searchBI: searchVal, 
+  					    	  filterType: filterTypeVal }
                   }).done(function (data) {
                       $('.ciSearchInput').val('');
                       issueLists.empty();
@@ -205,38 +199,31 @@
                       $.each(data.cissue.list, function (idx, item) {
                           let trTag = $('<tr/>').attr('onclick', 'selectCIssueInfo(' + item.issuNo + ')');
 
-                          if (item.issuKnd == '0L1') {
-                              trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
-                          } else if (item.issuKnd == '0L2') {
-                              trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
-                          } else if (item.issuKnd == '0L3') {
-                              trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
-                          } else if (item.issuKnd == '0L4') {
-                              trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
-                          }
+                          let starr= {'0E1':['success','해결'], 
+	     							  '0E2':['dark','미해결'],
+	     							  '0E3':['secondary','해결불가']
+     							     }
+     					
+     					  let kndarr = {'0L1':['danger','버그'], 
+     							        '0L2':['warning','개선사항'],
+     							        '0L3':['info','새기능'],
+     							        '0L4':['light','업무']
+     							       }
+     					
+     					  let rankarr = {'0G1':['primary','매우높음'], 
+     								     '0G2':['secondary','높음'],
+     								     '0G3':['success','보통'],
+     								     '0G4':['warning','낮음'],
+     								     '0G5': ['danger','매우낮음']
+     								    }
+                          trTag.append(`<th><span class="badge badge-${kndarr[item.issuKnd][0]}">${kndarr[item.issuKnd][1]}</span></th>`);
                           let coIssuTd = $('<td/>').attr('class', 'cocdIssu').attr('data-issuno', item.issuNo).text(item.issuTtl);
   						  trTag.append(coIssuTd);
                           trTag.append('<td>' + item.membNm + '</td>');
+                          trTag.append(`<th><span class="badge badge-${starr[item.issuSt][0]}">${starr[item.issuSt][1]}</span></th>`);
 
-                          if (item.issuSt == '0E1') {
-                              trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
-                          } else if (item.issuSt == '0E2') {
-                              trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
-                          } else if (item.issuSt == '0E3') {
-                              trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
-                          }
-
-                          if (item.issuRank == '0G1') {
-                              trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
-                          } else if (item.issuRank == '0G2') {
-                              trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
-                          } else if (item.issuRank == '0G3') {
-                              trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
-                          } else if (item.issuRank == '0G4') {
-                              trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
-                          } else if (item.issuRank == '0G5') {
-                              trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
-                          }
+      					  trTag.append(`<th><span class="badge badge-${rankarr[item.issuRank][0]}">${rankarr[item.issuRank][1]}</span></th>`);
+      
                           trTag.append('<td>' + item.prjtNm + '</td>');
                           trTag.append('<td>' + dateFormatting(item.issuDt) + '</td>');
                           issueLists.append(trTag);

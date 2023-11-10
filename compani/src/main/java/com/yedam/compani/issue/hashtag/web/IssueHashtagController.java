@@ -11,6 +11,11 @@ import com.yedam.compani.issue.hashtag.service.IssueHashtagVO;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 작성자: 권오준
+ * 작성일자: 2023/11/10
+ * 내용: 이슈 해시태그 조회
+ */
 @RestController
 @RequiredArgsConstructor
 public class IssueHashtagController {

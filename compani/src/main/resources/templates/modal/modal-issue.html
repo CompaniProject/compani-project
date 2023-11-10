@@ -75,8 +75,8 @@
 									</tr>
 								</thead>
 								<tbody id="issueLists">
-									<th:block th:each="issueList : ${issue.list}">
-										<tr th:onclick="viewIssueInfo([[${issueList.issuNo}]])">
+								
+										<tr th:each="issueList : ${issue.list}"  th:onclick="viewIssueInfo([[${issueList.issuNo}]])">
 											<th th:if="${issueList.issuKnd == '0L1'}"><span class="badge badge-danger"
 													th:text="버그"></span></th>
 											<th th:if="${issueList.issuKnd == '0L2'}"><span class="badge badge-warning"
@@ -106,7 +106,7 @@
 											<th th:if="${issueList.issuRank == '0G5'}"><span class="badge badge-danger"
 													th:text="매우낮음"></span></th>
 										</tr>
-									</th:block>
+									
 								</tbody>
 							</table>
 						</div>
@@ -114,6 +114,7 @@
 				</div>
 
 			</div>
+			<!--/* 페이지네이션 */-->
 			<div class="paginate-container d-none d-sm-flex flex-sm-justify-center">
 				<div role="navigation" aria-label="Pagination" class="pagination">
 
@@ -140,8 +141,8 @@
 	</div>
 	<div class="issueNameEdit">
 		<div class="issueNameBack">
-			<textarea class="modalIssueNameUpdate" id="issuTtlVal" maxlength="200" style="height: 34px;"
-				placeholder="제목을 입력하세요."></textarea>
+			<input class="modalIssueNameUpdate" id="issuTtlVal" maxlength="200" style="height: 34px;"
+				placeholder="제목을 입력하세요."></input>
 		</div>
 	</div>
 	<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
@@ -368,7 +369,7 @@
 	</div>
 	<div class="editIssueName">
 		<div class="editIssueNameBack">
-			<textarea class="modalIssueNameEdit" id="editIssuTtlVal" maxlength="200" style="height: 34px;"></textarea>
+			<input class="modalIssueNameEdit" id="editIssuTtlVal" maxlength="200" style="height: 34px;"></input>
 		</div>
 	</div>
 	<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
@@ -621,46 +622,41 @@
 		let pagination = $('.pagination');
 		let filterTypeVal = $('#filterTypeM').val();
 
-		$.ajax('/ModalAjaxIssueList/' + bussNo + '?pageNum=' + pageNum + '&keyword='
-			+ keywordVal + '&searchBI=' + searchVal + '&filterTypeM=' + filterTypeVal,
+		$.ajax('/ModalAjaxIssueList/' + bussNo,
 			{
-				type: 'GET'
+				type: 'GET',
+				data :{ pageNum, 
+					    keyword: keywordVal, 
+					    searchBI: searchVal, 
+					    filterTypeM: filterTypeVal }
 			}).done(function (data) {
 				issueLists.empty();
 				$.each(data.issue.list, function (idx, item) {
 					let trTag = $('<tr/>').attr('onclick', 'viewIssueInfo(' + item.issuNo + ')');
-
-					if (item.issuKnd == '0L1') {
-						trTag.append('<th><span class="badge badge-danger" th:text="버그">버그</span></th>');
-					} else if (item.issuKnd == '0L2') {
-						trTag.append('<th><span class="badge badge-warning" th:text="개선사항">개선사항</span></th>');
-					} else if (item.issuKnd == '0L3') {
-						trTag.append('<th><span class="badge badge-info" th:text="새기능">새기능</span></th>');
-					} else if (item.issuKnd == '0L4') {
-						trTag.append('<th><span class="badge badge-light" th:text="업무">업무</span></th>');
-					}
+					let starr= {'0E1':['success','해결'], 
+							 '0E2':['dark','미해결'],
+							 '0E3':['secondary','해결불가']
+							   }
+					
+					let kndarr = {'0L1':['danger','버그'], 
+							      '0L2':['warning','개선사항'],
+							      '0L3':['info','새기능'],
+							      '0L4':['light','업무']
+							     }
+					
+					let rankarr = {'0G1':['primary','매우높음'], 
+								   '0G2':['secondary','높음'],
+								   '0G3':['success','보통'],
+								   '0G4':['warning','낮음'],
+								   '0G5': ['danger','매우낮음']
+								  }
+						
+					trTag.append(`<th><span class="badge badge-${kndarr[item.issuKnd][0]}">${kndarr[item.issuKnd][1]}</span></th>`);
 					trTag.append('<td>' + item.issuTtl + '</td>');
 					trTag.append('<td>' + item.membNm + '</td>');
+					trTag.append(`<th><span class="badge badge-${starr[item.issuSt][0]}">${starr[item.issuSt][1]}</span></th>`);
 
-					if (item.issuSt == '0E1') {
-						trTag.append('<th><span class="badge badge-pill badge-success" th:text="해결">해결</span></th>');
-					} else if (item.issuSt == '0E2') {
-						trTag.append('<th><span class="badge badge-pill badge-dark" th:text="미해결">미해결</span></th>');
-					} else if (item.issuSt == '0E3') {
-						trTag.append('<th><span class="badge badge-pill badge-secondary" th:text="해결불가">해결불가</span></th>');
-					}
-
-					if (item.issuRank == '0G1') {
-						trTag.append('<th><span class="badge badge-primary" th:text="매우높음">매우높음</span></th>');
-					} else if (item.issuRank == '0G2') {
-						trTag.append('<th><span class="badge badge-secondary" th:text="높음">높음</span></th>');
-					} else if (item.issuRank == '0G3') {
-						trTag.append('<th><span class="badge badge-success" th:text="보통">보통</span></th>');
-					} else if (item.issuRank == '0G4') {
-						trTag.append('<th><span class="badge badge-warning" th:text="낮음">낮음</span></th>');
-					} else if (item.issuRank == '0G5') {
-						trTag.append('<th><span class="badge badge-danger" th:text="매우낮음">매우낮음</span></th>');
-					}
+					trTag.append(`<th><span class="badge badge-${rankarr[item.issuRank][0]}">${rankarr[item.issuRank][1]}</span></th>`);
 
 					issueLists.append(trTag);
 
@@ -717,7 +713,7 @@
 	function updatePaging(paging) {
 		let pagination = $('.pagination');
 		pagination.empty();
-
+		console.log(paging);
 		let pagesPer = 8;  // 한 번에 보이는 페이지 수
 		let endPage = (Math.ceil(paging.pageNum / pagesPer) * pagesPer);  // 끝 페이지
 		let realEndPage = paging.pages;
@@ -821,15 +817,16 @@
 	$('.modalIssueNameUpdate').on('blur', function () {
 		$('.issueNameBack').removeClass('focus');
 	})
-	// 엔터 누를 때 줄바꿈 방지하기..
-	$('.modalIssueNameUpdate').on('keydown', function (e) {
-		if (e.keyCode == 13) {
-			e.preventDefault();
-		}
-	})
-
-
-
+	
+	// 제목 입력하는 textarea 클릭시 focus
+	$('.modalIssueNameEdit').on('click', function () {
+		$('.editIssueNameBack').addClass('focus');
+	});
+	// textarea 벗어날 때 focus 클래스 삭제하기.
+	$('.modalIssueNameEdit').on('blur', function () {
+		$('.editIssueNameBack').removeClass('focus');
+	});
+	
 	$('.completeWriting').on('click', function () {
 		// "등록" 버튼이 활성화 상태일 때만 실행됨
 		if ($(this).hasClass('registrable')) {
@@ -944,15 +941,6 @@
 		checkFile();
 	}
 
-	// 파일 사이즈 변환하기
-	function getByteSize(size) {
-		const byteUnits = ["KB", "MB", "GB", "TB"];
-		for (let i = 0; i < byteUnits.length; i++) {
-			size = Math.floor(size / 1024);
-			if (size < 1024) return size.toFixed(1) + byteUnits[i];
-		}
-	}
-
 	// 파일 추가
 	function addIssueFile(element) {
 		const file = element.files[0];
@@ -1018,18 +1006,6 @@
 	}
 
 	/* 이슈 상세 보기 START */
-	// 날짜 변환
-	function dateFormatting(date) {
-
-		let parseDate = new Date(date);
-
-		let year = parseDate.getFullYear();
-		let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
-		let day = ('0' + parseDate.getDate()).slice(-2);
-		return year + '-' + month + '-' + day;
-	}
-
-
 	$('.read-content').on('click', '.p-t-16', function () {
 		if ($('.issueInfoCommentList').css("display") == "none") {
 			$('.issueInfoCommentList').css('display', 'block');
@@ -1115,35 +1091,32 @@
 				countFile(issuNo);
 				// 종류 
 				let kndVal = $('.issueKndInfo');
-				if (issueInfo.issuKnd == '0L1') {
-					kndVal.append('<p>종류</p><div class="badge badge-danger" style="margin-bottom: 15px; ">버그</div>');
-				} else if (issueInfo.issuKnd == '0L2') {
-					kndVal.append('<p>종류</p><div class="badge badge-warning" style="margin-bottom: 15px; ">개선사항</div>');
-				} else if (issueInfo.issuKnd == '0L3') {
-					kndVal.append('<p>종류</p><div class="badge badge-info" style="margin-bottom: 15px; ">새기능</div>');
-				} else if (issueInfo.issuKnd == '0L4') {
-					kndVal.append('<p>종류</p><div class="badge badge-light" style="margin-bottom: 15px; ">업무</div>');
-				}
-				// 상태
-				if (issueInfo.issuSt == '0E1') {
-					$('.issueStInfo').append('<p>상태</p><div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">해결</div>');
-				} else if (issueInfo.issuSt == '0E2') {
-					$('.issueStInfo').append('<p>상태</p><div class="badge badge-pill badge-dark" style="margin-bottom: 15px; ">미해결</div>');
-				} else if (issueInfo.issuSt == '0E3') {
-					$('.issueStInfo').append('<p>상태</p><div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">해결불가</div>');
-				}
-
-				if (issueInfo.issuRank == '0G1') {
-					$('.issueRankInfo').append('<p>중요도</p><div class="badge badge-pill badge-primary" style="margin-bottom: 15px; ">매우높음</div>');
-				} else if (issueInfo.issuRank == '0G2') {
-					$('.issueRankInfo').append('<p>중요도</p><div class="badge badge-pill badge-secondary" style="margin-bottom: 15px; ">높음</div>');
-				} else if (issueInfo.issuRank == '0G3') {
-					$('.issueRankInfo').append('<p>중요도</p><div class="badge badge-pill badge-success" style="margin-bottom: 15px; ">보통</div>');
-				} else if (issueInfo.issuRank == '0G4') {
-					$('.issueRankInfo').append('<p>중요도</p><div class="badge badge-pill badge-warning" style="margin-bottom: 15px; ">낮음</div>');
-				} else if (issueInfo.issuRank == '0G5') {
-					$('.issueRankInfo').append('<p>중요도</p><div class="badge badge-pill badge-danger" style="margin-bottom: 15px; ">매우낮음</div>');
-				}
+				
+                let starr= {'0E1':['success','해결'], 
+							'0E2':['dark','미해결'],
+							'0E3':['secondary','해결불가']
+						    }
+				
+				let kndarr = {'0L1':['danger','버그'], 
+						      '0L2':['warning','개선사항'],
+						      '0L3':['info','새기능'],
+						      '0L4':['light','업무']
+						     }
+				
+			   let rankarr = {'0G1':['primary','매우높음'], 
+						      '0G2':['secondary','높음'],
+						      '0G3':['success','보통'],
+						      '0G4':['warning','낮음'],
+						      '0G5': ['danger','매우낮음']
+						     }
+                
+                kndVal.append(`<p>종류</p><div class="badge badge-${kndarr[issueInfo.issuKnd][0]}" style="margin-bottom: 15px;">${kndarr[issueInfo.issuKnd][1]}</div>`);
+				
+                let stInfo = $('.issueStInfo');
+                stInfo.append(`<p>상태</p><div class="badge badge-${starr[issueInfo.issuSt][0]}" style="margin-bottom: 15px;">${starr[issueInfo.issuSt][1]}</div>`);
+				
+                let rankInfo = $('.issueRankInfo');
+                rankInfo.append(`<p>상태</p><div class="badge badge-${rankarr[issueInfo.issuRank][0]}" style="margin-bottom: 15px;">${rankarr[issueInfo.issuRank][1]}</div>`);
 
 				// 첨부된 파일 리스트.												
 				$.each(issueFile, function (idx, item) {
@@ -1432,10 +1405,6 @@
 
 	/* 이슈 수정 FORM */
 
-
-
-
-	// 이슈 수정 폼
 	function switchEditForm() {
 
 		const issuNo = $('.modalIssueName').data('issuNo');
@@ -1450,56 +1419,42 @@
 				let kndVal = document.getElementById('editIssuKndVal');
 				let stVal = document.getElementById('editIssuStVal');
 				let rankVal = document.getElementById('editIssuRankVal');
-
+				
+				let starr= {'0E1':['success','해결'], 
+						    '0E2':['dark','미해결'],
+						    '0E3':['secondary','해결불가']
+					       }
+			
+			 	let kndarr = {'0L1':['danger','버그'], 
+					          '0L2':['warning','개선사항'],
+					          '0L3':['info','새기능'],
+					          '0L4':['light','업무']
+					         }  
+			
+			  	let rankarr = {'0G1':['primary','매우높음'], 
+						       '0G2':['secondary','높음'],
+						       '0G3':['success','보통'],
+						       '0G4':['warning','낮음'],
+						       '0G5': ['danger','매우낮음']
+						      }
+				
 				if (issueEditForm.style.display === 'none') {
 					issueEditForm.style.display = 'block';
 					infoForm.style.display = 'none';
 
 					document.getElementById('editIssuTtlVal').value = response.issueInfo.issuTtl;
 					editorEditing.setHTML(response.issueInfo.issuCntn);
-					if (response.issueInfo.issuKnd == '0L1') {
-						kndVal.className = 'badge badge-danger';
-						kndVal.innerHTML = '버그';
-					} else if (response.issueInfo.issuKnd == '0L2') {
-						kndVal.className = 'badge badge-warning';
-						kndVal.innerHTML = '개선사항';
-					} else if (response.issueInfo.issuKnd == '0L3') {
-						kndVal.className = 'badge badge-info';
-						kndVal.innerHTML = '새기능';
-					} else if (response.issueInfo.issuKnd == '0L4') {
-						kndVal.className = 'badge badge-light';
-						kndVal.innerHTML = '업무';
-					}
-
-					if (response.issueInfo.issuSt == '0E1') {
-						stVal.className = 'badge badge-pill badge-success';
-						stVal.innerHTML = '해결';
-					} else if (response.issueInfo.issuSt == '0E2') {
-						stVal.className = 'badge badge-pill badge-dark';
-						stVal.innerHTML = '미해결';
-					} else if (response.issueInfo.issuSt == '0E3') {
-						stVal.className = 'badge badge-pill badge-secondary';
-						stVal.innerHTML = '해결불가';
-					}
-
-					if (response.issueInfo.issuRank == '0G1') {
-						rankVal.className = 'badge badge-primary';
-						rankVal.innerHTML = '매우높음';
-					} else if (response.issueInfo.issuRank == '0G2') {
-						rankVal.className = 'badge badge-secondary';
-						rankVal.innerHTML = '높음';
-					} else if (response.issueInfo.issuRank == '0G3') {
-						rankVal.className = 'badge badge-success';
-						rankVal.innerHTML = '보통';
-					} else if (response.issueInfo.issuRank == '0G4') {
-						rankVal.className = 'badge badge-warning';
-						rankVal.innerHTML = '낮음';
-					} else if (response.issueInfo.issuRank == '0G5') {
-						rankVal.className = 'badge badge-danger';
-						rankVal.innerHTML = '매우낮음';
-					}
+					
+					kndVal.className ='badge badge-pill badge-' + kndarr[response.issueInfo.issuKnd][0];
+					kndVal.innerHTML = kndarr[response.issueInfo.issuKnd][1];			
+					
+					stVal.className = 'badge badge-' + starr[response.issueInfo.issuSt][0];
+					stVal.innerHTML = starr[response.issueInfo.issuSt][1];
+					
+					rankVal.className = 'badge badge-' + rankarr[response.issueInfo.issuRank][0];
+					rankVal.innerHTML = rankarr[response.issueInfo.issuRank][1];				
+					
 					findAllHashtag();
-
 					checkEditInput();
 					findAllFile();
 				} else {
@@ -1511,6 +1466,10 @@
 			.fail(function (err) {
 				console.log(err)
 			})
+	}
+	
+	function removePapa(elem) {
+		$(elem).parent.parent.remove();
 	}
 
 	// "수정" 버튼 활성화 or 비활성화 (제목, 종류, 중요도) 3개의 값이 다 들어오는 경우 활성화 된다.

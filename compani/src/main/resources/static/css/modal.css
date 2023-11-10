@@ -905,6 +905,24 @@ form.fileupload.dz {
     border: solid 1px #0098fe;
 }
 
+.issueNameBack > input {
+    width: 100%;
+    max-height: 68px;
+    line-height: 1.7;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    background-color: #ffffff;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    transition: all 0.4s ease;
+    letter-spacing: -0.03em;
+}
+
 .issueNameBack > textarea {
     width: 100%;
     max-height: 68px;
@@ -922,6 +940,7 @@ form.fileupload.dz {
     transition: all 0.4s ease;
     letter-spacing: -0.03em;
 }
+
 
 .issueKnd {
     display: flex;
@@ -1439,6 +1458,24 @@ form.fileupload.dz {
 
 .editIssueNameBack.focus {
     border: solid 1px #0098fe;
+}
+
+.editIssueNameBack > input {
+    width: 100%;
+    max-height: 68px;
+    line-height: 1.7;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    background-color: #ffffff;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    transition: all 0.4s ease;
+    letter-spacing: -0.03em;
 }
 
 .editIssueNameBack > textarea {

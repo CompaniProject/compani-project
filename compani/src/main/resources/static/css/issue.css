@@ -859,7 +859,7 @@
     transition: all 0.4s ease;
     letter-spacing: -0.03em;
 }
-.editCIssueNameBack > textarea {
+.editCIssueNameBack > input {
     width: 100%;
     max-height: 68px;
     line-height: 1.7;
@@ -877,7 +877,7 @@
     letter-spacing: -0.03em;
 }
 
-.editPIssueNameBack > textarea {
+.editPIssueNameBack > input {
     width: 100%;
     max-height: 68px;
     line-height: 1.7;
@@ -1177,7 +1177,7 @@ ciFileUpload.dz {
     border: solid 1px #0098fe;
 }
 
-.savePIssueNameBack > textarea {
+.savePIssueNameBack > input {
     width: 100%;
     max-height: 68px;
     line-height: 1.7;

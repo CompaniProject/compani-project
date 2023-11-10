@@ -21,9 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 
 //@Component는 개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
-@Component
 public class FileUtils {
-    private final String uploadPath = Paths.get("C:", "develop", "upload-files").toString();
+    private static String uploadPath = Paths.get("C:", "develop", "upload-files").toString();
 
     /**
      * 다중 파일 업로드
@@ -31,7 +30,7 @@ public class FileUtils {
      * @param multipartFiles - 파일 객체 List
      * @return DB에 저장할 파일 정보 List
      */
-    public List<IssueFileVO> uploadFiles(final List<MultipartFile> multipartFiles) {
+    public static List<IssueFileVO> uploadFiles(final List<MultipartFile> multipartFiles) {
         List<IssueFileVO> files = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (multipartFile.isEmpty()) {
@@ -48,7 +47,7 @@ public class FileUtils {
      * @param multipartFile - 파일 객체
      * @return DB에 저장할 파일 정보
      */
-    public IssueFileVO uploadFile(final MultipartFile multipartFile) {
+    public static IssueFileVO uploadFile(final MultipartFile multipartFile) {
 
         if (multipartFile.isEmpty()) {
             return null;
@@ -78,7 +77,7 @@ public class FileUtils {
      * @param filename 원본 파일명
      * @return 디스크에 저장할 파일명
      */
-    private String generateSaveFilename(final String filename) {
+    private static String generateSaveFilename(final String filename) {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         String extension = StringUtils.getFilenameExtension(filename);
         return uuid + "." + extension;
@@ -89,7 +88,7 @@ public class FileUtils {
      *
      * @return 업로드 경로
      */
-    private String getUploadPath() {
+    private static String getUploadPath() {
         return makeDirectories(uploadPath);
     }
 
@@ -99,7 +98,7 @@ public class FileUtils {
      * @param addPath - 추가 경로
      * @return 업로드 경로
      */
-    private String getUploadPath(final String addPath) {
+    private static String getUploadPath(final String addPath) {
         return makeDirectories(uploadPath + File.separator + addPath);
     }
 
@@ -109,7 +108,7 @@ public class FileUtils {
      * @param path - 업로드 경로
      * @return 업로드 경로
      */
-    private String makeDirectories(final String path) {
+    private static String makeDirectories(final String path) {
         File dir = new File(path);
         if (dir.exists() == false) {
             dir.mkdirs();
@@ -123,7 +122,7 @@ public class FileUtils {
      * @param file - 첨부파일 상세정보
      * @return 첨부파일(리소스)
      */
-    public Resource readFileAsResource(final IssueFileVO file) {
+    public static Resource readFileAsResource(final IssueFileVO file) {
         String uploadedDate = file.getIssuFileDt().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
         String filename = file.getIssuFilePath();
         Path filePath = Paths.get(uploadPath, uploadedDate, filename);
@@ -143,7 +142,7 @@ public class FileUtils {
      *
      * @param files - 삭제할 파일 정보 List
      */
-    public void deleteFiles(final List<IssueFileVO> files) {
+    public static void deleteFiles(final List<IssueFileVO> files) {
         if (CollectionUtils.isEmpty(files)) {
             return;
         }
@@ -159,7 +158,7 @@ public class FileUtils {
      * @param addPath  - 추가 경로
      * @param filename - 파일명
      */
-    private void deleteFile(final String addPath, final String filename) {
+    private static void deleteFile(final String addPath, final String filename) {
         String filePath = Paths.get(uploadPath, addPath, filename).toString();
         deleteFile(filePath);
     }
@@ -169,7 +168,7 @@ public class FileUtils {
      *
      * @param filePath - 파일 경로
      */
-    private void deleteFile(final String filePath) {
+    private static void deleteFile(final String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
             file.delete();
