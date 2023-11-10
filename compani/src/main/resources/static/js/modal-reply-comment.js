@@ -10,9 +10,11 @@
 		
 		let value = cntn.val();
 	    let obj = {};
+		let pubcyn_text = (isComment) ? 'pubcyn' : 'pubcyn-r';
 	    obj["replyCntn"] = value;
 	    obj["bussNo"] = bussNo;
 	    obj["replyUpno"] = curBody.data('parentNo');
+		obj["pubcyn"] = $(`input:checkbox[name='${pubcyn_text}']:checked`).val();
 
 	    cntn.val('');
 	    $("#input-cntn-count").text("0/" + text_limit);
@@ -66,6 +68,7 @@
 
 		insertBody.find('.replyInsertBtn').remove();
 		insertBody.find('.replyDeleteBtn').remove();
+		insertBody.find('#pubcyn-r').remove();
 		
 	    toggleBodyDisplay(insertBody,true);
 	    
@@ -139,6 +142,24 @@
     // ------------------------------onclick Event End
     
     // ------------------------------------------------
+    
+	function replyInsert(event){
+		let curBody = $(event.target).closest('.media');
+		obj = createInsertObj(false);
+		
+		if (obj.replyCntn == ""){
+    		Swal.fire({
+                icon: 'error',
+                text: '내용을 입력해주세요.',
+            });
+    		return;
+    	}
+		
+		insertAjax(obj,false);
+		
+		// hide insert area
+		replyDeleteHTML();
+	}
     
 	function replyInsertAreaHTML(event){
 		// remove count area size
