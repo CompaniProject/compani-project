@@ -49,6 +49,6 @@ public class MasterMemberController {
 		String coCd = memberVO.getCoCd();
 		List<Map<Object, Object>> list = service.companyManager(coCd);
 		model.addAttribute("companyManager", list);
-		return "";
+		return "master/company-manager";
 	}
 }

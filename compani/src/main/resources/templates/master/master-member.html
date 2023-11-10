@@ -83,21 +83,22 @@
 	
 	// dataTable 선언
 	var memberTable = $('.memberTable').DataTable({
-		"order": [
-					[7, 'asc']
-			 	  , [0, 'desc']
-				],
+		"order":[
+			
+			[7, 'asc'],
+			[0, 'desc']
+		],
 		"columns":[
-					{"width":"70px"},
-					null,
-					{"width":"150px"},
-					{"width":"150px"},
-					{"width":"70px"},
-					{"width":"150px"},
-					{"width":"100px"},
-					{"width":"50px"},
-					{"width":"50px"},
-				]
+			{"width":"70px"},
+			null,
+			{"width":"150px"},
+			{"width":"150px"},
+			{"width":"70px"},
+			{"width":"150px"},
+			{"width":"100px"},
+			{"width":"50px"},
+			{"width":"50px"}
+		]
 	});
 	
 	// 멤버 승인 ajax
