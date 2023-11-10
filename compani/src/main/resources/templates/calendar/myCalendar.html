@@ -150,7 +150,7 @@ select {
 		<div id="personalCalendarBox">
 			<div id='personalCalendar' class="tab-pane p-2"></div>
 			
-			<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
+			<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:900px;'></div>
 		</div>
 		<!-- 달력&차트 끝 -->
 		
@@ -259,7 +259,7 @@ select {
 	function resetCal(){
 		calendarEl = document.getElementById('personalCalendar');
 		calendar = new FullCalendar.Calendar(calendarEl, {
-	      	height: "1000px",
+	      	height: "900px",
 	      	expandRows: true,
 			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
 	      	dayMaxEvents: 3,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -399,7 +399,7 @@ select {
    	document.addEventListener('DOMContentLoaded', function() {
        	var calendarEl = document.getElementById('personalCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
-       		height: "1000px",
+       		height: "900px",
        		expandRows: true,
 			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
        		dayMaxEvents: 3,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -725,7 +725,7 @@ select {
 	------------------------------*/
 	$(function(){
 		$('.businessListBox').slimScroll({
-			height: '940px',
+			height: '840px',
 			width: '100%'
 		});
 		
