@@ -15,8 +15,12 @@
 <!-- Custom Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
 <style>
-
-
+label{
+	margin-left:30px;
+}
+#save, #edit{
+	margin-left : 350px;
+}
 [id^="condition"] {
 	display: none;
 	color: red;
@@ -46,29 +50,31 @@
             Content body start
         ***********************************-->
 
-	<div class="content-body">
+	<div class="content-body" style="margin-left:0px">
 
 
 		<!-- row -->
 
 		<div class="container-fluid">
+		
 			<div class="row justify-content-center">
 				<div class="col-lg-8">
 					<div class="card">
+					<h2 style="margin-top: 30px; margin-bottom:0px;margin-left: 50px"><b>회원 정보</b></h2>
 						<div class="card-body">
 							<div class="form-validation" style="postiion : relative;">
 									<img class="form-group" id="membPhtPath2" width="200"
-										height="200" style="border-radius: 70%; border: 10px solid #fff; box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.1);" src="/upload/"
+										height="200" style="border-radius: 70%; border: 10px solid #fff; box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.1); display : block; margin : auto;" src="/upload/"
 										/>
  										<img
-										src="images/member/button.png" onclick="$('#profilePht').trigger('click')" width="30"
-										height="30" style="vertical-align: bottom;cursor: pointer;border: 2px solid #fff; position: absolute; top: 180px; left : 180px; background: #E0F2F7; border-radius: 70%;box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1)">
+										src="images/member/buttons.png" onclick="$('#profilePht').trigger('click')" width="30"
+										height="30" style="vertical-align: bottom;cursor: pointer;border: 2px solid #fff; position: absolute; top: 250px; left : 550px; background: #E0F2F7; border-radius: 70%;box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1)">
 
 										<input id="profilePht" type="file" name="profilePht"
 											accept="image/png, image/jpeg" hidden/>
 
-									<div class="form-group row">
-									<label class="col-lg-4 col-form-label" for="coNm">소속기관
+									<div class="form-group row" style="margin-top:30px">
+									<label class="col-lg-3 col-form-label" for="coNm">소속기관
 									</label>
 									<div class="col-lg-6">
 										<input class="form-control" id="coNm" name="coNm"
@@ -80,7 +86,7 @@
 									action="memberEditInfo">
 
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membId">아이디
+										<label class="col-lg-3 col-form-label" for="membId">아이디
 										</label>
 										<div class="col-lg-6">
 											<input class="form-control" id="membId" name="membId"
@@ -90,7 +96,7 @@
 
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-labell" for="membNm">성명
+										<label class="col-lg-3 col-form-labell" for="membNm">성명
 										</label>
 										<div class="col-lg-6">
 											<input class="form-control" id="membNm" name="membNm"
@@ -99,7 +105,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membDept">부서
+										<label class="col-lg-3 col-form-label" for="membDept">부서
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" id="membDept"
@@ -107,7 +113,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membWkgd">직급
+										<label class="col-lg-3 col-form-label" for="membWkgd">직급
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" id="membWkgd"
@@ -115,7 +121,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membMsg">상태메세지
+										<label class="col-lg-3 col-form-label" for="membMsg">상태메세지
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" id="membMsg"
@@ -126,7 +132,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membBirthDt">생년월일
+										<label class="col-lg-3 col-form-label" for="membBirthDt">생년월일
 
 										</label>
 										<div class="col-lg-6">
@@ -138,7 +144,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membEmail">이메일
+										<label class="col-lg-3 col-form-label" for="membEmail">이메일
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" id="membEmail"
@@ -146,15 +152,15 @@
 												hidden="true"> 
 												<input type="text" id="email_id"
 												class="form-control col-lg-4" value="" title="이메일 아이디" placeholder=""
-												style="display: inline-block;" /> @
+												style="display: inline-block;" />&nbsp; @&nbsp;
 											<input class="form-control col-lg-3" type="text" name="str_email02"
 												id="str_email02"
-												style="display: inline-block;" disabled
-												value="naver.com"> 
+												style="display: inline-block;"
+												value=""> 
 												<select 
 												style="display: inline-block;"
 												name="selectEmail" id="selectEmail" class="form-control col-lg-4">
-												<option value="" selected>직접입력</option>
+												<option value=""selected>직접입력</option>
 												<option value="naver.com">naver.com</option>
 												<option value="hanmail.net">hanmail.net</option>
 												<option value="hotmail.com">hotmail.com</option>
@@ -173,13 +179,13 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membTelno">전화번호
+										<label class="col-lg-3 col-form-label" for="membTelno">전화번호
 										</label>
 										<div class="col-lg-6">
 											<input type="tel" class="form-control" id="membTelno"
 												name="membTelno" hidden="true"> <select
 												style="display: inline-block; text-align: right; font-weight: 900;"
-												name="selectTel" id="selectTel" class="form-control col-lg-3">
+												name="selectTel" id="selectTel" class="form-control col-lg-4">
 
 												<option value="" selected>선택 &nbsp;&nbsp;</option>
 												<option value="010">010 &nbsp;&nbsp;</option>
@@ -203,9 +209,9 @@
 												<option value="064">064 &nbsp;&nbsp;</option>
 
 
-											</select>&nbsp;<b>ㅡ</b> <input type="text" class="form-control col-lg-3"
+											</select>&nbsp;&nbsp;&nbsp;<b>ㅡ</b> &nbsp;<input type="text" class="form-control col-lg-3"
 												id="tel1" name="tel1"
-												style=" display: inline-block;"> <b>ㅡ</b>
+												style=" display: inline-block;"> &nbsp;&nbsp;<b>ㅡ</b>&nbsp;
 
 											<input type="text" id="tel2" class="form-control col-lg-3"
 												style="display: inline-block;" /> <span
@@ -224,8 +230,9 @@
 
 										</div>
 									</div>
+									<hr style="width:900px; display: block; margin: auto; margin-bottom:20px; background: f3f3f9;">
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="checkPwd">현재 비밀번호
+										<label class="col-lg-3 col-form-label" for="checkPwd">현재 비밀번호
 										</label>
 										<div class="col-lg-6">
 											<input type="password" class="form-control" id="checkPw"
@@ -235,7 +242,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membPwd">비밀번호
+										<label class="col-lg-3 col-form-label" for="membPwd">비밀번호
 										</label>
 										<div class="col-lg-6">
 											<input type="password" class="form-control" id="membPwd"
@@ -247,7 +254,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-lg-4 col-form-label" for="membPwd2">비밀번호
+										<label class="col-lg-3 col-form-label" for="membPwd2">비밀번호
 											확인 </label>
 										<div class="col-lg-6">
 											<input type="password" class="form-control" id="membPwd2"
@@ -333,7 +340,11 @@
 	 	$('#membNm').val(memberInfo.membNm);
 	 	$('#membDept').val(memberInfo.membDept);
 	 	$('#membWkgd').val(memberInfo.membWkgd);
-	 	$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
+	 	if(memberInfo.membPhtPath != null){
+	 		$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
+	 	}else{
+	 		$('#membPhtPath2').prop('src', "/images/member/defaultPht.png");
+	 	}
 	 	
 	 	year = new Date(memberInfo.membBirthDt).getFullYear();
 	 	month = new Date(memberInfo.membBirthDt).getMonth()+1;
@@ -356,13 +367,16 @@
 	 	
 	 	$('#email_id').val(emails[0]);
 	 	$('#str_email02').val(emails[1]);
-	 	
+	 	if(emails[1] == '' || emails[1] == null){
+	 	}
 	 	 $("select#selectEmail option").each(function(){
 	         if($(this).val()==emails[1]){ 
 	        	 $("#selectEmail").val(emails[1]).attr("selected", "selected");
+	        	 $("#str_email02").attr("disabled", true);
 	          	return false;
 	         } else if($(this).val() != $('#str_email02').val(emails[1])){
-	        	 $("#selectEmail").val("1").attr("selected", "selected");
+	        	 $("#selectEmail").val("").attr("selected", "selected");
+	        	 $("#str_email02").attr("disabled", false);
 	         }
 	  	});
 	 	
@@ -815,7 +829,7 @@ $('#membPwd2').on("input", function(event){
 
 
 
-///////////////////////파일
+///////////////////////프로필변경
   	$('#profilePht').change(function() {
   		var formData = new FormData(); //FormData 객체 생성(content-type을 갖고있는 클레스임. servlet-context.xml에 multipartResolver가 필요함.)
 		var files = $('#profilePht')[0].files[0];
