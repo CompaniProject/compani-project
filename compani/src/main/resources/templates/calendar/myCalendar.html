@@ -219,6 +219,9 @@ select {
 		<!--  업무리스트 박스 끝 -->
 	</div>
 	
+	<!-- 업무 모달 -->
+	<div data-include1="showModalMain"></div>
+	
 	<script th:inline="javascript">
 	let calendarData = [[${personalCalendarPage}]]; // 전체 업무리스트
 	let calendarArr = calendarData; // 화면 출력할 업무리스트
@@ -727,6 +730,26 @@ select {
 		});
 		
 		$('.businessListBox').parent().css('float', 'right');
+	})
+	
+	/*----------------------------
+		모달
+	------------------------------*/
+	// 권오준 추가
+	var miPrjtNo = [[${prjtNo}]];
+    
+	// 업무리스트 클릭 시 모달
+	$('.businessList').on('click', infoBusiness)
+	function infoBusiness(){
+		bussNo = $(this).find('input').val();
+		$('#workModal').modal('toggle');
+	}
+	
+	$(function(){
+		var includes1 = $('[data-include1="showModalMain"]');
+		jQuery.each(includes1, function(){
+			$(this).load('/modal/modal-home.html');
+		});
 	})
 	</script>
 </th:block>
