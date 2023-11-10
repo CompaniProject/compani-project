@@ -178,7 +178,7 @@ public class IssueController {
 	@GetMapping("/project/feedback/{prjtNo}/issue")
 	public String projectFeedbackIssueList(@PathVariable int prjtNo, Model model) {
 		
-		List<IssueVO> list = issueService.getProjectFeedbackIssueList();
+		List<IssueVO> list = issueService.getProjectFeedbackIssueList(prjtNo);
 		ProjectStatusVO projectStatus = projectStatusService.getProjectStatus(prjtNo);
 		List<Map<Object,Object>> feedbackList = projectFeedbackService.getListForLevel(prjtNo);
 		

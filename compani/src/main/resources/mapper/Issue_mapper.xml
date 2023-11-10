@@ -292,9 +292,12 @@
 			   , FIND_CODENM(issu_knd) AS issu_knd
 			   , FIND_CODENM(issu_st) AS issu_st
 			   , issu_dt
+			   
 		FROM issue i LEFT JOIN member m
 						   ON i.memb_id = m.memb_id
-		<!-- WHERE prjt_no = {prjtNo} -->
+						   
+		WHERE prjt_no = {prjtNo}
+		
 		ORDER BY issu_dt DESC
 	</select>
 </mapper>

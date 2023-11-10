@@ -54,5 +54,5 @@ public interface IssueMapper {
     void deleteById(int issuNo);
 
 	// 프로젝트 이슈 피드백
-	public List<IssueVO> selectProjectFeedbackIssueList();
+	public List<IssueVO> selectProjectFeedbackIssueList(int prjtNo);
 }
