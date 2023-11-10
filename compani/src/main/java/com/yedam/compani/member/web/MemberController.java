@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import com.yedam.compani.session.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +36,7 @@ import com.yedam.compani.company.service.CompanyVO;
 import com.yedam.compani.member.service.MemberAuthVO;
 import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
+import com.yedam.compani.session.service.SessionService;
 
 import lombok.extern.log4j.Log4j2;
 
