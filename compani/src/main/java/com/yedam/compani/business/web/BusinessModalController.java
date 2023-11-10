@@ -28,7 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
+/*
+ * 작성자 : 신대철
+ *   기능 : 업무 등록시 ,업무 등록 , 상세보기 , 수정 
+ */
 public class BusinessModalController {
 
 	private final BusinessService businessService;
@@ -102,8 +105,8 @@ public class BusinessModalController {
 		businessService.updateBusiness(formVO.getBusiness()); 
 		
 		//참여자 변경
-		//businessMemberService.deleteBusinessMember(formVO);
-		//businessMemberService.insertBusinessMember(formVO);
+		businessMemberService.deleteBusinessMember(formVO);
+		businessMemberService.insertBusinessMember(formVO);
 	
 	}
 }

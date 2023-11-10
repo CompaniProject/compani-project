@@ -151,7 +151,7 @@
 										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
-												th:value="${bussNameList.bussNm}"
+												th:value="${bussNameList.bussNo}"
 												th:text="${bussNameList.bussNm}"></option>
 										</th:block>
 									</select>
@@ -171,11 +171,11 @@
 							<div class="dropdown custom-dropdown">
 								<div>
 
-									<select class="dropdown-relation" name="bussdownNm">
+									<select class="dropdown-relation" name="bussdownNm" onchange="change(this);">
 										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
-												th:value="${bussNameList.bussNm}"
+												th:value="${bussNameList.bussNo}"
 												th:text="${bussNameList.bussNm}"></option>
 										</th:block>
 									</select>
@@ -213,7 +213,7 @@
 			$('.member-selectBox').on('click', function () {
 				$('.member-select-ul').css('display', 'block');
 			})
-			
+			let disableNo = [];
 			$('.member-select-option').on('click', function (e) {
 				
 				var selectValue = e.currentTarget.textContent;
@@ -380,9 +380,9 @@
 			let bussList = [[${businessNameList}]];
 			$('.fa-solid.fa-plus.fa-lg').on('click', function(){
 				
-				console.log(bussList);
+				console.log('추가');
 				let div = $(this).parent().parent().parent();
-				
+				console.log('dd');
 			    let temp = 	`
 			    	<div class="form-group row">
 
@@ -391,7 +391,7 @@
 					<label class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
 					<div class="dropdown custom-dropdown">
 						<div>
-							<select  class="dropdown-relation" name="bussdownNm" id = "here">
+							<select  class="dropdown-relation" name="bussdownNm" id = "here" onchange="change(this);">
 							<option class="dropdown-business" value="">선택</option>
 								
 							</select>
@@ -403,12 +403,22 @@
 				div.append(temp);
 				
 				 let select = $('.dropdown-relation').last();
-				 	console.log(select);
+				 
 					let option = '';
 					for(let i =0; i< bussList.length ; i++){
 						option = $('<option>' + bussList[i].bussNm+'</option>');
+						option.attr('value' , bussList[i].bussNo);
 						select.append(option);
+						for(let j = 0;  j < disableNo.length; j++){
+							if(bussList[i].bussNo == disableNo[j]){
+								console.log('같아요');
+								option.prop('disabled', true);
+								
+							}
+						}
+						
 					}
+					
 			})
 			
 			$('.form-group.row').on('click', '.fa-solid.fa-minus.fa-lg', function(){
@@ -417,14 +427,26 @@
 			})
 			
 			function removeRow(e){
-				console.log('gg');
+			
 				$(e).parent().parent().remove();
 			}
+		
+			//처음 동작;;
+		/* 	$('[name="bussdownNm"]').on('change',function(){
+				
+				$('option:selected').prop('disabled', true);
+				let no =$(this).find('option:selected').val();
+				disableNo.push(no);
+				console.log(no);
+				console.log(disableNo);
+			}) */
 			
-			$('[name="bussdownNm"]').on('change',function(){
-				console.log('gg');
-				$(this).prop('disabled', true);
-			})
+			function change(e){
+				$('option:selected').prop('disabled', true);
+				let no =$(e).find('option:selected').val();
+				disableNo.push(Number(no));
+			
+			}
 		
 		
 			

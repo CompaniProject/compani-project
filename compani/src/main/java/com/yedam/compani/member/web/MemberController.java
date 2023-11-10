@@ -5,6 +5,11 @@ package com.yedam.compani.member.web;
  * 작성일자 : 
  * Member 관리 : 회원가입, 정보수정, 로그인 
  */
+/*
+ * 
+ * 작성자 : 신대철 
+ * 기능   : 회원 검색 Ajax, 사이드 프로젝트 등록 모달 Ajax
+ * */
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -131,7 +136,7 @@ public class MemberController {
 		return "member/memberEditInfo";
 	}
 
-	//대철's
+	//신대철 : 프로젝트 ,업무 등록 수정시 , 회원 검색 Ajax
 	@GetMapping("memSearchAjax")
 	@ResponseBody
 	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,Object> map, HttpServletRequest request) {
@@ -195,7 +200,7 @@ public class MemberController {
 	// method uploadFile
 	/////////////////////////////////////////////////////////
 
-	//사이드 프로젝트 등록 모달 ajax
+	//신대철 : 사이드 프로젝트 등록 모달 ajax
 	@PostMapping("/prjtInsert")
 	@ResponseBody
 	public Map<String,Object> prjtModalAjax(MemberVO memberVO){
