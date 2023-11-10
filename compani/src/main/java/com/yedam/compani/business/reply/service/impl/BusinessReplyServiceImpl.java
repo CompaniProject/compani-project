@@ -18,9 +18,8 @@ public class BusinessReplyServiceImpl implements BusinessReplyService {
 	private final BusinessReplyMapper businessReplyMapper;
 	
 	@Override
-	public List<BusinessReplyVO> getBusinessReply() {
-
-		return businessReplyMapper.getBusinessReply();
+	public List<BusinessReplyVO> getBusinessReply(String membId) {
+		return businessReplyMapper.getBusinessReply(membId);
 	}
 	
 	@Override
