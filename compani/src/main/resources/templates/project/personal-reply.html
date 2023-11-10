@@ -10,36 +10,42 @@
 <body>
 	
 <th:block layout:fragment="content">
-	<div class="col-lg-8" style="width: 100%; max-width: 100%;">
-		<div class="table-responsive">
-			<table class="table header-border table-hover verticle-middle">
-			    <thead>
-			        <tr>
-			            <th scope="col">업무</th>
-			            <th scope="col">내용</th>
-			            <th scope="col">작성날짜</th>
-			            <th scope="col">공개여부</th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			    
-                	<th:block th:each="reply : ${personalReplys}">
-			        <tr>
-			            <td th:text="${reply.bussNo}"></td>
-			            <!-- N자 이상일 경우 : 문자열 잘라서 출력 , 툴팁에 전체 내용 출력 -->
-			            <th:block th:if="${#strings.length(reply.replyCntn) >= 25}">
-			            	<td th:title="${reply.replyCntn}" th:text="|${#strings.substring(reply.replyCntn, 0, 25)}...|"></td>
-			            </th:block>
-			            <!-- N자 미만일 경우 : 일반 출력 -->
-			            <th:block th:unless="${#strings.length(reply.replyCntn) >= 25}">
-			            	<td th:text="${reply.replyCntn}"></td>
-			            </th:block>
-			            <td th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></td>
-			            <td th:text="${reply.pubcyn}"></td>
-			        </tr>
-			        </th:block>
-				</tbody>
-			</table>
+	<div class="col-lg-8">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table header-border table-hover verticle-middle">
+					    <thead>
+					        <tr>
+					            <th scope="col">업무</th>
+					            <th scope="col">내용</th>
+					            <th scope="col">작성날짜</th>
+					            <th scope="col">공개여부</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    
+		                	<th:block th:each="reply : ${personalReplys}">
+					        <tr>
+					            <td>
+					            	<span class="badge badge-primary" th:text="${reply.bussNm}"></span>
+					            </td>
+					            <!-- N자 이상일 경우 : 문자열 잘라서 출력 , 툴팁에 전체 내용 출력 -->
+					            <th:block th:if="${#strings.length(reply.replyCntn) >= 15}">
+					            	<td th:title="${reply.replyCntn}" th:text="|${#strings.substring(reply.replyCntn, 0, 15)}...|"></td>
+					            </th:block>
+					            <!-- N자 미만일 경우 : 일반 출력 -->
+					            <th:block th:unless="${#strings.length(reply.replyCntn) >= 15}">
+					            	<td th:text="${reply.replyCntn}"></td>
+					            </th:block>
+					            <td th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></td>
+					            <td th:text="${reply.pubcynNm}"></td>
+					        </tr>
+					        </th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 
