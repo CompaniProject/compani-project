@@ -28,5 +28,5 @@ public interface IssueService {
 	public int deleteIssue(final int issuNo);
 
 	// 프로젝트 이슈 피드백
-	public List<IssueVO> getProjectFeedbackIssueList();
+	public List<IssueVO> getProjectFeedbackIssueList(int prjtNo);
 }

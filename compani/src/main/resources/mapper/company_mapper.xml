@@ -49,8 +49,7 @@
 			   , co_rpstr
 			   , co_bizno
 			   , co_dt
-			   , CASE co_accp	WHEN '0O1' THEN '승인'
-							    WHEN '0O2' THEN '대기' END AS co_accp
+			   , FIND_CODENM(co_accp) AS co_accp
 		FROM company
 		ORDER BY co_accp, co_cd DESC
 	</select>

@@ -143,16 +143,17 @@
 	<!-- 마스터 멤버리스트 -->
 	<select id="masterMemberList" resultType="CamelHashMap">
 		SELECT m.co_cd
-		, co_nm
-		, memb_id
-		, memb_nm
-		, memb_birth_dt
-		, NVL(memb_email, '-') AS memb_email
-		, NVL(memb_telno, '-') AS memb_telno
-		, CASE memb_accp WHEN '0C1' THEN '승인'
-		WHEN '0C2' THEN '대기' END AS memb_accp
+			   , co_nm
+			   , memb_id
+			   , memb_nm
+			   , memb_birth_dt
+			   , NVL(memb_email, '-') AS memb_email
+			   , NVL(memb_telno, '-') AS memb_telno
+			   , FIND_CODENM(memb_accp) AS memb_accp
+								
 		FROM member m LEFT JOIN company c
-		ON m.co_cd = c.co_cd
+		  ON m.co_cd = c.co_cd
+		  
 		ORDER BY memb_accp, co_cd DESC
 	</select>
 
@@ -218,7 +219,9 @@
 	<!-- 마스터 멤버 자동 승인 -->
 	<update id="updateMemberAccpAuto" parameterType="CompanyVO">
 		UPDATE member
+		
 		SET memb_accp = '0C1'
+		
 		WHERE memb_id = (SELECT memb_id
 						 FROM member
 						 WHERE co_cd = #{coCd}
@@ -241,15 +244,15 @@
 	<select id="companyManager" resultType="MemberVO">
 		SELECT memb_id
 			   , memb_nm
-			   , memb_dept
-			   , memb_wkgd
+			   , NVL(memb_dept, '-') AS memb_dept
+			   , NVL(memb_wkgd, '-') AS memb_wkgd
 			   , memb_birth_dt
-			   , memb_email
-			   , memb_telno
-			   , CASE memb_accp WHEN '0C1' THEN '승인'
-								WHEN '0C2' THEN '대기'
-								END AS memb_accp
+			   , NVL(memb_email, '-') AS memb_email
+			   , NVL(memb_telno, '-') AS memb_telno
+			   , FIND_CODENM(memb_accp) AS memb_accp
+			   
 		FROM member
+		
 		WHERE co_cd = #{coCd}
 	</select>
 </mapper>
