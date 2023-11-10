@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/projectlayout}">
+<head>
+<meta charset="UTF-8">
+<title>내 코멘트</title>
+
+</head>
+<body>
+	
+<th:block layout:fragment="content">
+	<div class="col-lg-8">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table header-border table-hover verticle-middle">
+					    <thead>
+					        <tr>
+					            <th scope="col">업무</th>
+					            <th scope="col">내용</th>
+					            <th scope="col">작성날짜</th>
+					            <th scope="col">공개여부</th>
+					        </tr>
+					    </thead>
+					    <tbody id="table-body">
+					    
+		                	<th:block th:each="reply : ${personalReplys}">
+					        <tr>
+					            <td>
+					            	<span class="badge badge-primary" th:text="${reply.bussNm}"></span>
+					            </td>
+					            <!-- N자 이상일 경우 : 문자열 잘라서 출력 , 툴팁에 전체 내용 출력 -->
+					            <th:block th:if="${#strings.length(reply.replyCntn) >= 15}">
+					            	<td th:title="${reply.replyCntn}" th:text="|${#strings.substring(reply.replyCntn, 0, 15)}...|"></td>
+					            </th:block>
+					            <!-- N자 미만일 경우 : 일반 출력 -->
+					            <th:block th:unless="${#strings.length(reply.replyCntn) >= 15}">
+					            	<td th:text="${reply.replyCntn}"></td>
+					            </th:block>
+					            <td th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></td>
+					            <td th:text="${reply.pubcynNm}"></td>
+					        </tr>
+					        </th:block>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="bootstrap-pagination d-sm-flex flex-sm-justify-center">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" aria-label="Previous"><span aria-hidden="true">«</span> <span class="sr-only">Previous</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" onclick="pageDataUpdate(1)">1</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" onclick="pageDataUpdate(2)">2</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" onclick="pageDataUpdate(3)">3</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" aria-label="Next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+				
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function pageDataUpdate(pageNum){
+	        $.ajax({
+	            url:'/personalReply',
+	            type: 'get',
+	            contentType: "application/json",
+	            data: {'pageNum' : pageNum}
+	        })
+	        .done(data => {commentHTML(data)})
+	        .fail(err => {});
+		}
+		
+		function commentHTML(data){
+			let tbody = $('#table-body');
+			tbody.empty();
+			
+            $.each(data.replys, function (idx, item) {
+    			let tr = $('<tr/>');
+    			tr.append(`<td>${item.bussNm}</td>`);
+    			tr.append(`<td>${item.replyCntn}</td>`);
+    			tr.append(`<td>${item.replyDt}</td>`);
+    			tr.append(`<td>${item.pubcynNm}</td>`);
+    			tbody.append(tr);
+            });
+			
+		}
+	
+	</script>
+
+
+	<script>
+		window.onload = function(){
+		    var navItemHome = $('.nav-link').eq(5);
+		    navItemHome.addClass('active');
+		}
+	</script>
+</th:block>
+</body>
+</html>

@@ -6,98 +6,94 @@
 	namespace="com.yedam.compani.project.mapper.ProjectMapper">
 
 	<select id="selectAllProject" resultType="ProjectVO">
-	   SELECT     PM.PRJT_FAV,
-			      P.PRJT_NO,
-			      COUNT(PM.PRJT_NO) AS count,
-			   	  P.PRJT_NM,
-			   	  P.PRJT_TDT,
-			   	  P.PRJT_FDT,
-			   	  P.PRJT_ST
+	   SELECT     pm.prjt_fav,
+			      p.prjt_no,
+			      COUNT(pm.prjt_no) AS count,
+			   	  p.prjt_nm,
+			   	  p.prjt_tdt,
+			   	  p.prjt_fdt,
+			   	  p.prjt_st
                 
-		 FROM  	  PROJECT_MEMBER PM,  
-		          PROJECT P
+		 FROM  	  project_member pm,  
+		          project p
 
-		WHERE     PM.PRJT_NO = P.PRJT_NO
-          AND     PM.PRJT_NO IN (SELECT PRJT_NO 
-        						   FROM PROJECT_MEMBER
-                                  WHERE MEMB_ID = #{membId})
-        GROUP BY PM.PRJT_FAV, 
-        		 P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
+		WHERE     pm.prjt_no = p.prjt_no
+          AND     pm.prjt_no IN (SELECT prjt_no 
+        						   FROM project_member
+                                  WHERE memb_id = #{membId})
+        GROUP BY pm.prjt_fav, 
+        		 p.prjt_no, p.prjt_nm,p.prjt_tdt, p.prjt_fdt, p.prjt_st
 
-		ORDER BY PRJT_FAV DESC 
+		ORDER BY prjt_fav DESC 
 	</select>
 
 	<select id="selectProjectAndMemberList"
 		resultType="CamelHashMap">
-		SELECT pm.prjt_no
-		, memb_id
-		, prjt_memb_perm
-		, prjt_nm
-		, prjt_pubcyn
-		,
-		prjt_fdt
-		, prjt_tdt
-		, prjt_cmpltdt
-		, prjt_st
-		FROM project_member pm LEFT
-		JOIN project p ON(pm.prjt_no =
-		p.prjt_no)
+		SELECT  pm.prjt_no
+				, memb_id
+				, prjt_memb_perm
+				, prjt_nm
+				, prjt_pubcyn
+				, prjt_fdt
+				, prjt_tdt
+				, prjt_cmpltdt
+				, prjt_st
+		FROM 	project_member pm LEFT JOIN project p ON(pm.prjt_no = p.prjt_no)
 		<where>
 			<if test="memberId != null">
 				AND memb_id = #{membId}
 			</if>
 		</where>
 		ORDER BY prjt_no
-
 	</select>
 
 	<select id="getProjectStateList" resultType="ProjectVO">
-
-	     SELECT   PM.PRJT_FAV,
-			      P.PRJT_NO,
-			      COUNT(PM.PRJT_NO) AS count,
-			   	  P.PRJT_NM,
-			   	  P.PRJT_TDT,
-			   	  P.PRJT_FDT,
-			   	  FIND_CODENM(P.PRJT_ST) as prjtStNm
+	     SELECT   pm.prjt_fav,
+			      p.prjt_no,
+			      COUNT(pm.prjt_no) AS count,
+			   	  p.prjt_nm,
+			   	  p.prjt_tdt,
+			   	  p.prjt_fdt,
+			   	  FIND_CODENM(p.prjt_st) as prjtStNm
                 
-		FROM   	  PROJECT_MEMBER PM,  PROJECT P
-		WHERE     PM.PRJT_NO = P.PRJT_NO
-		AND       P.PRJT_ST = #{prjtSt}
-        AND       PM.PRJT_NO IN (SELECT PRJT_NO 
-        						 FROM 	PROJECT_MEMBER
-                                 WHERE  MEMB_ID = #{membId})
-        GROUP BY PM.PRJT_FAV, P.PRJT_NO, P.PRJT_NM,P.PRJT_TDT, P.PRJT_FDT, P.PRJT_ST
-		ORDER BY PRJT_FAV DESC 
+		FROM   	  project_member PM,  project P
+		WHERE     pm.prjt_no = p.prjt_no
+		AND       p.prjt_st = #{prjtSt}
+        AND       pm.prjt_no IN (SELECT prjt_no 
+        						 FROM 	project_member
+                                 WHERE  memb_id = #{membId})
+        GROUP BY pm.prjt_fav, p.prjt_no, p.prjt_nm,p.prjt_tdt, p.prjt_fdt, p.prjt_st
+		ORDER BY prjt_fav DESC 
 
 	</select>
+	
 	<update id="updateFavorite" parameterType="ProjectVO">
-		UPDATE PROJECT_MEMBER
-		SET PRJT_FAV = #{prjtFav}
-		WHERE PRJT_NO = #{prjtNo}
+		UPDATE project_member
+		SET prjt_fav = #{prjtFav}
+		WHERE prjt_no = #{prjtNo}
 	</update>
 
 	<insert id="insertProject" parameterType="ProjectVO">
 		<selectKey keyProperty="prjtNo" resultType="ProjectVO"
 			order="BEFORE">
-			SELECT NVL(MAX(PRJT_NO),0) +1 AS PRJT_NO FROM PROJECT
+			SELECT NVL(MAX(prjt_no),0) +1 AS prjt_no FROM project
 		</selectKey>
-		INSERT INTO PROJECT(
-		PRJT_NO,
-		CO_CD,
-		PRJT_NM,
-		PRJT_PUBCYN,
-		PRJT_FDT,
-		PRJT_TDT
-		)
-		VALUES(
-		#{prjtNo},
-		#{coCd},
-		#{prjtNm},
-		#{prjtPubcyn},
-		#{prjtFdt},
-		#{prjtTdt}
-		)
+		INSERT INTO project(
+							prjt_no,
+							co_cd,
+							prjt_nm,
+							prjt_pubcyn,
+							prjt_fdt,
+							prjt_tdt
+							)
+					VALUES(
+							#{prjtNo},
+							#{coCd},
+							#{prjtNm},
+							#{prjtPubcyn},
+							#{prjtFdt},
+							#{prjtTdt}
+							)
 	</insert>
 
 	<select id="projectSelect" resultType="CamelHashMap">
