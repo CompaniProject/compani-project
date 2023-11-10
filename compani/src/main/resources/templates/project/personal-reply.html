@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/layout}">
+	layout:decorate="~{/layout/projectlayout}">
 <head>
 <meta charset="UTF-8">
 <title>내 코멘트</title>
@@ -9,5 +9,14 @@
 </head>
 <body>
 	
+<th:block layout:fragment="content">
+
+	<script>
+		window.onload = function(){
+		    var navItemHome = $('.nav-link').eq(5);
+		    navItemHome.addClass('active');
+		}
+	</script>
+</th:block>
 </body>
 </html>
