@@ -4,25 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.yedam.compani.business.reply.mapper.BusinessReplyMapper">
 	<select id="getBusinessReply" resultType="CamelHashMap">
-		SELECT 	reply_no
-				, br.buss_no
-				, reply_cntn
-				, reply_dt
-				, pubcyn
-				, br.memb_id
-				, reply_upno
-				, reply_show
-				, buss_nm
-				, FIND_CODENM(pubcyn) AS pubcyn_nm
-		FROM 	business_reply br JOIN business b ON(br.buss_no = b.buss_no)
-		WHERE 	br.buss_no IN  (
-								SELECT buss_no
-								FROM business
-								WHERE prjt_no = #{prjtNo}
-								)
-				AND memb_id = #{membId}
-				AND reply_show = '0N1'
-		ORDER BY reply_dt
+		SELECT T.*
+		FROM (
+			SELECT 	reply_no
+					, br.buss_no
+					, reply_cntn
+					, reply_dt
+					, pubcyn
+					, br.memb_id
+					, reply_upno
+					, reply_show
+					, buss_nm
+					, FIND_CODENM(pubcyn) AS pubcyn_nm
+					, ROW_NUMBER() OVER (ORDER BY reply_dt) ROW_NUM
+			FROM 	business_reply br JOIN business b ON(br.buss_no = b.buss_no)
+			WHERE 	br.buss_no IN  (
+									SELECT buss_no
+									FROM business
+									WHERE prjt_no = #{prjtNo}
+									)
+					AND memb_id = #{membId}
+					AND reply_show = '0N1'
+			ORDER BY reply_dt
+		) T
+		WHERE #{pageNum}*#{amount} >= ROW_NUM AND ROW_NUM > (#{pageNum}-1)*#{amount}
 	</select>
 
 	<select id="selectListForLevel" resultType="CamelHashMap">

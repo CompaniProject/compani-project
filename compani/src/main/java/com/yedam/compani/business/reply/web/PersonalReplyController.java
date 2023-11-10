@@ -1,6 +1,8 @@
 package com.yedam.compani.business.reply.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,9 +28,19 @@ public class PersonalReplyController {
 	
 	@GetMapping("/personalReply/{prjtNo}")
 	public String personalReplyPage(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
+		
 		MemberVO memberVO = sessionService.getLoginInfo(request);
-		List<BusinessReplyVO> personalReplys = businessReplyService.getBusinessReply(memberVO.getMembId(),prjtNo);
+		Integer pageNum = 1;
+		Integer amount = 8;
+		
+		List<Map<Object,Object>> personalReplys = businessReplyService.getBusinessReply(
+														memberVO.getMembId()
+														,prjtNo
+														,pageNum
+														,amount);
+		
 		model.addAttribute("personalReplys", personalReplys);
+		sessionService.setProjectInfo(prjtNo, request);
 		
 		return "project/personal-reply";
 	}
