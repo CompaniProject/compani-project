@@ -58,6 +58,7 @@
             	<div class="reply-body">
 					<textarea class="form-control" name="inputCntn" id="inputCntn" maxlength="400"></textarea>
 					<span id="input-cntn-count">0/400</span>
+					<label><input type="checkbox" id="pubcyn" name="pubcyn" value="0P2">비공개</label>
 					<button id="commentInsertBtn" class="btn btn-primary px-3 ml-4 float-right" style="margin-top:0.88em" onclick="insertComment()">Send</button>
 			    </div>
 				<!-- Comment Input Area End -->
@@ -74,6 +75,7 @@
 		<div class="edit-area" style="display:none;">
 			<textarea class="form-control editCntn" id="editCntn" maxlength="400"></textarea>
 			<span class="edit-cntn-count">0/400</span>
+			<label><input type="checkbox" id="pubcyn-r" name="pubcyn-r" value="0P2">비공개</label>
 		</div>
     </div>
     <ul class="btn-area">

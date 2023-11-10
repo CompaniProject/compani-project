@@ -141,7 +141,25 @@
     // ------------------------------onclick Event End
     
     // ------------------------------------------------
-    
+        
+	function replyInsert(event){
+		let curBody = $(event.target).closest('.media');
+		obj = createInsertObj(false);
+		
+		if (obj.prjtFdbkCntn == ""){
+    		Swal.fire({
+                icon: 'error',
+                text: '내용을 입력해주세요.',
+            });
+    		return;
+    	}
+		
+		insertAjax(obj,false);
+		
+		// hide insert area
+		replyDeleteHTML();
+	}
+	
 	function replyInsertAreaHTML(event){
 		// remove count area size
 		$('.edit-cntn-count').text("0/" + text_limit);
