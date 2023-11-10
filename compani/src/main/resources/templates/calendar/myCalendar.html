@@ -537,20 +537,34 @@ select {
 		// 업무바 수정 ajax
 		gantt.attachEvent("onAfterTaskupdate", function(id, item){
 			var obj = new Object();
-			var end = new Date(item.end_date);
-			end.setDate(end.getDate() - 1);
-			end = end.getDate();
+			
+			
+			// 시작 Month 처리
+			var startMonth = item.start_date.getMonth();
+			// 종료 Month 처리
+			var endMonth = '';
+			if(item.end_date.getDate() == '31'){
+				endMonth = item.end_date.getMonth();
+			}else{
+				endMonth = item.end_date.getMonth()+1;
+			}
+			// 종료 Date 처리
+			var endDate = new Date(item.end_date);
+			endDate.setDate(endDate.getDate() - 1);
+			endDate = endDate.getDate();
 			if(end<10) end = '0' + end;
 			
-			var startDate = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
-			var endDate = item.end_date.getFullYear() + "-" + (item.end_date.getMonth() + 1) + "-" + end;
+			var start = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
+			var end = item.end_date.getFullYear() + "-" + endMonth + "-" + endDate;
 			
 			obj.bussNo = item.id;
-			obj.bussFrdt = startDate;
-			obj.bussTodt = endDate;
+			obj.bussFrdt = start;
+			obj.bussTodt = end;
 			obj.bussPrgre = Math.floor(item.progress * 100);
 			
-			$.ajax({
+			console.log("start: "+start);
+			console.log("end: "+end);
+			/* $.ajax({
 				type: 'post',
 				url: '/updateCalendarBuss',
 				contentType: 'application/json',
@@ -573,7 +587,7 @@ select {
 				error: function(error){
 					console.log(error);
 				}
-			})
+			}) */
 		});
 		// 상위업무 수정 ajax
 		gantt.attachEvent("onAfterLinkAdd", function(id,item){
