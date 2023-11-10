@@ -12,7 +12,7 @@
 		<div class="card-body">
 			<h1>회사 관리</h1>
 			<hr>
-			<div class="table-responsive">
+			<div class="table-responsive" style="width: 1300px">
 				<table class="table table-striped table-bordered memberTable">
 					<thead>
 						<tr>
@@ -20,7 +20,7 @@
 							<th>부서</th>
 							<th>직급</th>
 							<th>이름</th>
-							<th>생일</th>
+							<th>생년월일</th>
 							<th>이메일</th>
 							<th>전화번호</th>
 						</tr>
@@ -60,7 +60,22 @@
 	});
 	
 	// dataTable 선언
-	var memberTable = $('.memberTable').DataTable();
+	var memberTable = $('.memberTable').DataTable({
+		"order":[
+			[7, 'asc']
+		],
+		"columns":[
+			null,
+			{"width":"100px"},
+			{"width":"100px"},
+			{"width":"150px"},
+			{"width":"70px"},
+			{"width":"150px"},
+			{"width":"100px"},
+			{"width":"50px"},
+			{"width":"50px"}
+		]
+	});
 	memberTable
 				.order([7, 'asc'])
 				.draw();

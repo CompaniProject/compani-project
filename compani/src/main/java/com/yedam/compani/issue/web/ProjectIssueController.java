@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.config.FileUtils;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 import com.yedam.compani.issue.hashtag.service.IssueHashtagService;
@@ -29,13 +30,18 @@ import com.yedam.compani.project.service.ProjectService;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 
+ * 작성자: 권오준
+ * 작성일자: 2023/11/10
+ * 내용: 프로젝트 이슈 게시판 조회, 등록
+ */
 @Controller
 @RequiredArgsConstructor
 public class ProjectIssueController {
 
 	private final IssueService issueService;
 	private final IssueFileService issueFileService;
-	private final com.yedam.compani.config.FileUtils fileUtils;
 	private final BusinessService businessService;
 	private final ProjectService projectService;
 	private final IssueHashtagService issueHashtagService;
@@ -114,17 +120,17 @@ public class ProjectIssueController {
 								 IssueVO issueVO, 
 								 String[] inserthashtagsp) {		
 		// 이슈를 등록.
-		int issuNo = issueService.modalInsertIssue(issueVO);
+		 issueService.modalInsertIssue(issueVO);
 		
 		// 파일 업로드, 파일 DB에 저장
 		List<IssueFileVO> uploadedFiles = new ArrayList<>();
 		if (savefiles != null && savefiles.length > 0) {
-				 uploadedFiles = fileUtils.uploadFiles(Arrays.asList(savefiles)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
-				 issueFileService.modalInsertIssueFile(issuNo, uploadedFiles);
+				 uploadedFiles = FileUtils.uploadFiles(Arrays.asList(savefiles)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
+				 issueFileService.modalInsertIssueFile(issueVO.getIssuNo(), uploadedFiles);
 		}
 		
 		// 해시태그 저장
-		issueHashtagService.modalInsertIssueHashtag(issuNo, Arrays.asList(inserthashtagsp));
+		issueHashtagService.modalInsertIssueHashtag(issueVO.getIssuNo(), Arrays.asList(inserthashtagsp));
 		
 	}	
 }

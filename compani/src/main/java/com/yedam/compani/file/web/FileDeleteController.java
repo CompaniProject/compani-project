@@ -1,8 +1,13 @@
 package com.yedam.compani.file.web;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,14 +25,16 @@ public class FileDeleteController {
 	// 파일 삭제 - 하나삭제 - AJAX
 		@GetMapping("/fileOneDelete")
 		@ResponseBody // AJAX 사용
-		public int fileOneDelete(Integer fileNo) {
+		public int fileOneDelete(Integer fileNo, String filePath) {
+			
 			return fileservice.fileDelete(fileNo);
 		}
 
 	// 파일 삭제 - 체크박스 - 전체선택 || 선택삭제 - AJAX
 		@PostMapping("/fileSelectDel")
 		@ResponseBody
-		public int fileSelectDel(@RequestParam List<Integer> files) {
+		public int fileSelectDel(@RequestParam List<Integer> files, String filePath) {
+			
 			return fileservice.fileSelDel(files);
 		}
 

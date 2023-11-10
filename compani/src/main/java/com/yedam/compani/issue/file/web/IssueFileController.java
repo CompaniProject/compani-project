@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,23 +16,30 @@ import com.yedam.compani.config.FileUtils;
 import com.yedam.compani.issue.file.service.IssueFileService;
 import com.yedam.compani.issue.file.service.IssueFileVO;
 
+import lombok.RequiredArgsConstructor;
+
+/*
+ * 작성자: 권오준
+ * 작성일자: 2023/11/10
+ * 내용: 이슈 내 파일 조회, 다운로드, 수 카운트 
+ */
 @RestController
 @RequiredArgsConstructor
 public class IssueFileController {
 
 	  private final IssueFileService issueFileService;
-	  private final FileUtils fileUtils;
 
 	  // 파일 리스트 조회
 	  @GetMapping("/issues/{issuNo}/files")
 	  public List<IssueFileVO> findAllFileByIssuNo(@PathVariable final int issuNo) {
 		  return issueFileService.findAllFileByIssuNo(issuNo);
 	  }
+	  
 	  //첨부 파일 다운로드
 	  @GetMapping("/issues/{issuNo}/files/{issuFileNo}/download")
 	    public ResponseEntity<Resource> downloadFile(@PathVariable final int issuNo, @PathVariable final int issuFileNo) {
 	        IssueFileVO file = issueFileService.findFileById(issuFileNo);
-	        Resource resource = fileUtils.readFileAsResource(file);
+	        Resource resource = FileUtils.readFileAsResource(file);
 	        try {
 	            String filename = URLEncoder.encode(file.getIssuFileNm(), "UTF-8");
 	            return ResponseEntity.ok()

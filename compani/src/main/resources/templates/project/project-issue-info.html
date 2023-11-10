@@ -152,8 +152,8 @@
 							</div>
 							<div class="editPIssueName">
 								<div class="editPIssueNameBack">
-									<textarea class="modalPIssueNameEdit" id="editPIssuTtlVal" maxlength="200"
-										style="height: 34px;"></textarea>
+									<input class="modalPIssueNameEdit" id="editPIssuTtlVal" maxlength="200"
+										style="height: 34px;"></input>
 								</div>
 							</div>
 							<hr style="margin: 0; height: 2px; background-color: #eaeaea; width: 608px;">
@@ -343,16 +343,9 @@
 		let piMemberId = [[${ session.loginInfo.membId }]];
 		let pIssuNo = [[${ issueInfo.issuNo }]];
 		let bussNo = [[${ issueInfo.bussNo }]];
-		// 파일 사이즈 변환하기
-		function getFileSize(size) {
-			const byteUnits = ["KB", "MB", "GB", "TB"];
-			for (let i = 0; i < byteUnits.length; i++) {
-				size = Math.floor(size / 1024);
-				if (size < 1024) return size.toFixed(1) + byteUnits[i];
-			}
-		}
+
 		$('.fs').each(function (idx, item) {
-			$(item).text(getFileSize($(item).text()));
+			$(item).text(getByteSize($(item).text()));
 		});
 
 		$(document).ready(function () {
@@ -455,7 +448,15 @@
 					console.log(err)
 				})
 		}
-
+		
+		// 제목 입력하는 textarea 클릭시 focus
+		$('.modalPIssueNameEdit').on('click', function () {
+			$('.editPIssueNameBack').addClass('focus');
+		});
+		// textarea 벗어날 때 focus 클래스 삭제하기.
+		$('.modalPIssueNameEdit').on('blur', function () {
+			$('.editPIssueNameBack').removeClass('focus');
+		});
 
 		// 댓글 길이 카운팅
 		function countingLengthP(content) {
@@ -468,15 +469,6 @@
 				content.focus();
 			}
 			document.getElementById('counter').innerText = content.value.length + '/300자';
-		}
-		// 날짜 변환
-		function dateFormatting(date) {
-			let parseDate = new Date(date);
-
-			let year = parseDate.getFullYear();
-			let month = ('0' + (parseDate.getMonth() + 1)).slice(-2);
-			let day = ('0' + parseDate.getDate()).slice(-2);
-			return year + '-' + month + '-' + day;
 		}
 
 		// 댓글 저장
@@ -797,53 +789,38 @@
 					let kndVal = document.getElementById('editPIssuKndVal');
 					let stVal = document.getElementById('editPIssuStVal');
 					let rankVal = document.getElementById('editPIssuRankVal');
-
+					
+					let starr= {'0E1':['success','해결'], 
+						    	'0E2':['dark','미해결'],
+						    	'0E3':['secondary','해결불가']
+					       	   }
+			
+			 		let kndarr = {'0L1':['danger','버그'], 
+					          	  '0L2':['warning','개선사항'],
+					          	  '0L3':['info','새기능'],
+					          	  '0L4':['light','업무']
+					         	 }  
+			
+			  		let rankarr = {'0G1':['primary','매우높음'], 
+						       	   '0G2':['secondary','높음'],
+						           '0G3':['success','보통'],
+						           '0G4':['warning','낮음'],
+						           '0G5': ['danger','매우낮음']						          
+								  }
+					
 					document.getElementById('editPIssuTtlVal').value = response.issueInfo.issuTtl;
 					editorPIEditing.setHTML(response.issueInfo.issuCntn);
+					
+					kndVal.className ='badge badge-pill badge-' + kndarr[response.issueInfo.issuKnd][0];
+					kndVal.innerHTML = kndarr[response.issueInfo.issuKnd][1];			
+					
+					stVal.className = 'badge badge-' + starr[response.issueInfo.issuSt][0];
+					stVal.innerHTML = starr[response.issueInfo.issuSt][1];
+					
+					rankVal.className = 'badge badge-' + rankarr[response.issueInfo.issuRank][0];
+					rankVal.innerHTML = rankarr[response.issueInfo.issuRank][1];				
 
-					if (response.issueInfo.issuKnd == '0L1') {
-						kndVal.className = 'badge badge-danger';
-						kndVal.innerHTML = '버그';
-					} else if (response.issueInfo.issuKnd == '0L2') {
-						kndVal.className = 'badge badge-warning';
-						kndVal.innerHTML = '개선사항';
-					} else if (response.issueInfo.issuKnd == '0L3') {
-						kndVal.className = 'badge badge-info';
-						kndVal.innerHTML = '새기능';
-					} else if (response.issueInfo.issuKnd == '0L4') {
-						kndVal.className = 'badge badge-light';
-						kndVal.innerHTML = '업무';
-					}
-
-					if (response.issueInfo.issuSt == '0E1') {
-						stVal.className = 'badge badge-pill badge-success';
-						stVal.innerHTML = '해결';
-					} else if (response.issueInfo.issuSt == '0E2') {
-						stVal.className = 'badge badge-pill badge-dark';
-						stVal.innerHTML = '미해결';
-					} else if (response.issueInfo.issuSt == '0E3') {
-						stVal.className = 'badge badge-pill badge-secondary';
-						stVal.innerHTML = '해결불가';
-					}
-
-					if (response.issueInfo.issuRank == '0G1') {
-						rankVal.className = 'badge badge-primary';
-						rankVal.innerHTML = '매우높음';
-					} else if (response.issueInfo.issuRank == '0G2') {
-						rankVal.className = 'badge badge-secondary';
-						rankVal.innerHTML = '높음';
-					} else if (response.issueInfo.issuRank == '0G3') {
-						rankVal.className = 'badge badge-success';
-						rankVal.innerHTML = '보통';
-					} else if (response.issueInfo.issuRank == '0G4') {
-						rankVal.className = 'badge badge-warning';
-						rankVal.innerHTML = '낮음';
-					} else if (response.issueInfo.issuRank == '0G5') {
-						rankVal.className = 'badge badge-danger';
-						rankVal.innerHTML = '매우낮음';
-					}
 					findAllPIHashtag();
-
 					checkPIEditInput();
 					findAllPIFile();
 				})
@@ -865,7 +842,7 @@
 
 						let trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
 						let fileNameTag = $('<td/>').text(item.issuFileNm);
-						let fileSizeTag = $('<td/>').text(getFileSize(item.issuFileSize));
+						let fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
 						let deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'removePIExistingFile(this,' + item.issuFileNo + ')'); // 기존꺼 삭제하는 함수.
 
 						trTag.append(fileNameTag);
@@ -1043,7 +1020,7 @@
 			if (file) {
 				let trTag = $('<tr/>').addClass('added');
 				let fileNameTag = $('<td/>').text(file.name);
-				let fileSizeTag = $('<td/>').text(getFileSize(file.size));
+				let fileSizeTag = $('<td/>').text(getByteSize(file.size));
 				let deleteFileTag = $('<td/>').attr('class', 'deletePIEditFile').attr('onclick', 'editRemovePIFile(this);');
 
 				trTag.append(fileNameTag);

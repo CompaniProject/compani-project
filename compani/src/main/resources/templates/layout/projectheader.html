@@ -127,6 +127,8 @@
 							th:href="@{/project/issues/{prjtNo}(prjtNo=${prjtNo})}">이슈</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/project/drive/{prjtNo}(prjtNo=${prjtNo})}">드라이브</a></li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/personalReply/{prjtNo}(prjtNo=${prjtNo})}">내 코멘트</a></li>
 						<th:block th:if="${session.projectVO.prjtSt} == '0D2'">
 							<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">피드백</a></li>
 						</th:block>

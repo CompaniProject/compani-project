@@ -10,8 +10,6 @@
 <script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
 <!-- 캘린더 js -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
-<!-- ajax -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <style type="text/css">
 body{
@@ -202,6 +200,11 @@ select {
 		</div>
 		<!-- 업무리스트 박스 끝 -->
 	</div>
+	
+	<!-- 모달 시작 -->
+	<div data-include1="showModalMain"></div>
+	<div data-include2="showModalInsert"></div>
+	<!-- 모달 끝 -->
 	
 	<script th:inline="javascript">
     let calendarData = [[${projectCalendarPage}]]; // 전체 업무리스트
@@ -650,7 +653,7 @@ select {
 		$('#projectCalendar').css("display","none");
 	});
 	
-    /*----------------------------
+	/*----------------------------
 		업무리스트 스크롤바
 	------------------------------*/
 	$(function(){
@@ -666,7 +669,37 @@ select {
 		var navItemHome = $('.nav-link').eq(1);
         navItemHome.addClass('active');
     }
+    
+	/*----------------------------
+		모달
+	------------------------------*/
+	// 권오준 추가
+	var miPrjtNo = [[${prjtNo}]];
 	
+	// 업무 등록 모달
+	$('#insertModal').on('click', businessModal)
+	function businessModal(){
+		$('#insertbuss').modal('show');
+	} 
+	
+	// 업무리스트 클릭시 모달
+	$('.businessList').on('click', infoBusiness)
+	function infoBusiness(){
+		bussNo = $(this).find('input').val();
+		$('#workModal').modal('toggle');
+	}
+	
+ 	$(function(){
+		var includes1 = $('[data-include1="showModalMain"]');
+		var includes2 = $('[data-include2="showModalInsert"]');
+		
+		jQuery.each(includes1, function(){
+			$(this).load('/modal/modal-home.html');
+		});
+		jQuery.each(includes2, function(){
+			$(this).load('/modal/business/insert');
+		});
+	})
 	</script>
 	</th:block>
 </body>
