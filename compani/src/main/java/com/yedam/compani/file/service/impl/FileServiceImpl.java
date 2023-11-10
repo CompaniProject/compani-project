@@ -72,11 +72,11 @@ public class FileServiceImpl implements FileService {
 	
 	// 드라이브 파일 업로드 
 	@Override
-	public void driveFileInsert(List<FileVO> files) {
+	public void driveFileInsert(List<FileVO> files, int prjtNo, int bussNo, String membId) {
         if (CollectionUtils.isEmpty(files)) {
             return;
         }
-		filemapper.driveFileInsert(files);
+		filemapper.driveFileInsert(files, prjtNo, bussNo, membId);
 	}
 	
 	// 드라이브 파일 필터링

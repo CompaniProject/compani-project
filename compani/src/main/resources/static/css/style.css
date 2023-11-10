@@ -10400,7 +10400,7 @@ input[type="checkbox"]:checked:after {
   border-color: #f3f3f3; }
 
 .table thead th {
-  border-bottom: none;
+/*   border-bottom: none; */
   border-top: none;
   vertical-align: middle; }
 
