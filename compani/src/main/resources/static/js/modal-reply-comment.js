@@ -10,9 +10,11 @@
 		
 		let value = cntn.val();
 	    let obj = {};
+		let pubcyn_text = (isComment) ? 'pubcyn' : 'pubcyn-r';
 	    obj["replyCntn"] = value;
 	    obj["bussNo"] = bussNo;
 	    obj["replyUpno"] = curBody.data('parentNo');
+		obj["pubcyn"] = $(`input:checkbox[name='${pubcyn_text}']:checked`).val();
 
 	    cntn.val('');
 	    $("#input-cntn-count").text("0/" + text_limit);
@@ -66,6 +68,7 @@
 
 		insertBody.find('.replyInsertBtn').remove();
 		insertBody.find('.replyDeleteBtn').remove();
+		insertBody.find('#pubcyn-r').remove();
 		
 	    toggleBodyDisplay(insertBody,true);
 	    
