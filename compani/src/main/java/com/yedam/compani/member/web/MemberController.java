@@ -210,30 +210,4 @@ public class MemberController {
 		map.put("memberList", list);
 		return map;
 	}
-	
-	// 김연규, 2023-11-03, 마스터-멤버
-	@GetMapping("/master-member")
-	public String masterList(Model model) {
-		List<Map<Object, Object>> memberList = service.masterMemberList();
-		model.addAttribute("masterMemberList", memberList);
-		return "master/master-member";
-	}
-	
-	// 김연규, 2023-11-04, 마스터 멤버 승인
-	@PostMapping("/updateMemberAccp")
-	@ResponseBody
-	public String updateMemberAccp(@RequestBody MemberVO vo){
-		service.updateMemberAccp(vo);
-		return "";
-	}
-	
-	// 김연규, 2023-11-07, 회사관리자 멤버리스트
-	@GetMapping("/companyManager")
-	public String companyManager(Model model, HttpServletRequest request) {
-		MemberVO memberVO = sessionService.getLoginInfo(request);
-		String coCd = memberVO.getCoCd();
-		List<Map<Object, Object>> list = service.companyManager(coCd);
-		model.addAttribute("companyManager", list);
-		return "master/company-manager";
-	}
 }
