@@ -33,7 +33,7 @@
 							<a href="/master-member" class="nav-link active">회원</a>
 						</li>
 					</ul>
-					<div class="table-responsive">
+					<div class="table-responsive" style="width: 1300px">
 						<table class="table table-striped table-bordered memberTable">
 							<thead>
 								<tr>
@@ -82,11 +82,23 @@
 	});
 	
 	// dataTable 선언
-	var memberTable = $('.memberTable').DataTable();
-	memberTable
-				.order([7, 'asc']
-					 , [0, 'desc'])
-				.draw();
+	var memberTable = $('.memberTable').DataTable({
+		"order": [
+					[7, 'asc']
+			 	  , [0, 'desc']
+				],
+		"columns":[
+					{"width":"70px"},
+					null,
+					{"width":"150px"},
+					{"width":"150px"},
+					{"width":"70px"},
+					{"width":"150px"},
+					{"width":"100px"},
+					{"width":"50px"},
+					{"width":"50px"},
+				]
+	});
 	
 	// 멤버 승인 ajax
 	function membApprove(){
