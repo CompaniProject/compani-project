@@ -85,15 +85,29 @@
 			
             $.each(data.replys, function (idx, item) {
     			let tr = $('<tr/>');
-    			tr.append(`<td>${item.bussNm}</td>`);
+    			
+    			let spanTag = $('<span/>').addClass('badge badge-primary').text(item.bussNm);
+    			let nmTd = $('<td/>').append(spanTag);
+    			tr.append(nmTd);
+    			
     			tr.append(`<td>${item.replyCntn}</td>`);
-    			tr.append(`<td>${item.replyDt}</td>`);
+    			
+    			let dtTag = $('<td/>').text(timestamp(item.replyDt));
+    			tr.append(dtTag);
+    			
     			tr.append(`<td>${item.pubcynNm}</td>`);
     			tbody.append(tr);
             });
 			
 		}
 	
+	    //------------ Date formatting
+	    function timestamp(convertDate){
+	        let today = new Date(convertDate);
+	        today.setHours(today.getHours() + 9);
+	        return today.toISOString().replace('T', ' ').substring(0, 16);
+	    }
+		
 	</script>
 
 
