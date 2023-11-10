@@ -20,7 +20,7 @@ public class BusinessController {
 
 	private final BusinessService businessService;
 
-	@GetMapping("/project/business/{prjtNo}")
+	@GetMapping("project/business/{prjtNo}")
 	public String businessHome(@PathVariable int prjtNo, Model model) {
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);
 		model.addAttribute("businessLevelList", businessLevelList);

@@ -25,7 +25,7 @@ public class CompanyController {
 	CompanyService service;
 	
 	//회원가입 소속회사
-	@PostMapping("/companyList")
+	@PostMapping("companyList")
 	@ResponseBody
 	public Map<String, Object> companyList(){
 		Map<String, Object> compList = new HashMap<>();
@@ -36,27 +36,27 @@ public class CompanyController {
 	}
 	
 	//회사코드생성
-	@PostMapping("/makeCoCd")
+	@PostMapping("makeCoCd")
 	@ResponseBody
 	public String makeCompanyCode(){
 		return service.makeCompanyCode();
 	}
 	
 	// 기업 등록폼
-	@GetMapping("/companySignUp")
+	@GetMapping("companySignUp")
 	public String companySignUpForm() {
 		return "company/companySignUp";
 	}
 	
 	//소속회사 코드생성후 사원회원가입폼으로
-	@PostMapping("/companySignUpped")
+	@PostMapping("companySignUpped")
 	public String companySignUp(CompanyVO vo, Model model) {
 		vo.setCoCd(service.makeCompanyCode());
 		return "member/memberSignUp";
 	}
 	
 	//회사정보
-	@PostMapping("/companyInfo")
+	@PostMapping("companyInfo")
 	@ResponseBody
 	public CompanyVO companyInfo(CompanyVO vo){
 		vo = service.getCompanyInfo(vo);

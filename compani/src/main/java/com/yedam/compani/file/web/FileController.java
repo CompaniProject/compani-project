@@ -41,7 +41,7 @@ public class FileController {
 
 	
 	// 파일 리스트
-	@GetMapping("/searchFile/{bussNo}")
+	@GetMapping("searchFile/{bussNo}")
 	public String fileList(@PathVariable int bussNo, 
 			                String type, 
 			                String keywordFile, 
@@ -58,7 +58,7 @@ public class FileController {
 	}
 	
 	// 페이징 및 검색 AJAX
-	@GetMapping("/searchAjax/{bussNo}")
+	@GetMapping("searchAjax/{bussNo}")
 	@ResponseBody
 	public Map<String, Object> fileList(@PathVariable int bussNo, 
 										String type, 

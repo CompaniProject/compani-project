@@ -53,7 +53,7 @@ public class IssueController {
 	private final ProjectFeedbackService projectFeedbackService;
 	
 	// 모달에서 이슈리스트 나오기
-	@GetMapping("/ModalIssueList/{bussNo}")
+	@GetMapping("ModalIssueList/{bussNo}")
 	public String modalIssueList(@PathVariable final int bussNo,
 													 String searchBI, 
 													 String keyword, 
@@ -79,7 +79,7 @@ public class IssueController {
 	}
 
 	// 페이징 또는 검색 시 ajax 처리
-	@GetMapping("/ModalAjaxIssueList/{bussNo}")
+	@GetMapping("ModalAjaxIssueList/{bussNo}")
 	@ResponseBody
 	public Map<String, Object> modalIssueList(@PathVariable final int bussNo, 
 															String searchBI, 
@@ -103,7 +103,7 @@ public class IssueController {
 	}
 	
 	// 모달 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회 + 해당 이슈에 대한 모든 해시태그 조회
-	@RequestMapping("/ModalIssueInfo")
+	@RequestMapping("ModalIssueInfo")
 	@ResponseBody
 	public Map<String, Object> modalIssueSelect(final int issuNo) {
 			Map<String, Object> map = new HashMap<>();
@@ -121,7 +121,7 @@ public class IssueController {
 	
 	
 	// 모달에서 이슈 등록
-	@PostMapping("/ModalAjaxIssueInsert")
+	@PostMapping("ModalAjaxIssueInsert")
 	@ResponseBody
 	public void modalIssueInsert(MultipartFile[] files, 
 								 final IssueVO issueVO, 
@@ -141,7 +141,7 @@ public class IssueController {
 	}
 	
 	// 모달에서 이슈 수정
-	@PostMapping("/ModalIssueUpdate")
+	@PostMapping("ModalIssueUpdate")
 	@ResponseBody
 	public IssueVO modalIssueUpdate(final IssueVO issueVO, 
 								    MultipartFile[] editFiles, 
@@ -179,14 +179,14 @@ public class IssueController {
 	}
 	
 	// 모달에서 이슈 삭제
-	@PostMapping("/ModalIssue")
+	@PostMapping("ModalIssue")
 	@ResponseBody
 	public void modalIssueDelete(@RequestParam final int issuNo) {
 		issueService.deleteIssue(issuNo);
 	}
 	
 	// 김연규, 2023-10-25, 프로젝트 이슈 피드백
-	@GetMapping("/project/feedback/{prjtNo}/issue")
+	@GetMapping("project/feedback/{prjtNo}/issue")
 	public String projectFeedbackIssueList(@PathVariable int prjtNo, Model model) {
 		
 		List<IssueVO> list = issueService.getProjectFeedbackIssueList(prjtNo);

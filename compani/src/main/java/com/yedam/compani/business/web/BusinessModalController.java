@@ -36,7 +36,7 @@ public class BusinessModalController {
 	private final BusinessMemberService businessMemberService;
 	private final SessionService sessionService;
 	
-	@GetMapping("/modal/business/insert")
+	@GetMapping("modal/business/insert")
 	public String businessModalInsertHome(Model model, HttpServletRequest request) {
 		int prjtNo = sessionService.getProjectNo(request);
 		
@@ -69,7 +69,7 @@ public class BusinessModalController {
 	}
 
 	//업무 상세보기 
-	@GetMapping("/businessInfo/{bussNo}")
+	@GetMapping("businessInfo/{bussNo}")
 	public String businessInfo(@PathVariable Integer bussNo ,Model model, HttpServletRequest request) {
 
 		// 업무 단건
@@ -92,7 +92,7 @@ public class BusinessModalController {
 		return "modal/modal-business";
 	}
 
-	@PostMapping("/updateBusiness")
+	@PostMapping("updateBusiness")
 	@ResponseBody
 	public void updateBusiness(@RequestBody FormVO formVO) {
 		

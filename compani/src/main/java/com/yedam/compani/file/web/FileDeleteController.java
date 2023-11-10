@@ -18,14 +18,14 @@ public class FileDeleteController {
 	FileService fileservice;
 	
 	// 파일 삭제 - 하나삭제 - AJAX
-		@GetMapping("/fileOneDelete")
+		@GetMapping("fileOneDelete")
 		@ResponseBody // AJAX 사용
 		public int fileOneDelete(Integer fileNo) {
 			return fileservice.fileDelete(fileNo);
 		}
 
 	// 파일 삭제 - 체크박스 - 전체선택 || 선택삭제 - AJAX
-		@PostMapping("/fileSelectDel")
+		@PostMapping("fileSelectDel")
 		@ResponseBody
 		public int fileSelectDel(@RequestParam List<Integer> files) {
 			return fileservice.fileSelDel(files);

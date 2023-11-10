@@ -24,7 +24,7 @@ public class ProjectController {
 	private final ProjectMemberService projectMemberService;
 	private final SessionService sessionService;
 
-	@GetMapping("/project/home/{prjtNo}")
+	@GetMapping("project/home/{prjtNo}")
 	public String projectHome(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		List<List<String>> businessStateList = businessService.getBusinessStateList(prjtNo);
 		List<Map<Object, Object>> businessLevelList = businessService.getBusinessAndLevelList(prjtNo);

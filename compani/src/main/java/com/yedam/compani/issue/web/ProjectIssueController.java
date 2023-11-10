@@ -47,7 +47,7 @@ public class ProjectIssueController {
 	private final IssueHashtagService issueHashtagService;
 	private final ProjectMemberService projectMemberService;
 
-	@GetMapping("/project/issues/{prjtNo}")
+	@GetMapping("project/issues/{prjtNo}")
 	public String projectIssueList(@PathVariable int prjtNo, 
 							       				 String search, 
 							       				 String keyword,
@@ -70,7 +70,7 @@ public class ProjectIssueController {
 	}
 
 	// 프로젝트 내 이슈 리스트 조회 (Ajax)
-	@GetMapping("/project/aissues/{prjtNo}")
+	@GetMapping("project/aissues/{prjtNo}")
 	@ResponseBody
 	public Map<String, Object> projectIssue(@PathVariable int prjtNo,
 														  String search, 
@@ -91,7 +91,7 @@ public class ProjectIssueController {
 	}
 
 	// 프로젝트 내 이슈 단건 조회 + 해당 이슈에 대한 모든 파일 조회 + 해시태그 조회
-	@GetMapping("/project/issues/{prjtNo}/{issuNo}")
+	@GetMapping("project/issues/{prjtNo}/{issuNo}")
 	public String projectIssueSelect(@PathVariable final int prjtNo, 
 									 @PathVariable final int issuNo, 
 									 Model model) {
@@ -107,14 +107,14 @@ public class ProjectIssueController {
 	}
 
 	// 프로젝트게시판 내 이슈 삭제
-	@PostMapping("/project/issues/del")
+	@PostMapping("project/issues/del")
 	@ResponseBody
 	public void projectIssueDelete(@RequestParam final int issuNo) {
 		issueService.deleteIssue(issuNo);
 	}
 	
 	// 프로젝트 게시판 내 이슈 등록
-	@PostMapping("/project/issues/save")
+	@PostMapping("project/issues/save")
 	@ResponseBody
 	public void projectIssueSave(MultipartFile[] savefiles, 
 								 IssueVO issueVO, 
