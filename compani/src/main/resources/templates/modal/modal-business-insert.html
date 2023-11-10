@@ -139,21 +139,16 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-username">종속관계</label>
-							<div class="col-lg-3">
-								<div class="dropdown custom-dropdown">
-									<div>
-										<select class="dropdown-relation" name="bussDep">
-											<option class="dropdown-relation" value="">선택</option>
-											<option class="dropdown-relation" value="up">선행 작업</option>
-											
-										</select>
-									</div>
-								</div>
-							</div>
+							<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
+							<!-- 요기 백업 -->
+
+							<label class="col-lg-3 col-form-label" for="val-username">선행
+								업무</label>
+
 							<div class="dropdown custom-dropdown">
 								<div>
 									<select class="dropdown-relation" name="bussUpNm">
+										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
 												th:value="${bussNameList.bussNm}"
@@ -163,20 +158,21 @@
 								</div>
 							</div>
 							<!--후속  -->
-							<div class="col-lg-3">
-								<div class="dropdown custom-dropdown">
-									<div>
-										<select class="dropdown-relation" name="bussDep">
-											<option class="dropdown-relation" value="">선택</option>
-											<option class="dropdown-relation" value="up">선행 작업</option>
-											<option class="dropdown-relation" value="down">후속 작업</option>
-										</select>
-									</div>
-								</div>
+						</div>
+						<div class="form-group row">
+
+							<div class="col-lg-4 col-form-label"></div>
+							<div class="col-lg-1">
+								<i class="fa-solid fa-plus fa-lg"></i>
 							</div>
+							<label class="col-lg-3 col-form-label" for="val-username">후속
+								업무</label>
+
 							<div class="dropdown custom-dropdown">
 								<div>
-									<select class="dropdown-relation" name="bussUpNm">
+
+									<select class="dropdown-relation" name="bussdownNm">
+										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
 												th:value="${bussNameList.bussNm}"
@@ -187,7 +183,6 @@
 							</div>
 
 						</div>
-
 					</div>
 					<div>
 						<input type="hidden" name="prjtNo" th:value="${session.prjtNo}" />
@@ -203,7 +198,7 @@
 	</div>
 </div>
 
-<script>
+<script th:inline="javascript">
 
 			//$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#bussmembertbl').on('click', 'td:nth-child(5)',  function(){insertbussMember( $('#insertbussmembertbl'))})
@@ -269,12 +264,15 @@
 					}
 					trTag.append(tdTag);
 					
+		
 					tdTag= $('<td/>');
-					tdTag.append(dept, tdTag);
-
+					tdTag.append(dept);
+					trTag.append(tdTag);
 					
-					tdTag= $('<td/>').append(position)
-					                 .append(tdTag);
+					tdTag= $('<td/>');
+					tdTag.append(position);
+					trTag.append(tdTag);
+
 				
 					tdTag= $('<td/>');
 					tdTag.append(name);
@@ -379,8 +377,57 @@
 				.fail(err => {});
 					
 			}
+			let bussList = [[${businessNameList}]];
+			$('.fa-solid.fa-plus.fa-lg').on('click', function(){
+				
+				console.log(bussList);
+				let div = $(this).parent().parent().parent();
+				
+			    let temp = 	`
+			    	<div class="form-group row">
+
+					<div class="col-lg-5 col-form-label"></div>
+					
+					<label class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
+					<div class="dropdown custom-dropdown">
+						<div>
+							<select  class="dropdown-relation" name="bussdownNm" id = "here">
+							<option class="dropdown-business" value="">선택</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-1"><i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i></div>
+					</div>`;
+					
+				div.append(temp);
+				
+				 let select = $('.dropdown-relation').last();
+				 	console.log(select);
+					let option = '';
+					for(let i =0; i< bussList.length ; i++){
+						option = $('<option>' + bussList[i].bussNm+'</option>');
+						select.append(option);
+					}
+			})
 			
+			$('.form-group.row').on('click', '.fa-solid.fa-minus.fa-lg', function(){
+				console.log('gggg');
+				//$(this).parent().prrent().remove();
+			})
+			
+			function removeRow(e){
+				console.log('gg');
+				$(e).parent().parent().remove();
+			}
+			
+			$('[name="bussdownNm"]').on('change',function(){
+				console.log('gg');
+				$(this).prop('disabled', true);
+			})
 		
+		
+			
 		</script>
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>
