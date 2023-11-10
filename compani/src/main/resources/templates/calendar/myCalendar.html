@@ -541,18 +541,20 @@ select {
 			
 			// 시작 Month 처리
 			var startMonth = item.start_date.getMonth();
-			// 종료 Month 처리
-			var endMonth = '';
-			if(item.end_date.getDate() == '31'){
-				endMonth = item.end_date.getMonth();
-			}else{
-				endMonth = item.end_date.getMonth()+1;
-			}
+			
 			// 종료 Date 처리
 			var endDate = new Date(item.end_date);
 			endDate.setDate(endDate.getDate() - 1);
 			endDate = endDate.getDate();
-			if(end<10) end = '0' + end;
+			if(endDate<10) endDate = '0' + endDate;
+			
+			// 종료 Month 처리
+			var endMonth = '';
+			if(endDate == '31'){
+				endMonth = item.end_date.getMonth();
+			}else{
+				endMonth = item.end_date.getMonth()+1;
+			}
 			
 			var start = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
 			var end = item.end_date.getFullYear() + "-" + endMonth + "-" + endDate;
