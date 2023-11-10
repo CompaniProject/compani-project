@@ -25,113 +25,115 @@
 <body>
 	<th:block layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-8">
-				<!-- 피드백 탭 시작 -->
-				<div class="default-tab">
-					<ul class="nav nav-tabs mb-3" role="tablist">
-						<li class="nav-item"><a class="nav-link"
-							th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
-						<li class="nav-item"><a class="nav-link"
-							href="#">이슈</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인 피드백</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/project/home/{prjtNo}(prjtNo=${prjtNo})}">프로젝트 홈</a></li>
-					</ul>
-				</div>
-				<!-- 피드백 탭 끝 -->
-				<div class="column">
-					<!-- 이슈 데이터 - 시작 -->
-					<div class="row" style="text-align: center;">
-						<div class="col-lg-3">
-							<div class="card">
-								<div class="card-body" style="padding-bottom: 42px;">
-									<h4 class="card-title">총 이슈 개수</h4>
-									<span th:text="${projectStatus.issuCnt}"> </span>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="card">
-								<div class="card-body" style="padding-bottom: 0px;">
-									<h4 class="card-title">해결 이슈</h4>
-									<span th:text="|${projectStatus.issuSolveCnt} / ${projectStatus.issuCnt}|"> </span>
-									<div class="progress mb-3">
-										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
-											<span class="sr-only"></span>
-	                                   	</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="card">
-								<div class="card-body" style="padding-bottom: 0px;">
-									<h4 class="card-title">미해결 이슈</h4>
-									<span th:text="|${projectStatus.issuUnsolveCnt} / ${projectStatus.issuCnt}|"> </span>
-									<div class="progress mb-3">
-										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
-											<span class="sr-only"></span>
-	                                   	</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="card">
-								<div class="card-body" style="padding-bottom: 0px;">
-									<h4 class="card-title">해결불가 이슈</h4>
-									<span th:text="|${projectStatus.issuUnsolvableCnt} / ${projectStatus.issuCnt}|"> </span>
-									<div class="progress mb-3">
-										<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
-											<span class="sr-only"></span>
-	                                   	</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 이슈 데이터 - 끝 -->
-					<!-- 이슈 리스트 시작 -->
-					<div class="row">
-	                    <div class="col-12">
-		                   	<div class="card">
-		                       	<div class="card-body">
-									<div class="table-responsive">
-										<table class="table table-striped table-bordered issueTable">
-											<thead>
-												<tr>
-													<th style="width: 5%;">#</th>
-													<th>제목</th>
-													<th style="width: 10%;">종류</th>
-													<th style="width: 10%;">상태</th>
-													<th style="width: 10%;">작성자</th>
-													<th style="width: 10%;">작성일</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:each="info : ${projectFeedbackIssueList}" role="row">
-													<td class="issueListTr"></td>
-													<td th:text="${info.issuTtl}" class="issuTtl"></td>
-													<td class="issuKnd">
-														<span th:text="${info.issuKnd}"></span>
-													</td>
-													<td class="issuSt">
-														<span th:text="${info.issuSt}"></span>
-													</td>
-													<td th:text="${info.membNm}"></td>
-													<td th:text="${#dates.format(info.issuDt, 'yy.MM.dd')}"></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 이슈 리스트 끝 -->
-				</div>
+			<div class="col-lg-12">
+			<!-- 피드백 탭 시작 -->
+			<div class="default-tab">
+				<ul class="nav nav-tabs mb-3" role="tablist">
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/project/feedback/{prjtNo}(prjtNo=${prjtNo})}">홈</a></li>												
+					<li class="nav-item"><a class="nav-link"
+						href="#">이슈</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/project/feedback/{prjtNo}/personal(prjtNo=${prjtNo})}">개인 피드백</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/project/home/{prjtNo}(prjtNo=${prjtNo})}">프로젝트 홈</a></li>
+				</ul>
 			</div>
-			<!-- Comment Area -->
+			<!-- 피드백 탭 끝 -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8">
+				<!-- 이슈 데이터 - 시작 -->
+				<div class="row" style="text-align: center;">
+					<div class="col-lg-3">
+						<div class="card">
+							<div class="card-body" style="padding-bottom: 42px;">
+								<h4 class="card-title">총 이슈 개수</h4>
+								<span th:text="${projectStatus.issuCnt}"> </span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="card">
+							<div class="card-body" style="padding-bottom: 0px;">
+								<h4 class="card-title">해결 이슈</h4>
+								<span th:text="|${projectStatus.issuSolveCnt} / ${projectStatus.issuCnt}|"> </span>
+								<div class="progress mb-3">
+									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+										<span class="sr-only"></span>
+                                   	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="card">
+							<div class="card-body" style="padding-bottom: 0px;">
+								<h4 class="card-title">미해결 이슈</h4>
+								<span th:text="|${projectStatus.issuUnsolveCnt} / ${projectStatus.issuCnt}|"> </span>
+								<div class="progress mb-3">
+									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+										<span class="sr-only"></span>
+                                   	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="card">
+							<div class="card-body" style="padding-bottom: 0px;">
+								<h4 class="card-title">해결불가 이슈</h4>
+								<span th:text="|${projectStatus.issuUnsolvableCnt} / ${projectStatus.issuCnt}|"> </span>
+								<div class="progress mb-3">
+									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
+										<span class="sr-only"></span>
+                                   	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 이슈 데이터 - 끝 -->
+				<!-- 이슈 리스트 시작 -->
+				<div class="row">
+                    <div class="col-12">
+	                   	<div class="card">
+	                       	<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered issueTable">
+										<thead>
+											<tr>
+												<th style="width: 5%;">#</th>
+												<th>제목</th>
+												<th style="width: 10%;">종류</th>
+												<th style="width: 10%;">상태</th>
+												<th style="width: 10%;">작성자</th>
+												<th style="width: 10%;">작성일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="info : ${projectFeedbackIssueList}" role="row">
+												<td class="issueListTr"></td>
+												<td th:text="${info.issuTtl}" class="issuTtl"></td>
+												<td class="issuKnd">
+													<span th:text="${info.issuKnd}"></span>
+												</td>
+												<td class="issuSt">
+													<span th:text="${info.issuSt}"></span>
+												</td>
+												<td th:text="${info.membNm}"></td>
+												<td th:text="${#dates.format(info.issuDt, 'yy.MM.dd')}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 이슈 리스트 끝 -->
+			</div>
 		    <div class="col-lg-4">
+		    	<!-- Comment Area -->
 		        <div class="card"  style="height:80vh;">
 		        	<div class="card-header bg-white">
 	                    <h5 class="card-title">프로젝트 피드백</h5>
@@ -179,8 +181,8 @@
 		            </div>
 					<!-- 댓글 등록 영역 End -->
 		        </div>
+		    	<!-- Comment Area End -->
 		    </div>
-		    <!-- Comment Area End -->
 		</div>
 	
 		<!-- Hidden Insert Comment Body -->
@@ -246,28 +248,6 @@
 			$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-secondary');
 		}
 	}
-	// 페이지 넘어갈 때마다 다시 적용해줌
-	$('.paginate_button ').on('click', function(){
-		/* for(let i=0; i<issueList.length; i++){
-			if($('.issuKnd').eq(i).children('span').text() == '버그'){
-				$('.issuKnd').eq(i).children('span').addClass('badge badge-danger');
-			} else if($('.issuKnd').eq(i).children('span').text() == '개선사항'){
-				$('.issuKnd').eq(i).children('span').addClass('badge badge-warning');
-			} else if($('.issuKnd').eq(i).children('span').text() == '새기능'){
-				$('.issuKnd').eq(i).children('span').addClass('badge badge-info');
-			} else if($('.issuKnd').eq(i).children('span').text() == '업무'){
-				$('.issuKnd').eq(i).children('span').addClass('badge badge-light');
-			}
-			
-			if($('.issuSt').eq(i).children('span').text() == '해결'){
-				$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-success');
-			} else if($('.issuSt').eq(i).children('span').text() == '미해결'){
-				$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-dark');
-			} else if($('.issuSt').eq(i).children('span').text() == '해결불가'){
-				$('.issuSt').eq(i).children('span').addClass('badge badge-pill badge-secondary');
-			}
-		} */
-	});
 	
 	// 피드백 헤더 택 효과
 	window.onload = function () {
