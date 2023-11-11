@@ -34,13 +34,21 @@ public class PersonalReplyController {
 									, Model model
 									, HttpServletRequest request) {
 		
-		List<Map<Object,Object>> personalReplys = businessReplyService.getBusinessReply(
-														sessionService.getLoginInfo(request).getMembId()
-														,prjtNo
-														,pageNum
-														,AMOUNT);
+		MemberVO memberVO = sessionService.getLoginInfo(request);
+		List<Map<Object,Object>> personalReplys = new ArrayList<>();
+		personalReplys = businessReplyService.getBusinessReply(
+											memberVO.getMembId()
+											,prjtNo
+											,pageNum
+											,AMOUNT);
+		int naviCount = businessReplyService.getReplyNaviCount(
+											memberVO.getMembId()
+											,prjtNo
+											,AMOUNT);
 		
 		model.addAttribute("personalReplys", personalReplys);
+		model.addAttribute("naviCount",naviCount);
+		
 		sessionService.setProjectInfo(prjtNo, request);
 		sessionService.setProjectNo(prjtNo, request);
 		
@@ -51,14 +59,16 @@ public class PersonalReplyController {
 	@ResponseBody
 	public Map<String, Object> getPersonalReplyPage(int pageNum, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<>();
+		List<Map<Object,Object>> personalReplys = new ArrayList<>();
+		
 		MemberVO memberVO = sessionService.getLoginInfo(request);
 		Integer prjtNo = sessionService.getProjectNo(request);
 		
-		List<Map<Object,Object>> personalReplys = businessReplyService.getBusinessReply(
-														memberVO.getMembId()
-														,prjtNo
-														,pageNum
-														,AMOUNT);
+		personalReplys = businessReplyService.getBusinessReply(
+											memberVO.getMembId()
+											,prjtNo
+											,pageNum
+											,AMOUNT);
 		
 		map.put("replys", personalReplys);
 		
