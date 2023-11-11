@@ -121,6 +121,7 @@
 			}
 			
 			startNaviPage += (event.data.isBefore) ? (-perPageCount) : (+perPageCount);
+			pageDataUpdate(startNaviPage);
 			createPaginationHTML();	
 		}
 		
