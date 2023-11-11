@@ -20,6 +20,11 @@ public class BusinessReplyServiceImpl implements BusinessReplyService {
 	@Override
 	public List<Map<Object,Object>> getBusinessReply(String membId, Integer prjtNo, Integer pageNum, Integer amount) {
 		return businessReplyMapper.getBusinessReply(membId,prjtNo,pageNum, amount);
+	}	
+	
+	@Override
+	public int getReplyNaviCount(String membId, Integer prjtNo, Integer amount) {
+		return businessReplyMapper.selectReplyNaviCount(membId, prjtNo, amount);
 	}
 	
 	@Override
