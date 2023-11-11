@@ -98,13 +98,27 @@
     			let dtTag = $('<td/>').text(timestamp(item.replyDt));
     			
     			tr.append(nmTd);
-    			tr.append(`<td>${item.replyCntn}</td>`);
+    			tr.append(getTdCntnTag(item.replyCntn));
     			tr.append(dtTag);
     			tr.append(`<td>${item.pubcynNm}</td>`);
     			
     			tbody.append(tr);
             });
 			
+		}
+		
+		function getTdCntnTag(cntn){
+			let td = $('<td/>');
+			let txt = cntn;
+			
+			if (cntn.length >= 15){
+				txt = cntn.substr(0,15) + '...';
+				td.attr('title',cntn);
+			}
+			
+			td.text(txt);
+			
+			return td;
 		}
 		
 		function setNaviPage(event){
