@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.github.pagehelper.Page;
-import com.yedam.compani.file.service.FileSearchDTO;
 import com.yedam.compani.file.service.FileVO;
 
 public interface FileMapper {
@@ -36,7 +35,7 @@ public interface FileMapper {
 		public Page<FileVO> findFile(@Param("type")String search, @Param("keywordFile") String keywordFile, @Param("bussNo") int bussNo);
 		
 		// 드라이브 업로드
-		void driveFileInsert(List<FileVO> files);
+		void driveFileInsert(@Param("files") List<FileVO> files, @Param("prjtNo") int prjtNo, @Param("bussNo") int bussNo, @Param("membId") String MembId);
 		
 		// 파일 다운로드
 		FileVO fileDownload(Integer fileNo);

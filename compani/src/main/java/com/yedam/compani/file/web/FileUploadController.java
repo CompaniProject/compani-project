@@ -72,7 +72,7 @@ public class FileUploadController {
 		        String uuid = UUID.randomUUID().toString(); // 랜덤값 지정 (UUID값)
 		        //저장할 파일 이름 중간에 "_"를 이용하여 구분
 		        
-		        String uploadFileName = folderPath +File.separator + uuid + "_" + fileName;
+		        String uploadFileName = folderPath +File.separator + uuid + "." + fileType;
 		        // 실제 경로
 		        String saveName = uploadPath + File.separator + uploadFileName;
 		        // 서버 안의 별도의 공간 그 안에 내가 지금 저장할 이름을 정하는 코드
@@ -103,7 +103,7 @@ public class FileUploadController {
 		}
 		
 		private String makeFolder() {
-			String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+			String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
 			// LocalDate를 문자열로 포멧
 			String folderPath = str.replace("/", File.separator); // File.separator 파일인식
 			File uploadPathFoler = new File(uploadPath, folderPath);

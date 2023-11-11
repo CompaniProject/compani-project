@@ -6,7 +6,7 @@ import java.util.Map;
 import com.yedam.compani.business.service.BusinessVO;
 
 public interface BusinessReplyService {
-	public List<BusinessReplyVO> getBusinessReply();
+	public List<Map<Object,Object>> getBusinessReply(String membId, Integer prjtNo, Integer pageNum, Integer amount);
 	public boolean insert(BusinessReplyVO projectFeedbackVO);
 	public boolean update(BusinessReplyVO projectFeedbackVO);
 	public List<Map<Object,Object>> getListForLevel(int bussNo);

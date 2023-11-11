@@ -22,9 +22,11 @@
 					        member mem
 					        
 					WHERE	f.buss_no = b.buss_no
+					  AND	f.prjt_no = p.prjt_no
 					  AND	b.prjt_no = p.prjt_no
 					  AND	f.memb_id = mem.memb_id
 					  AND	f.prjt_no = #{prjtNo}
+					  
 					<choose>
 						<when test="pType == '파일명'">
 							AND f.file_nm LIKE '%' || #{pKeyword} || '%'
@@ -33,7 +35,9 @@
 							AND mem.memb_nm LIKE '%' || #{pKeyword} || '%'
 						</when>
 					</choose>
+					
 					ORDER BY file_no DESC
+					
 				</select>
 				
 				<!-- 드라이브 필터링 -->
@@ -48,11 +52,17 @@
 							, f.file_dt
 							, mem.memb_nm
 							, f.file_size
-					FROM   	project_file f, project p, business b, member mem
+					FROM   	project_file f,
+							project p, 
+							business b, 
+							member mem
+							
 					WHERE	f.buss_no = b.buss_no
+					AND		f.prjt_no = p.prjt_no
 					AND		b.prjt_no = p.prjt_no
 					AND		f.memb_id = mem.memb_id
 					AND		f.prjt_no = #{prjtNo}
+					
 					<choose>
 						<when test="filter != null and filter != ''">
 							AND f.file_type LIKE '%' || #{filter} || '%'
@@ -116,11 +126,16 @@
 							, b.buss_nm
 							, p.prjt_nm
 							
-				    FROM 	project_file f, project p, business b, member mem
+				    FROM 	project_file f, 
+				    		project p, 
+				    		business b, 
+				    		member mem
+				    		
 					WHERE	f.buss_no = b.buss_no
 					AND		b.prjt_no = p.prjt_no
 					AND		f.memb_id = mem.memb_id
 					AND		f.buss_no = #{bussNo}
+					
 					<choose>
 						<when test="type == '파일명'">
 							AND f.file_nm LIKE '%' || #{keywordFile} || '%'
@@ -129,7 +144,9 @@
 							AND mem.memb_nm LIKE '%' || #{keywordFile} || '%'
 						</when>
 					</choose>
+					
 					ORDER BY f.file_no DESC	
+					
 				</select>
 				
 				<!-- 드라이브 파일 업로드 -->
@@ -147,14 +164,14 @@
 			                  )
 			        SELECT file_seq.nextval, W.*
 			        FROM (
-			        <foreach item="files" collection="list" separator="UNION ALL ">
-			            SELECT		#{files.prjtNo} as prjtNo
-			                    ,	#{files.bussNo} as bussNo
+			        <foreach item="files" collection="files" separator="UNION ALL ">
+			            SELECT		#{prjtNo} as prjtNo
+			                    ,	#{bussNo} as bussNo
 			                    , 	#{files.fileNm} as fileNm
 			                    , 	#{files.filePath} as filePath
 			                    ,   #{files.fileType} as fileType
 			                    ,   SYSDATE as fileDt
-			                    ,  	#{files.memb_id} as membId
+			                    ,  	#{membId} as membId
 			                    ,   #{files.fileSize} as fileSize
 			            FROM       DUAL
 			        </foreach>
@@ -174,11 +191,16 @@
 							, mem.memb_nm
 							, f.file_size
 							
-				    FROM 	project_file f, project p, business b, member mem
+				    FROM 	project_file f, 
+				    		project p, 
+				    		business b, 
+				    		member mem
+				    		
 					WHERE	f.buss_no = b.buss_no
 					AND		b.prjt_no = p.prjt_no
 					AND		f.memb_id = mem.memb_id
 					AND		f.file_no = #{fileNo}
+					
 				</select>	
 				
 </mapper>

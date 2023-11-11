@@ -33,7 +33,7 @@ public interface FileService {
 	public Page<FileVO> fileList(int pageNo, String search, String keywordFile, int bussNo );
 	
 	// 드라이브 업로드
-	public void driveFileInsert(List<FileVO> files);
+	public void driveFileInsert(List<FileVO> files , int prjtNo, int bussNo, String membId);
 	
 	// 파일 다운로드
 	public FileVO fileDownload(Integer fileNo);

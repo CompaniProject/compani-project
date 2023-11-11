@@ -64,13 +64,13 @@ public class ProjectFileController {
 	// 업로드
 	@PostMapping("project/driveInsertAjax/save")
 	@ResponseBody
-	public Map<String, Object> fileListInsert(MultipartFile[] drivefile, FileVO fileVO) {
+	public Map<String, Object> fileListInsert(MultipartFile[] drivefile, FileVO fileVO, int prjtNo, int bussNo, String membId) {
 		
 		// 파일 업로드, 파일 DB에 저장
 		List<FileVO> uploadedFiles = new ArrayList<>();
 		if (drivefile != null && drivefile.length > 0) {
 				 uploadedFiles = dfu.uploadFiles(Arrays.asList(drivefile)); // 배열을  리스트로 변환하는 메서드. MultipartFile[] files -> List<MultipartFile>
-				 fileservice.driveFileInsert(uploadedFiles);
+				 fileservice.driveFileInsert(uploadedFiles, prjtNo, bussNo, membId);
 		}
 		
 		Map<String, Object> map = new HashMap<>();
