@@ -49,18 +49,15 @@
 				<div class="bootstrap-pagination d-sm-flex flex-sm-justify-center">
                     <nav>
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" aria-label="Previous"><span aria-hidden="true">«</span> <span class="sr-only">Previous</span></a>
-                            </li>
-                            
+                            <li class="page-item" id="prevBtn"><a class="page-link" aria-label="Previous"><span aria-hidden="true">«</span> <span class="sr-only">Previous</span></a></li>
                             <th:block th:if="${naviCount} > 0">
-	                            <li class="page-item" th:each="page: ${#numbers.sequence(1, naviCount)}">
+	                            <li class="page-item" th:each="page: ${#numbers.sequence(1, (naviCount > 5) ? 5 : naviCount )}">
 	                            <a class="page-link"
 	               					th:text="${page}"
 	               					th:attr="onclick='pageDataUpdate(\'' + ${page} + '\')'"></a>
 	                            </li>	
                             </th:block>
-                            <li class="page-item"><a class="page-link" aria-label="Next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span></a>
-                            </li>
+                            <li class="page-item" id="nextBtn"><a class="page-link" aria-label="Next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -69,7 +66,15 @@
 		</div>
 	</div>
 
-	<script>
+	<script th:inline="javascript">
+		// 맨 첫 페이지 : 1 ~ perPageCount번 페이지 번호 출력됨
+		let startNaviPage = 1;
+		const perPageCount = 5;
+		const naviCount = [[${naviCount}]];
+		
+		$(document).on('click','#prevBtn',{isBefore: true},setNaviPage);
+		$(document).on('click','#nextBtn',{isBefore: false},setNaviPage);
+	
 		function pageDataUpdate(pageNum){
 	        $.ajax({
 	            url:'/personalReply',
@@ -90,17 +95,54 @@
     			
     			let spanTag = $('<span/>').addClass('badge badge-primary').text(item.bussNm);
     			let nmTd = $('<td/>').append(spanTag);
-    			tr.append(nmTd);
-    			
-    			tr.append(`<td>${item.replyCntn}</td>`);
-    			
     			let dtTag = $('<td/>').text(timestamp(item.replyDt));
-    			tr.append(dtTag);
     			
+    			tr.append(nmTd);
+    			tr.append(`<td>${item.replyCntn}</td>`);
+    			tr.append(dtTag);
     			tr.append(`<td>${item.pubcynNm}</td>`);
+    			
     			tbody.append(tr);
             });
 			
+		}
+		
+		function setNaviPage(event){
+			if (event.data.isBefore){
+				// 페이지 번호는 0 이하 값이 올 수 없음
+				if ((startNaviPage-perPageCount) < 1){
+					return;
+				}
+			} else {
+				// 총 페이지 개수(navCount)보다 시작 페이지 번호가 높을 수 없음
+				if (naviCount < (startNaviPage + perPageCount)){
+					return;
+				}
+			}
+			
+			startNaviPage += (event.data.isBefore) ? (-perPageCount) : (+perPageCount);
+			createPaginationHTML();	
+		}
+		
+		function createPaginationHTML(){
+			let ulPage = $('.pagination');
+			let prev = ulPage.find('#prevBtn').clone();
+			let next = ulPage.find('#nextBtn').clone();
+			
+			ulPage.empty();
+			ulPage.append(prev);
+			for (let i = startNaviPage; i < startNaviPage + perPageCount; ++i){
+				if (i > naviCount){
+					return;
+				}
+				
+				let liTag = $('<li/>').addClass('page-item');
+				let aTag = $('<a/>').attr('onclick',`pageDataUpdate(${i})`)
+									.text(i)
+									.addClass('page-link');
+				ulPage.append(liTag.append(aTag));
+			}
+			ulPage.append(next);
 		}
 	
 	    //------------ Date formatting
