@@ -48,7 +48,7 @@
 	</select>
 	
 	<select id="selectReplyNaviCount">
-		SELECT 	ROUND(DECODE(COUNT(*),0,NULL,COUNT(*))/#{amount}) AS navi_count
+		SELECT 	NVL(ROUND(DECODE(COUNT(*),0,NULL,COUNT(*))/#{amount}),0) AS navi_count
 		FROM	business_reply br JOIN business b ON(br.buss_no = b.buss_no)
 		WHERE 	br.buss_no IN  (
 								SELECT buss_no
