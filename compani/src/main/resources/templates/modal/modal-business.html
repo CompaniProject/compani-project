@@ -1,6 +1,6 @@
 
 <form id="updatebussform" class="form-valide" action="#" method="post">
-	
+
 	<div>
 		<div class="issueNameEdit">
 			<div class="issueNameBack">
@@ -167,50 +167,103 @@
 
 		</div>
 		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="val-username">종속관계
-			</label>
-			<div class="col-lg-6">
-				<div class="dropdown custom-dropdown">
-					<div>
-						<select class="dropdown-relation" name="bussDep">
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} == 0" value="">선택</option>
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} != null and ${businessVO.bussdownNo} == 0" value="up">선행 작업</option>
-							<option class="dropdown-relation" th:selected = "${businessVO.bussUpcd} == null and ${businessVO.bussdownNo} != 0" value="down">후속 작업</option>
+			<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
+			<!-- 요기 백업 -->
 
-						</select>
-					</div>
+			<label class="col-lg-3 col-form-label" for="val-username">선행
+				업무</label>
+
+			<div class="dropdown custom-dropdown">
+				<div>
+					<select class="dropdown-relation" name="bussUpcd">
+
+						<div th:if="${businessVO.bussUpcd == null}">
+							<option class="dropdown-business" value="" >선택</option>
+						</div>
+						<div th:if="${businessVO.bussUpcd != null}">
+							<option class="dropdown-business" th:value="${businessVO.bussUpcd}"
+								th:text="${businessVO.bussUpNm}"></option>
+							<option class="dropdown-business" value="">선택</option>
+						</div>
+						<th:block th:each="bussNameList : ${businessNameList}">
+							<option th:if="${businessVO.bussNo != bussNameList.bussNo}"
+								class="dropdown-business" th:value="${bussNameList.bussNo}"
+								th:text="${bussNameList.bussNm}"></option>
+						</th:block>
+					</select>
+
+				</div>
+			</div>
+			<!--후속  -->
+		</div>
+
+		<div class="form-group row">
+			<th:block th:if="${#lists.isEmpty(downList)}">
+				<div class="col-lg-4 col-form-label"></div>
+				<div class="col-lg-1">
+					<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
 				</div>
 
+				<label id="label" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+
 				<div class="dropdown custom-dropdown">
-					<div> 
-						<select class="dropdown-relation" name="bussUpNm">
-							<div th:if ="${businessVO.bussUpcd == null}  and ${businessVO.bussdownNo  == 0}"><option class="dropdown-business" 
-							value="" th:text="선택"></option></div>
-							<div th:if ="${businessVO.bussUpcd != null}"><option class="dropdown-business" 
-							value="${businessVO.bussUpNm} and ${businessVO.bussdownNo} == 0" th:text="${businessVO.bussUpNm}"></option></div>
-							<div th:if ="${businessVO.bussUpcd == null}  and ${businessVO.bussdownNo != 0}"><option class="dropdown-business" 
-							value="${businessVO.bussdownNm}" th:text="${businessVO.bussdownNm}"></option></div>
-								<option class="dropdown-business"
-									value="" text="">선택</option>
-									<!--  종속관계 설정된 업무 명은 제외한 리스트를 출력해야할듯 -->
+
+					<div>
+						<select class="dropdown-relation" name="bussdownNo"
+							th:onchange="change(this);">
+							<option class="dropdown-business" value="">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
 								<option class="dropdown-business"
-									th:value="${bussNameList.bussNm}"
+									th:value="${bussNameList.bussNo}"
 									th:text="${bussNameList.bussNm}"></option>
 							</th:block>
 						</select>
 					</div>
+
+				</div>
+			</th:block>
+		</div>
+		<th:block th:each="downList,idx : ${downList}">
+			<div class="form-group row">
+
+				<div class="col-lg-4 col-form-label"></div>
+				<div class="col-lg-1">
+					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
+				</div>
+
+				<label id="label" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+
+				<div class="dropdown custom-dropdown">
+
+					<div>
+						<select class="dropdown-relation" name="bussdownNo"
+							th:onchange="change(this);" disabled>
+							<option class="dropdown-business" th:value="${downList.bussNo}"
+								th:text="${downList.bussNm}">선택</option>
+							<th:block th:each="bussNameList : ${businessNameList}">
+								<option class="dropdown-business"
+									th:value="${bussNameList.bussNo}"
+									th:text="${bussNameList.bussNm}"></option>
+							</th:block>
+						</select>
+					</div>
+
+				</div>
+				<div class="col-lg-1">
+					<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div>
+		</th:block>
 		<input type="hidden" name="prjtNo"
-			th:value="${session.projectVO.prjtNo}" /> <input type="hidden"
+			th:value="${session.projectVO.prjtNo}" /> 
+		<input type="hidden"
 			name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
-		<button th:if ="${session.updateCheck != null}" type="button" id="updatebussBtn"  class="btn btn-primary">수정</button>
+	<button th:if="${session.updateCheck != null}" type="button"
+			id="deletebussBtn" class="btn btn-primary">삭제</button>
+		<button th:if="${session.updateCheck != null}" type="button"
+			id="updatebussBtn" class="btn btn-primary">수정</button>
 	</div>
 </form>
 
@@ -379,25 +432,51 @@
 		.fail(err =>  console.log(err));
 	}
 	$('#updatebussBtn').on('click', function(){
-			
+				 
+				let no =$('select[name="bussdownNo"]').each(function(){
+					let no = $(this).val();
+					disableNo.push(Number(no));
+				});
+				
+				console.log(disableNo);
 				let formData = $('#updatebussform').serializeArray();
-
+				let bussUpNo = '';
+				for(let i=0; i< formData.length; i++){
+					if(formData[i].name == 'bussUpcd'){
+						 bussUpNo = formData[i].value;
+						 console.log(bussUpNo);
+					}
+				}
+				for(let i= 0; i< disableNo.length; i++){
+					if(bussUpNo != disableNo[i]){
+						formData.push({name : 'bussdownNo', value: disableNo[i]});
+					}
+				}
+				
+				console.log(formData);
 			 	let formObj = {};
 			 	let memberArray = [];
+			 	let relationArray = [];
 				$.each(formData, function(idx,obj){
-		 		  	if(obj.name != "membId"){
-						formObj[obj.name] = obj.value;
-					}  
-		 		  	else{
+		 		  	if(obj.name == "membId"){
 						memberArray.push({membId : obj.value});
+					}  
+		 		  	else if(obj.name == "bussdownNo"){
+		 		  		relationArray.push({bussdownNo : obj.value});
+		 		  	}
+		 		  	else{
+						
+						formObj[obj.name] = obj.value;
 				    }
+		 		  	
 				});
-			
+				
 				let obj = {};
-			
+				console.log(obj);
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
-				
+				obj["relationList"] = relationArray;
+			
 				$.ajax('/updateBusiness' ,{
 					type : 'post',
 					contentType : 'application/json',
@@ -409,9 +488,21 @@
 				.fail(err => {});
 					
 	})
+	$('#deletebussBtn').on('click', function(){
+		let bussNo = $('input[name="bussNo"]').val();
+		
+		$.ajax('/deleteBusiness' ,{
+			type : 'post',
+			data : {bussNo : bussNo}
+		})
+		.done(data => {
+			location.reload();
+		})
+		.fail(err => {});
+	})
 	
 </script>
 
-	
-		
+
+
 

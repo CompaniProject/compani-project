@@ -3,7 +3,9 @@ package com.yedam.compani.business.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.compani.business.member.service.BusinessMemberVO;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberVO;
 
 public interface BusinessMapper {
@@ -31,5 +33,10 @@ public interface BusinessMapper {
 	public int updateGanttUpcd(BusinessVO vo);
 	
 	public int modifyBusiness(BusinessVO businessVO);
+	public int updateRelation(List<BusinessVO> list);
+	public int resetRelation(BusinessVO businessVO);
+	public List<BusinessVO>downRelationList(Integer bussNo);
+	public int deleteBusiness(Integer bussNo);
+	
 	
 }
