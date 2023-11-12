@@ -202,7 +202,7 @@ select {
 			<!-- 업무 목록 - 리스트 시작 -->
 			<div class="businessListBox">
 				<th:block th:each="bussInfo : ${personalCalendarPage}">
-					<div class="businessList">
+					<div class="businessList" onclick="infoBusiness()">
 						<div class="businessList2" 
 							th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
 							 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
@@ -247,7 +247,7 @@ select {
 		$('.businessList').remove();
 		
 		$.each(calendarArr, function(idx, item){
-			$('.businessListBox').append($('<div class="businessList"></div>'));
+			$('.businessListBox').append($('<div class="businessList" onclick="infoBusiness()"></div>'));
 			$('.businessList:last').append($('<div class="businessList2"></div>'));
 			$('.businessList2:last').append(formatDate(item.bussFrdt).substr(2) + ' ~ ' + formatDate(item.bussTodt).substr(2)
 					+ ' | 중요도 ' + item.bussImp + ' | 진척도 ' + item.bussPrgre + '%');
@@ -550,7 +550,7 @@ select {
 			console.log("start: "+start);
 			console.log("end: "+end);
 			
-			/* $.ajax({
+			$.ajax({
 				type: 'post',
 				url: '/updateCalendarBuss',
 				contentType: 'application/json',
@@ -573,7 +573,7 @@ select {
 				error: function(error){
 					console.log(error);
 				}
-			}) */
+			})
 		});
 		// 상위업무 수정 ajax
 		gantt.attachEvent("onAfterLinkAdd", function(id,item){
