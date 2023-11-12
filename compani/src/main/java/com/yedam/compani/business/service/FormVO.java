@@ -9,4 +9,5 @@ import lombok.Data;
 public class FormVO {
 	BusinessVO business;
 	List<BusinessMemberVO> businessMember;
+	List<BusinessVO> relationList;
 }
