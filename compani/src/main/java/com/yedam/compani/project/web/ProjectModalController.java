@@ -25,6 +25,12 @@ import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.session.service.SessionService;
 
 import lombok.RequiredArgsConstructor;
+/*
+ * 
+ * 작성자 : 신대철
+ *   기능 : 프로젝트 등록 , 수정 , 프로젝트 정보
+ * 
+ **/
 
 @Controller
 @RequiredArgsConstructor
@@ -39,11 +45,11 @@ public class ProjectModalController {
 	@GetMapping("/project/modal/{prjtNo}")
 	public String projectModal(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		
-		// 프로젝트 모달 수정 - 참여자 리스트
+		// 프로젝트 등록,모달 수정 - 참여자 리스트
 		List<Map<String,String>> prjtMemberList =  projectMemberService.projectMemberList(prjtNo);
 		model.addAttribute("projectMemberList", prjtMemberList);
 		
-		// 프로젝트 모달 수정 - 회사 멤버 리스트
+		// 프로젝트 정보 조회 
 		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String membId = memberVO.getMembId();
 		String coCd = memberVO.getCoCd();

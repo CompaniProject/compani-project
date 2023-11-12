@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.compani.business.mapper.BusinessMapper;
 import com.yedam.compani.business.service.BusinessService;
 import com.yedam.compani.business.service.BusinessVO;
+import com.yedam.compani.business.service.FormVO;
 import com.yedam.compani.member.service.MemberVO;
 
 import lombok.RequiredArgsConstructor;
@@ -123,5 +124,35 @@ public class BusinessServiceImpl implements BusinessService {
 
 		return businessMapper.businessdriveNameList(prjtNo);
 	}
+
+	@Override
+	public int updateRelation(FormVO formVO) {
+		for(int i =0 ; i< formVO.getRelationList().size(); i++) {
+			formVO.getRelationList().get(i).setBussNo(formVO.getBusiness().getBussNo());
+		}
+		return businessMapper.updateRelation(formVO.getRelationList());
+	}
+
+	@Override
+	public List<BusinessVO> downRelationList(Integer bussNo) {
+		
+		return businessMapper.downRelationList(bussNo);
+	}
+
+	@Override
+	public int resetRelation(BusinessVO businessVO) {
+	
+		return businessMapper.resetRelation(businessVO);
+	}
+
+	@Override
+	public int deleteBusiness(Integer bussNo) {
+		
+		return businessMapper.deleteBusiness(bussNo);
+	}
+
+
+
+
 
 }

@@ -139,6 +139,9 @@
 		(BUSS_NO,
 		PRJT_NO,
 		BUSS_NM,
+		<if test="bussUpcd != '' and bussUpcd != null">
+		BUSS_UPCD,
+		</if>
 		BUSS_IMP,
 		BUSS_PRGRE,
 		BUSS_FRDT,
@@ -150,6 +153,9 @@
 		#{bussNo},
 		#{prjtNo},
 		#{bussNm},
+		<if test="bussUpcd != '' and bussUpcd != null">
+		#{bussUpcd},
+		</if>
 		#{bussImp},
 		0,
 		#{bussFrdt},
@@ -161,8 +167,6 @@
 	</insert>
 
 	<update id="updateBusiness" parameterType="BusinessVO">
-
-
 
 		UPDATE
 		BUSINESS
@@ -214,17 +218,8 @@
 				    FROM  BUSINESS
 				   WHERE  BUSS_NO = ( select  buss_upcd
 		                                from  business
-		                               where  buss_no = #{bussNo})) as bussUpNm,	
-				( SELECT BUSS_NO 
-		        FROM  BUSINESS
-		        WHERE BUSS_NO = (SELECT  BUSS_NO
-		                 FROM    BUSINESS
-		                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNo,
-		        ( SELECT BUSS_NM 
-		        FROM  BUSINESS
-		        WHERE BUSS_NO = (SELECT  BUSS_NO
-		                 FROM    business
-		                 WHERE   BUSS_UPCD = #{bussNo})) as bussDownNM
+		                               where  buss_no = #{bussNo})) as bussUpNm
+	
                  
 		FROM BUSINESS b , 
 		     PROJECT p
@@ -256,7 +251,8 @@
 	<update id="modifyBusiness" parameterType="BusinessVO">
 		UPDATE  BUSINESS
 		SET     BUSS_NM   =#{bussNm},
-				BUSS_IMP  =#{bussImp}, 
+				BUSS_IMP  =#{bussImp},
+				BUSS_UPCD =#{bussUpcd}, 
 				BUSS_PRGRE=#{bussPrgre},
 				BUSS_FRDT =#{bussFrdt},
 				BUSS_TODT =#{bussTodt},
@@ -282,5 +278,28 @@
 		WHERE   BUSS_NO = #{bussNo}
 		
 	</update>
-	
+	<update id="updateRelation">
+		
+		<foreach collection="list" item="business" separator=";"  open="DECLARE BEGIN" close="; END;">
+			UPDATE BUSINESS
+			SET	   BUSS_UPCD = #{business.bussNo}	
+			WHERE  BUSS_NO = #{business.bussdownNo}
+		
+		</foreach>
+	</update>
+	<update id="resetRelation" parameterType="BusinessVO">
+		
+			UPDATE BUSINESS
+			SET	   BUSS_UPCD = null	
+			WHERE  BUSS_UPCD = #{bussNo}
+	</update>
+	<select id="downRelationList" resultType="BusinessVO">
+		SELECT  buss_NO, buss_Nm
+		FROM    BUSINESS
+		WHERE   buss_Upcd = #{bussUpcd}
+	</select>
+	<delete id="deleteBusiness" parameterType="BusinessVO">
+		DELETE FROM BUSINESS
+		WHERE  BUSS_NO  =#{bussNo}
+	</delete>
 </mapper>

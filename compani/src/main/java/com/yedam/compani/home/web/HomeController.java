@@ -24,7 +24,11 @@ import com.yedam.compani.project.service.ProjectVO;
 import com.yedam.compani.session.service.SessionService;
 
 import lombok.RequiredArgsConstructor;
-
+/* 
+ * 
+ * 작성자 : 신대철
+ *   기능 : 메인홈 페이지 목록들 조회, 드랍다운 목록 조회, 즐겨찾기 
+ * */
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
