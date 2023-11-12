@@ -537,27 +537,10 @@ select {
 		// 업무바 수정 ajax
 		gantt.attachEvent("onAfterTaskupdate", function(id, item){
 			var obj = new Object();
-			
-			
-			// 시작 Month 처리
-			var startMonth = item.start_date.getMonth();
-			
-			// 종료 Date 처리
-			var endDate = new Date(item.end_date);
-			endDate.setDate(endDate.getDate() - 1);
-			endDate = endDate.getDate();
-			if(endDate<10) endDate = '0' + endDate;
-			
-			// 종료 Month 처리
-			var endMonth = '';
-			if(endDate == '31'){
-				endMonth = item.end_date.getMonth();
-			}else{
-				endMonth = item.end_date.getMonth()+1;
-			}
+			var newEnd = new Date(getMilliseconds(item.end_date)-1000*60*60*24);
 			
 			var start = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
-			var end = item.end_date.getFullYear() + "-" + endMonth + "-" + endDate;
+			var end = newEnd.getFullYear() + "-" + (newEnd.getMonth()+1) + "-" + newEnd.getDate();
 			
 			obj.bussNo = item.id;
 			obj.bussFrdt = start;
@@ -566,6 +549,7 @@ select {
 			
 			console.log("start: "+start);
 			console.log("end: "+end);
+			
 			/* $.ajax({
 				type: 'post',
 				url: '/updateCalendarBuss',

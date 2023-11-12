@@ -467,17 +467,14 @@ select {
 		// 업무바 수정 ajax
 		gantt.attachEvent("onAfterTaskupdate", function(id, item){
 			var obj = new Object();
-			var end = new Date(item.end_date);
-			end.setDate(end.getDate() - 1);
-			end = end.getDate();
-			if(end<10) end = '0' + end;
+			var newEnd = new Date(getMilliseconds(item.end_date)-1000*60*60*24);
 			
-			var startDate = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
-			var endDate = item.end_date.getFullYear() + "-" + (item.end_date.getMonth() + 1) + "-" + end;
+			var start = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
+			var end = newEnd.getFullYear() + "-" + (newEnd.getMonth()+1) + "-" + newEnd.getDate();
 			
 			obj.bussNo = item.id;
-			obj.bussFrdt = startDate;
-			obj.bussTodt = endDate;
+			obj.bussFrdt = start;
+			obj.bussTodt = end;
 			obj.bussPrgre = Math.floor(item.progress * 100);
 			
 			$.ajax({
