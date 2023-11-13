@@ -34,7 +34,7 @@
 	display: block;
 	width: 50px;
 	height: 30px;
-	margin-right: 130px;
+	margin-right: 128px;
 	border-radius: 5px;
 	color: white;
 	font-size: 15px;
@@ -84,12 +84,13 @@
 }
 
 #modal {
-	margin-left: 150px;
+	margin-left: 120px;
 }
 
 #FileUpload {
 	margin-bottom: 20px;
 	font-size: 15px;
+	margin-left: 35px;
 }
 
 #modalTdData{
@@ -156,7 +157,8 @@
 				aria-labelledby="sidebarModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content"
-  					    style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 780px; top: calc((86vh - 450px)/2); height: 500px; opacity: 1; z-index: 500;">
+  					    style="box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.15); width: 750px; top: calc(( 100vh - 601px)/2); 
+  					    left: calc(( 20vh - 450px)/2); height: 500px; opacity: 1; z-index: 500;">
 						<!-- 모달 헤더 부분 -->
 						<div class="modal-header">
 							<button type="button" class="btn-close" data-dismiss="modal"
@@ -237,19 +239,18 @@
 				<!-- 파일업로드 및 삭제 -->
 				<div id="upAnddown">
 
-<!-- 확장자 필터 드랍다운 -->
-<select id="filter" name="filter" onchange="driveFilter(this)"
-    style="width: 70px; border-radius: 20px; text-align: center; padding: 5px; margin-right: 40px;">
-
-    <option value="" class="list">전체</option>
-    <option value="xls" class="list">XLS</option>
-    <option value="pptx" class="list">PPTX</option>
-    <option value="pdf" class="list">PDF</option>
-    <option value="zip" class="list">ZIP</option>
-    <option value="txt" class="list">TXT</option>
-    <option value="png" class="list">IMG</option>
-</select>
-
+				<!-- 확장자 필터 드랍다운 -->
+				<select id="filter" name="filter" onchange="driveFilter(this)"
+				    style="width: 100px; border-radius: 20px; text-align: center; padding: 5px; margin-right: 80px;">
+				
+				    <option value="" class="list">전체</option>
+				    <option value="xls" class="list">XLS</option>
+				    <option value="pptx" class="list">PPTX</option>
+				    <option value="pdf" class="list">PDF</option>
+				    <option value="zip" class="list">ZIP</option>
+				    <option value="txt" class="list">TXT</option>
+				    <option value="png" class="list">IMG</option>
+				</select>
 
 					<input type="button" id="driveFile " value="업로드"
 						class="btn mb-1 btn-info" style="margin-right: 30px"
@@ -272,10 +273,10 @@
 									<th style="font-weight: bold;">크기</th>
 									<th style="font-weight: bold;">작성자</th>
 									<th style="font-weight: bold;">등록일자</th>
-									<th style="font-weight: bold;">확장자</th>
+									<th style="font-weight: bold;">타입</th>
 									<th style="font-weight: bold;"></th>
 									<th style="font-weight: bold;"></th>
-									<th></th>
+									<th style="font-weight: bold;">미리보기</th>
 								</tr>
 
 							</thead>
@@ -287,13 +288,13 @@
 												th:if="${#strings.contains('xls,xlsx',fileList.fileType)}"
 												th:src="@{/images/type/xls.png}"
 												style="width: 40px; height: 40px;"> <img
-												th:if="${fileList.fileType == 'pptx'}"
+												th:if="${#strings.contains('ppt,pptx',fileList.fileType)}"
 												th:src="@{/images/type/ppt.png}"
 												style="width: 40px; height: 40px;"> <img
 												th:if="${fileList.fileType == 'pdf'}"
 												th:src="@{/images/type/pdf.png}"
 												style="width: 40px; height: 40px;"> <img
-												th:if="${fileList.fileType == 'zip'}"
+												th:if="${#strings.contains('zip,rar,7z,tar,egg,alz',fileList.fileType)}"
 												th:src="@{/images/type/zip.png}"
 												style="width: 40px; height: 40px;"> <img
 												th:if="${fileList.fileType == 'txt'}"
@@ -321,7 +322,7 @@
 											<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 											<td><button type="button" id="previewBtn"
 													th:onclick="preview([[${fileList.filePath}]])"
-													th:if="${fileList.fileType} == 'pdf' or ${fileList.fileType} == 'txt'"
+													th:if="${fileList.fileType} == 'pdf' or ${fileList.fileType} == 'txt' or ${fileList.fileType} == 'jpg' or ${fileList.fileType} == 'png'"
 													class="btn btn-outline-secondary btn-sm">
 													 <i class="fa-solid fa-eye"></i>&nbsp;미리보기</button></td>
 										</tr>
@@ -353,6 +354,12 @@
 		        } else if (path.endsWith('.pdf')) {
 		            // PDF 파일의 경우
 		            window.open('/upload/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
+		        } else if (path.endsWith('.jpg')) {
+		        	// JPG
+		        	 window.open('/upload/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
+		        } else if (path.endsWith('.png')){
+		        	// PNG
+		        	 window.open('/upload/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
 		        }
 		    }
 		}
@@ -394,7 +401,7 @@
 		$('#newTrTd').on('click', '.trashIcon', function() {
 			let fileDel = $(event.target).closest('#tdData').data('fileno');
 			// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
-
+			
 			let delTarget = $(event.target)
 			
 			Swal.fire({
@@ -490,36 +497,6 @@
 			});
 	};
 
-		
-		/* // ======== 검색 AJAX ========
-		function fileSearch() {
-	    var typeVal = $('#pType').val();
-	    var keywordVal = $('#pKeyword').val();
-	    var fileList = $('#newTrTd');
-	
-	    // 미리보기 버튼에 대한 이벤트 핸들러를 제거
-	    $('#previewBtn').off('click');
-	
-	    $.ajax('/project/driveAjax/' + prjtNo + '?pType=' + typeVal + '&pKeyword=' + keywordVal,
-	        {
-	            type: 'GET'
-	        }).done(function (data) {
-	            fileList.empty();
-	
-	            $.each(data.files, function(idx, item){
-	                fileList.append(makeTrTd(item));
-	            });
-	
-	            // 이 부분에서 미리보기 버튼에 대한 이벤트 핸들러를 다시 연결
-	            $('#previewBtn').on('click', function() {
-	                // 여기에 파일 경로를 어떻게든 가져와야 함
-	                var filePath = $(this).data('filepath');
-	                preview(filePath);
-	            });
-	        }).fail(function () {
-	            alert('실패');
-	        });
-		}; */
 	
 	function searchType(type){
 		var newType = "";
@@ -550,7 +527,7 @@
 	    var newType =  searchType(item.fileType);
 	    
 		// 삼항 연산자로 조건 걸기
-		var viewButton = item.fileType == 'pdf' || item.fileType === 'txt'
+		var viewButton = item.fileType == 'pdf' || item.fileType == 'txt' || item.fileType == 'jpg' || item.fileType == 'png'
 			  ? `<button type="button" class="btn btn-outline-secondary btn-sm"
 			     onclick="preview('${item.filePath}')">
 		  	     <i class="fa-solid fa-eye"></i>&nbsp;미리보기
@@ -601,13 +578,12 @@
 		 var newType = searchType(fit.fileType);
 		 
 		// 삼항 연산자로 조건 걸기
-		var viewButton = fit.fileType == 'pdf' || fit.fileType === 'txt'
+		var viewButton = fit.fileType == 'pdf' || fit.fileType === 'txt' || fit.fileType == 'jpg' || fit.fileType == 'png'
 		    ? `<button type="button" class="btn btn-outline-secondary btn-sm"
-		        onclick="preview('${fit.filePath}')">
+		        onclick="preview(&quot;${fit.filePath}&quot;)">
 		        <i class="fa-solid fa-eye"></i>&nbsp;미리보기
 		      </button>`
 		    : '';
-		
 
 		var trTag = `<tr id="tdData" data-fileno="${fit.fileNo}">
 			<td><img src="${newType}" style="width: 40px; height: 40px;"></td>
@@ -741,7 +717,7 @@
 	function fileDown(fileNo){
 		
 		Swal.fire({
-            title: '파일을 다운 하시겠습니까?',
+            title: '다운로드 하시겠습니까?',
             text: "컴퓨터의 다운로드 파일에 저장됩니다.",
             icon: 'question',
             showCancelButton: true,
