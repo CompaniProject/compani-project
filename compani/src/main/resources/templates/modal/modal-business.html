@@ -36,7 +36,7 @@
 										<td th:text="${bussMemList.membNm}" />
 										<!-- 버튼 수정하기 -->
 										<td><i class="fa-solid fa-minus"></i></td>
-										<input type="hidden" name="membId" th:value="11">
+										<input type="hidden" name="membId" th:value="${bussMemList.membId}">
 									</tr>
 								</th:block>
 							</tbody>
@@ -194,7 +194,7 @@
 
 				</div>
 			</div>
-			<!--후속  -->
+			
 		</div>
 
 		<div class="form-group row">
@@ -204,7 +204,7 @@
 					<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
 				</div>
 
-				<label id="label" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+				<label id="emplabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
 
@@ -213,7 +213,12 @@
 							th:onchange="change(this);">
 							<option class="dropdown-business" value="">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
-								<option class="dropdown-business"
+								<option th:if="${businessVO.bussNo == bussNameList.bussNo}"
+								class="dropdown-business" th:value="${bussNameList.bussNo}"
+								th:text="${bussNameList.bussNm}" disabled></option>
+								
+								<option th:if="${businessVO.bussNo != bussNameList.bussNo}" 
+									class="dropdown-business"
 									th:value="${bussNameList.bussNo}"
 									th:text="${bussNameList.bussNm}"></option>
 							</th:block>
@@ -388,7 +393,7 @@
 		let selected = $('.member-selected-value').first().text();
 		let search  = $('#infosearch').val();
 	
-		$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
+		$.ajax('/prjtMemSearchAjax?&key='+selected + '&value=' + search)
 		.done(function(data){
 			let tbody = $('#infomembertbl');
 			tbody.empty();
@@ -438,13 +443,12 @@
 					disableNo.push(Number(no));
 				});
 				
-				console.log(disableNo);
 				let formData = $('#updatebussform').serializeArray();
 				let bussUpNo = '';
 				for(let i=0; i< formData.length; i++){
 					if(formData[i].name == 'bussUpcd'){
 						 bussUpNo = formData[i].value;
-						 console.log(bussUpNo);
+					
 					}
 				}
 				for(let i= 0; i< disableNo.length; i++){
@@ -453,7 +457,14 @@
 					}
 				}
 				
-				console.log(formData);
+				let bussName = $('[name="bussNm"]');
+				if(bussName.val() == ''){
+					Swal.fire("업무 제목을 입력해주세요.", "" ,"warning");
+					bussName.focus();
+					return;
+				}
+					
+			
 			 	let formObj = {};
 			 	let memberArray = [];
 			 	let relationArray = [];
@@ -483,7 +494,15 @@
 					data : JSON.stringify(obj)
 				})
 				.done(data => {
-					location.reload();
+					Swal.fire({
+						  title: "업무수정",
+						  icon:  "success",
+						  confirmButtonText: "확인"
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							  location.reload();
+						  }
+						});
 				})
 				.fail(err => {});
 					
@@ -501,8 +520,25 @@
 		.fail(err => {});
 	})
 	
+	$('[name="bussFrdt"]').on('change',function(){
+		let startDay = $(this).val();
+		let endDay = $('[name="bussTodt"]');
+		if( startDay > endDay.val()){
+			$(this).val(endDay.val());
+			endDay.val(startDay);
+		}
+	})
+	$('[name="bussTodt"]').on('change',function(){
+		let endDay = $(this).val();
+		let startDay = $('[name="bussFrdt"]');
+		
+		if( startDay.val() > endDay){
+			$(this).val(startDay.val());
+			startDay.val(endDay);
+		}
+
+	
+	})
+	
 </script>
-
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

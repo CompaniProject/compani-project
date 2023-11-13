@@ -17,7 +17,7 @@ public interface MemberService {
 
 	public List<MemberVO> getMemberIdList();
 	public List<MemberVO> getMemberList(Map<String,Object> map);
-
+	public List<MemberVO> prjtMemberSearchList(Map<String,Object> map);
 	public int editMemberInfo(MemberVO vo);
 	
 	public int editMemberPwd(MemberVO vo);

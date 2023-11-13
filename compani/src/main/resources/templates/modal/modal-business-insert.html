@@ -390,21 +390,21 @@
 
 				div.append(temp);
 				
+				//요게 문제인듯
 				 let select = div.find('.dropdown-relation').last();
 				 
 					let option = '';
 					for(let i =0; i< bussList.length ; i++){
+						console.log(bussList[i]);
 						option = $('<option>' + bussList[i].bussNm+'</option>');
 						option.attr('value' , bussList[i].bussNo);
 						select.append(option);
 						for(let j = 0;  j < disableNo.length; j++){
 							if(bussList[i].bussNo == disableNo[j]){
 
-								option.prop('disabled', true);
-								
+								option.prop('disabled', true);		
 							}
 						}
-						
 					}
 				
 			}
@@ -419,13 +419,21 @@
 				if (index !== -1) {
 					disableNo.splice(index, 1);
 				}
+				let g = $('.fa-solid.fa-plus.fa-lg');
+				console.log(g);
 				let div = $(e).parent().parent().parent();
 				$(e).parent().parent().remove();
 				
-			 	console.log($('#label').text());
+				console.log($('#label').text());
 				if($('#label').text() == ''){
 					div.append(selectTemp);
 					addRow(e);
+					//select option list 넣어주기 !
+				} 
+				
+		
+				if($('.fa-solid.fa-plus.fa-lg').length == 1){
+					console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
 				} 
 			}
 	
@@ -449,7 +457,7 @@
 				for(let i=0; i< formData.length; i++){
 					if(formData[i].name == 'bussUpcd'){
 						 bussUpNo = formData[i].value;
-						 console.log(bussUpNo);
+					
 					}
 				}
 				for(let i= 0; i< disableNo.length; i++){
@@ -457,8 +465,16 @@
 						formData.push({name : 'bussdownNo', value: disableNo[i]});
 					}
 				}
+		
+				let bussName = $('textarea[name="bussNm"]');
+				console.log(bussName);
+				if(bussName.val() == ''){
+					alert('제목이 입력되지 않았습니다.');
+					title.focus();
+					return;
+				}
+					
 				
-				console.log(formData);
 			 	let formObj = {};
 			 	let memberArray = [];
 			 	let relationArray = [];
@@ -477,7 +493,7 @@
 				});
 			
 				let obj = {};
-				console.log(obj);
+			
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
 				obj["relationList"] = relationArray;
@@ -494,7 +510,7 @@
 			}
 			
 			
-			
+
 		</script>
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>
