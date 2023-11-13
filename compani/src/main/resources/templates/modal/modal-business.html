@@ -137,7 +137,17 @@
 							th:selected="${businessVO.bussImpNm}=='중'">중</option>
 						<option class="dropdown-import" value="0J3"
 							th:selected="${businessVO.bussImpNm}=='하'">하</option>
-
+												
+														<!-- 뱃지 안드가네;; <th:block th:switch="${business.bussImp}">
+															<th:block th:case="0J1">
+																<span class="badge badge-pill badge-danger px-2">상</span>
+															</th:block>
+															<th:block th:case="0J2">
+																<span class="badge badge-pill badge-warning px-2">중</span>
+															</th:block>
+															<th:block th:case="0J3">
+																<span class="badge badge-pill badge-info px-2">하</span>
+															</th:block> -->
 					</select>
 
 				</div>
@@ -161,8 +171,15 @@
 			<label class="col-lg-4 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-				<input type="text" id="bussSt" name="bussSt"
-					th:value="${businessVO.bussSt}" readonly="readonly" />
+
+				<!-- <input type="text" id="bussSt" name="bussSt"
+					th:value="${businessVO.bussSt}" readonly="readonly" > -->
+				<th:block th:switch="${businessVO.bussSt}">
+					<span th:case="0K1" th:text="진행중" class="badge badge-info px-2"></span>
+					<span th:case="0K2" th:text="완료" class="badge badge-success px-2" ></span>
+					<span th:case="0K3" th:text="초과" class="badge badge-danger px-2" ></span>
+					<span th:case="0K4" th:text="초과완료" class="badge badge-light px-2" ></span>
+				</th:block>	
 			</div>
 
 		</div>
@@ -539,6 +556,8 @@
 
 	
 	})
+	
+
 	
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

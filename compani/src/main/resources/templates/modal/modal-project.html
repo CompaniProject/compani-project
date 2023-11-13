@@ -197,6 +197,13 @@
 	
 		 	let formObj = {};
 		 	let memberArray = [];
+		 	
+		 	let prjtName = $('[name="prjtNm"]');
+			if(prjtName.val() == ''){
+				Swal.fire("프로젝트 제목을 입력해주세요.", "" ,"warning");
+				return;
+			}
+		 	
 			$.each(formData, function(idx,obj){
 	 		  	if(obj.name != "membId"){
 					formObj[obj.name] = obj.value;
@@ -217,9 +224,17 @@
 				data : JSON.stringify(obj)
 			})
 			.done(data => {
-				location.reload();
+				Swal.fire({
+					  title: "프로젝트수정",
+					  icon:  "success",
+					  confirmButtonText: "확인"
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  location.reload();
+					  }
+					});
 			})
-			.fail(err => {}); 
+			.fail(err => console.log(err)); 
 	 	})
 		
 		$('#prjtmembertbl').on('click', 'td:nth-child(5)',  function(){insertMember($('#updatemembertbl'))})
@@ -359,5 +374,6 @@
 				.fail(err =>  console.log(err));
 	 	
 		}
-	
+
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
