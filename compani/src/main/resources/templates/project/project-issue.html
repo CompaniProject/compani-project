@@ -585,7 +585,7 @@
 		}
 
 		function selectIssueInfo(issuNo) {
-			location.href = '/project/issues/1/' + issuNo;
+			location.href = '/project/issues/' + piprjtNo + '/' + issuNo;
 		}
 
 		<!-- 이슈 등록 시작 -->
@@ -641,8 +641,8 @@
 			// ' 확인' 버튼이 클릭 시
 			$('#confirmPISaveCancel').on('click', function () {
 				// 입력 필드 초기화
-				$('#savePIssuKndVal').text('선택');
-				$('#savePIssuRankVal').text('선택');
+				$('#savePIssuKndVal').text('선택').attr('class', 'badge badge-dark');
+				$('#savePIssuRankVal').text('선택').attr('class', 'badge badge-dark');
 				$('#savePIssuTtlVal').val('');
 				pieditor.setHTML('');
 				$('#savePIssueFileList').empty();
