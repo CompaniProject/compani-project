@@ -47,8 +47,18 @@
 	}
     
     // ------------------------------------------------ reply
+    
+    function deleteCommentAlert(event){
+    	 Swal.fire({
+                    text: "정말로 삭제 하시겠습니까?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소'
+                }).then((result) => {deleteComment(event)})
+    }
 
-	function replyDeleteHTML(){
+	function replyDeleteHTML(event){
 		let curBody = $(event.target).closest('.media');
 		
 		curBody.find('.replyInsertBtn').remove();
