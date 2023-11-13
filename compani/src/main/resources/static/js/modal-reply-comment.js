@@ -24,7 +24,7 @@
 	
 	function insertComment(){
 		let obj = createInsertObj();
-    	if (obj.replyCntn == ""){
+    	if (obj.replyCntn === ""){
     		Swal.fire({
                 icon: 'error',
                 text: '내용을 입력해주세요.',
@@ -97,12 +97,22 @@
     }
     
     function editSubmit(event){
+    
         let comment = $(event.target).closest('.media');
         let textCntn = comment.find("textarea");
         
         let obj = {};
         obj["replyCntn"] = textCntn.val();
         obj["replyNo"] = comment.data('no');
+        
+        if (obj.replyCntn === ""){
+            Swal.fire({
+                icon: 'error',
+                text: '내용을 입력해주세요.',
+            });
+    		return;
+        }
+        
         
         updateAjax(obj, comment);
         
@@ -136,7 +146,7 @@
     // -------------------------------Update Ajax End
     
     // -------------------------------onclick Event
-    $(document).on('click','.delBtn',deleteComment);
+    $(document).on('click','.delBtn',deleteCommentAlert);
     $(document).on('click','.editBtn',toggleTags);
     $(document).on('click','.submitBtn',editSubmit);
     // ------------------------------onclick Event End
