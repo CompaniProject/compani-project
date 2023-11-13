@@ -8,7 +8,7 @@
 		<div class="pIssueInfoContent">
 			<div class="pIssueInfoContentTopBar">
 				<span class="returnPIssueList" onclick="returnPIssueList()"></span>
-				<th:block th:if="${session.loginInfo.membId eq issueInfo.membId}">
+				<th:block th:if="${session.loginInfo.membId eq pissueInfo.membId}">
 				<button type="button" class="pIssueEditing" onclick="switchPIEditForm()">수정</button>
 				<button type="button" class="pIssueDeleting" onclick="deletePIssue()">삭제</button>
 				</th:block>
@@ -16,28 +16,28 @@
 
 			<div class="pIssueNameInfo">
 				<div class="pIssueNames">
-					<textarea class="modalIssueName" maxlength="200" style="height: 34px;" readonly
-						th:text="${issueInfo.issuTtl}"></textarea>
+					<textarea class="modalPIssueName" maxlength="200" style="height: 34px;" readonly
+						th:text="${pissueInfo.issuTtl}"></textarea>
 				</div>
 			</div>
 			<hr style="margin: 0; height: 2px; background-color: #eaeaea;">
 			<div class="read-content">
 				<div class="showPIHashtagList">
-					<th:block th:each="hash : ${hash}">
-						<div class="showTagBoxPI task" th:attr="title=${hash.issuHtNm}">
+					<th:block th:each="phash : ${phash}">
+						<div class="showTagBoxPI task" th:attr="title=${phash.issuHtNm}">
 							<p>#</p>
 							<span class="ready"></span>
-							<p class="showTextEllipsisPI" th:text="${hash.issuHtNm}"></p>
+							<p class="showTextEllipsisPI" th:text="${phash.issuHtNm}"></p>
 						</div>
 					</th:block>
 				</div>
 
 				<div class="media pt-5" style="padding-top: 20px !important;">
-					<img class="mr-3 rounded-circle" th:src="'/images/member/'+${issueInfo.membPhtPath}" style="height:50px; width:50px;">
+					<img class="pimr-3 rounded-circle" th:src="'/images/member/'+${pissueInfo.membPhtPath}" style="height:50px; width:50px; margin-right: 1rem !important;">
 					<div class="media-body" style="margin-right: 50px; flex: 0;">
-						<h5 class="m-b-3" th:text="${issueInfo.membNm}"></h5>
-						<p class="m-b-2" style="width: 75px;"
-							th:text="${#dates.format(issueInfo.issuDt, 'yyyy-MM-dd')}"></p>
+						<h5 class="pim-b-3" th:text="${pissueInfo.membNm}"></h5>
+						<p class="pim-b-2" style="width: 75px;"
+							th:text="${#dates.format(pissueInfo.issuDt, 'yyyy-MM-dd')}"></p>
 
 					</div>
 					<div class="pIssueRankInfo"></div>
@@ -67,12 +67,12 @@
 								</tr>
 							</thead>
 							<tbody id="pIssueInfoFiles">
-								<th:block th:each="issueFile : ${issueFile}">
-									<tr th:data-fno="${issueFile.issuFileNo}">
-										<td th:text="${issueFile.issuFileNm}"></td>
-										<td class="fs" th:text="${issueFile.issuFileSize}"></td>
+								<th:block th:each="pissueFile : ${pissueFile}">
+									<tr th:data-fno="${pissueFile.issuFileNo}">
+										<td th:text="${pissueFile.issuFileNm}"></td>
+										<td class="fs" th:text="${pissueFile.issuFileSize}"></td>
 										<td th:class="downloadFile"
-											th:attr="onclick='fileDownloading(\'' + ${issueFile.issuNo} +'\', \'' + ${issueFile.issuFileNo} + '\')'">
+											th:attr="onclick='fileDownloading(\'' + ${pissueFile.issuNo} +'\', \'' + ${pissueFile.issuFileNo} + '\')'">
 										</td>
 									</tr>
 								</th:block>
@@ -325,7 +325,7 @@
 			</div>
 		</div>
 	</div>
-	<th:block th:if="${issueInfo.bussNo > 0}">
+	<th:block th:if="${pissueInfo.bussNo > 0}">
 		<button type="button" class="openBM" onclick="theBusinessModal()">해당 업무로 이동</button>
 	</th:block>
 	<div data-include1="showModalMain"></div>
@@ -334,6 +334,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="/js/common.js"></script>
 	<script th:inline="javascript">
 		window.onload = function () {
 			let navItemHome = $('.nav-link').eq(3);
@@ -341,9 +342,9 @@
 		}
 
 		let piMemberId = [[${ session.loginInfo.membId }]];
-		let pIssuNo = [[${ issueInfo.issuNo }]];
-		let bussNo = [[${ issueInfo.bussNo }]];
-
+		let pIssuNo = [[${ pissueInfo.issuNo }]];
+		let bussNo = [[${ pissueInfo.bussNo }]];
+		let piprjtNo = [[${ prjtNo }]];
 		$('.fs').each(function (idx, item) {
 			$(item).text(getByteSize($(item).text()));
 		});
@@ -363,39 +364,39 @@
 			height: '600px'
 		})
 
-		piviewer.setMarkdown([[${ issueInfo.issuCntn }]]);
+		piviewer.setMarkdown([[${ pissueInfo.issuCntn }]]);
 		// 종류
 		let piKndVal = $('.pIssueKndInfo');
 		let piStVal = $('.pIssueStInfo');
 		let piRankVal = $('.pIssueRankInfo');
 
-		if ([[${ issueInfo.issuKnd }]] == '0L1') {
+		if ([[${ pissueInfo.issuKnd }]] == '0L1') {
 			piKndVal.append('<p>종류</p><div class="label label-danger" style="margin-bottom: 15px; ">버그</div>');
-		} else if ([[${ issueInfo.issuKnd }]] == '0L2') {
+		} else if ([[${ pissueInfo.issuKnd }]] == '0L2') {
 			piKndVal.append('<p>종류</p><div class="label label-warning" style="margin-bottom: 15px; ">개선사항</div>');
-		} else if ([[${ issueInfo.issuKnd }]] == '0L3') {
+		} else if ([[${ pissueInfo.issuKnd }]] == '0L3') {
 			piKndVal.append('<p>종류</p><div class="label label-info" style="margin-bottom: 15px; ">새기능</div>');
-		} else if ([[${ issueInfo.issuKnd }]] == '0L4') {
+		} else if ([[${ pissueInfo.issuKnd }]] == '0L4') {
 			piKndVal.append('<p>종류</p><div class="label label-light" style="margin-bottom: 15px; ">업무</div>');
 		}
 		// 상태
-		if ([[${ issueInfo.issuSt }]] == '0E1') {
+		if ([[${ pissueInfo.issuSt }]] == '0E1') {
 			piStVal.append('<p>상태</p><div class="label label-success" style="margin-bottom: 15px; ">해결</div>');
-		} else if ([[${ issueInfo.issuSt }]] == '0E2') {
+		} else if ([[${ pissueInfo.issuSt }]] == '0E2') {
 			piStVal.append('<p>상태</p><div class="label label-dark" style="margin-bottom: 15px; ">미해결</div>');
-		} else if ([[${ issueInfo.issuSt }]] == '0E3') {
+		} else if ([[${ pissueInfo.issuSt }]] == '0E3') {
 			piStVal.append('<p>상태</p><div class="label label-secondary" style="margin-bottom: 15px; ">해결불가</div>');
 		}
 
-		if ([[${ issueInfo.issuRank }]] == '0G1') {
+		if ([[${ pissueInfo.issuRank }]] == '0G1') {
 			piRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">매우높음</div>');
-		} else if ([[${ issueInfo.issuRank }]] == '0G2') {
+		} else if ([[${ pissueInfo.issuRank }]] == '0G2') {
 			piRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">높음</div>');
-		} else if ([[${ issueInfo.issuRank }]] == '0G3') {
+		} else if ([[${ pissueInfo.issuRank }]] == '0G3') {
 			piRankVal.append('<p>중요도</p><div class="label label-success" style="margin-bottom: 15px; ">보통</div>');
-		} else if ([[${ issueInfo.issuRank }]] == '0G4') {
+		} else if ([[${ pissueInfo.issuRank }]] == '0G4') {
 			piRankVal.append('<p>중요도</p><div class="label label-warning" style="margin-bottom: 15px; ">낮음</div>');
-		} else if ([[${ issueInfo.issuRank }]] == '0G5') {
+		} else if ([[${ pissueInfo.issuRank }]] == '0G5') {
 			piRankVal.append('<p>중요도</p><div class="label label-danger" style="margin-bottom: 15px; ">매우낮음</div>');
 		}
 
@@ -673,7 +674,7 @@
 		}
 		// 프로젝트 이슈 게시판으로 돌아가기
 		function returnPIssueList() {
-			location.href = '/project/issues/1';
+			location.href = '/project/issues/' + piprjtNo;
 		}
 
 		// 프로젝트 게시판에서 이슈 삭제
@@ -694,7 +695,7 @@
 				})
 					.done(function (response) {
 						$('#delPConfirmationModal').modal('hide');
-						location.href = '/project/issues/1';
+						location.href = '/project/issues/' + piprjtNo;
 					})
 					.fail(function (err) {
 						console.log(err)
@@ -719,7 +720,7 @@
 		function checkPIEditFile() {
 			if ($('#editPIssueFileList tr').length == 0) {
 				let trTag = $('<tr/>').attr('class', 'fileEmpty');
-				let fileEmptyTag = $('<td/>').text('등록된 파일이 없습니다.').css('color', '#A8A8A8');
+				let fileEmptyTag = $('<td/>').text('등록된 파일은 여기에 저장됩니다.').css('color', '#A8A8A8');
 				let emptyTdTag = $('<td/>');
 				let emptyTdTags = $('<td/>');
 				trTag.append(fileEmptyTag);
@@ -823,6 +824,7 @@
 					findAllPIHashtag();
 					checkPIEditInput();
 					findAllPIFile();
+					checkPIEditFile();
 				})
 
 				.fail(function (err) {
@@ -838,8 +840,9 @@
 				type: 'get'
 			})
 				.done(function (response) {
+				
 					$.each(response, function (idx, item) {
-
+						$('.fileEmpty').remove();
 						let trTag = $('<tr/>').data('editFileNo', item.issuFileNo);
 						let fileNameTag = $('<td/>').text(item.issuFileNm);
 						let fileSizeTag = $('<td/>').text(getByteSize(item.issuFileSize));
@@ -998,9 +1001,6 @@
 		editPIUpload.addEventListener('click', () => editPIRealUpload.click());
 
 		function addPIssueFile(element) {
-			if ($('.fileEmpty')) {
-				$('.fileEmpty').remove()
-			};
 			const file = element.files[0];
 
 			// 1. 파일 선택 창에서 취소 버튼이 클릭 되는 경우
@@ -1018,6 +1018,7 @@
 			}
 
 			if (file) {
+				$('.fileEmpty').remove();
 				let trTag = $('<tr/>').addClass('added');
 				let fileNameTag = $('<td/>').text(file.name);
 				let fileSizeTag = $('<td/>').text(getByteSize(file.size));
@@ -1054,7 +1055,6 @@
 		function removeEditPIFileFromDataTransfer(element) {
 			let addedFiles = $(".added");
 			let index = addedFiles.index($(element).parent());
-			console.log(index + "입니다");
 			if (index != -1) {
 				editPIDataTransfer.items.remove(index);
 				document.getElementById("editPIFiles").files = editPIDataTransfer.files;
@@ -1110,8 +1110,8 @@
 		})
 
 		function theBusinessModal() {
-			bussNo = [[${ issueInfo.bussNo }]];
-			miPrjtNo = [[${ issueInfo.prjtNo }]];
+			bussNo = [[${ pissueInfo.bussNo }]];
+			miPrjtNo = [[${ pissueInfo.prjtNo }]];
 			$('#workModal').modal('toggle');
 		}
 	</script>

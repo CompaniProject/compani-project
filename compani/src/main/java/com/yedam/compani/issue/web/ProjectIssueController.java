@@ -96,13 +96,13 @@ public class ProjectIssueController {
 									 @PathVariable final int issuNo, 
 									 Model model) {
 		IssueVO vo = issueService.findIssueById(issuNo);
-		model.addAttribute("issueInfo", vo);
+		model.addAttribute("pissueInfo", vo);
 
 		List<IssueFileVO> list = issueFileService.findAllFileByIssuNo(issuNo);
-		model.addAttribute("issueFile", list);
+		model.addAttribute("pissueFile", list);
 		
 		List<IssueHashtagVO> hash = issueHashtagService.findAllHashtagsByIssuNo(issuNo);
-		model.addAttribute("hash", hash);
+		model.addAttribute("phash", hash);
 		return "project/project-issue-info";
 	}
 

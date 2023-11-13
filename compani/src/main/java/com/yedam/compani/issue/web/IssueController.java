@@ -179,7 +179,7 @@ public class IssueController {
 	}
 	
 	// 모달에서 이슈 삭제
-	@PostMapping("/ModalIssue")
+	@PostMapping("/ModalIssueDelete")
 	@ResponseBody
 	public void modalIssueDelete(@RequestParam final int issuNo) {
 		issueService.deleteIssue(issuNo);
