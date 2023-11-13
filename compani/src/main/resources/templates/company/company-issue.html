@@ -190,10 +190,9 @@
                       type: 'GET',
                       data :{ pageNum, 
   					   		  keyword: keywordVal, 
-  					    	  searchBI: searchVal, 
+  					    	  search: searchVal, 
   					    	  filterType: filterTypeVal }
                   }).done(function (data) {
-                      $('.ciSearchInput').val('');
                       issueLists.empty();
                       hashtagByCoCd();
                       $.each(data.cissue.list, function (idx, item) {
