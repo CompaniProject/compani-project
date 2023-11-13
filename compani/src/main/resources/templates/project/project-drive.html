@@ -342,6 +342,9 @@
 		// 파일 미리보기 버튼 선택시 해당 파일의 내용물을 팝업창으로 작게 띄움 
 		function preview(path){
 		    if (path) {
+		    	
+		    	path = decodeURIComponent(path);
+		    	
 		        if (path.endsWith('.txt')) {
 		            $.ajax({
 		                url: '/upload/' + path,
@@ -529,7 +532,7 @@
 		// 삼항 연산자로 조건 걸기
 		var viewButton = item.fileType == 'pdf' || item.fileType == 'txt' || item.fileType == 'jpg' || item.fileType == 'png'
 			  ? `<button type="button" class="btn btn-outline-secondary btn-sm"
-			     onclick="preview('${item.filePath}')">
+			     onclick="preview('${item.filePath}'/)">
 		  	     <i class="fa-solid fa-eye"></i>&nbsp;미리보기
 			     </button>`
 			    : '';
