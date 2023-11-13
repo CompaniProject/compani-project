@@ -654,12 +654,14 @@
 	color: #575757;
 	line-height: 23px;
 	margin-bottom: 0;
+	word-wrap: break-word;
 }
 
 .issue__reply__itemC__text p {
 	color: #575757;
 	line-height: 23px;
 	margin-bottom: 0;
+	word-wrap: break-word;
 }
 
 .replyP_edit_text_area {

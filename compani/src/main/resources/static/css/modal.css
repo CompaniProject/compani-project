@@ -1235,6 +1235,8 @@ form.fileupload.dz {
 	color: #575757;
 	line-height: 23px;
 	margin-bottom: 0;
+    word-wrap: break-word;
+	
 }
 
 .issueReply__details__form textarea {
