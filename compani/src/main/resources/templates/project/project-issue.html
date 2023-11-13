@@ -414,7 +414,6 @@
 					    search: searchVal, 
 					    filterType: filterTypeVal }
 				}).done(function (data) {
-					$('.piSearchInput').val('');
 					issueLists.empty();
 					hashtagByPrjtNo();
 					$.each(data.pissue.list, function (idx, item) {
