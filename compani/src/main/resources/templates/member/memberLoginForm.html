@@ -46,14 +46,14 @@
 							<div class="card-body pt-5">
 								<a class="text-center"><h1>COMPANi</h1></a>
 
-								<form class="mt-5 mb-5 login-input" th:action="@{login}" method="post">
+								<form class="mt-5 mb-5 login-input" th:action="@{login}" method="post" id="loginForm">
 									<div class="form-group">
 										<input type="text" class="form-control" placeholder="아이디" name="loginId" id="loginId">
 									</div>
 									<div class="form-group">
 										<input type="password" class="form-control" placeholder="비밀번호" name="loginPwd" id="loginPwd">
 									</div>
-									<button class="btn login-form__btn submit w-100" type="submit">로그인</button>
+									<button class="btn login-form__btn submit w-100" id="loginBtn" type="button">로그인</button>
 								</form>
 								<p class="mt-5 login-form__footer">
 									<a href="signUp" class="text-primary">회원가입</a>
@@ -77,8 +77,9 @@
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
-	<script type="text/javascript">
+	<script th:inline="javascript">
 	let testId = /^(?=.*?[a-z])(?=.*?[0-9]).{4,}/;
+	let testPw1 = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/;
 	$('#loginId').on("input", function(event){ 
 		
 		let inputVal = $(this).val();
@@ -97,6 +98,29 @@
 			$(this).val(inputVal.substr(0, 20)); 
 		}
 	});
+ 	$("#loginBtn").on("click", function(event){ 
+		if($('#loginId').val().length < 4){
+			swal.fire({title : '아이디 오류!', text : "※ 4~20자 / 영문(소문자), 숫자 2가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
+				return false;
+			});	
+		}else if($('#loginPwd').val().length < 8){
+			swal.fire({title : '비밀번호 오류!', text : "※ 8~20자 / 영문(대/소문자), 숫자 및 특수문자 4가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
+				return false;
+			});	
+		}else if(testId.test($('#loginId').val()) == false){
+			swal.fire({title : '아이디 오류!', text : "※ 4~20자 / 영문(소문자), 숫자 2가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
+				return false;
+			});
+		}else if(testPw1.test($('#loginPwd').val()) == false){
+			swal.fire({title : '비밀번호 오류!', text : "※ 8~20자 / 영문(대/소문자), 숫자 및 특수문자 4가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
+				return false;
+			});	
+		}else{
+			  var modify = /*[[@{login}]]*/;
+			   	$("#loginForm").attr("action", modify).submit();
+		}
+	}); 
+	
 	</script>
 </body>
 </html>

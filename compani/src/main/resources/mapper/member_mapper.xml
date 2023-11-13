@@ -194,7 +194,7 @@
 		bm.buss_no
 		FROM business B
 		JOIN business_member bm ON (B.buss_no = bm.buss_no)
-		WHERE b.prjt_no = 1) bl ON pm.memb_id = bl.memb_id
+		WHERE b.prjt_no = #{prjtNo}) bl ON pm.memb_id = bl.memb_id
 		WHERE prjt_no = #{prjtNo}
 		GROUP BY memb_nm, m.memb_id
 	</select>
