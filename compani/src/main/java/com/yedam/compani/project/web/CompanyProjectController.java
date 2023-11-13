@@ -27,7 +27,7 @@ public class CompanyProjectController {
 	private final ProjectService projectService;
 	
 	//회사 프로젝트 게시판 
-	@GetMapping("/company/project/{coCd}")
+	@GetMapping("company/project/{coCd}")
 	public String projectBoard(@PathVariable String coCd, 
 			                   String search, 
 			                   String keyword,
@@ -41,7 +41,7 @@ public class CompanyProjectController {
 	}
 	
 
-	@GetMapping("/company/projects/{coCd}")
+	@GetMapping("company/projects/{coCd}")
 	@ResponseBody
 	public Map<String, Object> companyProject(@PathVariable String coCd, String search, String keyword,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {

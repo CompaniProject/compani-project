@@ -150,7 +150,7 @@ select {
 		<div id="personalCalendarBox">
 			<div id='personalCalendar' class="tab-pane p-2"></div>
 			
-			<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:700px;'></div>
+			<div id='personalGanttchart' class="tab-pane" style='width: 100%; height:900px;'></div>
 		</div>
 		<!-- 달력&차트 끝 -->
 		
@@ -202,7 +202,7 @@ select {
 			<!-- 업무 목록 - 리스트 시작 -->
 			<div class="businessListBox">
 				<th:block th:each="bussInfo : ${personalCalendarPage}">
-					<div class="businessList">
+					<div class="businessList" onclick="infoBusiness()">
 						<div class="businessList2" 
 							th:text="${#dates.format(bussInfo.bussFrdt, 'yy.MM.dd')} + ' ~ ' + ${#dates.format(bussInfo.bussTodt, 'yy.MM.dd')} +
 							 ' | 중요도 ' + ${bussInfo.bussImp} + ' | 진척도 ' + ${bussInfo.bussPrgre} + '%'">
@@ -247,7 +247,7 @@ select {
 		$('.businessList').remove();
 		
 		$.each(calendarArr, function(idx, item){
-			$('.businessListBox').append($('<div class="businessList"></div>'));
+			$('.businessListBox').append($('<div class="businessList" onclick="infoBusiness()"></div>'));
 			$('.businessList:last').append($('<div class="businessList2"></div>'));
 			$('.businessList2:last').append(formatDate(item.bussFrdt).substr(2) + ' ~ ' + formatDate(item.bussTodt).substr(2)
 					+ ' | 중요도 ' + item.bussImp + ' | 진척도 ' + item.bussPrgre + '%');
@@ -259,7 +259,7 @@ select {
 	function resetCal(){
 		calendarEl = document.getElementById('personalCalendar');
 		calendar = new FullCalendar.Calendar(calendarEl, {
-	      	height: "1000px",
+	      	height: "900px",
 	      	expandRows: true,
 			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
 	      	dayMaxEvents: 3,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -399,7 +399,7 @@ select {
    	document.addEventListener('DOMContentLoaded', function() {
        	var calendarEl = document.getElementById('personalCalendar');
        	var calendar = new FullCalendar.Calendar(calendarEl, {
-       		height: "1000px",
+       		height: "900px",
        		expandRows: true,
 			initialView: 'dayGridMonth',	// 나타낼 달력 형식(dayGridMonth: 월단위)
        		dayMaxEvents: 3,		// 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -537,18 +537,18 @@ select {
 		// 업무바 수정 ajax
 		gantt.attachEvent("onAfterTaskupdate", function(id, item){
 			var obj = new Object();
-			var end = new Date(item.end_date);
-			end.setDate(end.getDate() - 1);
-			end = end.getDate();
-			if(end<10) end = '0' + end;
+			var newEnd = new Date(getMilliseconds(item.end_date)-1000*60*60*24);
 			
-			var startDate = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
-			var endDate = item.end_date.getFullYear() + "-" + (item.end_date.getMonth() + 1) + "-" + end;
+			var start = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
+			var end = newEnd.getFullYear() + "-" + (newEnd.getMonth()+1) + "-" + newEnd.getDate();
 			
 			obj.bussNo = item.id;
-			obj.bussFrdt = startDate;
-			obj.bussTodt = endDate;
+			obj.bussFrdt = start;
+			obj.bussTodt = end;
 			obj.bussPrgre = Math.floor(item.progress * 100);
+			
+			console.log("start: "+start);
+			console.log("end: "+end);
 			
 			$.ajax({
 				type: 'post',
@@ -725,7 +725,7 @@ select {
 	------------------------------*/
 	$(function(){
 		$('.businessListBox').slimScroll({
-			height: '940px',
+			height: '840px',
 			width: '100%'
 		});
 		

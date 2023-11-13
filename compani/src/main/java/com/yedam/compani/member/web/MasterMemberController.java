@@ -28,7 +28,7 @@ public class MasterMemberController {
 	SessionService sessionService;
 	
 	// 마스터 - 멤버 페이지
-	@GetMapping("/master-member")
+	@GetMapping("master-member")
 	public String masterList(Model model) {
 		List<Map<Object, Object>> memberList = service.masterMemberList();
 		model.addAttribute("masterMemberList", memberList);
@@ -36,14 +36,14 @@ public class MasterMemberController {
 	}
 	
 	// 마스터 - 멤버 승인
-	@PostMapping("/updateMemberAccp")
+	@PostMapping("updateMemberAccp")
 	@ResponseBody
 	public int updateMemberAccp(@RequestBody MemberVO vo){
 		return service.updateMemberAccp(vo);
 	}
 	
 	// 회사관리자 - 멤버 페이지
-	@GetMapping("/companyManager")
+	@GetMapping("companyManager")
 	public String companyManager(Model model, HttpServletRequest request) {
 		MemberVO memberVO = sessionService.getLoginInfo(request);
 		String coCd = memberVO.getCoCd();

@@ -27,26 +27,26 @@ public class IssueReplyController {
 	private final IssueReplyService issueReplyService;
 	
 	// 신규 댓글 생성 -> 새로운 댓글을 생성한 후 생성된 댓글의 상세정보(응답 객체)를 리턴
-	@PostMapping("/issues/{issuNo}/reply") // @PathVariable -> Rest api 에서 리소스를 표현하는데 사용. 해당 어노테이션을 이용하면 URI에서 템플릿 형태로 파라미터를 전달받을 수 있음.
+	@PostMapping("issues/{issuNo}/reply") // @PathVariable -> Rest api 에서 리소스를 표현하는데 사용. 해당 어노테이션을 이용하면 URI에서 템플릿 형태로 파라미터를 전달받을 수 있음.
 	public IssueReplyVO saveIssueReply(@PathVariable final int issuNo, @RequestBody final IssueReplyVO params) {
 			int id = issueReplyService.saveIssueReply(params);
 			return issueReplyService.findReplyById(id);
 	}
 	
 	// 댓글 리스트 조회
-	@GetMapping("/issues/{issuNo}/reply")
+	@GetMapping("issues/{issuNo}/reply")
 	public List<IssueReplyVO> findAllReply(@PathVariable final int issuNo) {
 		return issueReplyService.findAllReply(issuNo);
 	}
 	
 	// 댓글 상세정보 조회
-	@GetMapping("/issues/{issuNo}/reply/{issuRplyNo}")
+	@GetMapping("issues/{issuNo}/reply/{issuRplyNo}")
 	public IssueReplyVO findReplyById(@PathVariable final int issuNo, @PathVariable final int issuRplyNo) {
 		return issueReplyService.findReplyById(issuRplyNo);
 	}
 	
 	// 기존 댓글 수정
-	@PutMapping("/issues/{issuNo}/reply/{issuRplyNo}")
+	@PutMapping("issues/{issuNo}/reply/{issuRplyNo}")
 	public IssueReplyVO updateReply(@PathVariable final int issuNo, @PathVariable final int issuRplyNo, @RequestBody final IssueReplyVO params) {
 		issueReplyService.updateReply(params);
 		return issueReplyService.findReplyById(issuRplyNo);

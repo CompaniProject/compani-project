@@ -59,46 +59,46 @@ public class MemberController {
 	SessionService sessionService;
 
 	// 홈페이지
-	@GetMapping("/")
+	@GetMapping("")
 	public String homepage() {
 		return "member/memberLoginForm";
 	}
 	// 로그인 페이지
-	@GetMapping("/loginForm")
+	@GetMapping("loginForm")
 	public String memberLoginForm() {
 		return "member/memberLoginForm";
 	}
 
 	// 가입 후 대기
-	@GetMapping("/standBy")
+	@GetMapping("standBy")
 	public String memberStandByForm() {
 		return "member/memberStandBy";
 	}
 
 	// 가입완료
-	@GetMapping("/complete")
+	@GetMapping("complete")
 	public String memberSignUpComplete() {
 		return "member/memberSignUpped";
 	}
 
 	// 회원가입 유형
-	@GetMapping("/signUp")
+	@GetMapping("signUp")
 	public String signUpPage() {
 		return "member/signUp";
 	}
 
 	// 사원 등록 폼
-	@GetMapping("/memberSignUp")
+	@GetMapping("memberSignUp")
 	public String memberSignUpForm(CompanyVO vo) {
 		return "member/memberSignUp";
 	}
 	// 사원 등록 폼
-	@PostMapping("/memberSignUp")
+	@PostMapping("memberSignUp")
 	public String memberSignUpForm2(CompanyVO vo) {
 		return "member/memberSignUp";
 	}
 	// 아이디 중복체크용
-	@PostMapping("/memberIdList")
+	@PostMapping("memberIdList")
 	@ResponseBody
 	public Map<String, Object> getMemberIdLists() {
 		Map<String, Object> membIdList = new HashMap<>();
@@ -108,7 +108,7 @@ public class MemberController {
 	}
 
 	// 가입 서브밋
-	@PostMapping("/SignUpped")
+	@PostMapping("SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
 		membVO.setMembPwd(passwordEncoder.encode(membVO.getMembPwd()));
 		if (membVO.getPermNo().equals("0A2")) {
@@ -156,7 +156,7 @@ public class MemberController {
 
 	
 	// set 세션 로그인 정보
-	@PostMapping("/memberInfo")
+	@PostMapping("memberInfo")
 	@ResponseBody
 	public MemberVO memberInfo(@AuthenticationPrincipal MemberAuthVO vo) {
 		MemberVO membVO = new MemberVO();
@@ -166,14 +166,14 @@ public class MemberController {
 	}
 
 	// 정보수정
-	@PostMapping("/memberEditInfo")
+	@PostMapping("memberEditInfo")
 	public String editMemberInfo(MemberVO vo) {
 		service.editMemberInfo(vo);
 		return "redirect:memberEditForm";
 	}
 	
 	//비번수정 전 검사
-	@PostMapping("/testpwd")
+	@PostMapping("testpwd")
 	@ResponseBody
 	public boolean testPwd(@RequestBody Map<String, String> map) {
 		MemberVO vo = new MemberVO();
@@ -182,7 +182,7 @@ public class MemberController {
 		return passwordEncoder.matches(map.get("pwd"), vo.getMembPwd());
 	}
 	// 비번수정
-	@PostMapping("/memberEditPwd")
+	@PostMapping("memberEditPwd")
 	public String editMemberPwd(MemberVO vo) {
 		vo.setMembPwd(passwordEncoder.encode(vo.getMembPwd()));
 		service.editMemberPwd(vo);
@@ -213,8 +213,8 @@ public class MemberController {
 	// method uploadFile
 	/////////////////////////////////////////////////////////
 
-	//신대철 : 사이드 프로젝트 등록 모달 ajax
-	@PostMapping("/prjtInsert")
+	//사이드 프로젝트 등록 모달 ajax
+	@PostMapping("prjtInsert")
 	@ResponseBody
 	public Map<String,Object> prjtModalAjax(MemberVO memberVO){
 

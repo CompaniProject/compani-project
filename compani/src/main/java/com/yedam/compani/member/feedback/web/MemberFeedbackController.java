@@ -38,13 +38,13 @@ public class MemberFeedbackController {
 	
 	
 	
-	@PostMapping("/pfml")
+	@PostMapping("pfml")
 	@ResponseBody
 	public List<String> projectFeedbackMemberList(ProjectMemberVO prjtno){
 		return servicem.getProjectFeedbackMemberList(prjtno);
 	}
 	
-	@GetMapping("/project/feedback/{prjtNo}/personal")
+	@GetMapping("project/feedback/{prjtNo}/personal")
 	public String projectFeedbackPersonal(@PathVariable int prjtNo, Model model, HttpSession session) {
 		ProjectStatusVO projectStatus = serviceps.getProjectStatus(prjtNo);////////////////////////////////
 		
@@ -55,31 +55,31 @@ public class MemberFeedbackController {
 		return "member/feedbackPers";
 	}
 	
-	@PostMapping("/insertFeedBackPersonal")
+	@PostMapping("insertFeedBackPersonal")
 	@ResponseBody
 	public int setFeedbackPersonal(@RequestBody MemberFeedbackVO vo) {
 		return servicemf.setFeedbackPersonal(vo);
 	}
 	
-	@PostMapping("/selectBusinessPersonal")
+	@PostMapping("selectBusinessPersonal")
 	@ResponseBody
 	public List<Map<String, Object>> businessPersonal(@RequestBody Map<String, String> map){
 		return servicemf.getBusinessPersonal(map);
 	}
 	
-	@PostMapping("/feedbackList")
+	@PostMapping("feedbackList")
 	@ResponseBody
 	public List<MemberFeedbackVO> feedbackList(@RequestBody MemberFeedbackVO vo){
 		return servicemf.getFeedbackList(vo);
 	}
 	
-	@PostMapping("/feedbackPersonal")
+	@PostMapping("feedbackPersonal")
 	@ResponseBody
 	public MemberFeedbackVO feedbackPersonal() {
 		return servicemf.getFeedbackPersonal();
 	}
 	
-	@PutMapping("/editFeedbackPersonal")
+	@PutMapping("editFeedbackPersonal")
 	@ResponseBody
 	public MemberFeedbackVO editFeedbackPersonal(@RequestBody MemberFeedbackVO vo) {
 		servicemf.editFeedbackPersonal(vo);

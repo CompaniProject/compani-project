@@ -49,7 +49,7 @@ public class FileUploadController {
 		@Value("${file.upload.path}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 		private String uploadPath;
 		
-		@PostMapping("/uploadsAjax")
+		@PostMapping("uploadsAjax")
 		@ResponseBody
 		public FileVO uploadFile(@RequestPart MultipartFile uploadFile, FileVO fileVO) {
 		    										// 화면에 Multipart 유무에 따라 배열 넣냐 안넣냐 차이
@@ -122,7 +122,7 @@ public class FileUploadController {
 		}
 		
 		//첨부 파일 다운로드
-		  @GetMapping("/searchFile/{fileNo}/download")
+		  @GetMapping("searchFile/{fileNo}/download")
 		    public ResponseEntity<Resource> downloadFile(@PathVariable final int fileNo) {
 		        FileVO file = fileservice.fileDownload(fileNo);
 		        Resource resource = dfu.readFileAsResource(file);

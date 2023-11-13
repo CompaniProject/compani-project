@@ -54,14 +54,14 @@ public class BusinessCalendarController {
 	}
 	
 	// 캘린더&간트 업무바 수정
-	@PostMapping("/updateCalendarBuss")
+	@PostMapping("updateCalendarBuss")
 	@ResponseBody
 	public int updatePersonalCalendarBuss(@RequestBody BusinessVO vo) {
 		return businessService.updateCalendarBuss(vo);
 	}
 	
 	// 간트 상위업무 수정
-	@PostMapping("/updateGanttUpcd")
+	@PostMapping("updateGanttUpcd")
 	@ResponseBody
 	public int updatePersonalGanttUpcd(@RequestBody BusinessVO vo) {
 		return businessService.updateGanttUpcd(vo);

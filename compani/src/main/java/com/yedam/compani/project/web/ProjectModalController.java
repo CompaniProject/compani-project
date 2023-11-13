@@ -42,7 +42,7 @@ public class ProjectModalController {
 	private final ProjectStatusService projectStatusService;
 	private final SessionService sessionService;
 	
-	@GetMapping("/project/modal/{prjtNo}")
+	@GetMapping("project/modal/{prjtNo}")
 	public String projectModal(@PathVariable Integer prjtNo, Model model, HttpServletRequest request) {
 		
 		// 프로젝트 등록,모달 수정 - 참여자 리스트
@@ -66,7 +66,7 @@ public class ProjectModalController {
 	}
 	
 	//프로젝트 등록 - 실행시 
-	@PostMapping("/insertProject")
+	@PostMapping("insertProject")
 	@ResponseBody
 	public Map<String, Object> insertProject(@RequestBody ProjectFormVO formVO, 
 			                                 HttpServletRequest request) {
@@ -81,7 +81,7 @@ public class ProjectModalController {
 		return map;
 	}
 
-	@PostMapping("/updateProject")
+	@PostMapping("updateProject")
 	@ResponseBody
 	public void updateProject(@RequestBody ProjectFormVO formVO, HttpServletRequest request) {
 		ProjectVO projectVO = formVO.getProject();

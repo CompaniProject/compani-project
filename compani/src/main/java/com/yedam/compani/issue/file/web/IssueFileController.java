@@ -30,13 +30,13 @@ public class IssueFileController {
 	  private final IssueFileService issueFileService;
 
 	  // 파일 리스트 조회
-	  @GetMapping("/issues/{issuNo}/files")
+	  @GetMapping("issues/{issuNo}/files")
 	  public List<IssueFileVO> findAllFileByIssuNo(@PathVariable final int issuNo) {
 		  return issueFileService.findAllFileByIssuNo(issuNo);
 	  }
 	  
 	  //첨부 파일 다운로드
-	  @GetMapping("/issues/{issuNo}/files/{issuFileNo}/download")
+	  @GetMapping("issues/{issuNo}/files/{issuFileNo}/download")
 	    public ResponseEntity<Resource> downloadFile(@PathVariable final int issuNo, @PathVariable final int issuFileNo) {
 	        IssueFileVO file = issueFileService.findFileById(issuFileNo);
 	        Resource resource = FileUtils.readFileAsResource(file);
@@ -54,7 +54,7 @@ public class IssueFileController {
 	    }
 	  	  
 	  // 파일 수 카운트
-	  @GetMapping("/issues/{issuNo}/files/count")
+	  @GetMapping("issues/{issuNo}/files/count")
 		public int countReply(@PathVariable final int issuNo) {
 			return issueFileService.countFile(issuNo);
 		}

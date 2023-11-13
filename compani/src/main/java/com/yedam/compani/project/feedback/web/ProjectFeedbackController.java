@@ -36,7 +36,7 @@ public class ProjectFeedbackController {
 	private final ProjectService projectService;
 	private final SessionService sessionService;
 	
-	@GetMapping("/project/feedback/{prjtNo}")
+	@GetMapping("project/feedback/{prjtNo}")
 	public String projectFeedbackHome(@PathVariable int prjtNo, Model model, HttpServletRequest request) {
 		// get session users company data
 		MemberVO memberVO = sessionService.getLoginInfo(request);
@@ -57,7 +57,7 @@ public class ProjectFeedbackController {
 		return "project/feedback-home";
 	}
 
-	@PostMapping("/project/feedback")
+	@PostMapping("project/feedback")
 	@ResponseBody
 	public ProjectFeedbackVO insertProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk, HttpServletRequest request){
 		MemberVO memberVO = sessionService.getLoginInfo(request);
@@ -66,7 +66,7 @@ public class ProjectFeedbackController {
 		return prjtFdbk;
 	}
 
-	@PutMapping("/project/feedback")
+	@PutMapping("project/feedback")
 	@ResponseBody
 	public ProjectFeedbackVO updateProjectFeedback(@RequestBody ProjectFeedbackVO prjtFdbk) {
 		projectFeedbackService.update(prjtFdbk);

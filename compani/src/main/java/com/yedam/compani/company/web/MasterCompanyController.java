@@ -26,7 +26,7 @@ public class MasterCompanyController {
 	MemberService memberService;
 	
 	// 마스터 - 회사 페이지
-	@GetMapping("/master-company")
+	@GetMapping("master-company")
 	public String companyAllList(Model model) {
 		List<CompanyVO> companyList = service.companyAllList();
 		model.addAttribute("masterCompanyList", companyList);
@@ -34,7 +34,7 @@ public class MasterCompanyController {
 	}
 	
 	// 마스터 - 회사 승인
-	@PostMapping("/updateCompanyAccp")
+	@PostMapping("updateCompanyAccp")
 	@ResponseBody
 	public String updateCompanyAccp(@RequestBody CompanyVO vo) {
 		// 회사 승인

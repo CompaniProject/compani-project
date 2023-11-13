@@ -34,7 +34,7 @@ public class ProjectFileController {
 	DriveFileUtils dfu;
 
 	// 파일 리스트 + 업무 리스트
-	@GetMapping("/project/drive/{prjtNo}")
+	@GetMapping("project/drive/{prjtNo}")
 	public String fileList(@PathVariable int prjtNo, String pType, String pKeyword, FileVO fileVO, Model model) throws Exception {
 		List<FileVO> file = new ArrayList<> (fileservice.fileList(pType, pKeyword, prjtNo));
 		List<FileVO> vo = fileservice.fileList(pType, pKeyword, prjtNo);
@@ -49,7 +49,7 @@ public class ProjectFileController {
 	}
 
 	// 페이징 및 검색 AJAX
-	@GetMapping("/project/driveAjax/{prjtNo}")
+	@GetMapping("project/driveAjax/{prjtNo}")
 	@ResponseBody
 	public Map<String, Object> fileList(@PathVariable int prjtNo, String pType, String pKeyword) {
 		List<FileVO> file = new ArrayList<> (fileservice.fileList(pType, pKeyword, prjtNo));
@@ -62,7 +62,7 @@ public class ProjectFileController {
 	}
 	
 	// 업로드
-	@PostMapping("/project/driveInsertAjax/save")
+	@PostMapping("project/driveInsertAjax/save")
 	@ResponseBody
 	public Map<String, Object> fileListInsert(MultipartFile[] drivefile, FileVO fileVO, int prjtNo, int bussNo, String membId) {
 		
@@ -82,7 +82,7 @@ public class ProjectFileController {
 	}
 
 	// 확장자 필터링 AJAX
-		@GetMapping("/project/driveFilterAjax/{prjtNo}")
+		@GetMapping("project/driveFilterAjax/{prjtNo}")
 		@ResponseBody
 		public Map<String, Object> fileList(@PathVariable int prjtNo, String filter){
 			List<FileVO> file = new ArrayList<> (fileservice.fileList(filter, prjtNo));
