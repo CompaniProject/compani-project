@@ -44,4 +44,10 @@ public class BusinessMemberServiceImpl implements BusinessMemberService {
 		int bussNo = formVO.getBusiness().getBussNo();
 		return businessMemberMapper.deleteBusinessMember(bussNo);
 	}
+
+	@Override
+	public int clearBusinessMember(Integer bussNo) {
+	
+		return businessMemberMapper.deleteBusinessMember(bussNo);
+	}
 }

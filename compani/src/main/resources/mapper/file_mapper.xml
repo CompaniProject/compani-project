@@ -77,8 +77,7 @@
 					<selectKey keyProperty="fileNo"
 							   resultType="int"
 							   order="BEFORE">
-					SELECT NVL(MAX(FILE_NO), 0) +1
-					FROM   PROJECT_FILE
+					SELECT file_seq.nextval FROM DUAL <!-- 드라이브 쪽 시퀀스 떄문에 중복 오류값 떠서 모달쪽도 시퀀스 사용하게 변경 -->
 					</selectKey>
 					INSERT INTO project_file(file_no
 											 , prjt_no
@@ -202,5 +201,11 @@
 					AND		f.file_no = #{fileNo}
 					
 				</select>	
+				
+				<!-- 파일 서버삭제용 조회 -->
+				<select id="fileInfo" resultType="FileVO">
+    				SELECT * FROM project_file 
+    				WHERE 	 file_no = #{fileNo}
+				</select>
 				
 </mapper>

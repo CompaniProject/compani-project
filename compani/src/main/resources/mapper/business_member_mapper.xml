@@ -50,4 +50,5 @@
   	WHERE  BUSS_NO = #{bussNo}
   
   </delete>
+  
   </mapper>

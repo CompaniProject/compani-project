@@ -253,7 +253,10 @@ select {
 					+ ' | 중요도 ' + item.bussImp + ' | 진척도 ' + item.bussPrgre + '%');
 			$('.businessList:last').append($('<div class="businessList2"></div>'));
 			$('.businessList2:last').append(item.bussNm);
+			$('.businessList:last').append($('<input type="hidden" id="bussNo" />'));
+			$('.businessList:last').find('input').val(item.bussNo);
 		});
+		$('.businessList').on('click', infoBusiness);
 	}
 	// 캘린더에 다시 뿌리기
 	function resetCal(){
@@ -268,16 +271,17 @@ select {
 	      	selectable: true,			// 달력 일자 드래그 기능
 	      	eventChange: function(data) { // 이벤트가 수정되면 발생하는 이벤트
 	      		var obj = new Object();
-	      		var end = new Date(data.event.endStr);
-	      		end.setDate(end.getDate() - 1);
-	      		var year = end.getFullYear();
-	      		var month = end.getMonth()+1;
-	      		var date = (String)(end.getDate());
-	      		if(date<10) date = '0' + date;
+       			var end = new Date(data.event.endStr);
+       			end.setDate(end.getDate() - 1);
+       			var endYear = end.getFullYear();
+       			var endMonth = end.getMonth()+1;
+       			if(endMonth<10) endMonth = '0'+endMonth;
+       			var endDate = (String)(end.getDate());
+       			if(endDate<10) endDate = '0' + endDate;
 	      		
 	      		obj.bussNo = data.event.id;
 	      		obj.bussFrdt = data.event.startStr;
-	      		obj.bussTodt = year + '-' + month + '-' + date;
+	      		obj.bussTodt = endYear + '-' + endMonth + '-' + endDate;
 	      		
 	      		$.ajax({
 	      			type: 'post',
@@ -285,8 +289,7 @@ select {
 	      			contentType: 'application/json',
 	         		data: JSON.stringify(obj),
 	         		success: function(){
-	         			console.log("수정성공!");
-	         			console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
+	         			
 	         		},
 	         		error: function(error){
 	         			console.log(error);
@@ -340,7 +343,6 @@ select {
 	// 필터링-선택 클릭하면
 	$('.dropdown-item.filter').on('click', function(){
 		let target = event.target;
-		//console.log($(target).text());
 		calendarArr = [];
 		
 		// 필터링 업무리스트 만들기
@@ -410,14 +412,15 @@ select {
        			var obj = new Object();
        			var end = new Date(data.event.endStr);
        			end.setDate(end.getDate() - 1);
-       			var year = end.getFullYear();
-       			var month = end.getMonth()+1;
-       			var date = (String)(end.getDate());
-       			if(date<10) date = '0' + date;
+       			var endYear = end.getFullYear();
+       			var endMonth = end.getMonth()+1;
+       			if(endMonth<10) endMonth = '0'+endMonth;
+       			var endDate = (String)(end.getDate());
+       			if(endDate<10) endDate = '0' + endDate;
        			
        			obj.bussNo = data.event.id;
        			obj.bussFrdt = data.event.startStr;
-       			obj.bussTodt = year + '-' + month + '-' + date;
+       			obj.bussTodt = endYear + '-' + endMonth + '-' + endDate;
        			
        			$.ajax({
        				type: 'post',
@@ -425,8 +428,6 @@ select {
        				contentType: 'application/json',
           			data: JSON.stringify(obj),
           			success: function(){
-          				console.log("수정성공!");
-          				console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
           				
           				$.each(calendarArr, function(idx, item){
           					if(item.bussNo == obj.bussNo){
@@ -476,12 +477,16 @@ select {
 			var todt = new Date(new Date(item.bussTodt).getTime() + 1000*60*60*24);
    			var todtDate = (String)(todt.getDate());
    			if(todtDate < 10) todtDate = '0' + todtDate;
-   			var newTodt = todt.getFullYear() + '-' + (todt.getMonth() + 1) + '-' + todtDate;
+   			var toMonth = (todt.getMonth() + 1);
+   			if(toMonth<10) toMonth = '0'+toMonth;
+   			var newTodt = todt.getFullYear() + '-' + toMonth + '-' + todtDate;
    			
    			var frdt = new Date(item.bussFrdt);
+   			var frMonth = (frdt.getMonth() + 1);
+   			if(frMonth<10) frMonth = '0'+frMonth;
    			var frdtDate = (String)(frdt.getDate());
    			if(frdtDate < 10) frdtDate = '0' + frdtDate;
-   			var newFrdt = frdt.getFullYear() + '-' + (frdt.getMonth() + 1) + '-' + frdtDate;
+   			var newFrdt = frdt.getFullYear() + '-' + frMonth + '-' + frdtDate;
    			
    			obj.id = item.bussNo; // id
    			obj.title = item.bussNm;		// 제목
@@ -489,6 +494,7 @@ select {
    			obj.end = newTodt;		// 종료 날짜
    			obj.className = 'calendarEvent_' + item.prjtNm;
    			obj.color = color[idx%12];
+   			
    			arr.push(obj);
    			
    			todt = new Date(new Date(item.bussTodt).getTime());
@@ -537,18 +543,20 @@ select {
 		// 업무바 수정 ajax
 		gantt.attachEvent("onAfterTaskupdate", function(id, item){
 			var obj = new Object();
-			var newEnd = new Date(getMilliseconds(item.end_date)-1000*60*60*24);
+			var newEnd = new Date(getMilliseconds(item.end_date)-1000*60*60*24);	
 			
-			var start = item.start_date.getFullYear() + "-" + (item.start_date.getMonth() + 1) + "-" + item.start_date.getDate();
-			var end = newEnd.getFullYear() + "-" + (newEnd.getMonth()+1) + "-" + newEnd.getDate();
+			var frMonth = ('0'+(item.start_date.getMonth() + 1)).slice(-2);
+			var frDate = ('0'+item.start_date.getDate()).slice(-2);
+			var toMonth = ('0'+(newEnd.getMonth()+1)).slice(-2);
+			var toDate = ('0'+newEnd.getDate()).slice(-2);
+			
+			var start = item.start_date.getFullYear() + "-" + frMonth + "-" + frDate;
+			var end = newEnd.getFullYear() + "-" + toMonth + "-" + toDate;
 			
 			obj.bussNo = item.id;
 			obj.bussFrdt = start;
 			obj.bussTodt = end;
 			obj.bussPrgre = Math.floor(item.progress * 100);
-			
-			console.log("start: "+start);
-			console.log("end: "+end);
 			
 			$.ajax({
 				type: 'post',
@@ -556,14 +564,12 @@ select {
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
-					console.log("수정성공!");
-					console.log("수정된 날짜: " + obj.bussFrdt + " ~ " + obj.bussTodt);
-					console.log("수정된 진척도: " + obj.bussPrgre);
 					
 					$.each(calendarArr, function(idx, item){
       					if(item.bussNo == obj.bussNo){
       						item.bussFrdt = obj.bussFrdt;
       						item.bussTodt = obj.bussTodt;
+      						item.bussPrgre = obj.bussPrgre;
       						return false;
       					}
       				});
@@ -576,37 +582,39 @@ select {
 			})
 		});
 		// 상위업무 수정 ajax
-		gantt.attachEvent("onAfterLinkAdd", function(id,item){
+		gantt.attachEvent("onBeforeLinkAdd", function(id,item){
 			var obj = new Object();
 			obj.bussNo = item.target;
 			obj.bussUpcd = item.source;
 			
 			// 중복 상위업무에 대한 처리
-			for(let i=0; i<calendarData.length; i++){
-				if(obj.bussNo == calendarData[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
-					if(calendarData[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
+			$.each(calendarArr, function(idx, item2){
+				
+			})
+			for(let i=0; i<calendarArr.length; i++){
+				if(obj.bussNo == calendarArr[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
+					if(calendarArr[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
 						$.ajax({
 							type: 'post',
 							url: '/updateGanttUpcd',
 							contentType: 'application/json',
 							data: JSON.stringify(obj),
 							success: function(){
-								console.log("수정성공!");
-								console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
+								console.log('성공');
 							},
 							error: function(error){
 								console.log(error);
 							}
 						})
 						// 캘린더 배열의 상위업무 정보 업데이트.
-						calendarData[i].bussUpcd = obj.bussUpcd;
-						return false; 
+						calendarArr[i].bussUpcd = obj.bussUpcd;
+						return false;
 					} // 업무번호의 상위업무가 0이 아니면
 					// 경고창 띄워주기
-					alert('해당 업무는 이미 상위업무가 존재합니다.');
+					ganttUpcdDuplAlert();
 					// 방금 만든 간트 링크 없애기
-					let thisId = item.id;
-					gantt.deleteLink(thisId);
+					/* let thisId = item.id;
+					gantt.deleteLink(thisId); */
 					return false;
 				}
 			}
@@ -623,8 +631,7 @@ select {
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
-					console.log("삭제성공!");
-					console.log("업무번호: " + obj.bussNo + ", 상위업무: " + obj.bussUpcd);
+					
 				},
 				error: function(error){
 					console.log(error);
@@ -673,6 +680,7 @@ select {
 		});
 		return arr;
 	}
+	
 	// 간트차트 상위업무 구현
 	function ganttLink(){
 		let arr = [];
@@ -688,6 +696,14 @@ select {
 			arr.push(obj);
 		});
 		return arr;
+	}
+	
+	// 간트차트 중복 상위업무 경고 Sweet Alert
+	function ganttUpcdDuplAlert(){
+		Swal.fire({
+			icon: 'error',
+			title: '상위업무가 이미 존재합니다.',
+		});
 	}
 	
 	// 간트차트 날짜 형식 포맷
@@ -739,10 +755,11 @@ select {
 	var miPrjtNo = [[${prjtNo}]];
     
 	// 업무리스트 클릭 시 모달
-	$('.businessList').on('click', infoBusiness)
+	$('.businessList').on('click', infoBusiness);
 	function infoBusiness(){
 		bussNo = $(this).find('input').val();
 		$('#workModal').modal('toggle');
+		$("#tab_info").trigger("click");
 	}
 	
 	$(function(){

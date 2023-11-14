@@ -29,4 +29,10 @@ public interface BusinessService {
 	public int updateGanttUpcd(BusinessVO vo);
 	
 	public int modifyBusiness(BusinessVO businessVO);
+	public int updateRelation(FormVO formVO);
+	public int resetRelation(BusinessVO businessVO);
+	
+	public List<BusinessVO>downRelationList(Integer bussNo);
+	public int deleteBusiness(Integer bussNo);
+	
 }

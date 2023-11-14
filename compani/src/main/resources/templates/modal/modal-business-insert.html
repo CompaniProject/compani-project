@@ -139,55 +139,50 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-username">종속관계</label>
-							<div class="col-lg-3">
-								<div class="dropdown custom-dropdown">
-									<div>
-										<select class="dropdown-relation" name="bussDep">
-											<option class="dropdown-relation" value="">선택</option>
-											<option class="dropdown-relation" value="up">선행 작업</option>
-											
-										</select>
-									</div>
-								</div>
-							</div>
+							<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
+							<!-- 요기 백업 -->
+
+							<label class="col-lg-3 col-form-label" for="val-username">선행
+								업무</label>
+
 							<div class="dropdown custom-dropdown">
 								<div>
-									<select class="dropdown-relation" name="bussUpNm">
+									<select class="dropdown-relation" name="bussUpcd">
+										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
-												th:value="${bussNameList.bussNm}"
+												th:value="${bussNameList.bussNo}"
 												th:text="${bussNameList.bussNm}"></option>
 										</th:block>
 									</select>
 								</div>
 							</div>
 							<!--후속  -->
-							<div class="col-lg-3">
-								<div class="dropdown custom-dropdown">
-									<div>
-										<select class="dropdown-relation" name="bussDep">
-											<option class="dropdown-relation" value="">선택</option>
-											<option class="dropdown-relation" value="up">선행 작업</option>
-											<option class="dropdown-relation" value="down">후속 작업</option>
-										</select>
-									</div>
-								</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-lg-4 col-form-label"></div>
+							<div class="col-lg-1">
+								<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
 							</div>
+							<label id="label" class="col-lg-3 col-form-label"
+								for="val-username">후속업무</label>
+
 							<div class="dropdown custom-dropdown">
 								<div>
-									<select class="dropdown-relation" name="bussUpNm">
+									<select class="dropdown-relation" name="bussdownNo"
+										th:onchange="change(this);">
+										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
-												th:value="${bussNameList.bussNm}"
+												th:value="${bussNameList.bussNo}"
 												th:text="${bussNameList.bussNm}"></option>
 										</th:block>
 									</select>
 								</div>
+
 							</div>
 
 						</div>
-
 					</div>
 					<div>
 						<input type="hidden" name="prjtNo" th:value="${session.prjtNo}" />
@@ -203,7 +198,8 @@
 	</div>
 </div>
 
-<script>
+
+<script th:inline="javascript">
 
 			//$('#membertbl').on('click', 'td:nth-child(5)',insertMember)
 			$('#bussmembertbl').on('click', 'td:nth-child(5)',  function(){insertbussMember( $('#insertbussmembertbl'))})
@@ -218,7 +214,7 @@
 			$('.member-selectBox').on('click', function () {
 				$('.member-select-ul').css('display', 'block');
 			})
-			
+			let disableNo = [];
 			$('.member-select-option').on('click', function (e) {
 				
 				var selectValue = e.currentTarget.textContent;
@@ -269,12 +265,15 @@
 					}
 					trTag.append(tdTag);
 					
+		
 					tdTag= $('<td/>');
-					tdTag.append(dept, tdTag);
-
+					tdTag.append(dept);
+					trTag.append(tdTag);
 					
-					tdTag= $('<td/>').append(position)
-					                 .append(tdTag);
+					tdTag= $('<td/>');
+					tdTag.append(position);
+					trTag.append(tdTag);
+
 				
 					tdTag= $('<td/>');
 					tdTag.append(name);
@@ -347,27 +346,141 @@
 				.fail(err =>  console.log(err));
 			}
 			
+			let bussList = [[${businessNameList}]];
+			 let temp = 	`
+			    	<div class="form-group row">
+
+					<div class="col-lg-5 col-form-label"></div>
+					
+					<label id = "label" class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
+					<div class="dropdown custom-dropdown">
+						<div>
+							<select  class="dropdown-relation" name="bussdownNo"  onchange="change(this);">
+							<option class="dropdown-business" value="">선택</option>
+								
+							</select>
+						</div>
+					</div>
+					
+					</div>`;
+					
+		    let selectTemp = 			`<div class="form-group row">
+			<div class="col-lg-4 col-form-label"></div>
+			<div class="col-lg-1">
+				<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
+			</div>
+			<label id="label" class="col-lg-3 col-form-label"
+				for="val-username">후속업무</label>
+
+			<div class="dropdown custom-dropdown">
+				<div>
+
+					<select class="dropdown-relation" name="bussdownNm"
+						onchange="change(this);">
+						<option class="dropdown-business" value="">선택</option>
+						
+					</select>
+				</div>
+
+			</div>
+
+		</div>`;
+			function addRow(e){
+				let div = $(e).parent().parent().parent();
+
+				div.append(temp);
+				
+				 let select = div.find('.dropdown-relation').last();
+				 
+					let option = '';
+					for(let i =0; i< bussList.length ; i++){
+						option = $('<option>' + bussList[i].bussNm+'</option>');
+						option.attr('value' , bussList[i].bussNo);
+						select.append(option);
+						for(let j = 0;  j < disableNo.length; j++){
+							if(bussList[i].bussNo == disableNo[j]){
+
+								option.prop('disabled', true);
+								
+							}
+						}
+						
+					}
+				
+			}
+
+		
+			function removeRow(e){
+				let removeSelect = $(e).parent().prev().find('option:selected');
+				removeSelect.prop('disabled',false);
+				let removeNo = removeSelect.val();
+				let index = disableNo.indexOf( Number(removeNo));
+			
+				if (index !== -1) {
+					disableNo.splice(index, 1);
+				}
+				let div = $(e).parent().parent().parent();
+				$(e).parent().parent().remove();
+				
+			 	console.log($('#label').text());
+				if($('#label').text() == ''){
+					div.append(selectTemp);
+					addRow(e);
+				} 
+			}
 	
+			function change(e){
+				//$('option:selected').parent().prop('disabled', true);
+				$(e).prop('disabled', true);
+				let no =$(e).find('option:selected').val();
+				disableNo.push(Number(no));
+			
+				let div = $('<div class="col-lg-1"></div>');
+				let icon = $('<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i></div>');
+				div.append(icon);
+				$(e).parent().parent().parent().append(div);
+				
+			}
+		
 			function insertBusiness(){
 				
 				let formData = $('#insertbussform').serializeArray();
-	
+				let bussUpNo = '';
+				for(let i=0; i< formData.length; i++){
+					if(formData[i].name == 'bussUpcd'){
+						 bussUpNo = formData[i].value;
+						 console.log(bussUpNo);
+					}
+				}
+				for(let i= 0; i< disableNo.length; i++){
+					if(bussUpNo != disableNo[i]){
+						formData.push({name : 'bussdownNo', value: disableNo[i]});
+					}
+				}
+				
+				console.log(formData);
 			 	let formObj = {};
 			 	let memberArray = [];
+			 	let relationArray = [];
 				$.each(formData, function(idx,obj){
-		 		  	if(obj.name != "membId"){
-						formObj[obj.name] = obj.value;
-					}  
-		 		  	else{
+		 		  	if(obj.name == "membId"){
 						memberArray.push({membId : obj.value});
+					}  
+		 		  	else if(obj.name == "bussdownNo"){
+		 		  		relationArray.push({bussdownNo : obj.value});
+		 		  	}
+		 		  	else{
+						
+						formObj[obj.name] = obj.value;
 				    }
+		 		  	
 				});
 			
 				let obj = {};
-			
+				console.log(obj);
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
-				
+				obj["relationList"] = relationArray;
 				$.ajax('/insertBusiness' ,{
 					type : 'post',
 					contentType : 'application/json',
@@ -380,7 +493,8 @@
 					
 			}
 			
-		
+			
+			
 		</script>
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>

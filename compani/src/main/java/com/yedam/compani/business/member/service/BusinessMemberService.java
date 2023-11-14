@@ -10,4 +10,5 @@ public interface BusinessMemberService {
 	public int insertBusinessMember(FormVO formVO);
 	public List<MemberVO> bussMemberList(Integer bussNo);
 	public int deleteBusinessMember(FormVO formVO);
+	public int clearBusinessMember(Integer bussNo);
 }

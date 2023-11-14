@@ -22,5 +22,5 @@ public class BusinessVO {
 	private String bussStNm;
 	private String bussImpNm;
 	private String bussdownNm;
-	private int    bussdownNo;
+	private Integer bussdownNo;
 }
