@@ -349,7 +349,7 @@ mark, .mark {
 							<div class="container-fluid">
 								<div class="case">
 									<!-- 검색어 입력 폼 -->
-									<input type="text" id="search" placeholder="상호명을 입력하시오.">
+									<input type="text" id="search" placeholder="상호명을 입력하시오." style="border-color: white; border-bottom-color: gray; border-style:solid; border-width: thin; width:140px">
 									<span id="notice"
 										style="display: none; color: red; border: 900px; font-size: 12px">존재하지
 										않는 상호명입니다.</span>
@@ -692,17 +692,24 @@ mark, .mark {
 					$('#membEmail').val("");
 					$("#conditionEmail").hide();
 				}else{
-					$("#conditionEmail").show();
-					return false;
+					swal.fire({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+						$("#conditionEmail").show();
+						return false;
+					});	
+					
 				}
 				
 				if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length > 9){
 					if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 10 && ($('#selectTel').val() == '010' || $('#selectTel').val() == '070')){
-						$("#conditionTel").show();
-						e.preventDefault();
+						swal.fire({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+							$("#conditionTel").show();
+							return false;
+						});	
 					}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length == 11 && ($('#selectTel').val() != '010' && $('#selectTel').val() != '070')){
-						$("#conditionTel").show();
-						e.preventDefault();
+						swal.fire({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+							$("#conditionTel").show();
+							return false;
+						});	
 					}else{
 						$('#membTelno').val($('#selectTel').val()+$('#tel1').val()+$('#tel2').val());
 						$(function(){
@@ -719,8 +726,11 @@ mark, .mark {
 						});	
 					});
 				}else if($('#selectTel').val().length + $('#tel1').val().length + $('#tel2').val().length <= 9){
-					$("#conditionTel").show();
-					e.preventDefault();
+					swal.fire({title : '입력정보오류!', text : "정확한 가입정보를 입력해주세요.", icon : 'error', button : '뒤로'}).then((value)=>{
+						$("#conditionTel").show();
+						return false;
+					});	
+					
 				}
 				
 
