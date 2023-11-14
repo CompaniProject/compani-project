@@ -20,7 +20,7 @@
             	<!-- Comment List Area Start -->
                 <div class="reply-body" id="reply-body-div">
                 	<th:block th:each="reply : ${replyList}">
-                        <div class="media border-bottom-1 pt-3 pb-3" th:data-no="${reply.replyNo}"
+                        <div class="media border-bottom-1 pt-3 pb-3 wordWrapBreak" th:data-no="${reply.replyNo}"
                         th:style="${reply.level} >= 2 ? |margin-left:${reply.level-1}rem;| : ''"
 						th:data-level="${reply.level}">
                             <div class="media-body">
@@ -77,7 +77,7 @@
 </div>
 
 <!-- Hidden Reply Insert Area -->
-<div class="media border-bottom-1 pt-3 pb-3" style="display:none;" id="insertBody">
+<div class="media border-bottom-1 pt-3 pb-3 wordWrapBreak" style="display:none;" id="insertBody">
     <div class="media-body">
         <h5></h5>
         <p class="mb-0"></p>
