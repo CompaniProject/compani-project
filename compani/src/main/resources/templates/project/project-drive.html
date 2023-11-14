@@ -195,13 +195,12 @@
 							<!-- 업무선택 드랍다운 -->
 							<div class="form-group">
 								<select class="form-control" id="jobDown" name="jobDown">
-									<option value="">업무 선택</option>
+									<option value="0">업무 선택</option>
 									<option th:value="${bussNm.bussNo}" th:text="${bussNm.bussNm}" th:each="bussNm : ${driveBussName}"></option>
 								</select>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 			<!-- 모달 끝 ============================================================================= -->
@@ -294,7 +293,7 @@
 												th:if="${fileList.fileType == 'pdf'}"
 												th:src="@{/images/type/pdf.png}"
 												style="width: 40px; height: 40px;"> <img
-												th:if="${#strings.contains('zip,rar,7z,tar,egg,alz',fileList.fileType)}"
+												th:if="${#strings.contains('zip,rar,7z',fileList.fileType)}"
 												th:src="@{/images/type/zip.png}"
 												style="width: 40px; height: 40px;"> <img
 												th:if="${fileList.fileType == 'txt'}"
@@ -303,14 +302,18 @@
 												th:if="${#strings.contains('jpg,png',fileList.fileType)}"
 												th:src="@{/images/type/img.png}"
 												style="width: 40px; height: 40px;"> <img
-												th:if="${fileList.fileType} != 'xls' and ${fileList.fileType} != 'pptx' and ${fileList.fileType} != 'pdf' and
-										    ${fileList.fileType} != 'zip' and ${fileList.fileType} != 'txt' and ${fileList.fileType} != 'jpg'
-										    and ${fileList.fileType} != 'png'"
+												th:if="${fileList.fileType} != 'xls'and ${fileList.fileType} != 'xlsx'
+												and ${fileList.fileType} != 'ppt' and ${fileList.fileType} != 'pptx' 
+												and ${fileList.fileType} != 'pdf' 
+												and ${fileList.fileType} != 'zip' and ${fileList.fileType} != 'rar' and ${fileList.fileType} != '7z'
+												and ${fileList.fileType} != 'txt' 
+												and ${fileList.fileType} != 'jpg'
+										    	and ${fileList.fileType} != 'png'"
 												th:src="@{/images/type/null.png}"
 												style="width: 40px; height: 40px;"></td>
 											<td th:text="${fileList.fileNm}" style="overflow:hidden;"/>
 											<td class="fSize" th:text="${fileList.fileSize}" />
-											<td th:text="${fileList.membNm}" />
+											<td id="fileUser" th:text="${fileList.membNm}" />
 											<td
 												th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
 											<td th:text="${fileList.fileType}" />
@@ -323,8 +326,13 @@
 											<td><button type="button" id="previewBtn"
 													th:onclick="preview([[${fileList.filePath}]])"
 													th:if="${fileList.fileType} == 'pdf' or ${fileList.fileType} == 'txt' or ${fileList.fileType} == 'jpg' or ${fileList.fileType} == 'png'"
-													class="btn btn-outline-secondary btn-sm">
-													 <i class="fa-solid fa-eye"></i>&nbsp;미리보기</button></td>
+													class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-eye"></i>&nbsp;미리보기</button>
+													 <button type="button" class="btn btn-outline-secondary btn-sm"
+												          th:if="${fileList.fileType} != 'pdf' and ${fileList.fileType} != 'txt'
+												          and ${fileList.fileType} != 'jpg' and ${fileList.fileType} != 'png'"
+												          disabled>
+												    	  <i class="fa-solid fa-times"></i>&nbsp;&nbsp;확인불가
+												  </button>
 										</tr>
 									</th:block>
 								</tbody>
@@ -369,7 +377,8 @@
 		        } else if (path.endsWith('.png')){
 		        	// PNG
 		        	 window.open('/upload/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
-		        }
+		        } 
+		        event.stopPropagation();
 		    }
 		}
 		
@@ -407,11 +416,21 @@
 		})
 
 		// ======== 쓰레기통 아이콘 클릭시 삭제 AJAX ========
-		$('#newTrTd').on('click', '.trashIcon', function() {
+		$('#newTrTd').on('click', '.trashIcon', function(e) {
+			e.stopPropagation();
+			
 			let fileDel = $(event.target).closest('#tdData').data('fileno');
 			// 클릭한 아이콘의 부모(tr)의 데이터 (파일번호를 가짐)
 			
 			let delTarget = $(event.target)
+			
+			let member = "[[${session.loginInfo.membNm}]]";
+			let user = delTarget.closest('#tdData').find('#fileUser').text();
+
+			if(member != user ){  // 로그인한 유저가 작성자와 같지 않다면 삭제 못하게 막고 리턴시켜 
+				Swal.fire('다른 사원의 파일은 \n삭제할 수 없습니다.', '', 'warning');
+				return
+			}
 			
 			Swal.fire({
 		                    title: '파일을 삭제 하시겠습니까?',
@@ -424,22 +443,21 @@
 		                    cancelButtonText: '아니요'
 		    }).then((result) => {
 		      if (result.isConfirmed) {
-			
-						$.ajax({
-							type : "get",
-							url : "/fileOneDelete",
-							dataType : "text",
-							data : {
-								fileNo : fileDel
-							},
-							success : function() {
-					             Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
-							     delTarget.closest('#tdData').remove();
-					        },
-							error : function() {
-								alert("오류발생");
-							}
-						});  // END OF AJAX
+					$.ajax({
+						type : "get",
+						url : "/fileOneDelete",
+						dataType : "text",
+						data : {
+							fileNo : fileDel
+						},
+						success : function() {
+					        Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
+						    delTarget.closest('#tdData').remove();
+					    },
+						error : function() {
+							alert("오류발생");
+						}
+					});  // END OF AJAX
 		      }
 		    })
 		});
@@ -451,9 +469,20 @@
 		    var files = [];
 			var trActive = $('#tdData.active'); // 액티브 된 tr들
 		    
+			let ckUser = [];
+			let member = "[[${session.loginInfo.membNm}]]";
+
 			trActive.each(function() { // 액티브 된 얘들 반복문 돌려서 배열에다가 tr이 가지고있는 파일번호 넣기
 		        files.push($(this).data('fileno')); // 액티브된 애들 파일번호 배열에 넣기
+		        let user = trActive.find('#fileUser').text();
+		        ckUser.push(user);
 		    });
+			
+			// 작성자와 로그인한 유저 비교
+		    if (ckUser.some(user => user !== member)) {
+		        Swal.fire('다른 사원의 파일은 \n삭제할 수 없습니다.', '', 'warning');
+		        return;
+		    }
 			
 			Swal.fire({
                 title: "선택된 파일 : " + trActive.length + '개',
@@ -509,14 +538,22 @@
 	
 	function searchType(type){
 		var newType = "";
-		
+
 	    if (type=== 'xls') {
 	    	newType = "/images/type/xls.png";
+	    } else if (type == 'xlsx') {
+	    	newType = "/images/type/xls.png";
+	    } else if (type == 'ppt') {
+	    	newType = "/images/type/ppt.png";
 	    } else if (type == 'pptx') {
 	    	newType = "/images/type/ppt.png";
 	    } else if (type == 'pdf') {
 	    	newType = "/images/type/pdf.png";
 	    } else if (type == 'zip') {
+	    	newType = "/images/type/zip.png";
+	    } else if (type == 'rar') {
+	    	newType = "/images/type/zip.png";
+	    } else if (type == '7z') {
 	    	newType = "/images/type/zip.png";
 	    } else if (type == 'txt') {
 	    	newType = "/images/type/txt.png";
@@ -542,18 +579,20 @@
 			     onclick="preview(&quot;${item.filePath}&quot;)">
 		  	     <i class="fa-solid fa-eye"></i>&nbsp;미리보기
 			     </button>`
-			    : '';
-	    
+			    : `<button type="button" class="btn btn-outline-secondary btn-sm" disabled>
+			    	  <i class="fa-solid fa-times"></i>&nbsp;&nbsp;확인불가
+			  	   </button>`;
+	    			
 	    var trTag = `<tr id="tdData" data-fileno="${item.fileNo}">
 	        <td>
 	            <img src="${newType}" style="width: 40px; height: 40px;">
 	        </td>
 	        <td>${item.fileNm}</td> 
 	        <td class="fSize">${(ByteSize(item.fileSize))}</td>
-	        <td>${item.membNm}</td>
+	        <td id="fileUser">${item.membNm}</td>
 	        <td>${item.fileDt}</td>
 	        <td>${item.fileType}</td>
-	        <td class="downIcon"><i class="fa-solid fa-download"></i></td>
+	        <td class="downIcon" onclick="fileDown(\'' + ${item.fileNo} + '\')"><i class="fa-solid fa-download"></i></td>
 	        <td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 	        <td>${viewButton}</td>
 	    </tr>`;
@@ -595,16 +634,18 @@
 		        onclick="preview(&quot;${fit.filePath}&quot;)">
 		        <i class="fa-solid fa-eye"></i>&nbsp;미리보기
 		      </button>`
-		    : '';
+		    : `<button type="button" class="btn btn-outline-secondary btn-sm" disabled>
+		    	  <i class="fa-solid fa-times"></i>&nbsp;&nbsp;확인불가
+			  	   </button>`;
 
 		var trTag = `<tr id="tdData" data-fileno="${fit.fileNo}">
 			<td><img src="${newType}" style="width: 40px; height: 40px;"></td>
 			<td>${fit.fileNm}</td>
 			<td class="fSize">${(ByteSize(fit.fileSize))}</td>
-			<td>${fit.membNm}</td>
+			<td id="fileUser">${fit.membNm}</td>
 			<td>${fit.fileDt}</td>
 			<td>${fit.fileType}</td>
-			<td class="downIcon"><i class="fa-solid fa-download"></i></td>
+			<td class="downIcon" onclick="fileDown(\'' + ${fit.fileNo} + '\')"><i class="fa-solid fa-download"></i></td>
 			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
 			<td>${viewButton}</td>
 			</tr>`
@@ -727,7 +768,7 @@
 	
 	// 파일 단건 다운로드
 	function fileDown(fileNo){
-		
+		event.stopPropagation();
 		Swal.fire({
             title: '다운로드 하시겠습니까?',
             text: "컴퓨터의 다운로드 파일에 저장됩니다.",
@@ -744,7 +785,6 @@
 			})
 	}
 	
-
 	
 	
 	</script>

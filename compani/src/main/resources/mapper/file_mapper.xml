@@ -165,7 +165,14 @@
 			        FROM (
 			        <foreach item="files" collection="files" separator="UNION ALL ">
 			            SELECT		#{prjtNo} as prjtNo
-			                    ,	#{bussNo} as bussNo
+			            		<choose>
+			            			<when test="bussNo > 0">
+			            			,	#{bussNo} as bussNo
+			            			</when>
+			            			<otherwise> 
+			            			,	null
+			            			</otherwise>
+			            		</choose>
 			                    , 	#{files.fileNm} as fileNm
 			                    , 	#{files.filePath} as filePath
 			                    ,   #{files.fileType} as fileType
