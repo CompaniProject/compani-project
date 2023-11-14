@@ -208,7 +208,7 @@
 			
 			<!-- 테이블 카드 -!!!!!!!!!!!!!!!!!!!!!!!! -->
 			<div class="card" style="width: 1000px; height: 650px;">
-				<div class="card-body" id="styleCard" style="overflow: auto;">
+				<div class="card-body" id="styleCard">
 				<!-- 검색 필터 -->
 			<div id="backWidth" class="SearchBox" style="position: sticky; top: 0; background-color: white; z-index: 1;">
 	
@@ -262,9 +262,9 @@
 			</div>
 			<br><br>
 
-			<div class="ModalInfoArea IssueInfoArea" style="overflow: auto;">
+			<div class="ModalInfoArea IssueInfoArea">
 				<div class="col-lg-6" style="width: 100%; max-width: 100%;">
-					<div class="table-responsive">
+					<div class="table-responsive" id="scrollBody">
 						<table class="table table-hover">
 							<thead>
 								<tr>
@@ -339,6 +339,12 @@
 	<script>
 		var prjtNo = [[${prjtNo}]];	
 	
+		$(function(){
+		    $('#scrollBody').slimScroll({
+		        height: '33rem'
+		    });
+		})
+		
 		// 파일 미리보기 버튼 선택시 해당 파일의 내용물을 팝업창으로 작게 띄움 
 		function preview(path){
 		    if (path) {

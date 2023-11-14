@@ -210,7 +210,7 @@
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">업무 목록</h4>
-									<div class="table-responsive">
+									<div class="table-responsive" id="scrollBody">
 										<table class="table">
 											<thead>
 												<tr>
@@ -291,6 +291,13 @@
 				$('#kanbanBoard').toggle();
 				$('#businessList').toggle();
 			})
+			
+			$(function(){
+			    $('#scrollBody').slimScroll({
+			        height: '33rem'
+			    });
+			})
+			
 		</script>
 
 		<script th:inline="javascript">
