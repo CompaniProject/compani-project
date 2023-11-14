@@ -57,7 +57,13 @@
                     showCancelButton: true,
                     confirmButtonText: '확인',
                     cancelButtonText: '취소'
-                }).then((result) => {deleteComment(event)})
+                }).then((result) => {
+                		if (result.isConfirmed){
+                			deleteComment(event)
+                		} else{
+                			return false;
+                		}
+                	})
     }
 
 	function replyDeleteHTML(event){
