@@ -464,9 +464,10 @@
 					}).then((result) => {
 					  if (result.isConfirmed) {
 						  location.reload();
-					  }
-					});
-			.fail(err => {});
+						}
+					})	
+			})
+			.fail(err => console.log(err));
 				
 		})
 		
