@@ -135,9 +135,8 @@
     // -------------------------------Update Ajax End
     
     // -------------------------------onclick Event
-    $(document).on('click','.delBtn',deleteComment);
-    $(document).on('click','.editBtn',toggleTags);
-    $(document).on('click','.submitBtn',editSubmit);
+    $(document).off('click','.delBtn').on('click','.delBtn',deleteCommentAlert);
+    $(document).off('click','.submitBtn').on('click','.submitBtn',editSubmit);
     // ------------------------------onclick Event End
     
     // ------------------------------------------------
@@ -195,6 +194,7 @@
 	$(document).on('click','.replyBtn',replyInsertAreaHTML);
 	$(document).on('click','.replyInsertBtn',replyInsert);
 	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
+	$(document).on('click','#commentInsertBtn',insertComment);
 	
 	// -----------------------------------------------------cntn counting event
 

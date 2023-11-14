@@ -12,6 +12,7 @@
 	// get comment, content, editBtn, submitBtn to Toggle
     // update textarea - copy to content text
     function toggleTags(event){
+    	event.stopImmediatePropagation()
         let comment = $(event.target).closest('.media');
         let content = comment.find('.media-body p');
         let edit = comment.find('.edit-area');
@@ -55,6 +56,7 @@
     // ------------------------------------------------ reply
     
     function deleteCommentAlert(event){
+    	event.stopImmediatePropagation()
     	 Swal.fire({
                     text: "정말로 삭제 하시겠습니까?",
                     icon: 'warning',
@@ -71,6 +73,7 @@
     }
 
 	function replyDeleteHTML(event){
+		event.stopImmediatePropagation()
 		let curBody = $(event.target).closest('.media');
 		
 		curBody.find('.replyInsertBtn').remove();
