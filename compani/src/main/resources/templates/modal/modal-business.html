@@ -547,6 +547,21 @@
 	
 	})
 	
+			function changeBuss(e){
+				//$('option:selected').parent().prop('disabled', true);
+				$(e).prop('disabled', true);
+				let no =$(e).find('option:selected').val();
+				disableNo.push(Number(no));
+			
+				let div = $('<div class="col-lg-1"></div>');
+				let icon = $('<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i></div>');
+				div.append(icon);
+				$(e).parent().parent().parent().append(div);
+				
+		
+				
+			}
+	
 
 	
 </script>
