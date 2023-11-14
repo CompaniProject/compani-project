@@ -385,13 +385,13 @@
 		} else if ([[${ pissueInfo.issuSt }]] == '0E2') {
 			piStVal.append('<p>상태</p><div class="label label-dark" style="margin-bottom: 15px; ">미해결</div>');
 		} else if ([[${ pissueInfo.issuSt }]] == '0E3') {
-			piStVal.append('<p>상태</p><div class="label label-secondary" style="margin-bottom: 15px; ">해결불가</div>');
+			piStVal.append('<p>상태</p><div class="label label-primary" style="margin-bottom: 15px; ">해결불가</div>');
 		}
 
 		if ([[${ pissueInfo.issuRank }]] == '0G1') {
-			piRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">매우높음</div>');
+			piRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">매우높음</div>');
 		} else if ([[${ pissueInfo.issuRank }]] == '0G2') {
-			piRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">높음</div>');
+			piRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">높음</div>');
 		} else if ([[${ pissueInfo.issuRank }]] == '0G3') {
 			piRankVal.append('<p>중요도</p><div class="label label-success" style="margin-bottom: 15px; ">보통</div>');
 		} else if ([[${ pissueInfo.issuRank }]] == '0G4') {
