@@ -388,13 +388,13 @@
             } else if ([[${ issueInfo.issuSt }]] == '0E2') {
                 ciStVal.append('<p>상태</p><div class="label label-dark" style="margin-bottom: 15px; ">미해결</div>');
             } else if ([[${ issueInfo.issuSt }]] == '0E3') {
-                ciStVal.append('<p>상태</p><div class="label label-secondary" style="margin-bottom: 15px; ">해결불가</div>');
+                ciStVal.append('<p>상태</p><div class="label label-primary" style="margin-bottom: 15px; ">해결불가</div>');
             }
 
             if ([[${ issueInfo.issuRank }]] == '0G1') {
-                ciRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">매우높음</div>');
+                ciRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">매우높음</div>');
             } else if ([[${ issueInfo.issuRank }]] == '0G2') {
-                ciRankVal.append('<p>중요도</p><div class="label label-secondary" style="margin-bottom: 15px; ">높음</div>');
+                ciRankVal.append('<p>중요도</p><div class="label label-primary" style="margin-bottom: 15px; ">높음</div>');
             } else if ([[${ issueInfo.issuRank }]] == '0G3') {
                 ciRankVal.append('<p>중요도</p><div class="label label-success" style="margin-bottom: 15px; ">보통</div>');
             } else if ([[${ issueInfo.issuRank }]] == '0G4') {
