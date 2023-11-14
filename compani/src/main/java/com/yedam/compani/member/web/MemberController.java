@@ -139,7 +139,7 @@ public class MemberController {
 		return "member/memberEditInfo";
 	}
 
-	//신대철 : 프로젝트 ,업무 등록 수정시 , 회원 검색 Ajax
+	//신대철 : 프로젝트 등록 수정 => 회원 검색 Ajax
 	@GetMapping("memSearchAjax")
 	@ResponseBody
 	public List<MemberVO> memberSearchAjax(@RequestParam Map<String,Object> map, HttpServletRequest request) {
@@ -150,6 +150,18 @@ public class MemberController {
 		map.put("prjtNo", prjtNo);
 		map.put("coCd", coCd);
 		List<MemberVO> List = service.getMemberList(map);
+	
+		return List;
+	}
+	//신대철 : 업무 등록 수정 =>프로젝트 참여자 검색 Ajax
+	@GetMapping("prjtMemSearchAjax")
+	@ResponseBody
+	public List<MemberVO> prjtMemberSearchAjax(@RequestParam Map<String,Object> map, HttpServletRequest request) {
+		
+		int prjtNo = sessionService.getProjectNo(request);
+		map.put("prjtNo", prjtNo);
+		
+		List<MemberVO> List = service.prjtMemberSearchList(map);
 	
 		return List;
 	}

@@ -302,7 +302,7 @@
 				let selected = $('.member-selected-value').first().text();
 				let search  = $('#search').val();
 	
-				$.ajax('/memSearchAjax?&key='+selected + '&value=' + search)
+				$.ajax('/prjtMemSearchAjax?&key='+selected + '&value=' + search)
 				.done(function(data){
 					let tbody = $('#bussmembertbl');
 					tbody.empty();
@@ -390,6 +390,7 @@
 
 				div.append(temp);
 				
+				//요게 문제인듯
 				 let select = div.find('.dropdown-relation').last();
 				 
 					let option = '';
@@ -400,11 +401,9 @@
 						for(let j = 0;  j < disableNo.length; j++){
 							if(bussList[i].bussNo == disableNo[j]){
 
-								option.prop('disabled', true);
-								
+								option.prop('disabled', true);		
 							}
 						}
-						
 					}
 				
 			}
@@ -419,14 +418,28 @@
 				if (index !== -1) {
 					disableNo.splice(index, 1);
 				}
+				let g = $('.fa-solid.fa-plus.fa-lg');
 				let div = $(e).parent().parent().parent();
 				$(e).parent().parent().remove();
 				
-			 	console.log($('#label').text());
 				if($('#label').text() == ''){
 					div.append(selectTemp);
-					addRow(e);
+					
+					let select = div.find('.dropdown-relation');
+					
+					let option = '';
+					for(let i =0; i< bussList.length ; i++){
+							option = $('<option>' + bussList[i].bussNm+'</option>');
+							option.attr('value' , bussList[i].bussNo);
+							select.append(option);
+					} 
+				}
+				
+		
+				if($('.fa-solid.fa-plus.fa-lg').length == 1){
+				
 				} 
+				
 			}
 	
 			function change(e){
@@ -449,7 +462,7 @@
 				for(let i=0; i< formData.length; i++){
 					if(formData[i].name == 'bussUpcd'){
 						 bussUpNo = formData[i].value;
-						 console.log(bussUpNo);
+					
 					}
 				}
 				for(let i= 0; i< disableNo.length; i++){
@@ -457,8 +470,26 @@
 						formData.push({name : 'bussdownNo', value: disableNo[i]});
 					}
 				}
+		
+				let bussName = $('[name="bussNm"]');
+				let bussFrdt = $('[name="bussFrdt"]');
+				let bussTodt = $('[name="bussTodt"]');
+				if(bussName.val() == ''){
+					Swal.fire("업무 제목을 입력해주세요.", "" ,"warning");
+					
+					return;
+				}
+				if(bussFrdt.val() == ''){
+					Swal.fire("시작 날짜를 입력해주세요.", "" ,"warning");
+					
+					return;
+				}
+				if(bussTodt.val() == ''){
+					Swal.fire("종료 날짜를 입력해주세요.", "" ,"warning");
+					
+					return;
+				}
 				
-				console.log(formData);
 			 	let formObj = {};
 			 	let memberArray = [];
 			 	let relationArray = [];
@@ -477,7 +508,7 @@
 				});
 			
 				let obj = {};
-				console.log(obj);
+			
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
 				obj["relationList"] = relationArray;
@@ -487,7 +518,16 @@
 					data : JSON.stringify(obj)
 				})
 				.done(data => {
-					location.reload();
+					Swal.fire({
+						  title: "업무등록",
+						  icon:  "success",
+						  confirmButtonText: "확인"
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							  location.reload();
+						  }
+						});
+					
 				})
 				.fail(err => {});
 					
@@ -495,8 +535,10 @@
 			
 			
 			
+
 		</script>
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>
 <script src="/plugins/wnumb/wNumb.js"></script>
 <script src="/js/plugins-init/nouislider-init.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

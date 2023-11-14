@@ -113,4 +113,11 @@ public class MemberServiceImpl implements MemberService {
 	public List<Map<Object, Object>> companyManager(String coCd) {
 		return map.companyManager(coCd);
 	}
+
+	@Override
+	public List<MemberVO> prjtMemberSearchList(Map<String, Object> list) {
+		
+		return map.prjtMemberSearchList(list);
+	}
+
 }

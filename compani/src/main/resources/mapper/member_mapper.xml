@@ -100,6 +100,35 @@
 
 		</choose>
 	</select>
+	<select id="prjtMemberSearchList" resultType="map">
+		SELECT m.MEMB_ID,
+		m.MEMB_NM,
+		m.MEMB_DEPT,
+		m.MEMB_WKGD,
+		m.MEMB_PHT_PATH
+		FROM MEMBER m , PROJECT_MEMBER pm 
+ 		WHERE  m.memb_ID = pm.memb_ID
+    	AND PRJT_NO = #{prjtNo}
+		<choose>
+			<when test="key == '전체'">
+				
+				AND (m.MEMB_NM LIKE '%' || #{value} || '%'
+				OR m.MEMB_DEPT LIKE '%' || #{value} || '%'
+				OR m.MEMB_WKGD LIKE '%' || #{value} || '%')
+
+			</when>
+			<when test="key == '이름'">
+				AND m.MEMB_NM LIKE '%' || #{value} || '%'
+			</when>
+			<when test="key== '부서'">
+				AND m.MEMB_DEPT LIKE '%' || #{value} || '%'
+			</when>
+			<otherwise>
+				AND m.MEMB_WKGD LIKE '%' || #{value} || '%'
+			</otherwise>
+
+		</choose>
+	</select>
 	<update id="updateMemberprofile" parameterType="MemberVO">
 		UPDATE member SET MEMB_PHT_PATH = #{membPhtPath}
                    		   WHERE memb_id = #{membId}

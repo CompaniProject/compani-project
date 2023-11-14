@@ -136,7 +136,6 @@
                   {
                       type: 'GET'
                   }).done(function (data) {
-                      $('.ciSearchInput').val('');
                       projectLists.empty();
                       $.each(data.cprojectList, function (idx, item) {
                          	//let trTag = $('<tr/>').attr('onclick', 'selectComProjectInfo(' + item.prjtNo + ')');
