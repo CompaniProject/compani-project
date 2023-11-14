@@ -117,7 +117,7 @@
 
 					<div class="column">
 						<div class="row">
-							<div class="col-lg-6" style="padding-right: 15px;">
+<!-- 							<div class="col-lg-6" style="padding-right: 15px;">
 								<div class="card">
 									<div class="card-body" id="chartCardBody">
 										<div>
@@ -136,8 +136,22 @@
 											class="ct-chart ct-golden-section" style="width: 100%"></div>
 									</div>
 								</div>
+							</div> -->
+							<!-- mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm -->
+
+							<div class="col-lg-6" style="padding-right: 15px;" id="chartCardBody">
+								<div class="card">
+									<div class="card-body" style="height:555px" id="chart2" >
+											<canvas id="chart" height="330vh"></canvas>
+											<span style="color: #BDBDBD">※ 데이터가 0인 경우, 0의 경계선을 클릭</span>
+									</div>
+									
+								</div>
 							</div>
-							<div class="col-lg-6" style="padding-left: 15px;" 
+							<!-- mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm -->
+
+
+							<div class="col-lg-6" style="padding-left: 15px;"
 								id="chartCardBody2">
 								<div class="card">
 									<div class="card-body"
@@ -153,7 +167,7 @@
 												style="width: 10px; display: inline; background-color: #7571f9; font-size: 7px; color: #7571f9">ㅡㅡㅡㅡㅡ</div>
 										</div>
 										<div id="horizontal-bar-chart2"
-											class="ct-chart ct-golden-section" style="width: 100%"></div>
+											class="ct-chart ct-golden-section" style="width: 100%;"></div>
 									</div>
 								</div>
 							</div>
@@ -179,10 +193,10 @@
 					<!-- 댓글 등록 영역 -->
 					<div class="card-footer">
 						<textarea class="form-control" name="inputCntn" id="inputCntn"
-							cols="30" rows="2" maxlength="514" style="height: 56px;"></textarea>
+							cols="30" rows="2" maxlength="514" style="height: 56px; display: none"></textarea>
 						<span id="cntnLength"></span>
 						<button id="input2" class="btn btn-primary px-3 ml-4 float-right"
-							style="margin-top: 0.88rem;">추가</button>
+							style="margin-top: 0.88rem; display: none;">추가</button>
 					</div>
 					<!-- 댓글 등록 영역 End -->
 				</div>
@@ -231,15 +245,19 @@
 	$(document).ready( function () {
 		let navItemHome = $('.nav-link').eq(2);
 		navItemHome.addClass('active');	
-	})
-			$('#input2').css('display', 'none');
-		$('#inputCntn').css('display', 'none'); 
+	});
 	let prjtInfo = [];
 
 	let memb = [];
 	let cmpl = [];
 	let uncmpl = [];
 	let cmpllate = [];
+	
+	var charttarget = "";
+	var mycomment = 0;
+	var myChart = null;
+	var targetnm = "";
+	
 	$(function(){
 		
 		$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
@@ -259,7 +277,69 @@
 			cmpllate.push(prjtInfo[i].K4);
 		}
 	
-		  new Chartist.Bar('#horizontal-bar-chart', {
+		
+		
+		
+		
+		
+		
+		
+		myChart  = new Chart(document.getElementById('chart'), {
+			    type: 'horizontalBar',
+			    data: {
+			        labels: memb,
+			        datasets: [{
+			            label: "완료",
+			            backgroundColor: '#7571f9',
+			            borderColor: '#7571f9',
+			            data: cmpl
+
+			        },{
+			            label: "초과완료",
+			            backgroundColor: '#6fd96f',
+			            borderColor: '#6fd96f',
+			            data: cmpllate
+
+			        },{
+			            label: "미완료",
+			            backgroundColor: '#ff5e5e',
+			            borderColor: '#ff5e5e',
+			            data: uncmpl
+
+			        }]
+			    },
+
+			    // Configuration options go here
+			    options: { scales: {
+			        yAxes: [{
+			            barPercentage: 1,
+			            categoryPercentage: 0.7,
+		                stepSize: 1 //y축 간격
+			          }],
+			         xAxes:[{
+			             ticks: {
+			                 stepSize: 1,
+			                 min: 0
+			                    } 
+			         }]
+			        }}
+			   
+			});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+/* 		  new Chartist.Bar('#horizontal-bar-chart', {
 			    labels: memb,
 			    series: [
 			    	cmpllate,
@@ -277,7 +357,7 @@
 			    plugins: [
 			      Chartist.plugins.tooltip()
 			    ]
-		  });
+		  }); */
 		  
 		  
 		  new Chartist.Bar('#horizontal-bar-chart2', {
@@ -290,8 +370,16 @@
 			    reverseData: true,
 			    horizontalBars: true,
 			    height:300,
+			    low: 0,
+			    high: 100,
 			    axisY: {
-			      offset: 120
+			      offset: 120,
+			      scaleMinSpace: 10,
+			      onlyInteger: true
+			    },
+			    axisX:{
+			    	onlyInteger: true,
+			    	scaleMinSpace: 10,
 			    },
 			    plugins: [
 			      Chartist.plugins.tooltip()
@@ -303,13 +391,173 @@
 		  $('.ct-start').css('width', '100px');
 		});	//end of window(ready)---------------------------------------------------------------------------
 		
+ 		setTimeout(() => {document.getElementById("chart").onclick = function(evt) {
+				
+			    var activePoints = myChart.getElementsAtEvent(evt);
+			    var clickedElementindex = activePoints[0]["_index"];
+			    targetnm = myChart.data.labels[clickedElementindex];
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////출처: https://solbel.tistory.com/2593 [개발자의 끄적끄적:티스토리]
+				
+				
+				
+ 			$('#inputCntn').val('');	 			
+			
+ 			
+ 			for(i = 0; i < prjtInfo.length; i++){
+ 				if(prjtInfo[i].MEMB_NM == targetnm){
+ 					charttarget = prjtInfo[i].MEMB_ID;
+ 					break;
+ 				}
+ 			}
+ 			
+ 			
+ 			
+			let buss = [];
+			let prgre = [];
+ 			
+ 			$.ajax('http://localhost/selectBusinessPersonal', {
+ 				type : 'post',
+ 				dateType : 'json',
+ 				contentType : 'application/json',
+ 				data : JSON.stringify({
+ 						membId : charttarget,
+ 						prjtNo : [[${prjtNo}]]
+ 						}),
+ 				async: false
+ 			})
+ 			.done(result => {
+ 				 for(i = 0; i < result.length; i++){
+ 					 buss.push(result[i].BUSS_NM);
+ 					prgre.push(result[i].BUSS_PRGRE);
+ 				 }
+ 			})
+ 			.fail(err =>console.log("err"));
+ 			//end of ajax
+ 			
+ 			
+ 			
+			$('#feedtarget').text(targetnm);
+			$('#chartPsn').text(targetnm);
+	 				
+	 				
+ 			
+			if($('#feedtarget').text().length > 0){
+				if(buss.length > 3){
+				 new Chartist.Bar('#horizontal-bar-chart2', {
+					    labels: buss,
+					    series: [prgre]
+					  }, {
+					    seriesBarDistance: 10,
+					    reverseData: true,
+					    horizontalBars: true,
+					    height:buss.length*30,
+					    low: 0,
+					    high: 100,
+					    axisY: {
+						      offset: 120,
+						      onlyInteger: true
+						},
+						axisX:{
+						    	onlyInteger: true,
+						},
+					    plugins: [
+					      Chartist.plugins.tooltip()
+					    ]
+				});
+				}else{
+					 new Chartist.Bar('#horizontal-bar-chart2', {
+						    labels: buss,
+						    series: [prgre]
+						  }, {
+						    seriesBarDistance: 10,
+						    reverseData: true,
+						    horizontalBars: true,
+						    height:150,
+						    low: 0,
+						    high: 100,
+						    axisY: {
+							      offset: 120,
+							      onlyInteger: true
+							},
+							axisX:{
+							    	onlyInteger: true,
+							},
+						    plugins: [
+						      Chartist.plugins.tooltip()
+						    ]
+					});
+				}
+			}else{
+ 				
+				 new Chartist.Bar('#horizontal-bar-chart2', {
+					    labels: buss,
+					    series: [prgre]
+					  }, {
+					    seriesBarDistance: 10,
+					    reverseData: true,
+					    horizontalBars: true,
+					    height:buss.length*30,
+					    low: 0,
+					    high: 100,
+					    axisY: {
+						      offset: 120,
+						      onlyInteger: true
+						},
+						axisX:{
+						    	onlyInteger: true,
+						},
+					    plugins: [
+					      Chartist.plugins.tooltip()
+					    ]
+				});//end of new Chartist.Bar('#horizontal-bar-chart2'
+			}//end of if($('#feedtarget').text().
+					
+					
+					
+					
+				
+ 			$.ajax('http://localhost/feedbackList', {
+ 				type : 'post',
+ 				dateType : 'json',
+ 				contentType : 'application/json',
+ 				data : JSON.stringify({
+ 						membFdbkObj : charttarget,
+ 						prjtNo : [[${prjtNo}]]
+ 						}),
+ 				async: false
+ 			})
+ 			.done(result => {
+ 				$('#commentBody').children().remove();
+
+ 				mycomment = 0;
+ 				for(i = 0; i < result.length; i++){
+	 				if(targetnm == "[(${session.loginInfo.membNm})]"){
+	 					$('#input2').css('display', 'none');
+	 					$('#inputCntn').css('display', 'none'); 
+	 					$('#cntnLength').css('display', 'none');
+	 					myfeedbacks(result[i]);
+	 				}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter == [[${session.loginInfo.membId}]]){
+ 						feedbacks(result[i]);
+ 		 				$('#input2').css('display', 'inline');
+ 		 				$('#inputCntn').css('display', 'inline');
+ 		 				$('#cntnLength').css('display', 'inline');
+ 						mycomment ++;
+ 					}
+ 				}
+ 			})
+ 			.fail(err =>console.log("err"));
+			
+			
+ 			//end of $.ajax('http://localhost/feedbackList',
+			};//end of event
+		}, 1000);//end of setTimeout-------------------------------------------------------------------
  		
- 		
- 		
+
+	
 		
 
 			
-	var charttarget = "";
+	
 	
 	function feedbacks(result){
 	 	
@@ -330,11 +578,7 @@
 		body.append(card);
 	}//end of feedbacks----------------------------------------------------------------------------
 	
-	function feedbackshide(result){
-	 	
 
-	}//end of feedbackshide-----------------------------------------------------------------------
-	
 	
 	function myfeedbacks(result){
 	 	
@@ -352,147 +596,10 @@
 		
 		// insert comment tag to comment body
 		body.append(card);
-		$('#input2').css('display', 'none');
-		$('#inputCntn').css('display', 'none'); 
-		$('#cntnLength').css('display', 'none');
+		
 	}//end of myfeedbacks-------------------------------------------------------------------
 		 
-	var mycomment = 0;
-		 
- 		setTimeout(() => {$('.ct-label.ct-vertical.ct-start').click(
- 			function (event) {
-	 			$('#inputCntn').val('');	 			
- 			
-	 			let targetnm = $(this).text();
-	 			
-	 			
-	 			for(i = 0; i < prjtInfo.length; i++){
-	 				if(prjtInfo[i].MEMB_NM == targetnm){
-	 					charttarget = prjtInfo[i].MEMB_ID;
-	 					break;
-	 				}
-	 			}
-	 			
-	 			
-	 			
-				let buss = [];
-				let prgre = [];
-	 			
-	 			$.ajax('http://localhost/selectBusinessPersonal', {
-	 				type : 'post',
-	 				dateType : 'json',
-	 				contentType : 'application/json',
-	 				data : JSON.stringify({
-	 						membId : charttarget,
-	 						prjtNo : [[${prjtNo}]]
-	 						}),
-	 				async: false
-	 			})
-	 			.done(result => {
-	 				 for(i = 0; i < result.length; i++){
-	 					 buss.push(result[i].BUSS_NM);
-	 					prgre.push(result[i].BUSS_PRGRE);
-	 				 }
-	 			})
-	 			.fail(err =>console.log("err"));
-	 			//end of ajax
-	 			
-	 			
-	 			
-				$('#feedtarget').text(targetnm);
-				$('#chartPsn').text(targetnm);
-		 				
-		 				
-	 			
-				if($('#feedtarget').text().length > 0){
-					if(buss.length > 3){
-					 new Chartist.Bar('#horizontal-bar-chart2', {
-						    labels: buss,
-						    series: [prgre]
-						  }, {
-						    seriesBarDistance: 10,
-						    reverseData: true,
-						    horizontalBars: true,
-						    height:buss.length*30,
-						    axisY: {
-						      offset: 120
-						    },
-						    plugins: [
-						      Chartist.plugins.tooltip()
-						    ]
-					});
-					}else{
-						 new Chartist.Bar('#horizontal-bar-chart2', {
-							    labels: buss,
-							    series: [prgre]
-							  }, {
-							    seriesBarDistance: 10,
-							    reverseData: true,
-							    horizontalBars: true,
-							    height:120,
-							    axisY: {
-							      offset: 120
-							    },
-							    plugins: [
-							      Chartist.plugins.tooltip()
-							    ]
-						});
-					}
-				}else{
-	 				
-					 new Chartist.Bar('#horizontal-bar-chart2', {
-						    labels: buss,
-						    series: [prgre]
-						  }, {
-						    seriesBarDistance: 10,
-						    reverseData: true,
-						    horizontalBars: true,
-						    height:buss.length*30,
-						    axisY: {
-						      offset: 120
-						    },
-						    plugins: [
-						      Chartist.plugins.tooltip()
-						    ]
-					});//end of new Chartist.Bar('#horizontal-bar-chart2'
-				}//end of if($('#feedtarget').text().
-					
-	 			$.ajax('http://localhost/feedbackList', {
-	 				type : 'post',
-	 				dateType : 'json',
-	 				contentType : 'application/json',
-	 				data : JSON.stringify({
-	 						membFdbkObj : charttarget,
-	 						prjtNo : [[${prjtNo}]]
-	 						}),
-	 				async: false
-	 			})
-	 			.done(result => {
-	 				$('#commentBody').children().remove();
-	 				$('#input2').css('display', 'inline');
-	 				$('#inputCntn').css('display', 'inline'); 
-	 				$('#cntnLength').css('display', 'inline');
-	 				mycomment = 0;
-	 				for(i = 0; i < result.length; i++){
-	 					
-		 				if(targetnm == [[${session.loginInfo.membNm}]]){
-		 					myfeedbacks(result[i]);
-		 				}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter == [[${session.loginInfo.membId}]]){
-	 						feedbacks(result[i]);
-	 						mycomment ++;
-	 					}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter != [[${session.loginInfo.membId}]]){
-	 						feedbackshide(result[i]);
-	 					}
-	 				}
-	 			})
-	 			.fail(err =>console.log("err"));
-				
-				
-	 			//end of $.ajax('http://localhost/feedbackList',
- 			});//end of event
- 		}, 1000);//end of setTimeout-------------------------------------------------------------------
- 		
- 	 	
+
  		
  		
  		
@@ -630,11 +737,11 @@
 	}//-------------------------------------------------------------------------------
 	
 	$(function(){
-		$('#horizontal-bar-chart').slimScroll({
-	    	height: '30rem'
+		$('#chart2').slimScroll({
+	    	height: '34.5rem'
 	    });
-		$('#horizontal-bar-chart2').slimScroll({
-	    	height: '29rem'
+		$('#chartCardBody3').slimScroll({
+	    	height: '32.2rem'
 	    });
 	});
 	
