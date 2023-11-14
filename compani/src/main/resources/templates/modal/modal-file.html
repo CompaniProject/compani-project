@@ -95,6 +95,14 @@ input[type="checkbox"]:checked::after {
 #tab_file {
 	z-index: 2;
 }
+
+.longCut {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+   max-width: 150px;
+}
+
 </style>
 
 </head>
@@ -179,7 +187,6 @@ input[type="checkbox"]:checked::after {
 											<th style="font-weight: normal;"></th>
 											<th style="font-weight: normal;"></th>
 										</tr>
-
 									</thead>
 									<form id="checkBoxForm">
 									<tbody id="newTrTd">
@@ -187,11 +194,10 @@ input[type="checkbox"]:checked::after {
 											<tr id="tdData" th:data-fileno="${fileList.fileNo}">
 												<td class="newCKB"><input type="checkbox" name="files"
 													th:value="${fileList.fileNo}"></td>
-												<td th:text="${fileList.fileNm}" />
+												<td class="longCut" th:text="${fileList.fileNm}" th:title="${fileList.fileNm}" />
 												<td class="fSize" th:text="${fileList.fileSize}" />
 												<td id="fileUser" th:text="${fileList.membNm}" />
-												<td
-													th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
+												<td th:text="${#temporals.format(fileList.fileDt, 'yyyy-MM-dd')}" />
 												<!-- 다운로드 아이콘 -->
 												<td class="downIcon" th:attr="onclick='fileDown(\'' + ${fileList.fileNo} + '\')'"><i class="fa-solid fa-download"></i></td>
 												<!-- 쓰레기 아이콘 -->
@@ -377,9 +383,9 @@ input[type="checkbox"]:checked::after {
 	function makeTrTd(item){
 		var trTag = `<tr id="tdData" data-fileno="${item.fileNo}">
 			<td class="newCKB"><input type="checkbox" name="files" value="${item.fileNo}"></td>
-			<td>${item.fileNm}</td>
+			<td class="longCut" title="${item.fileNm}">${item.fileNm}</td>
 			<td class="fSize">${(ByteSize(item.fileSize))}</td>
-			<td>${item.membNm}</td>
+			<td id="fileUser">${item.membNm}</td>
 			<td>${item.fileDt}</td>
 			<td class="downIcon" onclick="fileDown(\'' + ${item.fileNo} + '\')"><i class="fa-solid fa-download"></i></td>
 			<td class="trashIcon"><i class="fa-solid fa-trash"></i></td>
@@ -435,8 +441,9 @@ input[type="checkbox"]:checked::after {
 							fileNo : fileDel
 						},
 						success : function() {
-				             Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
-						     delTarget.closest('#tdData').remove();
+							filePaging(1);
+				            Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
+						    delTarget.closest('#tdData').remove();
 				        },
 						error : function() {
 							alert("AJAX 오류");
@@ -485,6 +492,7 @@ input[type="checkbox"]:checked::after {
 	                dataType: "text",
 	                data: tdBoxes.serialize(),
 	                success: function () {
+	                	filePaging(1);
 	                    Swal.fire('삭제가 완료되었습니다.', '삭제된 파일은 복구할 수 없습니다.', 'success');
 	                    kBox.prop('checked', false);
 	                    tdBoxes.closest('tr').remove();
@@ -524,6 +532,7 @@ input[type="checkbox"]:checked::after {
 					contentType : false, // multipart/form-data타입을 사용하기위해 false 로 지정합니다.
 					data : formData,
 					success : function(fileVO) {
+						filePaging(1);
 						Swal.fire('등록완료', '', 'success');
 						
 						var fileInfo = document
@@ -610,6 +619,10 @@ input[type="checkbox"]:checked::after {
 					}
 				})
 		}
+		
+		// 페이지 막기
+		$(".disabled").css("color", "#8C959F").removeAttr("onclick");
+
 	
 </script>
 </body>
