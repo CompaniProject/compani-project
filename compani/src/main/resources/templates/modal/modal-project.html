@@ -60,17 +60,16 @@
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label">일정 </label>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="prjtFdt"
+								<input type="date" class="form-control" id="prjtFodt"
 									name="prjtFdt"
 									th:value="${#dates.format(session.projectVO.prjtFdt, 'yyyy-MM-dd')}" />
-								<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
 							</div>
 							<div class="col-lg-1">
 								<label class="col-lg-4 col-form-label">~ </label>
 
 							</div>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="prjtTdt"
+								<input type="date" class="form-control" id="prjtTodt"
 									name="prjtTdt"
 									th:value="${#dates.format(session.projectVO.prjtTdt, 'yyyy-MM-dd')}">
 							</div>
@@ -199,7 +198,7 @@
 		 	let memberArray = [];
 		 	
 		 	let prjtName = $('[name="prjtNm"]');
-			if(prjtName.val() == ''){
+			if(prjtName.text() == ''){
 				Swal.fire("프로젝트 제목을 입력해주세요.", "" ,"warning");
 				return;
 			}
@@ -374,6 +373,30 @@
 				.fail(err =>  console.log(err));
 	 	
 		}
+		$('#prjtFodt').on('change',function(){
+			if($('#prjtTodt').val() != ''){
+				let startDay = $(this).val();
+				let endDay = $('#prjtTodt').val();
+				if(startDay > endDay){
+					$(this).val(endDay);
+					$('#prjtTodt').val(startDay);
+				}
+			
+			}
+			
+		})
+		$('#prjtTodt').on('change',function(){
+			if($('#prjtFodt').val() != ''){
+				let endDay = $(this).val();
+				let startDay = $('#prjtFodt').val();
+				if(startDay > endDay){
+					$(this).val(startDay);
+					$('#prjtFodt').val(endDay);
+				}
+			
+			}
+			
+		})
 
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

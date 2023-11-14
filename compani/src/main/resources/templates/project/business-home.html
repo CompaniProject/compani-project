@@ -313,7 +313,12 @@
 			}
 			
 			function businessModal(){
+				
 				$('#insertbuss').modal('show');
+				$('#insertbussform').each(function() {
+					  this.reset();
+					});
+				
 			} 
 			
 		 	$(function(){

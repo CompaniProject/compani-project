@@ -82,9 +82,8 @@
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label">일정 </label>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="prjtFdt"
+								<input type="date" class="form-control" id="prjtFdt" 
 									name="prjtFdt" />
-								<!-- th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" -->
 							</div>
 							<div class="col-lg-1">
 								<label class="col-lg-4 col-form-label">~ </label>
@@ -185,6 +184,10 @@
 
 	<script th:inline="javascript">
 		$('.icon-plus').on('click', function(){
+			
+			$('#insertform').each(function() {
+				  this.reset();
+				});
 		  let membId =[[${session.loginInfo.membId}]];
 		  let coCd =[[${session.loginInfo.coCd}]];
 		  
@@ -419,7 +422,7 @@
 			let prjtName = $('[name="prjtNm"]');
 			let prjtFdt = $('[name="prjtFdt"]');
 			let prjtTdt = $('[name="prjtTdt"]');
-			if(prjtName.val() == ''){
+			if(prjtName.text() == ''){
 				Swal.fire("프로젝트 제목을 입력해주세요.", "" ,"warning");
 				
 				return;
@@ -479,9 +482,27 @@
 			$('.companyManageMenu').css('display', 'none');
 		}
 		
-		
+		$('[name="prjtFdt"]').on('change',function(){
+			if($('#prjtTdt').val() != ''){
+				let startDay = $(this).val();
+				let endDay = $('#prjtTdt').val();
+				if(startDay > endDay){
+					$(this).val(endDay);
+					$('#prjtTdt').val(startDay);
+				}
+			}
+		})
+		$('[name="prjtTdt"]').on('change',function(){
+			if($('#prjtFdt').val() != ''){
+				let endDay = $(this).val();
+				let startDay = $('#prjtFdt').val();
+				if(startDay > endDay){
+					$(this).val(startDay);
+					$('#prjtFdt').val(endDay);
+				}
+			}
+		})
+			
 	</script>
-
-
 </th:block>
 </html>
