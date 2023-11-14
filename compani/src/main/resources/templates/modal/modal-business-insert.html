@@ -162,7 +162,7 @@
 						<div class="form-group row">
 							<div class="col-lg-4 col-form-label"></div>
 							<div class="col-lg-1">
-								<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
+								<i class="fa-solid fa-plus fa-lg" onclick="addRow();"></i>
 							</div>
 							<label id="label" class="col-lg-3 col-form-label"
 								for="val-username">후속업무</label>
@@ -355,7 +355,7 @@
 					<label id = "label" class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
 					<div class="dropdown custom-dropdown">
 						<div>
-							<select  class="dropdown-relation" name="bussdownNo"  onchange="change(this);">
+							<select  class="dropdown-relation" name="bussdownNo"  onchange="change();">
 							<option class="dropdown-business" value="">선택</option>
 								
 							</select>
@@ -367,7 +367,7 @@
 		    let selectTemp = 			`<div class="form-group row">
 			<div class="col-lg-4 col-form-label"></div>
 			<div class="col-lg-1">
-				<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
+				<i class="fa-solid fa-plus fa-lg" onclick="addRow();"></i>
 			</div>
 			<label id="label" class="col-lg-3 col-form-label"
 				for="val-username">후속업무</label>
@@ -385,8 +385,14 @@
 			</div>
 
 		</div>`;
-			function addRow(e){
-				let div = $(e).parent().parent().parent();
+		
+		let plus = `<div class="col-lg-1">
+				<i class="fa-solid fa-plus fa-lg" onclick="addRow();"></i>
+			</div>`;
+			function addRow(){
+				
+ 				
+				let div = $(event.target).parent().parent().parent();
 
 				div.append(temp);
 				
@@ -435,9 +441,11 @@
 					} 
 				}
 				
-		
-				if($('.fa-solid.fa-plus.fa-lg').length == 1){
 				
+				if($('.fa-solid.fa-plus.fa-lg').length == 0){
+					div.last().find('#label').before(plus);
+					div.children().last().find('.col-lg-5').attr('class', 'col-lg-4 col-form-label');
+					
 				} 
 				
 			}
@@ -452,6 +460,8 @@
 				let icon = $('<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i></div>');
 				div.append(icon);
 				$(e).parent().parent().parent().append(div);
+				
+		
 				
 			}
 		
@@ -533,6 +543,9 @@
 					
 			}
 			
+			$('.close').on('click', function(){
+				location.reload();
+			})
 			
 			
 

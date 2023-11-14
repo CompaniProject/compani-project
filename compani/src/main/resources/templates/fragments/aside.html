@@ -422,7 +422,7 @@
 			let prjtName = $('[name="prjtNm"]');
 			let prjtFdt = $('[name="prjtFdt"]');
 			let prjtTdt = $('[name="prjtTdt"]');
-			if(prjtName.text() == ''){
+			if(prjtName.val() == ''){
 				Swal.fire("프로젝트 제목을 입력해주세요.", "" ,"warning");
 				
 				return;
