@@ -117,7 +117,7 @@
 
 					<div class="column">
 						<div class="row">
-<!-- 							<div class="col-lg-6" style="padding-right: 15px;">
+							<!-- 							<div class="col-lg-6" style="padding-right: 15px;">
 								<div class="card">
 									<div class="card-body" id="chartCardBody">
 										<div>
@@ -139,38 +139,44 @@
 							</div> -->
 							<!-- mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm -->
 
-							<div class="col-lg-6" style="padding-right: 15px;" id="chartCardBody">
+							<div class="col-lg-6" style="padding-right: 15px;"
+								id="chartCardBody">
 								<div class="card">
-									<div class="card-body" style="height:555px" id="chart2" >
-											<canvas id="chart" height="330vh"></canvas>
-											<span style="color: #BDBDBD">※ 데이터가 0인 경우, 0의 경계선을 클릭</span>
+									<div class="card-body" style="height: 555px" id="chart2">
+										<canvas id="chart" height="330vh"></canvas>
+										<span style="color: #BDBDBD">※ 데이터가 0인 경우, 0의 경계선을 클릭</span>
 									</div>
-									
+
+								</div>
+							</div>
+
+
+
+
+
+
+									<div class="card-body" style="height: 555px; display:none" id="chartb">
+										<h4 class="card-title" id="chartPsn"
+											style="margin-bottom: 0px; display: inline; font-weight: bold;">대상없음</h4>
+										<canvas id="charta" height="330vh"></canvas>
+										<span style="color: #BDBDBD"></span>
+									</div>
+
+
+
+
+
+
+							<div class="col-lg-6" style="padding-right: 15px;">
+								<div class="card"
+								id="chartCarda">
+
 								</div>
 							</div>
 							<!-- mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm -->
 
 
-							<div class="col-lg-6" style="padding-left: 15px;"
-								id="chartCardBody2">
-								<div class="card">
-									<div class="card-body"
-										style="padding-bottom: 0px; padding-top: 20px;">
-										<h4 class="card-title" id="chartPsn"
-											style="margin-bottom: 0px; display: inline;">대상없음</h4>
-									</div>
-									<div class="card-body" style="padding-top: 10px;"
-										id="chartCardBody3">
-										<div>
-											<span>진척도</span>&nbsp;
-											<div
-												style="width: 10px; display: inline; background-color: #7571f9; font-size: 7px; color: #7571f9">ㅡㅡㅡㅡㅡ</div>
-										</div>
-										<div id="horizontal-bar-chart2"
-											class="ct-chart ct-golden-section" style="width: 100%;"></div>
-									</div>
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -193,7 +199,8 @@
 					<!-- 댓글 등록 영역 -->
 					<div class="card-footer">
 						<textarea class="form-control" name="inputCntn" id="inputCntn"
-							cols="30" rows="2" maxlength="514" style="height: 56px; display: none"></textarea>
+							cols="30" rows="2" maxlength="514"
+							style="height: 56px; display: none"></textarea>
 						<span id="cntnLength"></span>
 						<button id="input2" class="btn btn-primary px-3 ml-4 float-right"
 							style="margin-top: 0.88rem; display: none;">추가</button>
@@ -256,6 +263,7 @@
 	var charttarget = "";
 	var mycomment = 0;
 	var myChart = null;
+	var myChart2 = null;
 	var targetnm = "";
 	
 	$(function(){
@@ -284,7 +292,7 @@
 		
 		
 		
-		myChart  = new Chart(document.getElementById('chart'), {
+ 		myChart  = new Chart(document.getElementById('chart'), {
 			    type: 'horizontalBar',
 			    data: {
 			        labels: memb,
@@ -324,10 +332,44 @@
 			         }]
 			        }}
 			   
-			});
+			}); 
 		
-		
-		
+
+			let bbody = $('#chartCarda');
+ 			let ccard = $('#chartb').clone();
+ 			
+				myChart2  = new Chart(ccard.find('#charta'), {
+				    type: 'horizontalBar',
+				    data: {
+				        labels: ["대상없음"],
+				        datasets: [{
+				            label: "진척도",
+				            backgroundColor: '#7571f9',
+				            borderColor: '#7571f9',
+				            data: [0]
+
+				        }]
+				    },
+
+				    // Configuration options go here
+				    options: { scales: {
+				        yAxes: [{
+				            barPercentage: 1,
+				            categoryPercentage: 0.7,
+			                stepSize: 1 //y축 간격
+				          }],
+				         xAxes:[{
+				             ticks: {
+				                 stepSize: 1,
+				                 min: 0
+				                    } 
+				         }]
+				        }}
+				   
+				});
+ 				
+ 				ccard.css('display', 'block');
+ 				bbody.append(ccard);
 		
 		
 		
@@ -360,7 +402,7 @@
 		  }); */
 		  
 		  
-		  new Chartist.Bar('#horizontal-bar-chart2', {
+/* 		  new Chartist.Bar('#horizontal-bar-chart2', {
 				labels: ['대상', '없음'],
 			    series: [
 			      [0,0],
@@ -388,7 +430,7 @@
 		  
 		  //end of 차트 생성
 		  
-		  $('.ct-start').css('width', '100px');
+		  $('.ct-start').css('width', '100px'); */
 		});	//end of window(ready)---------------------------------------------------------------------------
 		
  		setTimeout(() => {document.getElementById("chart").onclick = function(evt) {
@@ -435,13 +477,67 @@
  			//end of ajax
  			
  			
+ 			$('#chartCarda').empty();
+ 			let bbody = $('#chartCarda');
+ 			let ccard = $('#chartb').clone();
  			
-			$('#feedtarget').text(targetnm);
-			$('#chartPsn').text(targetnm);
+ 				myChart2  = new Chart(ccard.find('#charta'), {
+			    type: 'horizontalBar',
+			    data: {
+			        labels: buss,
+			        datasets: [{
+			            label: "진척도",
+			            backgroundColor: '#7571f9',
+			            borderColor: '#7571f9',
+			            data: prgre
+			        }]
+			    },
+
+			    // Configuration options go here
+			    options: { scales: {
+			        yAxes: [{
+			            barPercentage: 1,
+			            categoryPercentage: 0.7,
+		                stepSize: 1 //y축 간격
+			          }],
+			         xAxes:[{
+			             ticks: {
+			                 stepSize: 10,
+			                 min: 0
+			                    } 
+			         }]
+			        }}
+			   
+			});					
+ 				
+ 				ccard.find('#chartPsn').text(targetnm);
+ 				
+ 				ccard.css('display', 'block');
+ 				bbody.append(ccard);
+ 			
+ 				$('#feedtarget').text(targetnm);
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+			
 	 				
 	 				
  			
-			if($('#feedtarget').text().length > 0){
+/* 			if($('#feedtarget').text().length > 0){
 				if(buss.length > 3){
 				 new Chartist.Bar('#horizontal-bar-chart2', {
 					    labels: buss,
@@ -510,7 +606,9 @@
 					      Chartist.plugins.tooltip()
 					    ]
 				});//end of new Chartist.Bar('#horizontal-bar-chart2'
-			}//end of if($('#feedtarget').text().
+			}//end of if($('#feedtarget').text(). */
+					
+					
 					
 					
 					
@@ -738,7 +836,7 @@
 	
 	$(function(){
 		$('#chart2').slimScroll({
-	    	height: '34.5rem'
+	    	height: '34.7rem'
 	    });
 		$('#chartCardBody3').slimScroll({
 	    	height: '32.2rem'
