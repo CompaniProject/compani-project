@@ -162,7 +162,7 @@
 						<div class="form-group row">
 							<div class="col-lg-4 col-form-label"></div>
 							<div class="col-lg-1">
-								<i class="fa-solid fa-plus fa-lg" onclick="addRow();"></i>
+								<i class="fa-solid fa-plus fa-lg" ></i>
 							</div>
 							<label id="label" class="col-lg-3 col-form-label"
 								for="val-username">후속업무</label>
@@ -350,12 +350,12 @@
 			 let temp = 	`
 			    	<div class="form-group row">
 
-					<div class="col-lg-5 col-form-label"></div>
-					
+				 	<div class="col-lg-4 col-form-label"></div>
+					<div class="col-lg-1"></div>
 					<label id = "label" class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
 					<div class="dropdown custom-dropdown">
 						<div>
-							<select  class="dropdown-relation" name="bussdownNo"  onchange="change();">
+							<select  class="dropdown-relation" name="bussdownNo"  onchange="change(this);">
 							<option class="dropdown-business" value="">선택</option>
 								
 							</select>
@@ -367,7 +367,7 @@
 		    let selectTemp = 			`<div class="form-group row">
 			<div class="col-lg-4 col-form-label"></div>
 			<div class="col-lg-1">
-				<i class="fa-solid fa-plus fa-lg" onclick="addRow();"></i>
+				<i class="fa-solid fa-plus fa-lg" ></i>
 			</div>
 			<label id="label" class="col-lg-3 col-form-label"
 				for="val-username">후속업무</label>
@@ -381,23 +381,19 @@
 						
 					</select>
 				</div>
-
 			</div>
-
 		</div>`;
 		
-		let plus = `<div class="col-lg-1">
-				<i class="fa-solid fa-plus fa-lg" onclick="addRow();"></i>
-			</div>`;
-			function addRow(){
+
+		function addRow(){
 				
+ 				$(event.target).attr('onclick', 'return false');
  				
 				let div = $(event.target).parent().parent().parent();
 
 				div.append(temp);
-				
-				//요게 문제인듯
-				 let select = div.find('.dropdown-relation').last();
+			
+				let select = div.find('.dropdown-relation').last();
 				 
 					let option = '';
 					for(let i =0; i< bussList.length ; i++){
@@ -411,10 +407,8 @@
 							}
 						}
 					}
-				
 			}
 
-		
 			function removeRow(e){
 				let removeSelect = $(e).parent().prev().find('option:selected');
 				removeSelect.prop('disabled',false);
@@ -424,10 +418,9 @@
 				if (index !== -1) {
 					disableNo.splice(index, 1);
 				}
-				let g = $('.fa-solid.fa-plus.fa-lg');
 				let div = $(e).parent().parent().parent();
 				$(e).parent().parent().remove();
-				
+				console.log(disableNo);
 				if($('#label').text() == ''){
 					div.append(selectTemp);
 					
@@ -441,27 +434,29 @@
 					} 
 				}
 				
-				
+				//+버튼 추가
 				if($('.fa-solid.fa-plus.fa-lg').length == 0){
-					div.last().find('#label').before(plus);
-					div.children().last().find('.col-lg-5').attr('class', 'col-lg-4 col-form-label');
+					//
+					div.last().find('#label').prev().append('<i class="fa-solid fa-plus fa-lg" ></i>');
+				    div.children().last().find('.col-lg-5').attr('class', 'col-lg-4 col-form-label');
 					
-				} 
+				}
+				$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRow();');
 				
 			}
-	
+			
 			function change(e){
 				//$('option:selected').parent().prop('disabled', true);
 				$(e).prop('disabled', true);
 				let no =$(e).find('option:selected').val();
 				disableNo.push(Number(no));
-			
 				let div = $('<div class="col-lg-1"></div>');
 				let icon = $('<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i></div>');
 				div.append(icon);
 				$(e).parent().parent().parent().append(div);
-				
-		
+				if(disableNo.length <  bussList.length){
+					$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRow();');
+				}
 				
 			}
 		

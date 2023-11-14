@@ -35,7 +35,7 @@
 							</div>
 						</div>
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th>즐겨찾기</th>
@@ -47,7 +47,7 @@
 										<th>상태</th>
 									</tr>
 								</thead>
-								<tbody id="projecttbl">
+								<tbody id="projecttbl" style="cursor:pointer;">
 									<th:block th:each="projectList : ${projectList}">
 										<tr th:if="${projectList.prjtSt == '0D1'}" 
 											th:data-no="${projectList.prjtNo}">
@@ -75,7 +75,7 @@
 			<div class="col-lg-6 col-md-12">
 				<div class="card" style="height: 400px;">
 					<div class="card-body" style="overflow: auto;">
-						<h4 class="card-title">코멘트(개인피드백)</h4>
+						<h4 class="card-title">개인피드백</h4>
 						<div class="dropdown custom-dropdown">
 							<div>
 								<select class="dropdown-business" name="feedback">
@@ -87,7 +87,7 @@
 						</div>
 
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th>프로젝트명</th>
@@ -95,7 +95,7 @@
 										<th>날짜</th>
 									</tr>
 								</thead>
-								<tbody id="replytbl">
+								<tbody id="replytbl" style="cursor:pointer;">
 									<th:block th:each=" memberFeedbackList: ${memberFeedbackList}">
 										<tr th:attr="onclick='moveFeed(\'' + ${memberFeedbackList.prjtNo} + '\')'">
 											<td th:text="${memberFeedbackList.prjtNm}" />

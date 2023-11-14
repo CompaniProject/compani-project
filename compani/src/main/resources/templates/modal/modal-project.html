@@ -16,9 +16,9 @@
 							<div class="col-lg-5 col-form-label">
 								<div class="issueNameEdit">
 									<div class="prjtName">
-										<textarea class="modalIssueNameUpdate" id="prjtNm"
+										<input class="modalIssueNameUpdate" id="prjtName"
 											name='prjtNm' maxlength="200" style="height: 34px;"
-											th:text="${session.projectVO.prjtNm}"></textarea>
+											th:value="${session.projectVO.prjtNm}" />
 									</div>
 								</div>
 							</div>
@@ -191,18 +191,21 @@
 	<script>
 		
 		$('#prjtUpdateBtn').on('click', function(){
-		
+			console.log('zzzzz');
 	 		let formData = $('#updateform').serializeArray();
 	
 		 	let formObj = {};
 		 	let memberArray = [];
 		 	
-		 	let prjtName = $('[name="prjtNm"]');
-			if(prjtName.text() == ''){
+		 	let prjtName = $('#prjtName').val();
+		 	console.log(prjtName);
+			
+			if(prjtName ==''){
+			 	
 				Swal.fire("프로젝트 제목을 입력해주세요.", "" ,"warning");
 				return;
 			}
-		 	
+		
 			$.each(formData, function(idx,obj){
 	 		  	if(obj.name != "membId"){
 					formObj[obj.name] = obj.value;
@@ -223,6 +226,8 @@
 				data : JSON.stringify(obj)
 			})
 			.done(data => {
+				let prjtSt = $('[name="prjtSt"]').val();
+				console.log(prjtSt);
 				Swal.fire({
 					  title: "프로젝트수정",
 					  icon:  "success",
