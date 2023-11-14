@@ -16,12 +16,14 @@
         let content = comment.find('.media-body p');
         let edit = comment.find('.edit-area');
         let submitBtn = comment.find('.submitBtn');
-        
+	    
         content.val(comment.find('textarea').val());
         
         content.toggle();
         edit.toggle();
         submitBtn.toggle();
+        
+	    comment.find('textarea').val(comment.find('.mb-0').text());
     }
     
     //------------ Date formatting
