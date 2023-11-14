@@ -35,3 +35,8 @@
 .replyDeleteBtn{
 	cursor:pointer;
 }
+
+.wordWrapBreak{
+	word-wrap: break-word;
+	word-break:break-all;
+}

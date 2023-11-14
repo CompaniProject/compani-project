@@ -22,7 +22,8 @@
 	    return obj;
 	}
 	
-	function insertComment(){
+	function insertComment(event){
+		event.stopImmediatePropagation()
 		let obj = createInsertObj();
     	if (obj.replyCntn === ""){
     		Swal.fire({
@@ -154,6 +155,7 @@
     // ------------------------------------------------
     
 	function replyInsert(event){
+		event.stopImmediatePropagation()
 		let curBody = $(event.target).closest('.media');
 		obj = createInsertObj(false);
 		
@@ -168,10 +170,11 @@
 		insertAjax(obj,false);
 		
 		// hide insert area
-		replyDeleteHTML();
+		replyDeleteHTML(event);
 	}
     
 	function replyInsertAreaHTML(event){
+		event.stopImmediatePropagation()
 		// remove count area size
 		$('.edit-cntn-count').text("0/" + text_limit);
 		
@@ -205,6 +208,7 @@
 	$(document).on('click','.replyBtn',replyInsertAreaHTML);
 	$(document).on('click','.replyInsertBtn',replyInsert);
 	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
+	$(document).on('click','#commentInsertBtn',insertComment);
 	
 	// ---------------------------------------------------- insert Cntn Counting
 

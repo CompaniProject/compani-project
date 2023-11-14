@@ -12,16 +12,23 @@
 	// get comment, content, editBtn, submitBtn to Toggle
     // update textarea - copy to content text
     function toggleTags(event){
+    	event.stopImmediatePropagation()
         let comment = $(event.target).closest('.media');
         let content = comment.find('.media-body p');
         let edit = comment.find('.edit-area');
         let submitBtn = comment.find('.submitBtn');
-        
+        let checkbox = comment.find('label');
+        let cntArea = comment.find('.edit-cntn-count');
+	    
         content.val(comment.find('textarea').val());
         
         content.toggle();
         edit.toggle();
         submitBtn.toggle();
+        checkbox.hide();
+        cntArea.hide();
+        
+	    comment.find('textarea').val(comment.find('.mb-0').text());
     }
     
     //------------ Date formatting
@@ -49,16 +56,24 @@
     // ------------------------------------------------ reply
     
     function deleteCommentAlert(event){
+    	event.stopImmediatePropagation()
     	 Swal.fire({
                     text: "정말로 삭제 하시겠습니까?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: '확인',
                     cancelButtonText: '취소'
-                }).then((result) => {deleteComment(event)})
+                }).then((result) => {
+                		if (result.isConfirmed){
+                			deleteComment(event)
+                		} else{
+                			return false;
+                		}
+                	})
     }
 
 	function replyDeleteHTML(event){
+		event.stopImmediatePropagation()
 		let curBody = $(event.target).closest('.media');
 		
 		curBody.find('.replyInsertBtn').remove();
