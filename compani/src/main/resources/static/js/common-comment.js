@@ -16,12 +16,16 @@
         let content = comment.find('.media-body p');
         let edit = comment.find('.edit-area');
         let submitBtn = comment.find('.submitBtn');
+        let checkbox = comment.find('label');
+        let cntArea = comment.find('.edit-cntn-count');
 	    
         content.val(comment.find('textarea').val());
         
         content.toggle();
         edit.toggle();
         submitBtn.toggle();
+        checkbox.hide();
+        cntArea.hide();
         
 	    comment.find('textarea').val(comment.find('.mb-0').text());
     }
