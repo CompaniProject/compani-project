@@ -168,7 +168,7 @@
 		insertAjax(obj,false);
 		
 		// hide insert area
-		replyDeleteHTML();
+		replyDeleteHTML(event);
 	}
     
 	function replyInsertAreaHTML(event){
@@ -203,7 +203,6 @@
 	}
 	
 	$(document).on('click','.replyBtn',replyInsertAreaHTML);
-	$(document).on('click','.replyInsertBtn',replyInsert);
 	$(document).on('click','.replyDeleteBtn',replyDeleteHTML);
 	
 	// ---------------------------------------------------- insert Cntn Counting
