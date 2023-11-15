@@ -31,6 +31,7 @@ public interface BusinessService {
 	public int modifyBusiness(BusinessVO businessVO);
 	public int updateRelation(FormVO formVO);
 	public int resetRelation(BusinessVO businessVO);
+	public int resetRelation(Integer bussNo);
 	
 	public List<BusinessVO>downRelationList(Integer bussNo);
 	public int deleteBusiness(Integer bussNo);
