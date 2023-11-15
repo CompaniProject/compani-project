@@ -22,8 +22,9 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
 
 public class FileUtils {
     @Value("${file.upload.path}")
-    private static String uploadPath;
-		
+	
+	private static String uploadPath = Paths.get("upload", "issue-files").toString();
+
     /**
      * 다중 파일 업로드
      *
