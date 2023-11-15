@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.compani.issue.file.service.IssueFileVO;
 
-//@Component는 개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
 public class FileUtils {
-    private static String uploadPath = Paths.get("C:", "develop", "upload-files").toString();
-
+    @Value("${file.upload.path}")
+    private static String uploadPath;
+		
     /**
      * 다중 파일 업로드
      *
