@@ -1,4 +1,3 @@
-
 <!--  업무 등록 모달  -->
 <div class="modal fade bd-example-modal-lg" id="insertbuss"
 	tabindex="-1" role="dialog" aria-hidden="true">
@@ -15,16 +14,18 @@
 					method="post">
 					<div>
 						<div class="issueNameEdit">
-							<div class="issueNameBack">
-								<textarea class="modalIssueNameUpdate" id="bussNm" name='bussNm'
-									maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요."></textarea>
+							<div class="prjtName">
+								<input class="modalIssueNameUpdate" id="bussNm" name='bussNm'
+									maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요.">
 							</div>
 						</div>
-
+					
 						<div>
-
+							<label class="col-lg-4 col-form-label" for="val-username">업무 참여자
+										</label>
 							<div class="card" style="height: 200px;">
 								<div class="card-body" style="overflow: auto;">
+									
 									<div class="table-responsive">
 										<table class="table">
 											<thead>
@@ -45,8 +46,11 @@
 								</div>
 							</div>
 							<div>
+							<label class="col-lg-4 col-form-label" for="val-username">프로젝트 참여자
+										</label>
 								<div class="card" style="height: 200px;">
-									<div class="card-body" style="overflow: auto;">
+									<div class="card-body" style="overflow: auto;"> 
+										
 										<div class="SearchBox" style="height: 50%">
 											<label for="SearchToggleCheckBox"
 												th:attr="onclick='busssearchMember()'"></label> <input
@@ -73,6 +77,7 @@
 											</div>
 
 										</div>
+										
 										<div class="table-responsive">
 											<table class="table">
 												<thead>
@@ -109,7 +114,7 @@
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label">일정 </label>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="bussFrdt"
+								<input type="date" class="form-control" id="bussFrdt" style="cursor:pointer;"
 									name="bussFrdt" />
 								<!--/* th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" */-->
 							</div>
@@ -118,7 +123,7 @@
 
 							</div>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="bussTodt"
+								<input type="date" class="form-control" id="bussTodt" style="cursor:pointer;"
 									name="bussTodt">
 							</div>
 						</div>
@@ -127,21 +132,17 @@
 							<label class="col-lg-4 col-form-label" for="val-username">중요도
 							</label>
 							<div class="col-lg-6">
-								<div class="dropdown custom-dropdown">
-									<select class="dropdown-import" name="bussImp">
+								<div class="dropdown custom-dropdown" >
+									<select class="dropdown-import" name="bussImp" >
 										<option class="dropdown-import" value="0J1">상</option>
 										<option class="dropdown-import" value="0J2">중</option>
 										<option class="dropdown-import" value="0J3">하</option>
-
 									</select>
-
 								</div>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
-							<!-- 요기 백업 -->
-
 							<label class="col-lg-3 col-form-label" for="val-username">선행
 								업무</label>
 
@@ -181,7 +182,6 @@
 								</div>
 
 							</div>
-
 						</div>
 					</div>
 					<div>
@@ -346,7 +346,7 @@
 				.fail(err =>  console.log(err));
 			}
 			
-			let bussList = [[${businessNameList}]];
+			 let bussList = [[${businessNameList}]];
 			 let temp = 	`
 			    	<div class="form-group row">
 
@@ -547,5 +547,4 @@
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>
 <script src="/plugins/wnumb/wNumb.js"></script>
-<script src="/js/plugins-init/nouislider-init.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

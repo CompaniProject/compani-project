@@ -3,7 +3,8 @@
 
     // //basic slider
     let basicSlide = document.getElementById('basic-slider');
-    noUiSlider.create(basicSlide, {
+    if(basicSlide){
+	    noUiSlider.create(basicSlide, {
         start: [20, 80],
         connect: true,
         range: {
@@ -11,6 +12,7 @@
             'max': 100
         }
     });
+    }
     // //basic slider ^
     
 

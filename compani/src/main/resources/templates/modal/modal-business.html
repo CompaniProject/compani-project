@@ -3,14 +3,15 @@
 
 	<div>
 		<div class="issueNameEdit">
-			<div class="issueNameBack">
-				<textarea class="modalIssueNameUpdate" id="bussNm" name='bussNm'
+			<div class="prjtName">
+				<input class="modalIssueNameUpdate" id="bussNm" name='bussNm'
 					maxlength="200" style="height: 34px;" placeholder="업무명을 입력하세요."
-					th:text="${businessVO.bussNm}"></textarea>
+					th:value="${businessVO.bussNm}">
 			</div>
 		</div>
 		<div>
-
+			<label class="col-lg-4 col-form-label" for="val-username">업무
+				참여자 </label>
 			<div class="card" style="height: 200px;">
 				<div class="card-body" style="overflow: auto;">
 					<div class="table-responsive">
@@ -36,7 +37,8 @@
 										<td th:text="${bussMemList.membNm}" />
 										<!-- 버튼 수정하기 -->
 										<td><i class="fa-solid fa-minus"></i></td>
-										<input type="hidden" name="membId" th:value="${bussMemList.membId}">
+										<input type="hidden" name="membId"
+											th:value="${bussMemList.membId}">
 									</tr>
 								</th:block>
 							</tbody>
@@ -46,6 +48,8 @@
 				</div>
 			</div>
 			<div>
+				<label class="col-lg-4 col-form-label" for="val-username">프로젝트
+					참여자 </label>
 				<div class="card" style="height: 200px;">
 					<div class="card-body" style="overflow: auto;">
 						<div class="SearchBox" style="height: 50%">
@@ -137,7 +141,7 @@
 							th:selected="${businessVO.bussImpNm}=='중'">중</option>
 						<option class="dropdown-import" value="0J3"
 							th:selected="${businessVO.bussImpNm}=='하'">하</option>
-											
+
 					</select>
 
 				</div>
@@ -147,13 +151,14 @@
 			<label class="col-lg-4 col-form-label" for="val-username">진척도
 			</label>
 			<div class="col-lg-5" style="padding-right: 0;">
-				<div class="snap">
-					<div id="hover"></div>
+				<div class="drag">
+					<div id="drag"></div>
 					<span class="example-val mt-4 d-inline-block" id="hover-val"></span>
 				</div>
 			</div>
 			<div class="col-lg-2">
-				<input type="text" id="bussPrgre" name="bussPrgre" style="border: none; border-bottom: solid 2px #D2691E;"
+				<input type="text" id="bussPrgre" name="bussPrgre"
+			 		style="border:none;" readonly
 					th:value="${businessVO.bussPrgre}" />
 			</div>
 		</div>
@@ -166,10 +171,10 @@
 					th:value="${businessVO.bussSt}" readonly="readonly" > -->
 				<th:block th:switch="${businessVO.bussSt}">
 					<span th:case="0K1" th:text="진행중" class="badge badge-info px-2"></span>
-					<span th:case="0K2" th:text="완료" class="badge badge-success px-2" ></span>
-					<span th:case="0K3" th:text="초과" class="badge badge-danger px-2" ></span>
-					<span th:case="0K4" th:text="초과완료" class="badge badge-light px-2" ></span>
-				</th:block>	
+					<span th:case="0K2" th:text="완료" class="badge badge-success px-2"></span>
+					<span th:case="0K3" th:text="초과" class="badge badge-danger px-2"></span>
+					<span th:case="0K4" th:text="초과완료" class="badge badge-light px-2"></span>
+				</th:block>
 			</div>
 
 		</div>
@@ -183,10 +188,11 @@
 					<select class="dropdown-relation" name="bussUpcd">
 
 						<div th:if="${businessVO.bussUpcd == null}">
-							<option class="dropdown-business" value="" >선택</option>
+							<option class="dropdown-business" value="">선택</option>
 						</div>
 						<div th:if="${businessVO.bussUpcd != null}">
-							<option class="dropdown-business" th:value="${businessVO.bussUpcd}"
+							<option class="dropdown-business"
+								th:value="${businessVO.bussUpcd}"
 								th:text="${businessVO.bussUpNm}"></option>
 							<option class="dropdown-business" value="">선택</option>
 						</div>
@@ -199,7 +205,7 @@
 
 				</div>
 			</div>
-			
+
 		</div>
 
 		<div class="form-group row">
@@ -209,7 +215,8 @@
 					<i class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="downlabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+				<label id="downlabel" class="col-lg-3 col-form-label"
+					for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
 
@@ -219,12 +226,11 @@
 							<option class="dropdown-business" value="">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
 								<option th:if="${businessVO.bussNo == bussNameList.bussNo}"
-								class="dropdown-business" th:value="${bussNameList.bussNo}"
-								th:text="${bussNameList.bussNm}" disabled></option>
-								
-								<option th:if="${businessVO.bussNo != bussNameList.bussNo}" 
-									class="dropdown-business"
-									th:value="${bussNameList.bussNo}"
+									class="dropdown-business" th:value="${bussNameList.bussNo}"
+									th:text="${bussNameList.bussNm}" disabled></option>
+
+								<option th:if="${businessVO.bussNo != bussNameList.bussNo}"
+									class="dropdown-business" th:value="${bussNameList.bussNo}"
 									th:text="${bussNameList.bussNm}"></option>
 							</th:block>
 						</select>
@@ -236,12 +242,16 @@
 		<th:block th:each="downList,idx : ${downList}">
 			<div class="form-group row">
 
-				<div class="col-lg-4 col-form-label"><span class ="bussdown"></span></div>
+				<div class="col-lg-4 col-form-label">
+					<span class="bussdown"></span>
+				</div>
 				<div class="col-lg-1">
-					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
+					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg"
+						onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="downlabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+				<label id="downlabel" class="col-lg-3 col-form-label"
+					for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
 
@@ -265,12 +275,11 @@
 			</div>
 		</th:block>
 		<input type="hidden" name="prjtNo"
-			th:value="${session.projectVO.prjtNo}" /> 
-		<input type="hidden"
+			th:value="${session.projectVO.prjtNo}" /> <input type="hidden"
 			name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
-	<button th:if="${session.updateCheck != null}" type="button"
+		<button th:if="${session.updateCheck != null}" type="button"
 			id="deletebussBtn" class="btn btn-primary">삭제</button>
 		<button th:if="${session.updateCheck != null}" type="button"
 			id="updatebussBtn" class="btn btn-primary">수정</button>
@@ -279,19 +288,19 @@
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>
 <script src="/plugins/wnumb/wNumb.js"></script>
-<script src="/js/plugins-init/nouislider-init.js"></script>
 <script>
-	var slider = document.getElementById('hover');
+	var slider = document.getElementById('drag'); 
 	var bussPrgre = $('#bussPrgre').val();
 
-	noUiSlider.create(slider, {
+ 	noUiSlider.create(slider, {
 		start : bussPrgre,
 		connect : 'lower',
 		range : {
 			'min' : 0,
 			'max' : 100
 		}
-	});
+	}); 
+
 	slider.noUiSlider.on('slide', function(value, handle) {
 		$('#bussPrgre').val(Math.round(value[handle], 0));
 
@@ -592,7 +601,7 @@
 		}
 		
 	}
-	 let tempDown = 	`
+	 var tempDown = 	`
 	    	<div class="form-group row">
 
 		 	<div class="col-lg-4 col-form-label"></div>
@@ -609,7 +618,7 @@
 			
 			</div>`;
 			
-	 let selectTempDown = 			`<div class="form-group row">
+	 var selectTempDown = `<div class="form-group row">
 		<div class="col-lg-4 col-form-label"></div>
 		<div class="col-lg-1">
 			<i class="fa-solid fa-plus fa-lg" ></i>
@@ -628,7 +637,7 @@
 			</div>
 		</div>
 	</div>`;
-
+	
 
 	function addRowUpdate(){
 		
