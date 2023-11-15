@@ -209,7 +209,7 @@
 					<i class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="downlabel" class="col-lg-3 col-form-label" for="val-username">후속</label>
+				<label id="downlabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
 
@@ -546,7 +546,6 @@
 	})
 	
 	function removeRowUpdate(e){
-			console.log('zzz');
 			let removeSelect = $(e).parent().prev().find('option:selected');
 			removeSelect.prop('disabled',false);
 			let removeNo = removeSelect.val();
@@ -571,9 +570,7 @@
 			}
 				
 			//+버튼 추가
-			if($('.fa-solid.fa-plus.fa-lg').length == 0){
-				debugger
-				//
+			if($('.fa-solid.fa-plus.fa-lg').length == 1){
 				div.last().find('#downlabel').prev().append('<i class="fa-solid fa-plus fa-lg" ></i>');
 			    div.children().last().find('.col-lg-5').attr('class', 'col-lg-4 col-form-label');
 					
@@ -600,7 +597,7 @@
 
 		 	<div class="col-lg-4 col-form-label"></div>
 			<div class="col-lg-1"></div>
-			<label id = "downlabel" class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
+			<label id = "downlabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
 			<div class="dropdown custom-dropdown">
 				<div>
 					<select  class="dropdown-relation" name="bussdownNo"  onchange="changeUpdate(this);">
