@@ -175,8 +175,6 @@
 		</div>
 		<div class="form-group row">
 			<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
-			<!-- 요기 백업 -->
-
 			<label class="col-lg-3 col-form-label" for="val-username">선행
 				업무</label>
 
@@ -208,16 +206,16 @@
 			<th:block th:if="${#lists.isEmpty(downList)}">
 				<div class="col-lg-4 col-form-label"></div>
 				<div class="col-lg-1">
-					<i class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
+					<i class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="emplabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+				<label id="downlabel" class="col-lg-3 col-form-label" for="val-username">후속</label>
 
 				<div class="dropdown custom-dropdown">
 
 					<div>
 						<select class="dropdown-relation" name="bussdownNo"
-							th:onchange="change(this);">
+							th:onchange="changeUpdate(this);">
 							<option class="dropdown-business" value="">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
 								<option th:if="${businessVO.bussNo == bussNameList.bussNo}"
@@ -238,18 +236,18 @@
 		<th:block th:each="downList,idx : ${downList}">
 			<div class="form-group row">
 
-				<div class="col-lg-4 col-form-label"></div>
+				<div class="col-lg-4 col-form-label"><span class ="bussdown"></span></div>
 				<div class="col-lg-1">
-					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg" onclick="addRow(this);"></i>
+					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="label" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+				<label id="downlabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
 
 					<div>
 						<select class="dropdown-relation" name="bussdownNo"
-							th:onchange="change(this);" disabled>
+							th:onchange="changeUpdate(this);" disabled>
 							<option class="dropdown-business" th:value="${downList.bussNo}"
 								th:text="${downList.bussNm}">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
@@ -262,7 +260,7 @@
 
 				</div>
 				<div class="col-lg-1">
-					<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i>
+					<i class="fa-solid fa-minus fa-lg" onclick="removeRowUpdate(this);"></i>
 				</div>
 			</div>
 		</th:block>
@@ -547,21 +545,117 @@
 	
 	})
 	
-			function change(e){
-				//$('option:selected').parent().prop('disabled', true);
-				$(e).prop('disabled', true);
-				let no =$(e).find('option:selected').val();
-				disableNo.push(Number(no));
+	function removeRowUpdate(e){
+			console.log('zzz');
+			let removeSelect = $(e).parent().prev().find('option:selected');
+			removeSelect.prop('disabled',false);
+			let removeNo = removeSelect.val();
+			let index = disableNo.indexOf( Number(removeNo));
 			
-				let div = $('<div class="col-lg-1"></div>');
-				let icon = $('<i class="fa-solid fa-minus fa-lg" onclick="removeRow(this);"></i></div>');
-				div.append(icon);
-				$(e).parent().parent().parent().append(div);
-				
-		
-				
+			if (index !== -1) {
+				disableNo.splice(index, 1);
 			}
+			let div = $(e).parent().parent().parent();
+			$(e).parent().parent().remove();
+			if($('#downlabel').length == 0 ){
+				div.append(selectTempDown);
+					
+				let select = div.find('.dropdown-relation');
+					
+				let option = '';
+				for(let i =0; i< bussList.length ; i++){
+						option = $('<option>' + bussList[i].bussNm+'</option>');
+						option.attr('value' , bussList[i].bussNo);
+						select.append(option);
+				} 
+			}
+				
+			//+버튼 추가
+			if($('.fa-solid.fa-plus.fa-lg').length == 0){
+				debugger
+				//
+				div.last().find('#downlabel').prev().append('<i class="fa-solid fa-plus fa-lg" ></i>');
+			    div.children().last().find('.col-lg-5').attr('class', 'col-lg-4 col-form-label');
+					
+			}
+			$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRowUpdate();');
+				
+	}
+
+	function changeUpdate(e){
+		$(e).prop('disabled', true);
+		let no =$(e).find('option:selected').val();
+		disableNo.push(Number(no));
+		let div = $('<div class="col-lg-1"></div>');
+		let icon = $('<i class="fa-solid fa-minus fa-lg" onclick="removeRowUpdate(this);"></i></div>');
+		div.append(icon);
+		$(e).parent().parent().parent().append(div);
+		if(disableNo.length <  bussList.length){
+			$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRowUpdate();');
+		}
+		
+	}
+	 let tempDown = 	`
+	    	<div class="form-group row">
+
+		 	<div class="col-lg-4 col-form-label"></div>
+			<div class="col-lg-1"></div>
+			<label id = "downlabel" class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
+			<div class="dropdown custom-dropdown">
+				<div>
+					<select  class="dropdown-relation" name="bussdownNo"  onchange="changeUpdate(this);">
+					<option class="dropdown-business" value="">선택</option>
+						
+					</select>
+				</div>
+			</div>
+			
+			</div>`;
+			
+	 let selectTempDown = 			`<div class="form-group row">
+		<div class="col-lg-4 col-form-label"></div>
+		<div class="col-lg-1">
+			<i class="fa-solid fa-plus fa-lg" ></i>
+		</div>
+		<label id="downlabel" class="col-lg-3 col-form-label"
+			for="val-username">후속업무</label>
 	
+		<div class="dropdown custom-dropdown">
+			<div>
+	
+				<select class="dropdown-relation" name="bussdownNm"
+					onchange="changeUpdate(this);">
+					<option class="dropdown-business" value="">선택</option>
+					
+				</select>
+			</div>
+		</div>
+	</div>`;
+
+
+	function addRowUpdate(){
+		
+		$(event.target).attr('onclick', 'return false');
+		
+		let div = $(event.target).parent().parent().parent();
+
+		div.append(tempDown);
+	
+		let select = div.find('.dropdown-relation').last();
+		 
+			let option = '';
+			for(let i =0; i< bussList.length ; i++){
+				option = $('<option>' + bussList[i].bussNm+'</option>');
+				option.attr('value' , bussList[i].bussNo);
+				select.append(option);
+				for(let j = 0;  j < disableNo.length; j++){
+					if(bussList[i].bussNo == disableNo[j]){
+
+						option.prop('disabled', true);		
+					}
+				}
+			}
+	}
 
 	
 </script>

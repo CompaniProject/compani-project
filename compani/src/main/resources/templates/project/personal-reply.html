@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/projectlayout}">
+	layout:decorate="~{layout/projectlayout}">
 <head>
 <meta charset="UTF-8">
 <title>내 코멘트</title>
@@ -148,7 +148,7 @@
 			ulPage.append(prev);
 			for (let i = startNaviPage; i < startNaviPage + perPageCount; ++i){
 				if (i > naviCount){
-					return;
+					break;
 				}
 				
 				let liTag = $('<li/>').addClass('page-item');

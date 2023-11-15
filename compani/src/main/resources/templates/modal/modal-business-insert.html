@@ -410,6 +410,7 @@
 			}
 
 			function removeRow(e){
+				
 				let removeSelect = $(e).parent().prev().find('option:selected');
 				removeSelect.prop('disabled',false);
 				let removeNo = removeSelect.val();
@@ -446,7 +447,7 @@
 			}
 			
 			function change(e){
-				//$('option:selected').parent().prop('disabled', true);
+
 				$(e).prop('disabled', true);
 				let no =$(e).find('option:selected').val();
 				disableNo.push(Number(no));
@@ -542,8 +543,6 @@
 				location.reload();
 			})
 			
-			
-
 		</script>
 
 <script src="/plugins/nouislider/nouislider.min.js"></script>
