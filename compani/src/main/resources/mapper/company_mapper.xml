@@ -5,12 +5,13 @@
 <mapper
 	namespace="com.yedam.compani.company.mapper.CompanyMapper">
 
-	<!-- 소속회사목록 -->
+	<!-- 승인된 소속회사목록 -->
 	<select id="selectCompanyList" resultType="Map">
 		SELECT *
 		FROM company
 		WHERE co_accp = '0O1'
 	</select>
+	
 		<!-- 소속회사 -->
 	<select id="selectCompanyinfo" resultType="CompanyVO">
 		SELECT *

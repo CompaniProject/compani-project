@@ -421,9 +421,9 @@ mark, .mark {
 	        type : 'post'
 	    })
 	    .done(result => {
-	        $.each(result.data, function(index, element){
-	        	memberIdList.push(element);
-	        });
+	       // $.each(result.data, function(index, element){
+	        	memberIdList = result;
+	       // });
 	    })
 	    .fail(err =>console.log(err));
 	});
