@@ -57,7 +57,6 @@ public class BusinessModalController {
 	@ResponseBody
 	public void insertBusiness(@RequestBody FormVO formVO) {
 
-		Map<String, Object> map = new HashMap<>();
 		// 업무 추가
 		businessService.insertBusiness(formVO.getBusiness());
 		// 업무 멤버 추가
@@ -65,7 +64,10 @@ public class BusinessModalController {
 			businessMemberService.insertBusinessMember(formVO);
 		}
 		// 종속 변경
-		businessService.updateRelation(formVO);
+		if (!formVO.getRelationList().isEmpty()) {
+			businessService.updateRelation(formVO);
+		}
+	
 
 	}
 
