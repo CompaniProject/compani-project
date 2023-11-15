@@ -314,7 +314,7 @@ label{
 	let date;
 	
 	 $(function(){
-		$.ajax('http://localhost/memberInfo', {
+		$.ajax('memberInfo', {
 			type : 'post',
 			async: false
 		})
@@ -323,7 +323,7 @@ label{
 		})
 		.fail(err =>console.log("err"));
 		 
-	 	$.ajax('http://localhost/companyInfo', {
+	 	$.ajax('companyInfo', {
 		 	type : 'post',
 		 	dataType : 'json', 
 		 	data : {coCd : "[[${session.loginInfo.coCd}]]"},
@@ -740,13 +740,13 @@ $('#checkPw').on("keyup", function(event){
 //비밀번호 조건검사
 
 let testPw1 = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/;
-let testPw2 = /[^A-Za-z\d#?!@$%^&*-]/; 
-$('#membPwd').on("input", function(event){ 
+let testPw2 = /[^A-Za-z\d#?!@$%^&*-]/;
+$('#membPwd').on("input", function(event){
 	$('#formsMembPw').hide();
 	let inputVal = $(this).val();
 	
 	if(inputVal.length > 20){
-		$(this).val(inputVal.substr(0, 20)); 
+		$(this).val(inputVal.substr(0, 20));
 	}
 	
 	if(testPw1.test(inputVal) != false && testPw2.test(inputVal) == false){
@@ -783,7 +783,7 @@ $('#membPwd2').on("input", function(event){
 	let inputVal = $(this).val();
 	
 	if(inputVal.length > 20){
-		$(this).val(inputVal.substr(0, 20)); 
+		$(this).val(inputVal.substr(0, 20));
 	}
 	
 	if($(this).val() != $('#membPwd').val()){
@@ -815,7 +815,7 @@ $('#membPwd2').on("input", function(event){
 			$(function(){
 				swal.fire({title : '변경 완료!', text : "정상적으로 비밀번호가 변경되었습니다.", icon : 'success', button : '확인'}).then((value)=>{
 					$('form').attr('action','memberEditPwd').submit();
-				});	
+				});
 			})
 		}else{
 			$(function(){
@@ -831,26 +831,40 @@ $('#membPwd2').on("input", function(event){
 
 ///////////////////////프로필변경
   	$('#profilePht').change(function() {
+  		let path = memberInfo.membPhtPath;
+  		 $.ajax({
+             url: 'deletesAjaxs',
+             type: 'POST',
+             data: {path},
+             success: function(result){
+             },
+             error: function(reject){
+                 console.log(reject);
+             }
+         });
+  		
+  		
+  		
   		var formData = new FormData(); //FormData 객체 생성(content-type을 갖고있는 클레스임. servlet-context.xml에 multipartResolver가 필요함.)
 		var files = $('#profilePht')[0].files[0];
 
 		formData.append("image", files);//키,값으로 append 
         //2)jQuery.ajax
         $.ajax({
-            url: 'uploadsAjaxs',	
+            url: 'uploadsAjaxs',
             type: 'POST',
             processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
             contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
-            data: formData,               
+            data: formData,
             success: function(result){
 				$('#membPhtPath2').prop('src', 'upload/'+result);
 				$('#profile').prop('src', 'upload/'+result);
             },
-            error: function(reject){	
+            error: function(reject){
                 console.log(reject);
             }
-        }); 
-	}); 
+        });
+	});
 	</script>
 </th:block>
 </body>

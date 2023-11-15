@@ -417,7 +417,7 @@ mark, .mark {
 	
 	$(function(){
 		memberIdList = []
-	    $.ajax('http://localhost/memberIdList', {
+	    $.ajax('memberIdList', {
 	        type : 'post'
 	    })
 	    .done(result => {
@@ -757,7 +757,7 @@ mark, .mark {
 		compList = []
 		compNm = []
 		myComp = ''
-	    $.ajax('http://localhost/companyList', {
+	    $.ajax('companyList', {
 	        type : 'post'
 	    })
 	    .done(result => {

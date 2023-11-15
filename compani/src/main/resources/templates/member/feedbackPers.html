@@ -457,7 +457,7 @@
 			let buss = [];
 			let prgre = [];
  			
- 			$.ajax('http://localhost/selectBusinessPersonal', {
+ 			$.ajax('selectBusinessPersonal', {
  				type : 'post',
  				dateType : 'json',
  				contentType : 'application/json',
@@ -614,7 +614,7 @@
 					
 					
 				
- 			$.ajax('http://localhost/feedbackList', {
+ 			$.ajax('feedbackList', {
  				type : 'post',
  				dateType : 'json',
  				contentType : 'application/json',
@@ -646,7 +646,7 @@
  			.fail(err =>console.log("err"));
 			
 			
- 			//end of $.ajax('http://localhost/feedbackList',
+ 			//end of $.ajax('feedbackList',
 			};//end of event
 		}, 1000);//end of setTimeout-------------------------------------------------------------------
  		
@@ -713,7 +713,7 @@
 				return false;
 			}
 			mycomment ++;
- 			$.ajax('http://localhost/insertFeedBackPersonal', {
+ 			$.ajax('insertFeedBackPersonal', {
  				type : 'post',
  				contentType : 'application/json',
  				dateType : 'json',
@@ -726,7 +726,7 @@
  				async: false
  			})
  			.done(result => {
- 				$.ajax('http://localhost/feedbackPersonal', {
+ 				$.ajax('feedbackPersonal', {
  	 				type : 'post',
  	 				contentType : 'application/json',
  	 				async: false
@@ -791,7 +791,7 @@
 	    
 		// update - using edit
 		function updateAjax(obj, comment){
-	        $.ajax('http://localhost/editFeedbackPersonal', {
+	        $.ajax('editFeedbackPersonal', {
 	            type: 'put',
 	            contentType: "application/json",
 	            data:JSON.stringify(obj),

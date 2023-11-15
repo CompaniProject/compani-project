@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +37,7 @@ public class UploadController {
 	SessionService sessionService;
 	
 	
-	@Value("${file.upload.path}")
+	@Value("${filePath}")
 	private String uploadPath;
 
 	@PostMapping("/uploadsAjaxs")
@@ -73,6 +76,16 @@ public class UploadController {
 			sv.editProfile(vo);
 		return vo.getMembPhtPath();
 	}
+	
+	@ResponseBody
+	@PostMapping("/deletesAjaxs")
+	public void deleteFiles(String path) {
+		File file = new File(uploadPath + "/" + path);
+		file.delete();
+	}
+	
+	
+	
 
 	private String makeFolder() {
 		String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
