@@ -166,8 +166,7 @@
 													onclick="location.href='loginForm';">메인으로</button>
 											</div>
 										</div>
-										<input type="text" class="form-control" id="coCd" name="coCd"
-											hidden="true">
+
 									</form>
 								</div>
 							</div>
@@ -205,16 +204,6 @@
 	const compList = [];
 	
 	$(function(){
-		
-		//회사코드생성 
-		
-	    $.ajax('http://localhost/makeCoCd', {
-	        type : 'post'
-	    })
-	    .done(result => {
-			$('#coCd').val(result);
-	    })
-	    .fail(err =>console.log(err));
 
 		//회사 중복체크용 데이터		
 

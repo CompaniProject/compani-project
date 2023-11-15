@@ -29,7 +29,7 @@
 	
 	<insert id="insertFeedbackPersonal">
 		<selectKey order="BEFORE" resultType="int" keyProperty="membFdbkNo">
-		SELECT NVL(MAX(memb_fdbk_no), 0) + 1 "MEMB_FDBK_NO"
+		SELECT NVL(MAX(memb_fdbk_no), 0) + 1 MEMB_FDBK_NO
 		FROM MEMBER_FEEDBACK
 		</selectKey>
 			INSERT INTO MEMBER_FEEDBACK
@@ -49,6 +49,7 @@
 			,#{prjtNo}
 			)
 	</insert>
+	
 	<select id="selectBusinessPersonal" resultType="map">
         SELECT b.buss_prgre, b.buss_nm
 		FROM business_member bm

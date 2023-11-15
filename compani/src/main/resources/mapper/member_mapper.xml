@@ -6,29 +6,28 @@
 	<!-- 로그인 -->
 	<select id="selectMemberInfo" resultType="MemberVO">
 		SELECT MEMB_ID
-		,MEMB_PWD
-		,MEMB_NM
-		,MEMB_BIRTH_DT
-		,MEMB_EMAIL
-		,MEMB_TELNO
-		,CO_CD
-		,MEMB_DEPT
-		,MEMB_WKGD
-		,MEMB_PHT_PATH
-		,MEMB_MSG
-		,MEMB_ACCP
-		,'ROLE_'|| PERM_NO as PERM_NO
+				,MEMB_PWD
+				,MEMB_NM
+				,MEMB_BIRTH_DT
+				,MEMB_EMAIL
+				,MEMB_TELNO
+				,CO_CD
+				,MEMB_DEPT
+				,MEMB_WKGD
+				,MEMB_PHT_PATH
+				,MEMB_MSG
+				,MEMB_ACCP
+				,'ROLE_'|| PERM_NO as PERM_NO
 		FROM member
-		WHERE memb_id =
-		#{membId}
+		WHERE memb_id = #{membId}
 	</select>
 
 	<!-- 중복체크 -->
 	<select id="selectMemberIdList" resultType="Map">
 		SELECT MEMB_ID
-		FROM
-		member
+		  FROM	member
 	</select>
+	
 	<!-- 사원 회원가입 -->
 	<insert id="insertMemberInfo" parameterType="MemberVO">
 		INSERT INTO member(
@@ -58,6 +57,7 @@
 		,#{permNo}
 		)
 	</insert>
+
 	<!-- 밑에 select로 나중에 통합 -->
 	<select id="getMemberList" resultType="MemberVO">
 		SELECT MEMB_ID,
@@ -78,14 +78,14 @@
 		FROM MEMBER
 		<choose>
 			<when test="key == '전체'">
-				WHERE CO_CD = #{coCd}
-				AND MEMB_ID NOT IN (SELECT memb_ID
-				FROM PROJECT_MEMBER
-				WHERE PRJT_MEMB_PERM = 'CRTR'
-				AND PRJT_NO = #{prjtNo} )
-				AND (MEMB_NM LIKE '%' || #{value} || '%'
-				OR MEMB_DEPT LIKE '%' || #{value} || '%'
-				OR MEMB_WKGD LIKE '%' || #{value} || '%')
+		WHERE CO_CD = #{coCd}
+   		  AND MEMB_ID NOT IN (SELECT memb_ID
+			                    FROM PROJECT_MEMBER
+			                   WHERE PRJT_MEMB_PERM = 'CRTR'
+			                     AND PRJT_NO = #{prjtNo} )
+		   AND (MEMB_NM LIKE '%' || #{value} || '%'
+			OR MEMB_DEPT LIKE '%' || #{value} || '%'
+			OR MEMB_WKGD LIKE '%' || #{value} || '%')
 
 			</when>
 			<when test="key == '이름'">
@@ -100,20 +100,22 @@
 
 		</choose>
 	</select>
+	
 	<select id="prjtMemberSearchList" resultType="map">
 		SELECT m.MEMB_ID,
 		m.MEMB_NM,
 		m.MEMB_DEPT,
 		m.MEMB_WKGD,
 		m.MEMB_PHT_PATH
-		FROM MEMBER m , PROJECT_MEMBER pm 
- 		WHERE  m.memb_ID = pm.memb_ID
-    	AND PRJT_NO = #{prjtNo}
+		FROM MEMBER m , PROJECT_MEMBER pm
+		WHERE m.memb_ID = pm.memb_ID
+		AND PRJT_NO = #{prjtNo}
 		<choose>
 			<when test="key == '전체'">
-				
+
 				AND (m.MEMB_NM LIKE '%' || #{value} || '%'
-				OR m.MEMB_DEPT LIKE '%' || #{value} || '%'
+				OR m.MEMB_DEPT LIKE '%' ||
+				#{value} || '%'
 				OR m.MEMB_WKGD LIKE '%' || #{value} || '%')
 
 			</when>
@@ -129,21 +131,26 @@
 
 		</choose>
 	</select>
+
 	<update id="updateMemberprofile" parameterType="MemberVO">
-		UPDATE member SET MEMB_PHT_PATH = #{membPhtPath}
-                   		   WHERE memb_id = #{membId}
+		UPDATE member SET
+		MEMB_PHT_PATH = #{membPhtPath}
+		WHERE memb_id = #{membId}
 	</update>
+
 	<update id="updateMemberInfo" parameterType="MemberVO">
-		UPDATE member SET <if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm}</if>
-                          ,memb_dept = #{membDept}
-                          ,memb_wkgd = #{membWkgd}
-                          ,memb_msg = #{membMsg}
-                          <if test="membBirthDt != null and !membBirthDt.equals('')">,memb_birth_dt = #{membBirthDt}</if>
-                          ,memb_email = #{membEmail}
-                          ,memb_telno = #{membTelno}
-                          <if test="membPwd != null and !membPwd.equals('')">,memb_pwd = #{membPwd}</if>
-                      WHERE memb_id = #{membId}
+		UPDATE member SET
+		<if test="membNm != null and !membNm.equals('')">memb_nm = #{membNm}</if>
+		,memb_dept = #{membDept}
+		,memb_wkgd = #{membWkgd}
+		,memb_msg = #{membMsg}
+		<if test="membBirthDt != null and !membBirthDt.equals('')">,memb_birth_dt = #{membBirthDt}</if>
+		,memb_email = #{membEmail}
+		,memb_telno = #{membTelno}
+		<if test="membPwd != null and !membPwd.equals('')">,memb_pwd = #{membPwd}</if>
+		WHERE memb_id = #{membId}
 	</update>
+
 	<update id="updateMemberPwd" parameterType="MemberVO">
 		UPDATE member SET
 		memb_pwd = #{membPwd}
@@ -152,8 +159,8 @@
 
 	<!-- 프로젝트 멤버목록 -->
 	<select id="selectProjectFeedbackMemberList" resultType="String">
-		SELECT  m.memb_nm
-		FROM   member m JOIN project_member p ON m.memb_id = p.memb_id
+		SELECT	m.memb_nm
+		FROM member m JOIN project_member p ON m.memb_id = p.memb_id
 		WHERE p.prjt_no = #{prjtNo}
 	</select>
 
@@ -172,34 +179,34 @@
 	<!-- 마스터 멤버리스트 -->
 	<select id="masterMemberList" resultType="CamelHashMap">
 		SELECT m.co_cd
-			   , co_nm
-			   , memb_id
-			   , memb_nm
-			   , memb_birth_dt
-			   , NVL(memb_email, '-') AS memb_email
-			   , NVL(memb_telno, '-') AS memb_telno
-			   , FIND_CODENM(memb_accp) AS memb_accp
-								
+		, co_nm
+		, memb_id
+		, memb_nm
+		, memb_birth_dt
+		, NVL(memb_email, '-') AS memb_email
+		, NVL(memb_telno, '-') AS memb_telno
+		, FIND_CODENM(memb_accp) AS memb_accp
+
 		FROM member m LEFT JOIN company c
-		  ON m.co_cd = c.co_cd
-		  
+		ON m.co_cd = c.co_cd
+
 		ORDER BY memb_accp, co_cd DESC
 	</select>
 
 
 	<!-- 프로젝트 수정 시 회사 멤버 리스트 ( 생성자를 제외한) -->
 	<select id="prjtMemberList" resultType="MemberVO">
-		SELECT  MEMB_ID,
-			    MEMB_NM,
-				MEMB_DEPT,
-				MEMB_WKGD,
-				MEMB_PHT_PATH
-		  FROM MEMBER
-		 WHERE CO_CD = #{coCd}
-		   AND MEMB_ID NOT IN (  SELECT memb_ID
-								   FROM PROJECT_MEMBER
-								  WHERE PRJT_MEMB_PERM = 'CRTR'
-								    AND PRJT_NO = #{prjtNo} )
+		SELECT MEMB_ID,
+		MEMB_NM,
+		MEMB_DEPT,
+		MEMB_WKGD,
+		MEMB_PHT_PATH
+		FROM MEMBER
+		WHERE CO_CD = #{coCd}
+		AND MEMB_ID NOT IN ( SELECT memb_ID
+		FROM PROJECT_MEMBER
+		WHERE PRJT_MEMB_PERM = 'CRTR'
+		AND PRJT_NO = #{prjtNo} )
 
 	</select>
 
@@ -216,18 +223,22 @@
 		SUM(CASE WHEN buss_st = '0K2' THEN 1 ELSE 0 END) "K2",
 		SUM(CASE WHEN buss_st =
 		'0K3' THEN 1 ELSE 0 END) "K3"
-		FROM project_member pm
+		FROM
+		project_member pm
 		LEFT JOIN MEMBER M
 		ON (pm.memb_id = M.memb_id)
-		LEFT JOIN (SELECT bm.memb_id, b.buss_st,
+		LEFT
+		JOIN (SELECT bm.memb_id, b.buss_st,
 		bm.buss_no
 		FROM business B
-		JOIN business_member bm ON (B.buss_no = bm.buss_no)
-		WHERE b.prjt_no = #{prjtNo}) bl ON pm.memb_id = bl.memb_id
+		JOIN
+		business_member bm ON (B.buss_no = bm.buss_no)
+		WHERE b.prjt_no =
+		#{prjtNo}) bl ON pm.memb_id = bl.memb_id
 		WHERE prjt_no = #{prjtNo}
 		GROUP BY memb_nm, m.memb_id
 	</select>
-	
+
 	<!-- 마스터 멤버 승인 -->
 	<update id="updateMemberAccp" parameterType="MemberVO">
 		UPDATE member
@@ -244,44 +255,45 @@
 		WHERE memb_id = #{membId}
 	</update>
 
-	
+
 	<!-- 마스터 멤버 자동 승인 -->
 	<update id="updateMemberAccpAuto" parameterType="CompanyVO">
 		UPDATE member
-		
+
 		SET memb_accp = '0C1'
-		
+
 		WHERE memb_id = (SELECT memb_id
-						 FROM member
-						 WHERE co_cd = #{coCd}
-						 AND perm_no = '0A2')
+		FROM member
+		WHERE co_cd = #{coCd}
+		AND perm_no = '0A2')
 	</update>
 	<select id="projectMemberList" resultType="MemberVO">
 		SELECT m.MEMB_ID,
-			   m.MEMB_ID,
-			   m.MEMB_NM,
-			   m.MEMB_DEPT,
-			   m.MEMB_WKGD,
-			   m.MEMB_PHT_PATH
-		FROM   PROJECT_MEMBER pm , MEMBER m
-		WHERE  pm.MEMB_ID = m.MEMB_ID
-		AND    pm.PRJT_NO = #{prjtNo}
+		m.MEMB_ID,
+		m.MEMB_NM,
+		m.MEMB_DEPT,
+		m.MEMB_WKGD,
+		m.MEMB_PHT_PATH
+		FROM PROJECT_MEMBER pm , MEMBER m
+		WHERE pm.MEMB_ID = m.MEMB_ID
+		AND
+		pm.PRJT_NO = #{prjtNo}
 
 	</select>
-	
+
 	<!-- 회사관리자 멤버리스트 -->
 	<select id="companyManager" resultType="MemberVO">
 		SELECT memb_id
-			   , memb_nm
-			   , NVL(memb_dept, '-') AS memb_dept
-			   , NVL(memb_wkgd, '-') AS memb_wkgd
-			   , memb_birth_dt
-			   , NVL(memb_email, '-') AS memb_email
-			   , NVL(memb_telno, '-') AS memb_telno
-			   , FIND_CODENM(memb_accp) AS memb_accp
-			   
+		, memb_nm
+		, NVL(memb_dept, '-') AS memb_dept
+		, NVL(memb_wkgd, '-') AS memb_wkgd
+		, memb_birth_dt
+		, NVL(memb_email, '-') AS memb_email
+		, NVL(memb_telno, '-') AS memb_telno
+		, FIND_CODENM(memb_accp) AS memb_accp
+
 		FROM member
-		
+
 		WHERE co_cd = #{coCd}
 	</select>
 </mapper>

@@ -24,9 +24,15 @@ import com.yedam.compani.project.status.service.ProjectStatusService;
 import com.yedam.compani.project.status.service.ProjectStatusVO;
 
 import lombok.extern.log4j.Log4j2;
+
+/*
+ * 프로젝트 종료 후, 개인피드백 CRU
+ */
+
 @Log4j2
 @Controller
 public class MemberFeedbackController {
+
 	@Autowired
 	BusinessMemberService service;
 	@Autowired
@@ -37,23 +43,15 @@ public class MemberFeedbackController {
 	MemberFeedbackService servicemf;
 	
 	
-	
-	@PostMapping("pfml")
-	@ResponseBody
-	public List<String> projectFeedbackMemberList(ProjectMemberVO prjtno){
-		return servicem.getProjectFeedbackMemberList(prjtno);
-	}
-	
 	@GetMapping("project/feedback/{prjtNo}/personal")
 	public String projectFeedbackPersonal(@PathVariable int prjtNo, Model model, HttpSession session) {
 		ProjectStatusVO projectStatus = serviceps.getProjectStatus(prjtNo);////////////////////////////////
-		
-		MemberFeedbackVO vo = new MemberFeedbackVO();
 		
 		model.addAttribute("projectStatus",projectStatus);
 		model.addAttribute("pfst", servicem.getPersonalFeedbackStatusCnt(prjtNo));/////////////////////		
 		return "member/feedbackPers";
 	}
+	
 	
 	@PostMapping("insertFeedBackPersonal")
 	@ResponseBody

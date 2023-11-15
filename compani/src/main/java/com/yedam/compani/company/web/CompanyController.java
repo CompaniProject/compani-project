@@ -18,6 +18,13 @@ import com.yedam.compani.member.service.MemberService;
 import com.yedam.compani.member.service.MemberVO;
 
 import lombok.extern.log4j.Log4j2;
+
+/*
+ * 이상길
+ * 2023-11-15
+ * 기업 등록 및 조회
+ */
+
 @Log4j2
 @Controller
 public class CompanyController {
@@ -34,13 +41,7 @@ public class CompanyController {
 
 		return compList;
 	}
-	
-	//회사코드생성
-	@PostMapping("makeCoCd")
-	@ResponseBody
-	public String makeCompanyCode(){
-		return service.makeCompanyCode();
-	}
+
 	
 	// 기업 등록폼
 	@GetMapping("companySignUp")

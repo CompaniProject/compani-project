@@ -48,13 +48,16 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class MemberController {
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	MemberService service;
+	
 	@Autowired
 	CompanyService serviceC;
+
 	@Autowired
 	SessionService sessionService;
 
@@ -92,11 +95,7 @@ public class MemberController {
 	public String memberSignUpForm(CompanyVO vo) {
 		return "member/memberSignUp";
 	}
-	// 사원 등록 폼
-	@PostMapping("memberSignUp")
-	public String memberSignUpForm2(CompanyVO vo) {
-		return "member/memberSignUp";
-	}
+
 	// 아이디 중복체크용
 	@PostMapping("memberIdList")
 	@ResponseBody
@@ -110,25 +109,25 @@ public class MemberController {
 	// 가입 서브밋
 	@PostMapping("SignUpped")
 	public String memberSignUpped(MemberVO membVO, CompanyVO compVO, Model model) {
+		
 		membVO.setMembPwd(passwordEncoder.encode(membVO.getMembPwd()));
+		//관리자이면
 		if (membVO.getPermNo().equals("0A2")) {
 			if (serviceC.setCompanyInfo(compVO) > 0) {
 				if (service.setMemberInfo(membVO) > 0) {
 					return "redirect:complete";
 				} else {
-					model.addAttribute("notice", "회원가입(사원부분)이 정상적으로 이루어지지 않았습니다.");
 					return "memberSignUp";
 				}
 			} else {
-				model.addAttribute("notice", "회원가입(기업부분)이 정상적으로 이루어지지 않았습니다.");
-				return "memberSignUp";
+				return "companySignUp";
 			}
+		//임직원이면
 		} else {
 			if (service.setMemberInfo(membVO) > 0) {
 				return "redirect:loginForm";
 			} else {
-				model.addAttribute("notice", "회원가입(사원부분)이 정상적으로 이루어지지 않았습니다.");
-				return "companySignUp";
+				return "memberSignUp";
 			}
 		}
 	}
@@ -193,6 +192,7 @@ public class MemberController {
 		vo = service.getMemberInfo(vo);
 		return passwordEncoder.matches(map.get("pwd"), vo.getMembPwd());
 	}
+	
 	// 비번수정
 	@PostMapping("memberEditPwd")
 	public String editMemberPwd(MemberVO vo) {
@@ -201,29 +201,7 @@ public class MemberController {
 		return "redirect:memberEditForm";
 	}
 
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadfile) {
 
-		try {
-			// Get the filename and build the local file path (be sure that the
-			// application have write permissions on such directory)
-			String filename = uploadfile.getOriginalFilename();
-			String directory = "/images/member";
-			String filepath = Paths.get(directory, filename).toString();
-
-			// Save the file locally
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-			stream.write(uploadfile.getBytes());
-			stream.close();
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	} 
-	// method uploadFile
-	/////////////////////////////////////////////////////////
 
 	//사이드 프로젝트 등록 모달 ajax
 	@PostMapping("prjtInsert")
