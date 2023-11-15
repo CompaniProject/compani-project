@@ -148,7 +148,7 @@
 			ulPage.append(prev);
 			for (let i = startNaviPage; i < startNaviPage + perPageCount; ++i){
 				if (i > naviCount){
-					return;
+					break;
 				}
 				
 				let liTag = $('<li/>').addClass('page-item');
