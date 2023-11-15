@@ -120,7 +120,7 @@ public class BusinessModalController {
 
 	}
 	
-	@PostMapping("/deleteBusiness")
+	@PostMapping("deleteBusiness")
 	@ResponseBody
 	public void deleteBusiness(@RequestParam int bussNo) {
 		
