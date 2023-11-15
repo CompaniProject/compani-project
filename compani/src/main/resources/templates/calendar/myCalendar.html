@@ -293,7 +293,21 @@ select {
 	      			contentType: 'application/json',
 	         		data: JSON.stringify(obj),
 	         		success: function(){
-	         			
+	         			// 캘린더 데이터 갱신
+          				$.each(calendarArr, function(idx, item){
+          					if(item.bussNo == obj.bussNo){
+          						item.bussFrdt = obj.bussFrdt;
+          						item.bussTodt = obj.bussTodt;
+          						return false;
+          					}
+          				});
+          				resetBussList();
+          				gantt.parse({
+          				    data: ganttData(),
+          				    links: ganttLink()
+          				});
+          				resetGantt();
+          				gantt.refreshData();
 	         		},
 	         		error: function(error){
 	         			console.log(error);
@@ -432,7 +446,7 @@ select {
        				contentType: 'application/json',
           			data: JSON.stringify(obj),
           			success: function(){
-          				
+          				// 캘린더 데이터 갱신
           				$.each(calendarArr, function(idx, item){
           					if(item.bussNo == obj.bussNo){
           						item.bussFrdt = obj.bussFrdt;
@@ -571,7 +585,7 @@ select {
 				contentType: 'application/json',
 				data: JSON.stringify(obj),
 				success: function(){
-					
+					// 캘린더 데이터 갱신
 					$.each(calendarArr, function(idx, item){
       					if(item.bussNo == obj.bussNo){
       						item.bussFrdt = obj.bussFrdt;
