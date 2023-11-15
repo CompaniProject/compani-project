@@ -20,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.compani.issue.file.service.IssueFileVO;
 
-public class FileUtils {
-    @Value("${file.upload.path}")
-	
+public class FileUtils {	
 	private static String uploadPath = Paths.get("upload", "issue-files").toString();
 
     /**
