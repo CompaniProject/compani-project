@@ -2425,7 +2425,7 @@ input[type="button"].btn-block {
     background-color: transparent; }
 .dropdown-relation{
 	display: block;
-  width: 100%;
+  width: 170px;
   padding: 0.25rem 1.5rem;
   clear: both;
   font-weight: 400;
