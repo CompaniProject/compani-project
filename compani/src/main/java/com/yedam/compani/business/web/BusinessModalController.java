@@ -126,6 +126,7 @@ public class BusinessModalController {
 		
 		//업무 참여 멤버 다 삭제후 -> 업무 삭제 
 		businessMemberService.clearBusinessMember(bussNo);
+		businessService.resetRelation(bussNo);
 		businessService.deleteBusiness(bussNo);
 	
 	}

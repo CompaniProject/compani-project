@@ -151,6 +151,13 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessMapper.deleteBusiness(bussNo);
 	}
 
+	@Override
+	public int resetRelation(Integer bussNo) {
+		BusinessVO businessVO = new BusinessVO();
+		businessVO.setBussNo(bussNo);
+		return businessMapper.resetRelation(businessVO);
+	}
+
 
 
 
