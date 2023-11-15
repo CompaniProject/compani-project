@@ -472,8 +472,11 @@ select {
 	------------------------------*/
 	function personalCalendarArr(){
 		let arr = [];
-		let color = ['red', 'orange', 'sky', 'silver', 'green', 'fuchsia', 'olive', 'teal', 
-			'blueviolet', 'purple', 'chocolate', 'deeppink'];
+		let color = ['#ff6666', '#ff8c66', '#ffb366', '#ffd966', '#ffff66', 
+					'#d9ff66', '#b3ff66', '#8cff66', '#66ff66', '#66ff8c', 
+					'#66ffb3', '#66ffd9', '#66ffff', '#66d9ff', '#66b3ff', 
+					'#668cff', '#6666ff', '#8c66ff', '#b366ff', '#d966ff', 
+					'#ff66ff', '#ff66d9', '#ff66b3', '#ff668c'];
 		
 		$.each(calendarArr, function(idx, item){
 			let obj = new Object();
@@ -497,7 +500,7 @@ select {
    			obj.start = newFrdt;	// 시작 날짜
    			obj.end = newTodt;		// 종료 날짜
    			obj.className = 'calendarEvent_' + item.prjtNm;
-   			obj.color = color[idx%12];
+   			obj.color = color[idx%24];
    			
    			arr.push(obj);
    			
