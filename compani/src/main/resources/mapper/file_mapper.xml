@@ -15,15 +15,15 @@
 							, f.file_dt
 							, f.file_size
 							, mem.memb_nm
+							, b.buss_nm
 							
 					 FROM  	project_file f, 
 					        project p, 
 					        business b, 
 					        member mem
 					        
-					WHERE	f.buss_no = b.buss_no
-					  AND	f.prjt_no = p.prjt_no
-					  AND	b.prjt_no = p.prjt_no
+					WHERE	f.buss_no = b.buss_no (+)
+					  AND	f.prjt_no = p.prjt_no	 
 					  AND	f.memb_id = mem.memb_id
 					  AND	f.prjt_no = #{prjtNo}
 					  
@@ -52,14 +52,15 @@
 							, f.file_dt
 							, mem.memb_nm
 							, f.file_size
+							, b.buss_nm
+							
 					FROM   	project_file f,
 							project p, 
 							business b, 
 							member mem
 							
-					WHERE	f.buss_no = b.buss_no
+					WHERE	f.buss_no = b.buss_no (+)
 					AND		f.prjt_no = p.prjt_no
-					AND		b.prjt_no = p.prjt_no
 					AND		f.memb_id = mem.memb_id
 					AND		f.prjt_no = #{prjtNo}
 					
@@ -167,10 +168,10 @@
 			            SELECT		#{prjtNo} as prjtNo
 			            		<choose>
 			            			<when test="bussNo > 0">
-			            			,	#{bussNo} as bussNo
+			            			, #{bussNo} as bussNo
 			            			</when>
 			            			<otherwise> 
-			            			,	null
+			            			, null
 			            			</otherwise>
 			            		</choose>
 			                    , 	#{files.fileNm} as fileNm

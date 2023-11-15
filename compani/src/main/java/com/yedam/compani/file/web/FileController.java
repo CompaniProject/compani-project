@@ -38,7 +38,6 @@ public class FileController {
 	
 	@Autowired
 	BusinessService business;
-
 	
 	// 파일 리스트
 	@GetMapping("searchFile/{bussNo}")

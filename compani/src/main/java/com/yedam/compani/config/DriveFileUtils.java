@@ -69,7 +69,7 @@ public class DriveFileUtils {
 
         return FileVO.builder()
                 .fileNm(multipartFile.getOriginalFilename())
-                .filePath(today + "/" + saveName)
+                .filePath(today + "\\" + saveName)
                 .fileType(Type)
                 .fileSize(multipartFile.getSize())
                 .build();
@@ -84,7 +84,7 @@ public class DriveFileUtils {
     private String generateSaveFilename(final String filename) {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         String extension = StringUtils.getFilenameExtension(filename);
-        return '/' + uuid + "." + extension; // 231110/vzcxvnavnjasvsavddvasdvas.
+        return uuid + "." + extension; // 231110/vzcxvnavnjasvsavddvasdvas.
     }
 
     /**
