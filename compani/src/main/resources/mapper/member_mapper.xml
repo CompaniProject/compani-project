@@ -81,7 +81,7 @@
 		WHERE CO_CD = #{coCd}
    		  AND MEMB_ID NOT IN (SELECT memb_ID
 			                    FROM PROJECT_MEMBER
-			                   WHERE PRJT_MEMB_PERM = 'CRTR'
+			                   WHERE PRJT_MEMB_PERM = '0B1'
 			                     AND PRJT_NO = #{prjtNo} )
 		   AND (MEMB_NM LIKE '%' || #{value} || '%'
 			OR MEMB_DEPT LIKE '%' || #{value} || '%'
@@ -205,7 +205,7 @@
 		WHERE CO_CD = #{coCd}
 		AND MEMB_ID NOT IN ( SELECT memb_ID
 		FROM PROJECT_MEMBER
-		WHERE PRJT_MEMB_PERM = 'CRTR'
+		WHERE PRJT_MEMB_PERM = '0B1'
 		AND PRJT_NO = #{prjtNo} )
 
 	</select>
