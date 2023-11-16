@@ -51,9 +51,9 @@ public class UploadController {
 			String originalName = uploadFiles.getOriginalFilename();						 //
 			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);//실제 파일이름을 불러옴
 
-
 			// 날짜 폴더 생성																	//
-			String folderPath = makeFolder();												//	
+			String name = vo.getMembId();
+			String folderPath = makeFolder(name);												//	
 			// UUID																			//	
 			String uuid = UUID.randomUUID().toString();										//
 			// 저장할 파일 이름 중간에 "_"를 이용하여 구분											//
@@ -87,10 +87,10 @@ public class UploadController {
 	
 	
 
-	private String makeFolder() {
+	private String makeFolder(String name) {
 		String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 		// LocalDate를 문자열로 포멧
-		String folderPath = "upload/profilePht/" + str.replace("/", File.separator);
+		String folderPath = "upload/profilePht/"+ name + "/" + str.replace("/", File.separator);
 		File uploadPathFoler = new File(uploadPath, folderPath);
 		// File newFile= new File(dir,"파일명");
 		if (uploadPathFoler.exists() == false) {

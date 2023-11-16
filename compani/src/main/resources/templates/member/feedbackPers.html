@@ -265,7 +265,7 @@
 	var myChart = null;
 	var myChart2 = null;
 	var targetnm = "";
-	
+	var sessionid = "[(${session.loginInfo.membNm})]";
 	$(function(){
 		
 		$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
@@ -625,23 +625,37 @@
  				async: false
  			})
  			.done(result => {
+ 				console.log(result.length);
  				$('#commentBody').children().remove();
-
  				mycomment = 0;
- 				for(i = 0; i < result.length; i++){
-	 				if(targetnm == "[(${session.loginInfo.membNm})]"){
+ 				if(result.length > 0){
+	 				for(i = 0; i < result.length; i++){
+	 					console.log(i);
+		 				if(targetnm == sessionid){
+		 					$('#input2').css('display', 'none');
+		 					$('#inputCntn').css('display', 'none'); 
+		 					$('#cntnLength').css('display', 'none');
+		 					myfeedbacks(result[i]);
+		 				}else if(targetnm != sessionid){
+	 		 				$('#input2').css('display', 'inline');
+	 		 				$('#inputCntn').css('display', 'inline');
+	 		 				$('#cntnLength').css('display', 'inline');
+	 						feedbacks(result[i]);
+	 						mycomment ++;
+	 					}
+	 				}
+	 			}else{
+	 				if(targetnm == sessionid){
 	 					$('#input2').css('display', 'none');
 	 					$('#inputCntn').css('display', 'none'); 
 	 					$('#cntnLength').css('display', 'none');
-	 					myfeedbacks(result[i]);
-	 				}else if(targetnm != [[${session.loginInfo.membNm}]] && result[i].membFdbkWriter == [[${session.loginInfo.membId}]]){
- 						feedbacks(result[i]);
+	 				}else if(targetnm != sessionid){
  		 				$('#input2').css('display', 'inline');
  		 				$('#inputCntn').css('display', 'inline');
  		 				$('#cntnLength').css('display', 'inline');
- 						mycomment ++;
- 					}
+	 				}
  				}
+ 				
  			})
  			.fail(err =>console.log("err"));
 			
