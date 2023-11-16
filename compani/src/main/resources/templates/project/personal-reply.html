@@ -31,11 +31,11 @@
 					            	<span class="badge badge-primary" th:text="${reply.bussNm}"></span>
 					            </td>
 					            <!-- N자 이상일 경우 : 문자열 잘라서 출력 , 툴팁에 전체 내용 출력 -->
-					            <th:block th:if="${#strings.length(reply.replyCntn) >= 15}">
-					            	<td th:title="${reply.replyCntn}" th:text="|${#strings.substring(reply.replyCntn, 0, 15)}...|"></td>
+					            <th:block th:if="${#strings.length(reply.replyCntn) >= 50}">
+					            	<td th:title="${reply.replyCntn}" th:text="|${#strings.substring(reply.replyCntn, 0, 50)}...|"></td>
 					            </th:block>
 					            <!-- N자 미만일 경우 : 일반 출력 -->
-					            <th:block th:unless="${#strings.length(reply.replyCntn) >= 15}">
+					            <th:block th:unless="${#strings.length(reply.replyCntn) >= 50}">
 					            	<td th:text="${reply.replyCntn}"></td>
 					            </th:block>
 					            <td th:text="${#dates.format(reply.replyDt,'yyyy-MM-dd HH:mm')}"></td>
@@ -111,8 +111,8 @@
 			let td = $('<td/>');
 			let txt = cntn;
 			
-			if (cntn.length >= 15){
-				txt = cntn.substr(0,15) + '...';
+			if (cntn.length >= 50){
+				txt = cntn.substr(0,50) + '...';
 				td.attr('title',cntn);
 			}
 			
