@@ -29,7 +29,7 @@
 								<th:block th:each="bussMemList : ${businessMemberList}">
 									<tr th:id="${bussMemList.membId}">
 										<td><img
-											th:src="'/upload/'+${bussMemList.membPhtPath}"
+											th:src="'/uploads/'+${bussMemList.membPhtPath}"
 											height="50px" width="50px" alt="프로필"
 											th:if="${bussMemList.membPhtPath != null}" /></td>
 										<td th:text="${bussMemList.membDept}" />
@@ -92,7 +92,7 @@
 									<th:block th:each="prjtmemberList : ${projectMemberList}">
 										<tr th:id="${prjtmemberList.membId}">
 											<td><img
-												th:src="'/upload/'+${prjtmemberList.membPhtPath}"
+												th:src="'/uploads/'+${prjtmemberList.membPhtPath}"
 												height="50px" width="50px" alt="프로필"
 												th:if="${prjtmemberList.membPhtPath != null}" /></td>
 											<td th:text="${prjtmemberList.membDept}" />
