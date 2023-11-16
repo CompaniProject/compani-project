@@ -56,7 +56,7 @@ public class FileUploadController {
 			
 	
 		        String originalName = uploadFile.getOriginalFilename(); // 실제 파일명 
-		        String fileName = originalName.substring(originalName.lastIndexOf("/")+1);
+		        String fileName = originalName.substring(originalName.lastIndexOf("//")+1);
 		        				  // ↑ 둘다 실제 사용자가 본인이 올린 파일명
 		        
 		        
@@ -103,9 +103,9 @@ public class FileUploadController {
 		}
 		
 		private String makeFolder() {
-			String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+			String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
 			// LocalDate를 문자열로 포멧
-			String folderPath = str.replace("/", File.separator); // File.separator 파일인식
+			String folderPath = (str + "/"); // File.separator 파일인식
 			File uploadPathFoler = new File(uploadPath, folderPath);
 			// File newFile= new File(dir,"파일명");
 			if (uploadPathFoler.exists() == false) {
