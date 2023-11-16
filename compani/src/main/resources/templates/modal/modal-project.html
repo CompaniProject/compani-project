@@ -96,7 +96,7 @@
 
 													 <tr th:id="${prjtMember.membId}">
 														<td><img
-															th:src="${prjtMember.membPhtPath}"
+															th:src="'/upload/'+${prjtMember.membPhtPath}"
 															height="50px" width="50px" alt="프로필"
 															th:if="${prjtMember.membPhtPath != null}" /></td> 
 														<td th:text="${prjtMember.membDept}" />  
@@ -156,7 +156,7 @@
 													<th:block th:each="memberList : ${memberList}">
 														<tr th:id="${memberList.membId}">
 															<td><img
-																th:src="${memberList.membPhtPath}"
+																th:src="'/upload/'+${memberList.membPhtPath}"
 																height="50px" width="50px" alt="프로필"
 																th:if="${memberList.membPhtPath != null}" /></td>
 															<td th:text="${memberList.membDept}" />
@@ -270,7 +270,7 @@
 					
 					if(image != null){
 						let imgTag = $('<img>',{
-							src:image,
+							src:"/upload/"+ image,
 							height:"50px", 
 							width:"50px"
 						})
@@ -346,7 +346,7 @@
 				
 						if(data.MEMB_PHT_PATH != null){
 						let imgTag = $('<img>',{
-							src:data.MEMB_PHT_PATH,
+							src:"/upload/" +data.MEMB_PHT_PATH,
 							height:"50px", 
 							width:"50px",
 						})
