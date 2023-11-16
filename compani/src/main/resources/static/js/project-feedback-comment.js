@@ -137,6 +137,7 @@
     // -------------------------------onclick Event
     $(document).off('click','.delBtn').on('click','.delBtn',deleteCommentAlert);
     $(document).off('click','.submitBtn').on('click','.submitBtn',editSubmit);
+    $(document).off('click','.editBtn').on('click','.editBtn',toggleTags);
     // ------------------------------onclick Event End
     
     // ------------------------------------------------

@@ -27,11 +27,8 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	FileMapper filemapper;
 	
-	@Value("${filePath.driveFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
+	@Value("${filePath.File}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 	private String uploadPath;
-	
-	@Value("${filePath.bussFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
-	private String bussFilePath;
 
 	// 조회??;
 	@Override
@@ -60,7 +57,7 @@ public class FileServiceImpl implements FileService {
 			if(file.exists()) {
 				file.delete();
 			} else {
-				
+				log.info(uploadPath);
 			}
 			
 		}
@@ -78,47 +75,12 @@ public class FileServiceImpl implements FileService {
 			if (info != null) { 
 				File file = new File(uploadPath , info.getFilePath());
 				file.delete();
+				log.info(uploadPath);
 			}
 			filemapper.fileDelete(files.get(i));
 		}
 		return files.size();
 	}
-	
-	// 모달 파일 삭제
-		@Override
-		public int fileModalDel(Integer fileNo) {
-			
-			// 단건조회
-			FileVO info = filemapper.fileInfo(fileNo);
-
-			// 실제 경로 삭제
-			if (info != null) {
-				File file = new File(bussFilePath , info.getFilePath());
-				if(file.exists()) {
-					file.delete();
-				} else {
-					log.info(file.getAbsolutePath());
-				}
-			}
-			return filemapper.fileDelete(fileNo);
-		}
-
-		// 모달 선택 삭제
-		@Override
-		public int fileModalSeldel(List<Integer> files) {
-			for (int i = 0; i < files.size(); i++) {
-				// 단건조회
-				FileVO info = filemapper.fileInfo(files.get(i));
-
-				// 실제 경로 삭제
-				if (info != null) { 
-					File file = new File(bussFilePath , info.getFilePath());
-					file.delete();
-				}
-				filemapper.fileDelete(files.get(i));
-			}
-			return files.size();
-		}
 
 	// 모달 파일 리스트 + 검색 + 페이징
 	@Override
