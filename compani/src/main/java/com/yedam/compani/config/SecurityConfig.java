@@ -31,9 +31,9 @@ public class SecurityConfig {
 			.antMatchers("/").permitAll()
 			.antMatchers("/loginForm","/memberIdList", "/companyList").permitAll()
 			.antMatchers("/standBy").permitAll()
-			.antMatchers("/signUp").permitAll()
+			.antMatchers("/signUp","/SignUpped").permitAll()
 			.antMatchers("/memberSignUp").permitAll()
-			.antMatchers("/companySignUp").permitAll()
+			.antMatchers("/companySignUp", "/companySignUpped", "/companyInfo").permitAll()
 			.antMatchers("/complete").permitAll()
 			.antMatchers("/css/**",
 						"/gantt/**",
