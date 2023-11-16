@@ -5,8 +5,7 @@
 <mapper
 	namespace="com.yedam.compani.business.mapper.BusinessMapper">
 	<!-- 개인캘린더 업무 목록 -->
-	<select id="selectPersonalCalendarAllBusiness"
-		resultType="CamelHashMap">
+	<select id="selectPersonalCalendarAllBusiness" resultType="CamelHashMap">
 		SELECT b.buss_no
 			   , b.prjt_no
 			   , p.prjt_nm
@@ -32,8 +31,7 @@
 	</select>
 
 	<!-- 프로젝트 캘린더 업무 목록 -->
-	<select id="selectProjectCalendarAllBusiness"
-		resultType="BusinessVO">
+	<select id="selectProjectCalendarAllBusiness" resultType="BusinessVO">
 		SELECT buss_no
 			   , prjt_no
 			   , NVL(buss_upcd, 0) AS buss_upcd
@@ -63,20 +61,18 @@
 		GROUP BY buss_st
 	</select>
 
-	<select id="selectBusinessAndLevelList"
-		resultType="CamelHashMap">
+	<select id="selectBusinessAndLevelList" resultType="CamelHashMap">
 		SELECT level
 		, buss_no
 		, buss_nm
 		, buss_upcd
 		, buss_imp
 		, buss_prgre
-		,
-		buss_st
-		, TRUNC(buss_todt - sysdate,0) AS d_day
+		, buss_st
+		, TRUNC(buss_todt) - TRUNC(SYSDATE) AS d_day
 		, CASE WHEN buss_cmpltdt
 		IS NOT NULL
-		THEN TRUNC(buss_cmpltdt - buss_todt,0)
+		THEN TRUNC(buss_cmpltdt) - TRUNC(buss_todt)
 		ELSE -1
 		END AS
 		end_delay_day
