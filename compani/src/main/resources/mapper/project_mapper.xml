@@ -99,7 +99,11 @@
 	<select id="projectSelect" resultType="CamelHashMap">
 		SELECT 	 p.PRJT_NO AS PRJT_NO,
 				 p.PRJT_NM AS PRJT_NM,
-			  	 'D-'||FLOOR(p.prjt_Tdt -SYSDATE) AS "DATE",
+			  	 CASE   WHEN   PRJT_TDT  &lt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D+'||CEIL(SYSDATE - p.prjt_Tdt)
+                        WHEN   PRJT_TDT  &gt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D-'||CEIL(p.prjt_Tdt -SYSDATE)
+                        WHEN   PRJT_TDT  = TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN  'D-day'
+                        ELSE    TO_CHAR(p.PRJT_CMPLTDT)
+                        END AS "DATE",
 			     p.PRJT_ST ,
 			     p.PRJT_PUBCYN ,
 			     COUNT(b.BUSS_NO) AS COUNT,
@@ -109,15 +113,14 @@
 		FROM     PROJECT p, BUSINESS b
 		WHERE    p.prjt_NO = b.PRJT_NO(+)
 		AND      p.PRJT_NO = #{prjtNo}
-		GROUP BY p.PRJT_NO, p.PRJT_NM ,p.PRJT_TDT, p.PRJT_ST, p.PRJT_PUBCYN, p.PRJT_FDT, p.PRJT_TDT
-
+		GROUP BY p.PRJT_NO, p.PRJT_NM ,p.PRJT_TDT, p.PRJT_ST, p.PRJT_PUBCYN, p.PRJT_FDT, p.PRJT_TDT, p.PRJT_CMPLTDT
 	</select>
 	
 	<update id="updateProject" parameterType="ProjectVO">
 		UPDATE project
 		<set>
 			<if test="prjtSt == '0D2'">
-				prjt_cmpltdt = sysdate,
+				prjt_cmpltdt = SYSDATE,
 			</if>
 			  prjt_nm     = #{prjtNm},
 			  prjt_pubcyn = #{prjtPubcyn},
