@@ -62,7 +62,11 @@ public class FileServiceImpl implements FileService {
 			// 실제 경로 삭제
 			if (info != null) {
 				File file = new File("/home/ec2-user/upload/driveFile/" + info.getFilePath());
-				file.delete();
+				try {
+					file.delete();				
+				} catch (Exception e) {
+					System.out.println("오류났다 !!!!!!!!" + file);
+				}								
 			}
 			filemapper.fileDelete(files.get(i));
 		}
