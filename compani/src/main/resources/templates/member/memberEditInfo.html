@@ -825,7 +825,7 @@ $('#membPwd2').on("input", function(event){
  
 
 ///////////////////////프로필변경
-  $(document).on('change', '#profilePht', function() {
+  $('#profilePht').on('change', function() {
   		let path = memberInfo.membPhtPath;
   		if(path.indexOf('defaultPht.png') == -1) {
   		 $.ajax({
@@ -857,6 +857,7 @@ $('#membPwd2').on("input", function(event){
             success: function(result){
 				$('#membPhtPath2').prop('src', 'uploads/'+result);
 				$('#profile').prop('src', 'uploads/'+result);
+				location.reload();
             },
             error: function(reject){
                 console.log(reject);
