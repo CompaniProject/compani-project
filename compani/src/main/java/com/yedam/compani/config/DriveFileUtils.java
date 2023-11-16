@@ -61,7 +61,7 @@ public class DriveFileUtils {
         String saveName = generateSaveFilename(multipartFile.getOriginalFilename());
         String Type = saveName.substring(saveName.lastIndexOf(".") +1);
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
-        String uploadPath = getUploadPath(today) + File.separator + saveName;
+        String uploadPath = getUploadPath(today) + "/" + saveName;
         File uploadFile = new File(uploadPath);
 
         try {
@@ -106,7 +106,7 @@ public class DriveFileUtils {
      * @return 업로드 경로
      */
     private String getUploadPath(final String addPath) {
-        return makeDirectories(uploadPath + File.separator + addPath);
+        return makeDirectories(uploadPath + "/" + addPath);
     }
 
     /**
