@@ -831,7 +831,7 @@ $('#membPwd2').on("input", function(event){
   		let path = memberInfo.membPhtPath;
   		if(path.indexOf('defaultPht.png') == -1) {
   		 $.ajax({
-             url: 'deletesAjaxs',
+             url: '/deletesAjaxs',
              type: 'POST',
              data: {path},
              success: function(result){
@@ -851,7 +851,7 @@ $('#membPwd2').on("input", function(event){
 		formData.append("image", files);//키,값으로 append 
         //2)jQuery.ajax
         $.ajax({
-            url: 'uploadsAjaxs',
+            url: '/uploadsAjaxs',
             type: 'POST',
             processData: false,	//기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
             contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
