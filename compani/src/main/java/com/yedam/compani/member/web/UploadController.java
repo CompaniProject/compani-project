@@ -40,7 +40,7 @@ public class UploadController {
 	@Value("${filePath}")
 	private String uploadPath;
 
-	@PostMapping("/uploadsAjaxs")
+	@PostMapping("uploadsAjaxs")
 	@ResponseBody
 	public String uploadFiles(@RequestPart(value = "image", required = false) MultipartFile uploadFiles, HttpServletRequest request) {
 			MemberVO vo = sessionService.getLoginInfo(request);
@@ -78,7 +78,7 @@ public class UploadController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/deletesAjaxs")
+	@PostMapping("deletesAjaxs")
 	public void deleteFiles(String path) {
 		File file = new File(uploadPath + "/" + path);
 		file.delete();
