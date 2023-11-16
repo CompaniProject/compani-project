@@ -107,8 +107,7 @@
 	<delete id="deleteProjectMember" parameterType="ProjectMemberVO">
 		DELETE FROM PROJECT_MEMBER 
     	WHERE  PRJT_NO = #{prjtNo}
-   	<!-- 	AND    PRJT_MEMB_PERM NOT IN 'CRTR' -->
-	
+ 
 	</delete>
 	
 	<select id="projectMemberSelect" resultType="ProjectMemberVO">

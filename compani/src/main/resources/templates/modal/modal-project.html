@@ -22,7 +22,7 @@
 									</div>
 								</div>
 							</div>
-							<div th:if="${projectMemberVO.prjtmembPerm == 'CRTR'}" class="col-lg-3 col-form-label">
+							<div th:if="${projectMemberVO.prjtmembPerm == '0B1'}" class="col-lg-3 col-form-label">
 								<div class="dropdown custom-dropdown">
 									<select class="dropdown-import" id="prjtSt" name="prjtSt"
 										th:value="${session.projectVO.prjtSt}">
@@ -102,7 +102,7 @@
 														<td th:text="${prjtMember.membDept}" />  
 														<td th:text="${prjtMember.membWkgd}" />  
 														<td th:text="${prjtMember.membNm}" />  
-														<td th:if="${prjtMember.prjtMembPerm} != 'CRTR'"><i class="fa-solid fa-minus"></i></td>
+														<td th:if="${prjtMember.prjtMembPerm} != '0B1'"><i class="fa-solid fa-minus"></i></td>
 														<input type="hidden" name ="membId" th:value="${prjtMember.membId}">
 													</tr> 
 												</th:block>
@@ -180,7 +180,7 @@
 							<button id="prjtUpdateBtn" type="button" class="btn btn-primary">수정</button>
 
 						</div>
-						<div th:if = "${projectMemberVO.prjtmembPerm != 'CRTR'}"><input type ="hidden" name ="prjtSt" th:value="${session.projectVO.prjtSt}"></div>
+						<div th:if = "${projectMemberVO.prjtmembPerm != '0B1'}"><input type ="hidden" name ="prjtSt" th:value="${session.projectVO.prjtSt}"></div>
 					</form>
 
 				</div>
