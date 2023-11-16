@@ -35,7 +35,7 @@
 				</div>
 
 				<div class="media pt-5" style="padding-top: 20px !important;">
-					<img class="pimr-3 rounded-circle" th:src="'/upload/'+${pissueInfo.membPhtPath}" style="height:50px; width:50px; margin-right: 1rem !important;">
+					<img class="pimr-3 rounded-circle" th:src="'/uploads/'+${pissueInfo.membPhtPath}" style="height:50px; width:50px; margin-right: 1rem !important;">
 					<div class="media-body" style="margin-right: 50px; flex: 0;">
 						<h5 class="pim-b-3" th:text="${pissueInfo.membNm}"></h5>
 						<p class="pim-b-2" style="width: 75px;"
@@ -526,7 +526,7 @@
 		                            <div class="pIssueReviews">
 									<div class="issue__reply__itemP">
 										<div class="issue__reply__itemP__pic">
-											<img src="/upload/${row.membPhtPath}" alt="">
+											<img src="/uploads/${row.membPhtPath}" alt="">
 										</div>
 										<div class="issue__reply__itemP__text">
 											<h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>

@@ -99,9 +99,9 @@
 	<select id="projectSelect" resultType="CamelHashMap">
 		SELECT 	 p.PRJT_NO AS PRJT_NO,
 				 p.PRJT_NM AS PRJT_NM,
-			  	 CASE   WHEN   PRJT_TDT  &lt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D+'||CEIL(SYSDATE - p.prjt_Tdt)
-                        WHEN   PRJT_TDT  &gt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D-'||CEIL(p.prjt_Tdt -SYSDATE)
-                        WHEN   PRJT_TDT  = TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN  'D-day'
+			  	 CASE   WHEN  TRUNC(PRJT_TDT)  &lt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D+'||FLOOR(SYSDATE - p.prjt_Tdt)
+                        WHEN  TRUNC(PRJT_TDT)  &gt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D-'||CEIL(p.prjt_Tdt -SYSDATE)
+                        WHEN   TRUNC(PRJT_TDT)  =  TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN  'D-day'
                         ELSE    TO_CHAR(p.PRJT_CMPLTDT)
                         END AS "DATE",
 			     p.PRJT_ST ,
