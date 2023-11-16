@@ -26,7 +26,7 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
 @Component
 public class DriveFileUtils {
 	
-	@Value("${filePath.driveFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
+	@Value("${filePath.File}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 	private String uploadPath;
 
     /**
