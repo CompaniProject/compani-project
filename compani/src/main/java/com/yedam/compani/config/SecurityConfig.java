@@ -31,13 +31,15 @@ public class SecurityConfig {
 			.antMatchers("/").permitAll()
 			.antMatchers("/loginForm").permitAll()
 			.antMatchers("/standBy").permitAll()
-			.antMatchers("/view/**").permitAll()			
-			.antMatchers("/home").hasAnyRole("0A2", "0A3", "0A4");
-			//.anyRequest().authenticated();
+			.antMatchers("/signUp").permitAll()
+			.antMatchers("/memberSignUp").permitAll()
+			.antMatchers("/companySignUp").permitAll()
+			.antMatchers("/complete").permitAll()
+			.antMatchers("/home").hasAnyRole("0A2", "0A3", "0A4")
+			.antMatchers("/companyManager").hasAnyRole("0A2", "0A3")
+			.antMatchers("/master-member").hasAnyRole("0A1")
+			.anyRequest().authenticated();
 			
-//			.antMatchers("/").hasRole("0A2")
-//			.antMatchers("/").hasRole("0A3")
-//			.antMatchers("/").hasRole("0A4");
 		http.formLogin() //인가.인증 실패하는경우 로그인페이지를 볼수있음
 			.loginPage("/loginForm")
 			.usernameParameter("loginId")

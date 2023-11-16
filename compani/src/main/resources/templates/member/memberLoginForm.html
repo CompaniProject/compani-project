@@ -100,26 +100,21 @@
 	});
  	$("#loginBtn").on("click", function(event){ 
  		if($('#loginId').val().length < 4){
-			swal.fire({title : '아이디 오류!', text : "※ 4~20자 / 영문(소문자), 숫자 2가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
-				return false;
-			});	
+			swal.fire({title : '아이디 오류!', text : "※ 4~20자 / 영문(소문자), 숫자 2가지 구성.", icon : 'error', button : '뒤로'})
+			return false;
 		}else if($('#loginPwd').val().length < 8){
-			swal.fire({title : '비밀번호 오류!', text : "※ 8~20자 / 영문(대/소문자), 숫자 및 특수문자 4가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
-				return false;
-			});	
+			swal.fire({title : '비밀번호 오류!', text : "※ 8~20자 / 영문(대/소문자), 숫자 및 특수문자 4가지 구성.", icon : 'error', button : '뒤로'})
+			return false;
 		}else if(testId.test($('#loginId').val()) == false){
-			swal.fire({title : '아이디 오류!', text : "※ 4~20자 / 영문(소문자), 숫자 2가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
-				return false;
-			});
+			swal.fire({title : '아이디 오류!', text : "※ 4~20자 / 영문(소문자), 숫자 2가지 구성.", icon : 'error', button : '뒤로'})
+			return false;
 		}else if(testPw1.test($('#loginPwd').val()) == false){
-			swal.fire({title : '비밀번호 오류!', text : "※ 8~20자 / 영문(대/소문자), 숫자 및 특수문자 4가지 구성.", icon : 'error', button : '뒤로'}).then((value)=>{
-				return false;
-			});	
-		}else{
-			  var modify = /*[[@{login}]]*/;
-			   	$("#loginForm").attr("action", modify).submit();
-		} 
-		$("#loginForm").attr("action", modify).submit();
+			swal.fire({title : '비밀번호 오류!', text : "※ 8~20자 / 영문(대/소문자), 숫자 및 특수문자 4가지 구성.", icon : 'error', button : '뒤로'})
+			return false;
+		}
+    	var modify = /*[[@{login}]]*/;
+	   	$("#loginForm").attr("action", modify).submit();
+		 
 	}); 
 	
 	</script>
