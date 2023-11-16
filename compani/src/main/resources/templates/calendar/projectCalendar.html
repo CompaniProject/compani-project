@@ -232,6 +232,8 @@ select {
    					+ ' | 중요도 ' + item.bussImp + ' | 진척도 ' + item.bussPrgre + '%');
    			$('.businessList:last').append($('<div class="businessList2"></div>'));
    			$('.businessList2:last').append(item.bussNm);
+   			$('.businessList:last').append($('<input type="hidden" id="bussNo" />'));
+			$('.businessList:last').find('input').val(item.bussNo);
    		});
    		$('.businessList').on('click', infoBusiness);
    	}
