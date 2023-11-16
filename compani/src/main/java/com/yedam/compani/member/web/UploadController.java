@@ -90,7 +90,7 @@ public class UploadController {
 	private String makeFolder() {
 		String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 		// LocalDate를 문자열로 포멧
-		String folderPath = "profilePht/" + str.replace("/", File.separator);
+		String folderPath = "upload/profilePht/" + str.replace("/", File.separator);
 		File uploadPathFoler = new File(uploadPath, folderPath);
 		// File newFile= new File(dir,"파일명");
 		if (uploadPathFoler.exists() == false) {
