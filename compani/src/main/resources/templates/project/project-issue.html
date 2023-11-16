@@ -64,7 +64,7 @@
 							<th style="font-weight: normal;">등록날짜</th>
 						</tr>
 					</thead>
-					<tbody class="projectIssueLists" style="text-align: center;">
+					<tbody class="projectIssueLists" style="text-align: center; cursor: pointer;">
 						<th:block th:each="projectIssueList : ${projectIssue.list}">
 							<tr th:attr="onclick='selectIssueInfo(\'' + ${projectIssueList.issuNo} + '\')'">
 								<th th:if="${projectIssueList.issuKnd == '0L1'}"><span class="badge badge-danger"

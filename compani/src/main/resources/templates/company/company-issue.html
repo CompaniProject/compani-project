@@ -65,7 +65,7 @@
                         <th style="font-weight: normal;">등록날짜</th>
                     </tr>
                     </thead>
-                    <tbody class="companyIssueLists" style="text-align: center;">
+                    <tbody class="companyIssueLists" style="text-align: center; cursor: pointer;">
                     <th:block th:each="ci : ${companyIssue.list}">
                         <tr th:attr="onclick='selectCIssueInfo(\'' + ${ci.issuNo} + '\')'">
                             <th th:if="${ci.issuKnd == '0L1'}"><span

@@ -74,7 +74,7 @@
 										<th style="font-weight: normal;">우선순위</th>
 									</tr>
 								</thead>
-								<tbody id="issueLists">
+								<tbody  style="cursor: pointer;" id="issueLists">
 								
 										<tr th:each="issueList : ${issue.list}"  th:onclick="viewIssueInfo([[${issueList.issuNo}]])">
 											<th th:if="${issueList.issuKnd == '0L1'}"><span class="badge badge-danger"
