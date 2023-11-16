@@ -829,6 +829,7 @@ $('#membPwd2').on("input", function(event){
 ///////////////////////프로필변경
   	$('#profilePht').change(function() {
   		let path = memberInfo.membPhtPath;
+  		if(!path.includes('defaultPht.png')) {
   		 $.ajax({
              url: 'deletesAjaxs',
              type: 'POST',
@@ -838,7 +839,9 @@ $('#membPwd2').on("input", function(event){
              error: function(reject){
                  console.log(reject);
              }
-         });
+  		 })
+         }
+  	});
   		
   		
   		
