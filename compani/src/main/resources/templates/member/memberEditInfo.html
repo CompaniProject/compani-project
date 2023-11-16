@@ -340,7 +340,7 @@ label{
 	 	$('#membNm').val(memberInfo.membNm);
 	 	$('#membDept').val(memberInfo.membDept);
 	 	$('#membWkgd').val(memberInfo.membWkgd);
- 		$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
+ 		$('#membPhtPath2').prop('src', memberInfo.membPhtPath);
 	 	
 	 	year = new Date(memberInfo.membBirthDt).getFullYear();
 	 	month = new Date(memberInfo.membBirthDt).getMonth()+1;
