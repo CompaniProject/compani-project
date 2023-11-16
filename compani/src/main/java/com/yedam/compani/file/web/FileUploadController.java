@@ -46,7 +46,7 @@ public class FileUploadController {
 		@Autowired
 		DriveFileUtils dfu;
 		
-		@Value("${filePath.bussFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
+		@Value("${filePath.File}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
 		private String uploadPath;
 		
 		@PostMapping("uploadsAjax")
@@ -54,7 +54,6 @@ public class FileUploadController {
 		public FileVO uploadFile(@RequestPart MultipartFile uploadFile, FileVO fileVO) {
 		    										// 화면에 Multipart 유무에 따라 배열 넣냐 안넣냐 차이
 			
-	
 		        String originalName = uploadFile.getOriginalFilename(); // 실제 파일명 
 		        String fileName = originalName.substring(originalName.lastIndexOf("//")+1);
 		        				  // ↑ 둘다 실제 사용자가 본인이 올린 파일명
@@ -105,8 +104,7 @@ public class FileUploadController {
 		private String makeFolder() {
 			String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
 			// LocalDate를 문자열로 포멧
-			String folderPath = (str + "/"); // File.separator 파일인식
-			File uploadPathFoler = new File(uploadPath, folderPath);
+			File uploadPathFoler = new File(uploadPath, str);
 			// File newFile= new File(dir,"파일명");
 			if (uploadPathFoler.exists() == false) {
 				uploadPathFoler.mkdirs();
@@ -114,11 +112,7 @@ public class FileUploadController {
 				// mkdir(): 디렉토리에 상위 디렉토리가 존재하지 않을경우에는 생성이 불가능한 함수
 				// mkdirs(): 디렉토리의 상위 디렉토리가 존재하지 않을 경우에는 상위 디렉토리까지 모두 생성하는 함수
 			}
-			return folderPath;
-		}
-		
-		private String setFilePath(String uploadFileName) {
-			return uploadFileName.replace(File.separator, "/");
+			return str;
 		}
 		
 		//첨부 파일 다운로드

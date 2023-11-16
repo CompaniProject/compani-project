@@ -28,12 +28,6 @@ public interface FileMapper {
 		// 드라이브 전체, 선택삭제
 		public int fileSelDel(List<Integer> fileNo);
 		
-		// 모달 삭제
-		public int fileModalDel(Integer fileNo);
-		
-		// 모달 선택삭제
-		public int fileModalSeldel(List<Integer> fileNo);
-		
 		// 업무 모달 파일함 검색기능
 		public List<FileVO> fileSearch(Map<String, String> map);
 

@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer{
-	    @Value("file:///${filePath}/")
+	    @Value("file:///${filePath.File}/")
 	    private String downloadPath;
 	    
 
