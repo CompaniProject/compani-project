@@ -46,7 +46,7 @@ public class FileUploadController {
 		@Autowired
 		DriveFileUtils dfu;
 		
-		private final String uploadPath = Paths.get("/home/ec2-user/upload/driveFile").toString();
+		private final String uploadPath = Paths.get("/home/ec2-user/upload/bussFile").toString();
 
 		
 		@PostMapping("uploadsAjax")
