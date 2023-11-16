@@ -10,10 +10,6 @@
 
 
 <style>
-.content-body {
-	margin-left: 170px;
-}
-
 #FileSearch {
 	margin-right: 30px;
 	width: 200px;
@@ -21,10 +17,6 @@
 	border-radius: 5px;
 	text-align: center;
 	border-color: #C0C0C0;
-}
-
-.content-body {
-	padding-left: 20px;
 }
 
 #upAnddown {
@@ -141,10 +133,6 @@
 	padding: 1.88rem 0.9rem;
 }
 
-.content-body .container-fluid{
-	margin-left: 30px;
-}
-
 .driveCut {
   white-space: nowrap;
   overflow: hidden;
@@ -175,8 +163,6 @@
 
 </head>
 <th:block layout:fragment="content">
-	<div class="content-container">
-		<div class="content-body">
 
 			<!-- ===================== 모달 업로드 부분 ============================ -->
 			<div class="modal fade" id="workModal" tabindex="-1"
@@ -234,6 +220,7 @@
 			</div>
 			<!-- 모달 끝 ============================================================================= -->
 			
+			<div class="col-lg-12" style="margin-left: 150px;">
 			<!-- 테이블 카드 -!!!!!!!!!!!!!!!!!!!!!!!! -->
 			<div class="card" style="width: 1100px; height: 650px;">
 				<div class="card-body" id="styleCard">
@@ -375,7 +362,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+
 	<script>
 
 		var prjtNo = [[${prjtNo}]];	
