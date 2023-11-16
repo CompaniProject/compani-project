@@ -46,7 +46,7 @@ public class FileServiceImpl implements FileService {
 
 		// 실제 경로 삭제
 		if (info != null) {
-			File file = new File("c:\\Temp\\" + info.getFilePath());
+			File file = new File("/home/ec2-user/upload/driveFile" + info.getFilePath());
 			file.delete();
 		}
 		return filemapper.fileDelete(fileNo);
@@ -61,7 +61,7 @@ public class FileServiceImpl implements FileService {
 
 			// 실제 경로 삭제
 			if (info != null) {
-				File file = new File("c:\\Temp\\" + info.getFilePath());
+				File file = new File("/home/ec2-user/upload/driveFile" + info.getFilePath());
 				file.delete();
 			}
 			filemapper.fileDelete(files.get(i));
