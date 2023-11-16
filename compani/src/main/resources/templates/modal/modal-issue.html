@@ -1088,7 +1088,7 @@
 				
 				let issueInfoFiles = $('#issueInfoFiles');
 				let mr3 = $('#issueWriterImg');
-				mr3.attr('src', '/images/member/' + issueInfo.membPhtPath);
+				mr3.attr('src', '/upload/' + issueInfo.membPhtPath);
 				if (issueFile.length != 0) {
 					issueInfoFiles.empty();
 				} else {
@@ -1245,7 +1245,7 @@
 	                            <div class="IssueReviews">
 								<div class="issue__reply__item">
 									<div class="issue__reply__item__pic">
-									<img src="/images/member/${row.membPhtPath}" alt="">
+									<img src="/upload/${row.membPhtPath}" alt="">
 									</div>
 									
 									<div class="issue__reply__item__text">
