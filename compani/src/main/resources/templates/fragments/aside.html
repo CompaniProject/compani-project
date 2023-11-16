@@ -204,7 +204,7 @@
 				let image = data.member.membPhtPath;
 				if(image != null){
 					let imgTag = $('<img>',{
-						src:'/upload/'+image,
+						src:image,
 						height:"50px", 
 						width:"50px"
 					})
@@ -245,7 +245,7 @@
 					
 					if(image != null){
 						let imgTag = $('<img>',{
-							src:'/images/profile/'+image,
+							src:'/upload/'+image,
 							height:"50px", 
 							width:"50px"
 						})
@@ -306,7 +306,7 @@
 					
 					if(image != null){
 						let imgTag = $('<img>',{
-							src:image,
+							src:'/upload/' + image,
 							height:"50px", 
 							width:"50px"
 						})
@@ -383,7 +383,7 @@
 						
 						if(data.MEMB_PHT_PATH != null){
 						let imgTag = $('<img>',{
-							src:"/images/profile/" +data.MEMB_PHT_PATH,
+							src:'/upload/' +data.MEMB_PHT_PATH,
 							height:"50px", 
 							width:"50px",
 						})
