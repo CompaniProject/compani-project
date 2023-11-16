@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +25,7 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
  * 내용: 파일 업로드, 수정, 삭제
  */
 public class FileUtils {	
-	private static String uploadPath = Paths.get("upload", "issue-files").toString();
+	private static String uploadPath = Paths.get("/home/upload/issue-files").toString();
 
     /**
      * 다중 파일 업로드
