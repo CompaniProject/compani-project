@@ -72,7 +72,7 @@ public class DriveFileUtils {
 
         return FileVO.builder()
                 .fileNm(multipartFile.getOriginalFilename())
-                .filePath(today + "\\" + saveName)
+                .filePath(today + "/" + saveName)
                 .fileType(Type)
                 .fileSize(multipartFile.getSize())
                 .build();
