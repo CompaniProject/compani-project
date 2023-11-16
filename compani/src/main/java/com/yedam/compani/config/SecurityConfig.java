@@ -35,6 +35,13 @@ public class SecurityConfig {
 			.antMatchers("/memberSignUp").permitAll()
 			.antMatchers("/companySignUp").permitAll()
 			.antMatchers("/complete").permitAll()
+			.antMatchers("/css/**",
+						"/gantt/**",
+						"/icons/**",
+						"/images/**",
+						"/js/**",
+						"/modal/**",
+						"/plugins/**").permitAll()
 			.antMatchers("/home").hasAnyRole("0A2", "0A3", "0A4")
 			.antMatchers("/companyManager").hasAnyRole("0A2", "0A3")
 			.antMatchers("/master-member").hasAnyRole("0A1")
