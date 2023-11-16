@@ -34,7 +34,7 @@
 					</div>
                                  
                 <div class="media pt-5" style="padding-top: 20px !important;">
-                   <img class="cimr-3 rounded-circle" th:src="'/images/member/'+${issueInfo.membPhtPath}" style="height:50px; width:50px; margin-right: 1rem !important;">
+                   <img class="cimr-3 rounded-circle" th:src="'/upload/'+${issueInfo.membPhtPath}" style="height:50px; width:50px; margin-right: 1rem !important;">
                     <div class="media-body" style="margin-right: 50px; flex: 0;">
                         <h5 class="cim-b-3" th:text="${issueInfo.membNm}"></h5>
                         <p class="cim-b-2" style="width: 75px;"
@@ -529,7 +529,7 @@
                                         <div class="cIssueReviews">
                                         <div class="issue__reply__itemC">
                                             <div class="issue__reply__itemC__pic">
-                                            <img src="/images/member/${row.membPhtPath}" alt="">
+                                            <img src="/upload/${row.membPhtPath}" alt="">
                                             </div>
                                             <div class="issue__reply__itemC__text">
                                                 <h6>${row.membNm} - <span>${dateFormatting(row.issuRplyDt)}</span>
