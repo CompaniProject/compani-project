@@ -599,6 +599,9 @@ select {
 	// 간트차트 내용 구현
 	function ganttData(){
 		let arr = [];
+		let color = ['#ff6666', '#ff8c66', '#ffb366', '#ffd966', '#66b3ff', 
+					'#668cff', '#6666ff', '#8c66ff', '#b366ff', '#d966ff', 
+					'#ff66ff', '#ff66d9', '#ff66b3', '#ff668c'];
 		
 		for(let i=0; i<calendarData.length; i++){
 			let obj = new Object();
@@ -610,6 +613,7 @@ select {
 			obj.start_date = getddmmyyyy(frdt);
 			obj.duration = ((getMilliseconds(todt) - getMilliseconds(frdt)) / (24*60*60*1000)) + 1;
 			obj.progress = calendarData[i].bussPrgre/100;
+			obj.color = color[idx%14];
 			arr.push(obj);
 		}
 		return arr;
