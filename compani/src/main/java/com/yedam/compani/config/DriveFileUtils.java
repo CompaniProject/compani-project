@@ -24,7 +24,7 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
 //@Component는 개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
 @Component
 public class DriveFileUtils {
-    private final String uploadPath = Paths.get("C:", "Temp").toString();
+	private final String uploadPath = Paths.get("/home/ec2-user/upload/driveFile").toString();
 
     /**
      * 다중 파일 업로드
