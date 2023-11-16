@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -22,6 +23,9 @@ public class FileServiceImpl implements FileService {
 
 	@Autowired
 	FileMapper filemapper;
+	
+	@Value("${filePath.driveFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
+	private String uploadPath;
 
 	// 조회??;
 	@Override
@@ -46,7 +50,7 @@ public class FileServiceImpl implements FileService {
 
 		// 실제 경로 삭제
 		if (info != null) {
-			File file = new File("/home/ec2-user/upload/driveFile/" + info.getFilePath());
+			File file = new File(uploadPath , info.getFilePath());
 			file.delete();
 		}
 		return filemapper.fileDelete(fileNo);
@@ -60,13 +64,9 @@ public class FileServiceImpl implements FileService {
 			FileVO info = filemapper.fileInfo(files.get(i));
 
 			// 실제 경로 삭제
-			if (info != null) {
-				File file = new File("/home/ec2-user/upload/driveFile/" + info.getFilePath());
-				try {
-					file.delete();				
-				} catch (Exception e) {
-					System.out.println("오류났다 !!!!!!!!" + file);
-				}								
+			if (info != null) { 
+				File file = new File(uploadPath , info.getFilePath());
+				file.delete();
 			}
 			filemapper.fileDelete(files.get(i));
 		}

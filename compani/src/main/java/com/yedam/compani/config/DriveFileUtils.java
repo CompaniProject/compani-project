@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,9 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
 //@Component는 개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
 @Component
 public class DriveFileUtils {
-	private final String uploadPath = Paths.get("/home/ec2-user/upload/driveFile").toString();
+	
+	@Value("${filePath.driveFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
+	private String uploadPath;
 
     /**
      * 다중 파일 업로드

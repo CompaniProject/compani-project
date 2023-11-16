@@ -46,8 +46,8 @@ public class FileUploadController {
 		@Autowired
 		DriveFileUtils dfu;
 		
-		private final String uploadPath = Paths.get("/home/ec2-user/upload/bussFile").toString();
-
+		@Value("${filePath.bussFile}") // 환경변수 or Properties에 있는 외부값을 읽는방법이다 - EL태그 사용
+		private String uploadPath;
 		
 		@PostMapping("uploadsAjax")
 		@ResponseBody
