@@ -25,7 +25,7 @@ import com.yedam.compani.issue.file.service.IssueFileVO;
  * 내용: 파일 업로드, 수정, 삭제
  */
 public class FileUtils {	
-	private static String uploadPath = Paths.get("/home/upload/issue-files").toString();
+	private static String uploadPath = Paths.get("/home/ec2-user/upload/issue-files").toString();
 
     /**
      * 다중 파일 업로드
