@@ -435,7 +435,7 @@ input[type="checkbox"]:checked::after {
 		
 					$.ajax({
 						type : "get",
-						url : "/fileOneDelete",
+						url : "/fileModalDel",
 						dataType : "text",
 						data : {
 							fileNo : fileDel
@@ -488,7 +488,7 @@ input[type="checkbox"]:checked::after {
 	        if (result.isConfirmed) {
 	            $.ajax({
 	                type: "post",
-	                url: "/fileSelectDel",
+	                url: "/fileModalSeldel",
 	                dataType: "text",
 	                data: tdBoxes.serialize(),
 	                success: function () {

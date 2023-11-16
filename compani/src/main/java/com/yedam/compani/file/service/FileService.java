@@ -22,11 +22,17 @@ public interface FileService {
 	// 파일 등록
 	public int fileInsert(final FileVO fileVO);
 	
-	// 삭제
+	// 드라이브 삭제
 	public int fileDelete(Integer fileNo);
 	
-	// 선택삭제
+	// 드라이브 선택삭제
 	public int fileSelDel(List<Integer> FileNo);
+	
+	// 모달 삭제
+	public int fileModalDel(Integer fileNo);
+	
+	// 모달 선택삭제
+	public int fileModalSeldel(List<Integer> fileNo);
 	
 	
 	// 업무 모달 파일함 검색기능
