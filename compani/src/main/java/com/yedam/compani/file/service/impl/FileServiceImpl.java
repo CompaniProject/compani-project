@@ -18,7 +18,10 @@ import com.yedam.compani.file.mapper.FileMapper;
 import com.yedam.compani.file.service.FileService;
 import com.yedam.compani.file.service.FileVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class FileServiceImpl implements FileService {
 
 	@Autowired
@@ -51,7 +54,13 @@ public class FileServiceImpl implements FileService {
 		// 실제 경로 삭제
 		if (info != null) {
 			File file = new File(uploadPath , info.getFilePath());
-			file.delete();
+			if(file.exists()) {
+				file.delete();
+			} else {
+				log.info(file.getAbsolutePath());
+				
+			}
+			
 		}
 		return filemapper.fileDelete(fileNo);
 	}

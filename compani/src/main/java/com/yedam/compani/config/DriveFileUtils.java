@@ -129,7 +129,7 @@ public class DriveFileUtils {
      * @param file - 첨부파일 상세정보
      * @return 첨부파일(리소스)
      */
-    public Resource readFileAsResource(final FileVO file) {
+    public Resource readFileAsResource(FileVO file) {
    
         String filename = file.getFilePath();
         Path filePath = Paths.get(uploadPath,filename);
