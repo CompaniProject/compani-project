@@ -394,7 +394,7 @@
 		    	
 		        if (path.endsWith('.txt')) {
 		            $.ajax({
-		                url: '/uploads/' + path,
+		                url: '/viewFile/' + path,
 		                dataType: 'text',
 		                success: function(data) {
 		                	var textOpen = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
@@ -403,13 +403,13 @@
 		            });
 		        } else if (path.endsWith('.pdf')) {
 		            // PDF 파일의 경우
-		            window.open('/uploads/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
+		            window.open('/viewFile/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
 		        } else if (path.endsWith('.jpg')) {
 		        	// JPG
-		        	 window.open('/uploads/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
+		        	 window.open('/viewFile/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
 		        } else if (path.endsWith('.png')){
 		        	// PNG
-		        	 window.open('/uploads/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
+		        	 window.open('/viewFile/' + path, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=700,left=700,width=500,height=500");
 		        } 
 		        event.stopPropagation();
 		    }
