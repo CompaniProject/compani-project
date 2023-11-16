@@ -60,7 +60,6 @@ public class FileServiceImpl implements FileService {
 			if(file.exists()) {
 				file.delete();
 			} else {
-				log.info(file.getAbsolutePath());
 				
 			}
 			

@@ -56,7 +56,7 @@ public class FileUploadController {
 			
 	
 		        String originalName = uploadFile.getOriginalFilename(); // 실제 파일명 
-		        String fileName = originalName.substring(originalName.lastIndexOf("//")+1);
+		        String fileName = originalName.substring(originalName.lastIndexOf("/")+1);
 		        				  // ↑ 둘다 실제 사용자가 본인이 올린 파일명
 		        
 		        
@@ -72,9 +72,9 @@ public class FileUploadController {
 		        String uuid = UUID.randomUUID().toString(); // 랜덤값 지정 (UUID값)
 		        //저장할 파일 이름 중간에 "_"를 이용하여 구분
 		        
-		        String uploadFileName = folderPath +File.separator + uuid + "." + fileType;
+		        String uploadFileName = folderPath + "/" + uuid + "." + fileType;
 		        // 실제 경로
-		        String saveName = uploadPath + File.separator + uploadFileName;
+		        String saveName = uploadPath + "/" + uploadFileName;
 		        // 서버 안의 별도의 공간 그 안에 내가 지금 저장할 이름을 정하는 코드
 		        // --------------------------------------------------
 		        

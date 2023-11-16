@@ -53,7 +53,5 @@ public class FileDeleteController {
 				
 			return fileservice.fileSelDel(files);
 		}
-		
-		
 
 }
