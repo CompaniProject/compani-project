@@ -37,12 +37,12 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
 		for (int i = 0; i < formVO.getProjectMember().size(); i++) {
 
-			// 프로젝트 생성자는 CRTR , 참여자는 PARTICIR
+			// 프로젝트 생성자는 0B1 , 참여자는 0B2
 			formVO.getProjectMember().get(i).setPrjtNo(formVO.getProject().getPrjtNo());
 			if (i == 0) {
-				formVO.getProjectMember().get(i).setPrjtmembPerm("CRTR");
+				formVO.getProjectMember().get(i).setPrjtmembPerm("0B1");
 			} else {
-				formVO.getProjectMember().get(i).setPrjtmembPerm("PARTICIR");
+				formVO.getProjectMember().get(i).setPrjtmembPerm("0B2");
 			}
 		}
 		return projectMemberMapper.insertProjectMember(formVO.getProjectMember());
