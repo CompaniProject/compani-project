@@ -64,7 +64,7 @@ label{
 						<div class="card-body">
 							<div class="form-validation" style="postiion : relative;">
 									<img class="form-group" id="membPhtPath2" width="200"
-										height="200" style="border-radius: 70%; border: 10px solid #fff; box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.1); display : block; margin : auto;" src="/upload/"
+										height="200" style="border-radius: 70%; border: 10px solid #fff; box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.1); display : block; margin : auto;" src=""
 										/>
  										<img
 										src="images/member/buttons.png" onclick="$('#profilePht').trigger('click')" width="30"
@@ -340,7 +340,7 @@ label{
 	 	$('#membNm').val(memberInfo.membNm);
 	 	$('#membDept').val(memberInfo.membDept);
 	 	$('#membWkgd').val(memberInfo.membWkgd);
- 		$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
+ 		$('#membPhtPath2').prop('src', '/uploads/'+memberInfo.membPhtPath);
 	 	
 	 	year = new Date(memberInfo.membBirthDt).getFullYear();
 	 	month = new Date(memberInfo.membBirthDt).getMonth()+1;
@@ -854,8 +854,8 @@ $('#membPwd2').on("input", function(event){
             contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
             data: formData,
             success: function(result){
-				$('#membPhtPath2').prop('src', 'upload/'+result);
-				$('#profile').prop('src', 'upload/'+result);
+				$('#membPhtPath2').prop('src', 'uploads/'+result);
+				$('#profile').prop('src', 'uploads/'+result);
             },
             error: function(reject){
                 console.log(reject);
