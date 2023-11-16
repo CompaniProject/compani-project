@@ -29,7 +29,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/loginForm").permitAll()
+			.antMatchers("/loginForm","/memberIdList", "/companyList").permitAll()
 			.antMatchers("/standBy").permitAll()
 			.antMatchers("/signUp").permitAll()
 			.antMatchers("/memberSignUp").permitAll()

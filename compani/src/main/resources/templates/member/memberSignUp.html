@@ -417,13 +417,13 @@ mark, .mark {
 	
 	$(function(){
 		memberIdList = []
-	    $.ajax('memberIdList', {
+	    $.ajax('/memberIdList', {
 	        type : 'post'
 	    })
 	    .done(result => {
-	       // $.each(result.data, function(index, element){
-	        	memberIdList = result;
-	       // });
+	        $.each(result.data, function(index, element){
+	        	memberIdList.push(element);
+	        });
 	    })
 	    .fail(err =>console.log(err));
 	});
@@ -757,7 +757,7 @@ mark, .mark {
 		compList = []
 		compNm = []
 		myComp = ''
-	    $.ajax('companyList', {
+	    $.ajax('/companyList', {
 	        type : 'post'
 	    })
 	    .done(result => {

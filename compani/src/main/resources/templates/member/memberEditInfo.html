@@ -314,7 +314,7 @@ label{
 	let date;
 	
 	 $(function(){
-		$.ajax('memberInfo', {
+		$.ajax('/memberInfo', {
 			type : 'post',
 			async: false
 		})
@@ -323,7 +323,7 @@ label{
 		})
 		.fail(err =>console.log("err"));
 		 
-	 	$.ajax('companyInfo', {
+	 	$.ajax('/companyInfo', {
 		 	type : 'post',
 		 	dataType : 'json', 
 		 	data : {coCd : "[[${session.loginInfo.coCd}]]"},
@@ -340,11 +340,7 @@ label{
 	 	$('#membNm').val(memberInfo.membNm);
 	 	$('#membDept').val(memberInfo.membDept);
 	 	$('#membWkgd').val(memberInfo.membWkgd);
-	 	if(memberInfo.membPhtPath != null){
-	 		$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
-	 	}else{
-	 		$('#membPhtPath2').prop('src', "/images/member/defaultPht.png");
-	 	}
+ 		$('#membPhtPath2').prop('src', '/upload/'+memberInfo.membPhtPath);
 	 	
 	 	year = new Date(memberInfo.membBirthDt).getFullYear();
 	 	month = new Date(memberInfo.membBirthDt).getMonth()+1;
@@ -692,6 +688,7 @@ $('#checkPw').on("input", function(event){
 
 //비밀번호 일치확인
 $('#checkPw').on("keyup", function(event){
+	
 	let inputVal = $(this).val();
 	if(inputVal.length > 0){
 	  $.ajax({

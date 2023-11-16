@@ -457,7 +457,7 @@
 			let buss = [];
 			let prgre = [];
  			
- 			$.ajax('selectBusinessPersonal', {
+ 			$.ajax('/selectBusinessPersonal', {
  				type : 'post',
  				dateType : 'json',
  				contentType : 'application/json',
@@ -614,7 +614,7 @@
 					
 					
 				
- 			$.ajax('feedbackList', {
+ 			$.ajax('/feedbackList', {
  				type : 'post',
  				dateType : 'json',
  				contentType : 'application/json',
@@ -713,7 +713,7 @@
 				return false;
 			}
 			mycomment ++;
- 			$.ajax('insertFeedBackPersonal', {
+ 			$.ajax('/insertFeedBackPersonal', {
  				type : 'post',
  				contentType : 'application/json',
  				dateType : 'json',
@@ -726,7 +726,7 @@
  				async: false
  			})
  			.done(result => {
- 				$.ajax('feedbackPersonal', {
+ 				$.ajax('/feedbackPersonal', {
  	 				type : 'post',
  	 				contentType : 'application/json',
  	 				async: false
@@ -791,7 +791,7 @@
 	    
 		// update - using edit
 		function updateAjax(obj, comment){
-	        $.ajax('editFeedbackPersonal', {
+	        $.ajax('/editFeedbackPersonal', {
 	            type: 'put',
 	            contentType: "application/json",
 	            data:JSON.stringify(obj),
