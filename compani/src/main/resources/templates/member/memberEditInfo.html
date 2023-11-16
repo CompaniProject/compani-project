@@ -824,10 +824,8 @@ $('#membPwd2').on("input", function(event){
    });
  
 
-
-
 ///////////////////////프로필변경
-  	$('#profilePht').change(function() {
+  $(document).on('change', '#profilePht', function() {
   		let path = memberInfo.membPhtPath;
   		if(path.indexOf('defaultPht.png') == -1) {
   		 $.ajax({
