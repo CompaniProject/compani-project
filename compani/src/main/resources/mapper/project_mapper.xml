@@ -102,7 +102,7 @@
 			  	 CASE   WHEN  TRUNC(PRJT_TDT)  &lt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D+'||FLOOR(SYSDATE - p.prjt_Tdt)
                         WHEN  TRUNC(PRJT_TDT)  &gt; TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN   'D-'||CEIL(p.prjt_Tdt -SYSDATE)
                         WHEN   TRUNC(PRJT_TDT)  =  TRUNC(SYSDATE) AND PRJT_CMPLTDT IS null THEN  'D-day'
-                        ELSE    TO_CHAR(p.PRJT_CMPLTDT)
+                        ELSE    TO_CHAR(p.PRJT_CMPLTDT  , 'yyyy-MM-dd')
                         END AS "DATE",
 			     p.PRJT_ST ,
 			     p.PRJT_PUBCYN ,
