@@ -111,8 +111,8 @@
 		</div>
 
 		<div class="form-group row">
-			<label class="col-lg-4 col-form-label">일정 </label>
-			<div class="col-lg-3">
+			<label class="col-lg-3 col-form-label">일정 </label>
+			<div class="col-lg-4">
 				<input type="date" class="form-control" id="bussFrdt"
 					name="bussFrdt"
 					th:value="${#dates.format(businessVO.bussFrdt, 'yyyy-MM-dd')}">
@@ -121,7 +121,7 @@
 				<label class="col-lg-4 col-form-label">~ </label>
 
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-4">
 				<input type="date" class="form-control" id="bussTodt"
 					name="bussTodt"
 					th:value="${#dates.format(businessVO.bussTodt, 'yyyy-MM-dd')}">
@@ -129,7 +129,7 @@
 		</div>
 
 		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="val-username">중요도
+			<label class="col-lg-3 col-form-label" for="val-username">중요도
 			</label>
 			<div class="col-lg-6">
 				<div class="dropdown custom-dropdown">
@@ -148,11 +148,11 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="val-username">진척도
+			<label class="col-lg-3 col-form-label" for="val-username" >진척도
 			</label>
-			<div class="col-lg-5" style="padding-right: 0;">
+			<div class="col-lg-6" style="padding-right: 0;">
 				<div class="drag">
-					<div id="drag"></div>
+					<div id="drag" ></div>
 					<span class="example-val mt-4 d-inline-block" id="hover-val"></span>
 				</div>
 			</div>
@@ -163,12 +163,9 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="val-username">상태
+			<label class="col-lg-3 col-form-label" for="val-username">상태
 			</label>
 			<div class="col-lg-6">
-
-				<!-- <input type="text" id="bussSt" name="bussSt"
-					th:value="${businessVO.bussSt}" readonly="readonly" > -->
 				<th:block th:switch="${businessVO.bussSt}">
 					<span th:case="0K1" th:text="진행중" class="badge badge-info px-2"></span>
 					<span th:case="0K2" th:text="완료" class="badge badge-success px-2"></span>
@@ -179,13 +176,12 @@
 
 		</div>
 		<div class="form-group row">
-			<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
-			<label class="col-lg-3 col-form-label" for="val-username">선행
-				업무</label>
+			<label class="col-lg-3 col-form-label" for="val-username">종속관계</label>
+			<label class="col-lg-3 col-form-label" for="val-username">선행업무</label>
 
 			<div class="dropdown custom-dropdown">
 				<div>
-					<select class="dropdown-relation" name="bussUpcd">
+					<select class="dropdown-relation" name="bussUpcd" style="cursor:pointer;">
 
 						<div th:if="${businessVO.bussUpcd == null}">
 							<option class="dropdown-business" value="">선택</option>
@@ -210,7 +206,7 @@
 
 		<div class="form-group row">
 			<th:block th:if="${#lists.isEmpty(downList)}">
-				<div class="col-lg-4 col-form-label"></div>
+				<div class="col-lg-2 col-form-label"></div>
 				<div class="col-lg-1">
 					<i class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
 				</div>
@@ -221,7 +217,7 @@
 				<div class="dropdown custom-dropdown">
 
 					<div>
-						<select class="dropdown-relation" name="bussdownNo"
+						<select class="dropdown-relation" name="bussdownNo" style="cursor:pointer;"
 							th:onchange="changeUpdate(this);">
 							<option class="dropdown-business" value="">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
@@ -241,29 +237,26 @@
 		</div>
 		<th:block th:each="downList,idx : ${downList}">
 			<div class="form-group row">
-
-				<div class="col-lg-4 col-form-label">
-					<span class="bussdown"></span>
+				<div class="col-lg-2 col-form-label">
 				</div>
 				<div class="col-lg-1">
 					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg"
 						onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="downlabel" class="col-lg-3 col-form-label"
+				<label id="downlabel" class="col-lg-2 col-form-label"
 					for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
-
 					<div>
-						<select class="dropdown-relation" name="bussdownNo"
+						<select class="dropdown-relation" name="bussdownNo" style="cursor:pointer;"
 							th:onchange="changeUpdate(this);" disabled>
-							<option class="dropdown-business" th:value="${downList.bussNo}"
+							<option class="dropdown-business" th:value="${downList.bussNo}" 
 								th:text="${downList.bussNm}">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
 								<option class="dropdown-business"
 									th:value="${bussNameList.bussNo}"
-									th:text="${bussNameList.bussNm}"></option>
+									th:text="${bussNameList.bussNm}" th:title ="${bussNameList.bussNm}"></option>
 							</th:block>
 						</select>
 					</div>
@@ -599,14 +592,13 @@
 		if(disableNo.length <  bussList.length){
 			$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRowUpdate();');
 		}
-		
 	}
 	 var tempDown = 	`
 	    	<div class="form-group row">
 
-		 	<div class="col-lg-4 col-form-label"></div>
+		 	<div class="col-lg-2 col-form-label"></div>
 			<div class="col-lg-1"></div>
-			<label id = "downlabel" class="col-lg-3 col-form-label" for="val-username">후속업무</label>
+			<label id = "downlabel" class="col-lg-3 col-form-label"  style="cursor:pointer;" for="val-username">후속업무</label>
 			<div class="dropdown custom-dropdown">
 				<div>
 					<select  class="dropdown-relation" name="bussdownNo"  onchange="changeUpdate(this);">
@@ -619,11 +611,11 @@
 			</div>`;
 			
 	 var selectTempDown = `<div class="form-group row">
-		<div class="col-lg-4 col-form-label"></div>
+		<div class="col-lg-2 col-form-label"></div>
 		<div class="col-lg-1">
 			<i class="fa-solid fa-plus fa-lg" ></i>
 		</div>
-		<label id="downlabel" class="col-lg-3 col-form-label"
+		<label id="downlabel" class="col-lg-3 col-form-label" style="cursor:pointer;"
 			for="val-username">후속업무</label>
 	
 		<div class="dropdown custom-dropdown">

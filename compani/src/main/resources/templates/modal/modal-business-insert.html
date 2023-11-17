@@ -9,7 +9,6 @@
 				</button>
 			</div>
 			<div class="modal-body">
-
 				<form id="insertbussform" class="form-valide" action="#"
 					method="post">
 					<div>
@@ -142,13 +141,13 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-lg-5 col-form-label" for="val-username">종속관계</label>
-							<label class="col-lg-3 col-form-label" for="val-username">선행
+							<label class="col-lg-4 col-form-label" for="val-username">종속관계</label>
+							<label class="col-lg-2 col-form-label" for="val-username">선행
 								업무</label>
 
 							<div class="dropdown custom-dropdown">
 								<div>
-									<select class="dropdown-relation" name="bussUpcd">
+									<select class="dropdown-relation" name="bussUpcd" style="cursor:pointer;"> 
 										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
 											<option class="dropdown-business"
@@ -161,16 +160,16 @@
 							<!--후속  -->
 						</div>
 						<div class="form-group row">
-							<div class="col-lg-4 col-form-label"></div>
+							<div class="col-lg-3 col-form-label"></div>
 							<div class="col-lg-1">
 								<i class="fa-solid fa-plus fa-lg" ></i>
 							</div>
-							<label id="label" class="col-lg-3 col-form-label"
+							<label id="label" class="col-lg-2 col-form-label"
 								for="val-username">후속업무</label>
 
 							<div class="dropdown custom-dropdown">
 								<div>
-									<select class="dropdown-relation" name="bussdownNo"
+									<select class="dropdown-relation" name="bussdownNo" style="cursor:pointer;"
 										th:onchange="change(this);">
 										<option class="dropdown-business" value="">선택</option>
 										<th:block th:each="bussNameList : ${businessNameList}">
@@ -350,12 +349,12 @@
 			 let temp = 	`
 			    	<div class="form-group row">
 
-				 	<div class="col-lg-4 col-form-label"></div>
+				 	<div class="col-lg-3 col-form-label"></div>
 					<div class="col-lg-1"></div>
-					<label id = "label" class="col-lg-3 col-form-label" for="val-username">후속 업무</label>
+					<label id = "label" class="col-lg-2 col-form-label" for="val-username">후속 업무</label>
 					<div class="dropdown custom-dropdown">
 						<div>
-							<select  class="dropdown-relation" name="bussdownNo"  onchange="change(this);">
+							<select  class="dropdown-relation" name="bussdownNo" style="cursor:pointer;" onchange="change(this);">
 							<option class="dropdown-business" value="">선택</option>
 								
 							</select>
@@ -365,17 +364,17 @@
 					</div>`;
 					
 		    let selectTemp = 			`<div class="form-group row">
-			<div class="col-lg-4 col-form-label"></div>
+			<div class="col-lg-3 col-form-label"></div>
 			<div class="col-lg-1">
 				<i class="fa-solid fa-plus fa-lg" ></i>
 			</div>
-			<label id="label" class="col-lg-3 col-form-label"
+			<label id="label" class="col-lg-2 col-form-label"
 				for="val-username">후속업무</label>
 
 			<div class="dropdown custom-dropdown">
 				<div>
 
-					<select class="dropdown-relation" name="bussdownNm"
+					<select class="dropdown-relation" name="bussdownNm" style="cursor:pointer;"
 						onchange="change(this);">
 						<option class="dropdown-business" value="">선택</option>
 						
@@ -439,7 +438,7 @@
 				if($('.fa-solid.fa-plus.fa-lg').length == 0){
 					//
 					div.last().find('#label').prev().append('<i class="fa-solid fa-plus fa-lg" ></i>');
-				    div.children().last().find('.col-lg-5').attr('class', 'col-lg-4 col-form-label');
+				    div.children().last().find('.col-lg-4').attr('class', 'col-lg-2 col-form-label');
 					
 				}
 				$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRow();');
@@ -447,7 +446,7 @@
 			}
 			
 			function change(e){
-
+				
 				$(e).prop('disabled', true);
 				let no =$(e).find('option:selected').val();
 				disableNo.push(Number(no));
@@ -458,7 +457,7 @@
 				if(disableNo.length <  bussList.length){
 					$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRow();');
 				}
-				
+				$('.dropdown-relation').css('cursor', '');
 			}
 		
 			function insertBusiness(){
