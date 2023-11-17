@@ -18,13 +18,7 @@
 					, FIND_CODENM(pubcyn) AS pubcyn_nm
 					, ROW_NUMBER() OVER (ORDER BY reply_dt) ROW_NUM
 			FROM 	business_reply br JOIN business b ON(br.buss_no = b.buss_no)
-			WHERE 	br.buss_no IN  (
-									SELECT buss_no
-									FROM business
-									WHERE prjt_no = #{prjtNo}
-									)
-					AND memb_id = #{membId}
-					AND reply_show = '0N1'
+			<include refid="criteria"></include>
 			ORDER BY reply_dt
 		) T
 		WHERE #{pageNum}*#{amount} >= ROW_NUM AND ROW_NUM > (#{pageNum}-1)*#{amount}
@@ -50,14 +44,18 @@
 	<select id="selectReplyNaviCount">
 		SELECT 	NVL(ROUND(DECODE(COUNT(*),0,NULL,COUNT(*))/#{amount}),0) AS navi_count
 		FROM	business_reply br JOIN business b ON(br.buss_no = b.buss_no)
-		WHERE 	br.buss_no IN  (
-								SELECT buss_no
-								FROM business
-								WHERE prjt_no = #{prjtNo}
-								)
-				AND memb_id = #{membId}
-				AND reply_show = '0N1'
+		<include refid="criteria"></include>
 	</select>
+
+	<sql id="criteria">
+			WHERE 	br.buss_no IN  (
+									SELECT buss_no
+									FROM business
+									WHERE prjt_no = #{prjtNo}
+									)
+					AND memb_id = #{membId}
+					AND reply_show = '0N1'
+	</sql>
 
 	<insert id="insert" parameterType="BusinessReplyVO">
 		<selectKey keyProperty="replyNo,replyDt" resultType="BusinessReplyVO" order="BEFORE">

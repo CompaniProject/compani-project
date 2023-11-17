@@ -59,7 +59,7 @@ public class PersonalReplyController {
 	@ResponseBody
 	public Map<String, Object> getPersonalReplyPage(int pageNum, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<>();
-		List<Map<Object,Object>> personalReplys = new ArrayList<>();
+		List<Map<Object,Object>> personalReplys = null;
 		
 		MemberVO memberVO = sessionService.getLoginInfo(request);
 		Integer prjtNo = sessionService.getProjectNo(request);
