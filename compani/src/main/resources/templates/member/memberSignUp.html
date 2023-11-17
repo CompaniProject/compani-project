@@ -771,7 +771,13 @@ mark, .mark {
 	    .fail(err =>console.log(err));
 	    
 	    $('#formsCoNm').hide();
-	    $('#search').focus();
+	    $(function() {
+	    	setTimeout(
+	    		function(){
+	    			$('#search').focus();
+	    		}, 
+	    	500);
+	    });
 	}
 
 	
