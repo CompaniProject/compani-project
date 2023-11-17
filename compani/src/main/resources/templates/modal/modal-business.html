@@ -268,7 +268,7 @@
 			</div>
 		</th:block>
 		<input type="hidden" name="prjtNo"
-			th:value="${session.projectVO.prjtNo}" /> <input type="hidden"
+			th:value="${session.projectVO.prjtNo}" /> <input type="hidden" id = "bussNo"
 			name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
@@ -311,6 +311,18 @@
 	}else{
 		$('#bussSt').val('초과완료');
 	}
+	
+	let bussNo = $('#bussNo').val();
+	console.log(bussNo);
+	
+	for(let i= 0; i< bussList.length; i++){
+	
+		if(bussList[i].bussNo ==  bussNo ){
+			disableNo.push(bussList[i].bussNo);
+			
+		}
+	}
+	console.log(disableNo);
 
 	$('#infomembertbl').on('click', function() {
 
@@ -543,8 +555,6 @@
 			$(this).val(startDay.val());
 			startDay.val(endDay);
 		}
-
-	
 	})
 	
 	function removeRowUpdate(e){
@@ -568,6 +578,7 @@
 						option = $('<option>' + bussList[i].bussNm+'</option>');
 						option.attr('value' , bussList[i].bussNo);
 						select.append(option);
+					
 				} 
 			}
 				
@@ -654,6 +665,7 @@
 					}
 				}
 			}
+			console.log(disableNo);	
 	}
 
 	
