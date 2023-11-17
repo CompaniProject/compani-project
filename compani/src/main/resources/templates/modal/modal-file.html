@@ -603,21 +603,9 @@ input[type="checkbox"]:checked::after {
 	
 		// 파일 다운로드
 		function fileDown(fileNo){
-			
-			Swal.fire({
-	            title: '다운로드 하시겠습니까?',
-	            text: "컴퓨터의 다운로드 파일에 저장됩니다.",
-	            icon: 'question',
-	            showCancelButton: true,
-	            confirmButtonColor: '#3085d6',
-	            cancelButtonColor: '#d33',
-	            confirmButtonText: '예',
-	            cancelButtonText: '아니요'
-				}).then((result) => {
-					if (result.isConfirmed) {
-						location.href = '/searchFile/' + fileNo + '/download';
-					}
-				})
+
+			location.href = '/searchFile/' + fileNo + '/download';
+
 		}
 		
 		// 페이지 막기
