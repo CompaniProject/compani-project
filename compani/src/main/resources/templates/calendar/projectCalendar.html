@@ -531,9 +531,9 @@ select {
 			obj.bussUpcd = item.source;
 			
 			// 중복 상위업무에 대한 처리
-			$.each(calendarArr, function(idx, item2){
-				if(obj.bussNo == item2.bussNo){ // 해당업무번호와 같은 업무번호 찾기.
-					if(item2.bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
+			for(let i=0; i<calendarArr.length; i++){
+				if(obj.bussNo == calendarArr[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
+					if(calendarArr[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
 						$.ajax({
 							type: 'post',
 							url: '/updateGanttUpcd',
@@ -547,7 +547,7 @@ select {
 							}
 						})
 						// 캘린더 배열의 상위업무 정보 업데이트.
-						item2.bussUpcd = obj.bussUpcd;
+						calendarArr[i].bussUpcd = obj.bussUpcd;
 						return false; 
 					} // 업무번호의 상위업무가 0이 아니면
 					// 경고창 띄워주기
@@ -557,7 +557,7 @@ select {
 					gantt.deleteLink(thisId); */
 					return false;
 				}
-			})
+			}
 		});
 		// 상위업무 삭제 ajax
 		gantt.attachEvent("onAfterLinkDelete", function(id,item){

@@ -610,9 +610,6 @@ select {
 			obj.bussUpcd = item.source;
 			
 			// 중복 상위업무에 대한 처리
-			$.each(calendarArr, function(idx, item2){
-				
-			})
 			for(let i=0; i<calendarArr.length; i++){
 				if(obj.bussNo == calendarArr[i].bussNo){ // 해당업무번호와 같은 업무번호 찾기.
 					if(calendarArr[i].bussUpcd == 0){ // 업무번호의 상위업무가 0이면 통과
@@ -622,7 +619,7 @@ select {
 							contentType: 'application/json',
 							data: JSON.stringify(obj),
 							success: function(){
-								console.log('성공');
+								
 							},
 							error: function(error){
 								console.log(error);
