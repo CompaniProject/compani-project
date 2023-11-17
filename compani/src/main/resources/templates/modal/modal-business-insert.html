@@ -113,16 +113,15 @@
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label">일정 </label>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="bussFrdt" style="cursor:pointer;"
+								<input type="date" class="form-control" id="bussFrdt" 
 									name="bussFrdt" />
-								<!--/* th:value="${#dates.format(projectList.prjtFdt, 'yyyy-MM-dd')}" */-->
 							</div>
 							<div class="col-lg-1">
 								<label class="col-lg-4 col-form-label">~ </label>
 
 							</div>
 							<div class="col-lg-3">
-								<input type="date" class="form-control" id="bussTodt" style="cursor:pointer;"
+								<input type="date" class="form-control" id="bussTodt" 
 									name="bussTodt">
 							</div>
 						</div>
@@ -457,7 +456,7 @@
 				if(disableNo.length <  bussList.length){
 					$('.fa-solid.fa-plus.fa-lg').attr('onclick', 'addRow();');
 				}
-				$('.dropdown-relation').css('cursor', '');
+				$(e).css('cursor', '');
 			}
 		
 			function insertBusiness(){
