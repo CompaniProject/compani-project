@@ -265,7 +265,8 @@
 	var myChart = null;
 	var myChart2 = null;
 	var targetnm = "";
-	var sessionid = "[(${session.loginInfo.membNm})]";
+	var sessionnm = "[(${session.loginInfo.membNm})]";
+	var sessionid = "[(${session.loginInfo.membId})]";
 	$(function(){
 		
 		$('#bussCompBar').css('width', ((parseInt($('#bussComp').text())*100)/parseInt($('#bussCnt').text()))+'%');
@@ -509,7 +510,7 @@
 			        }}
 			   
 			});					
- 				if(targetnm==sessionid){
+ 				if(targetnm==sessionnm){
  					ccard.find('#chartPsn').text(targetnm+"(나)");
  				}else{
  					ccard.find('#chartPsn').text(targetnm);	
@@ -518,7 +519,7 @@
  				
  				ccard.css('display', 'block');
  				bbody.append(ccard);
- 				if(targetnm==sessionid){
+ 				if(targetnm==sessionnm){
  					$('#feedtarget').text(targetnm+"(나)");
  				}else{
  					$('#feedtarget').text(targetnm);
@@ -633,31 +634,33 @@
  				async: false
  			})
  			.done(result => {
- 				console.log(result.length);
  				$('#commentBody').children().remove();
  				mycomment = 0;
  				if(result.length > 0){
 	 				for(i = 0; i < result.length; i++){
-	 					console.log(i);
-		 				if(targetnm == sessionid){
+		 				if(targetnm == sessionnm){
 		 					$('#input2').css('display', 'none');
 		 					$('#inputCntn').css('display', 'none'); 
 		 					$('#cntnLength').css('display', 'none');
 		 					myfeedbacks(result[i]);
-		 				}else if(targetnm != sessionid){
+		 				}else if(targetnm != sessionnm && result[i].membFdbkWriter == sessionid){
 	 		 				$('#input2').css('display', 'inline');
 	 		 				$('#inputCntn').css('display', 'inline');
 	 		 				$('#cntnLength').css('display', 'inline');
 	 						feedbacks(result[i]);
 	 						mycomment ++;
+	 					}else{
+	 						$('#input2').css('display', 'inline');
+	 		 				$('#inputCntn').css('display', 'inline');
+	 		 				$('#cntnLength').css('display', 'inline');
 	 					}
 	 				}
 	 			}else{
-	 				if(targetnm == sessionid){
+	 				if(targetnm == sessionnm){
 	 					$('#input2').css('display', 'none');
 	 					$('#inputCntn').css('display', 'none'); 
 	 					$('#cntnLength').css('display', 'none');
-	 				}else if(targetnm != sessionid){
+	 				}else if(targetnm != sessionnm){
  		 				$('#input2').css('display', 'inline');
  		 				$('#inputCntn').css('display', 'inline');
  		 				$('#cntnLength').css('display', 'inline');
