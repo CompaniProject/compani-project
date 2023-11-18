@@ -191,14 +191,11 @@
 	<script>
 		
 		$('#prjtUpdateBtn').on('click', function(){
-			console.log('zzzzz');
 	 		let formData = $('#updateform').serializeArray();
 	
 		 	let formObj = {};
 		 	let memberArray = [];
-		 	
 		 	let prjtName = $('#prjtName').val();
-		 	console.log(prjtName);
 			
 			if(prjtName ==''){
 			 	
@@ -227,7 +224,6 @@
 			})
 			.done(data => {
 				let prjtSt = $('[name="prjtSt"]').val();
-				console.log(prjtSt);
 				Swal.fire({
 					  title: "프로젝트수정",
 					  icon:  "success",
