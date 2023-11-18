@@ -312,17 +312,15 @@
 		$('#bussSt').val('초과완료');
 	}
 	
-	let bussNo = $('#bussNo').val();
-
-	
+	var bussNum = $('#bussNo').val();
 	for(let i= 0; i< bussList.length; i++){
 	
-		if(bussList[i].bussNo ==  bussNo ){
+		if(bussList[i].bussNo ==  bussNum ){
 			disableNo.push(bussList[i].bussNo);
 			
 		}
-	}
-
+	} 
+	
 
 	$('#infomembertbl').on('click', function() {
 
