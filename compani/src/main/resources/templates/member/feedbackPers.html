@@ -509,13 +509,21 @@
 			        }}
 			   
 			});					
+ 				if(targetnm==sessionid){
+ 					ccard.find('#chartPsn').text(targetnm+"(나)");
+ 				}else{
+ 					ccard.find('#chartPsn').text(targetnm);	
+ 				}
  				
- 				ccard.find('#chartPsn').text(targetnm);
  				
  				ccard.css('display', 'block');
  				bbody.append(ccard);
- 			
- 				$('#feedtarget').text(targetnm);
+ 				if(targetnm==sessionid){
+ 					$('#feedtarget').text(targetnm+"(나)");
+ 				}else{
+ 					$('#feedtarget').text(targetnm);
+ 				}
+ 				
  			
  			
  			
