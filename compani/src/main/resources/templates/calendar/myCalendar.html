@@ -604,7 +604,7 @@ select {
 			})
 		});
 		// 상위업무 수정 ajax
-		gantt.attachEvent("onBeforeLinkAdd", function(id,item){
+		gantt.attachEvent("onAfterLinkAdd", function(id,item){
 			var obj = new Object();
 			obj.bussNo = item.target;
 			obj.bussUpcd = item.source;
@@ -629,10 +629,9 @@ select {
 						calendarArr[i].bussUpcd = obj.bussUpcd;
 						return false;
 					} // 업무번호의 상위업무가 0이 아니면
-					// 경고창 띄워주기
-					ganttUpcdDuplAlert();
-					// 방금 만든 간트 링크 없애기
-					/* let thisId = item.id;
+					ganttUpcdDuplAlert(); // 경고창 띄워주기
+					location.reload();
+					/* let thisId = item.id; // 방금 만든 간트 링크 없애기
 					gantt.deleteLink(thisId); */
 					return false;
 				}
