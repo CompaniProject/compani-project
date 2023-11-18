@@ -468,11 +468,12 @@
 					
 					}
 				}
-				for(let i= 0; i< disableNo.length; i++){
-					if(bussUpNo != disableNo[i]){
+	
+			 	for(let i= 0; i< disableNo.length; i++){
+					if(bussNum != disableNo[i]){
 						formData.push({name : 'bussdownNo', value: disableNo[i]});
 					}
-				}
+				} 
 				
 				let bussName = $('[name="bussNm"]');
 				if(bussName.val() == ''){
@@ -503,7 +504,6 @@
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
 				obj["relationList"] = relationArray;
-			
 				$.ajax('/updateBusiness' ,{
 					type : 'post',
 					contentType : 'application/json',
@@ -516,7 +516,7 @@
 						  confirmButtonText: "확인"
 						}).then((result) => {
 						  if (result.isConfirmed) {
-							  location.reload();
+							 location.reload();
 						  }
 						});
 				})
