@@ -28,8 +28,7 @@
 							<tbody id="updatemembertbl">
 								<th:block th:each="bussMemList : ${businessMemberList}">
 									<tr th:id="${bussMemList.membId}">
-										<td><img
-											th:src="'/uploads/'+${bussMemList.membPhtPath}"
+										<td><img th:src="'/uploads/'+${bussMemList.membPhtPath}"
 											height="50px" width="50px" alt="프로필"
 											th:if="${bussMemList.membPhtPath != null}" /></td>
 										<td th:text="${bussMemList.membDept}" />
@@ -114,7 +113,7 @@
 			<label class="col-lg-3 col-form-label">일정 </label>
 			<div class="col-lg-4">
 				<input type="date" class="form-control" id="bussFrdt"
-					name="bussFrdt" 
+					name="bussFrdt"
 					th:value="${#dates.format(businessVO.bussFrdt, 'yyyy-MM-dd')}">
 			</div>
 			<div class="col-lg-1">
@@ -123,7 +122,7 @@
 			</div>
 			<div class="col-lg-4">
 				<input type="date" class="form-control" id="bussTodt"
-					name="bussTodt" 
+					name="bussTodt"
 					th:value="${#dates.format(businessVO.bussTodt, 'yyyy-MM-dd')}">
 			</div>
 		</div>
@@ -148,18 +147,17 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-lg-3 col-form-label" for="val-username" >진척도
+			<label class="col-lg-3 col-form-label" for="val-username">진척도
 			</label>
 			<div class="col-lg-6" style="padding-right: 0;">
 				<div class="drag">
-					<div id="drag" ></div>
+					<div id="drag"></div>
 					<span class="example-val mt-4 d-inline-block" id="hover-val"></span>
 				</div>
 			</div>
 			<div class="col-lg-2">
 				<input type="text" id="bussPrgre" name="bussPrgre"
-			 		style="border:none;" readonly
-					th:value="${businessVO.bussPrgre}" />
+					style="border: none;" readonly th:value="${businessVO.bussPrgre}" />
 			</div>
 		</div>
 		<div class="form-group row">
@@ -181,7 +179,8 @@
 
 			<div class="dropdown custom-dropdown">
 				<div>
-					<select class="dropdown-relation" name="bussUpcd" style="cursor:pointer;">
+					<select class="dropdown-upRelation" name="bussUpcd"
+						style="cursor: pointer;">
 
 						<div th:if="${businessVO.bussUpcd == null}">
 							<option class="dropdown-business" value="">선택</option>
@@ -208,7 +207,7 @@
 			<th:block th:if="${#lists.isEmpty(downList)}">
 				<div class="col-lg-2 col-form-label"></div>
 				<div class="col-lg-1">
-					<i class="fa-solid fa-plus fa-lg" onclick="addRowUpdate(this);"></i>
+					<i class="fa-solid fa-plus fa-lg" ></i>
 				</div>
 
 				<label id="downlabel" class="col-lg-3 col-form-label"
@@ -217,8 +216,8 @@
 				<div class="dropdown custom-dropdown">
 
 					<div>
-						<select class="dropdown-relation" name="bussdownNo" style="cursor:pointer;"
-							th:onchange="changeUpdate(this);">
+						<select class="dropdown-relation" name="bussdownNo"
+							style="cursor: pointer;" th:onchange="changeUpdate(this);">
 							<option class="dropdown-business" value="">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
 								<option th:if="${businessVO.bussNo == bussNameList.bussNo}"
@@ -237,26 +236,27 @@
 		</div>
 		<th:block th:each="downList,idx : ${downList}">
 			<div class="form-group row">
-				<div class="col-lg-2 col-form-label">
-				</div>
+				<div class="col-lg-2 col-form-label"></div>
 				<div class="col-lg-1">
 					<i th:if="${idx.index == 0}" class="fa-solid fa-plus fa-lg"
 						onclick="addRowUpdate(this);"></i>
 				</div>
 
-				<label id="downlabel" class="col-lg-2 col-form-label"
+				<label id="downlabel" class="col-lg-3 col-form-label"
 					for="val-username">후속업무</label>
 
 				<div class="dropdown custom-dropdown">
 					<div>
-						<select class="dropdown-relation" name="bussdownNo" style="cursor:pointer;"
-							th:onchange="changeUpdate(this);" disabled>
-							<option class="dropdown-business" th:value="${downList.bussNo}" 
+						<select class="dropdown-relation" name="bussdownNo"
+							style="cursor: pointer;" th:onchange="changeUpdate(this);"
+							disabled>
+							<option class="dropdown-business" th:value="${downList.bussNo}"
 								th:text="${downList.bussNm}">선택</option>
 							<th:block th:each="bussNameList : ${businessNameList}">
 								<option class="dropdown-business"
 									th:value="${bussNameList.bussNo}"
-									th:text="${bussNameList.bussNm}" th:title ="${bussNameList.bussNm}"></option>
+									th:text="${bussNameList.bussNm}"
+									th:title="${bussNameList.bussNm}"></option>
 							</th:block>
 						</select>
 					</div>
@@ -269,7 +269,7 @@
 		</th:block>
 		<input type="hidden" name="prjtNo"
 			th:value="${session.projectVO.prjtNo}" /> <input type="hidden"
-			name="bussNo" th:value="${businessVO.bussNo}" />
+			id="bussNo" name="bussNo" th:value="${businessVO.bussNo}" />
 	</div>
 	<div class="modal-footer">
 		<button th:if="${session.updateCheck != null}" type="button"
@@ -311,6 +311,16 @@
 	}else{
 		$('#bussSt').val('초과완료');
 	}
+	
+	var bussNum = $('#bussNo').val();
+	for(let i= 0; i< bussList.length; i++){
+	
+		if(bussList[i].bussNo ==  bussNum ){
+			disableNo.push(bussList[i].bussNo);
+			
+		}
+	} 
+	
 
 	$('#infomembertbl').on('click', function() {
 
@@ -490,7 +500,6 @@
 				});
 				
 				let obj = {};
-				console.log(obj);
 				obj["business"] = formObj;
 				obj["businessMember"] = memberArray;
 				obj["relationList"] = relationArray;
@@ -543,8 +552,6 @@
 			$(this).val(startDay.val());
 			startDay.val(endDay);
 		}
-
-	
 	})
 	
 	function removeRowUpdate(e){
@@ -568,6 +575,10 @@
 						option = $('<option>' + bussList[i].bussNm+'</option>');
 						option.attr('value' , bussList[i].bussNo);
 						select.append(option);
+						if(bussList[i].bussNo ==  bussNo ){
+							disableNo.push(bussList[i].bussNo);
+							option.prop('disabled',true);
+						}		
 				} 
 			}
 				
