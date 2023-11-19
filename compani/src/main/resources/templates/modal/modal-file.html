@@ -519,6 +519,16 @@ input[type="checkbox"]:checked::after {
 				var files = inputFile[0].files;
 				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다.
 				//multiple 특성을 지정하지 않닸다면 두 개 이상의 파일을 포함하지 않습니다.
+				
+				//  사이즈 제한
+			    for (const file of files) {
+			        const fileSize = Math.floor(file.size / 1024 / 1024);
+	
+			        if (fileSize > 10) {
+			        	Swal.fire('10MB 이하의 파일을\n 올려주세요.', '', 'warning');
+			            return false;
+			        }
+			    }
 
 				for (var i = 0; i < files.length; i++) {
 					console.log(files[i]);
