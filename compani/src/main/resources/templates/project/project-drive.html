@@ -732,35 +732,36 @@
 	
 	// 파일 추가
 	function saveRealRealFile(element) {
-		const file = element.files[0];
-		// 1.  파일 선택 창에서 취소 버튼이 클릭되는 경우
-		if (!file) {
-			return false;
-		}
+		  const files = element.files;
 
-		// 2. 파일 크기가 10MB을 초과하는 경우
-		const fileSize = Math.floor(file.size / 1024 / 1024);
+		    // 1. 파일 선택 창에서 취소 버튼이 클릭되는 경우
+		    if (!files || files.length === 0) {
+		        return;
+		    }
 
-		if (fileSize > 10) {
-			alert('10MB 이하의 파일로 업로드해 주세요.');
-			return false;
-		}
+		    // 2. 파일 크기가 10MB을 초과하는 경우
+		    for (const file of files) {
+		        const fileSize = Math.floor(file.size / 1024 / 1024);
 
-		if (file) {
-			$('.fileEmpty').remove();
-			var trTag = $('<tr/>').attr('id', 'modalTdData');
-			var fileNameTag = $('<td/>').attr('id', 'fileBoxName').attr('style', 'text-overflow: ellipsis').text(
-					file.name); // li 파일이름
-			var fileSizeTag = $('<td/>').attr('id', 'fileBoxSize').text(
-					ByteSize(file.size)); // li 파일크기
-			var deleteFileTag = $('<td/>').attr('id', 'closeBtn').attr('class', 'fa-solid fa-minus').attr('onclick', ' saveFileRemove(this);');
-			trTag.append(fileNameTag);
-			trTag.append(fileSizeTag);
-			trTag.append(deleteFileTag);
+		        if (fileSize > 10) {
+		        	Swal.fire('10MB 이하의 파일을\n 올려주세요.', '', 'warning');
+		            location.reload();
+		        }
+		    }
 
-			$('#modalTbody').append(trTag);
+		    // 3. 기존 파일 정보를 유지하면서 각 파일 정보를 박스로 표시
+		    for (const file of files) {
+		        var trTag = $('<tr/>').attr('id', 'modalTdData');
+		        var fileNameTag = $('<td/>').attr('id', 'fileBoxName').attr('style', 'text-overflow: ellipsis').text(file.name);
+		        var fileSizeTag = $('<td/>').attr('id', 'fileBoxSize').text(ByteSize(file.size));
+		        var deleteFileTag = $('<td/>').attr('id', 'closeBtn').attr('class', 'fa-solid fa-minus').attr('onclick', ' saveFileRemove(this);');
+		        trTag.append(fileNameTag);
+		        trTag.append(fileSizeTag);
+		        trTag.append(deleteFileTag);
 
-		}
+		        // 기존 tbody에 추가
+		        $('#modalTbody').append(trTag);
+		    }
 	};
 	
 	function saveFiles() {
@@ -775,12 +776,15 @@
 
 		var inputFile = document.querySelector('#selectedFile');
 		var fileInfo = inputFile.files;
+		
+		 if (fileInfo.length == 0) {
+		        Swal.fire('파일을 업로드 해주세요.', '', 'warning');
+		        return;
+		    }
 
 		for (i = 0; i < fileInfo.length; i++) {
 			formData.append("drivefile", fileInfo[i]);
 		};
-		
-		console.log(formData);
 		
 		$.ajax({
 			url: '/project/driveInsertAjax/save',
@@ -789,11 +793,19 @@
 			contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
 			data: formData,
 			success: function (result) {
-				Swal.fire('등록완료', '', 'success');
-				location.reload();
+			    Swal.fire({
+			        title: '등록완료',
+			        text: '',
+			        icon: 'success',
+			        confirmButtonText: 'OK'
+			    }).then((result) => {
+			        if (result.isConfirmed) {
+			            location.reload();
+			        }
+			    });
 			},
 			error: function (reject) {
-				Swal.fire('파일등록 및 업무종류를\n선택해주세요', '', 'warning');
+				Swal.fire('업무종류를\n선택해주세요', '', 'warning');
 			}
 		});
 	};
