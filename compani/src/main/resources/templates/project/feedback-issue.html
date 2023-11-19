@@ -48,7 +48,7 @@
 						<div class="card">
 							<div class="card-body" style="padding-bottom: 42px;">
 								<h4 class="card-title">총 이슈 개수</h4>
-								<span th:text="${projectStatus.issuCnt}"> </span>
+								<span class="feedbackIssueSt"> </span>
 							</div>
 						</div>
 					</div>
@@ -56,7 +56,7 @@
 						<div class="card">
 							<div class="card-body" style="padding-bottom: 0px;">
 								<h4 class="card-title">해결 이슈</h4>
-								<span th:text="|${projectStatus.issuSolveCnt} / ${projectStatus.issuCnt}|"> </span>
+								<span  class="feedbackIssueSt1"> </span>
 								<div class="progress mb-3">
 									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
 										<span class="sr-only"></span>
@@ -69,7 +69,7 @@
 						<div class="card">
 							<div class="card-body" style="padding-bottom: 0px;">
 								<h4 class="card-title">미해결 이슈</h4>
-								<span th:text="|${projectStatus.issuUnsolveCnt} / ${projectStatus.issuCnt}|"> </span>
+								<span class="feedbackIssueSt2"> </span>
 								<div class="progress mb-3">
 									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
 										<span class="sr-only"></span>
@@ -82,7 +82,7 @@
 						<div class="card">
 							<div class="card-body" style="padding-bottom: 0px;">
 								<h4 class="card-title">해결불가 이슈</h4>
-								<span th:text="|${projectStatus.issuUnsolvableCnt} / ${projectStatus.issuCnt}|"> </span>
+								<span class="feedbackIssueSt3"> </span>
 								<div class="progress mb-3">
 									<div class="progress-bar bg-warning active progress-bar-striped" role="progressbar">
 										<span class="sr-only"></span>
@@ -221,10 +221,30 @@
 	const prjtNo = [[${prjtNo}]];
 	const membNm = [[${session.loginInfo.membNm}]];
 	
+	var feedbackIssueSt = $(issueList).length;
+	var feedbackIssueSt1 = 0;
+	var feedbackIssueSt2 = 0;
+	var feedbackIssueSt3 = 0;
+	
+	// 이슈데이터
+	$.each(issueList, function(idx, item){
+		if(item.issuSt == '해결'){
+			feedbackIssueSt1 += 1;
+		}else if(item.issuSt == '미해결'){
+			feedbackIssueSt2 += 1;
+		}else if(item.issuSt == '해결불가'){
+			feedbackIssueSt3 += 1;
+		}
+	});
+	$('.feedbackIssueSt').text(feedbackIssueSt);
+	$('.feedbackIssueSt1').text(feedbackIssueSt1+' / '+feedbackIssueSt);
+	$('.feedbackIssueSt2').text(feedbackIssueSt2+' / '+feedbackIssueSt);
+	$('.feedbackIssueSt3').text(feedbackIssueSt3+' / '+feedbackIssueSt);
+	
 	// 업무리스트 정렬
-	let stripedBar1 = 100 * [[${projectStatus.issuSolveCnt}]] / [[${projectStatus.issuCnt}]];
-	let stripedBar2 = 100 * [[${projectStatus.issuUnsolveCnt}]] / [[${projectStatus.issuCnt}]];
-	let stripedBar3 = 100 * [[${projectStatus.issuUnsolvableCnt}]] / [[${projectStatus.issuCnt}]];
+	let stripedBar1 = 100 * feedbackIssueSt1 / feedbackIssueSt;
+	let stripedBar2 = 100 * feedbackIssueSt2 / feedbackIssueSt;
+	let stripedBar3 = 100 * feedbackIssueSt3 / feedbackIssueSt;
 	
 	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(0).css("width", stripedBar1+'%');
 	$('.progress-bar.bg-warning.active.progress-bar-striped').eq(1).css("width", stripedBar2+'%');
