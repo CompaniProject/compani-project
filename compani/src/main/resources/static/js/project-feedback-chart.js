@@ -27,7 +27,6 @@ let donutBussChartDraw = function() {
         type: 'doughnut',
         data: pieBussChartData,
         options: {
-            responsive: false,
 	        legend : {
 	        	display:false,
 	        	position:'right'
@@ -43,7 +42,6 @@ let barOption = {
     			enable: true
     		}
     	},
-        responsive: false,
         scales: {
             xAxes: [{
                 stacked: true
@@ -84,7 +82,7 @@ let stackBussChartDraw = function(){
                 data: [projectStatus.bussExceRate,
                 	cpnStatForPrjtDt.mmBussExcecmplRate,
                 	cpnStatForCurrDt.mmBussExcecmplRate], 
-            }], 
+            }]
         }, 
         options: barOption
     });
@@ -109,7 +107,6 @@ let donutIssueChartDraw = function() {
         type: 'doughnut',
         data: pieIssuChartData,
         options: {
-            responsive: false,
 	        legend : {
 	        	display:false,
 	        	position:'right'
@@ -129,19 +126,19 @@ let stackIssueChartDraw = function(){
         data: { 
             labels: ["프로젝트", "회사(프로젝트 완료시점)","회사(현재)"],
             datasets: [{ 
-                label: '완료', 
+                label: '해결', 
                 backgroundColor: 'rgb(255, 99, 132)', 
                 data: [projectStatus.issuSolveRate,
                 	cpnStatForPrjtDt.mmIssuSolveRate,
                 	cpnStatForCurrDt.mmIssuSolveRate], 
             }, { 
-                label: '미완료', 
+                label: '미해결', 
                 backgroundColor: 'rgb(255, 159, 64)', 
                 data: [projectStatus.issuUnsolveRate,
                 	cpnStatForPrjtDt.mmIssuUnsolveRate,
                 	cpnStatForCurrDt.mmIssuUnsolveRate], 
             }, { 
-                label: '초과완료', 
+                label: '해결불가', 
                 backgroundColor: 'rgb(255, 205, 86)', 
                 data: [projectStatus.issuUnsolvableRate,
                 	cpnStatForPrjtDt.mmIssuUnsolvableRate,
